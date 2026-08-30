@@ -1,0 +1,86 @@
+{
+  "EAR/frigate": {
+    "file": "earth_frigate.png",
+    "spanUnits": 43.865,
+    "lengthUnits": 40.615,
+    "widthUnits": 11.5,
+    "nose": "up"
+  },
+  "EAR/destroyer": {
+    "file": "earth_destroyer.png",
+    "spanUnits": 46.506,
+    "lengthUnits": 43.061,
+    "widthUnits": 14.5,
+    "nose": "up"
+  },
+  "EAR/light-cruiser": {
+    "file": "earth_light_cruiser.png",
+    "spanUnits": 49.988,
+    "lengthUnits": 46.285,
+    "widthUnits": 16.0,
+    "nose": "up"
+  },
+  "EAR/heavy-cruiser": {
+    "file": "earth_heavy_cruiser.png",
+    "spanUnits": 49.988,
+    "lengthUnits": 46.285,
+    "widthUnits": 16.0,
+    "nose": "up"
+  },
+  "EAR/battleship": {
+    "file": "earth_battleship.png",
+    "spanUnits": 54.006,
+    "lengthUnits": 50.006,
+    "widthUnits": 23.0,
+    "nose": "up"
+  },
+  "EAR/command-ship": {
+    "file": "earth_command_ship.png",
+    "spanUnits": 59.146,
+    "lengthUnits": 54.765,
+    "widthUnits": 29.0,
+    "nose": "up"
+  },
+  "KRE/frigate": {
+    "file": "krelath_frigate.png",
+    "spanUnits": 46.44,
+    "lengthUnits": 43.0,
+    "widthUnits": 12.0,
+    "nose": "up"
+  },
+  "KRE/destroyer": {
+    "file": "krelath_destroyer.png",
+    "spanUnits": 54.0,
+    "lengthUnits": 50.0,
+    "widthUnits": 15.873,
+    "nose": "up"
+  },
+  "KRE/light-cruiser": {
+    "file": "krelath_light_cruiser.png",
+    "spanUnits": 54.0,
+    "lengthUnits": 50.0,
+    "widthUnits": 25.657,
+    "nose": "up"
+  },
+  "KRE/heavy-cruiser": {
+    "file": "krelath_heavy_cruiser.png",
+    "spanUnits": 54.0,
+    "lengthUnits": 50.0,
+    "widthUnits": 25.397,
+    "nose": "up"
+  },
+  "KRE/battleship": {
+    "file": "krelath_battleship.png",
+    "spanUnits": 61.56,
+    "lengthUnits": 57.0,
+    "widthUnits": 25.397,
+    "nose": "up"
+  },
+  "KRE/strike-cruiser": {
+    "file": "krelath_strike_cruiser.png",
+    "spanUnits": 52.92,
+    "lengthUnits": 49.0,
+    "widthUnits": 17.228,
+    "nose": "up"
+  }
+}

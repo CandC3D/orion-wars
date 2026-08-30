@@ -1,0 +1,672 @@
+{
+  "_comment": "Rebuilt on the FASA power model (see docs/fasa-mechanics-notes.md). Two structural changes from the first draft: shields are the RESIDUAL of the power pool rather than a pre-allocation, and firing arcs limit which mounts can bear. Ratios are now POWER COSTS, not yields.",
+  "_model": {
+    "power": "Each ship's pool resets at the start of every turn to the sum of its functioning cores plus impulse. Actions spend from it. Shields absorb out of whatever remains. At zero a ship can neither act nor absorb until the next turn.",
+    "turn": "A turn is 3 rounds. Ships act in order of a d100 roll plus captain rating. Each weapon may fire at most once per turn.",
+    "movementPointRatio": "POWER COST per hex moved. Higher is slower.",
+    "shieldPointRatio": "POWER COST per point of damage absorbed. Lower is more efficient.",
+    "maxShieldPower": "Cap on damage a single facing can absorb in one ROUND, reset each round."
+  },
+  "battle": {
+    "maxTurns": 20,
+    "roundsPerTurn": 3,
+    "startDistanceHexes": 26,
+    "internalDamagePerSystemHit": 8,
+    "_note": "Ruling 2026-08-30: bigger map, more room to manoeuvre. At the old 16-hex start the 12-hex warp jump landed the Krelath fleet on top of the enemy on turn 1; at 26 the approach is a real phase and the warp is a mid-battle strike from jump range, not an opening ambush. Clock extended to 20 turns to match the longer approach under flight rules.",
+    "mapRadiusHexes": 34,
+    "_mapNote": "The engagement area has edges. Without them a long-ranged fleet retreats forever and standoff is unbeatable - which is exactly what was happening: Krelath were kited into their worst range band and hit 10% of shots against Earth's 55%. A bounded field forces the kiter to eventually turn and fight, which is how real tactical games work.",
+    "deploySpacing": 2
+  },
+  "arcs": {
+    "_note": "Which of the six shield faces a mount can fire through. Faces: 1 front-left, 2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left.",
+    "f": [
+      2
+    ],
+    "fp": [
+      1,
+      2
+    ],
+    "fs": [
+      2,
+      3
+    ],
+    "p": [
+      6,
+      1
+    ],
+    "s": [
+      3,
+      4
+    ],
+    "pa": [
+      5,
+      6
+    ],
+    "sa": [
+      4,
+      5
+    ],
+    "a": [
+      5
+    ],
+    "fwd": [
+      1,
+      2,
+      3
+    ],
+    "all": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "hullClasses": {
+    "frigate": {
+      "points": 1,
+      "cores": 1,
+      "corePower": 8,
+      "impulsePower": 2,
+      "beamMounts": 1,
+      "missileMounts": 0,
+      "magazine": 0,
+      "superstructure": 8,
+      "maxShieldPower": 4,
+      "_capNote": "Cut from 6, in step with the destroyer. Absorption is capped per facing per ROUND, so what penetrates is (damage - cap) and penetration is super-linear in damage per shot. At a cap of 6 the light hulls sat exactly between the laser cannon's 7 damage and the heavy blaster's 9, so a two-point difference in the gun bought a THREE-fold difference in damage through the shield, and Earth - which fires the lowest-damage beam in the game - could barely scratch anything its own size. Load-bearing: with both light-hull caps back at 6, Zandrax fall to 29% at 32 points. Kept level with the destroyer's cap; cutting the frigate's further leaves frigates unable to beat destroyers in the concentration-of-force table.",
+      "shieldPointRatio": 0.8,
+      "movementPointRatio": 1,
+      "beamArcs": [
+        "all"
+      ],
+      "missileArcs": [],
+      "screen": 1,
+      "pointDefence": 1,
+      "assault": 0,
+      "sensorRating": 1,
+      "weaponReach": 0.84
+    },
+    "destroyer": {
+      "points": 2,
+      "cores": 1,
+      "corePower": 13,
+      "impulsePower": 3,
+      "beamMounts": 2,
+      "missileMounts": 1,
+      "magazine": 4,
+      "superstructure": 14,
+      "maxShieldPower": 4,
+      "_capNote": "Cut from 6, for the same reason as the frigate: at 6 a destroyer facing swallowed Earth's 7-damage laser almost whole while passing 3 of Vraygon's 9. Compressing the cap makes damage per shot matter roughly in proportion to itself again. This is the single change that carries the 8-point cell and it also lifts Zandrax at 16 and 32.",
+      "shieldPointRatio": 0.7,
+      "movementPointRatio": 1,
+      "beamArcs": [
+        "fwd",
+        "sa"
+      ],
+      "missileArcs": [
+        "f"
+      ],
+      "screen": 2,
+      "pointDefence": 1,
+      "assault": 0,
+      "sensorRating": 1,
+      "weaponReach": 0.83
+    },
+    "light-cruiser": {
+      "points": 4,
+      "cores": 2,
+      "corePower": 12,
+      "impulsePower": 4,
+      "beamMounts": 3,
+      "missileMounts": 1,
+      "magazine": 5,
+      "superstructure": 26,
+      "maxShieldPower": 9,
+      "shieldPointRatio": 0.6,
+      "movementPointRatio": 2,
+      "beamArcs": [
+        "fwd",
+        "fs",
+        "pa"
+      ],
+      "missileArcs": [
+        "f"
+      ],
+      "screen": 3,
+      "pointDefence": 2,
+      "assault": 0,
+      "sensorRating": 2,
+      "weaponReach": 0.89
+    },
+    "heavy-cruiser": {
+      "points": 8,
+      "cores": 2,
+      "corePower": 21,
+      "impulsePower": 6,
+      "beamMounts": 5,
+      "missileMounts": 3,
+      "magazine": 12,
+      "superstructure": 45,
+      "maxShieldPower": 13,
+      "shieldPointRatio": 0.5,
+      "movementPointRatio": 3,
+      "beamArcs": [
+        "fp",
+        "f",
+        "f",
+        "fs",
+        "a"
+      ],
+      "missileArcs": [
+        "f",
+        "f",
+        "fwd"
+      ],
+      "screen": 0,
+      "pointDefence": 0,
+      "assault": 4,
+      "sensorRating": 2,
+      "weaponReach": 0.95,
+      "_note": "The 8-point line hull. movementPointRatio cut from 4 to 3: at 4 it was a trap purchase - Earth fielding one heavy cruiser in place of the two light cruisers it costs went from 51% to 24% at 32 points. A hull that pays 4 power a hex spends its pool closing and has nothing left to absorb with, so it arrives late, alone and empty. This is what keeps Krelath off the floor at 64 points, since theirs is the heavy cruiser that was dying first."
+    },
+    "battleship": {
+      "points": 16,
+      "cores": 4,
+      "corePower": 19,
+      "impulsePower": 8,
+      "beamMounts": 8,
+      "missileMounts": 5,
+      "magazine": 20,
+      "superstructure": 80,
+      "maxShieldPower": 18,
+      "shieldPointRatio": 0.45,
+      "movementPointRatio": 6,
+      "beamArcs": [
+        "fp",
+        "fp",
+        "f",
+        "f",
+        "fs",
+        "fs",
+        "a",
+        "a"
+      ],
+      "missileArcs": [
+        "f",
+        "f",
+        "f",
+        "fp",
+        "fs"
+      ],
+      "screen": 0,
+      "pointDefence": 0,
+      "assault": 6,
+      "sensorRating": 3,
+      "weaponReach": 1.0
+    },
+    "corvette": {
+      "points": 0.5,
+      "cores": 1,
+      "corePower": 5,
+      "impulsePower": 1,
+      "beamMounts": 1,
+      "missileMounts": 0,
+      "magazine": 0,
+      "superstructure": 6,
+      "maxShieldPower": 3,
+      "shieldPointRatio": 1.2,
+      "movementPointRatio": 0.5,
+      "beamArcs": [
+        "fwd"
+      ],
+      "missileArcs": [],
+      "screen": 1,
+      "pointDefence": 0,
+      "assault": 0,
+      "sensorRating": 1,
+      "weaponReach": 0.7,
+      "explosionYield": 3.0,
+      "_note": "Soviet-tank doctrine: cheap, numerous, and it goes up like a bomb. Half a point, one short-ranged heavy gun, almost no shields, and an explosion that hurts whatever it died next to. Two numbers are load-bearing and they pull in opposite directions. superstructure 6 rather than 7: at 7 a four-corvette squadron IS the whole Zandrax list in a two-point skirmish and won it 67% of the time, and it also carried them past the ceiling at 64. weaponReach 0.70 rather than 0.66: engagementRange sets a ship's standoff from the reach of the NEAREST enemy, and the corvette - being the fastest hull - is almost always the nearest enemy, so at the bottom of the reach ladder the swarm was talking every opposing fleet into holding at a range where the Zandrax laser earns no damage bonus and their plasma is dead. 0.78 fixes that but hands cell 2 back to the corvette; 0.70 is the setting that serves both.",
+      "model": "Zandrax Corvette.stl"
+    },
+    "monitor": {
+      "points": 16,
+      "cores": 3,
+      "corePower": 22,
+      "impulsePower": 4,
+      "beamMounts": 6,
+      "missileMounts": 5,
+      "magazine": 20,
+      "superstructure": 130,
+      "maxShieldPower": 16,
+      "shieldPointRatio": 0.55,
+      "movementPointRatio": 7,
+      "beamArcs": [
+        "fp",
+        "fs",
+        "p",
+        "s",
+        "pa",
+        "sa"
+      ],
+      "missileArcs": [
+        "f",
+        "f",
+        "fp",
+        "fs",
+        "a",
+        "a"
+      ],
+      "screen": 0,
+      "pointDefence": 0,
+      "assault": 8,
+      "sensorRating": 2,
+      "weaponReach": 1.0,
+      "explosionYield": 1.5,
+      "_note": "Silicoid siege hull. Guns on every bearing and armour rather than shields, and still by a wide margin the slowest hull in the game at 7 power per hex - 10.2 with the Vraygon modifier, against 8.7 for their own battleship. Cut from 10: at 14.5 power a hex it could not both move and hold power back to absorb with, and because the cohesion leash ties the fleet to its centre of mass, one immobile hull held the whole Vraygon line out at 11-13 hexes, exactly the band where the heavy blaster is at -2 to hit for no damage bonus. It does not manoeuvre; it arrives and stays.",
+      "model": "Vraygon Monitor.stl"
+    },
+    "command-ship": {
+      "points": 8,
+      "cores": 2,
+      "corePower": 16,
+      "impulsePower": 6,
+      "beamMounts": 4,
+      "missileMounts": 3,
+      "magazine": 14,
+      "superstructure": 44,
+      "maxShieldPower": 13,
+      "shieldPointRatio": 0.5,
+      "movementPointRatio": 2.5,
+      "beamArcs": [
+        "fp",
+        "f",
+        "fs",
+        "a"
+      ],
+      "missileArcs": [
+        "f",
+        "fp",
+        "fs"
+      ],
+      "screen": 1,
+      "pointDefence": 1,
+      "assault": 0,
+      "sensorRating": 5,
+      "weaponReach": 0.92,
+      "explosionYield": 1.0,
+      "commandRadius": 4,
+      "commandToHit": 1,
+      "commandDetectionBonus": 5,
+      "_note": "Federation pattern: breadth and sensors. Grants +1 to hit to friendlies within 4 hexes and extends the fleet's detection range. pointDefence is 1, not 3, and that single number is the largest lever on Earth in the game: restoring 3 takes Earth to 79% at 32 points and 73% at 64 and pushes Zandrax down to 28%. The mechanism is endgame - intercepted() sums point defence within 3 hexes of the target, and once Earth's escorts are dead the command ship is the only battery left alive beside the surviving capital, halving every missile aimed at it for the rest of the action. The aura is the hull's job; winning the enemy's missile war for them is not. movementPointRatio 2.5 rather than 3 so it can keep station with the two light cruisers it is bought in place of - at 3 it arrived behind its own line and the hull measured as a 10-point-worse purchase than the cruisers at 24 points.",
+      "model": "Earth Command Ship.stl"
+    },
+    "strike-cruiser": {
+      "points": 4,
+      "cores": 2,
+      "corePower": 12,
+      "impulsePower": 2,
+      "beamMounts": 2,
+      "missileMounts": 3,
+      "magazine": 16,
+      "superstructure": 22,
+      "maxShieldPower": 8,
+      "shieldPointRatio": 0.65,
+      "movementPointRatio": 1.3,
+      "beamArcs": [
+        "fwd",
+        "fs"
+      ],
+      "missileArcs": [
+        "f",
+        "fp",
+        "fs"
+      ],
+      "screen": 0,
+      "pointDefence": 1,
+      "assault": 0,
+      "sensorRating": 2,
+      "weaponReach": 0.89,
+      "explosionYield": 1.0,
+      "_note": "Krelath sixth hull. 3 tubes + 2 beams (missile-dominant per ruling), movement 1.3 - the fastest capital in the game - and screen 0 so it is a light capital the fleet screens rather than a picket chained to the heavy cruiser. It remains a slightly negative purchase against the light cruiser it replaces (-5pp at 64 points), and the obvious fix, pointDefence 2, is deliberately NOT taken: it makes the hull a positive buy but this hull is half of Krelath's whole list at 8 points, and PD 2 takes Krelath there to 62% while dropping Zandrax to 35%. Individually it is not a bad ship - it is the most efficient damage dealer in the Krelath list - and the cost of covering it is the price of the speed.",
+      "model": "Krelath Strike Cruiser.stl"
+    }
+  },
+  "_arcNote": "Arc spread follows the FASA pattern: a battleship has all-round coverage but can bring only two beams onto any one bearing. Torpedoes are forward-weighted. This, not raw mount count, is what limits a capital ship.",
+  "weapons": {
+    "laser-cannon": {
+      "kind": "beam",
+      "maxPower": 5,
+      "maxRange": 18,
+      "rangeBands": [
+        {
+          "to": 6,
+          "damageBonus": 2,
+          "toHitMod": 2
+        },
+        {
+          "to": 11,
+          "damageBonus": 1,
+          "toHitMod": 1
+        },
+        {
+          "to": 15,
+          "damageBonus": 0,
+          "toHitMod": 0
+        },
+        {
+          "to": 18,
+          "damageBonus": 0,
+          "toHitMod": -2
+        }
+      ],
+      "overcharge": true,
+      "_note": "Accurate, long, consistent. May be overcharged to twice max power for two shots at half each. EAR and ZAN."
+    },
+    "blaster-beam": {
+      "kind": "beam",
+      "maxPower": 5,
+      "maxRange": 17,
+      "rangeBands": [
+        {
+          "to": 4,
+          "damageBonus": 3,
+          "toHitMod": 2
+        },
+        {
+          "to": 9,
+          "damageBonus": 2,
+          "toHitMod": 1
+        },
+        {
+          "to": 13,
+          "damageBonus": 0,
+          "toHitMod": -1
+        },
+        {
+          "to": 17,
+          "damageBonus": 0,
+          "toHitMod": -2
+        }
+      ],
+      "overcharge": false,
+      "_note": "Short and brutal. KRE."
+    },
+    "heavy-blaster": {
+      "kind": "beam",
+      "maxPower": 6,
+      "maxRange": 16,
+      "rangeBands": [
+        {
+          "to": 5,
+          "damageBonus": 3,
+          "toHitMod": 2
+        },
+        {
+          "to": 9,
+          "damageBonus": 2,
+          "toHitMod": 1
+        },
+        {
+          "to": 13,
+          "damageBonus": 0,
+          "toHitMod": -2
+        },
+        {
+          "to": 16,
+          "damageBonus": 0,
+          "toHitMod": -4
+        }
+      ],
+      "overcharge": false,
+      "_note": "Vraygon. The hardest-hitting gun in the game inside 4 hexes, falling away past 8. Long reach belongs to the laser cannon; the Gorn pattern is weight of fire on a hull that cannot chase."
+    },
+    "neutronic-missile": {
+      "kind": "missile",
+      "powerToArm": 2,
+      "damage": 10,
+      "maxRange": 20,
+      "interceptable": true,
+      "rangeBands": [
+        {
+          "to": 20,
+          "damageMod": 0
+        }
+      ],
+      "_note": "Cheap to arm, hits hard, damage does not decay. EAR, VRA, ZAN, and the KRE heavy cruiser."
+    },
+    "plasma-torpedo": {
+      "kind": "missile",
+      "powerToArm": 3,
+      "damage": 18,
+      "maxRange": 17,
+      "interceptable": true,
+      "spreadPer": 5,
+      "rangeBands": [
+        {
+          "to": 4,
+          "damageMod": 0
+        },
+        {
+          "to": 8,
+          "damageMod": -6
+        },
+        {
+          "to": 13,
+          "damageMod": -11
+        },
+        {
+          "to": 17,
+          "damageMod": -15
+        }
+      ],
+      "_note": "Devastating inside 4 hexes and nearly worthless lobbed, but it now REACHES - a weapon that cannot be fired at all has no identity. Spreads its damage across the hull rather than concentrating."
+    }
+  },
+  "factionModifiers": {
+    "EAR": {
+      "shieldPointRatio": 0.85,
+      "movementPointRatio": 1.0,
+      "superstructure": 0.95,
+      "detectionRangeAgainst": 0,
+      "_doctrine": "Federation pattern: the broadest fleet and the best shields - 0.85 power per point absorbed, against 0.95 Krelath, 1.25 Zandrax and 1.4 Vraygon, and still the best in the game by a distance. What Earth pay for it is hull: 0.95, tied with Krelath for the flimsiest in the game. Both numbers were trimmed after the light-hull shield caps were compressed, which gave Earth's low-damage laser a target it could actually penetrate and left them taking the least damage AND dealing the most at the top of the point ladder."
+    },
+    "VRA": {
+      "shieldPointRatio": 1.4,
+      "movementPointRatio": 1.45,
+      "superstructure": 1.85,
+      "detectionRangeAgainst": 6,
+      "_doctrine": "Gorn pattern: the worst shields in the game on the thickest hull. Armour is a one-off buffer and shields are a dividend paid every turn, so pricing the same durability over a fourteen-turn action needs a much larger armour multiplier than a shield one - measured, Vraygon at x1.70 on 1.45 were losing 97-99% of long actions to Earth."
+    },
+    "ZAN": {
+      "shieldPointRatio": 1.35,
+      "movementPointRatio": 0.8,
+      "superstructure": 1.2,
+      "detectionRangeAgainst": 0,
+      "_doctrine": "Klingon pattern: numerous and less sophisticated. Poor shields, tough hulls, cheap and quick - second only to Vraygon's 1.4 for the worst absorption in the game, and still strictly behind them, which is the point: with a reserveFraction of zero Zandrax convert almost none of the pool into absorption anyway, so this dial does less work for them than for anyone else. Raised from 1.25 to 1.35 as the last correction of the merge, and it was chosen because it is the only lever measured that separates the two cells where the swarm sits near the ceiling - 24 and 64 points - from the two where it sits nearest the floor - 8 and 32. It costs Zandrax 4-5pp at 24 and 64 and under 1pp at 8 and 32. Do not take it to 1.40: it works there too, but it would tie Vraygon and cost them the one thing that is theirs."
+    },
+    "KRE": {
+      "shieldPointRatio": 0.95,
+      "movementPointRatio": 0.78,
+      "superstructure": 0.95,
+      "detectionRangeAgainst": 0,
+      "_doctrine": "Romulan pattern: does much with little. Efficient shields and engines, short brutal guns, and the short-range warp - they do not hide from an engagement, they jump into the back of it."
+    }
+  },
+  "doctrine": {
+    "_note": "reserveFraction is the share of the power pool a ship holds back for shield absorption rather than spending on actions, and it is a FLOOR under a situational calculation rather than a flat share - see doctrine.dynamic. Earth still hold back the most because their absorption is the cheapest in the game, but 0.6 was more than the shields could use once the light-hull caps came down to 4: absorption is capped per facing per round, so past that point the held power neither shoots nor absorbs. Restoring 0.6 costs Earth 13pp at 24 points. Zandrax hold back nothing at all, because at 1.25 power per point absorbed the same power buys them far more as gunnery; Krelath hold back almost nothing because the warp is what keeps them alive; Vraygon sit between, since their armour carries them and their guns cannot spend the pool anyway.",
+    "EAR": {
+      "reserveFraction": 0.5
+    },
+    "VRA": {
+      "reserveFraction": 0.55
+    },
+    "ZAN": {
+      "reserveFraction": 0.0
+    },
+    "KRE": {
+      "reserveFraction": 0.07
+    },
+    "dynamic": {
+      "enabled": true,
+      "standoffFraction": 0.27,
+      "engagedFloor": 0.48,
+      "threatMargin": 6,
+      "threatBubble": 4,
+      "absorbFacings": 6.0,
+      "damageResponse": 0.0,
+      "poolScaling": -0.2,
+      "poolReference": 28,
+      "threatMemory": 1.5,
+      "_note": "The reserve answers the tactical picture rather than being a flat share of the pool. standoffFraction is what a ship holds back when no enemy can reach it at all; inside the envelope the faction's reserveFraction is scaled from engagedFloor (at the edge of enemy reach) up to 1.0 (muzzle to muzzle). threatMargin 6 widens that envelope so a ship closing on a missile-armed line starts holding power back before it is already being hit. damageResponse raises the reserve further as the hull is worn down. absorbFacings caps it at what that many facings could physically soak in the three rounds of a turn - power held back past that point neither shoots nor absorbs. poolScaling makes light hulls commit and heavy hulls hold back; softened from -0.26 to -0.2. Both are faction-neutral shape numbers and neither is worth much on its own; measured together with the other doctrine and mobility trims they are, and reverting the pair costs Zandrax 4pp at 32 points."
+    }
+  },
+  "cloak": {
+    "powerCostFraction": 0.45,
+    "evadeChance": 0.4,
+    "detectionRangeHexes": 10,
+    "decloakOccupiesTurn": true,
+    "decloakReallocatesSameTurn": true,
+    "autoDecloakOnPowerLoss": true,
+    "_autoDecloakNote": "If engine damage drops available power below the device cost, the ship is forced visible.",
+    "carriedBy": {
+      "EAR": [],
+      "VRA": [],
+      "ZAN": [],
+      "KRE": []
+    },
+    "_carriedByNote": "No hull currently carries a cloak. The Dimension Submarine was retired after measurement showed a hull that hides and never fires is a bad buy at any price when nothing enemy cloaks to hunt. The cloak and detection rules remain defined and dormant."
+  },
+  "toHit": {
+    "die": 10,
+    "target": 6,
+    "evasionPerHexesMoved": 4,
+    "crewRatingDefault": 0,
+    "_note": "Roll d10, add the weapon's range-band to-hit modifier and crew rating, hit on 6+.",
+    "classInteraction": {
+      "enabled": true,
+      "heavyThresholdPoints": 8,
+      "lightVsHeavy": -0.5,
+      "heavyVsLight": -0.5,
+      "_note": "Chris's ruling 2026-08-30: hulls below the heavy threshold (CA and up, i.e. points >= 8) take a to-hit malus attacking heavy hulls, and heavies take roughly the same attacking lights - small guns cannot hurt capitals, capital guns cannot track small ships. Units are d10 pips (-1 = -10%); fractional values resolve probabilistically via the seeded PRNG, so -0.5 is a true -5%. Applies to beam to-hit only: missiles have no accuracy roll in this sim (they launch, then face interception). Adjustable for balance."
+    },
+    "missileClassInteraction": {
+      "enabled": true,
+      "heavyThresholdPoints": 8,
+      "heavyVsLightEvadeChance": 0.05,
+      "_note": "The missile half of the class-interaction ruling: a missile launched by a heavy hull (points >= threshold) at a light hull is evaded outright with this probability, before interception is rolled. Capital-grade missiles cannot track small ships, just as capital guns cannot. One-directional by design - light-launched missiles at big slow targets need no help. Adjustable for balance; beam analogue is toHit.classInteraction."
+    }
+  },
+  "screening": {
+    "chancePerScreenPoint": 0.15,
+    "maxChance": 0.6,
+    "rangeHexes": 2
+  },
+  "pointDefence": {
+    "chancePerPoint": 0.18,
+    "maxChance": 0.7,
+    "rangeHexes": 3
+  },
+  "damage": {
+    "shieldsRegenerate": true,
+    "superstructureRegenerates": false,
+    "systemHitsToInoperative": 5,
+    "systems": [
+      "sensors",
+      "shield-1",
+      "shield-2",
+      "shield-3",
+      "shield-4",
+      "shield-5",
+      "shield-6",
+      "grid-shields",
+      "grid-weapons",
+      "grid-manoeuvre"
+    ],
+    "facingTables": {
+      "_note": "Faces 1-3 forward: sensors and bridge. Faces 4/6 flanks: weapons and shield grid. Face 5 rear: engineering, which bites the current turn's power pool.",
+      "forward": [
+        "sensors",
+        "sensors",
+        "bridge",
+        "grid-weapons",
+        "shield-1",
+        "shield-2",
+        "shield-3"
+      ],
+      "flank": [
+        "grid-weapons",
+        "grid-weapons",
+        "weapon-mount",
+        "grid-shields",
+        "shield-4",
+        "shield-6"
+      ],
+      "rear": [
+        "core",
+        "core",
+        "grid-manoeuvre",
+        "grid-shields",
+        "shield-5"
+      ]
+    },
+    "systemHitPerPenetration": true,
+    "_penetrationNote": "One damage-location roll per penetrating hit regardless of size, as in FASA. Many small hits therefore cripple systems that could never threaten the hull pool - this is what makes light hulls matter and is the counter to the concentration overshoot."
+  },
+  "_reachNote": "weaponReach scales a mount's range and band boundaries. Kept to a ~22% spread: wider than that and heavy hulls simply kite light ones out of the game, which is the same error an 80% gap made between factions. Light hulls compensate with WIDER ARCS - they can answer bearings a nose-heavy capital cannot.",
+  "_reachGapNote": "Reach now differs by ~17% rather than 80%. Long range buys a damage bonus and no to-hit penalty; short-range guns still reach, they just do nothing useful out there. FASA's long-range faction shot further and STILL let the short-range faction shoot back.",
+  "emergencyManoeuvre": {
+    "_note": "Klingon pattern: buy tempo by hurting yourself. Once per turn, extra hexes at no power cost, paid for in self-inflicted engine stress and accuracy. Retuned from 3 hexes / 2 stress to 5 hexes / 1 stress: at 2 points of stress the trait was a net NEGATIVE for its owner at every scenario size, because 2 damage is a fifth of a Zandrax frigate and a quarter of a corvette, and the fleet was killing its own light hulls to buy three hexes it then could not shoot from. Longer and cheaper, it does what it is named for; restoring 3/2 drops Zandrax to 34% at 32 points.",
+    "factions": [
+      "ZAN"
+    ],
+    "extraHexes": 5,
+    "stressDamage": 1,
+    "toHitPenalty": 2
+  },
+  "initiative": {
+    "fromMovementCommitment": true,
+    "_note": "Action order follows how much movement a ship can commit this turn, not a coin flip. FASA bid initiative from declared movement points."
+  },
+  "formation": {
+    "enabled": true,
+    "cohesionRadius": 4,
+    "screenStation": 3,
+    "_note": "Both human and AI commanders will at least TRY to hold formation. Escorts hold station on the capital they screen; no ship advances more than cohesionRadius ahead of the fleet's centre of mass, so a fleet closes at the pace of its slower elements instead of arriving piecemeal and being beaten in detail."
+  },
+  "explosion": {
+    "enabled": true,
+    "radiusHexes": 3,
+    "divisor": 3.0,
+    "_note": "A dying ship detonates: nearby vessels take (remaining engine power x explosionYield) / (divisor x distance). A healthy ship dying is a bomb; a gutted one fizzles. Corvettes carry a high yield - they are meant to go up spectacularly."
+  },
+  "warpJump": {
+    "factions": [
+      "KRE"
+    ],
+    "rangeHexes": 10,
+    "powerCostFraction": 0.35,
+    "oncePerTurn": true,
+    "preferRearArc": true,
+    "_note": "Krelath fleet-wide trait, replacing the cloak they lost when it moved onto the submarine. A short-range tactical warp: a ship may spend 35% of its pool to reposition up to 10 hexes, arriving by preference in the target's REAR arc, at most once a turn and for at most 0.6 of the living fleet in any one turn. Three things had to be true before it was worth having. It must be considered BEFORE firing - it was only ever attempted when nothing could bear, and a Krelath blaster reaches 17 hexes of a 16-hex opening range, so it never fired once in a whole campaign. It must be capped, because uncapped every Krelath ship jumped behind the same enemy battleship on turn one for a 94% win rate at 32 points. And it must be expensive, because at 30% of pool the jump was still buying isolation: a ship that arrives alone behind a fourteen-ship line does not come back. Do NOT try to fix the big-fleet cells by shortening the jump - rangeHexes 7 lifts 64 points and simultaneously blows 32 points to 79%, because the same trait is what wins the closing game there.",
+    "minGain": 4,
+    "fleetFraction": 0.6,
+    "_fleetNote": "A squadron manoeuvre, not a fleet teleport. Uncapped, every Krelath ship jumped behind the SAME enemy battleship on turn one and the action collapsed into one point-blank melee at exactly the range their blasters like best: 94% against Earth at 32 points, decided in six turns. Capped at 0.6 of the living fleet: raising the price and widening the squadron share together trim the isolation without touching the shape of the trait."
+  },
+  "movement": {
+    "coupledToFacing": true,
+    "turnRatePerRound": {
+      "corvette": 3,
+      "frigate": 2,
+      "destroyer": 2,
+      "strike-cruiser": 2,
+      "light-cruiser": 2,
+      "heavy-cruiser": 1,
+      "command-ship": 1,
+      "battleship": 1,
+      "monitor": 1
+    },
+    "_note": "Flight rules (ruling 2026-08-30: ships were sliding like hockey pucks). A ship moves ONLY straight along its facing; it may turn at most turnRatePerRound hexsides per round. Turning is free in power - the cost is tempo, as in FASA. Light hulls dance, capitals wallow through their turns. The warp jump is exempt (it is dimensional, not flight). Momentum (a forced minimum speed carry-over) is a future dial, deliberately not in v1."
+  }
+}

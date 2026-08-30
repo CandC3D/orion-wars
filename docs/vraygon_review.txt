@@ -1,0 +1,27 @@
+codex
+- **Faction identity and distinctness**
+  - Strong, memorable faction language: faceted gold crystal, red-veined fracture plates, and cellular engines clearly communicate “living silicoid warships.”
+  - The monitor is especially distinctive; its broad, mountainous silhouette feels like a different strategic class while remaining on-faction.
+  - Frigate and battleship read well at opposite ends of the line.
+  - Destroyer and light cruiser are nearly interchangeable. Heavy cruiser and battleship also share much of their forward-body language.
+
+- **Distance readability**
+  - Overall silhouettes remain legible, especially in profile and plan views.
+  - Gold/cream/dark hull zoning provides useful large-scale value separation.
+  - Fine fracture lines collapse into visual noise at game distance; engine faces become mottled rather than emissive.
+  - Blue inclusions and orange windows are generally too small or subdued to register beyond close inspection.
+  - Class progression relies more on small additions than immediately readable texture masses.
+
+- **Artifacts / problem areas**
+  - Dense black engine-cell borders resemble broken geometry or missing faces in several stern views.
+  - Vein density and scale vary abruptly between neighboring surfaces, exposing material mapping boundaries.
+  - Some underside areas crush toward black, obscuring the faceted form.
+  - Bright cream panels occasionally resemble untextured placeholders because they are large and comparatively featureless.
+  - Tiny orange window marks on the heavy cruiser and battleship look accidental at this scale.
+  - Destroyer/light-cruiser similarity risks being mistaken for a duplicated sheet.
+
+- **Top 3 improvements**
+  1. Establish a stronger texture hierarchy: broad gold fields, medium shatter plates, and far fewer fine veins—especially on engines and distant-facing surfaces.
+  2. Differentiate classes through large, texture-only motifs: distinct cream-panel shapes, vein direction, blue-inclusion placement, and engine-array grouping for each hull tier.
+  3. Simplify and brighten engine cells: wider orange emissive cores, thinner dark borders, and a restrained glow so they read as propulsion rather than shattered openings.
+tokens used

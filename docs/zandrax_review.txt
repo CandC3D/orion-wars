@@ -1,0 +1,25 @@
+codex
+- **1) Faction identity and distinctness**
+  - Strong, cohesive identity: red hex armor, dark weld network, gold repairs, and yellow engine cells immediately read as one industrial horde.
+  - The irregular plating feels suitably cheap and mass-produced, though it sometimes reads more as reptilian scales than brutalist armor.
+  - Corvette and battleship are distinctive; frigate/destroyer and light/heavy cruiser remain difficult to distinguish without their labels.
+  - Purple vents are too scarce and subtle to function as a recognizable faction cue.
+
+- **2) Distance readability**
+  - Broad wedge silhouettes and bright engine/window bands survive reduction well.
+  - Dense, uniformly sized hexes collapse into visual noise at gameplay distance; gold replacements largely disappear.
+  - Dark undersides merge with the background, obscuring hull volume.
+  - Yellow emissives currently read as pale painted panels rather than active light sources.
+
+- **3) Artifacts**
+  - Hexes stretch or shear noticeably across narrow, angled surfaces.
+  - Plate patterns terminate abruptly at some edges and component joins, exposing UV/material discontinuities.
+  - Heavy black seams occasionally dominate the underlying form and make shallow surfaces appear faceted.
+  - Very little visible grime, soot, wear, or roughness variation—the finish is cleaner and flatter than the brief suggests.
+  - Some window and engine-cell spacing feels uneven or accidentally interrupted.
+
+- **Top 3 improvements**
+  - Introduce texture hierarchy: larger armor regions, localized dense plating, softer secondary seams, and stronger directional wear to reduce “all-over scales.”
+  - Add class-readable macro markings—different stripe layouts, vent groupings, gold-repair patterns, or engine-array rhythms—especially for the two closely related class pairs.
+  - Strengthen material separation: brighter yellow/purple emissives, more metallic gold, varied red roughness/value, and concentrated grime around seams, recesses, vents, and engines.
+tokens used

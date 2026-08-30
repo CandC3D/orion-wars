@@ -1,0 +1,10 @@
+{
+  "name": "orion-wars",
+  "version": "0.1.0",
+  "description": "The Orion Wars: four-power strategic wargame. Headless rules engine + browser clients.",
+  "type": "module",
+  "scripts": {
+    "war": "node test/harness.js",
+    "test": "node test/harness.js --quiet"
+  }
+}

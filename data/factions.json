@@ -1,0 +1,57 @@
+{
+  "_comment": "Four powers, five hull classes each (FF/DD/CL/CA/BB). First-draft stats for Chris's review. speed is lane-hops per turn at the strategic layer; cost is production points. RULING NEEDED: with the dedicated planetary-assault hull gone, assault capacity now rides on the two heavy classes (CA/BB) and screening on the two light classes (FF/DD) — see README 'Open rulings'. `model` names the STL in assets/models.",
+  "factions": {
+    "EAR": {
+      "name": "Earth Federation",
+      "color": "BLUE",
+      "traits": { "holdings": "durable", "acquisition": "absorption", "bases": "strongest" },
+      "doctrine": "Deep shields and torpedo throw-weight. Acquires independents slowly by absorption; what it holds, it keeps.",
+      "ships": {
+        "ear-sentinel": { "name": "Sentinel",  "role": "FF", "cost": 5,  "hull": 3,  "shield": 5,  "beam": 2, "torpedo": 2, "speed": 1, "assault": 0, "screen": 2, "model": "Earth Frigate.stl" },
+        "ear-vigilant": { "name": "Vigilant",  "role": "DD", "cost": 8,  "hull": 4,  "shield": 6,  "beam": 3, "torpedo": 4, "speed": 1, "assault": 0, "screen": 1, "model": "Earth Destroyer.stl" },
+        "ear-meridian": { "name": "Meridian",  "role": "CL", "cost": 11, "hull": 5,  "shield": 7,  "beam": 4, "torpedo": 5, "speed": 1, "assault": 0, "screen": 0, "model": "Earth Light Cruiser.stl" },
+        "ear-bulwark":  { "name": "Bulwark",   "role": "CA", "cost": 17, "hull": 8,  "shield": 10, "beam": 6, "torpedo": 7, "speed": 1, "assault": 4, "screen": 0, "model": "Earth Heavy Cruiser.stl" },
+        "ear-aegis":    { "name": "Aegis",     "role": "BB", "cost": 25, "hull": 10, "shield": 13, "beam": 7, "torpedo": 9, "speed": 1, "assault": 6, "screen": 0, "model": "Earth Battleship.stl" }
+      }
+    },
+    "VRA": {
+      "name": "Vraygon Star Realm",
+      "color": "GOLD",
+      "traits": { "holdings": "bought", "acquisition": "purchase", "economy": "richest" },
+      "doctrine": "The deepest treasury and the sturdiest hulls. Slower to build, but can buy what it cannot storm.",
+      "ships": {
+        "vra-vaelan":    { "name": "Vaelan",    "role": "FF", "cost": 5,  "hull": 4,  "shield": 4,  "beam": 3, "torpedo": 1, "speed": 1, "assault": 0, "screen": 2, "model": "Vraygon Frigate.stl" },
+        "vra-corvex":    { "name": "Corvex",    "role": "DD", "cost": 8,  "hull": 5,  "shield": 5,  "beam": 4, "torpedo": 2, "speed": 1, "assault": 0, "screen": 1, "model": "Vraygon Destroyer.stl" },
+        "vra-aurelian":  { "name": "Aurelian",  "role": "CL", "cost": 11, "hull": 6,  "shield": 6,  "beam": 5, "torpedo": 3, "speed": 1, "assault": 0, "screen": 0, "model": "Vraygon Light Cruiser.stl" },
+        "vra-goldspar":  { "name": "Goldspar",  "role": "CA", "cost": 16, "hull": 8,  "shield": 8,  "beam": 7, "torpedo": 4, "speed": 1, "assault": 5, "screen": 0, "model": "Vraygon Heavy Cruiser.stl" },
+        "vra-sunthrone": { "name": "Sunthrone", "role": "BB", "cost": 24, "hull": 11, "shield": 11, "beam": 9, "torpedo": 5, "speed": 1, "assault": 7, "screen": 0, "model": "Vraygon Battleship.stl" }
+      }
+    },
+    "ZAN": {
+      "name": "Zandrax Horde",
+      "color": "RED",
+      "traits": { "holdings": "restive", "acquisition": "conquest-fast", "garrisonsRequired": true },
+      "doctrine": "Speed and heavy beams on thin shields. Takes worlds fastest and holds them worst.",
+      "ships": {
+        "zan-rakh":       { "name": "Rakh",       "role": "FF", "cost": 4,  "hull": 3,  "shield": 3, "beam": 3,  "torpedo": 0, "speed": 2, "assault": 0, "screen": 2, "model": "Zandrax Frigate.stl" },
+        "zan-skarn":      { "name": "Skarn",      "role": "DD", "cost": 6,  "hull": 4,  "shield": 3, "beam": 5,  "torpedo": 1, "speed": 2, "assault": 0, "screen": 1, "model": "Zandrax Destroyer.stl" },
+        "zan-vorkul":     { "name": "Vorkul",     "role": "CL", "cost": 10, "hull": 6,  "shield": 4, "beam": 6,  "torpedo": 2, "speed": 2, "assault": 0, "screen": 0, "model": "Zandrax Light Cruiser.stl" },
+        "zan-drakhan":    { "name": "Drakhan",    "role": "CA", "cost": 15, "hull": 8,  "shield": 6, "beam": 8,  "torpedo": 3, "speed": 2, "assault": 6, "screen": 0, "model": "Zandrax Heavy Cruiser.stl" },
+        "zan-skullforge": { "name": "Skullforge", "role": "BB", "cost": 22, "hull": 10, "shield": 8, "beam": 11, "torpedo": 4, "speed": 2, "assault": 8, "screen": 0, "model": "Zandrax Battleship.stl" }
+      }
+    },
+    "KRE": {
+      "name": "Krelath Empire",
+      "color": "GREEN",
+      "traits": { "holdings": "intermediate", "acquisition": "conquest", "cloaked": true, "ambush": true },
+      "doctrine": "Fleet movements hidden until contact, and an opening volley on the turn they arrive. Smallest economy of the four.",
+      "ships": {
+        "kre-thal":      { "name": "Thal",             "role": "FF", "cost": 5,  "hull": 3, "shield": 4,  "beam": 3, "torpedo": 1, "speed": 1, "assault": 0, "screen": 2, "model": "Krelath Frigate.stl" },
+        "kre-vekar":     { "name": "Vekar",            "role": "DD", "cost": 7,  "hull": 4, "shield": 4,  "beam": 4, "torpedo": 2, "speed": 1, "assault": 0, "screen": 1, "model": "Krelath Destroyer.stl" },
+        "kre-nightspar": { "name": "Nightspar",        "role": "CL", "cost": 10, "hull": 5, "shield": 5,  "beam": 5, "torpedo": 3, "speed": 1, "assault": 0, "screen": 0, "model": "Krelath Light Cruiser.stl" },
+        "kre-talon":     { "name": "Veiled Talon",     "role": "CA", "cost": 16, "hull": 7, "shield": 8,  "beam": 7, "torpedo": 5, "speed": 1, "assault": 5, "screen": 0, "model": "Krelath Heavy Cruiser.stl" },
+        "kre-ascendant": { "name": "Krelath Ascendant","role": "BB", "cost": 24, "hull": 9, "shield": 10, "beam": 9, "torpedo": 6, "speed": 1, "assault": 6, "screen": 0, "model": "Krelath Battleship.stl" }
+      }
+    }
+  }
+}

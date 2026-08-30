@@ -1,0 +1,314 @@
+[
+  {
+    "file": "Earth Battleship.stl",
+    "verts": 41279,
+    "faces": 83241,
+    "tris": 83241,
+    "non_manifold_edges": 269,
+    "loose_verts": 0,
+    "dimensions": [
+      23.0,
+      46.5,
+      16.0
+    ]
+  },
+  {
+    "file": "Earth Command Ship.stl",
+    "verts": 43155,
+    "faces": 87074,
+    "tris": 87074,
+    "non_manifold_edges": 265,
+    "loose_verts": 0,
+    "dimensions": [
+      29.0,
+      51.0,
+      10.722
+    ]
+  },
+  {
+    "file": "Earth Destroyer.stl",
+    "verts": 22298,
+    "faces": 45170,
+    "tris": 45170,
+    "non_manifold_edges": 201,
+    "loose_verts": 0,
+    "dimensions": [
+      14.5,
+      40.0,
+      11.5
+    ]
+  },
+  {
+    "file": "Earth Frigate.stl",
+    "verts": 10318,
+    "faces": 21026,
+    "tris": 21026,
+    "non_manifold_edges": 21,
+    "loose_verts": 0,
+    "dimensions": [
+      11.5,
+      37.716,
+      11.5
+    ]
+  },
+  {
+    "file": "Earth Heavy Cruiser.stl",
+    "verts": 22504,
+    "faces": 45619,
+    "tris": 45619,
+    "non_manifold_edges": 229,
+    "loose_verts": 0,
+    "dimensions": [
+      16.0,
+      43.0,
+      16.0
+    ]
+  },
+  {
+    "file": "Earth Light Cruiser.stl",
+    "verts": 22853,
+    "faces": 46104,
+    "tris": 46104,
+    "non_manifold_edges": 168,
+    "loose_verts": 0,
+    "dimensions": [
+      16.0,
+      43.0,
+      16.0
+    ]
+  },
+  {
+    "file": "Krelath Battleship.stl",
+    "verts": 170,
+    "faces": 332,
+    "tris": 332,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      25.397,
+      57.0,
+      11.968
+    ]
+  },
+  {
+    "file": "Krelath Destroyer.stl",
+    "verts": 124,
+    "faces": 252,
+    "tris": 252,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      15.873,
+      50.0,
+      9.968
+    ]
+  },
+  {
+    "file": "Krelath Frigate.stl",
+    "verts": 64,
+    "faces": 124,
+    "tris": 124,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      12.0,
+      43.0,
+      11.968
+    ]
+  },
+  {
+    "file": "Krelath Heavy Cruiser.stl",
+    "verts": 137,
+    "faces": 266,
+    "tris": 266,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      25.397,
+      50.0,
+      11.968
+    ]
+  },
+  {
+    "file": "Krelath Light Cruiser.stl",
+    "verts": 112,
+    "faces": 220,
+    "tris": 220,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      25.397,
+      50.0,
+      7.937
+    ]
+  },
+  {
+    "file": "Krelath Strike Cruiser.stl",
+    "verts": 118,
+    "faces": 232,
+    "tris": 232,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      16.968,
+      49.0,
+      7.757
+    ]
+  },
+  {
+    "file": "Vraygon Battleship.stl",
+    "verts": 175,
+    "faces": 346,
+    "tris": 346,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.509,
+      50.0,
+      14.477
+    ]
+  },
+  {
+    "file": "Vraygon Destroyer.stl",
+    "verts": 78,
+    "faces": 152,
+    "tris": 152,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      20.381,
+      46.5,
+      11.66
+    ]
+  },
+  {
+    "file": "Vraygon Frigate.stl",
+    "verts": 77,
+    "faces": 150,
+    "tris": 150,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      11.548,
+      40.155,
+      10.82
+    ]
+  },
+  {
+    "file": "Vraygon Heavy Cruiser.stl",
+    "verts": 114,
+    "faces": 224,
+    "tris": 224,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.509,
+      50.0,
+      14.314
+    ]
+  },
+  {
+    "file": "Vraygon Light Cruiser.stl",
+    "verts": 86,
+    "faces": 168,
+    "tris": 168,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      20.381,
+      46.5,
+      11.66
+    ]
+  },
+  {
+    "file": "Vraygon Monitor.stl",
+    "verts": 225,
+    "faces": 422,
+    "tris": 422,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      59.408,
+      55.0,
+      35.817
+    ]
+  },
+  {
+    "file": "Zandrax Battleship.stl",
+    "verts": 297,
+    "faces": 590,
+    "tris": 590,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.0,
+      58.0,
+      13.657
+    ]
+  },
+  {
+    "file": "Zandrax Corvette.stl",
+    "verts": 26,
+    "faces": 48,
+    "tris": 48,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      13.333,
+      28.0,
+      7.334
+    ]
+  },
+  {
+    "file": "Zandrax Destroyer.stl",
+    "verts": 126,
+    "faces": 248,
+    "tris": 248,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.0,
+      55.864,
+      13.657
+    ]
+  },
+  {
+    "file": "Zandrax Frigate.stl",
+    "verts": 113,
+    "faces": 222,
+    "tris": 222,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.0,
+      46.0,
+      13.657
+    ]
+  },
+  {
+    "file": "Zandrax Heavy Cruiser.stl",
+    "verts": 191,
+    "faces": 382,
+    "tris": 382,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.0,
+      55.5,
+      13.657
+    ]
+  },
+  {
+    "file": "Zandrax Light Cruiser.stl",
+    "verts": 171,
+    "faces": 342,
+    "tris": 342,
+    "non_manifold_edges": 0,
+    "loose_verts": 0,
+    "dimensions": [
+      22.0,
+      55.0,
+      13.657
+    ]
+  }
+]

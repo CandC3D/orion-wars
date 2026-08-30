@@ -1,0 +1,6 @@
+# regenerable outputs
+assets/blender/renders/
+assets/blender/*.blend
+assets/blender/preview/
+__pycache__/
+*.pyc

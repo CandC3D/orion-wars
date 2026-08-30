@@ -1,0 +1,207 @@
+{
+  "_comment": "Which weapons each power fits to each hull class, per docs/tactical-design.md section 1. missileMix splits a class's missile mounts between types. A loadout may also override the class envelope's beamMounts/missileMounts/magazine/beamArcs/missileArcs for faction flavour.",
+  "EAR": {
+    "_default": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      }
+    },
+    "destroyer": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "beamArcs": [
+        "fwd",
+        "fs"
+      ],
+      "_note": "Federation breadth on a light hull: both guns bear ahead instead of one forward and one on the starboard quarter. The class envelope's fwd+sa split meant an Earth destroyer fought every approach with half its battery, which is why Earth was the worst faction in the game at 8 points - the size where destroyers are half the fleet. Restoring the envelope arcs puts Earth back to 22% there. The trade is real: nothing now answers a target astern."
+    },
+    "heavy-cruiser": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "beamArcs": [
+        "fp",
+        "f",
+        "fs",
+        "pa",
+        "a"
+      ],
+      "_note": "Pays for the destroyer change above. The class envelope put FOUR of five beams on the forward bearing, against the stated arc doctrine that a capital has all-round coverage but only a couple of mounts on any one bearing; on that arrangement Earth runs to 73% at 16 points once its destroyers can shoot. Now three beams ahead, one on the port quarter, one astern. Tubes are left on the envelope: spreading those as well cost the heavy cruiser its whole case as a purchase - it stopped beating a battleship in the concentration table."
+    },
+    "command-ship": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      }
+    }
+  },
+  "VRA": {
+    "_default": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      }
+    },
+    "frigate": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "beamArcs": [
+        "fp"
+      ],
+      "_note": "Was a pure port broadside, faces 6 and 1 - the only hull in the game that could not fire ahead at all. Swung one face forward to fp (front-left and forward) so it can answer an approach; it still has nothing to starboard or astern, so you can still flank a Vraygon frigate. This is what Vraygon were missing at every frigate-heavy size: restoring the broadside drops them to 33% at 16 points and 34% at 32."
+    },
+    "destroyer": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "beamArcs": [
+        "fp",
+        "sa"
+      ],
+      "missileArcs": [
+        "a"
+      ],
+      "missileMounts": 2,
+      "magazine": 6
+    },
+    "light-cruiser": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "beamArcs": [
+        "fp",
+        "fs",
+        "pa"
+      ],
+      "missileArcs": [
+        "f",
+        "a"
+      ],
+      "missileMounts": 3,
+      "magazine": 12
+    },
+    "heavy-cruiser": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "beamMounts": 4,
+      "missileMounts": 3,
+      "magazine": 12,
+      "beamArcs": [
+        "fp",
+        "fs",
+        "pa",
+        "sa"
+      ],
+      "missileArcs": [
+        "f",
+        "fs",
+        "a"
+      ],
+      "_note": "Missile boat with tubes fore, quarter and aft. Cut back from six tubes and a 24-round magazine: measured, Vraygon's win rate tracked the presence of this one hull almost exactly - 78% at every scenario size that included it, 27-35% at every size that did not."
+    },
+    "battleship": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "missileMounts": 7,
+      "magazine": 28,
+      "beamArcs": [
+        "fp",
+        "fp",
+        "fs",
+        "fs",
+        "pa",
+        "pa",
+        "sa",
+        "sa"
+      ],
+      "missileArcs": [
+        "f",
+        "f",
+        "fp",
+        "fs",
+        "a",
+        "a",
+        "pa"
+      ],
+      "_note": "No straight-ahead beam position at all - four wide quarter arcs. You can flank a Vraygon; it just will not help."
+    },
+    "monitor": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      }
+    }
+  },
+  "ZAN": {
+    "_default": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 0.5,
+        "plasma-torpedo": 0.5
+      }
+    },
+    "corvette": {
+      "beam": "blaster-beam",
+      "missileMix": {},
+      "_note": "Zandrax exception: the corvette mounts a heavy short-range blaster rather than the fleet laser. Reasonably powerful, no reach at all."
+    },
+    "light-cruiser": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 0.5,
+        "plasma-torpedo": 0.5
+      },
+      "missileMounts": 2,
+      "missileArcs": [
+        "f",
+        "fs"
+      ],
+      "magazine": 12,
+      "_note": "A second tube, so the 50/50 mix can actually split. buildShip assigns missile mounts by largest remainder; with a single mount both halves of a 0.5/0.5 mix floor to zero and the one spare always goes to the first entry, so the plasma torpedo - half the declared Zandrax armament - never appeared on any hull with fewer than two tubes. At 8 points Zandrax field only 1- and 2-tube hulls, so their signature weapon never appeared in that cell at all; reverting this drops them to 24% there and 34% at 32 points. Six rounds a tube rather than the envelope's five, because half of what these tubes fire is a plasma torpedo that decays to nothing past 8 hexes: a fair share of the magazine is spent on launches that were never going to earn their damage. Worth a consistent 1-2pp to Zandrax at 8 points across five seed sets, which is where their thinnest margin in the whole sweep sits."
+    }
+  },
+  "KRE": {
+    "_default": {
+      "beam": "blaster-beam",
+      "missileMix": {
+        "plasma-torpedo": 1.0
+      }
+    },
+    "heavy-cruiser": {
+      "beam": "blaster-beam",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "missileMounts": 4,
+      "magazine": 16,
+      "missileArcs": [
+        "f",
+        "f",
+        "fp",
+        "fs"
+      ],
+      "_note": "A fourth tube. Pays Krelath back for the ground the Earth, Vraygon and Zandrax light-hull fixes took off them at 16 and 24 points, at the sizes where this hull is fielded and the strike cruiser is only a slice of the fleet. Worth about 5pp to Krelath at 16 and 64."
+    },
+    "strike-cruiser": {
+      "beam": "blaster-beam",
+      "missileMix": {
+        "plasma-torpedo": 0.5,
+        "neutronic-missile": 0.5
+      },
+      "_note": "Mixed tubes: neutronic for the standoff exchange, plasma for the warp-in kill. Pure plasma decayed to nothing against a kiting enemy."
+    }
+  },
+  "_sixthHull": "Each power has one unique sixth hull: ZAN corvette, KRE strike cruiser (fast, missile-dominant), VRA monitor, EAR command ship. A faction cannot field another's."
+}

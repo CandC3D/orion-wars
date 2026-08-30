@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orion Wars — Battle Arena</title>
+  <link rel="stylesheet" href="./arena.css">
+  <script src="./arena.js?v=flight2" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">THE ORION WARS / TACTICAL ARCHIVE</p>
+      <h1>Battle Arena</h1>
+    </div>
+    <label class="load-button" for="file-input">Load replay</label>
+    <input id="file-input" type="file" accept="application/json,.json">
+  </header>
+
+  <main class="shell">
+    <section class="viewport" aria-label="Tactical replay map">
+      <canvas id="arena-canvas"></canvas>
+      <div id="load-panel" class="load-panel" hidden>
+        <p class="eyebrow">REPLAY REQUIRED</p>
+        <h2>Drop a battle record here</h2>
+        <p id="load-message">Choose a replay JSON, or drop it anywhere on this panel.</p>
+        <label class="load-button primary" for="file-input">Choose file</label>
+        <div class="examples">
+          <span>Bundled records</span>
+          <button data-replay="./replays/ear-kre-24.json">EAR / KRE · 24</button>
+          <button data-replay="./replays/vra-zan-32.json">VRA / ZAN · 32</button>
+        </div>
+      </div>
+      <div class="legend" aria-label="Faction legend">
+        <span class="ear">EAR</span><span class="vra">VRA</span>
+        <span class="zan">ZAN</span><span class="kre">KRE</span>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="round-card">
+        <p class="eyebrow">BATTLE CLOCK</p>
+        <div id="round-label" class="round-label">Turn — / Round —</div>
+        <div class="scoreboard">
+          <div><span id="faction-a">A</span><strong id="points-a">—</strong><small>pts surviving</small></div>
+          <div><span id="faction-b">B</span><strong id="points-b">—</strong><small>pts surviving</small></div>
+        </div>
+        <div id="verdict" class="verdict" hidden></div>
+      </section>
+
+      <section id="ship-card" class="ship-card" hidden>
+        <button id="close-ship" class="close" aria-label="Close ship details">×</button>
+        <p class="eyebrow">PINNED VESSEL</p>
+        <h2 id="ship-name"></h2>
+        <div id="ship-details"></div>
+      </section>
+
+      <section class="combat-log">
+        <div class="section-head"><p class="eyebrow">ROUND LOG</p><span id="log-count">0 events</span></div>
+        <ol id="log-lines"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="controls">
+    <button id="step-back" aria-label="Previous round">◀│</button>
+    <button id="play" class="play" aria-label="Play replay">▶</button>
+    <button id="step-forward" aria-label="Next round">│▶</button>
+    <input id="scrubber" type="range" min="0" max="0" value="0" aria-label="Replay position">
+    <output id="position">0 / 0</output>
+    <label for="speed">Speed</label>
+    <select id="speed">
+      <option value="0.5">0.5×</option>
+      <option value="1" selected>1×</option>
+      <option value="2">2×</option>
+      <option value="4">4×</option>
+    </select>
+  </footer>
+</body>
+</html>

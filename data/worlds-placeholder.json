@@ -1,0 +1,87 @@
+{
+  "_comment": "PLACEHOLDER graph: four home spheres arranged around a contested zone of 12 independent worlds. All names are invented placeholders; the real world data file is blocked on Chris's rulings (world count, map source). Lane length is in turns. Region keys ending _HOME are closed to foreign fleets by the deterrence rule.",
+  "nodes": [
+    { "id": "ear-base",    "name": "Earth Fleet Base",       "region": "EAR_HOME", "owner": "EAR", "base": "starbase", "constructionCapable": true, "size": 4 },
+    { "id": "ear-outpost", "name": "Earth Forward Outpost",  "region": "EAR_HOME", "owner": "EAR", "base": "outpost", "size": 1 },
+    { "id": "ear-entry",   "name": "Bellerophon Gate",       "region": "EAR_HOME", "owner": "EAR", "entryFor": "EAR", "size": 0 },
+
+    { "id": "vra-base",    "name": "Vraygon Gilt Anchorage", "region": "VRA_HOME", "owner": "VRA", "base": "starbase", "constructionCapable": true, "size": 4 },
+    { "id": "vra-outpost", "name": "Vraygon Toll Outpost",   "region": "VRA_HOME", "owner": "VRA", "base": "outpost", "size": 1 },
+    { "id": "vra-entry",   "name": "Gilded Passage",         "region": "VRA_HOME", "owner": "VRA", "entryFor": "VRA", "size": 0 },
+
+    { "id": "zan-base",    "name": "Zandrax War Kraal",      "region": "ZAN_HOME", "owner": "ZAN", "base": "starbase", "constructionCapable": true, "size": 4 },
+    { "id": "zan-outpost", "name": "Zandrax Raid Post",      "region": "ZAN_HOME", "owner": "ZAN", "base": "outpost", "size": 1 },
+    { "id": "zan-entry",   "name": "Skarn Rift",             "region": "ZAN_HOME", "owner": "ZAN", "entryFor": "ZAN", "size": 0 },
+
+    { "id": "kre-base",    "name": "Krelath Shrouded Bastion","region": "KRE_HOME", "owner": "KRE", "base": "starbase", "constructionCapable": true, "size": 3 },
+    { "id": "kre-outpost", "name": "Krelath Veil Outpost",   "region": "KRE_HOME", "owner": "KRE", "base": "outpost", "size": 1 },
+    { "id": "kre-entry",   "name": "Veil Approach",          "region": "KRE_HOME", "owner": "KRE", "entryFor": "KRE", "size": 0 },
+
+    { "id": "hallowmere",     "name": "Hallowmere",     "region": "CONTESTED", "owner": "IND", "bloc": "ninefold", "size": 3, "garrison": 4, "constructionCapable": true },
+    { "id": "brightwater",    "name": "Brightwater",    "region": "CONTESTED", "owner": "IND", "bloc": "ninefold", "size": 2, "garrison": 3 },
+    { "id": "sable-crossing", "name": "Sable Crossing", "region": "CONTESTED", "owner": "IND", "bloc": "ninefold", "size": 2, "garrison": 2 },
+    { "id": "weighstation",   "name": "The Weighstation","region": "CONTESTED", "owner": "IND", "bloc": "weighstation", "size": 3, "garrison": 3, "constructionCapable": true },
+    { "id": "tollward",       "name": "Tollward",       "region": "CONTESTED", "owner": "IND", "bloc": "weighstation", "size": 2, "garrison": 2 },
+    { "id": "cinder-gate",    "name": "Cinder Gate",    "region": "CONTESTED", "owner": "IND", "bloc": "cinder", "size": 3, "garrison": 4 },
+    { "id": "cinder-hollow",  "name": "Cinder Hollow",  "region": "CONTESTED", "owner": "IND", "bloc": "cinder", "size": 2, "garrison": 3 },
+    { "id": "kestrel",        "name": "Kestrel",        "region": "CONTESTED", "owner": "IND", "bloc": "kestrel", "size": 2, "garrison": 2 },
+    { "id": "longfall",       "name": "Longfall",       "region": "CONTESTED", "owner": "IND", "bloc": "kestrel", "size": 2, "garrison": 2 },
+    { "id": "ossuary",        "name": "Ossuary Drift",  "region": "CONTESTED", "owner": "IND", "bloc": "ossuary", "size": 1, "garrison": 1 },
+    { "id": "palewake",       "name": "Palewake",       "region": "CONTESTED", "owner": "IND", "bloc": "palewake", "size": 1, "garrison": 1, "nebula": true },
+    { "id": "axis",           "name": "The Axis",       "region": "CONTESTED", "owner": "IND", "bloc": "axis", "size": 4, "garrison": 5, "constructionCapable": true }
+  ],
+  "lanes": [
+    { "a": "ear-entry", "b": "ear-base", "length": 1 },
+    { "a": "ear-base", "b": "ear-outpost", "length": 1 },
+    { "a": "ear-outpost", "b": "hallowmere", "length": 1 },
+    { "a": "ear-outpost", "b": "brightwater", "length": 1 },
+
+    { "a": "vra-entry", "b": "vra-base", "length": 1 },
+    { "a": "vra-base", "b": "vra-outpost", "length": 1 },
+    { "a": "vra-outpost", "b": "weighstation", "length": 1 },
+    { "a": "vra-outpost", "b": "tollward", "length": 1 },
+
+    { "a": "zan-entry", "b": "zan-base", "length": 1 },
+    { "a": "zan-base", "b": "zan-outpost", "length": 1 },
+    { "a": "zan-outpost", "b": "cinder-gate", "length": 1 },
+    { "a": "zan-outpost", "b": "cinder-hollow", "length": 1 },
+
+    { "a": "kre-entry", "b": "kre-base", "length": 1 },
+    { "a": "kre-base", "b": "kre-outpost", "length": 1 },
+    { "a": "kre-outpost", "b": "kestrel", "length": 1 },
+    { "a": "kre-outpost", "b": "longfall", "length": 1 },
+
+    { "a": "hallowmere", "b": "brightwater", "length": 1 },
+    { "a": "brightwater", "b": "sable-crossing", "length": 1 },
+    { "a": "sable-crossing", "b": "axis", "length": 1 },
+    { "a": "hallowmere", "b": "axis", "length": 1 },
+
+    { "a": "weighstation", "b": "tollward", "length": 1 },
+    { "a": "tollward", "b": "ossuary", "length": 1 },
+    { "a": "ossuary", "b": "axis", "length": 1 },
+    { "a": "weighstation", "b": "axis", "length": 1 },
+
+    { "a": "cinder-gate", "b": "cinder-hollow", "length": 1 },
+    { "a": "cinder-hollow", "b": "palewake", "length": 1 },
+    { "a": "palewake", "b": "axis", "length": 1 },
+    { "a": "cinder-gate", "b": "axis", "length": 1 },
+
+    { "a": "kestrel", "b": "longfall", "length": 1 },
+    { "a": "longfall", "b": "palewake", "length": 1 },
+    { "a": "kestrel", "b": "axis", "length": 1 },
+
+    { "a": "sable-crossing", "b": "weighstation", "length": 2 },
+    { "a": "ossuary", "b": "cinder-gate", "length": 2 },
+    { "a": "cinder-hollow", "b": "longfall", "length": 2 },
+    { "a": "kestrel", "b": "hallowmere", "length": 2 }
+  ],
+  "blocs": {
+    "ninefold":     { "name": "Ninefold League",     "disposition": { "EAR": 2, "VRA": 0,  "ZAN": -2, "KRE": -1 } },
+    "weighstation": { "name": "Weighstation Combine","disposition": { "EAR": 0, "VRA": 2,  "ZAN": -1, "KRE": 0 } },
+    "cinder":       { "name": "Cinder Confederacy",  "disposition": { "EAR": -1,"VRA": -1, "ZAN": 2,  "KRE": 0 } },
+    "kestrel":      { "name": "Kestrel Free Worlds", "disposition": { "EAR": 1, "VRA": 0,  "ZAN": -1, "KRE": 1 } },
+    "ossuary":      { "name": "Ossuary Drift",       "disposition": { "EAR": 0, "VRA": 0,  "ZAN": 0,  "KRE": 0 } },
+    "palewake":     { "name": "Palewake",            "disposition": { "EAR": 0, "VRA": 0,  "ZAN": 0,  "KRE": 1 } },
+    "axis":         { "name": "The Axis",            "disposition": { "EAR": 0, "VRA": 1,  "ZAN": 0,  "KRE": 0 } }
+  }
+}
