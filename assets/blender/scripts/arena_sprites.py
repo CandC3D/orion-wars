@@ -26,6 +26,18 @@ SHIPS = [
     ("krelath_heavy_cruiser", "KRE", "heavy-cruiser"),
     ("krelath_battleship", "KRE", "battleship"),
     ("krelath_strike_cruiser", "KRE", "strike-cruiser"),
+    ("vraygon_frigate", "VRA", "frigate"),
+    ("vraygon_destroyer", "VRA", "destroyer"),
+    ("vraygon_light_cruiser", "VRA", "light-cruiser"),
+    ("vraygon_heavy_cruiser", "VRA", "heavy-cruiser"),
+    ("vraygon_battleship", "VRA", "battleship"),
+    ("vraygon_monitor", "VRA", "monitor"),
+    ("zandrax_frigate", "ZAN", "frigate"),
+    ("zandrax_destroyer", "ZAN", "destroyer"),
+    ("zandrax_light_cruiser", "ZAN", "light-cruiser"),
+    ("zandrax_heavy_cruiser", "ZAN", "heavy-cruiser"),
+    ("zandrax_battleship", "ZAN", "battleship"),
+    ("zandrax_corvette", "ZAN", "corvette"),
 ]
 
 RES = 512

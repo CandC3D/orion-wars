@@ -82,5 +82,89 @@
     "lengthUnits": 49.0,
     "widthUnits": 17.228,
     "nose": "up"
+  },
+  "VRA/frigate": {
+    "file": "vraygon_frigate.png",
+    "spanUnits": 43.367,
+    "lengthUnits": 40.155,
+    "widthUnits": 11.548,
+    "nose": "up"
+  },
+  "VRA/destroyer": {
+    "file": "vraygon_destroyer.png",
+    "spanUnits": 50.22,
+    "lengthUnits": 46.5,
+    "widthUnits": 20.381,
+    "nose": "up"
+  },
+  "VRA/light-cruiser": {
+    "file": "vraygon_light_cruiser.png",
+    "spanUnits": 50.22,
+    "lengthUnits": 46.5,
+    "widthUnits": 20.381,
+    "nose": "up"
+  },
+  "VRA/heavy-cruiser": {
+    "file": "vraygon_heavy_cruiser.png",
+    "spanUnits": 54.0,
+    "lengthUnits": 50.0,
+    "widthUnits": 22.509,
+    "nose": "up"
+  },
+  "VRA/battleship": {
+    "file": "vraygon_battleship.png",
+    "spanUnits": 54.0,
+    "lengthUnits": 50.0,
+    "widthUnits": 22.509,
+    "nose": "up"
+  },
+  "VRA/monitor": {
+    "file": "vraygon_monitor.png",
+    "spanUnits": 64.161,
+    "lengthUnits": 55.0,
+    "widthUnits": 59.408,
+    "nose": "up"
+  },
+  "ZAN/frigate": {
+    "file": "zandrax_frigate.png",
+    "spanUnits": 49.68,
+    "lengthUnits": 46.0,
+    "widthUnits": 22.0,
+    "nose": "up"
+  },
+  "ZAN/destroyer": {
+    "file": "zandrax_destroyer.png",
+    "spanUnits": 60.333,
+    "lengthUnits": 55.864,
+    "widthUnits": 22.0,
+    "nose": "up"
+  },
+  "ZAN/light-cruiser": {
+    "file": "zandrax_light_cruiser.png",
+    "spanUnits": 59.4,
+    "lengthUnits": 55.0,
+    "widthUnits": 22.0,
+    "nose": "up"
+  },
+  "ZAN/heavy-cruiser": {
+    "file": "zandrax_heavy_cruiser.png",
+    "spanUnits": 59.94,
+    "lengthUnits": 55.5,
+    "widthUnits": 22.0,
+    "nose": "up"
+  },
+  "ZAN/battleship": {
+    "file": "zandrax_battleship.png",
+    "spanUnits": 62.64,
+    "lengthUnits": 58.0,
+    "widthUnits": 22.0,
+    "nose": "up"
+  },
+  "ZAN/corvette": {
+    "file": "zandrax_corvette.png",
+    "spanUnits": 30.24,
+    "lengthUnits": 28.0,
+    "widthUnits": 13.333,
+    "nose": "up"
   }
 }

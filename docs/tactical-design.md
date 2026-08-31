@@ -908,3 +908,60 @@ Viewer: replays re-recorded; all radial-gradient effects hardened against
 non-finite coordinates (`safeRadial`), and `arena.js` now carries a
 cache-busting version query — a stale cached script cost a full debugging
 loop chasing a ghost error.
+
+---
+
+## 21. The flight-regime balance pass (adopted 2026-08-30)
+
+Three-agent workflow; all 24 faction/size cells now inside 35–65%, held on
+eight independent seed runs and re-verified after adoption (spreads 8–26pp).
+The change set: ~20 changes across the tuning data plus two faction-neutral
+resolver changes.
+
+### Chris's knife-fight observation became the load-bearing rule
+
+`movement.withdrawFireFraction 0.7`: **opening the range is a decision, not a
+reflex** — a ship only withdraws if it keeps at least 70% of its weight of
+fire while doing so; otherwise it stands and fights. Watching the arena, Chris
+saw Earth "retreat to maintain maximum range and get chased down rather than
+stick it out in the knife fight" — this rule is that observation, faction-
+neutral. The merger rates it one of the two most load-bearing changes
+(reverting it breaks five cells).
+
+### Instrumentation overturned the plausible stories, again
+
+- **Earth's collapse was not primarily the stand-off AI.** The Earth agent
+  built a value-based stand-off replacement and measured it: helped three
+  cells, hurt Earth at 24, wrecked three other factions. Rejected. The real
+  killer: **Earth's own command ship was a −25pp purchase**, fielded at
+  exactly the three collapsed cells (24/32/64) and none of the healthy ones.
+  Fixes: aura radius 4→6 (the +1 covered only ~45% of Earth's shots — the
+  fleet was wider than the bubble), command-ship turn rate 1→2 (a hull bought
+  to keep station with light cruisers cannot turn at half their rate), and
+  reserve 0.5→0.45 (a destroyer was holding back enough power for one laser
+  out of two mounts).
+- **Krelath's 90% at 32 points was a stance bug, not the warp.** The warp
+  survived untouched.
+- **Vraygon at 16 points was fighting inside its own dead band** — held at
+  ~11 hexes where the heavy blaster earns nothing and the laser still
+  collects +1. Movement 1.45→1.25: still the slowest fleet by 25%, but able
+  to reach the range its gun was priced on.
+
+### The price, and the two open problems
+
+1. **The concentration matrix is broken.** Verified post-adoption: 4 CL beat
+   every other shape at 95–100%; destroyer and frigate swarms lose almost
+   everything (8 DD vs 1 BB fell 73%→5%). The merger attributes it to
+   withdrawFireFraction ending the era of backs-turned fights — once
+   everyone stands, capital-class absorption dominates small hulls — and
+   found no dial that fixes it without breaking the faction pass. **Next
+   job:** a class-balance fix to how capital shield absorption scales
+   against many small attackers.
+2. **Two sixth hulls remain negative purchases** (audited with/without):
+   EAR command ship −25pp at 24 points even after its fixes; KRE strike
+   cruiser −19pp at 64. VRA monitor is +22pp at 32; ZAN corvette neutral.
+
+Two code-intent bugs recorded, deliberately unfixed: `poolScaling`'s sign
+contradicts its comment (but the comment's intent measures as the worse
+game), and the command ship's sensor/detection ratings buy nothing while no
+cloak exists in-game.

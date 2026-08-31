@@ -37,6 +37,15 @@
       "missileMix": {
         "neutronic-missile": 1.0
       }
+    },
+    "light-cruiser": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1.0
+      },
+      "missileMounts": 2,
+      "magazine": 8,
+      "_note": "A second tube, against the class envelope's one. This is the 8-point cell's lever and only the 8-point cell's: Earth field a light cruiser at 8 points and NOWHERE else in the sweep, because at 24, 32 and 64 both light cruisers are swapped for the command ship and at 16 there are none, so the change is worth +19pp at 8 and a flat zero at every other size. That is worth stating plainly rather than hiding - it is a single-cell fix. Two things justify it beyond the number. Earth at 8 points was 22% against Zandrax and 27% against Krelath: a laser cannon is the lowest-damage beam in the game and this cell is decided before the fleets are in laser band, so the tube is what Earth needs and the neutronic missile is Earth's weapon. And one tube was the outlier, not two - three of the four powers already override this class's tube count (Vraygon 3, Zandrax 2), so Earth at 2 is inside the family rather than outside it. Eight rounds rather than the envelope's five so the second tube has something to fire in a fourteen-turn action."
     }
   },
   "VRA": {
@@ -52,9 +61,9 @@
         "neutronic-missile": 1.0
       },
       "beamArcs": [
-        "fp"
+        "all"
       ],
-      "_note": "Was a pure port broadside, faces 6 and 1 - the only hull in the game that could not fire ahead at all. Swung one face forward to fp (front-left and forward) so it can answer an approach; it still has nothing to starboard or astern, so you can still flank a Vraygon frigate. This is what Vraygon were missing at every frigate-heavy size: restoring the broadside drops them to 33% at 16 points and 34% at 32."
+      "_note": "All-round, per the class envelope. This hull has been round the houses: a pure port broadside first (the only hull in the game that could not fire ahead), then fp. Under the flight rules and the withdrawal ruling the compromise stopped working - fp is a single narrow-arc gun on the slowest hull in the game, and Vraygon fell to 16% in the two-point skirmish. 'No blind side' is the Vraygon sentence; on a one-mount hull the only way to write it is the all-round arc, which is what every other faction's frigate already has. Worth 5-6pp at 2 points and it costs nothing anywhere else."
     },
     "destroyer": {
       "beam": "heavy-blaster",
@@ -93,7 +102,7 @@
       "missileMix": {
         "neutronic-missile": 1.0
       },
-      "beamMounts": 4,
+      "beamMounts": 5,
       "missileMounts": 3,
       "magazine": 12,
       "beamArcs": [
@@ -107,15 +116,15 @@
         "fs",
         "a"
       ],
-      "_note": "Missile boat with tubes fore, quarter and aft. Cut back from six tubes and a 24-round magazine: measured, Vraygon's win rate tracked the presence of this one hull almost exactly - 78% at every scenario size that included it, 27-35% at every size that did not."
+      "_note": "Missile boat with tubes fore, quarter and aft. Cut back from six tubes and a 24-round magazine: measured, Vraygon's win rate tracked the presence of this one hull almost exactly - 78% at every scenario size that included it, 27-35% at every size that did not. beamMounts restored to the class envelope's 5 from 4 in the flight-rules pass; the missing fifth beam was being paid for by nothing (the tube count already matches the envelope), and on a hull whose arcs deliberately put only two mounts on any bearing it was the difference between 20% and 41% for Vraygon at 16 points."
     },
     "battleship": {
       "beam": "heavy-blaster",
       "missileMix": {
         "neutronic-missile": 1.0
       },
-      "missileMounts": 7,
-      "magazine": 28,
+      "missileMounts": 5,
+      "magazine": 18,
       "beamArcs": [
         "fp",
         "fp",
@@ -135,7 +144,7 @@
         "a",
         "pa"
       ],
-      "_note": "No straight-ahead beam position at all - four wide quarter arcs. You can flank a Vraygon; it just will not help."
+      "_note": "No straight-ahead beam position at all - four wide quarter arcs. You can flank a Vraygon; it just will not help. Tubes cut from 7 to 5 and the magazine from 28 to 18: this is the only cell in the sweep where Vraygon field a battleship at all, so it is the one lever that trims them at 64 points without touching the sizes where they need the help. Worth 6pp there and nothing anywhere else."
     },
     "monitor": {
       "beam": "heavy-blaster",
@@ -170,6 +179,16 @@
       ],
       "magazine": 12,
       "_note": "A second tube, so the 50/50 mix can actually split. buildShip assigns missile mounts by largest remainder; with a single mount both halves of a 0.5/0.5 mix floor to zero and the one spare always goes to the first entry, so the plasma torpedo - half the declared Zandrax armament - never appeared on any hull with fewer than two tubes. At 8 points Zandrax field only 1- and 2-tube hulls, so their signature weapon never appeared in that cell at all; reverting this drops them to 24% there and 34% at 32 points. Six rounds a tube rather than the envelope's five, because half of what these tubes fire is a plasma torpedo that decays to nothing past 8 hexes: a fair share of the magazine is spent on launches that were never going to earn their damage. Worth a consistent 1-2pp to Zandrax at 8 points across five seed sets, which is where their thinnest margin in the whole sweep sits."
+    },
+    "battleship": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 0.5,
+        "plasma-torpedo": 0.5
+      },
+      "missileMounts": 7,
+      "magazine": 26,
+      "_note": "Seven tubes rather than the envelope's five. Zandrax are the swarm, and a swarm dilutes as the budget grows: they were 73% at 8 points and 24-31% at 64, because at the top of the ladder the cell is decided by capitals and theirs was a plain envelope hull with the worst shields in the game but one. Weight of missile fire is the Klingon answer and it is the only Zandrax lever measured that moves 64 points without also moving 8 and 16 - the battleship appears at 32 and 64 only. Worth about 9pp at 64. The alternative tried and rejected was lifting factionModifiers.ZAN.shieldPointRatio to 1.2, which buys 3pp at 64 and pushes 24 points to 69%."
     }
   },
   "KRE": {
@@ -184,15 +203,24 @@
       "missileMix": {
         "neutronic-missile": 1.0
       },
-      "missileMounts": 4,
-      "magazine": 16,
+      "missileMounts": 5,
+      "magazine": 20,
       "missileArcs": [
         "f",
         "f",
         "fp",
         "fs"
       ],
-      "_note": "A fourth tube. Pays Krelath back for the ground the Earth, Vraygon and Zandrax light-hull fixes took off them at 16 and 24 points, at the sizes where this hull is fielded and the strike cruiser is only a slice of the fleet. Worth about 5pp to Krelath at 16 and 64."
+      "_note": "A fifth tube. Pays Krelath back for the ground the Earth, Vraygon and Zandrax light-hull fixes took off them at 16 and 24 points, at the sizes where this hull is fielded and the strike cruiser is only a slice of the fleet. Was four tubes; the fifth was added in the flight-rules pass to carry 64 points, where gating the warp jump to real rear insertions left Krelath at the floor (33-35%). Worth 4-7pp at 16, 24 and 64. The obvious alternative - putting neutronic missiles in the Krelath battleship's mix - is a trap and was measured: it lifts 64 points to 60% and simultaneously craters 32 points to 22%, because the neutronic's 20-hex nominal range flips the hull into engagementRange's stand-off branch and a blaster fleet that stands off is a dead fleet."
+    },
+    "battleship": {
+      "beam": "blaster-beam",
+      "missileMix": {
+        "plasma-torpedo": 1.0
+      },
+      "missileMounts": 7,
+      "magazine": 26,
+      "_note": "Seven tubes rather than the envelope's five, all plasma. Krelath field a battleship at 32 and 64 points only, and after the warp jump was gated to real rear insertions they sat at 33-35% at 64 - the floor - while 32 was healthy at ~50%. This is the one lever measured that separates those two cells: it is worth +6pp at 64 and about +1pp at 32, and it is invisible at 2, 8, 16 and 24 where the hull is not bought. Weight of short-range torpedo fire is the right answer for this faction - the plasma decays to nothing past 8 hexes, so more tubes buys Krelath more of the thing they already do, which is arrive close and hit hard, rather than a new capability. The alternative of putting NEUTRONIC missiles in the mix is a trap and was re-measured on the merged tree, where it is worse than the first time it was tried: 60/40 plasma/neutronic lifts 64 points but craters 32 from 52% to 14%, because the neutronic's 20-hex nominal range flips the hull into engagementRange's stand-off branch and a blaster fleet that stands off is a dead fleet. Do not do it."
     },
     "strike-cruiser": {
       "beam": "blaster-beam",

@@ -45,6 +45,20 @@ function bears(shooter, mount, targetPos) {
   return mount.arc.includes(shieldFacing(shooter, targetPos));
 }
 
+// Weight of fire a ship can throw through one of its own faces. `standing`
+// counts the whole battery rather than only the mounts still loaded this turn:
+// deciding whether a hull is CAPABLE of a fighting withdrawal is a question
+// about the ship, not about which triggers have already been pulled this turn.
+function fireWeight(ship, face, tuning, standing = false) {
+  let score = 0;
+  for (const m of ship.mounts) {
+    if (m.inop || (!standing && m.firedThisTurn) || !m.arc.includes(face)) continue;
+    const w = tuning.weapons[m.type];
+    score += w.kind === "beam" ? w.maxPower : (w.damage / 3);
+  }
+  return score;
+}
+
 // Which way should a ship point? Turning the nose at the enemy is only correct
 // for a nose-armed hull. A ship with quarter or broadside arcs that noses in
 // throws away most of its battery, and a hull whose single mount sits on the
@@ -58,17 +72,40 @@ function bestHeading(ship, targetPos, tuning) {
   let best = ship.facing, bestScore = -Infinity;
   for (let f = 0; f < 6; f++) {
     const face = faceFor(f, dir);
-    let score = 0;
-    for (const m of ship.mounts) {
-      if (m.inop || m.firedThisTurn || !m.arc.includes(face)) continue;
-      const w = tuning.weapons[m.type];
-      score += w.kind === "beam" ? w.maxPower : (w.damage / 3);
-    }
+    let score = fireWeight(ship, face, tuning);
     if (!ship.shieldDown[face]) score += 0.5;   // meet him with a live shield
     if (face === 2) score += 0.25;              // and keep the nose round on a tie
     if (score > bestScore) { bestScore = score; best = f; }
   }
   return best;
+}
+
+// Is a fighting withdrawal actually available to this hull?
+//
+// Under the flight rules opening the range means turning the nose away, and the
+// enemy then lies dead astern - face 5. A ship with a stern battery can back
+// off and keep shooting; a nose-armed line fighter that tries it simply stops
+// firing for the rest of the action, turns its softest facing to the enemy, and
+// is run down anyway because nobody can outrun anybody by much. Measured, that
+// is precisely what was happening: Earth and Zandrax battleships spent 66-68%
+// of their mount-rounds blocked by arc and fired only 27-30% of their battery,
+// against 48% for a Krelath battleship of identical arcs that stood and fought.
+//
+// So the withdrawal is now a decision rather than a reflex: a ship opens the
+// range only if its stern arcs retain this share of the weight of fire its best
+// heading would give it. Faction-neutral - the same test for every hull - but it
+// lands differently on each, which is the point. Vraygon, whose whole identity
+// is that it has no blind side, keeps about 90% of its battery astern and can
+// genuinely fight a withdrawal; a nose-heavy hull keeps a fifth, so it holds its
+// ground and fights, which is what a line fighter is for.
+function canWithdrawFighting(ship, tuning) {
+  const need = tuning.movement?.withdrawFireFraction ?? 0;
+  if (need <= 0) return true;
+  const astern = fireWeight(ship, 5, tuning, true);
+  let best = 0;
+  for (let face = 1; face <= 6; face++) best = Math.max(best, fireWeight(ship, face, tuning, true));
+  if (best <= 0) return true;
+  return astern >= need * best;
 }
 
 // The range this ship wants: the best band of its longest-reaching beam.
@@ -84,6 +121,19 @@ function preferredRange(ship, tuning) {
 }
 
 // Longest range at which this ship can still hurt anything.
+//
+// NOTE for anyone tempted to refine this into an "effective" reach - the range
+// at which a ship still does REAL damage rather than the range at which it can
+// technically land a shot. It is the right instinct and it was tried; it is a
+// knife-edge. engagementRange decides whether a whole fleet kites or closes on
+// one integer comparison of the two sides' reach, so any redefinition flips
+// entire matchups at once. Measured: giving the plasma torpedo the neutronic
+// missile's 20-hex nominal range, changing nothing else, moved Krelath from 91%
+// to 53% at 32 points and 67% to 22% at 64 - purely by changing which side
+// believed it was the stand-off fleet. A damage-weighted effective reach costs
+// 3-6 cells of band wherever it was tried, because it hands the long-gun
+// factions a kite the short-gun factions cannot answer. Left as nominal range
+// deliberately; the fix that DOES work is canWithdrawFighting below.
 function maxReach(ship, tuning) {
   let r = 0;
   for (const m of ship.mounts) {
@@ -403,7 +453,7 @@ function move(ship, enemies, friends, tuning) {
   const d0 = distance(ship.pos, target.pos);
   let need = "hold";
   if (d0 > want && !(d0 < fleetGap - leash)) need = "close";
-  else if (d0 < want && !ship.cloaked && want - d0 >= 1) need = "open";
+  else if (d0 < want && !ship.cloaked && want - d0 >= 1 && canWithdrawFighting(ship, tuning)) need = "open";
 
   if (need === "hold") {
     // In position: fight with the guns, not the helm.
@@ -483,7 +533,18 @@ function tryWarp(ship, enemies, friends, tuning, log) {
   const behind = (target.facing + 3) % 6;
   let dest = target.pos;
   for (let i = 0; i < want; i++) dest = add(dest, behind);
-  if (!W.preferRearArc || !inBounds(dest, tuning) || distance(ship.pos, dest) > W.rangeHexes) {
+  const rearReachable = W.preferRearArc && inBounds(dest, tuning) &&
+    distance(ship.pos, dest) <= W.rangeHexes;
+  if (!rearReachable) {
+    // A jump straight up the enemy's nose is not the trait; it is a taxi.
+    // Measured, the fallback was the whole of the warp's usage: at 26 hexes no
+    // rear hex is within jump range, so every Krelath ship burned a third of
+    // its pool closing on turn one, the fleet arrived in a knife fight two
+    // turns early with empty engines, and the trait cost its owner 23pp at 64
+    // points and 35pp at 16 against simply not having it. Gated to a real rear
+    // insertion, the warp waits for the enemy to come inside jump range and
+    // then does what it is named for.
+    if (W.requireRearArc) return false;
     dest = ship.pos;
     const toward = bearing(ship.pos, target.pos);
     for (let i = 0; i < Math.min(W.rangeHexes, gap - want); i++) {
