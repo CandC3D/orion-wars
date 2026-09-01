@@ -214,3 +214,15 @@ turret collar + wing stripe. Census: brown(0.67,0.49,0.31) 7,044 /
 green(0.27,0.72,0.29) 4,800 / magenta 3,888 / blue(0,0.62,0.85) 3,888 /
 yellow(1.0,0.86,0.1) 3,552 corners. Union Group re-export requested.
 Also pending: Krelath colour key from owner (Earth key does not apply).
+
+## Krelath colour key - emissives (owner, 2026-09-01)
+
+Yellow, blue, and purple are EMISSIVE for Krelath: blue + purple = nav
+light colours, yellow = weapons and engine glows. This legitimises two
+census populations flagged above: blue 3,888 and purple(0.85,0.04,0.55)
+3,888 corners are each exactly one Dome Light part (1,296 faces) - the
+two nav lights, correctly coloured. Still wrong in the v1 GLB: the red
+dodecahedron turret has no red (exported brown), and the green/brown
+hull balance is inverted vs Tinkercad. Union re-export still needed.
+Remaining key questions for the full Krelath set: green + brown roles
+(hull/accent), red = turret as-is?
