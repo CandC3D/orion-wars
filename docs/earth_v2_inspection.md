@@ -247,3 +247,27 @@ Union-style re-export fixed the palette: green hull 7,605 / purple 3,846
 / blue 3,837 / bronze 3,729 / yellow 1,977 / RED 546 (turret restored).
 7,180 tris. Nav lights ~= dome-light fingerprint less boolean clipping.
 Render matches Tinkercad. Authoritative Krelath Frigate.
+
+## Yamato-class Dreadnought + Enterprise-class Carrier 2.1 intake (2026-09-01)
+
+Both CLEAN (no confetti, palette correct). Candidates to replace the
+Command Ship (see docs/earth-ship-classes.md).
+
+DREADNOUGHT: 401,936 tris (largest hull). Orange audit: 3 ball turrets
+(4,015-4,234 faces), 3 tube muzzle rings (973-980), FOUR small orange
+spine strips (114-146 faces) and ONE 2,773-face orange component ~20
+units cubed at the extreme bow = the PHOTONIC CANNON emitter (spinal
+mount, orange-ringed barrel). Five nacelles. Tube rings sit on dedicated
+weapons pods (window-bank pods, no radiators) - not on engine pods, so
+the doctrine holds. Census: gray 436,926 / red 321,528 / blue 290,712 /
+orange 63,171 / mid-dark 26,349 / gold 24,867 / white 22,386 /
+medium-gray 15,990 (+green).
+
+CARRIER: 160,376 tris. Owner design note: repurposed light-cruiser-type
+hull; Battlestar-style OUTRIGGER pods are the flight decks (Galactica
+homage); the usual globe command pod reduced to a SAUCER in the same
+place serving as command + flight deck (USS Enterprise homage). Orange
+audit: ONE ball turret (4,198) + detail - defensive armament only, the
+offence flies. Census: gray 193,239 / blue 124,752 / red 109,866 /
+white 14,427 / orange 13,806 / gold 12,411 / mid-dark 8,751 / green
+3,876 (dome light).
