@@ -114,3 +114,15 @@ AUTHORITATIVE: "Earth Destroyer v2.1 Union Group.glb". First v2.1 export
 and Bundle Group variants removed (in git history).
 White population now 4,200 (windows only) - the structural recolor to
 standard gray is confirmed, simplifying the window split for this hull.
+
+## Heavy Cruiser 2.1 series intake (2026-08-31)
+
+CLEAN - best export of the set so far (no confetti, colours correct).
+265,038 tris, 9 colour populations: gray 333,582 / red 166,086 / blue
+144,282 / orange 86,178 / white 21,363 / medium-gray 14,202 / mid-dark
+13,116 / gold 12,423 / (+green, below print cap). Orange verified by
+component analysis: FIVE dome turrets (two aft-nacelle, three bow) +
+THREE torpedo-tube muzzle rings = exactly the CA envelope (5 beams,
+3 tubes). Three-nacelle layout is an homage to the classic USS
+Federation-class dreadnought (owner note). Supersedes Earth Heavy
+Cruiser v2.glb (git history).
