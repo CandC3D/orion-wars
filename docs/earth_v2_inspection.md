@@ -96,3 +96,21 @@ Destroyer v2.1: FLAGGED - two anomalies vs v2.0:
    near-coincident shells introduced in this revision.
 Orange drop 15,360 -> 3,840 is consistent with launch-cell removal (OK).
 Awaiting owner confirmation before treating as authoritative.
+
+## Destroyer v2.1 re-export resolution (2026-08-31)
+
+Owner re-exported as Union Group + Bundle Group; Tinkercad screenshots
+confirm the model is authored clean. Findings:
+1. COLOR NONDETERMINISM: one ~79k-corner group of structural parts gets a
+   different colour per export - gray (Union, CORRECT), gold (first v2.1
+   export), orange (Bundle). Everything else identical. => For future
+   uploads prefer Union Group; always sanity-check the census against the
+   Tinkercad screenshot palette.
+2. Z-FIGHT CONFETTI on the boom/engine assembly is NOT a v2.1 regression -
+   rendering the archived v2.0 from git history shows identical confetti.
+   The shells date from the v2.0 greeble pass and are the known
+   flattened-export artifact; kit-time exterior extraction handles it.
+AUTHORITATIVE: "Earth Destroyer v2.1 Union Group.glb". First v2.1 export
+and Bundle Group variants removed (in git history).
+White population now 4,200 (windows only) - the structural recolor to
+standard gray is confirmed, simplifying the window split for this hull.
