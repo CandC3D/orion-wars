@@ -199,3 +199,18 @@ gray 414,072 / red 221,718 / blue 173,559 / orange 130,752 / medium-gray
 
 Ball-turret component size ~4,000-4,300 faces and muzzle-ring ~960-970
 faces are now confirmed part fingerprints across CL/CA/BB.
+
+## Krelath Frigate v1 intake (2026-08-31) - FLAGGED
+
+First Krelath detailed model. Geometry good: 7,724 tris, low-poly faceted
+wedge design; reusable fixtures per owner: window bays, double-barreled
+dodecahedron ball turret, sensor dish, hangar bay. "Same but different"
+vs Earth tech.
+
+COLOURS SCRAMBLED (export nondeterminism, worst case yet): hull renders
+brown where Tinkercad shows green; the red turret has NO red population
+in the file; an unexpected magenta (0.85,0.04,0.55) appeared on the
+turret collar + wing stripe. Census: brown(0.67,0.49,0.31) 7,044 /
+green(0.27,0.72,0.29) 4,800 / magenta 3,888 / blue(0,0.62,0.85) 3,888 /
+yellow(1.0,0.86,0.1) 3,552 corners. Union Group re-export requested.
+Also pending: Krelath colour key from owner (Earth key does not apply).
