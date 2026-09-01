@@ -4,8 +4,7 @@ import bpy, os
 from collections import Counter
 ROOT = r"C:\Users\chorr\Documents\triangle_campaign"
 SRC = os.path.join(ROOT, "assets", "models", "v2")
-FILES = ["Earth Frigate v2 FINAL (2).stl", "Earth Frigate v2 FINAL (2).glb",
-         "Earth Frigate v2 FINAL (3).stl", "Earth Frigate v2 FINAL (3).glb"]
+FILES = ["Earth Frigate v2.1.glb", "Earth Destroyer v2.0.glb"]
 for fn in FILES:
     bpy.ops.wm.read_factory_settings(use_empty=True)
     p = os.path.join(SRC, fn)
