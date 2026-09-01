@@ -64,3 +64,17 @@ window slots - one shared RGB. Kit-time rule per owner: contiguous
 components >~500 tris -> silver/metal; small slot components -> emissive
 white windows. Source GLBs untouched. Optional: paint windows a distinct
 colour in future uploads for zero ambiguity.
+
+## Light Cruiser v2.0 intake (2026-08-31)
+
+244,496 tris, 7 colour populations: blue 350,076 / gray 204,801 / red
+121,752 / orange 38,571 / gold 7,488 / light-gray 6,912 / green 3,888
+(corner counts). Gold + green match Frigate/Destroyer exactly ->
+standardized sensor dish + starboard light confirmed across three hulls.
+Light-gray usage is minimal here (windows only, ~2.3k faces).
+
+Striping: STILL VISIBLE from some angles (mid drum renders dark/streaked
+in persp view, clean from rear; one ball turret speckled gold/gray) -
+same near-coincident-shell depth-order artifact as the old CL. No
+re-export needed; kit-time exterior extraction resolves it. Re-verify
+this hull after cleanup.
