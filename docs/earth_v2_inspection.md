@@ -144,3 +144,15 @@ Caveat from the LC note above still holds: not every weapon is orange
 (gray ball turrets), but everything orange IS a weapon (or its ring).
 At kit time: orange faces -> weapons-warning accent material, keep as-is
 per the colour key.
+
+## CORRECTION - LC v2.1 weapons colours (2026-08-31)
+
+There are NO gray ball turrets (owner). The LC carries 3 ball turrets on
+the forward pod + 2 orange torpedo-tube rings + dome turret, all meant to
+be orange-marked. The v2.1 GLB export shows the SAME colour
+nondeterminism as the first Destroyer v2.1 export: only ONE orange item
+survived (a boom-mounted ball, z-fighting with a coincident shell in
+(0.65,0.68,0.69) medium gray - that population is the fight partner, not
+a real palette colour). Tube rings exported gray, dome turret red.
+=> LC needs a Union Group re-export, same as the Destroyer fix.
+Supersedes the earlier "gray ball turrets" note above.
