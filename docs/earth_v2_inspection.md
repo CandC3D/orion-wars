@@ -226,3 +226,16 @@ dodecahedron turret has no red (exported brown), and the green/brown
 hull balance is inverted vs Tinkercad. Union re-export still needed.
 Remaining key questions for the full Krelath set: green + brown roles
 (hull/accent), red = turret as-is?
+
+## Krelath colour key - complete (owner, 2026-09-01)
+
+Green and bronze as per the v1 faction kit: GREEN = chitin hull plating
+(v1 kit green 0.020,0.110,0.030), BROWN (0.67,0.49,0.31) = BRONZE metal
+(v1: bronze finish, metallic ~0.95). Full Krelath key:
+  green  -> chitin hull
+  brown  -> bronze metal
+  yellow -> EMISSIVE weapons + engine glows
+  blue   -> EMISSIVE nav light
+  purple -> EMISSIVE nav light
+  red    -> dodecahedron turret (treatment TBC; v1 kit put bronze on
+            weapons, red may be an accent - confirm at kit time)
