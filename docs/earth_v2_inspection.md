@@ -43,3 +43,15 @@ radiator, dark gray=as-is.
   module interpenetrations to validate.
 - Command Ship: CL chassis + dorsal saucer (confirm intentional); saucer
   pedestal reads detached; inherits CL striping.
+
+## Colour-key amendments (Frigate v2 FINAL baseline, 2026-08-31)
+
+- Emissives for Earth v2: red = engine glow + port light, green = starboard
+  light, white = windows.
+- OWNER NOTE: the engine strut may be painted white in the model — treat it
+  as grey/silver metal, not emissive window-white. Split by geometry (strut =
+  large structural frame; windows = small hull rectangles).
+- Red is dual-use: radiator paint (long strips, non-emissive) vs engine/port
+  glows (rear discs / port lamp, emissive) — same RGB, split by geometry.
+- Export format: GLB mandatory (STL loses all colour); Union Group vs Bundle
+  Group are interchangeable (identical imported content).
