@@ -135,3 +135,12 @@ finds only one dome turret (~2,000 faces + detail bits, one cluster).
 => At kit time, find LC ball turrets geometrically (sphere fit / reused-
 part fingerprint), not by warning colour. Orange is not a reliable
 weapons marker on every hull.
+
+## Earth weapons-colour canon (owner, 2026-08-31)
+
+Orange = weapon marker in the Earth style, applied BOTH to turret domes
+AND as coloured muzzle rings on torpedo tubes (see DD/CA bow tubes).
+Caveat from the LC note above still holds: not every weapon is orange
+(gray ball turrets), but everything orange IS a weapon (or its ring).
+At kit time: orange faces -> weapons-warning accent material, keep as-is
+per the colour key.
