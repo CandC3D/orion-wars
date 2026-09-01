@@ -234,7 +234,8 @@ Green and bronze as per the v1 faction kit: GREEN = chitin hull plating
 (v1: bronze finish, metallic ~0.95). Full Krelath key:
   green  -> chitin hull
   brown  -> bronze metal
-  yellow -> EMISSIVE weapons + engine glows
+  yellow -> EMISSIVE weapons, engine glows, AND windows (windows are
+            TRIANGLES on Krelath ships; cf. v1 kit yellow-green windows)
   blue   -> EMISSIVE nav light
   purple -> EMISSIVE nav light
   red    -> dodecahedron turret (treatment TBC; v1 kit put bronze on
