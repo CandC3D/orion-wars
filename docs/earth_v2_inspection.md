@@ -240,3 +240,10 @@ Green and bronze as per the v1 faction kit: GREEN = chitin hull plating
   purple -> EMISSIVE nav light
   red    -> WEAPONS WARNING colour, analogous to Earth orange; NOT
             emissive. Marks weapons (e.g. the dodecahedron turret).
+
+## Krelath Frigate v1 re-export ACCEPTED (2026-09-01)
+
+Union-style re-export fixed the palette: green hull 7,605 / purple 3,846
+/ blue 3,837 / bronze 3,729 / yellow 1,977 / RED 546 (turret restored).
+7,180 tris. Nav lights ~= dome-light fingerprint less boolean clipping.
+Render matches Tinkercad. Authoritative Krelath Frigate.
