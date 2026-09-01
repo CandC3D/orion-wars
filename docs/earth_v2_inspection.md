@@ -126,3 +126,12 @@ THREE torpedo-tube muzzle rings = exactly the CA envelope (5 beams,
 3 tubes). Three-nacelle layout is an homage to the classic USS
 Federation-class dreadnought (owner note). Supersedes Earth Heavy
 Cruiser v2.glb (git history).
+
+## LC weapons note (owner, 2026-08-31)
+
+The Light Cruiser carries THREE BALL TURRETS on the forward pod (its 3
+beam mounts) - painted gray-family, NOT orange. Orange component probe
+finds only one dome turret (~2,000 faces + detail bits, one cluster).
+=> At kit time, find LC ball turrets geometrically (sphere fit / reused-
+part fingerprint), not by warning colour. Orange is not a reliable
+weapons marker on every hull.
