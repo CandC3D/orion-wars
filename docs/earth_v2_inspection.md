@@ -156,3 +156,27 @@ survived (a boom-mounted ball, z-fighting with a coincident shell in
 a real palette colour). Tube rings exported gray, dome turret red.
 => LC needs a Union Group re-export, same as the Destroyer fix.
 Supersedes the earlier "gray ball turrets" note above.
+
+## Earth reusables library (owner-supplied, 2026-08-31)
+
+assets/models/v2/greebles/ - the standard fixture/greeble parts as
+individual STLs (colourless; use for geometric identification, part
+matching, and canonical orientation/scale reference):
+
+  Part                     tris    dims (x,y,z)
+  Aft Hangar Bay           5,860   22.9 x 25.1 x 25.1
+  Ball Turret              7,728   11.0 x 11.0 x 17.5
+  Dome Light (Port)        1,296   0.5 x 0.9 x 0.9
+  Dome Light (Starboard)   1,296   0.5 x 0.9 x 0.9   (same mesh as Port)
+  Engine Nacelle          47,624   95.0 x 16.8 x 20.0
+  Engine Strut                48   52.6 x 10.3 x 6.1
+  Hangar Control           2,156   13.8 x 5.6 x 3.5
+  Sensor Dish              5,016   16.0 x 15.4 x 29.0
+  Torpedo Tube             2,690   14.3 x 8.2 x 8.2
+  Window Bank              2,930   13.8 x 13.8 x 4.2
+
+Validation: Dome Light 1,296 tris == the constant green population
+(3,888 corners / 3) on every hull censused so far. Parts are multi-
+colour on the hulls (e.g. Sensor Dish = gold 2,496 faces + gray
+remainder), so a part's full tri count spans multiple colour
+populations - match on contiguous-component counts, not censuses alone.
