@@ -238,5 +238,5 @@ Green and bronze as per the v1 faction kit: GREEN = chitin hull plating
             TRIANGLES on Krelath ships; cf. v1 kit yellow-green windows)
   blue   -> EMISSIVE nav light
   purple -> EMISSIVE nav light
-  red    -> dodecahedron turret (treatment TBC; v1 kit put bronze on
-            weapons, red may be an accent - confirm at kit time)
+  red    -> WEAPONS WARNING colour, analogous to Earth orange; NOT
+            emissive. Marks weapons (e.g. the dodecahedron turret).
