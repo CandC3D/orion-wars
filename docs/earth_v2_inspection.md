@@ -55,3 +55,12 @@ radiator, dark gray=as-is.
   glows (rear discs / port lamp, emissive) — same RGB, split by geometry.
 - Export format: GLB mandatory (STL loses all colour); Union Group vs Bundle
   Group are interchangeable (identical imported content).
+
+## Light-gray resolution (2026-08-31, settled)
+
+The (0.98,0.98,0.98) population is Tinkercad's lighter gray used on
+structure (sphere band, collar rings, strut frame, bay housings) AND the
+window slots - one shared RGB. Kit-time rule per owner: contiguous
+components >~500 tris -> silver/metal; small slot components -> emissive
+white windows. Source GLBs untouched. Optional: paint windows a distinct
+colour in future uploads for zero ambiguity.
