@@ -180,3 +180,22 @@ Validation: Dome Light 1,296 tris == the constant green population
 colour on the hulls (e.g. Sensor Dish = gold 2,496 faces + gray
 remainder), so a part's full tri count spans multiple colour
 populations - match on contiguous-component counts, not censuses alone.
+
+## LC Union re-export + Battleship 2.1 intake (2026-08-31)
+
+LC v2.1 Union Group: FIXED and authoritative. Orange restored - exactly
+3 ball turrets (~4,000-4,269 faces each) on the forward pod + 2 torpedo
+muzzle rings (~970 faces) + inner detail = 10 components. Census: gray
+198,201 / blue 114,690 / red 111,399 / orange 49,224 / gold 12,408 /
+white 12,312 / medium-gray 9,297 / mid-dark 8,514 (+green). 173,302 tris
+(Union flattening differs from the defective export's 213,204).
+
+Battleship 2.1 series: CLEAN, spec-exact. 339,348 tris (largest so far).
+Orange components: EIGHT ball turrets (4,003-4,235 faces) + FIVE tube
+muzzle rings (956-970) + detail bits = 26 comps == BB envelope (8 beams,
+5 tubes). No confetti, colours correct. Quad-nacelle layout. Census:
+gray 414,072 / red 221,718 / blue 173,559 / orange 130,752 / medium-gray
+22,905 / white 21,273 / mid-dark 17,505 / gold 12,420 (+green).
+
+Ball-turret component size ~4,000-4,300 faces and muzzle-ring ~960-970
+faces are now confirmed part fingerprints across CL/CA/BB.

@@ -2,7 +2,7 @@ import bpy, os
 from collections import Counter
 ROOT = r"C:\Users\chorr\Documents\triangle_campaign"
 bpy.ops.wm.read_factory_settings(use_empty=True)
-bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, "assets", "models", "v2", "Earth Light Cruiser v2.1.glb"))
+bpy.ops.import_scene.gltf(filepath=os.path.join(ROOT, "assets", "models", "v2", "Earth Light Cruiser v2.1 Union Group.glb"))
 obj = max([o for o in bpy.data.objects if o.type == "MESH"], key=lambda o: len(o.data.polygons))
 me = obj.data
 col = me.color_attributes[0].data

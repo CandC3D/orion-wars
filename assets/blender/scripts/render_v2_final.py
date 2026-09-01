@@ -4,7 +4,7 @@ import bpy, math, os, mathutils
 ROOT = r"C:\Users\chorr\Documents\triangle_campaign"
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=os.path.join(
-    ROOT, "assets", "models", "v2", "Earth Heavy Cruiser 2.1 series.glb"))
+    ROOT, "assets", "models", "v2", "Earth Battleship 2.1 series.glb"))
 obj = [o for o in bpy.data.objects if o.type == "MESH"][0]
 mat = bpy.data.materials.new("VCol")
 mat.use_nodes = True
@@ -83,6 +83,6 @@ for label, off in (("persp", (1.0, 0.9, 0.5)), ("rear", (0.9, -1.15, 0.3))):
     d = ctr - mathutils.Vector(cam.location)
     cam.rotation_euler = d.to_track_quat("-Z", "Y").to_euler()
     scene.render.filepath = os.path.join(ROOT, "assets", "blender", "preview",
-                                         "earth_v2", "ca_v21_%s.png" % label)
+                                         "earth_v2", "bb_v21_%s.png" % label)
     bpy.ops.render.render(write_still=True)
 print("RENDER_DONE")
