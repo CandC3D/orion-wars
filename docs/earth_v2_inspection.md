@@ -78,3 +78,21 @@ in persp view, clean from rear; one ball turret speckled gold/gray) -
 same near-coincident-shell depth-order artifact as the old CL. No
 re-export needed; kit-time exterior extraction resolves it. Re-verify
 this hull after cleanup.
+
+## v2.1 Destroyer + Light Cruiser intake (2026-08-31, weapons-spec alignment)
+
+Light Cruiser v2.1: CLEAN. 213,204 tris. Turrets pruned (orange 38,571 ->
+8,448), forward torpedo tubes present at bow. New medium-gray population
+(0.65,0.68,0.69) x10,992. Gold/green fingerprints unchanged. Renders good.
+
+Destroyer v2.1: FLAGGED - two anomalies vs v2.0:
+1. ~80k corners swapped white->gold (white 86,070 -> 4,194; gold 7,488 ->
+   86,670). Sphere hull above/below the blue band now renders GOLD, as do
+   large structural areas that were light-gray. Looks like a palette-wide
+   recolor, not the intended tube/cell change.
+2. Heavy shell z-fighting on the boom/engine assembly (confetti speckle on
+   pods and balls, candy-striped drum) - much worse than v2.0, which was
+   one of the two clean hulls (1.2% metric). Suggests duplicated or
+   near-coincident shells introduced in this revision.
+Orange drop 15,360 -> 3,840 is consistent with launch-cell removal (OK).
+Awaiting owner confirmation before treating as authoritative.
