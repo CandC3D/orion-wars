@@ -73,7 +73,7 @@
   },
   "hullClasses": {
     "frigate": {
-      "points": 1,
+      "points": 2,
       "cores": 1,
       "corePower": 8,
       "impulsePower": 2,
@@ -96,7 +96,7 @@
       "weaponReach": 0.84
     },
     "destroyer": {
-      "points": 2,
+      "points": 5,
       "cores": 1,
       "corePower": 13,
       "impulsePower": 3,
@@ -122,7 +122,7 @@
       "weaponReach": 0.83
     },
     "light-cruiser": {
-      "points": 4,
+      "points": 12,
       "cores": 2,
       "corePower": 12,
       "impulsePower": 4,
@@ -148,7 +148,7 @@
       "weaponReach": 0.89
     },
     "heavy-cruiser": {
-      "points": 8,
+      "points": 20,
       "cores": 2,
       "corePower": 21,
       "impulsePower": 6,
@@ -179,7 +179,7 @@
       "_note": "The 8-point line hull. movementPointRatio cut from 4 to 3: at 4 it was a trap purchase - Earth fielding one heavy cruiser in place of the two light cruisers it costs went from 51% to 24% at 32 points. A hull that pays 4 power a hex spends its pool closing and has nothing left to absorb with, so it arrives late, alone and empty. This is what keeps Krelath off the floor at 64 points, since theirs is the heavy cruiser that was dying first."
     },
     "battleship": {
-      "points": 16,
+      "points": 28,
       "cores": 4,
       "corePower": 19,
       "impulsePower": 8,
@@ -214,7 +214,7 @@
       "weaponReach": 1
     },
     "corvette": {
-      "points": 0.5,
+      "points": 1,
       "cores": 1,
       "corePower": 5,
       "impulsePower": 1,
@@ -239,7 +239,7 @@
       "model": "Zandrax Corvette.stl"
     },
     "monitor": {
-      "points": 16,
+      "points": 32,
       "cores": 3,
       "corePower": 22,
       "impulsePower": 4,
@@ -273,10 +273,11 @@
       "weaponReach": 1,
       "explosionYield": 1.5,
       "_note": "Silicoid siege hull. Guns on every bearing and armour rather than shields, and still by a wide margin the slowest hull in the game at 7 power per hex - 10.2 with the Vraygon modifier, against 8.7 for their own battleship. Retuned in the flight-rules pass, and the three numbers move together: a seventh beam, armour down from 130, and absorption up from 0.55 to 0.7 power per point. It leans harder into what the hull IS - it shoots and it soaks, it does not shield - and it is the lever that separates the two cells where Vraygon field it. Without the seventh gun Vraygon fall to 28% at 32 points; with the old 130 armour they run to 70-71% at 64, because once everyone stands and fights (see movement.withdrawFireFraction) the monitor stops being a slow gun platform and becomes the last ship alive winning on points. It does not manoeuvre; it arrives and stays.",
-      "model": "Vraygon Monitor.stl"
+      "model": "Vraygon Monitor.stl",
+      "limit": 1
     },
     "command-ship": {
-      "points": 8,
+      "points": 32,
       "cores": 2,
       "corePower": 16,
       "impulsePower": 6,
@@ -311,7 +312,7 @@
       "model": "Earth Command Ship.stl"
     },
     "strike-cruiser": {
-      "points": 4,
+      "points": 8,
       "cores": 2,
       "corePower": 12,
       "impulsePower": 2,
@@ -341,7 +342,7 @@
       "model": "Krelath Strike Cruiser.stl"
     },
     "carrier": {
-      "points": 8,
+      "points": 32,
       "cores": 2,
       "corePower": 15,
       "impulsePower": 5,
@@ -378,10 +379,11 @@
       },
       "_note": "KRELATH sixth hull (ruling: the first carrier in the game is theirs), bought at 8 points out of a heavy cruiser where the list has one and out of two light cruisers where it does not. See test/comp.js for the fielding policy; the hull is NOT fielded below 24 points, and that floor is load-bearing rather than cosmetic - at 16 points the carrier would be bought out of the fleet's only capital, and measured, a 16-point Krelath list of two destroyers, four frigates and a flight deck wins 91-93% of the cell with its air group and 0-1% of it without, because half the fighting power of the list is aircraft. MEASURED at the tuned point, 500 battles a cell, against a plain Krelath list of the same points: +3.1pp at 24, +5.2pp at 32, +10.1pp at 64, and the matchup spread at 24 points is +12 / -7 / +4 against Earth, Vraygon and Zandrax, against +37 / -13 / +29 before this pass. It is still a matchup hull - a fleet that cannot close on the deck feeds it and Vraygon, who can, hold it to roughly even - but it is no longer the 47-percentage-point spread it was. The hull's own numbers were retuned in the same pass and both changes exist to raise the FLOOR rather than the ceiling. beamMounts 3 with a beam arc forward, against 2 on the broadside: this is the single most useful change on the hull, worth +6.5pp of buy delta at 32 points and closing the Vraygon hole at 24 from -15pp to -5pp, and it is worth almost nothing against a fleet that never closes, which is exactly the asymmetry wanted. maxShieldPower 16 on shieldPointRatio 0.5, against 12 on 0.55: without it the hull is a NEGATIVE purchase at 24 and 32 points (-0.4 and -1.3pp), because a carrier bought out of two light cruisers has to survive the turn the enemy line reaches it; 14 was measured and leaves 32 points at 0.0pp. Everything the hull does offensively is in tuning.strikeCraft and in the hangar block above; the hangar is a hull-class field and nothing in the resolver names a faction, so a carrier can be given to any power later by adding a hangar to a hull. superstructure 48 and movementPointRatio 2.5 unchanged: 56 and 60 were both measured and both push 64 points out of band by making the hull too hard to finish. All of the above was tuned on the tree that still had the command ship and then RE-MEASURED on the tree that replaced it with the dreadnought; the dials did not have to move, because what was wrong with this hull was never Earth-specific. pointDefence 2 rather than 0 because it is the ship enemy strike craft and missiles will come for and it is the ship least able to answer with its guns.",
       "model": "Earth Carrier.stl",
-      "_buyNote": "Honest buy figures (verifier, cross-seed): break-even at 24 and 32 points (+1.5 to +3.4pp, negative on one seed set at 24), genuinely positive only at 64 (+11pp, top of target). The hull pays for itself and wins its points at fleet scale; it is not a bargain."
+      "_buyNote": "Honest buy figures (verifier, cross-seed): break-even at 24 and 32 points (+1.5 to +3.4pp, negative on one seed set at 24), genuinely positive only at 64 (+11pp, top of target). The hull pays for itself and wins its points at fleet scale; it is not a bargain.",
+      "limit": 1
     },
     "dreadnought": {
-      "points": 8,
+      "points": 32,
       "cores": 3,
       "corePower": 19,
       "impulsePower": 6,
@@ -412,7 +414,8 @@
       "sensorRating": 2,
       "weaponReach": 0.95,
       "explosionYield": 1.2,
-      "_note": "Earth sixth hull, replacing the retired command ship at the same 8 points and bought the same way (out of two light cruisers). Everything on it exists to serve the photonic cannon on its keel. Three secondary lasers and three tubes, all on forward arcs and NOTHING astern, so canWithdrawFighting refuses it a withdrawal and it does what a Federation line ship is for: it stands. Turn rate 1 and 3 power a hex because the gun is aimed by pointing the ship. maxShieldPower 15 against the heavy cruiser's 13 and shieldPointRatio 0.45 - 0.3825 with the Earth modifier, the cheapest absorption in the game - are the Earth identity and they are also what makes the charge affordable at all: the hull hands a third of its pool to the capacitor every turn and is still a hard target on the rest. 63 power on an 8-point hull is deliberate and it is not free gunnery: with only three beams and three tubes the guns physically cannot spend it, so it goes to the capacitor and to the shields, which is the whole point of the ship. Three numbers are load-bearing, each measured at 600 battles a pairing against the alternative. beamMounts 3 rather than 4: the fourth laser is worth +2.7pp to Earth against KRELATH at 64 points and only -1.0pp against Vraygon there, and Krelath sit on the floor in that cell - at 4 beams they come in at 35.8% at 64 and 37.7% at 24, at 3 beams 36.1% and 39.6%. screen 4 rather than the 0 every other capital carries: the dreadnought stations on the battle line and interposes for it (4 x screening.chancePerScreenPoint = 0.60, which is exactly screening.maxChance, so 4 is the largest useful value). A side effect worth knowing is that hull.screen > 0 also makes the formation code treat it as an escort, so it holds station on the nearest capital instead of manoeuvring alone. That is right for this ship and looks wrong on paper. superstructure 56 with corePower 19 is the endurance half of a deliberate trade against the gun's damage: value moved out of the bolt and into the body is worth more against Vraygon armour in a fifteen-turn action and less against thin Krelath hulls in a seven-turn one, and those are the two cells that bind. DO NOT give this hull pointDefence 2. It is the obvious fix for the one cell it loses badly (Earth v Zandrax at 32 points, 20%), and measured it takes Earth to 67% at 64 points and Krelath to 33% there. The swarm beating this hull is the game working."
+      "_note": "Earth sixth hull, replacing the retired command ship at the same 8 points and bought the same way (out of two light cruisers). Everything on it exists to serve the photonic cannon on its keel. Three secondary lasers and three tubes, all on forward arcs and NOTHING astern, so canWithdrawFighting refuses it a withdrawal and it does what a Federation line ship is for: it stands. Turn rate 1 and 3 power a hex because the gun is aimed by pointing the ship. maxShieldPower 15 against the heavy cruiser's 13 and shieldPointRatio 0.45 - 0.3825 with the Earth modifier, the cheapest absorption in the game - are the Earth identity and they are also what makes the charge affordable at all: the hull hands a third of its pool to the capacitor every turn and is still a hard target on the rest. 63 power on an 8-point hull is deliberate and it is not free gunnery: with only three beams and three tubes the guns physically cannot spend it, so it goes to the capacitor and to the shields, which is the whole point of the ship. Three numbers are load-bearing, each measured at 600 battles a pairing against the alternative. beamMounts 3 rather than 4: the fourth laser is worth +2.7pp to Earth against KRELATH at 64 points and only -1.0pp against Vraygon there, and Krelath sit on the floor in that cell - at 4 beams they come in at 35.8% at 64 and 37.7% at 24, at 3 beams 36.1% and 39.6%. screen 4 rather than the 0 every other capital carries: the dreadnought stations on the battle line and interposes for it (4 x screening.chancePerScreenPoint = 0.60, which is exactly screening.maxChance, so 4 is the largest useful value). A side effect worth knowing is that hull.screen > 0 also makes the formation code treat it as an escort, so it holds station on the nearest capital instead of manoeuvring alone. That is right for this ship and looks wrong on paper. superstructure 56 with corePower 19 is the endurance half of a deliberate trade against the gun's damage: value moved out of the bolt and into the body is worth more against Vraygon armour in a fifteen-turn action and less against thin Krelath hulls in a seven-turn one, and those are the two cells that bind. DO NOT give this hull pointDefence 2. It is the obvious fix for the one cell it loses badly (Earth v Zandrax at 32 points, 20%), and measured it takes Earth to 67% at 64 points and Krelath to 33% there. The swarm beating this hull is the game working.",
+      "limit": 1
     }
   },
   "_arcNote": "Arc spread follows the FASA pattern: a battleship has all-round coverage but can bring only two beams onto any one bearing. Torpedoes are forward-weighted. This, not raw mount count, is what limits a capital ship.",
@@ -805,9 +808,9 @@
     "_note": "Carrier air groups. A hull carries squadrons by declaring a `hangar` on its class; these are the rules those squadrons fight by, and they are deliberately faction-neutral so a carrier can be handed to any power later. A squadron is an abstract sub-unit with a STRENGTH in craft and no map position: it flies from its parent hull and can engage anything within strikeRadiusHexes of that hull. It persists across turns, it is attrited by enemy point defence and by enemy interceptors, and it dies outright with its carrier. Interceptors may only attack hulls of targetMaxPoints or less and bombers only hulls of targetMinPoints or more, which is the ruling: interceptors fight frigates and destroyers, bombers menace cruisers and up. Interceptors also fly combat air patrol - they eat bombers in the dogfight and add missileScreenPerCraft to the interception chance over any friendly ship they cover.",
     "strikeRound": 1,
     "strikeRadiusHexes": 12,
-    "launchRangeHexes": 9,
+    "launchRangeHexes": 18,
     "_launchRangeNote": "Cut from 16 (Krelath carrier pass). The deck cycles only once the nearest enemy is inside this range, so this is the number that decides how many turns of the approach the air group gets for free. At 16 the wing was flying from the moment the fleets could see each other and the whole approach - four to five turns of a seven-turn action at 64 points - was a free bombardment. It is the one dial measured that trims the big-fleet cell without touching the small ones, because at 24 and 32 points the fleets are in contact quickly anyway: 16 / 10 / 9 give buy deltas of +14.0 / +12.1 / +10.1 at 64 points against +5.8 / +4.1 / +3.1 at 24. 8 is worth another 2pp at 64 and costs more than it buys elsewhere - it takes the 24-point purchase to +1.6pp and the 32-point one to +1.9pp, and on the pre-dreadnought tree it took 32 points to -7.6pp. Note that this is deliberately SHORTER than strikeRadiusHexes: the wing reaches 12 hexes but the deck will not turn into the wind until the enemy is inside 9, which is the Krelath way round - they do not open an action at long range, they close and then commit.",
-    "standoffRangeHexes": 7,
+    "standoffRangeHexes": 16,
     "_standoffNote": "A carrier with craft still in hand holds this range instead of closing to its own gun band, and is exempt from movement.withdrawFireFraction while it does - not as a special case but because that test exists to stop a hull silencing itself by turning away, and a carrier's battery bears on every heading regardless of where the deck points. Both behaviours lapse the moment the last craft is gone, so a gutted carrier closes and fights with its guns like anything else. Do NOT raise it: 8, 9 and 10 were measured on the Earth carrier and give +13, +19 and +26pp, because a hull the enemy line physically cannot reach is not a carrier, it is artillery. LOWERING it, however, does almost nothing on the Krelath hull, and the earlier claim that this is 'THE dial' and 'a knife-edge' does NOT survive re-measurement in Krelath hands - it was true of an Earth carrier and is not true of this one. Re-measured at the tuned point over 200 battles a cell, 7 / 6 / 5 / 4 give buy deltas of +8.2 / +8.8 / +12.7 / +12.7 at 24 points and +13.2 / +14.7 / +13.7 / +13.7 at 64. Two reasons, both geometric. preferredRange() takes the LARGER of the standoff and the best band of the hull's own longest beam, and the carrier's laser cannon scaled by weaponReach 0.9 already wants 5 hexes, so 4 and 5 are the same setting. And the carrier does not reach its chosen range anyway: measured, it sits 7.3-8.5 hexes from the nearest enemy in contact and trails its own line by 0.2-1.4 hexes, because formation.cohesionRadius leashes the fleet to its centre of mass and the enemy closes on a Krelath escort rather than on the deck. What this hull is actually held out of the fight by is the line in front of it, not this integer. Left at 7 because it is the value that states the intent.",
     "powerToLaunch": 2,
     "powerToSustain": 1,
@@ -841,9 +844,10 @@
         "preferLargest": true
       }
     },
-    "minFleetPoints": 24,
-    "_minFleetNote": "GAME RULE (ruling follow-up, verifier condition): a carrier requires a fleet of at least 24 points. Below that it is bought out of the fleet ONLY capital and half the fighting power of the list is aircraft - measured 79-94% win rates at 16 points under every tuning tried. The harness reads this value; so must any future fleet builder UI.",
-    "_capCouplingNote": "KNOWN OPEN ISSUE (verifier finding, 2026-09-01): with missileScreenMax cut to 0.05, flying CAP is a strictly dominated stance - it costs 7-15pp versus simply sweeping with the interceptors - and the current band DEPENDS on the AI continuing to fly it (tubeThreat 0.5 holds interceptors back). Set tubeThreat to 0 and Krelath break band at 62-67%. The next strike-system pass must either find a middle missileScreen value where CAP earns its cost, or lower tubeThreat/defenceRatio and re-tune. The resolver comment in intercepted() warned of exactly this coupling."
+    "minFleetPoints": 62,
+    "_minFleetNote": "GAME RULE (ruling follow-up, verifier condition): a carrier requires a fleet of at least 24 points. Below that it is bought out of the fleet ONLY capital and half the fighting power of the list is aircraft - measured 79-94% win rates at 16 points under every tuning tried. The harness reads this value; so must any future fleet builder UI. Re-priced 2026-09-02: 62 new points (the old 24-point reference fleet).",
+    "_capCouplingNote": "KNOWN OPEN ISSUE (verifier finding, 2026-09-01): with missileScreenMax cut to 0.05, flying CAP is a strictly dominated stance - it costs 7-15pp versus simply sweeping with the interceptors - and the current band DEPENDS on the AI continuing to fly it (tubeThreat 0.5 holds interceptors back). Set tubeThreat to 0 and Krelath break band at 62-67%. The next strike-system pass must either find a middle missileScreen value where CAP earns its cost, or lower tubeThreat/defenceRatio and re-tune. The resolver comment in intercepted() warned of exactly this coupling.",
+    "_doctrineNote": "RULING 2026-09-02 (Chris): a carrier is a STANDOFF ship - it fights with its strike craft and long-range weapons and stays out of the gun line. standoffRangeHexes and launchRangeHexes are set for that doctrine and are UNTUNED; the consolidated pass re-measures. (The earlier cut of launchRange to 9 was balance work around the old in-line behaviour.)"
   },
   "rosters": {
     "_note": "Single source of truth for which hull classes each power may field (editor, harness, docs). Common hulls plus each power's uniques. command-ship is retired (kept in hullClasses only so old replays still load). loadouts.json lists only faction-specific FITS, not the roster - a hull absent there uses the hull defaults.",
@@ -880,5 +884,6 @@
       "strike-cruiser",
       "carrier"
     ]
-  }
+  },
+  "_pointLadderNote": "RULING 2026-09-02 (Chris): points re-priced to represent observed power - corvette 1, frigate 2, destroyer 5, strike cruiser 8, light cruiser 12, heavy cruiser 20, battleship 28; the big specials at 32 (dreadnought, carrier, monitor), limit 1 per fleet. Command ship (retired) carried at 32 for consistency. Old ladder for the record: {\"corvette\": 0.5, \"frigate\": 1, \"destroyer\": 2, \"strike-cruiser\": 4, \"light-cruiser\": 4, \"heavy-cruiser\": 8, \"battleship\": 16, \"dreadnought\": 8, \"carrier\": 8, \"monitor\": 16, \"command-ship\": 8}. Effect on fleet composition to be MEASURED, not tuned (content-first)."
 }

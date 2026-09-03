@@ -1305,3 +1305,79 @@ error message when the editor is opened from disk, README instructions
 first, and a permanent "Scenario editor" link in the viewer header (the
 back link had been conditional on a scenario replay). Lesson for briefs:
 "no server required" applies to the viewer only; state it explicitly.
+- **2026-09-02 — Chris's first authored scenario (`arena/scenarios/
+  first-obstacles.json`): a planet flanked by two moons across Earth's line
+  of advance, 30 vs 30.** Earth 18–12 on the 20-turn clock. The terrain
+  exposed the routing gap completely: the Yamato never moved and never fired
+  (57 rounds motionless), two Earth light cruisers and a destroyer sat 38–49
+  rounds behind the gate, the Krelath carrier idled 26 rounds; only light
+  hulls got through. **Obstacle avoidance is now the first engine content
+  item for the next pass** (helm: when the forward step is blocked, steer to
+  the neighbouring bearing that still closes; when the line of fire is
+  blocked, reposition rather than wait). Also: the photonic cannon's hold
+  logic meant a planted, blocked Yamato spent the whole battle charged and
+  silent.
+- **2026-09-02 — Chris's destroyer duel (`arena/scenarios/small-action.json`)
+  found an engine bug: any lone ship never moved.** The cohesion leash
+  compared the ship's range to `fleetGap - leash` with `fleetGap = Infinity`
+  when a ship has no living mates, so a lone ship always read as "too far
+  ahead of the fleet" and held. Consequences: one-ship scenarios were a
+  20-turn stare-down, and the LAST SURVIVOR of any fleet stopped advancing
+  the moment its last friend died — present in every trial, invisible to the
+  sweep. Fixed (the leash binds only when mates exist). Balance effect: the
+  endgame changes slightly; re-measured in the consolidated pass.
+
+---
+
+## 27. Re-priced point ladder and carrier doctrine (rulings 2026-09-02, Chris)
+
+**Points now represent observed power:** corvette 1, frigate 2, destroyer 5
+(it carries a torpedo now), strike cruiser 8, light cruiser 12, heavy
+cruiser 20, battleship 28; the big specials — dreadnought, carrier, monitor
+— at 32, **limit one per fleet**. Old ladder: 0.5 / 1 / 2 / 4 / 4 / 8 / 16 /
+8 / 8 / 16. Stated aim: "more correctly represent the power of the ship
+types relative to each other" and see what it does to fleet composition.
+Applied in `hullClasses.<class>.points` (+ `limit`); the harness keeps the
+same six hull lists (now costed 4 / 22 / 38 / 62 / 70 / 138) so faction
+results stay comparable, with every unique-hull swap re-expressed as an
+equal-points trade on the new ladder (a special = BB + 2 FF or CA + CL;
+strike cruiser + 2 FF = CL; two corvettes = a frigate). The concentration
+matrix is re-cut at 60 points a side: 2 BB + 2 FF / 3 CA / 5 CL / 12 DD /
+30 FF.
+
+**Carrier doctrine:** "carriers are standoff ships that use their strike
+craft and their long-range weapons." Standoff 16 and launch 18 hexes set for
+the doctrine, explicitly untuned (the earlier cut to 9 was tuning around
+the in-line behaviour). The viewer stops drawing the wing orbiting the deck.
+
+Measured, not tuned, per content-first — results in the ledger.
+- **2026-09-02 — first measurement on the re-priced ladder (150 battles/
+  pairing at 62 points; 50 per pairing per size).** Two changes landed
+  together (prices → different swaps; carrier standoff doctrine), so an
+  attribution run with the old doctrine follows. Headlines:
+  *Faction sweep* — 4: 58/49/43/47 · 22: 31/34/45/**90** · 38: 64/37/52/45 ·
+  62: 37/78/78/**0** · 70: 39/61/79/19 · 138: 37/59/71/33 (EAR/VRA/ZAN/KRE).
+  Krelath collapse at 62+ (a 32-point standoff carrier bought out of CA+CL,
+  untuned) and Krelath 90% at 22 (strike cruiser + 2 frigates for a light
+  cruiser is a far better buy than the cruiser at these prices).
+  *Concentration at 60 pts a side* — 2BB+2FF beats every shape (84–100%);
+  3 CA beats 12 DD (100%) and 30 FF (94%) but loses to 5 CL (4%); 5 CL beats
+  swarms; 30 FF and 12 DD lose almost everything. The matrix flipped from
+  "light-cruiser packs win" to "capitals win, swarms dead": frigates at 2
+  and destroyers at 5 now look OVER-priced against their power, light
+  cruisers at 12 still beat heavy cruisers at 20 per point, and a
+  battleship at 28 beats everything. Intransitive chain: BB > CL > CA > DD/FF.
+  *Maneuver index* rose for Earth at 62–70 (44–46%) — the dreadnought's
+  planted-and-flanked fights.
+  *Attribution (same sweep, new prices, OLD carrier doctrine):* 62:
+  27/73/75/17 · 70: 25/56/91/23 · 138: 29/45/72/53. So the standoff doctrine
+  costs Krelath roughly 17pp at 62 and 20pp at 138 as set (untuned), but the
+  larger effect is the PRICE itself: every 32-point special is bought out of
+  a heavy cruiser plus a light cruiser, and on current tuning a dreadnought,
+  monitor or carrier is worth far less than that line strength — measured at
+  the old prices the dreadnought was −8.5pp and the carrier break-even *at 8
+  points*; at 32 they are ruinous buys. Zandrax, which fields no special,
+  keeps its whole line and soars to 72–91%. Reading for the consolidated
+  pass: either the specials must be made worth 32 (stronger cannon, wing,
+  monitor) or 32 is not their price; and light hulls are over-priced against
+  their measured power.

@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 const _root = dirname(dirname(fileURLToPath(import.meta.url)));
 const TUNING = JSON.parse(readFileSync(join(_root, "data", "tactical-tuning.json"), "utf8"));
-const CARRIER_MIN = TUNING.strikeCraft?.minFleetPoints ?? 24;
+const CARRIER_MIN = TUNING.strikeCraft?.minFleetPoints ?? 62; // fleet floor for every 32-point special
 
 // Scenario compositions and each power's sixth-hull fielding policy.
 //
@@ -15,14 +15,14 @@ const CARRIER_MIN = TUNING.strikeCraft?.minFleetPoints ?? 24;
 // Scenarios run anywhere from a two-point skirmish to a 64-point fleet action.
 // Balance has to hold across the range, not just at the reference size.
 export const SCALES = {
-  2:  { frigate: 2 },
-  8:  { "light-cruiser": 1, destroyer: 2 },
-  16: { "heavy-cruiser": 1, destroyer: 2, frigate: 4 },
-  24: { "heavy-cruiser": 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
-  32: { battleship: 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
-  64: { battleship: 2, "heavy-cruiser": 2, "light-cruiser": 2, destroyer: 2, frigate: 4 }
+  4:   { frigate: 2 },
+  22:  { "light-cruiser": 1, destroyer: 2 },
+  38:  { "heavy-cruiser": 1, destroyer: 2, frigate: 4 },
+  62:  { "heavy-cruiser": 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
+  70:  { battleship: 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
+  138: { battleship: 2, "heavy-cruiser": 2, "light-cruiser": 2, destroyer: 2, frigate: 4 }
 };
-export const STANDARD = SCALES[24];
+export const STANDARD = SCALES[62];
 
 // Each power fields its own unique hulls, paying for them out of the common
 // hulls so the sweep tests the hull rather than handing its owner free points.
@@ -54,21 +54,29 @@ export const STANDARD = SCALES[24];
 //                        values least, and this fleet values the second heavy
 //                        cruiser least. Picking the swap that measures worst
 //                        would be gaming the instrument.
+// Keys of SCALES are fleet costs on the 2026-09-02 ladder (corvette 1 / FF 2 /
+// DD 5 / CS 8 / CL 12 / CA 20 / BB 28 / specials 32). The hull lists are the
+// same six fleets the sweep has always used. Every swap below is equal-points
+// on that ladder: a special (32) = BB 28 + 2 FF, or CA 20 + CL 12; strike
+// cruiser 8 + 2 FF = CL 12; two corvettes = one frigate. `add` lists what
+// the swap puts in.
 export const SIXTH = {
-  EAR: { options: [{ hull: "dreadnought", cost: 8, from: { "light-cruiser": 2 } }] },
-  VRA: { options: [{ hull: "monitor", cost: 16, from: { battleship: 1 } }] },
+  EAR: { options: [
+    { hull: "dreadnought", cost: 32, minPoints: CARRIER_MIN, from: { battleship: 1, frigate: 2 }, add: { dreadnought: 1 } },
+    { hull: "dreadnought", cost: 32, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, "light-cruiser": 1 }, add: { dreadnought: 1 } }
+  ] },
+  VRA: { options: [
+    { hull: "monitor", cost: 32, minPoints: CARRIER_MIN, from: { battleship: 1, frigate: 2 }, add: { monitor: 1 } },
+    { hull: "monitor", cost: 32, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, "light-cruiser": 1 }, add: { monitor: 1 } }
+  ] },
   ZAN: { corvetteSwap: true },
   KRE: { options: [
-    { hull: "carrier", cost: 8, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 } },
-    { hull: "carrier", cost: 8, minPoints: CARRIER_MIN, from: { "light-cruiser": 2 } },
-    { hull: "strike-cruiser", cost: 4, from: { "light-cruiser": 1 } }
+    { hull: "carrier", cost: 32, minPoints: CARRIER_MIN, from: { battleship: 1, frigate: 2 }, add: { carrier: 1 } },
+    { hull: "carrier", cost: 32, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, "light-cruiser": 1 }, add: { carrier: 1 } },
+    { hull: "strike-cruiser", cost: 8, from: { "light-cruiser": 1 }, add: { "strike-cruiser": 1, frigate: 2 } }
   ] }
 };
 
-// Measurement escape hatch for the tuning tools ONLY. Nothing in the game reads
-// KRE_SIXTH; it exists so alternative fielding policies can be run against each
-// other without editing this file, and so the numbers in the comments above can
-// be reproduced. Unset - the normal case - leaves the table exactly as written.
 const ALT = {
   // the carrier-only policy this table replaced (carrier from 16 points up)
   carrier: (o) => o.filter((x) => x.hull === "carrier" && "heavy-cruiser" in x.from)
@@ -113,7 +121,7 @@ export function compFor(faction, comp, tuning, plain = null) {
       out[k] -= n;
       if (out[k] <= 0) delete out[k];
     }
-    out[opt.hull] = (out[opt.hull] ?? 0) + 1;
+    for (const [k, n] of Object.entries(opt.add ?? { [opt.hull]: 1 })) out[k] = (out[k] ?? 0) + n;
     return out;
   }
   return out;
