@@ -34,7 +34,7 @@
         "visibilityHexes": 3,
         "toHitPenalty": 2,
         "shieldsUseless": true,
-        "_note": "Ruling 2026-09-02 (Chris): follow the Battle of the Mutara Nebula. A nebula hex is passable and does not block fire; a ship inside can engage and be engaged only within visibilityHexes; any shot with a ship in the fog at either end takes toHitPenalty pips; shields are useless inside (every hit bypasses them). Untuned."
+        "_note": "Ruling 2026-09-02 (Chris): follow the Battle of the Mutara Nebula. A nebula hex is passable and does not block fire; a ship inside can engage and be engaged only within visibilityHexes; any shot with a ship in the fog at either end takes toHitPenalty pips; shields are useless inside (every hit bypasses them). Untuned. Refined the same day: weapons fired from OUTSIDE a nebula penetrate no further than its first hex - beams decohere, missiles lose lock - so nothing crosses a nebula and nothing reaches its interior from outside; from inside, the visibility rule governs."
       }
     }
   },

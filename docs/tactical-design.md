@@ -1522,3 +1522,27 @@ unengageable at 6 hexes, engageable at 2, fire across a nebula between two
 ships outside it unaffected, more internal damage in the fog than in clear
 space for the same exchange, deterministic. Missiles and strike craft do
 not yet lose their locks in the fog — a later dial.
+
+### Viewer observations (Chris, 2026-09-02) → queued client work
+
+- Beam weapons do not visibly connect with their targets (effects drawn
+  against one round's positions while ships interpolate toward the next —
+  to be fixed by drawing each shot between the shooter's and target's
+  positions in the round the shot occurred, shown while that round plays).
+- Missile targets are unclear (to be fixed with a target marker and a
+  flight line from shooter to target at launch; the shooter is now on the
+  event).
+- The battle log should narrate: who fires what at whom, with range and
+  damage; where each ship moves from and to; and other diagnostics. Engine
+  side done: every shot event now carries `range` and `damage` (0 on a
+  miss), launches carry the warhead, and missile arrivals carry the shooter.
+  Movement narration comes from the recorder's per-round positions. The
+  viewer's round log will be built from these events plus the engine's own
+  lines, with filters (movement / fire / damage / special).
+
+**Refinement (Chris, same day):** weapons fired from *outside* a nebula
+penetrate no further than its first hex — absorption decoheres beams and
+missiles lose their sensor locks. So nothing crosses a nebula and nothing
+reaches its interior from outside; a ship in the first fog hex can still be
+hit from outside, one deeper cannot. From inside, the visibility rule
+governs. Verified: through-fire blocked; first hex reachable; second not.

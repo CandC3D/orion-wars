@@ -19,7 +19,7 @@ const duel = (terrain, aPos, bPos, freeze = true, foe = "ZAN") => {
   const b = buildScenario(sc, T, L, makePrng(seedFromString("t")));
   if (freeze) for (const s of b.fleets.flat()) s.movementPointRatio = 999;
   const r = runBattle(b.fleets, b.tuning, makePrng(seedFromString("t")), { terrain: b.terrain });
-  return { shots: r.stats.A.shots + r.stats.B.shots, fleets: b.fleets };
+  return { shots: r.stats.A.shots + r.stats.B.shots, shotsA: r.stats.A.shots, shotsB: r.stats.B.shots, fleets: b.fleets };
 };
 
 // Fire through a field between two ships: blocked.
@@ -78,7 +78,12 @@ assert(neb6.shots === 0, "ship in a nebula cannot be engaged from 6 hexes (visib
 const neb2 = duel([{ type: "nebula", q: 2, r: 0 }], { q: 0, r: 0 }, { q: 2, r: 0 }, true, "VRA");
 assert(neb2.shots > 0, "ship in a nebula can be engaged from 2 hexes (fire not blocked)");
 const through = duel([{ type: "nebula", q: 0, r: 0 }], { q: -3, r: 0 }, { q: 3, r: 0 });
-assert(through.shots > 0, "fire across a nebula hex between two ships outside it is not blocked");
+assert(through.shots === 0, "fire from outside cannot cross a nebula (decoheres after the first hex)");
+// From outside, the first fog hex is reachable; the second is not.
+const edge = duel([{ type: "nebula", q: 2, r: 0 }, { type: "nebula", q: 3, r: 0 }], { q: 0, r: 0 }, { q: 2, r: 0 }, true, "VRA");
+assert(edge.shots > 0, "from outside, a target in the first fog hex can be engaged");
+const deep = duel([{ type: "nebula", q: 2, r: 0 }, { type: "nebula", q: 3, r: 0 }], { q: 0, r: 0 }, { q: 3, r: 0 }, true, "VRA");
+assert(deep.shotsA === 0, "from outside, a target in the second fog hex cannot be engaged (the fogged ship may still fire out within visibility)");
 // Shields useless: a frigate in the fog hit by a Zandrax frigate at 2 hexes takes internal damage
 // on its first hit, where the same frigate in clear space would first lose shield.
 const shieldTest = (terrain) => {

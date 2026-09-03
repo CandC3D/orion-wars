@@ -270,10 +270,18 @@ function lineOfFire(shooterPos, targetPos, tuning) {
   if (!set) return true;
   const line = hexLine(shooterPos, targetPos);
   const fieldsBlock = tuning.battle?.terrainRules?.asteroids?.blocksFire !== false;
+  // NEBULA PENETRATION (ruling 2026-09-02, Chris): weapons fired from OUTSIDE
+  // a nebula penetrate no further than the first fog hex - absorption
+  // decoheres beams and missiles lose their sensor locks. So from outside, a
+  // target is reachable only if it sits in the first nebula hex the line
+  // enters; nothing crosses a nebula and nothing reaches deeper inside.
+  // (From inside, the visibility rule in mayEngage governs.)
+  const shooterInFog = set.neb.has(shooterPos.q + "," + shooterPos.r);
   for (let i = 0; i < line.length; i++) {
     const k = line[i].q + "," + line[i].r;
     if (i > 0 && i < line.length - 1 && set.has(k)) return false;   // bodies block fire through
     if (fieldsBlock && set.field.has(k)) return false;                // fields block in, out and through
+    if (!shooterInFog && i > 0 && set.neb.has(k) && i < line.length - 1) return false; // fog: first hex only
   }
   return true;
 }
