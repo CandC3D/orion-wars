@@ -1381,3 +1381,92 @@ Measured, not tuned, per content-first — results in the ledger.
   pass: either the specials must be made worth 32 (stronger cannon, wing,
   monitor) or 32 is not their price; and light hulls are over-priced against
   their measured power.
+
+---
+
+## 28. Toward a refined ladder: pricing for freedom of choice (2026-09-02)
+
+Chris: two price sets tried; now "run some numbers on the ships themselves,
+the battle findings under both price regimes, and come to a refined set
+that balances toward freedom of choice in fleet compositions, letting the
+player choose as a skill rather than a stark min-max choice."
+
+Definition of success used by the search (the **freedom index**): across
+many equal-points fleet shapes — pure stacks and realistic mixes — every
+shape lands between 35% and 65% against the field and no single pairing is
+beyond 25/75; intransitive cycles are choice and are welcome, dominance is
+not. Mean and max |win − 50| per budget are the reported numbers.
+
+Method: a three-agent search (Opus). One analyst fits line-hull prices
+iteratively against the shape matrix (raise what wins, lower what loses,
+re-cut the shapes, repeat to convergence) and explains each price in prose;
+one prices the specials and uniques by buy value (the price at which
+fielding one is neutral to mildly positive); a referee reconciles one
+ladder, applies it, and measures the shape matrix, the faction sweep and
+every buy delta on its own seeds. Ship stats are frozen throughout — this
+is pricing what exists, not tuning. Results below when the search lands.
+
+---
+
+## 29. Zandrax special: the Hypershield Wall (idea captured 2026-09-02, Chris)
+
+**Ruling-in-waiting.** The Zandrax special ship is the **Hypershield Wall**.
+When active, ships behind it are protected from all incoming damage the
+wall blocks. It is overcome by **mass volley firepower** (saturation) or by
+**going around** it to attack the flanks or rear. Reference: the Gamilas
+shield wall of *Star Blazers 2202*, which stopped damage and also kept enemy
+ships from warping past it.
+
+Why it fits: it closes the roster gap the re-pricing measurement exposed —
+Zandrax had no 32-point special to buy, so their line stayed whole while
+every other power paid for one. And it is the first special whose whole
+purpose is *maneuver incentive*: a wall makes flanking the only cheap answer.
+
+**First mechanical sketch, using systems we already have** (to be built after
+the ladder settles; nothing implemented yet):
+- A special hull (limit one) with a `wall` system that projects a barrier
+  segment ahead of it — a line of hexes perpendicular to its facing at short
+  range (say 5–7 hexes wide, 2 hexes out), rotating with the ship's facing,
+  so the wall's turn rate is the ship's turn rate.
+- **Absorption pool, not invulnerability**: each turn the wall absorbs
+  incoming damage whose line of fire crosses the segment, up to a pool bought
+  from the ship's power — the same residual-power model as shields and the
+  cloak (power into the wall is power not spent on guns). Once the turn's
+  pool is spent, the rest passes through: that is "mass volley overcomes it".
+  A line-of-fire test already exists for planets and moons; the wall reuses
+  it with a per-turn budget instead of a hard block.
+- **Flanks and rear**: any shot whose line of fire does not cross the
+  segment is unaffected — the maneuver index becomes the counter-play.
+- **Warp denial** (the Gamilas rule): a Krelath warp may not land on the far
+  side of the segment; the jump is refused or stops short at the wall.
+- **Movement**: enemy ships cannot pass through the segment while it is up
+  (as terrain), friends can; the segment drops when the ship's power is gone
+  or the ship dies.
+- Viewer: a glowing arc in Zandrax red with a brightness that follows the
+  remaining pool; a flare where a volley breaks through.
+
+Open for Chris: price and fleet-floor (the price search now running does
+not include it), whether the wall costs the corvette swap its place as the
+Zandrax unique, and the wall's width and range. An icon glyph (an arc) is
+needed in the icon set.
+
+**Design intent, revised (Chris, same day):** "my first notion was that
+specials should be expensive, but it seems that while they add flavor they
+are not necessarily so decisive as to warrant the highest price." So the
+specials are priced at their measured worth — a real option, neither trap
+nor must-buy — and their flavor is the reason to take them. If a special
+should later *become* decisive (a stronger cannon, a real wing), that is a
+stats decision for the tuning pass, and its price follows the measurement.
+
+### 26c. Asteroid fields and large asteroids (rulings 2026-09-02, Chris)
+
+Two more tiles for scenarios. **Asteroid field** (`asteroids`): one hex,
+passable but slow — entering costs twice the normal movement power — and it
+**blocks fire in and out**: a ship inside can neither shoot nor be shot, and
+no line of fire crosses a field (cover, at a price in tempo). **Large
+asteroid** (`asteroid`): one impassable hex that blocks fire, a small moon
+in the rules and a craggy rock in the picture. Engine: a second terrain set
+for fields, a per-hex step cost in the helm (the movement budget now looks
+at the cost of the hex ahead; the Zandrax burst refunds what the hex cost),
+and the line-of-fire test extended to endpoints for fields. Contract in
+`docs/scenario-format.md`; editor tools and rendering with the client agent.

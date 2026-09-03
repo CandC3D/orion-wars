@@ -23,7 +23,14 @@
       "_note": "RULING 2026-09-01 (Chris): landscape arena like the FASA paper map, for room to manoeuvre. Width is the axis of approach (fleets deploy at startDistanceHexes apart, centred, so ~23 hexes lie behind each start line); height gives +/-20 rows for flanking sweeps. Sizes are dials; the rectangle is the rule. mapRadiusHexes is now only a fallback if this key is removed."
     },
     "sameHexNoFire": true,
-    "_sameHexNote": "FASA STTCS p.16 restored 2026-09-01: ships may share a hex but may not fire at one another while in it (mutual, pairwise); no ramming or collision. The helm stops one hex short when closing. Set false to disable."
+    "_sameHexNote": "FASA STTCS p.16 restored 2026-09-01: ships may share a hex but may not fire at one another while in it (mutual, pairwise); no ramming or collision. The helm stops one hex short when closing. Set false to disable.",
+    "terrainRules": {
+      "asteroids": {
+        "moveCostMultiplier": 2,
+        "blocksFire": true,
+        "_note": "Rulings 2026-09-02 (Chris): a one-hex asteroid field is passable but slows travel (entering costs twice the normal movement power) and blocks fire IN AND OUT - a ship inside can neither shoot nor be shot, and no line of fire crosses a field. The large asteroid (type asteroid) is one impassable hex that blocks fire like a moon."
+      }
+    }
   },
   "arcs": {
     "_note": "Which of the six shield faces a mount can fire through. Faces: 1 front-left, 2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left.",

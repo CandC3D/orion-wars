@@ -210,15 +210,30 @@ function terrainSet(tuning) {
   const list = tuning.battle?.terrain;
   if (!list || !list.length) return null;
   if (tuning.battle._terrainSet && tuning.battle._terrainSet.src === list) return tuning.battle._terrainSet.set;
-  const set = new Set();
+  const set = new Set();      // impassable: moon, planet (7 hexes), large asteroid
+  const field = new Set();    // asteroid field: passable at a cost, blocks fire in, out and through
   const key = (p) => p.q + "," + p.r;
   for (const t of list) {
     const c = { q: t.q, r: t.r };
+    if (t.type === "asteroids") { field.add(key(c)); continue; }
     set.add(key(c));
     if (t.type === "planet") for (const d of HEX_DIRS) set.add(key(add(c, d)));
   }
+  set.field = field;
   tuning.battle._terrainSet = { src: list, set };
   return set;
+}
+// ASTEROID FIELD (rulings 2026-09-02, Chris): one hex, passable but slow -
+// entering costs moveCostMultiplier times the ship's normal movement power -
+// and it BLOCKS FIRE IN AND OUT: a ship inside a field can neither shoot out
+// nor be shot at, and no line of fire may cross one. Deployment and warp
+// landings into a field are allowed. The LARGE ASTEROID ("asteroid") is one
+// impassable hex that blocks fire, like a small moon.
+function stepCost(ship, next, tuning) {
+  const set = terrainSet(tuning);
+  const rules = tuning.battle?.terrainRules?.asteroids ?? {};
+  if (set && set.field.has(next.q + "," + next.r)) return ship.movementPointRatio * (rules.moveCostMultiplier ?? 2);
+  return ship.movementPointRatio;
 }
 function blockedHex(pos, tuning) {
   const set = terrainSet(tuning);
@@ -230,7 +245,12 @@ function lineOfFire(shooterPos, targetPos, tuning) {
   const set = terrainSet(tuning);
   if (!set) return true;
   const line = hexLine(shooterPos, targetPos);
-  for (let i = 1; i < line.length - 1; i++) if (set.has(line[i].q + "," + line[i].r)) return false;
+  const fieldsBlock = tuning.battle?.terrainRules?.asteroids?.blocksFire !== false;
+  for (let i = 0; i < line.length; i++) {
+    const k = line[i].q + "," + line[i].r;
+    if (i > 0 && i < line.length - 1 && set.has(k)) return false;   // bodies block fire through
+    if (fieldsBlock && set.field.has(k)) return false;                // fields block in, out and through
+  }
   return true;
 }
 function inBounds(pos, tuning) {
@@ -981,8 +1001,10 @@ function move(ship, enemies, friends, tuning) {
     // stops one hex short. Passing through a hex is still legal.
     if (need === "close" && dNext === 0 && tuning.battle?.sameHexNoFire !== false) return false;
     if (need === "open" && dNext <= dNow) return false;
+    const cost = stepCost(ship, next, tuning);
     ship.pos = next;
-    ship.power -= ship.movementPointRatio;
+    ship.power -= cost;
+    ship.lastStepCost = cost;
     ship.movedThisTurn++;
     return true;
   };
@@ -1041,12 +1063,12 @@ function move(ship, enemies, friends, tuning) {
   turnTowards(travelDir);
 
   let budget = spendable(ship);
-  while (budget >= ship.movementPointRatio) {
+  while (budget >= stepCost(ship, add(ship.pos, ship.facing), tuning)) {
     const d = distance(ship.pos, target.pos);
     if (need === "close" && (d <= want || tooFarAhead(d))) break;
     if (need === "open" && d >= want) break;
     if (!forwardStep(target.pos, need)) break; // facing not yet useful: finish the turn next round
-    budget -= ship.movementPointRatio;
+    budget -= ship.lastStepCost;
   }
   // Arrived with turn allowance to spare: settle into the firing stance.
   const dEnd = distance(ship.pos, target.pos);
@@ -1064,7 +1086,7 @@ function move(ship, enemies, friends, tuning) {
     for (let i = 0; i < em.extraHexes; i++) {
       if (distance(ship.pos, target.pos) <= want) break;
       if (!forwardStep(target.pos, "close")) break;
-      ship.power += ship.movementPointRatio; // burst hexes are free of power cost
+      ship.power += ship.lastStepCost; // burst hexes are free of power cost
     }
     ship.superstructure -= em.stressDamage;
     ship.toHitPenalty = em.toHitPenalty;

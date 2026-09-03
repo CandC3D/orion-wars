@@ -30,10 +30,16 @@ Rules:
 - **Coordinates** are pointy-top axial `q, r` (x = √3·(q + r/2), y = −1.5·r).
   A hex is on the map when `|q + r/2| ≤ widthHexes/2` and `|r| ≤ heightHexes/2`.
 - **Facing** 0 = east, counter-clockwise by 60° per step (0–5).
-- **Terrain**: `moon` occupies its one hex; `planet` occupies its hex plus the
-  six neighbours (a seven-hex rosette). Neither may be entered, warped into
-  or deployed on, and both block line of fire (beams, missile launches and
-  the spinal cannon) along the hex line between shooter and target.
+- **Terrain**: `moon` and `asteroid` (a large asteroid) each occupy one hex;
+  `planet` occupies its hex plus the six neighbours (a seven-hex rosette).
+  None of these may be entered, warped into or deployed on, and all block
+  line of fire (beams, missile launches and the spinal cannon) along the hex
+  line between shooter and target. `asteroids` (an asteroid field) occupies
+  one hex and is **passable but slow** - entering costs twice the ship's
+  normal movement power (`battle.terrainRules.asteroids.moveCostMultiplier`)
+  - and **blocks fire in and out**: a ship inside a field can neither shoot
+  nor be shot at, and no line of fire may cross a field. Ships may deploy in
+  a field and warp into one.
 - **Ships without `q`/`r`** are placed by the engine's line-of-battle
   deployment for their side (side 0 west facing east, side 1 east facing
   west); explicitly placed ships keep their positions. Placing a ship on
