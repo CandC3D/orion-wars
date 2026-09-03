@@ -16,64 +16,53 @@ const CARRIER_MIN = TUNING.strikeCraft?.minFleetPoints ?? 62; // fleet floor for
 // Balance has to hold across the range, not just at the reference size.
 export const SCALES = {
   4:   { frigate: 2 },
-  22:  { "light-cruiser": 1, destroyer: 2 },
-  38:  { "heavy-cruiser": 1, destroyer: 2, frigate: 4 },
-  62:  { "heavy-cruiser": 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
-  70:  { battleship: 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
-  138: { battleship: 2, "heavy-cruiser": 2, "light-cruiser": 2, destroyer: 2, frigate: 4 }
+  18:  { "light-cruiser": 1, destroyer: 2 },
+  32:  { "heavy-cruiser": 1, destroyer: 2, frigate: 4 },
+  52:  { "heavy-cruiser": 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
+  68:  { battleship: 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
+  132: { battleship: 2, "heavy-cruiser": 2, "light-cruiser": 2, destroyer: 2, frigate: 4 }
 };
-export const STANDARD = SCALES[62];
+export const STANDARD = SCALES[52];
 
 // Each power fields its own unique hulls, paying for them out of the common
 // hulls so the sweep tests the hull rather than handing its owner free points.
 //
-// KRELATH own TWO: the strike cruiser and the carrier (ruling: the first
-// carrier is theirs). `options` is tried in order and the first affordable
-// entry is taken. The resulting ladder, and why each rung is where it is:
+// Keys of SCALES are fleet costs on the REFINED ladder (2026-09-02 referee):
+// corvette 1 / FF 2 / DD 4 / strike cruiser 8 / CL 10 / CA 16 / dreadnought 16
+// / carrier 16 / monitor 20 / BB 32, limit one on the three specials. Every
+// price except the Zandrax corvette is EVEN, which is what makes each swap
+// below exact: the frigate at 2 is the smallest hull three of the four powers
+// own, so an odd price could not be paid.
 //
-//   2   nothing        - as for every power.
-//   8   strike cruiser - bought from the one light cruiser. This is the fix for
-//                        the 8-point dip: Krelath sat at 34% in that cell for
-//                        the single reason that they were the only power with a
-//                        unique hull they could not afford anywhere near it.
-//                        Worth +16 to +22pp across four seed sets, which is a
-//                        large buy and is reported as such - it is large because
-//                        the cell was broken, not because the hull is.
-//   16  nothing        - the carrier's floor is 24 points; see the comment on
-//                        minPoints in compFor below. Earth and Vraygon field
-//                        nothing at 16 either, so this is the normal case.
-//   24  carrier        - out of the heavy cruiser.
-//   32  carrier        - out of two light cruisers, there being no heavy cruiser
-//                        in that list. Same 8 points, and it is the buy a
-//                        commander would actually make: the strike cruiser was
-//                        measured here and is a -5.7pp purchase.
-//   64  carrier        - out of a heavy cruiser again. Paying with two light
-//                        cruisers instead was measured at -2.5pp against the
-//                        heavy cruiser's +9.1pp, and the cheaper-looking number
-//                        is NOT the one to take: a commander trades the hull he
-//                        values least, and this fleet values the second heavy
-//                        cruiser least. Picking the swap that measures worst
-//                        would be gaming the instrument.
-// Keys of SCALES are fleet costs on the 2026-09-02 ladder (corvette 1 / FF 2 /
-// DD 5 / CS 8 / CL 12 / CA 20 / BB 28 / specials 32). The hull lists are the
-// same six fleets the sweep has always used. Every swap below is equal-points
-// on that ladder: a special (32) = BB 28 + 2 FF, or CA 20 + CL 12; strike
-// cruiser 8 + 2 FF = CL 12; two corvettes = one frigate. `add` lists what
-// the swap puts in.
+// The memorable identities, and every swap in this table:
+//   2 corvettes = 1 frigate          2 frigates    = 1 destroyer
+//   2 destroyers = 1 strike cruiser  strike cruiser + 1 frigate = 1 light cruiser
+//   8 frigates  = 1 heavy cruiser    2 light cruisers = 1 monitor
+//   dreadnought = carrier = 1 heavy cruiser = 1 light cruiser + 3 frigates
+//   2 heavy cruisers = 1 battleship
+//
+// CARRIER_MIN (tuning.strikeCraft.minFleetPoints, now 52) is the fleet floor
+// for all three 16-20 point specials, and it is load-bearing rather than
+// cosmetic. Measured on the owner's own mirror at 160 battles a cell, a fleet
+// that buys its special reads 91% (monitor) / 58% (dreadnought) / 52% (carrier)
+// at 32 points and 52 / 53 / 47 at 52 points: below the floor the special IS
+// the list. The strike cruiser carries its own floor of 32 for the same reason
+// (77% mirror and +33pp of buy delta in an 18-point list, 50% and +8pp at 32).
 export const SIXTH = {
   EAR: { options: [
-    { hull: "dreadnought", cost: 32, minPoints: CARRIER_MIN, from: { battleship: 1, frigate: 2 }, add: { dreadnought: 1 } },
-    { hull: "dreadnought", cost: 32, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, "light-cruiser": 1 }, add: { dreadnought: 1 } }
+    { hull: "dreadnought", cost: 16, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 }, add: { dreadnought: 1 } },
+    { hull: "dreadnought", cost: 16, minPoints: CARRIER_MIN, from: { "light-cruiser": 1, frigate: 3 }, add: { dreadnought: 1 } }
   ] },
   VRA: { options: [
-    { hull: "monitor", cost: 32, minPoints: CARRIER_MIN, from: { battleship: 1, frigate: 2 }, add: { monitor: 1 } },
-    { hull: "monitor", cost: 32, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, "light-cruiser": 1 }, add: { monitor: 1 } }
+    { hull: "monitor", cost: 20, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, frigate: 2 }, add: { monitor: 1 } },
+    { hull: "monitor", cost: 20, minPoints: CARRIER_MIN, from: { "light-cruiser": 2 }, add: { monitor: 1 } }
   ] },
   ZAN: { corvetteSwap: true },
   KRE: { options: [
-    { hull: "carrier", cost: 32, minPoints: CARRIER_MIN, from: { battleship: 1, frigate: 2 }, add: { carrier: 1 } },
-    { hull: "carrier", cost: 32, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, "light-cruiser": 1 }, add: { carrier: 1 } },
-    { hull: "strike-cruiser", cost: 8, from: { "light-cruiser": 1 }, add: { "strike-cruiser": 1, frigate: 2 } }
+    { hull: "carrier", cost: 16, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 }, add: { carrier: 1 } },
+    { hull: "carrier", cost: 16, minPoints: CARRIER_MIN, from: { "light-cruiser": 1, frigate: 3 }, add: { carrier: 1 } },
+    { hull: "strike-cruiser", cost: 8, minPoints: 32, from: { "light-cruiser": 1 }, add: { "strike-cruiser": 1, frigate: 1 } },
+    { hull: "strike-cruiser", cost: 8, minPoints: 32, from: { destroyer: 2 }, add: { "strike-cruiser": 1 } }
   ] }
 };
 

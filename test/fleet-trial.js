@@ -126,7 +126,7 @@ if (onlyScale) {
 
 // --- full report -----------------------------------------------------------
 console.log(`Fleet action trials — ${BATTLES} battles per pairing`);
-console.log(`Reference fleet (62 pts): 1 CA + 2 CL + 2 DD + 4 FF\n`);
+console.log(`Reference fleet (52 pts): 1 CA + 2 CL + 2 DD + 4 FF\n`);
 
 const { rows, rates } = matrix(STANDARD, BATTLES, "");
 console.log("Pairing        A wins   B wins   draws   avg turns");
@@ -136,7 +136,7 @@ for (const r of rows) {
   console.log(`${r.a} v ${r.b}   ${pct(r.winsA)}   ${pct(r.winsB)}  ${pct(r.draws)}   ${r.avgTurns.toFixed(1)}`);
 }
 
-console.log("\nOverall win rate at 62 points");
+console.log("\nOverall win rate at 52 points");
 console.log("-".repeat(52));
 for (const { f, rate } of FACTIONS.map((f) => ({ f, rate: rates[f] })).sort((x, y) => y.rate - x.rate)) {
   console.log(`${NAMES[f].padEnd(20)} ${(rate * 100).toFixed(1).padStart(5)}%  ${"#".repeat(Math.round(rate * 40))}`);
@@ -176,21 +176,29 @@ for (const pts of sizes) {
 // --- concentration of force ------------------------------------------------
 console.log("\nConcentration of force — equal points, different shapes");
 console.log("-".repeat(52));
-// Equal points on the 2026-09-02 ladder: 60 a side.
+// Equal points on the refined ladder: 52 a side, which is the reference fleet.
+// Every shape here is 52 points EXACTLY and no shape is more than 21 hulls,
+// which is all the shipped 72x40 map can hold in one deployment rank.
 const SHAPES = {
-  "2BB+2FF": { battleship: 2, frigate: 2 }, "3 CA": { "heavy-cruiser": 3 },
-  "5 CL": { "light-cruiser": 5 }, "12 DD": { destroyer: 12 }, "30 FF": { frigate: 30 }
+  "1BB+2CL":  { battleship: 1, "light-cruiser": 2 },
+  "3CA+2FF":  { "heavy-cruiser": 3, frigate: 2 },
+  "5CL+1FF":  { "light-cruiser": 5, frigate: 1 },
+  "13 DD":    { destroyer: 13 },
+  "16FF+5DD": { frigate: 16, destroyer: 5 },
+  "1BB+2DD+6FF": { battleship: 1, destroyer: 2, frigate: 6 },
+  "2CA+2DD+6FF": { "heavy-cruiser": 2, destroyer: 2, frigate: 6 },
+  "line":     { "heavy-cruiser": 1, "light-cruiser": 2, destroyer: 2, frigate: 4 }
 };
 const shapeNames = Object.keys(SHAPES);
-console.log("(Earth Federation on both sides, 60 points each)\n");
-console.log("            " + shapeNames.map((s) => s.padStart(7)).join(""));
+console.log("(Earth Federation on both sides, 52 points each)\n");
+console.log("               " + shapeNames.map((s) => s.slice(0, 7).padStart(8)).join(""));
 for (const a of shapeNames) {
   const row = shapeNames.map((b) => {
-    if (a === b) return "   -   ";
+    if (a === b) return "    -   ";
     const r = series("EAR", "EAR", SHAPES[a], SHAPES[b], Math.max(50, Math.round(BATTLES / 3)), "sh-");
     const n = r.winsA + r.winsB + r.draws;
-    return `${((r.winsA / n) * 100).toFixed(0)}%`.padStart(7);
+    return `${((r.winsA / n) * 100).toFixed(0)}%`.padStart(8);
   });
-  console.log(a.padEnd(12) + row.join(""));
+  console.log(a.padEnd(15) + row.join(""));
 }
-console.log("\nRow beats column, as a percentage. 60 points a side throughout.");
+console.log("\nRow beats column, as a percentage. 52 points a side throughout.");

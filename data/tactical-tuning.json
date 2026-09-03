@@ -109,7 +109,7 @@
       "weaponReach": 0.84
     },
     "destroyer": {
-      "points": 5,
+      "points": 4,
       "cores": 1,
       "corePower": 13,
       "impulsePower": 3,
@@ -135,7 +135,7 @@
       "weaponReach": 0.83
     },
     "light-cruiser": {
-      "points": 12,
+      "points": 10,
       "cores": 2,
       "corePower": 12,
       "impulsePower": 4,
@@ -161,7 +161,7 @@
       "weaponReach": 0.89
     },
     "heavy-cruiser": {
-      "points": 20,
+      "points": 16,
       "cores": 2,
       "corePower": 21,
       "impulsePower": 6,
@@ -192,7 +192,7 @@
       "_note": "The 8-point line hull. movementPointRatio cut from 4 to 3: at 4 it was a trap purchase - Earth fielding one heavy cruiser in place of the two light cruisers it costs went from 51% to 24% at 32 points. A hull that pays 4 power a hex spends its pool closing and has nothing left to absorb with, so it arrives late, alone and empty. This is what keeps Krelath off the floor at 64 points, since theirs is the heavy cruiser that was dying first."
     },
     "battleship": {
-      "points": 28,
+      "points": 32,
       "cores": 4,
       "corePower": 19,
       "impulsePower": 8,
@@ -252,7 +252,7 @@
       "model": "Zandrax Corvette.stl"
     },
     "monitor": {
-      "points": 32,
+      "points": 20,
       "cores": 3,
       "corePower": 22,
       "impulsePower": 4,
@@ -290,7 +290,7 @@
       "limit": 1
     },
     "command-ship": {
-      "points": 32,
+      "points": 16,
       "cores": 2,
       "corePower": 16,
       "impulsePower": 6,
@@ -355,7 +355,7 @@
       "model": "Krelath Strike Cruiser.stl"
     },
     "carrier": {
-      "points": 32,
+      "points": 16,
       "cores": 2,
       "corePower": 15,
       "impulsePower": 5,
@@ -396,7 +396,7 @@
       "limit": 1
     },
     "dreadnought": {
-      "points": 32,
+      "points": 16,
       "cores": 3,
       "corePower": 19,
       "impulsePower": 6,
@@ -574,7 +574,7 @@
       "toHitBonus": 2,
       "vsLightPenalty": -5,
       "evasionMultiplier": 2,
-      "capitalPoints": 8,
+      "capitalPoints": 16,
       "holdForCapitalTurns": 2,
       "aimWeight": 9,
       "rangeBands": [
@@ -596,7 +596,7 @@
       ],
       "_note": "Wave Motion Gun pattern, per the ruling that retired the command ship. The third weapon KIND in the engine alongside beam and missile: a spinal capacitor bank that draws chargeDrawPerTurn off the top of its ship's pool each turn - BEFORE the doctrine reserve is set, on the same hook the cloak uses - until it holds chargeRequired, then fires one bolt and goes dark for cooldownTurns. That hook is the entire design. Under the residual-shield model the power pool IS the shield generator, so 20 of a 63-power pool a turn for four turns is paid in absorption as well as in gunnery, and the ship gets it back only by firing. Nothing else in the engine had to change to price the trade. bypassShield is the signature and it is what makes the weapon worth its charge at all. Without it the bolt is a net NEGATIVE for its own ship - measured: 20.8% for Earth at 24 points with the cannon against 28.3% for the identical hull with the mount stripped out. A facing cap eats 4 of the bolt on a frigate and 18 on a battleship, so a shield-stopped bolt does almost nothing to the hulls it is supposed to be for. Through the shield, damage 26 one-shots every hull up to a light cruiser, takes 60% of a heavy cruiser and a third of a battleship, and rolls ceil(26/spreadPer) = 4 damage locations every time. Against a rear facing that is ~1.6 expected core kills; a dreadnought that catches a battleship from astern puts its engines out. Accuracy is the class-interaction ruling taken to its end, in three tiers rather than two: full aim against a battle-line target (points >= battleLinePoints), vsMediumPenalty against a cruiser, vsLightPenalty against a picket, and evasionMultiplier 2 on top, so a frigate that has run more than eight hexes is effectively untouchable. Measured hit rates: 58-72% against fleets that field a battleship, 40-49% at 24 points where the heaviest enemy hull is a cruiser. Range bands are inverted against every other gun in the game - WORSE close (-2) than at middle distance (+1) - because a keel gun cannot traverse and a target at knife range crosses the arc faster than the ship can turn. chargeRequired 72 at 20 a turn is a four-turn charge and it was chosen for balance as much as drama: it is the one dial measured that is selective by BATTLE LENGTH, and Earth's short cells (Krelath and Zandrax, 6-7 turns) are exactly the ones where this hull was breaking the band. A three-turn charge is worth about +3pp to Earth against Krelath at 24 and 32 points and puts Krelath under the floor. damage 26 is a ceiling, not a preference. At 34 the bolt one-shots a Krelath or Earth heavy cruiser outright (43 superstructure against 34 straight through the shield plus the cascade) and Krelath fall to 32-35% at 24 points. The bolt that decapitates an 8-point flagship in one shot is the version that breaks the game.",
       "bypassShield": true,
-      "battleLinePoints": 16,
+      "battleLinePoints": 32,
       "vsMediumPenalty": -1,
       "immobileWhileCharging": true,
       "chargeStartRangeHexes": 20,
@@ -686,14 +686,15 @@
     "_note": "Roll d10, add the weapon's range-band to-hit modifier and crew rating, hit on 6+.",
     "classInteraction": {
       "enabled": true,
-      "heavyThresholdPoints": 8,
+      "heavyThresholdPoints": 16,
       "lightVsHeavy": -0.5,
       "heavyVsLight": -0.5,
-      "_note": "Chris's ruling 2026-08-30: hulls below the heavy threshold (CA and up, i.e. points >= 8) take a to-hit malus attacking heavy hulls, and heavies take roughly the same attacking lights - small guns cannot hurt capitals, capital guns cannot track small ships. Units are d10 pips (-1 = -10%); fractional values resolve probabilistically via the seeded PRNG, so -0.5 is a true -5%. Applies to beam to-hit only: missiles have no accuracy roll in this sim (they launch, then face interception). Adjustable for balance."
+      "_note": "Chris's ruling 2026-08-30: hulls below the heavy threshold (CA and up, i.e. points >= 8) take a to-hit malus attacking heavy hulls, and heavies take roughly the same attacking lights - small guns cannot hurt capitals, capital guns cannot track small ships. Units are d10 pips (-1 = -10%); fractional values resolve probabilistically via the seeded PRNG, so -0.5 is a true -5%. Applies to beam to-hit only: missiles have no accuracy roll in this sim (they launch, then face interception). Adjustable for balance.",
+      "_thresholdNote": "Pinned 2026-09-03: \"heavy\" means heavy cruiser and up. This threshold reads hull.points, so every re-pricing must re-pin it (on the 32-point ladder, 8 had silently promoted light and strike cruisers to heavy). Refined ladder: CA = 16."
     },
     "missileClassInteraction": {
       "enabled": true,
-      "heavyThresholdPoints": 8,
+      "heavyThresholdPoints": 16,
       "heavyVsLightEvadeChance": 0.05,
       "_note": "The missile half of the class-interaction ruling: a missile launched by a heavy hull (points >= threshold) at a light hull is evaded outright with this probability, before interception is rolled. Capital-grade missiles cannot track small ships, just as capital guns cannot. One-directional by design - light-launched missiles at big slow targets need no help. Adjustable for balance; beam analogue is toHit.classInteraction."
     }
@@ -823,7 +824,7 @@
     "strikeRadiusHexes": 12,
     "launchRangeHexes": 18,
     "_launchRangeNote": "Cut from 16 (Krelath carrier pass). The deck cycles only once the nearest enemy is inside this range, so this is the number that decides how many turns of the approach the air group gets for free. At 16 the wing was flying from the moment the fleets could see each other and the whole approach - four to five turns of a seven-turn action at 64 points - was a free bombardment. It is the one dial measured that trims the big-fleet cell without touching the small ones, because at 24 and 32 points the fleets are in contact quickly anyway: 16 / 10 / 9 give buy deltas of +14.0 / +12.1 / +10.1 at 64 points against +5.8 / +4.1 / +3.1 at 24. 8 is worth another 2pp at 64 and costs more than it buys elsewhere - it takes the 24-point purchase to +1.6pp and the 32-point one to +1.9pp, and on the pre-dreadnought tree it took 32 points to -7.6pp. Note that this is deliberately SHORTER than strikeRadiusHexes: the wing reaches 12 hexes but the deck will not turn into the wind until the enemy is inside 9, which is the Krelath way round - they do not open an action at long range, they close and then commit.",
-    "standoffRangeHexes": 16,
+    "standoffRangeHexes": 11,
     "_standoffNote": "A carrier with craft still in hand holds this range instead of closing to its own gun band, and is exempt from movement.withdrawFireFraction while it does - not as a special case but because that test exists to stop a hull silencing itself by turning away, and a carrier's battery bears on every heading regardless of where the deck points. Both behaviours lapse the moment the last craft is gone, so a gutted carrier closes and fights with its guns like anything else. Do NOT raise it: 8, 9 and 10 were measured on the Earth carrier and give +13, +19 and +26pp, because a hull the enemy line physically cannot reach is not a carrier, it is artillery. LOWERING it, however, does almost nothing on the Krelath hull, and the earlier claim that this is 'THE dial' and 'a knife-edge' does NOT survive re-measurement in Krelath hands - it was true of an Earth carrier and is not true of this one. Re-measured at the tuned point over 200 battles a cell, 7 / 6 / 5 / 4 give buy deltas of +8.2 / +8.8 / +12.7 / +12.7 at 24 points and +13.2 / +14.7 / +13.7 / +13.7 at 64. Two reasons, both geometric. preferredRange() takes the LARGER of the standoff and the best band of the hull's own longest beam, and the carrier's laser cannon scaled by weaponReach 0.9 already wants 5 hexes, so 4 and 5 are the same setting. And the carrier does not reach its chosen range anyway: measured, it sits 7.3-8.5 hexes from the nearest enemy in contact and trails its own line by 0.2-1.4 hexes, because formation.cohesionRadius leashes the fleet to its centre of mass and the enemy closes on a Krelath escort rather than on the deck. What this hull is actually held out of the fight by is the line in front of it, not this integer. Left at 7 because it is the value that states the intent.",
     "powerToLaunch": 2,
     "powerToSustain": 1,
@@ -841,7 +842,7 @@
       "interceptor": {
         "damage": 5,
         "hitChance": 0.6,
-        "targetMaxPoints": 2,
+        "targetMaxPoints": 4,
         "canDefend": true,
         "dogfight": 0.3,
         "pdVulnerability": 1,
@@ -850,17 +851,18 @@
       "bomber": {
         "damage": 8,
         "hitChance": 0.4,
-        "targetMinPoints": 4,
+        "targetMinPoints": 8,
         "canDefend": false,
         "dogfight": 0.1,
         "pdVulnerability": 2.2,
         "preferLargest": true
       }
     },
-    "minFleetPoints": 62,
+    "minFleetPoints": 52,
     "_minFleetNote": "GAME RULE (ruling follow-up, verifier condition): a carrier requires a fleet of at least 24 points. Below that it is bought out of the fleet ONLY capital and half the fighting power of the list is aircraft - measured 79-94% win rates at 16 points under every tuning tried. The harness reads this value; so must any future fleet builder UI. Re-priced 2026-09-02: 62 new points (the old 24-point reference fleet).",
     "_capCouplingNote": "KNOWN OPEN ISSUE (verifier finding, 2026-09-01): with missileScreenMax cut to 0.05, flying CAP is a strictly dominated stance - it costs 7-15pp versus simply sweeping with the interceptors - and the current band DEPENDS on the AI continuing to fly it (tubeThreat 0.5 holds interceptors back). Set tubeThreat to 0 and Krelath break band at 62-67%. The next strike-system pass must either find a middle missileScreen value where CAP earns its cost, or lower tubeThreat/defenceRatio and re-tune. The resolver comment in intercepted() warned of exactly this coupling.",
-    "_doctrineNote": "RULING 2026-09-02 (Chris): a carrier is a STANDOFF ship - it fights with its strike craft and long-range weapons and stays out of the gun line. standoffRangeHexes and launchRangeHexes are set for that doctrine and are UNTUNED; the consolidated pass re-measures. (The earlier cut of launchRange to 9 was balance work around the old in-line behaviour.)"
+    "_doctrineNote": "RULING 2026-09-02 (Chris): a carrier is a STANDOFF ship - it fights with its strike craft and long-range weapons and stays out of the gun line. standoffRangeHexes and launchRangeHexes are set for that doctrine and are UNTUNED; the consolidated pass re-measures. (The earlier cut of launchRange to 9 was balance work around the old in-line behaviour.) Coherence fix 2026-09-03: standoff 16 exceeded the strike radius (12), so the wing could not reach from the deck's chosen range; standoff is now 11, inside the radius. Still untuned.",
+    "_pointsNote": "Pinned 2026-09-03 to the refined ladder: interceptors hunt frigates and destroyers (<= 4), bombers menace strike cruisers and up (>= 8), a carrier needs a 52-point fleet (the reference line). Re-pin on any re-pricing."
   },
   "rosters": {
     "_note": "Single source of truth for which hull classes each power may field (editor, harness, docs). Common hulls plus each power's uniques. command-ship is retired (kept in hullClasses only so old replays still load). loadouts.json lists only faction-specific FITS, not the roster - a hull absent there uses the hull defaults.",
@@ -898,5 +900,5 @@
       "carrier"
     ]
   },
-  "_pointLadderNote": "RULING 2026-09-02 (Chris): points re-priced to represent observed power - corvette 1, frigate 2, destroyer 5, strike cruiser 8, light cruiser 12, heavy cruiser 20, battleship 28; the big specials at 32 (dreadnought, carrier, monitor), limit 1 per fleet. Command ship (retired) carried at 32 for consistency. Old ladder for the record: {\"corvette\": 0.5, \"frigate\": 1, \"destroyer\": 2, \"strike-cruiser\": 4, \"light-cruiser\": 4, \"heavy-cruiser\": 8, \"battleship\": 16, \"dreadnought\": 8, \"carrier\": 8, \"monitor\": 16, \"command-ship\": 8}. Effect on fleet composition to be MEASURED, not tuned (content-first)."
+  "_pointLadderNote": "REFINED LADDER (price search, 2026-09-02/03; see docs/tactical-design.md section 28): corvette 1, frigate 2, destroyer 4, strike cruiser 8, light cruiser 10, heavy cruiser 16, dreadnought 16, carrier 16, monitor 20, battleship 32; dreadnought/carrier/monitor limit 1. Fitted iteratively against a 13-shape matrix (Earth mirror, two budgets, two deployment regimes) and by buy value for the specials; every special is neutral-to-mildly-positive at its price. Previous ladders: OLD {\"corvette\": 0.5, \"frigate\": 1, \"destroyer\": 2, \"strike-cruiser\": 4, \"light-cruiser\": 4, \"heavy-cruiser\": 8, \"battleship\": 16, \"dreadnought\": 8, \"carrier\": 8, \"monitor\": 16}; NEW (Chris, 2026-09-02) {\"frigate\": 2, \"destroyer\": 5, \"light-cruiser\": 12, \"heavy-cruiser\": 20, \"battleship\": 28, \"corvette\": 1, \"monitor\": 32, \"command-ship\": 32, \"strike-cruiser\": 8, \"carrier\": 32, \"dreadnought\": 32}. Ship stats frozen throughout."
 }

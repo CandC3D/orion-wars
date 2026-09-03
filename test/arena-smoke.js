@@ -248,8 +248,11 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   // Re-priced point ladder (docs/tactical-design.md #27): dreadnought 32 +
   // light-cruiser 12 + destroyer 5 = 49; carrier 32 + strike-cruiser 8 +
   // heavy-cruiser 20 = 60.
-  assert(fleetPoints(sampleScenario.sides[0], tuning) === 49, "side A points total is wrong");
-  assert(fleetPoints(sampleScenario.sides[1], tuning) === 60, "side B points total is wrong");
+  // Structural: the total must equal the sum of the ladder prices for the ships fielded,
+  // whatever the ladder is today (pinned numbers broke on every re-pricing).
+  const expectTotal = (side) => side.ships.reduce((sum, ship) => sum + tuning.hullClasses[ship.className].points, 0);
+  assert(fleetPoints(sampleScenario.sides[0], tuning) === expectTotal(sampleScenario.sides[0]), "side A points total is wrong");
+  assert(fleetPoints(sampleScenario.sides[1], tuning) === expectTotal(sampleScenario.sides[1]), "side B points total is wrong");
   assert(validateScenario(sampleScenario, tuning, loadouts).length === 0, "sample scenario does not validate");
 
   // rosters.<faction> (data/tactical-tuning.json), not the keys of loadouts.json, is the

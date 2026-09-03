@@ -1423,18 +1423,30 @@ export function deployFleets(A, B, tuning) {
   const orderedA = battleLine(A);
   const orderedB = battleLine(B);
   const spacing = tuning.battle?.deploySpacing ?? 1;
-  const line = (n, i) => {
-    const row = i - Math.floor((n - 1) / 2);
-    return { q: -half - Math.floor((row * spacing) / 2), r: row * spacing };
+  // RANKS (fix, 2026-09-03): one unwrapped line at 2-hex spacing runs off a
+  // 40-row map beyond ~21 hulls - 30 frigates reached r = +/-30 and some
+  // deployed behind the enemy start line, which is most of why "swarms lost
+  // everything" in the price measurements. A fleet is now wrapped into ranks
+  // of at most rankWidth hulls, each rank one hex-pair further back, dealt
+  // round-robin so the centre-heavy order survives. Bit-identical to the old
+  // single line for every fleet of rankWidth hulls or fewer.
+  const rankWidth = tuning.battle?.deployRankWidth ?? 20;
+  const place = (ordered, sign) => {
+    const nRanks = Math.max(1, Math.ceil(ordered.length / rankWidth));
+    const ranks = Array.from({ length: nRanks }, () => []);
+    ordered.forEach((s, i) => ranks[i % nRanks].push(s));
+    ranks.forEach((rank, ri) => rank.forEach((s, j) => {
+      const row = j - Math.floor((rank.length - 1) / 2);
+      const q = -half - Math.floor((row * spacing) / 2) - ri * 2;
+      const r = row * spacing;
+      // B is A's formation rotated 180 degrees, so the geometry - including
+      // every equidistant tie-break - is identical for both sides.
+      s.pos = sign > 0 ? { q, r } : { q: -q, r: -r };
+      s.facing = sign > 0 ? 0 : 3;
+    }));
   };
-  orderedA.forEach((s, i) => { s.pos = line(orderedA.length, i); s.facing = 0; });
-  // B is A's formation rotated 180 degrees, so the geometry - including every
-  // equidistant tie-break - is identical for both sides.
-  orderedB.forEach((s, i) => {
-    const p = line(orderedB.length, i);
-    s.pos = { q: -p.q, r: -p.r };
-    s.facing = 3;
-  });
+  place(orderedA, 1);
+  place(orderedB, -1);
 }
 
 
