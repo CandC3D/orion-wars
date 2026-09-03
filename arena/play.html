@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orion Wars — Interactive Playfield</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./arena.css?v=play1">
+  <link rel="stylesheet" href="./play.css?v=play1">
+  <script type="module" src="./play.js?v=play1"></script>
+</head>
+<body class="play-page">
+  <header class="masthead play-head">
+    <div><p class="eyebrow">THE ORION WARS / FLEET COMMAND</p><h1>Interactive Playfield</h1></div>
+    <div id="phase-badge" class="phase-badge">Setup</div>
+    <nav class="viewer-actions" aria-label="Playfield navigation">
+      <a href="./editor.html">Scenario editor</a><a href="./index.html">Replay viewer</a>
+    </nav>
+  </header>
+
+  <main class="play-shell">
+    <section class="viewport play-viewport" aria-label="Interactive tactical map">
+      <canvas id="play-canvas"></canvas>
+      <div class="camera-controls"><button id="frame-fleets">Frame fleets</button><button id="fit-map">Fit map</button></div>
+      <div id="setup-panel" class="setup-panel">
+        <p class="eyebrow">NEW COMMAND</p><h2>Choose the action</h2>
+        <label>Scenario<select id="scenario-select"></select></label>
+        <label>Command<select id="side-select"><option value="A">Side A</option><option value="B">Side B</option></select></label>
+        <label>Seed<input id="seed-input" value="orion"></label>
+        <button id="start-battle" class="primary">Take command</button>
+        <p id="setup-message" role="status"></p>
+      </div>
+      <div id="verdict" class="battle-verdict" hidden></div>
+    </section>
+
+    <aside class="play-sidebar">
+      <section class="turn-summary"><p class="eyebrow">BATTLE CLOCK</p><div id="turn-label" class="round-label">Turn — / Planning</div><div id="side-label" class="side-label">No command assigned</div></section>
+      <section><div class="section-head"><p class="eyebrow">FLEET</p><span>unordered = scripted</span></div><div id="ship-list" class="ship-list"></div></section>
+      <section id="orders-panel" hidden>
+        <p class="eyebrow">SELECTED VESSEL</p><h2 id="ship-name"></h2>
+        <div class="round-tabs" id="round-tabs"></div>
+        <div class="helm-controls">
+          <button id="turn-left" title="Q">↶ Q</button><button id="forward-down" title="S">− S</button>
+          <output id="forward-value">0 hex</output><button id="forward-up" title="W">+ W</button><button id="turn-right" title="E">E ↷</button>
+        </div>
+        <label class="reserve-control">Shield reserve <output id="reserve-value">30%</output><input id="reserve" type="range" min="0" max="0.8" step="0.05" value="0.3"></label>
+        <div class="power-block"><div class="power-labels"><span>movement <b id="movement-cost">0</b></span><span>guns <b id="gun-power">0</b></span><span>reserve <b id="reserve-power">0</b></span></div><div class="power-bar"><i id="power-move"></i><i id="power-guns"></i><i id="power-reserve"></i></div></div>
+        <div class="target-row">Target <button id="target-auto">Auto</button><strong id="target-name">auto</strong></div>
+        <div id="mount-list" class="mount-list"></div>
+      </section>
+      <section class="combat-log"><div class="section-head"><p class="eyebrow">NARRATIVE LOG</p><span id="log-count">0 events</span></div><ol id="log-lines"></ol></section>
+    </aside>
+  </main>
+  <footer class="play-controls">
+    <span id="hint">Choose a scenario and side to begin.</span>
+    <div><button id="save-record" disabled>Save game record</button><button id="open-viewer" disabled>Open in viewer</button><button id="end-turn" class="primary" disabled>End turn <kbd>Enter</kbd></button></div>
+  </footer>
+</body>
+</html>

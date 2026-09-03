@@ -102,3 +102,31 @@ export function recordFleetBattle({ factionA, factionB, compA, compB, seed, tuni
     meta: { factions: { A: factionA, B: factionB }, comps: { A: compA, B: compB }, seed }
   });
 }
+
+// Mutable replay shell used by the interactive playfield. Keeping this beside
+// the normal recorder makes the viewer-format metadata a single shared rule.
+export function createPlayRecord(scenario, battleView) {
+  const composition = (side) => {
+    const out = {};
+    for (const ship of side.ships) out[ship.className] = (out[ship.className] || 0) + 1;
+    return out;
+  };
+  return {
+    meta: {
+      version: 3,
+      factions: { A: scenario.sides[0].faction, B: scenario.sides[1].faction },
+      comps: { A: composition(scenario.sides[0]), B: composition(scenario.sides[1]) },
+      seed: scenario.seed,
+      terrain: JSON.parse(JSON.stringify(battleView.terrain || [])),
+      scenario: JSON.parse(JSON.stringify(scenario)),
+      tuning: {
+        map: { shape: "rect", widthHexes: battleView.map.widthHexes, heightHexes: battleView.map.heightHexes },
+        mapRadiusHexes: Math.max(battleView.map.widthHexes, battleView.map.heightHexes) / 2,
+        roundsPerTurn: battleView.roundsPerTurn
+      },
+      orders: []
+    },
+    rounds: [{ turn: 0, round: 0, ships: JSON.parse(JSON.stringify(battleView.ships)) }],
+    shots: [], log: [], result: { victor: null, reason: "battle in progress" }
+  };
+}

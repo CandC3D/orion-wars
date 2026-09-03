@@ -18,7 +18,8 @@ import {
   FACTIONS, TERRAIN_TYPES, asteroidFieldRocks, blockingTerrainHexSet, compositionFor, fleetPoints, inMap,
   largeAsteroidOutline, nebulaOutline, rosterFor, snapWorldToHex, terrainBlocksShips, terrainFootprint, validateScenario
 } from "../arena/editor-core.js";
-import { recordScenario } from "../arena/record.js";
+import { createPlayRecord, recordScenario } from "../arena/record.js";
+import { battleView, createBattle, shipPlan, stepTurn } from "../arena/play-engine.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const source = readFileSync(join(root, "arena", "arena.js"), "utf8");
@@ -187,6 +188,53 @@ function hexDistance(a, b) {
 }
 
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
+
+// ------------------------------------------------------ interactive adapter
+
+{
+  const scenario = JSON.parse(readFileSync(join(root, "arena", "scenarios", "formation-column.json"), "utf8"));
+  const battle = createBattle(scenario, tuning, loadouts, "adapter-smoke");
+  const view = battleView(battle);
+  const destroyer = view.ships.find((ship) => ship.faction === "EAR" && ship.className === "destroyer");
+  assert(destroyer && destroyer.side === "A", "adapter battleView lost ship side or class identity");
+  assert(destroyer.mounts[0].arcName === "fwd" && JSON.stringify(destroyer.mounts[0].arc) === JSON.stringify(tuning.arcs.fwd),
+    "adapter battleView does not apply the Earth destroyer loadout's fwd beam arc");
+  assert(destroyer.mounts[1].arcName === "fs" && JSON.stringify(destroyer.mounts[1].arc) === JSON.stringify(tuning.arcs.fs),
+    "adapter battleView does not compute the engine-equivalent fs beam arc");
+  assert(shipPlan(battle, destroyer.id).turnRate === tuning.movement.turnRatePerRound.destroyer,
+    "adapter shipPlan lost the tuned turn rate");
+  const originalFacing = destroyer.facing;
+  const turn = stepTurn(battle, { [destroyer.id]: { plan: [{ turn: 9, forward: 0 }, {}, {}], reserve: 0 } });
+  const executed = turn.rounds[0].ships.find((ship) => ship.id === destroyer.id);
+  assert(executed.facing === (originalFacing + destroyer.turnRate) % 6 && turn.log.some((entry) => entry.message.includes("turn rate")),
+    "adapter did not clamp and log an order beyond the tuned turn rate");
+
+  const powerScenario = {
+    name: "Adapter movement clamps", seed: "adapter-movement", map: { widthHexes: 72, heightHexes: 40 },
+    terrain: [{ type: "asteroids", q: -9, r: 0 }],
+    sides: [
+      { faction: "EAR", ships: [{ className: "frigate", q: -10, r: 0, facing: 0 }] },
+      { faction: "KRE", ships: [{ className: "frigate", q: 10, r: 0, facing: 3 }] }
+    ]
+  };
+  const movementBattle = createBattle(powerScenario, tuning, loadouts, powerScenario.seed);
+  const mover = battleView(movementBattle).ships[0];
+  const movementTurn = stepTurn(movementBattle, { [mover.id]: { plan: [{ turn: 0, forward: 99 }, {}, {}], reserve: .5 } });
+  const after = movementTurn.rounds[0].ships.find((ship) => ship.id === mover.id);
+  assert(after.pos.q === -6, `asteroid-field power cost was not doubled (ship ended at q=${after.pos.q}, expected -6)`);
+  assert(movementTurn.log.some((entry) => /power exhausted/.test(entry.message)), "adapter did not log its power clamp");
+
+  const terrainBattle = createBattle({ ...powerScenario, terrain: [{ type: "moon", q: -9, r: 0 }] }, tuning, loadouts, "terrain-stop");
+  const terrainMover = battleView(terrainBattle).ships[0];
+  const terrainTurn = stepTurn(terrainBattle, { [terrainMover.id]: { plan: [{ forward: 3 }, {}, {}], reserve: 0 } });
+  assert(terrainTurn.rounds[0].ships.find((ship) => ship.id === terrainMover.id).pos.q === -10 &&
+    terrainTurn.log.some((entry) => /impassable terrain/.test(entry.message)), "adapter did not stop and log movement at impassable terrain");
+
+  const record = createPlayRecord(scenario, view);
+  record.meta.orders.push({ turn: 1, side: "A", orders: { [destroyer.id]: { plan: [{ turn: 1, forward: 2 }, {}, {}], target: "auto", reserve: .3 } } });
+  assert(record.meta.version === 3 && record.meta.orders[0].orders[destroyer.id].plan[0].forward === 2,
+    "saved play record does not carry meta.orders in the contract shape");
+}
 
 // -------------------------------------------- editor core and shared recorder
 

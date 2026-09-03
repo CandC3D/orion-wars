@@ -17,6 +17,7 @@ const canvas = $("#editor-canvas");
 const ctx = canvas.getContext("2d");
 const saveScenarioButton = $("#save-scenario");
 const runBattleButton = $("#run-battle");
+const playScenarioButton = $("#play-scenario");
 // Save and Run both need tuning + loadouts before they can build a scenario;
 // disabled here and re-enabled once the fetch below resolves, so a click
 // during that window shows a clear message instead of a raw thrown error.
@@ -431,6 +432,14 @@ runBattleButton.addEventListener("click", () => {
     try { const replay = recordScenario(scenarioForSave(model), tuning, loadouts); sessionStorage.setItem(SESSION_REPLAY_KEY, JSON.stringify(replay)); window.location.assign("./index.html?replay=session"); }
     catch (error) { runBattleButton.disabled = false; setMessage(`Battle could not run: ${error.message}`, "error"); }
   }, 0);
+});
+
+playScenarioButton.addEventListener("click", () => {
+  if (!tuning || !loadouts) return setMessage("Still loading tactical data — please wait.", "error");
+  const errors = refresh(); if (errors.length) return setMessage("Fix validation errors before opening the playfield.", "error");
+  const scenario = scenarioForSave(model);
+  sessionStorage.setItem(SESSION_REPLAY_KEY, JSON.stringify({ meta: { version: 3, scenario }, rounds: [] }));
+  window.location.assign("./play.html");
 });
 
 window.addEventListener("resize", draw);
