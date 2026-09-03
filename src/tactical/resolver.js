@@ -9,6 +9,7 @@
 
 import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLine } from "./hex.js";
 import { buildShip, fullPower, startTurn, startRound, spendable, applyDamage } from "./ship.js";
+import { makePrng, seedFromString } from "../prng.js";
 
 // ---------------------------------------------------------------- helpers
 
@@ -1180,6 +1181,8 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
       }
       if (INS && target && distance(ship.pos, target.pos) > nearD) helmStats.aimSwitch++;
     }
+    // A human order names a target: if this mount bears on it, it is the one.
+    if (ship.orderTarget) { const forced = candidates.find((c) => c.id === ship.orderTarget); if (forced) target = forced; }
     if (!target) target = candidates.sort((a, b) => distance(ship.pos, a.pos) - distance(ship.pos, b.pos))[0];
     const range = distance(ship.pos, target.pos);
     const band = bandFor(mount, range);
@@ -1797,22 +1800,49 @@ function inContact(A, B, tuning) {
   return false;
 }
 
-export function runBattle(fleets, tuning, rng, opts = {}) {
-  // Per-battle reset of helm state (verifier finding, 2026-09-03): the helm
-  // caches each hull's standing battery and reach, and the cohesion latch
-  // lives on the ship. Ship objects will be reused once the strategic layer
-  // fights real battles, so nothing from a previous battle may leak in.
+// ------------------------------------------------------- ordered movement
+// A human order for one round: turn by `turn` hexsides (positive is counter-
+// clockwise), then move `forward` hexes along the new facing. Everything is
+// clamped by the rules the AI lives under - turnRatePerRound, power at the
+// hex's step cost, the map edge, terrain, the same-hex rule - and every clamp
+// is logged so the player learns the rule. Returns the number of hexes moved.
+function moveOrdered(ship, plan, enemies, tuning, log) {
+  const M = tuning.movement ?? {};
+  const turnRate = (M.turnRatePerRound ?? {})[ship.className] ?? 2;
+  let want = Math.trunc(Number(plan.turn) || 0);
+  if (Math.abs(want) > turnRate) { if (log) log(`${ship.id} order clamped: turn ${want} exceeds turn rate ${turnRate}`); want = Math.sign(want) * turnRate; }
+  ship.facing = ((ship.facing + want) % 6 + 6) % 6;
+  let forward = Math.max(0, Math.trunc(Number(plan.forward) || 0));
+  let moved = 0;
+  const foes = living(enemies);
+  while (moved < forward) {
+    const next = add(ship.pos, ship.facing);
+    const cost = stepCost(ship, next, tuning);
+    if (spendable(ship) < cost) { if (log) log(`${ship.id} order clamped: power exhausted after ${moved} of ${forward} hexes`); break; }
+    if (!inBounds(next, tuning)) { if (log) log(`${ship.id} order clamped: terrain or the map edge after ${moved} of ${forward} hexes`); break; }
+    if (tuning.battle?.sameHexNoFire !== false && moved === forward - 1 && foes.some((f) => f.pos.q === next.q && f.pos.r === next.r)) {
+      if (log) log(`${ship.id} order clamped: will not end its move in an enemy's hex`); break;
+    }
+    ship.pos = next;
+    ship.power -= cost;
+    ship.lastStepCost = cost;
+    ship.movedThisTurn++;
+    moved++;
+  }
+  if (log && moved > 0) log(`${ship.id} moves as ordered (${moved} hexes), facing ${ship.facing}`);
+  return moved;
+}
+
+// ------------------------------------------------------------- stepping API
+// The battle as an object that advances one turn at a time, so a human may
+// command one side (docs/playfield-contract.md). runBattle below is this
+// same machinery run to the end with no orders, and is byte-identical to the
+// engine before the API existed.
+export function createBattleFromFleets(fleets, tuning, rng, opts = {}) {
   for (const s of fleets.flat()) { delete s._helm; delete s.hadContact; delete s.gatherHeld; }
   if (opts.terrain && opts.terrain.length) {
     tuning = { ...tuning, battle: { ...tuning.battle, terrain: opts.terrain } };
   }
-  const log = opts.log ?? null;
-  let shotTurn = 0, shotRound = 0;
-  const onShot = opts.onShot
-    ? (event) => opts.onShot({ turn: shotTurn, round: shotRound, ...event })
-    : null;
-  const maxTurns = opts.maxTurns ?? tuning.battle.maxTurns;
-  const rounds = tuning.battle.roundsPerTurn;
   const [A, B] = fleets;
   A.forEach((s) => { s.side = "A"; });
   B.forEach((s) => { s.side = "B"; });
@@ -1820,142 +1850,32 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
     shots: 0, hits: 0, launches: 0, damage: 0, internal: 0, screened: 0,
     sorties: 0, craftLost: 0, hitsForward: 0, hitsRear: 0
   });
-  const stats = { A: blank(), B: blank() };
-  let inFlight = [];
-  let turnsRun = 0;
-  let contactLogged = false;
+  return {
+    fleets, A, B, tuning, rng,
+    terrain: tuning.battle?.terrain ?? [],
+    maxTurns: opts.maxTurns ?? tuning.battle.maxTurns,
+    rounds: tuning.battle.roundsPerTurn,
+    stats: { A: blank(), B: blank() },
+    inFlight: [], turnsRun: 0, contactLogged: false,
+    turn: 1, done: false, result: null
+  };
+}
 
-  for (let turn = 1; turn <= maxTurns; turn++) {
-    if (!living(A).length || !living(B).length) break;
-    turnsRun = turn;
-    shotTurn = turn;
-    shotRound = 1;
+export function createBattle(scenario, tuning, loadouts, seed) {
+  const rng = makePrngFor(seed);
+  const built = buildScenario(scenario, tuning, loadouts, rng);
+  const battle = createBattleFromFleets(built.fleets, built.tuning, rng, { terrain: built.terrain });
+  battle.scenario = scenario;
+  battle.seed = seed;
+  return battle;
+}
 
-    // Missiles launched last turn arrive, subject to interception.
-    const arriving = inFlight;
-    inFlight = [];
-    for (const m of arriving) {
-      const foeSide = m.side === "A" ? B : A;
-      const st = m.side === "A" ? stats.A : stats.B;
-      const target = foeSide.find((s) => s.id === m.targetId);
-      if (!target || target.destroyed) {
-        if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "dead-target", damage: 0 });
-        continue;
-      }
-      // Class interaction, missile half: a capital-grade missile cannot track a
-      // small nimble hull. Rolled before interception - evasion needs no PD.
-      const MC = tuning.toHit.missileClassInteraction;
-      if (MC && MC.enabled &&
-          (m.shooterPoints ?? 0) >= MC.heavyThresholdPoints &&
-          target.points < MC.heavyThresholdPoints &&
-          rng.next() < MC.heavyVsLightEvadeChance) {
-        if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "evaded", damage: 0 });
-        continue;
-      }
-      if (intercepted(target, foeSide, tuning, rng)) {
-        if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "intercepted", damage: 0 });
-        continue;
-      }
-      resolveHit(m.shooterPos, target, m.damage, foeSide, tuning, rng, st, log, m.spread);
-      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "hit", damage: m.damage });
-    }
+function makePrngFor(seed) {
+  return makePrng(typeof seed === "number" ? seed : seedFromString(String(seed ?? "orion")));
+}
 
-    for (const s of [...living(A), ...living(B)]) startTurn(s, tuning);
-    // Spinal capacitors draw off the top of the fresh pool, before the reserve
-    // is set - so the charge is paid for in shields as well as in gunnery.
-    // No-op on every hull that has no spinal mount.
-    for (const s of living(A)) chargeSpinal(s, B, tuning, log);
-    for (const s of living(B)) chargeSpinal(s, A, tuning, log);
-    // The spending brake is set once a turn, against the tactical picture.
-    for (const s of [...living(A), ...living(B)]) {
-      s.reserve = doctrineReserve(s, s.side === "A" ? B : A, tuning);
-    }
-    for (const s of [...living(A), ...living(B)]) evade(s, tuning, rng, log);
-
-    // Coordinated ambush: a cloaked force breaks cover together.
-    for (const [side, foe] of [[A, B], [B, A]]) {
-      const cloaked = living(side).filter((s) => s.cloaked && !s.decloaking);
-      if (!cloaked.length) continue;
-      const ready = cloaked.filter((s) => {
-        const n = nearest(s.pos, living(foe));
-        return n.ship && n.range <= preferredRange(s, tuning);
-      });
-      if (ready.length >= Math.ceil(cloaked.length * 0.6)) {
-        for (const s of cloaked) s.decloaking = true;
-        if (log) log(`${cloaked[0].faction} force decloaks: ${cloaked.length} ships`);
-      }
-    }
-
-    for (let round = 1; round <= rounds; round++) {
-      if (!living(A).length || !living(B).length) break;
-      shotRound = round;
-      for (const s of [...living(A), ...living(B)]) startRound(s);
-      if (INS && !contactLogged && inContact(A, B, tuning)) {
-        contactLogged = true;
-        helmStats.contactSpreadA += spreadOf(A);
-        helmStats.contactSpreadB += spreadOf(B);
-        helmStats.contactMateA += mateGapOf(A);
-        helmStats.contactMateB += mateGapOf(B);
-        helmStats.contactN++;
-      }
-
-      // The strike wave goes in once a turn, on a fresh shield cycle and before
-      // the line opens fire - so a wave that strips a facing's absorption is
-      // followed straight in by the guns. No-op without a carrier on the field.
-      if (round === (tuning.strikeCraft?.strikeRound ?? 1)) {
-        strikePhase(A, B, tuning, rng, stats, log, onShot);
-        for (const s of [...A, ...B]) if (s.destroyed) scuttleSquadrons(s, log);
-      }
-
-      // Action order: d100 plus captain rating, as in FASA.
-      // FASA bid initiative from declared movement. A ship that can commit more
-      // movement this turn acts first; the die only breaks ties.
-      const byMovement = tuning.initiative?.fromMovementCommitment;
-      const order = [...living(A), ...living(B)]
-        .map((s) => ({
-          s,
-          roll: (byMovement ? Math.floor(spendable(s) / Math.max(0.1, s.movementPointRatio)) * 10 : 0)
-            + rng.int(100) + 1 + tuning.toHit.crewRatingDefault
-        }))
-        .sort((x, y) => y.roll - x.roll)
-        .map((x) => x.s);
-
-      const allShips = [...A, ...B];
-      for (const s of order) {
-        if (s.destroyed) continue;
-        const foe = s.side === "A" ? B : A;
-        const st = s.side === "A" ? stats.A : stats.B;
-        if (s.cloaked && !s.decloaking) { move(s, foe, s.side === "A" ? A : B, tuning); continue; }
-        if (s.decloaking) continue; // the decloak turn is consumed
-
-        const hidden = living(foe).filter((e) => e.cloaked && !e.detected).length;
-        const canBear = targetable(foe).some((f) =>
-          s.mounts.some((m) => !m.inop && !m.firedThisTurn &&
-            distance(s.pos, f.pos) <= m.maxRange && bears(s, m, f.pos)));
-
-        if (hidden && s.hull.sensorRating >= 2 && !canBear) { scan(s, foe, s.side === "A" ? A : B, tuning, log); continue; }
-        // Jumping is considered BEFORE shooting. Being able to reach a target
-        // is not a reason to stay where you are when the whole point of the
-        // trait is to fight from a better place.
-        if (tryWarp(s, foe, s.side === "A" ? A : B, tuning, log)) continue; // guns bear next round
-        // A ship that finds nothing worth shooting spends the action moving.
-        if (canBear && fire(s, foe, s.side === "A" ? A : B, tuning, rng, inFlight, st, log, onShot) > 0) continue;
-        move(s, foe, s.side === "A" ? A : B, tuning);
-      }
-
-      // Anything killed this round goes up now, and may take neighbours with it.
-      for (const s of allShips) if (s.destroyed && !s.exploded) detonate(s, allShips, tuning, rng, log);
-      for (const s of allShips) if (s.destroyed && s.squadrons) scuttleSquadrons(s, log);
-      if (INS) censusFaces(A, B, tuning);
-      if (opts.onRound) opts.onRound(turn, round, fleets);
-    }
-
-    for (const s of [...living(A), ...living(B)]) {
-      if (s.decloaking) { s.decloaking = false; s.cloaked = false; s.detected = true; }
-    }
-  }
-
-  const remA = living(A), remB = living(B);
+export function battleResult(battle) {
+  const remA = living(battle.A), remB = living(battle.B);
   const ptsA = remA.reduce((s, x) => s + x.points, 0);
   const ptsB = remB.reduce((s, x) => s + x.points, 0);
   let victor = null;
@@ -1963,12 +1883,217 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
   else if (!remA.length && remB.length) victor = "B";
   else if (ptsA > ptsB) victor = "A";
   else if (ptsB > ptsA) victor = "B";
-
   return {
-    victor, turns: turnsRun,
+    victor, turns: battle.turnsRun,
     survivorsA: remA.length, survivorsB: remB.length,
-    pointsA: ptsA, pointsB: ptsB, stats
+    pointsA: ptsA, pointsB: ptsB, stats: battle.stats
   };
+}
+
+// One full turn. `orders` maps ship id -> { plan: [{turn, forward} x rounds],
+// target: id | "auto", reserve: 0..1 }. Unordered ships use the scripted helm
+// and gunnery. Returns { turn, result } where result is null until the
+// battle ends; the round frames, shots and log come through opts callbacks
+// exactly as in runBattle.
+export function stepTurn(battle, orders = {}, opts = {}) {
+  if (battle.done) return { turn: battle.turn, result: battle.result };
+  const { A, B, tuning, rng, stats, fleets, rounds } = battle;
+  const log = opts.log ?? null;
+  const turn = battle.turn;
+  let shotRound = 1;
+  const onShot = opts.onShot
+    ? (event) => opts.onShot({ turn, round: shotRound, ...event })
+    : null;
+  const hasOrder = (s) => Object.prototype.hasOwnProperty.call(orders, s.id) && orders[s.id];
+
+  if (!living(A).length || !living(B).length || turn > battle.maxTurns) {
+    battle.done = true; battle.result = battleResult(battle);
+    return { turn, result: battle.result };
+  }
+  battle.turnsRun = turn;
+
+  // Missiles launched last turn arrive, subject to interception.
+  const arriving = battle.inFlight;
+  battle.inFlight = [];
+  const inFlight = battle.inFlight;
+  for (const m of arriving) {
+    const foeSide = m.side === "A" ? B : A;
+    const st = m.side === "A" ? stats.A : stats.B;
+    const target = foeSide.find((s) => s.id === m.targetId);
+    if (!target || target.destroyed) {
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "dead-target", damage: 0 });
+      continue;
+    }
+    const MC = tuning.toHit.missileClassInteraction;
+    if (MC && MC.enabled &&
+        (m.shooterPoints ?? 0) >= MC.heavyThresholdPoints &&
+        target.points < MC.heavyThresholdPoints &&
+        rng.next() < MC.heavyVsLightEvadeChance) {
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "evaded", damage: 0 });
+      continue;
+    }
+    if (intercepted(target, foeSide, tuning, rng)) {
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "intercepted", damage: 0 });
+      continue;
+    }
+    resolveHit(m.shooterPos, target, m.damage, foeSide, tuning, rng, st, log, m.spread);
+    if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "hit", damage: m.damage });
+  }
+
+  for (const s of [...living(A), ...living(B)]) startTurn(s, tuning);
+  for (const s of living(A)) chargeSpinal(s, B, tuning, log);
+  for (const s of living(B)) chargeSpinal(s, A, tuning, log);
+  for (const s of [...living(A), ...living(B)]) {
+    s.reserve = doctrineReserve(s, s.side === "A" ? B : A, tuning);
+    // A human reserve order overrides the doctrine: a fraction of the pool held for shields.
+    const o = hasOrder(s);
+    if (o && Number.isFinite(o.reserve)) s.reserve = Math.round(Math.min(1, Math.max(0, o.reserve)) * s.power);
+    s.orderTarget = (o && o.target && o.target !== "auto") ? o.target : null;
+  }
+  for (const s of [...living(A), ...living(B)]) evade(s, tuning, rng, log);
+
+  for (const [side, foe] of [[A, B], [B, A]]) {
+    const cloaked = living(side).filter((s) => s.cloaked && !s.decloaking);
+    if (!cloaked.length) continue;
+    const ready = cloaked.filter((s) => {
+      const n = nearest(s.pos, living(foe));
+      return n.ship && n.range <= preferredRange(s, tuning);
+    });
+    if (ready.length >= Math.ceil(cloaked.length * 0.6)) {
+      for (const s of cloaked) s.decloaking = true;
+      if (log) log(`${cloaked[0].faction} force decloaks: ${cloaked.length} ships`);
+    }
+  }
+
+  for (let round = 1; round <= rounds; round++) {
+    if (!living(A).length || !living(B).length) break;
+    shotRound = round;
+    for (const s of [...living(A), ...living(B)]) startRound(s);
+    if (INS && !battle.contactLogged && inContact(A, B, tuning)) {
+      battle.contactLogged = true;
+      helmStats.contactSpreadA += spreadOf(A);
+      helmStats.contactSpreadB += spreadOf(B);
+      helmStats.contactMateA += mateGapOf(A);
+      helmStats.contactMateB += mateGapOf(B);
+      helmStats.contactN++;
+    }
+
+    if (round === (tuning.strikeCraft?.strikeRound ?? 1)) {
+      strikePhase(A, B, tuning, rng, stats, log, onShot);
+      for (const s of [...A, ...B]) if (s.destroyed) scuttleSquadrons(s, log);
+    }
+
+    const byMovement = tuning.initiative?.fromMovementCommitment;
+    const order = [...living(A), ...living(B)]
+      .map((s) => ({
+        s,
+        roll: (byMovement ? Math.floor(spendable(s) / Math.max(0.1, s.movementPointRatio)) * 10 : 0)
+          + rng.int(100) + 1 + tuning.toHit.crewRatingDefault
+      }))
+      .sort((x, y) => y.roll - x.roll)
+      .map((x) => x.s);
+
+    const allShips = [...A, ...B];
+    for (const s of order) {
+      if (s.destroyed) continue;
+      const foe = s.side === "A" ? B : A;
+      const st = s.side === "A" ? stats.A : stats.B;
+      if (s.cloaked && !s.decloaking) { move(s, foe, s.side === "A" ? A : B, tuning); continue; }
+      if (s.decloaking) continue;
+
+      // HUMAN ORDERS: a round with movement in the plan is spent moving (as the
+      // scripted helm's rounds are - a ship either moves or fires in a round);
+      // a round planned as a hold fires if a mount bears, on the ordered target
+      // where possible. Parity with the AI is deliberate; whether a round may
+      // hold both movement and fire is a ruling for Chris.
+      const o = hasOrder(s);
+      const plan = o && Array.isArray(o.plan) ? o.plan[round - 1] : null;
+      if (plan && ((Number(plan.turn) || 0) !== 0 || (Number(plan.forward) || 0) > 0)) {
+        moveOrdered(s, plan, foe, tuning, log);
+        continue;
+      }
+
+      const hidden = living(foe).filter((e) => e.cloaked && !e.detected).length;
+      const canBear = targetable(foe).some((f) =>
+        s.mounts.some((m) => !m.inop && !m.firedThisTurn &&
+          distance(s.pos, f.pos) <= m.maxRange && bears(s, m, f.pos)));
+
+      if (hidden && s.hull.sensorRating >= 2 && !canBear) { scan(s, foe, s.side === "A" ? A : B, tuning, log); continue; }
+      if (!o && tryWarp(s, foe, s.side === "A" ? A : B, tuning, log)) continue;
+      if (canBear && fire(s, foe, s.side === "A" ? A : B, tuning, rng, inFlight, st, log, onShot) > 0) continue;
+      if (o) { if (log && plan) log(`${s.id} holds as ordered`); continue; } // an ordered hold does not wander
+      move(s, foe, s.side === "A" ? A : B, tuning);
+    }
+
+    for (const s of allShips) if (s.destroyed && !s.exploded) detonate(s, allShips, tuning, rng, log);
+    for (const s of allShips) if (s.destroyed && s.squadrons) scuttleSquadrons(s, log);
+    if (INS) censusFaces(A, B, tuning);
+    if (opts.onRound) opts.onRound(turn, round, fleets);
+  }
+
+  for (const s of [...living(A), ...living(B)]) {
+    if (s.decloaking) { s.decloaking = false; s.cloaked = false; s.detected = true; }
+  }
+
+  battle.turn = turn + 1;
+  if (!living(A).length || !living(B).length || battle.turn > battle.maxTurns) {
+    battle.done = true; battle.result = battleResult(battle);
+  }
+  return { turn, result: battle.result };
+}
+
+// What a ship may do this turn, for the planning UI.
+export function shipPlan(battle, shipId) {
+  const ship = battle.fleets.flat().find((s) => s.id === shipId);
+  if (!ship) return null;
+  const M = battle.tuning.movement ?? {};
+  const turnRate = (M.turnRatePerRound ?? {})[ship.className] ?? 2;
+  const pool = fullPower(ship);
+  const doc = battle.tuning.doctrine?.[ship.faction];
+  const reserveFraction = doc?.reserveFraction ?? 0.35;
+  return {
+    turnRate,
+    movementPointRatio: ship.movementPointRatio,
+    fullPower: pool,
+    defaultReserveFraction: reserveFraction,
+    maxHexesPerTurn: Math.floor(pool * (1 - reserveFraction) / Math.max(0.1, ship.movementPointRatio)),
+    roundsPerTurn: battle.rounds,
+    asteroidFieldCostMultiplier: battle.tuning.battle?.terrainRules?.asteroids?.moveCostMultiplier ?? 2
+  };
+}
+
+// A serialisable snapshot for the UI.
+export function battleView(battle) {
+  const M = battle.tuning.movement ?? {};
+  const ships = battle.fleets.flat().map((s) => ({
+    id: s.id, faction: s.faction, side: s.side, className: s.className, points: s.points,
+    pos: { ...s.pos }, facing: s.facing, destroyed: !!s.destroyed,
+    superstructure: s.superstructure, superstructureMax: s.superstructureMax ?? s.hull?.superstructure,
+    power: s.power, fullPower: fullPower(s), reserve: s.reserve ?? 0,
+    movementPointRatio: s.movementPointRatio,
+    turnRate: (M.turnRatePerRound ?? {})[s.className] ?? 2,
+    shieldCap: { ...s.shieldCap }, shieldDown: { ...s.shieldDown },
+    magazine: s.magazine,
+    mounts: s.mounts.map((m) => ({
+      id: m.id, type: m.type, kind: m.kind, arcName: m.arcName, arc: [...m.arc],
+      maxRange: m.maxRange, bands: (m.bands ?? []).map((b) => ({ ...b })),
+      inop: !!m.inop, firedThisTurn: !!m.firedThisTurn
+    })),
+    squadrons: s.squadrons ? s.squadrons.map((q) => ({ ...q })) : undefined,
+    spinal: s.spinal ? { ...s.spinal } : undefined
+  }));
+  return {
+    turn: battle.turn, roundsPerTurn: battle.rounds, maxTurns: battle.maxTurns,
+    map: battle.tuning.battle?.map ?? { shape: "hex", radiusHexes: battle.tuning.battle?.mapRadiusHexes },
+    terrain: battle.terrain.map((t) => ({ ...t })),
+    ships, done: battle.done, result: battle.result
+  };
+}
+
+export function runBattle(fleets, tuning, rng, opts = {}) {
+  const battle = createBattleFromFleets(fleets, tuning, rng, opts);
+  while (!battle.done) stepTurn(battle, {}, opts);
+  return battle.result;
 }
 
 export function buildFleet(faction, composition, tuning, loadouts, rng, prefix) {
