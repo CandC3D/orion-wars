@@ -1819,7 +1819,7 @@ function moveOrdered(ship, plan, enemies, tuning, log) {
     const next = add(ship.pos, ship.facing);
     const cost = stepCost(ship, next, tuning);
     if (spendable(ship) < cost) { if (log) log(`${ship.id} order clamped: power exhausted after ${moved} of ${forward} hexes`); break; }
-    if (!inBounds(next, tuning)) { if (log) log(`${ship.id} order clamped: terrain or the map edge after ${moved} of ${forward} hexes`); break; }
+    if (!inBounds(next, tuning)) { if (log) log(`${ship.id} order clamped: impassable terrain or the map edge after ${moved} of ${forward} hexes`); break; }
     if (tuning.battle?.sameHexNoFire !== false && moved === forward - 1 && foes.some((f) => f.pos.q === next.q && f.pos.r === next.r)) {
       if (log) log(`${ship.id} order clamped: will not end its move in an enemy's hex`); break;
     }
