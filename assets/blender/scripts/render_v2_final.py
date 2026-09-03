@@ -13,6 +13,8 @@ bsdf = nt.nodes["Principled BSDF"]
 attr = nt.nodes.new("ShaderNodeVertexColor")
 attr.layer_name = "Color"
 nt.links.new(attr.outputs["Color"], bsdf.inputs["Base Color"])
+bsdf.inputs["Roughness"].default_value = 0.6
+bsdf.inputs["Specular IOR Level"].default_value = 0.2
 # emissive interpretation: white + green + red glow candidates via colour match
 sep = nt.nodes.new("ShaderNodeSeparateColor")
 nt.links.new(attr.outputs["Color"], sep.inputs["Color"])
@@ -48,7 +50,7 @@ nt.links.new(is_green.outputs[0], esum.inputs[1])
 esum2 = nt.nodes.new("ShaderNodeMath"); esum2.operation = "ADD"
 nt.links.new(esum.outputs[0], esum2.inputs[0])
 nt.links.new(is_red.outputs[0], esum2.inputs[1])
-estr = nt.nodes.new("ShaderNodeMath"); estr.operation = "MULTIPLY"; estr.inputs[1].default_value = 2.0
+estr = nt.nodes.new("ShaderNodeMath"); estr.operation = "MULTIPLY"; estr.inputs[1].default_value = 0.0  # true-colour intake: no emission
 nt.links.new(esum2.outputs[0], estr.inputs[0])
 nt.links.new(attr.outputs["Color"], bsdf.inputs["Emission Color"])
 nt.links.new(estr.outputs[0], bsdf.inputs["Emission Strength"])
@@ -57,14 +59,18 @@ obj.data.materials.append(mat)
 
 scene = bpy.context.scene
 scene.render.engine = "BLENDER_EEVEE"
+scene.view_settings.view_transform = "Standard"
+scene.view_settings.look = "None"
+scene.view_settings.exposure = 0.0
+scene.view_settings.gamma = 1.0
 scene.render.resolution_x = 1400
 scene.render.resolution_y = 1000
 sun = bpy.data.objects.new("Sun", bpy.data.lights.new("Sun", "SUN"))
-sun.data.energy = 4.0
+sun.data.energy = 2.2
 sun.rotation_euler = (math.radians(55), 0, math.radians(35))
 bpy.context.collection.objects.link(sun)
 fill = bpy.data.objects.new("Fill", bpy.data.lights.new("Fill", "SUN"))
-fill.data.energy = 2.2
+fill.data.energy = 0.9
 fill.rotation_euler = (math.radians(-60), 0, math.radians(-130))
 bpy.context.collection.objects.link(fill)
 world = bpy.data.worlds.new("W"); world.use_nodes = True

@@ -89,6 +89,6 @@ for label, off in (("persp", (1.0, 0.9, 0.5)), ("rear", (0.9, -1.15, 0.3))):
     d = ctr - mathutils.Vector(cam.location)
     cam.rotation_euler = d.to_track_quat("-Z", "Y").to_euler()
     scene.render.filepath = os.path.join(ROOT, "assets", "blender", "preview",
-                                         "earth_v2", "cv_v21_%s.png" % label)
+                                         "truecolor", "cv_%s.png" % label)
     bpy.ops.render.render(write_still=True)
 print("RENDER_DONE")
