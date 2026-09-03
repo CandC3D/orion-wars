@@ -11,7 +11,10 @@ nt = mat.node_tree
 bsdf = nt.nodes["Principled BSDF"]
 attr = nt.nodes.new("ShaderNodeVertexColor")
 attr.layer_name = "Color"
-nt.links.new(attr.outputs["Color"], bsdf.inputs["Base Color"])
+# Tinkercad stores sRGB values in the (linear-spec) COLOR_0 slot: decode
+gam = nt.nodes.new("ShaderNodeGamma"); gam.inputs["Gamma"].default_value = 2.2
+nt.links.new(attr.outputs["Color"], gam.inputs["Color"])
+nt.links.new(gam.outputs["Color"], bsdf.inputs["Base Color"])
 bsdf.inputs["Roughness"].default_value = 0.6
 bsdf.inputs["Specular IOR Level"].default_value = 0.2
 # emissive interpretation: white + green + red glow candidates via colour match

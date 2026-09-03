@@ -323,3 +323,15 @@ probe_collar_stripes.py). Not a rendering problem, not overlap, not
 isolated noise. Every DD export to date (v2.0, v2.1 plain, Bundle,
 Union) shows it. Needs owner investigation in Tinkercad (stacked
 duplicate shapes at those parts?) or a rebuilt collar/pod group.
+
+## Washed-out colours: ROOT CAUSE = double gamma (2026-09-03)
+
+Tinkercad writes sRGB-encoded colour values into the glTF COLOR_0
+attribute, which the glTF spec (and Blender's importer) treat as LINEAR.
+Rendering them as linear re-encodes them for display -> double gamma:
+cobalt (0,158,217) became pale cyan; everything lifted and desaturated.
+Census values (0,0.62,0.85 etc.) are therefore the sRGB bytes/255.
+FIX (all render_tc_*.py): ShaderNodeGamma 2.2 between Vertex Color and
+Base Color (sRGB -> linear decode). Verified on CL: palette now matches
+Tinkercad. Any kit-pass material must apply the same decode (or convert
+the attribute once on import). Sol's legibility_demo.py needs it too.
