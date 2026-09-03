@@ -1,0 +1,33 @@
+{
+  "name": "Untitled scenario",
+  "seed": "orion",
+  "map": {
+    "widthHexes": 72,
+    "heightHexes": 40
+  },
+  "terrain": [],
+  "sides": [
+    {
+      "faction": "EAR",
+      "ships": [
+        {
+          "className": "destroyer",
+          "q": -26,
+          "r": 0,
+          "facing": 0
+        }
+      ]
+    },
+    {
+      "faction": "KRE",
+      "ships": [
+        {
+          "className": "destroyer",
+          "q": 25,
+          "r": -1,
+          "facing": 3
+        }
+      ]
+    }
+  ]
+}
