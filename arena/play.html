@@ -3,17 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Orion Wars — Interactive Playfield</title>
+  <title>Orion Wars — Fleet Command</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./arena.css?v=play1">
-  <link rel="stylesheet" href="./play.css?v=play1">
-  <script type="module" src="./play.js?v=frame1"></script>
+  <link rel="stylesheet" href="./arena.css?v=cmd2">
+  <link rel="stylesheet" href="./play.css?v=cmd2">
+  <script type="module" src="./play.js?v=cmd2"></script>
 </head>
 <body class="play-page">
   <header class="masthead play-head">
-    <div><p class="eyebrow">THE ORION WARS / FLEET COMMAND</p><h1>Interactive Playfield</h1></div>
-    <div id="phase-badge" class="phase-badge">Setup</div>
+    <div><p class="eyebrow">THE ORION WARS / FLEET COMMAND</p><h1>Fleet Command</h1></div>
+    <div class="sequence" id="sequence" aria-label="Turn sequence">
+      <span data-step="power" title="Every ship's power pool refills; spinal capacitors charge; the shield reserve is set">POWER</span>
+      <span data-step="impacts" title="Missiles launched last turn arrive: intercepted, evaded, or hit">IMPACTS</span>
+      <span data-step="a1" title="Action round 1: initiative, then every ship takes ONE action — move as planned, or hold and fire">ACTION 1</span>
+      <span data-step="a2" title="Action round 2">ACTION 2</span>
+      <span data-step="a3" title="Action round 3">ACTION 3</span>
+      <span data-step="end" title="Wrecks detonate; the turn ends">END</span>
+    </div>
     <nav class="viewer-actions" aria-label="Playfield navigation">
+      <button id="help-button" class="ghost" title="How a turn works">? Turn sequence</button>
       <a href="./editor.html">Scenario editor</a><a href="./index.html">Replay viewer</a>
     </nav>
   </header>
@@ -22,37 +30,78 @@
     <section class="viewport play-viewport" aria-label="Interactive tactical map">
       <canvas id="play-canvas"></canvas>
       <div class="camera-controls"><button id="frame-fleets">Frame fleets</button><button id="fit-map">Fit map</button></div>
+      <div id="map-legend" class="map-legend" hidden>
+        <span><i class="sw sw-laser"></i>laser arc</span><span><i class="sw sw-blaster"></i>blaster arc</span><span><i class="sw sw-missile"></i>missile arc</span><span><i class="sw sw-spinal"></i>spinal gun</span><span><i class="sw sw-path"></i>planned course</span><span><i class="sw sw-shield"></i>shield faces</span>
+      </div>
+
       <div id="setup-panel" class="setup-panel">
-        <p class="eyebrow">NEW COMMAND</p><h2>Choose the action</h2>
-        <label>Scenario<select id="scenario-select"></select></label>
-        <label>Command<select id="side-select"><option value="A">Side A</option><option value="B">Side B</option></select></label>
-        <label>Seed<input id="seed-input" value="orion"></label>
+        <p class="eyebrow">NEW COMMAND</p><h2>Set the board</h2>
+        <div class="setup-tabs"><button data-mode="quick" class="active">Build fleets</button><button data-mode="bundled">Bundled scenario</button><button data-mode="session">From the editor</button></div>
+
+        <div id="mode-quick" class="setup-mode">
+          <div class="quick-grid">
+            <div class="quick-side"><label>Side A <select id="quick-faction-a"></select></label><div id="quick-roster-a" class="roster"></div><div class="quick-total">Total <b id="quick-total-a">0</b> pts</div></div>
+            <div class="quick-side"><label>Side B <select id="quick-faction-b"></select></label><div id="quick-roster-b" class="roster"></div><div class="quick-total">Total <b id="quick-total-b">0</b> pts</div></div>
+          </div>
+          <div class="quick-row"><label>Map <input id="quick-width" type="number" value="72" min="24" max="120"> × <input id="quick-height" type="number" value="40" min="16" max="80"></label><label>Start gap <input id="quick-gap" type="number" value="26" min="8" max="60"> hexes</label></div>
+          <p class="setup-note">Ships deploy in line of battle at the short ends; use the editor to place ships and terrain by hand.</p>
+        </div>
+        <div id="mode-bundled" class="setup-mode" hidden><label>Scenario <select id="scenario-select"></select></label><p id="scenario-blurb" class="setup-note"></p></div>
+        <div id="mode-session" class="setup-mode" hidden><p id="session-blurb" class="setup-note">Design a scenario in the editor and choose “Play” there; it will appear here.</p></div>
+
+        <div class="quick-row"><label>I command <select id="side-select"><option value="A">Side A</option><option value="B">Side B</option></select></label><label>Seed <input id="seed-input" value="orion"></label></div>
         <button id="start-battle" class="primary">Take command</button>
         <p id="setup-message" role="status"></p>
+      </div>
+
+      <div id="help-panel" class="help-panel" hidden>
+        <p class="eyebrow">HOW A TURN WORKS</p>
+        <ol>
+          <li><b>Power.</b> Every ship's power pool refills. A spinal capacitor draws its charge. Your <b>shield reserve</b> is held back for absorption; the rest is for movement and guns.</li>
+          <li><b>Impacts.</b> Missiles launched <i>last</i> turn arrive now: point defence may intercept them, small hulls may evade, the rest hit.</li>
+          <li><b>Three action rounds.</b> Each round, initiative is rolled and every ship takes <b>one action</b>: <b>move</b> as planned (turn up to its turn rate, then run forward along its facing), or <b>hold and fire</b> every weapon that bears on a target in range. A carrier's strike wave goes in during round 1. Wrecks detonate at the end of each round.</li>
+          <li><b>End.</b> The turn closes; missiles fired this turn are in flight until next turn's impacts.</li>
+        </ol>
+        <p>So your plan for a ship is three actions. Move in the rounds you need to reach a firing position; hold in the rounds you want the guns to speak. The fire solution in the vessel panel tells you which weapons will bear on your target after your planned moves.</p>
+        <p class="setup-note">The scripted opponent lives under exactly the same rules: one action per ship per round.</p>
+        <button id="help-close" class="primary">Understood</button>
       </div>
       <div id="verdict" class="battle-verdict" hidden></div>
     </section>
 
     <aside class="play-sidebar">
       <section class="turn-summary"><p class="eyebrow">BATTLE CLOCK</p><div id="turn-label" class="round-label">Turn — / Planning</div><div id="side-label" class="side-label">No command assigned</div></section>
-      <section><div class="section-head"><p class="eyebrow">FLEET</p><span>unordered = scripted</span></div><div id="ship-list" class="ship-list"></div></section>
+      <section><div class="section-head"><p class="eyebrow">FLEET</p><span>unordered = holds &amp; fires</span></div><div id="ship-list" class="ship-list"></div></section>
       <section id="orders-panel" hidden>
         <p class="eyebrow">SELECTED VESSEL</p><h2 id="ship-name"></h2>
-        <div class="round-tabs" id="round-tabs"></div>
-        <div class="helm-controls">
-          <button id="turn-left" title="Q">↶ Q</button><button id="forward-down" title="S">− S</button>
-          <output id="forward-value">0 hex</output><button id="forward-up" title="W">+ W</button><button id="turn-right" title="E">E ↷</button>
+        <div class="schematic-row">
+          <canvas id="schematic" width="220" height="220" aria-label="Ship schematic"></canvas>
+          <div class="readouts">
+            <div class="readout"><span>HULL</span><i><b id="ro-hull"></b></i></div>
+            <div class="readout"><span>POWER</span><i><b id="ro-power"></b></i></div>
+            <div class="readout"><span>SPEED</span><i><b id="ro-speed"></b></i></div>
+            <div class="readout"><span>TURN RATE</span><i><b id="ro-turn"></b></i></div>
+            <div class="readout"><span>MAGAZINE</span><i><b id="ro-mag"></b></i></div>
+            <div id="mount-list" class="mount-list"></div>
+          </div>
         </div>
+        <p class="eyebrow">ORDERS — THREE ACTIONS THIS TURN</p>
+        <div class="action-slots" id="round-tabs"></div>
+        <div class="helm-controls">
+          <button id="turn-left" title="Q: turn to port">↶ Q</button><button id="forward-down" title="S: one hex less">− S</button>
+          <output id="forward-value">hold &amp; fire</output><button id="forward-up" title="W: one hex more">+ W</button><button id="turn-right" title="E: turn to starboard">E ↷</button>
+        </div>
+        <button id="hold-button" class="ghost small">Make this action a hold &amp; fire</button>
         <label class="reserve-control">Shield reserve <output id="reserve-value">30%</output><input id="reserve" type="range" min="0" max="0.8" step="0.05" value="0.3"></label>
         <div class="power-block"><div class="power-labels"><span>movement <b id="movement-cost">0</b></span><span>guns <b id="gun-power">0</b></span><span>reserve <b id="reserve-power">0</b></span></div><div class="power-bar"><i id="power-move"></i><i id="power-guns"></i><i id="power-reserve"></i></div></div>
-        <div class="target-row">Target <button id="target-auto">Auto</button><strong id="target-name">auto</strong></div>
-        <div id="mount-list" class="mount-list"></div>
+        <div class="target-row">Target <button id="target-auto">Auto</button><strong id="target-name">auto (nearest that bears)</strong></div>
+        <div id="fire-solution" class="fire-solution"></div>
       </section>
       <section class="combat-log"><div class="section-head"><p class="eyebrow">NARRATIVE LOG</p><span id="log-count">0 events</span></div><ol id="log-lines"></ol></section>
     </aside>
   </main>
   <footer class="play-controls">
-    <span id="hint">Choose a scenario and side to begin.</span>
+    <span id="hint">Set the board to begin.</span>
     <div><button id="save-record" disabled>Save game record</button><button id="open-viewer" disabled>Open in viewer</button><button id="end-turn" class="primary" disabled>End turn <kbd>Enter</kbd></button></div>
   </footer>
 </body>
