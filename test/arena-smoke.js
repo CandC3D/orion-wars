@@ -14,7 +14,10 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
-import { compositionFor, fleetPoints, inMap, rosterFor, snapWorldToHex, terrainFootprint, validateScenario } from "../arena/editor-core.js";
+import {
+  FACTIONS, TERRAIN_TYPES, asteroidFieldRocks, blockingTerrainHexSet, compositionFor, fleetPoints, inMap,
+  largeAsteroidOutline, nebulaOutline, rosterFor, snapWorldToHex, terrainBlocksShips, terrainFootprint, validateScenario
+} from "../arena/editor-core.js";
 import { recordScenario } from "../arena/record.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -161,7 +164,7 @@ async function runReplay(replay, { legacy = false, icons = true, mode = null } =
   if (mode) window.__arena.setRenderMode(mode);
   const firstLabel = get("#round-label").textContent;
   // Count only what playback draws: the first frame lands before the icon
-  // images have decoded, and legitimately falls back to chevrons.
+  // images have decoded, and legitimately draws nothing for that one frame.
   for (const key of Object.keys(window.__arena.state.rendered)) window.__arena.state.rendered[key] = 0;
   for (let i = 1; i < replay.rounds.length; i++) {
     get("#play").dispatch("click");
@@ -192,6 +195,50 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   assert(footprint.length === 7 && new Set(footprint.map((hex) => `${hex.q},${hex.r}`)).size === 7,
     "planet footprint is not a seven-hex rosette");
   assert(terrainFootprint({ type: "moon", q: 3, r: -2 }).length === 1, "moon footprint is not one hex");
+  assert(terrainFootprint({ type: "asteroid", q: 3, r: -2 }).length === 1, "large asteroid footprint is not one hex");
+  assert(terrainFootprint({ type: "asteroids", q: 3, r: -2 }).length === 1, "asteroid field footprint is not one hex");
+  assert(terrainFootprint({ type: "nebula", q: 3, r: -2 }).length === 1, "nebula footprint is not one hex");
+
+  // Asteroid field and nebula (rulings 2026-09-02, docs/tactical-design.md
+  // #26c, #26d): a ship MAY occupy or be dragged onto either, unlike moon,
+  // planet and the large asteroid.
+  assert(TERRAIN_TYPES.includes("asteroid") && TERRAIN_TYPES.includes("asteroids") && TERRAIN_TYPES.includes("nebula"),
+    "editor-core does not recognize every terrain type");
+  assert(terrainBlocksShips("moon") && terrainBlocksShips("planet") && terrainBlocksShips("asteroid") &&
+    !terrainBlocksShips("asteroids") && !terrainBlocksShips("nebula"),
+    "terrainBlocksShips disagrees with the engine's asteroid field/large asteroid/nebula ruling");
+  assert(blockingTerrainHexSet([{ type: "asteroids", q: 2, r: 2 }]).size === 0,
+    "an asteroid field was wrongly counted as blocking terrain");
+  assert(blockingTerrainHexSet([{ type: "nebula", q: 2, r: 2 }]).size === 0,
+    "a nebula hex was wrongly counted as blocking terrain");
+  assert(blockingTerrainHexSet([{ type: "asteroid", q: 2, r: 2 }]).has("2,2"),
+    "a large asteroid was not counted as blocking terrain");
+
+  // Asteroid and nebula art is deterministic per hex (so it does not shimmer
+  // between frames) and varies from one hex to the next.
+  {
+    const rocksA = asteroidFieldRocks(3, -7), rocksAgain = asteroidFieldRocks(3, -7), rocksOther = asteroidFieldRocks(4, -7);
+    assert(rocksA.length >= 6 && rocksA.length <= 9, `asteroid field rock count ${rocksA.length} is out of the expected 6-9 range`);
+    assert(JSON.stringify(rocksA) === JSON.stringify(rocksAgain), "asteroid field rock layout is not deterministic per hex");
+    assert(JSON.stringify(rocksA) !== JSON.stringify(rocksOther), "asteroid field art does not vary between hexes");
+    const outlineA = largeAsteroidOutline(3, -7), outlineAgain = largeAsteroidOutline(3, -7), outlineOther = largeAsteroidOutline(4, -7);
+    assert(outlineA.length >= 9 && outlineA.length <= 12, `large asteroid outline has ${outlineA.length} vertices, expected 9-12`);
+    assert(JSON.stringify(outlineA) === JSON.stringify(outlineAgain), "large asteroid outline is not deterministic per hex");
+    assert(JSON.stringify(outlineA) !== JSON.stringify(outlineOther), "large asteroid art does not vary between hexes");
+    const nebA = nebulaOutline(3, -7), nebAgain = nebulaOutline(3, -7), nebOther = nebulaOutline(4, -7);
+    assert(nebA.length >= 10 && nebA.length <= 14, `nebula outline has ${nebA.length} vertices, expected 10-14`);
+    assert(JSON.stringify(nebA) === JSON.stringify(nebAgain), "nebula outline is not deterministic per hex");
+    assert(JSON.stringify(nebA) !== JSON.stringify(nebOther), "nebula art does not vary between hexes");
+  }
+
+  // Every roster class has an icon in assets/icons/manifest.json -- this is
+  // what lets both the editor and the viewer drop the chevron/triangle
+  // fallback for ship markers entirely.
+  for (const faction of FACTIONS) {
+    for (const className of rosterFor(faction, tuning)) {
+      assert(iconManifest.icons[`${faction}/${className}`], `${faction}/${className} has no entry in the icon manifest`);
+    }
+  }
   for (const hex of [{ q: 0, r: 0 }, { q: -17, r: 8 }, { q: 12, r: -9 }, { q: 31, r: 5 }]) {
     const x = Math.sqrt(3) * (hex.q + hex.r / 2), y = 1.5 * hex.r;
     const snapped = snapWorldToHex(x + .08, y - .06);
@@ -227,6 +274,27 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   assert(errors.includes("unknown class"), "validation missed an unknown class");
   assert(errors.includes("Side 2 is empty"), "validation missed an empty side");
   assert(errors.includes("invalid facing"), "validation missed a bad facing value");
+
+  // Asteroid field (rulings 2026-09-02): a ship placed in one must NOT be
+  // reported as "on terrain" -- unlike every other terrain type, ships may
+  // occupy or pass through it (docs/tactical-design.md #26c).
+  const onField = JSON.parse(JSON.stringify(sampleScenario));
+  onField.terrain.push({ type: "asteroids", q: onField.sides[0].ships[0].q, r: onField.sides[0].ships[0].r });
+  const onFieldErrors = validateScenario(onField, tuning, loadouts);
+  assert(onFieldErrors.length === 0, `a ship on an asteroid field wrongly failed validation: ${onFieldErrors.join(" | ")}`);
+
+  // The large asteroid, unlike the field, blocks a ship the same as a moon.
+  const onLargeAsteroid = JSON.parse(JSON.stringify(sampleScenario));
+  onLargeAsteroid.terrain.push({ type: "asteroid", q: onLargeAsteroid.sides[0].ships[0].q, r: onLargeAsteroid.sides[0].ships[0].r });
+  assert(validateScenario(onLargeAsteroid, tuning, loadouts).some((m) => m.includes("on terrain")),
+    "validation did not flag a ship placed on a large asteroid");
+
+  // Nebula (ruling 2026-09-02, docs/tactical-design.md #26d, the Mutara
+  // rules): also passable, so a ship inside must not be flagged "on terrain".
+  const onNebula = JSON.parse(JSON.stringify(sampleScenario));
+  onNebula.terrain.push({ type: "nebula", q: onNebula.sides[0].ships[0].q, r: onNebula.sides[0].ships[0].r });
+  const onNebulaErrors = validateScenario(onNebula, tuning, loadouts);
+  assert(onNebulaErrors.length === 0, `a ship inside a nebula wrongly failed validation: ${onNebulaErrors.join(" | ")}`);
 
   // A hull that exists in hullClasses but is outside the faction's roster (the
   // retired command-ship, or another power's unique) must be rejected too, even
@@ -374,7 +442,7 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
   assert(arena.icons.size >= 52, `only ${arena.icons.size} icons preloaded`);
   assert(run.counts.laser + run.counts.blaster > 0, "no beams drawn alongside the icons");
   assert(arena.state.rendered.icon > 0, "no ship was drawn as an icon");
-  assert(arena.state.rendered.chevron === 0, "a ship fell back to the chevron marker with icons available");
+  assert(arena.state.rendered.missing === 0, "a ship drew nothing (missing art) with icons available");
 
   // Rule (a): an icon's footprint fits inside one hex. The drawing box is
   // ICON_SPAN circumradii wide; the artwork inside it is `size` of that box and
@@ -421,14 +489,21 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
   assert(spriteRun.arena.state.render === "sprites", "the sprites toggle did not switch modes");
   assert(spriteRun.arena.state.rendered.sprite > 0, "sprite mode drew no sprites");
   // The sprite sheet predates the dreadnought and the carrier, which is why
-  // icons are now the default; those two hulls fall back to the chevron.
-  assert(spriteRun.arena.state.rendered.chevron > 0, "sprite mode lost its chevron fallback");
+  // icons are now the default; there is no chevron any more (every roster
+  // class has an icon), so those two hulls fall back to their icon instead.
+  assert(spriteRun.arena.state.rendered.icon > 0, "sprite mode did not fall back to icons for hulls the sprite sheet predates");
+  assert(spriteRun.arena.state.rendered.missing === 0, "sprite mode drew nothing for a hull that has an icon");
   assert(spriteRun.elements.get("mode-sprites").classes.has("active"), "the sprites button is not marked active");
 
-  // Chevron fallback when the icon set is missing entirely.
+  // No chevron/triangle fallback at all: with the icon manifest unavailable
+  // (and sprite mode not selected, so sprites are not consulted either),
+  // every ship draws nothing and is tallied as missing rather than as a
+  // fallback marker.
   const bareRun = await runReplay(replays[1].replay, { icons: false });
   assert(bareRun.arena.icons.size === 0, "icons loaded when the manifest was unavailable");
-  assert(bareRun.arena.state.rendered.chevron > 0, "no chevron fallback without icons");
+  assert(bareRun.arena.state.rendered.icon === 0 && bareRun.arena.state.rendered.sprite === 0,
+    "bare run drew ship art it should not have had");
+  assert(bareRun.arena.state.rendered.missing > 0, "no missing-art tally when the icon manifest is unavailable");
 }
 
 // ------------------------------------- photonic cannon and carrier air group
@@ -493,6 +568,11 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
     "planet and moon bodies did not reach the canvas");
   assert(terrainRun.arena.state.rendered.planet > 0 && terrainRun.arena.state.rendered.moon > 0,
     "terrain render paths did not execute");
+  // The sample scenario carries no asteroid or nebula terrain -- confirm
+  // those render paths stay untouched rather than firing spuriously.
+  assert(terrainRun.arena.state.rendered.asteroid === 0 && terrainRun.arena.state.rendered.asteroids === 0 &&
+    terrainRun.arena.state.rendered.nebula === 0,
+    "an asteroid/nebula render path fired without any such terrain");
 
   const oldReplay = JSON.parse(JSON.stringify(scenarioReplay));
   delete oldReplay.meta.terrain;
@@ -500,6 +580,45 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
   const oldRun = await runReplay(oldReplay);
   assert(oldRun.counts.planet === 0 && oldRun.counts.moon === 0,
     "an old replay without terrain drew a body");
+  assert(oldRun.arena.state.rendered.asteroid === 0 && oldRun.arena.state.rendered.asteroids === 0 && oldRun.arena.state.rendered.nebula === 0,
+    "an old replay without meta.terrain drew asteroid or nebula terrain");
+
+  // Every terrain type, rendered end-to-end from a recorded replay: one ship
+  // deliberately sits inside the asteroid field and another inside the
+  // nebula (both allowed) to prove buildScenario, the recorder and the
+  // viewer all agree they are passable, not just validateScenario.
+  const allTerrainScenario = {
+    name: "Every Terrain Type Check", seed: "every-terrain-type-check",
+    map: { widthHexes: 72, heightHexes: 40 },
+    terrain: [
+      { type: "planet", q: 0, r: 0 },
+      { type: "moon", q: -8, r: -6 },
+      { type: "asteroid", q: 9, r: 5 },
+      { type: "asteroids", q: 5, r: -3 },
+      { type: "nebula", q: -5, r: -3 }
+    ],
+    sides: [
+      { faction: "EAR", ships: [
+        { className: "dreadnought", q: -15, r: 0, facing: 0 },
+        { className: "light-cruiser", q: -14, r: 3, facing: 0 },
+        { className: "frigate", q: 5, r: -3, facing: 0 } // parked inside the asteroid field on purpose
+      ] },
+      { faction: "KRE", ships: [
+        { className: "carrier", q: 15, r: 0, facing: 3 },
+        { className: "strike-cruiser", q: 14, r: -3, facing: 3 },
+        { className: "frigate", q: -5, r: -3, facing: 3 } // parked inside the nebula on purpose
+      ] }
+    ]
+  };
+  assert(validateScenario(allTerrainScenario, tuning, loadouts).length === 0,
+    "the every-terrain-type check scenario does not validate");
+  const allTerrainReplay = recordScenario(allTerrainScenario, tuning, loadouts);
+  assert(TERRAIN_TYPES.every((type) => allTerrainReplay.meta.terrain.some((t) => t.type === type)),
+    "recorded replay lost one or more terrain types");
+  const allTerrainRun = await runReplay(allTerrainReplay);
+  assert(allTerrainRun.arena.state.rendered.asteroid > 0, "the large-asteroid render path did not execute");
+  assert(allTerrainRun.arena.state.rendered.asteroids > 0, "the asteroid-field render path did not execute");
+  assert(allTerrainRun.arena.state.rendered.nebula > 0, "the nebula render path did not execute");
 }
 
 // --------------------------------------------------------------- legacy

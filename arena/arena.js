@@ -38,6 +38,53 @@
   const CAMERA_MAX_HEX_WIDTH = 60;
   const PAN_THRESHOLD = 5;
 
+  // --- deterministic asteroid art -----------------------------------------
+  // Same algorithm as arena/editor-core.js's hashHex/hexRng/asteroidFieldRocks/
+  // largeAsteroidOutline, duplicated here because this file is a plain script
+  // (not an ES module) so it keeps working when the viewer is opened straight
+  // from disk (see arena/README.md) -- mirror any change on both sides.
+  function hashHex(q, r, salt) {
+    let h = (Math.trunc(q) * 374761393 + Math.trunc(r) * 668265263 + salt * 2246822519) | 0;
+    h = Math.imul(h ^ (h >>> 15), 1 | h);
+    h ^= h + Math.imul(h ^ (h >>> 7), 61 | h);
+    h ^= h >>> 14;
+    return (h >>> 0) || 1;
+  }
+  function hexRng(q, r, salt) {
+    let state = hashHex(q, r, salt);
+    return function next() {
+      state |= 0; state = (state + 0x6d2b79f5) | 0;
+      let t = Math.imul(state ^ (state >>> 15), 1 | state);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function asteroidFieldRocks(q, r) {
+    const rand = hexRng(q, r, 1);
+    const count = 6 + Math.floor(rand() * 4);
+    const rocks = [];
+    for (let i = 0; i < count; i++) {
+      const angle = rand() * Math.PI * 2;
+      const dist = rand() * .6;
+      rocks.push({ dx: Math.cos(angle) * dist, dy: Math.sin(angle) * dist, radius: .09 + rand() * .14, shade: rand() });
+    }
+    return rocks;
+  }
+  function largeAsteroidOutline(q, r) {
+    const rand = hexRng(q, r, 2);
+    const points = 9 + Math.floor(rand() * 4);
+    const outline = [];
+    for (let i = 0; i < points; i++) outline.push({ angle: (i / points) * Math.PI * 2, radius: .72 + rand() * .28 });
+    return outline;
+  }
+  function nebulaOutline(q, r) {
+    const rand = hexRng(q, r, 4);
+    const points = 10 + Math.floor(rand() * 5);
+    const outline = [];
+    for (let i = 0; i < points; i++) outline.push({ angle: (i / points) * Math.PI * 2, radius: .82 + rand() * .16 });
+    return outline;
+  }
+
   const sprites = new Map();
   const icons = new Map();
   const state = {
@@ -56,10 +103,10 @@
     // A cumulative tally of which render paths have run. Cheap, and it is what
     // test/arena-smoke.js asserts against.
     rendered: {
-      icon: 0, sprite: 0, chevron: 0, craft: 0, stacked: 0,
+      icon: 0, sprite: 0, missing: 0, craft: 0, stacked: 0,
       spinalCharge: 0, spinalHold: 0, spinalVent: 0,
       spinalBolt: 0, spinalHit: 0, spinalMiss: 0,
-      strikeRun: 0, strikeImpact: 0, moon: 0, planet: 0
+      strikeRun: 0, strikeImpact: 0, moon: 0, planet: 0, asteroid: 0, asteroids: 0, nebula: 0
     }
   };
 
@@ -960,29 +1007,122 @@
     if (!Array.isArray(terrain)) return;
     for (const item of terrain) {
       if (!item || !Number.isFinite(item.q) || !Number.isFinite(item.r)) continue;
-      const at = project(item, geo);
-      const planet = item.type === "planet";
-      if (!planet && item.type !== "moon") continue;
-      const radius = geo.scale * (planet ? 2.15 : .72);
-      const gradient = safeRadial(at.x - radius * .28, at.y - radius * .3, radius * .08, at.x, at.y, radius);
-      if (!gradient) continue;
-      if (planet) {
-        gradient.addColorStop(0, "rgba(255,241,201,.98)");
-        gradient.addColorStop(.35, "rgba(187,169,130,.98)");
-        gradient.addColorStop(1, "rgba(75,64,54,.98)");
-      } else {
-        gradient.addColorStop(0, "rgba(244,247,248,.98)");
-        gradient.addColorStop(.45, "rgba(170,179,186,.98)");
-        gradient.addColorStop(1, "rgba(72,83,91,.98)");
-      }
-      ctx.save();
-      ctx.fillStyle = gradient;
-      ctx.shadowColor = planet ? "rgba(210,169,109,.45)" : "rgba(217,238,242,.3)";
-      ctx.shadowBlur = radius * .25;
-      ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-      state.rendered[planet ? "planet" : "moon"]++;
+      if (item.type === "moon" || item.type === "planet") drawMoonOrPlanet(item, geo);
+      else if (item.type === "asteroid") drawLargeAsteroid(item, geo);
+      else if (item.type === "asteroids") drawAsteroidField(item, geo);
+      else if (item.type === "nebula") drawNebula(item, geo);
     }
+  }
+
+  function drawMoonOrPlanet(item, geo) {
+    const at = project(item, geo);
+    const planet = item.type === "planet";
+    const radius = geo.scale * (planet ? 2.15 : .72);
+    const gradient = safeRadial(at.x - radius * .28, at.y - radius * .3, radius * .08, at.x, at.y, radius);
+    if (!gradient) return;
+    if (planet) {
+      gradient.addColorStop(0, "rgba(255,241,201,.98)");
+      gradient.addColorStop(.35, "rgba(187,169,130,.98)");
+      gradient.addColorStop(1, "rgba(75,64,54,.98)");
+    } else {
+      gradient.addColorStop(0, "rgba(244,247,248,.98)");
+      gradient.addColorStop(.45, "rgba(170,179,186,.98)");
+      gradient.addColorStop(1, "rgba(72,83,91,.98)");
+    }
+    ctx.save();
+    ctx.fillStyle = gradient;
+    ctx.shadowColor = planet ? "rgba(210,169,109,.45)" : "rgba(217,238,242,.3)";
+    ctx.shadowBlur = radius * .25;
+    ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+    state.rendered[planet ? "planet" : "moon"]++;
+  }
+
+  // The large asteroid ("asteroid"): one impassable, fire-blocking hex like a
+  // moon, but drawn as a jagged silhouette (largeAsteroidOutline, deterministic
+  // per hex) instead of a smooth sphere, so it reads as a craggy rock.
+  function drawLargeAsteroid(item, geo) {
+    const at = project(item, geo);
+    const base = geo.scale * .72;
+    if (!Number.isFinite(at.x) || !Number.isFinite(at.y) || !Number.isFinite(base)) return;
+    const outline = largeAsteroidOutline(item.q, item.r);
+    ctx.save();
+    ctx.beginPath();
+    outline.forEach((point, i) => {
+      const r = base * point.radius;
+      const x = at.x + Math.cos(point.angle) * r, y = at.y + Math.sin(point.angle) * r;
+      if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+    });
+    ctx.closePath();
+    const gradient = safeRadial(at.x - base * .25, at.y - base * .3, base * .1, at.x, at.y, base);
+    if (gradient) {
+      gradient.addColorStop(0, "rgba(147,129,106,.98)");
+      gradient.addColorStop(.5, "rgba(94,77,61,.98)");
+      gradient.addColorStop(1, "rgba(43,34,26,.98)");
+      ctx.fillStyle = gradient;
+    } else {
+      ctx.fillStyle = "rgba(80,66,53,.98)";
+    }
+    ctx.shadowColor = "rgba(0,0,0,.4)";
+    ctx.shadowBlur = base * .2;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(37,28,21,.9)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+    state.rendered.asteroid++;
+  }
+
+  // The asteroid field ("asteroids"): a speckled grey-brown scatter of small
+  // rocks (asteroidFieldRocks, deterministic per hex so it does not shimmer
+  // between frames) filling most of the hex -- not a solid body, so ships and
+  // effects draw over it normally.
+  function drawAsteroidField(item, geo) {
+    const at = project(item, geo);
+    if (!Number.isFinite(at.x) || !Number.isFinite(at.y) || !Number.isFinite(geo.scale)) return;
+    const rocks = asteroidFieldRocks(item.q, item.r);
+    ctx.save();
+    for (const rock of rocks) {
+      const x = at.x + rock.dx * geo.scale, y = at.y + rock.dy * geo.scale;
+      const r = Math.max(.4, rock.radius * geo.scale);
+      const tone = 96 + Math.round(rock.shade * 60);
+      ctx.fillStyle = `rgba(${tone},${Math.round(tone * .86)},${Math.round(tone * .7)},.92)`;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+    state.rendered.asteroids++;
+  }
+
+  // Nebula: a soft purple-violet haze filling most of the hex, with a gently
+  // irregular edge (nebulaOutline, deterministic per hex so it does not
+  // shimmer between frames). Passable and does not block fire (the engine's
+  // Mutara rules -- short visibility, a to-hit penalty, shields useless
+  // inside -- are mechanical only and have no separate render here).
+  function drawNebula(item, geo) {
+    const at = project(item, geo);
+    const base = geo.scale * .8;
+    if (!Number.isFinite(at.x) || !Number.isFinite(at.y) || !Number.isFinite(base)) return;
+    const outline = nebulaOutline(item.q, item.r);
+    ctx.save();
+    ctx.beginPath();
+    outline.forEach((point, i) => {
+      const r = base * point.radius;
+      const x = at.x + Math.cos(point.angle) * r, y = at.y + Math.sin(point.angle) * r;
+      if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+    });
+    ctx.closePath();
+    const gradient = safeRadial(at.x, at.y, 0, at.x, at.y, base);
+    if (gradient) {
+      gradient.addColorStop(0, "rgba(186,150,255,.34)");
+      gradient.addColorStop(.6, "rgba(138,96,224,.22)");
+      gradient.addColorStop(1, "rgba(90,58,168,.05)");
+      ctx.fillStyle = gradient;
+    } else {
+      ctx.fillStyle = "rgba(138,96,224,.22)";
+    }
+    ctx.fill();
+    ctx.restore();
+    state.rendered.nebula++;
   }
 
   function traceHex(center, size) {
@@ -1110,16 +1250,21 @@
   // -------------------------------------------------------------- ships
 
   // Radius of the drawn marker, whichever renderer is in use. Never larger than
-  // the hex's inradius: one ship, one hex, no spilling (ruling 24b).
+  // the hex's inradius: one ship, one hex, no spilling (ruling 24b). Every
+  // roster class has an icon (test/arena-smoke.js checks this), so the icon
+  // radius is the universal fallback under the sprite mode's per-hull gaps;
+  // zero only in the never-expected case where even the icon is missing (see
+  // drawShip), so a hit-test still gets a sane floor from geo.scale.
   function markerSize(ship, geo) {
     const offset = state.offsets.get(ship.id);
     const shrink = offset?.shrink ?? 1;
+    const key = `${ship.faction}/${ship.className}`;
     const iconRadius = ICON_SPAN * ICON_EXTENT * shrink * geo.scale;
-    const chevron = Math.max(5, Math.min(13, 5 + Math.sqrt(ship.points) * 2)) * shrink;
-    if (state.render === "icons" && icons.has(`${ship.faction}/${ship.className}`)) return iconRadius;
-    const sprite = state.render === "sprites" ? sprites.get(`${ship.faction}/${ship.className}`) : null;
-    if (sprite) return Math.max(chevron, spriteBox(sprite, geo, shrink) / 2);
-    return chevron;
+    if (state.render === "sprites") {
+      const sprite = sprites.get(key);
+      if (sprite) return Math.max(iconRadius, spriteBox(sprite, geo, shrink) / 2);
+    }
+    return icons.has(key) ? iconRadius : 0;
   }
 
   function spriteBox(sprite, geo, shrink) {
@@ -1142,13 +1287,28 @@
     ctx.restore();
   }
 
+  // Every roster class has an icon (test/arena-smoke.js checks the full
+  // roster against assets/icons/manifest.json), so there is no chevron/
+  // triangle fallback marker any more: sprite mode falls back to the icon for
+  // hulls the legacy sprite sheet predates (dreadnought, carrier), and icon
+  // mode -- or a genuinely missing icon -- draws nothing and logs one console
+  // warning per missing faction/class so it doesn't spam every frame.
+  const warnedMissingArt = new Set();
+  function warnMissingShipArt(key) {
+    state.rendered.missing++;
+    if (warnedMissingArt.has(key)) return;
+    warnedMissingArt.add(key);
+    console.warn(`Battle Arena: no ship art (icon or sprite) for ${key}; drawing nothing.`);
+  }
+
   function drawShip(ship, previous, geo, now) {
     const at = pointFor(ship, geo);
     const offset = state.offsets.get(ship.id);
     const shrink = offset?.shrink ?? 1;
     const size = markerSize(ship, geo);
-    const icon = state.render === "icons" ? icons.get(`${ship.faction}/${ship.className}`) : null;
-    const sprite = !icon && state.render === "sprites" ? sprites.get(`${ship.faction}/${ship.className}`) : null;
+    const key = `${ship.faction}/${ship.className}`;
+    const sprite = state.render === "sprites" ? sprites.get(key) : null;
+    const icon = !sprite ? icons.get(key) : null;
     const hidden = ship.cloaked && !ship.detected;
     const destroyedNow = ship.destroyed;
     const motionOpacity = ship._motion?.opacity ?? 1;
@@ -1156,36 +1316,20 @@
     drawMotionCue(ship, geo);
     if (offset) state.rendered.stacked++;
 
-    if (icon) {
+    if (sprite) {
+      if (state.pinned === ship.id) drawPin(at, size + 3);
+      drawIconImage(sprite.image, at.x, at.y, spriteBox(sprite, geo, shrink),
+        -ship.facing * Math.PI / 3, alpha, destroyedNow);
+      state.rendered.sprite++;
+    } else if (icon) {
       if (state.pinned === ship.id) drawPin(at, size + 3);
       // Every icon shares one drawing box; the generator baked the manifest
       // `size` into each SVG, so the artwork comes out at its class's scale.
       drawIconImage(icon.image, at.x, at.y, ICON_SPAN * geo.scale * shrink,
         -ship.facing * Math.PI / 3, alpha, destroyedNow);
       state.rendered.icon++;
-    } else if (sprite) {
-      if (state.pinned === ship.id) drawPin(at, size + 3);
-      drawIconImage(sprite.image, at.x, at.y, spriteBox(sprite, geo, shrink),
-        -ship.facing * Math.PI / 3, alpha, destroyedNow);
-      state.rendered.sprite++;
     } else {
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.translate(at.x, at.y);
-      ctx.rotate(-ship.facing * Math.PI / 3);
-      ctx.fillStyle = destroyedNow ? "#6d7377" : colors[ship.faction] || "#fff";
-      ctx.strokeStyle = destroyedNow ? "#92979a" : "#ecf7ff";
-      ctx.lineWidth = state.pinned === ship.id ? 2 : 1;
-      ctx.beginPath();
-      ctx.moveTo(size * 1.2, 0);
-      ctx.lineTo(-size * .75, -size * .68);
-      ctx.lineTo(-size * .38, 0);
-      ctx.lineTo(-size * .75, size * .68);
-      ctx.closePath();
-      ctx.fill();
-      if (state.pinned === ship.id) ctx.stroke();
-      ctx.restore();
-      state.rendered.chevron++;
+      warnMissingShipArt(key);
     }
 
     ctx.save();

@@ -21,6 +21,8 @@
 .faction-picker { width: 100%; padding: 7px; margin-bottom: 10px; }
 .class-list { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .class-list button { display: flex; justify-content: space-between; padding: 6px 7px; text-align: left; font-size: 10px; }
+.class-list button span { display: flex; align-items: center; }
+.class-icon { width: 14px; height: 14px; margin-right: 4px; flex: none; object-fit: contain; }
 .class-list em { color: var(--accent); font-style: normal; }
 .class-list button:disabled { opacity: .4; cursor: not-allowed; }
 .class-list button:disabled em { color: var(--muted); }
@@ -28,7 +30,7 @@
 .empty-tray { padding: 20px 4px; color: var(--muted); text-align: center; font-size: 11px; }
 .ship-card-editor { display: grid; grid-template-columns: 1fr auto; gap: 1px 7px; padding: 7px 8px; border: 1px solid var(--line); border-left: 3px solid var(--side-color); border-radius: 4px; background: #0b1117; cursor: grab; }
 .ship-card-editor.selected { outline: 1px solid var(--accent); }
-.ship-card-editor strong { overflow: hidden; text-overflow: ellipsis; font-size: 11px; text-transform: capitalize; }
+.ship-card-editor strong { display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; font-size: 11px; text-transform: capitalize; }
 .ship-card-editor small { grid-column: 1; color: var(--muted); }
 .ship-card-editor .ship-buttons { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 3px; align-items: center; }
 .ship-card-editor button { width: 25px; height: 25px; padding: 0; }
@@ -42,6 +44,9 @@
 .map-legend { position: absolute; left: 12px; bottom: 10px; display: flex; gap: 12px; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
 .map-legend span::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 5px; border-radius: 50%; background: #73808b; }
 .map-legend .planet-key::before { background: #b8aa8d; }
+.map-legend .asteroid-key::before { background: #6f5c48; }
+.map-legend .asteroids-key::before { background: #9c8468; }
+.map-legend .nebula-key::before { background: #9a7cf0; }
 .drop-hint { position: absolute; inset: 18%; z-index: 6; display: none; place-items: center; border: 1px dashed var(--accent); background: #0c1218ee; color: var(--accent); font: 20px Georgia, serif; }
 .editor-page.file-drag .drop-hint { display: grid; }
 

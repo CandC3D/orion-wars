@@ -1,11 +1,17 @@
 import {
-  FACTIONS, axialToWorld, compositionFor, fleetPoints, inMap, normalizeFacing, rosterFor, scenarioForSave,
-  snapWorldToHex, terrainFootprint, terrainHexSet, validateScenario
+  FACTIONS, TERRAIN_TYPES, TERRAIN_LABELS, asteroidFieldRocks, axialToWorld, blockingTerrainHexSet, compositionFor,
+  fleetPoints, inMap, largeAsteroidOutline, nebulaOutline, normalizeFacing, rosterFor, scenarioForSave,
+  snapWorldToHex, terrainBlocksShips, terrainFootprint, terrainHexSet, validateScenario
 } from "./editor-core.js";
 import { recordScenario } from "./record.js";
 
 export const SESSION_REPLAY_KEY = "orion-wars:scenario-replay:v3";
 const COLORS = { EAR: "#54a8ff", VRA: "#edc85e", ZAN: "#ec655d", KRE: "#62c98a" };
+// Ship markers use the same playtest icon set as the viewer (assets/icons/
+// manifest.json), at the same drawing-box convention -- ICON_SPAN/ICON_EXTENT
+// must match arena.js's so a scenario looks the same in both pages.
+const ICON_SPAN = 1.35;
+const ICON_EXTENT = .6;
 const $ = (selector) => document.querySelector(selector);
 const canvas = $("#editor-canvas");
 const ctx = canvas.getContext("2d");
@@ -19,6 +25,9 @@ runBattleButton.disabled = true;
 
 let tuning;
 let loadouts;
+let iconManifest;
+// Decoded <img> elements for the canvas ship markers, keyed "FACTION/class".
+const shipIcons = new Map();
 let nextUid = 1;
 let activeTool = "select";
 let selected = null;
@@ -87,7 +96,7 @@ function traceHex(at, size) {
   ctx.closePath();
 }
 
-function drawTerrain(item, geo) {
+function drawMoonOrPlanet(item, geo) {
   const at = project(item, geo);
   const radius = item.type === "planet" ? geo.scale * 2.15 : geo.scale * .72;
   const gradient = ctx.createRadialGradient(at.x - radius * .28, at.y - radius * .3, radius * .08, at.x, at.y, radius);
@@ -103,19 +112,118 @@ function drawTerrain(item, geo) {
   ctx.restore();
 }
 
+// The large asteroid ("asteroid"): impassable and fire-blocking like a moon,
+// but a jagged silhouette (largeAsteroidOutline) reads as a craggy rock
+// instead of a smooth sphere.
+function drawLargeAsteroid(item, geo) {
+  const at = project(item, geo);
+  const base = geo.scale * .72;
+  const outline = largeAsteroidOutline(item.q, item.r);
+  ctx.save();
+  ctx.beginPath();
+  outline.forEach((point, i) => {
+    const r = base * point.radius;
+    const x = at.x + Math.cos(point.angle) * r, y = at.y + Math.sin(point.angle) * r;
+    if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+  });
+  ctx.closePath();
+  const gradient = ctx.createRadialGradient(at.x - base * .25, at.y - base * .3, base * .1, at.x, at.y, base);
+  gradient.addColorStop(0, "#93816a"); gradient.addColorStop(.5, "#5e4d3d"); gradient.addColorStop(1, "#2b221a");
+  ctx.fillStyle = gradient; ctx.shadowColor = "#00000066"; ctx.shadowBlur = base * .2;
+  ctx.fill();
+  ctx.strokeStyle = "#251c15"; ctx.lineWidth = 1; ctx.stroke();
+  if (selected?.kind === "terrain" && selected.uid === item._uid) { ctx.strokeStyle = "#e4c275"; ctx.lineWidth = 2; ctx.stroke(); }
+  ctx.restore();
+}
+
+// The asteroid field ("asteroids"): a speckled grey-brown scatter of small
+// rocks (asteroidFieldRocks), not a solid body -- ships may sit among them.
+function drawAsteroidField(item, geo) {
+  const at = project(item, geo);
+  const rocks = asteroidFieldRocks(item.q, item.r);
+  ctx.save();
+  for (const rock of rocks) {
+    const x = at.x + rock.dx * geo.scale, y = at.y + rock.dy * geo.scale;
+    const r = Math.max(.4, rock.radius * geo.scale);
+    const tone = 96 + Math.round(rock.shade * 60);
+    ctx.fillStyle = `rgb(${tone},${Math.round(tone * .86)},${Math.round(tone * .7)})`;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+  }
+  if (selected?.kind === "terrain" && selected.uid === item._uid) {
+    ctx.strokeStyle = "#e4c275"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(at.x, at.y, geo.scale * .8, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// Nebula: a soft purple-violet haze filling most of the hex, with a gently
+// irregular edge (nebulaOutline). Passable and does not block fire.
+function drawNebula(item, geo) {
+  const at = project(item, geo);
+  const base = geo.scale * .8;
+  const outline = nebulaOutline(item.q, item.r);
+  ctx.save();
+  ctx.beginPath();
+  outline.forEach((point, i) => {
+    const r = base * point.radius;
+    const x = at.x + Math.cos(point.angle) * r, y = at.y + Math.sin(point.angle) * r;
+    if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+  });
+  ctx.closePath();
+  const gradient = ctx.createRadialGradient(at.x, at.y, 0, at.x, at.y, base);
+  gradient.addColorStop(0, "rgba(186,150,255,.34)");
+  gradient.addColorStop(.6, "rgba(138,96,224,.22)");
+  gradient.addColorStop(1, "rgba(90,58,168,.05)");
+  ctx.fillStyle = gradient;
+  ctx.fill();
+  if (selected?.kind === "terrain" && selected.uid === item._uid) {
+    ctx.strokeStyle = "#e4c275"; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(at.x, at.y, geo.scale * .8, 0, Math.PI * 2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawTerrain(item, geo) {
+  if (item.type === "asteroid") return drawLargeAsteroid(item, geo);
+  if (item.type === "asteroids") return drawAsteroidField(item, geo);
+  if (item.type === "nebula") return drawNebula(item, geo);
+  return drawMoonOrPlanet(item, geo);
+}
+
 function allShips() {
   return model.sides.flatMap((side, sideIndex) => side.ships.map((ship) => ({ ship, sideIndex })));
+}
+
+// Every roster class has an icon (test/arena-smoke.js checks this against
+// assets/icons/manifest.json), so ship markers are always drawn from the same
+// icon set the viewer uses -- nose up, rotated to facing, one hex footprint
+// (ruling 24b). No chevron/triangle fallback: a genuinely missing icon draws
+// nothing and logs one console warning per faction/class, not spammed.
+const warnedMissingIcon = new Set();
+function warnMissingShipIcon(key) {
+  if (warnedMissingIcon.has(key)) return;
+  warnedMissingIcon.add(key);
+  console.warn(`Scenario editor: no ship icon for ${key}; drawing nothing.`);
 }
 
 function drawShip(ship, sideIndex, geo) {
   if (!Number.isFinite(ship.q) || !Number.isFinite(ship.r)) return;
   const at = project(ship, geo);
-  const size = Math.max(5, Math.min(12, geo.scale * .65));
-  ctx.save(); ctx.translate(at.x, at.y); ctx.rotate(-normalizeFacing(ship.facing) * Math.PI / 3);
-  ctx.fillStyle = COLORS[model.sides[sideIndex].faction] || "#fff"; ctx.strokeStyle = "#ecf7ff";
-  ctx.lineWidth = selected?.kind === "ship" && selected.uid === ship._uid ? 2 : 1;
-  ctx.beginPath(); ctx.moveTo(size * 1.25, 0); ctx.lineTo(-size * .75, -size * .68); ctx.lineTo(-size * .38, 0); ctx.lineTo(-size * .75, size * .68); ctx.closePath(); ctx.fill(); ctx.stroke();
+  const key = `${model.sides[sideIndex].faction}/${ship.className}`;
+  const icon = shipIcons.get(key);
+  if (!icon) { warnMissingShipIcon(key); return; }
+  const box = ICON_SPAN * geo.scale;
+  ctx.save();
+  ctx.translate(at.x, at.y);
+  // Manifest artwork is nose-up; engine facing 0 = east turning
+  // counter-clockwise, matching arena.js's drawIconImage exactly.
+  ctx.rotate(-normalizeFacing(ship.facing) * Math.PI / 3 + Math.PI / 2);
+  ctx.drawImage(icon, -box / 2, -box / 2, box, box);
   ctx.restore();
+  if (selected?.kind === "ship" && selected.uid === ship._uid) {
+    ctx.save();
+    ctx.strokeStyle = "#e4c275"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(at.x, at.y, ICON_SPAN * ICON_EXTENT * geo.scale + 2, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+  }
 }
 
 function draw() {
@@ -140,6 +248,18 @@ function classesFor(faction) {
   return rosterFor(faction, tuning).filter((name) => Number.isFinite(tuning?.hullClasses?.[name]?.points));
 }
 
+// `<img>` source for a class icon (fleet-builder buttons, tray cards): the
+// same manifest arena.js reads, referenced by its static file path -- these
+// small static thumbnails don't need the preloaded shipIcons Image objects.
+function iconSrc(faction, className) {
+  const entry = iconManifest?.icons?.[`${faction}/${className}`];
+  return entry?.file ? `../assets/icons/${encodeURIComponent(entry.file)}` : null;
+}
+function iconImgTag(faction, className) {
+  const src = iconSrc(faction, className);
+  return src ? `<img class="class-icon" src="${src}" alt="">` : "";
+}
+
 function renderFleet(sideIndex) {
   const panel = sideIndex ? $("#side-b") : $("#side-a");
   const side = model.sides[sideIndex];
@@ -153,11 +273,11 @@ function renderFleet(sideIndex) {
       const count = compositionFor(side)[name] || 0;
       const atLimit = Number.isFinite(limit) && count >= limit;
       const points = Number.isFinite(limit) ? `${hull.points} (max ${limit})` : hull.points;
-      return `<button data-add="${name}"${atLimit ? " disabled" : ""}><span>+ ${name}</span><em>${points}</em></button>`;
+      return `<button data-add="${name}"${atLimit ? " disabled" : ""}><span>${iconImgTag(side.faction, name)}+ ${name}</span><em>${points}</em></button>`;
     }).join("")}</div>` +
     `<div class="ship-tray">${side.ships.length ? side.ships.map((ship) => {
       const placed = Number.isFinite(ship.q) && Number.isFinite(ship.r);
-      return `<article class="ship-card-editor${selected?.kind === "ship" && selected.uid === ship._uid ? " selected" : ""}" draggable="true" data-ship="${ship._uid}"><strong>${ship.className}</strong><small>${tuning.hullClasses[ship.className]?.points ?? "?"} pts · ${placed ? `${ship.q},${ship.r} · facing ${normalizeFacing(ship.facing)}` : "line deployment"}</small><span class="ship-buttons"><button data-rotate="${ship._uid}" title="Rotate">↻</button><button data-remove="${ship._uid}" title="Remove">×</button></span></article>`;
+      return `<article class="ship-card-editor${selected?.kind === "ship" && selected.uid === ship._uid ? " selected" : ""}" draggable="true" data-ship="${ship._uid}"><strong>${iconImgTag(side.faction, ship.className)}${ship.className}</strong><small>${tuning.hullClasses[ship.className]?.points ?? "?"} pts · ${placed ? `${ship.q},${ship.r} · facing ${normalizeFacing(ship.facing)}` : "line deployment"}</small><span class="ship-buttons"><button data-rotate="${ship._uid}" title="Rotate">↻</button><button data-remove="${ship._uid}" title="Remove">×</button></span></article>`;
     }).join("") : `<p class="empty-tray">Add ships above. Unplaced ships use line deployment.</p>`}</div>`;
   panel.querySelector(".faction-picker").addEventListener("change", (event) => {
     side.faction = event.target.value;
@@ -197,7 +317,7 @@ function findShip(uid) {
 function removeShip(uid) { const found = findShip(uid); if (!found) return; found.ship && model.sides[found.sideIndex].ships.splice(model.sides[found.sideIndex].ships.indexOf(found.ship), 1); if (selected?.uid === uid) selected = null; refresh("Ship removed."); }
 function rotateShip(uid) { const found = findShip(uid); if (!found) return; found.ship.facing = normalizeFacing(found.ship.facing + 1); selected = { kind: "ship", uid }; refresh("Facing rotated 60° counter-clockwise."); }
 
-function canPlaceShip(hex) { return inMap(hex.q, hex.r, model.map) && !terrainHexSet(model.terrain).has(`${hex.q},${hex.r}`); }
+function canPlaceShip(hex) { return inMap(hex.q, hex.r, model.map) && !blockingTerrainHexSet(model.terrain).has(`${hex.q},${hex.r}`); }
 function placeShip(uid, hex) {
   const found = findShip(uid); if (!found) return false;
   if (!inMap(hex.q, hex.r, model.map)) { setMessage("Ships cannot be placed off the map.", "error"); return false; }
@@ -207,14 +327,23 @@ function placeShip(uid, hex) {
 
 function canPlaceTerrain(item, omitIndex = -1) {
   const other = terrainHexSet(model.terrain, omitIndex);
-  const ships = new Set(allShips().filter(({ ship }) => Number.isFinite(ship.q) && Number.isFinite(ship.r)).map(({ ship }) => `${ship.q},${ship.r}`));
+  // The asteroid field is passable, so it may share a hex with a ship (in
+  // either placement order); every other terrain type must not.
+  const ships = terrainBlocksShips(item.type)
+    ? new Set(allShips().filter(({ ship }) => Number.isFinite(ship.q) && Number.isFinite(ship.r)).map(({ ship }) => `${ship.q},${ship.r}`))
+    : new Set();
   return terrainFootprint(item).every((hex) => inMap(hex.q, hex.r, model.map) && !other.has(`${hex.q},${hex.r}`) && !ships.has(`${hex.q},${hex.r}`));
 }
 
 function addTerrain(type, hex) {
   const item = { type, ...hex, _uid: nextUid++ };
   if (!canPlaceTerrain(item)) { setMessage("Terrain must fit on-map without overlapping ships or other terrain.", "error"); return; }
-  model.terrain.push(item); selected = { kind: "terrain", uid: item._uid }; setTool("select"); refresh(`${type === "planet" ? "Planet" : "Moon"} placed.`);
+  model.terrain.push(item); selected = { kind: "terrain", uid: item._uid };
+  // Nebula is painted one hex per click to build up a cloud of several tiles,
+  // so its tool stays active; every other terrain type reverts to Select
+  // after one placement, as before.
+  if (type !== "nebula") setTool("select");
+  refresh(`${TERRAIN_LABELS[type] || "Terrain"} placed.`);
 }
 
 function hitObject(point) {
@@ -257,7 +386,7 @@ canvas.addEventListener("pointerup", (event) => {
       const index = model.terrain.findIndex((item) => item._uid === finished.hit.uid); const moved = { ...model.terrain[index], ...hex };
       if (canPlaceTerrain(moved, index)) { Object.assign(model.terrain[index], hex); refresh("Terrain moved."); } else setMessage("Terrain must fit on-map without overlapping ships or other terrain.", "error");
     } else { selected = finished.hit; refresh(); }
-  } else if (!finished.moved && (activeTool === "moon" || activeTool === "planet")) addTerrain(activeTool, hex);
+  } else if (!finished.moved && TERRAIN_TYPES.includes(activeTool)) addTerrain(activeTool, hex);
 });
 
 canvas.addEventListener("dragover", (event) => { if (event.dataTransfer.types.includes("application/x-orion-ship")) event.preventDefault(); });
@@ -307,15 +436,45 @@ runBattleButton.addEventListener("click", () => {
 window.addEventListener("resize", draw);
 window.__editor = { get model() { return model; }, scenarioForSave: () => scenarioForSave(model), validate: () => validateScenario(scenarioForSave(model), tuning, loadouts), placeShip, addTerrain, loadScenarioObject, geometry, project, camera, SESSION_REPLAY_KEY };
 
+// Fire-and-forget: decode every manifest icon into an <img>, redrawing (and
+// re-rendering the fleet panels, so button/tray thumbnails pick it up too) as
+// each one lands. The editor is fully usable before this settles.
+function preloadShipIcons() {
+  const table = iconManifest?.icons;
+  if (!table || typeof table !== "object") return;
+  for (const [key, entry] of Object.entries(table)) {
+    if (!entry || typeof entry.file !== "string") continue;
+    let image;
+    try { image = new Image(); } catch (_) { continue; }
+    if (!image || typeof image.addEventListener !== "function") continue;
+    image.decoding = "async";
+    image.addEventListener("load", () => { shipIcons.set(key, image); draw(); }, { once: true });
+    image.addEventListener("error", () => console.warn(`Scenario editor: ship icon failed to load for ${key} (${entry.file})`), { once: true });
+    image.src = `../assets/icons/${encodeURIComponent(entry.file)}`;
+  }
+}
+
 try {
   if (location.protocol === "file:") {
     // Browsers block data fetches and engine module imports on file:// pages,
     // so the editor cannot run from disk. Say so plainly instead of hanging.
     throw new Error("The Scenario Editor must be opened through the local server, not from disk: double-click \"Start Orion Wars.cmd\" in the project folder (or run \"npm run arena\"), then use http://localhost:8642/arena/editor.html");
   }
-  const [tuningResponse, loadoutsResponse] = await Promise.all([fetch("../data/tactical-tuning.json", { cache: "no-store" }), fetch("../data/loadouts.json", { cache: "no-store" })]);
+  const [tuningResponse, loadoutsResponse, iconsResponse] = await Promise.all([
+    fetch("../data/tactical-tuning.json", { cache: "no-store" }),
+    fetch("../data/loadouts.json", { cache: "no-store" }),
+    // Ship icons are a visual nicety, not core scenario-building function, so
+    // a failure here is swallowed rather than blocking the editor.
+    fetch("../assets/icons/manifest.json", { cache: "no-store" }).catch(() => null)
+  ]);
   if (!tuningResponse.ok || !loadoutsResponse.ok) throw new Error("tactical data could not be fetched");
   tuning = await tuningResponse.json(); loadouts = await loadoutsResponse.json();
+  if (iconsResponse && iconsResponse.ok) {
+    try { iconManifest = await iconsResponse.json(); preloadShipIcons(); }
+    catch (_) { iconManifest = null; }
+  } else {
+    console.warn("Scenario editor: assets/icons/manifest.json unavailable; ship markers will not be drawn.");
+  }
   saveScenarioButton.disabled = false; runBattleButton.disabled = false;
   syncInputs(); refresh();
 } catch (error) { setMessage(`Editor unavailable: ${error.message}. Serve the repository over HTTP so browser modules can fetch data.`, "error"); }

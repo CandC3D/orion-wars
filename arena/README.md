@@ -35,8 +35,14 @@ node test/record-battle.js --scenario arena/scenarios/twin-moons.json --out aren
 ```
 
 Open `arena/editor.html` to build a scenario, place terrain and ships, save or
-reload its JSON, and run it directly in the browser. Browser-run replays are
-stored in `sessionStorage` under `orion-wars:scenario-replay:v3`, then opened
+reload its JSON, and run it directly in the browser. Terrain comes in five
+types: moon, large asteroid and planet are impassable and block fire;
+asteroid field is passable at double movement cost and blocks fire in and
+out; nebula is passable and does not block fire, though a ship inside one
+fights under the Mutara rules (short visibility, a to-hit penalty, shields
+useless). Ship markers use the same playtest icon set in the editor and the
+viewer. Browser-run replays are stored in `sessionStorage` under
+`orion-wars:scenario-replay:v3`, then opened
 as `arena/index.html?replay=session`; the viewer shows a **Back to editor** link
 for these records. When opening modules from `file://` is restricted, serve the
 repository root with any static HTTP server.
@@ -61,7 +67,9 @@ buttons; when opened directly from disk, select the JSON file with the picker.
 
 Ships are drawn with the schematic icons from `assets/icons/` by default; the
 **Sprites** button in the transport bar switches to the rendered sprite sheet,
-and any hull without a sprite falls back to a chevron. The engagement area is
+and any hull the sprite sheet predates (dreadnought, carrier) falls back to
+its icon instead — every roster class has one, so there is no chevron/
+triangle marker any more. The engagement area is
 the landscape rectangle of hexes from `battle.map` and is fitted to the width
 of the window; a replay recorded before that ruling carries only
 `mapRadiusHexes` and is still drawn on the old hexagonal field.
