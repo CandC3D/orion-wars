@@ -271,3 +271,16 @@ audit: ONE ball turret (4,198) + detail - defensive armament only, the
 offence flies. Census: gray 193,239 / blue 124,752 / red 109,866 /
 white 14,427 / orange 13,806 / gold 12,411 / mid-dark 8,751 / green
 3,876 (dome light).
+
+## Frigate v2.1 FLAGGED - colour scramble (2026-09-02)
+
+True-colour renders (assets/blender/preview/truecolor/, corrected rig
+with no emission + Standard transform) show the Frigate v2.1 palette
+permuted vs Tinkercad (sphere renders light gray, equatorial band red,
+boom green); the Destroyer Union export renders correctly under the
+same rig. Populations are right, assignment to parts is not - the
+plain (non-Union) export scramble already seen on DD/LC/Krelath FF. It
+also explains the earlier "light-gray band" puzzle: the band IS gray in
+Tinkercad; the export swapped that group. Union Group re-export
+requested. NOTE: all v2 renders before 2026-09-02 were colour-
+inaccurate (whole hull glowed via an over-broad emissive gate).
