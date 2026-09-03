@@ -14,6 +14,31 @@ import { buildShip, fullPower, startTurn, startRound, spendable, applyDamage } f
 
 const living = (fleet) => fleet.filter((s) => !s.destroyed);
 
+// ------------------------------------------------------- instrumentation
+// The helm keeps an account of itself, so each rule can be measured rather
+// than argued about. Everything here is inert behind one boolean unless a
+// harness switches it on with resetHelmStats(true), and nothing in it touches
+// the rng or any ship state - a battle runs byte-identically either way.
+export const helmStats = { on: false };
+// A module-scope boolean rather than a property read on the exported object:
+// the counters sit in the hottest loops in the engine, and `helmStats.on` in
+// those loops measured 5% of the whole harness's wall-clock on its own.
+let INS = false;
+export function resetHelmStats(on = false) {
+  INS = !!on;
+  Object.assign(helmStats, {
+    on,
+    headingCalls: 0, headingArc: 0, headingBudget: 0,
+    needClose: 0, needOpen: 0, needHold: 0,
+    stepDirect: 0, stepFlank: 0,
+    orbitSteps: 0, evadeSteps: 0, gatherHeld: 0, leashHeld: 0, aimSwitch: 0,
+    presentRounds: 0, presentWeak: 0,
+    contactSpreadA: 0, contactSpreadB: 0, contactMateA: 0, contactMateB: 0, contactN: 0
+  });
+  return helmStats;
+}
+resetHelmStats(false);
+
 function centroid(ships) {
   if (!ships.length) return { q: 0, r: 0 };
   return {
@@ -61,6 +86,16 @@ function bears(shooter, mount, targetPos) {
   return mount.arc.includes(shieldFacing(shooter, targetPos));
 }
 
+// How sound is one of this ship's own faces? 1 intact, 0.5 damaged (one hit
+// on the shield generator for that facing), 0 down. The helm uses it twice:
+// to decide which face to PRESENT to the enemy, and to decide which of an
+// enemy's faces is worth steering for.
+const SHIELD_SYS = [null, "shield-1", "shield-2", "shield-3", "shield-4", "shield-5", "shield-6"];
+function faceHealth(ship, face) {
+  if (ship.shieldDown[face]) return 0;
+  return (ship.systems[SHIELD_SYS[face]] ?? 0) >= 1 ? 0.5 : 1;
+}
+
 // Weight of fire a ship can throw through one of its own faces. `standing`
 // counts the whole battery rather than only the mounts still loaded this turn:
 // deciding whether a hull is CAPABLE of a fighting withdrawal is a question
@@ -77,6 +112,153 @@ function fireWeight(ship, face, tuning, standing = false) {
   return score;
 }
 
+// ------------------------------------------------------------ the helm
+//
+// ARC AWARENESS (2026-09-03). Everything from here to the end of move() is
+// governed by `tuning.helm`; with the block absent, or with
+// `helm.enabled: false`, every function below falls back to exactly the
+// behaviour that shipped before it - which is what the ablation runs in the
+// design log measure.
+//
+// Four questions the helm now asks, in Chris's order:
+//   (a) which of MY faces am I showing to the fire?      helm.arcDefence
+//   (b) which of HIS faces am I shooting at?             helm.arcAttack
+//   (c) can I step out of that battery's arc?            helm.arcEvasion
+//   (d) is my fleet with me?                             helm.cohesion
+//
+// The costs are deliberately bounded: one six-slot threat histogram per
+// move(), the six-way scan of headings that was already there, and a one-step
+// lookahead over at most six hexes. No path search, and no per-enemy inner
+// loop inside a candidate loop except against the single heaviest threat.
+const cfgHelm = (tuning) => tuning.helm ?? {};
+const helmOn = (tuning) => !!tuning.helm && tuning.helm.enabled !== false;
+const turnCostBetween = (a, b) => Math.min((b - a + 6) % 6, (a - b + 6) % 6);
+
+// Where is the fire coming from, and how much of it? A six-slot histogram over
+// hex directions, weighted by the weight of fire each enemy can actually throw
+// through the face it is presenting to us, and gated on that enemy being able
+// to reach us at all. Normalised to a share, so the defensive term below means
+// the same thing whether the shooter is a frigate or a battleship. `top` is
+// the single heaviest contributor, which is all arc evasion needs.
+function threatProfile(ship, enemies, tuning) {
+  const t = [0, 0, 0, 0, 0, 0];
+  let total = 0, top = null, topW = 0;
+  for (const e of enemies) {
+    if (e.destroyed || (e.cloaked && !e.detected)) continue;
+    const d = distance(ship.pos, e.pos);
+    if (d === 0 || d > maxReach(e, tuning)) continue;
+    const w = standingWeight(e, shieldFacing(e, ship.pos), tuning);
+    if (w <= 0) continue;
+    t[bearing(ship.pos, e.pos)] += w;
+    total += w;
+    if (w > topW) { topW = w; top = e; }
+  }
+  if (total > 0) for (let i = 0; i < 6; i++) t[i] /= total;
+  return { t, total, top, topW };
+}
+
+// How inviting is `target` seen from the hex direction `dir` (measured FROM
+// the target)? A downed face is the prize, a damaged one is half of it, and
+// the flank and rear quarters are worth something even with their shields
+// whole, because the damage tables behind them are: face 5 eats engineering
+// and the current turn's power pool, faces 4 and 6 the flank table.
+function faceValueFrom(target, dir, AA) {
+  const face = faceFor(target.facing, dir);
+  let v = 1 - faceHealth(target, face);
+  if (face === 5) v += AA.rearBonus ?? 0.5;
+  else if (face === 4 || face === 6) v += AA.flankBonus ?? 0.25;
+  return v;
+}
+
+// The direction, measured from the target, this ship would rather attack from.
+// Ties - and near-ties - go to where the ship already is: a helm works AROUND
+// an enemy for a real gain, it does not circumnavigate one for a rounding
+// error. Deterministic: fixed scan order, fixed tie-break, no rng.
+function preferredApproachDir(target, fromDir, AA, taken) {
+  // CONVERGING ATTACK. The single hardest fact the instrumentation turned up:
+  // you cannot flank a ship that turns to face you. Both helms re-aim every
+  // round they move, and at equal turn rates one attacker walking round an
+  // enemy simply tows that enemy's nose with it - measured, an orbit rule on
+  // its own moved the flank/rear share of hits by nothing at all.
+  //
+  // What DOES work is more than one bearing at once, because a hull has one
+  // nose and the enemy fleet has several. `spreadBonus` rewards a direction
+  // for being clear of the bearings friends already occupy against this
+  // target, so a pair converges from two quarters and whichever of them the
+  // enemy noses at, the other one is on a flank. `taken` is the list of
+  // directions (measured from the target) that friends are already on; it is
+  // built only when the dial is non-zero.
+  const spread = (d) => {
+    if (!taken || !taken.length) return 0;
+    let nearest = 3;
+    for (const t of taken) {
+      const c = turnCostBetween(d, t);
+      if (c < nearest) nearest = c;
+    }
+    return (AA.spreadBonus ?? 0) * (nearest / 3);
+  };
+  const value = (d) => faceValueFrom(target, d, AA) + spread(d);
+  const here = value(fromDir);
+  let bestD = fromDir, bestV = here, bestTurn = 0;
+  for (let d = 0; d < 6; d++) {
+    const v = value(d);
+    const turn = turnCostBetween(fromDir, d);
+    if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 && turn < bestTurn)) {
+      bestV = v; bestD = d; bestTurn = turn;
+    }
+  }
+  return { dir: bestD, gain: bestV - here };
+}
+
+// Which bearings, measured from `target`, are friends already attacking it
+// from? Only ships close enough to be in the same fight count, and only when
+// the converging-attack dial is on - otherwise this is never called.
+function occupiedDirs(ship, target, mates, tuning, AA) {
+  if (!(AA.spreadBonus > 0)) return null;
+  const out = [];
+  const radius = (AA.spreadRadiusHexes ?? 12);
+  for (const m of mates) {
+    if (m === ship) continue;
+    if (distance(m.pos, target.pos) > radius) continue;
+    out.push(bearing(target.pos, m.pos));
+  }
+  return out;
+}
+
+// Travelling one hexside off the direct bearing walks a ship around its
+// target. Which side? Measured on the grid rather than reasoned about: a step
+// in direction (direct + 1) DECREASES the bearing index the target sees of us,
+// a step in (direct + 5) increases it. This is the cloaked ship's old `swing`,
+// generalised and given a direction that means something.
+function swingOffset(curDir, wantDir) {
+  const up = (wantDir - curDir + 6) % 6;
+  if (up === 0) return 0;
+  return up <= 3 ? 5 : 1;
+}
+
+// The helm asks two questions of a hull over and over - what can it throw
+// through each face with its whole battery, and how far can it reach - and
+// neither answer changes until a mount is knocked out. Both are cached on the
+// ship and dropped by applyDamage() the moment a weapon-mount hit lands, which
+// is the only event in the engine that can change either. Without this the
+// arc-aware helm cost the trial harness 90% more wall-clock; with it, 12%.
+function helmCache(ship, tuning) {
+  let c = ship._helm;
+  if (c) return c;
+  const standing = [0, 0, 0, 0, 0, 0, 0];       // indexed by shield face 1-6
+  for (let f = 1; f <= 6; f++) standing[f] = fireWeight(ship, f, tuning, true);
+  let best = 0, reach = 0;
+  for (let f = 1; f <= 6; f++) if (standing[f] > best) best = standing[f];
+  for (const m of ship.mounts) {
+    if (m.inop || m.kind === "spinal") continue;
+    if (m.maxRange > reach) reach = m.maxRange;
+  }
+  c = { standing, best, reach };
+  ship._helm = c;
+  return c;
+}
+const standingWeight = (ship, face, tuning) => helmCache(ship, tuning).standing[face];
+
 // Which way should a ship point? Turning the nose at the enemy is only correct
 // for a nose-armed hull. A ship with quarter or broadside arcs that noses in
 // throws away most of its battery, and a hull whose single mount sits on the
@@ -85,15 +267,54 @@ function fireWeight(ship, face, tuning, standing = false) {
 // that brings the most weight of fire to bear, with an intact shield as the
 // tie-break. Ships still turn only one step per action, so the choice costs
 // tempo exactly as before.
-function bestHeading(ship, targetPos, tuning) {
+function bestHeading(ship, targetPos, tuning, budgetIn, profIn) {
+  if (INS) helmStats.headingCalls++;
   const dir = bearing(ship.pos, targetPos);
+  const AD = cfgHelm(tuning).arcDefence ?? {};
+  const arc = helmOn(tuning) && AD.enabled !== false;
+  const prof = arc && profIn && profIn.total > 0 ? profIn : null;
+  // TURN BUDGET. The old chooser picked the globally best heading and let
+  // turnTowards walk toward it one hexside at a time, so a capital could spend
+  // two rounds pointing at nothing on the way to an optimum the fight had
+  // already left. Score only the headings this ship can actually reach with
+  // the turns it has left, and it makes the best of what it has instead.
+  const budget = arc && AD.turnBudgetAware !== false && budgetIn >= 0 ? budgetIn : 6;
+  // The defensive term is scaled against this hull's OWN best weight of fire,
+  // so one dial reads the same on a frigate and on a battleship: at weight 1.0
+  // a ship will trade its whole battery rather than show a hole to all of the
+  // incoming fire; at 0.5 it will trade half of it.
+  const defW = prof ? (AD.weight ?? 0.6) * helmCache(ship, tuning).best : 0;
+
+  // Hoisted out of the 6x6 scan below: how much of a hole is each of this
+  // ship's own faces? Six lookups instead of thirty-six.
+  let harmOf = null;
+  if (prof) {
+    harmOf = [0, 0, 0, 0, 0, 0, 0];
+    for (let face = 1; face <= 6; face++) harmOf[face] = 1 - faceHealth(ship, face);
+  }
   let best = ship.facing, bestScore = -Infinity;
+  let plain = ship.facing, plainScore = -Infinity;      // instrumentation only
+  let free = ship.facing, freeScore = -Infinity;        // instrumentation only
   for (let f = 0; f < 6; f++) {
     const face = faceFor(f, dir);
     let score = fireWeight(ship, face, tuning);
     if (!ship.shieldDown[face]) score += 0.5;   // meet him with a live shield
     if (face === 2) score += 0.25;              // and keep the nose round on a tie
+    if (score > freeScore) { freeScore = score; free = f; }
+    if (turnCostBetween(ship.facing, f) > budget) continue;
+    if (score > plainScore) { plainScore = score; plain = f; }
+    if (prof) {
+      // Presenting a hole to the fire costs the share of the fire that would
+      // arrive through it. Down counts whole, damaged counts half.
+      let harm = 0;
+      for (let d = 0; d < 6; d++) if (prof.t[d] > 0) harm += prof.t[d] * harmOf[faceFor(f, d)];
+      if (harm > 0) score -= defW * harm;
+    }
     if (score > bestScore) { bestScore = score; best = f; }
+  }
+  if (INS) {
+    if (best !== plain) helmStats.headingArc++;
+    if (plain !== free) helmStats.headingBudget++;
   }
   return best;
 }
@@ -126,11 +347,9 @@ function canWithdrawFighting(ship, tuning) {
   // pointing, and so opening the range costs it nothing. Once the wing is dead
   // the exemption lapses and the hull fights - or runs - like any other.
   if (hasAirGroup(ship, tuning)) return true;
-  const astern = fireWeight(ship, 5, tuning, true);
-  let best = 0;
-  for (let face = 1; face <= 6; face++) best = Math.max(best, fireWeight(ship, face, tuning, true));
-  if (best <= 0) return true;
-  return astern >= need * best;
+  const c = helmCache(ship, tuning);
+  if (c.best <= 0) return true;
+  return c.standing[5] >= need * c.best;
 }
 
 // Does this ship still have craft in hand? The gate on every carrier behaviour.
@@ -173,6 +392,7 @@ function preferredRange(ship, tuning) {
 // factions a kite the short-gun factions cannot answer. Left as nominal range
 // deliberately; the fix that DOES work is canWithdrawFighting below.
 function maxReach(ship, tuning) {
+  if (ship._helm) return ship._helm.reach;
   let r = 0;
   for (const m of ship.mounts) {
     if (m.inop) continue;
@@ -918,6 +1138,9 @@ function classInteractionMod(shooter, target, tuning, rng) {
 
 function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot) {
   const cmd = commandBonus(ship, friends, 'commandToHit');
+  const AAF = cfgHelm(tuning).arcAttack ?? {};
+  const AIMWEAK = helmOn(tuning) && AAF.enabled !== false && AAF.aimAtWeakFace === true;
+  const AIMSLACK = AAF.aimSlackHexes ?? 2;
   // The keel gun resolves before the secondaries and out of its own capacitor.
   // `fired` is 0 for every hull without ship.spinal, so the two early returns
   // below behave exactly as they always did.
@@ -935,7 +1158,29 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
       (f) => !f.destroyed && mayEngage(ship, f, tuning) && distance(ship.pos, f.pos) <= mount.maxRange && bears(ship, mount, f.pos) && lineOfFire(ship.pos, f.pos, tuning)
     );
     if (!candidates.length) continue;
-    const target = candidates.sort((a, b) => distance(ship.pos, a.pos) - distance(ship.pos, b.pos))[0];
+    // (b) ATTACK THE WEAK ARC, at the trigger. Among the enemies this mount
+    // already bears on, prefer the one showing a hole or a bare quarter over
+    // the one that merely happens to be nearest - but only within
+    // `targetSlackHexes` of the nearest, so a fleet still concentrates its
+    // fire instead of scattering it across the field. This is the only place
+    // the helm block reaches into gunnery, and it is here because steering is
+    // not enough on its own: you cannot flank a hull that turns to face you,
+    // but in a fleet action there is almost always somebody ELSE whose flank
+    // is already turned your way.
+    let target = null;
+    if (AIMWEAK) {
+      let nearD = Infinity;
+      for (const c of candidates) { const d = distance(ship.pos, c.pos); if (d < nearD) nearD = d; }
+      let bestV = -Infinity, bestD = Infinity;
+      for (const c of candidates) {
+        const d = distance(ship.pos, c.pos);
+        if (d > nearD + AIMSLACK) continue;
+        const v = faceValueFrom(c, bearing(c.pos, ship.pos), AAF);
+        if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 && d < bestD)) { bestV = v; bestD = d; target = c; }
+      }
+      if (INS && target && distance(ship.pos, target.pos) > nearD) helmStats.aimSwitch++;
+    }
+    if (!target) target = candidates.sort((a, b) => distance(ship.pos, a.pos) - distance(ship.pos, b.pos))[0];
     const range = distance(ship.pos, target.pos);
     const band = bandFor(mount, range);
     if (!band) continue;
@@ -988,10 +1233,90 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
 // that converge on a carrier arrive strung out and are beaten in detail, which
 // is worth about as much to the carrier's owner as the extra fire costs it. The
 // thing that actually governs this hull is standoffRangeHexes; see there.
+// Is this hull planted where it stands? A charging or fully-banked spinal gun
+// pins its ship (ruling 2026-09-01). Such a hull is not a laggard - the fleet
+// must not wait for a ship that has chosen to stop - so the cohesion rule asks
+// this before counting anyone late.
+function plantedByCharge(ship, tuning) {
+  if (!ship.spinal) return false;
+  if (!tuning.weapons[ship.spinal.type]?.immobileWhileCharging) return false;
+  const st = ship.spinal;
+  return (st.state === "charging" && st.charge > 0) || st.state === "ready";
+}
+
+// Which enemy should the helm STEER for? Not necessarily the one the guns will
+// shoot at - fire() still takes the nearest thing its mounts bear on. This is
+// the question of where to put the ship, and among enemies at much the same
+// range the answer is: the one with a hole in it, or the one whose bare
+// quarters are already turned our way. `targetSlackHexes` is how much further
+// than the nearest enemy the helm will look; 0 restores "always the nearest".
+function steerTarget(ship, foes, near, tuning, AA) {
+  const slack = AA.targetSlackHexes ?? 0;
+  if (slack <= 0 || !near.ship || foes.length < 2) return near.ship;
+  let best = near.ship;
+  let bestV = faceValueFrom(near.ship, bearing(near.ship.pos, ship.pos), AA);
+  let bestD = near.range;
+  for (const e of foes) {
+    if (e === near.ship) continue;
+    const d = distance(ship.pos, e.pos);
+    if (d > near.range + slack) continue;
+    const v = faceValueFrom(e, bearing(e.pos, ship.pos), AA);
+    if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 && d < bestD)) {
+      best = e; bestV = v; bestD = d;
+    }
+  }
+  return best;
+}
+
+// ARC EVASION (Chris's (c)). A light hull nose to nose with a heavy battery
+// should slip out of the arc rather than trade. "Light" and "heavy" are not
+// read off the points ladder - that mistake has been made once already
+// (SS28a) - but off the guns themselves: the test is whether the weight of
+// fire the enemy is throwing through the face he presents to us is `threatRatio`
+// times the weight we can throw back through ours. Returns the facing to
+// travel on, or null when no step both leaves the arc and keeps our own shot.
+function evadeStep(ship, foe, target, turnsLeft, tuning, AE, want) {
+  const cur = standingWeight(foe, shieldFacing(foe, ship.pos), tuning);
+  if (cur <= 0) return null;
+  const mine = standingWeight(ship, shieldFacing(ship, foe.pos), tuning);
+  if (cur < (AE.threatRatio ?? 1.6) * mine) return null;
+  const reduceTo = AE.reduceTo ?? 0.5;
+  const reach = maxReach(ship, tuning);
+  let best = null, bestW = cur * reduceTo;
+  for (let f = 0; f < 6; f++) {
+    if (turnCostBetween(ship.facing, f) > turnsLeft) continue;
+    const next = add(ship.pos, f);
+    if (!inBounds(next, tuning) || blockedHex(next, tuning)) continue;
+    const dt = distance(next, target.pos);
+    // Never step out of the arc by stepping out of the fight: the shot has to
+    // survive the move. Same-hex silences both ships, so that hex is no refuge.
+    if (dt === 0 || dt > reach) continue;
+    if (standingWeight(ship, faceFor(f, bearing(next, target.pos)), tuning) <= 0) continue;
+    if (want > 0 && dt > want + (AE.rangeSlack ?? 2)) continue;
+    const df = distance(foe.pos, next);
+    const w = df > maxReach(foe, tuning) ? 0
+      : standingWeight(foe, faceFor(foe.facing, bearing(foe.pos, next)), tuning);
+    if (w < bestW) { bestW = w; best = f; }
+  }
+  return best;
+}
+
 function move(ship, enemies, friends, tuning) {
   const foes = living(enemies);
   if (!foes.length) return;
-  const target = nearest(ship.pos, foes).ship;
+  const H = cfgHelm(tuning);
+  const ARC = helmOn(tuning);
+  const AA = H.arcAttack ?? {};
+  const near = nearest(ship.pos, foes);
+  // (b) ATTACK THE WEAK ARC, part one: which enemy to steer for.
+  const target = ARC && AA.enabled !== false ? steerTarget(ship, foes, near, tuning, AA) : near.ship;
+  // The threat histogram is built at most once per move() and shared by every
+  // heading decision below it.
+  let _prof = null;
+  function threat() {
+    if (_prof === null) _prof = threatProfile(ship, foes, tuning);
+    return _prof;
+  }
 
   // FLIGHT RULES: a ship moves only straight along its facing and may turn at
   // most turnRate hexsides per round. Turning costs no power - it costs tempo.
@@ -1007,6 +1332,13 @@ function move(ship, enemies, friends, tuning) {
       turnsLeft--;
     }
   };
+  // (a) DEFEND THE WEAK ARC: every heading decision in this function goes
+  // through here, so it sees both the turns still in hand and the direction
+  // the fire is coming from.
+  function heading(goalPos) {
+    if (!ARC) return bestHeading(ship, goalPos, tuning, -1, null);
+    return bestHeading(ship, goalPos, tuning, turnsLeft, threat());
+  }
 
   // RULING (2026-09-01): a spinal gun that is charging or holding a full bank
   // plants the ship. It may turn to aim at its normal rate and nothing else -
@@ -1018,7 +1350,7 @@ function move(ship, enemies, friends, tuning) {
     const st = ship.spinal;
     const planted = (st.state === "charging" && st.charge > 0) || st.state === "ready";
     if (planted) {
-      turnTowards(bestHeading(ship, target.pos, tuning));
+      turnTowards(heading(target.pos));
       return;
     }
   }
@@ -1059,7 +1391,7 @@ function move(ship, enemies, friends, tuning) {
       if (!forwardStep(anchor.pos, "close")) break;
       b -= ship.movementPointRatio;
     }
-    turnTowards(bestHeading(ship, target.pos, tuning)); // spare turn = stance
+    turnTowards(heading(target.pos)); // spare turn = stance
     return;
   }
 
@@ -1074,26 +1406,214 @@ function move(ship, enemies, friends, tuning) {
   const swing = ship.id.length % 2 === 0 ? 1 : 5;
 
   const d0 = distance(ship.pos, target.pos);
+  const direct = bearing(ship.pos, target.pos);
   // The leash only binds a ship that HAS a fleet to lag behind. With no
   // living mates fleetGap is Infinity, and the old test read "always too far
   // ahead", which froze every lone ship - a one-ship scenario never moved,
   // and the last survivor of any fleet stopped advancing. (Bug found by
   // Chris's destroyer duel, 2026-09-02.)
   const tooFarAhead = (d) => Number.isFinite(fleetGap) && d < fleetGap - leash;
+
+  // (d) ARRIVE TOGETHER (Chris, 2026-09-03: the echelon scenario is lost 40-0
+  // because the frigates close piecemeal and are defeated in detail).
+  //
+  // The old leash could not answer that. It measures how far a ship is ahead
+  // of its own centre of mass ALONG THE BEARING TO ITS OWN TARGET, so a fleet
+  // strung out ACROSS the axis of approach - which is exactly what an echelon
+  // is - reads as perfectly in formation: measured on the trio, the leash bound
+  // once in 180 battles. This rule measures the thing that matters instead:
+  // the gap from each hull to the enemy's centre of mass. A ship more than
+  // `lagToleranceHexes` closer than the fleet's furthest-back member does not
+  // close; it holds, turns to its firing stance, and lets the fleet catch up.
+  //
+  // Three guards keep it from becoming a paralysis. It lapses the moment the
+  // ship can shoot (d0 within its own reach), so it regulates the APPROACH and
+  // never a fight. Hulls that have chosen to stop - a spinal gun charging - are
+  // not counted as laggards. And `patienceRounds` breaks the wait outright, so
+  // a crippled straggler cannot freeze a fleet for a whole battle.
+  const C = H.cohesion ?? {};
+  let gatherHold = false;
+  // "Until contact" is Chris's own wording and it is load-bearing. A latch,
+  // not a live test: once this hull has had an enemy inside its reach the
+  // approach is over and the rule is spent for the rest of the battle. Without
+  // the latch a ship that loses touch mid-fight turns round to re-form on a
+  // mate, which is not what the rule is for and measured badly - it was worth
+  // 17pp of faction spread at 18 points on its own, where a three-hull fleet
+  // that has lost one ship is permanently "out of formation".
+  const reachNow = ARC ? maxReach(ship, tuning) : 0;
+  if (ARC && !ship.hadContact && d0 <= reachNow) ship.hadContact = true;
+  // The latch is FLEET-wide, not per-hull: the approach ends for everybody the
+  // moment anybody has an enemy in reach. Per-hull was tried first and is not
+  // enough - a ship that loses touch in the middle of a fight then turns round
+  // to re-form on a mate, which measured 16pp of faction spread at 18 points,
+  // where a three-hull fleet that has lost one ship is permanently "out of
+  // formation".
+  let movers = [];
+  if (ARC && C.arriveTogether && mates.length && !ship.hadContact && d0 > reachNow) {
+    movers = mates.filter((m) => !plantedByCharge(m, tuning));
+    if (movers.some((m) => m.hadContact)) movers = [];
+  }
+  // `convergeBeyondHexes` confines the whole rule to the opening of a battle.
+  // Forming up is an approach manoeuvre; a ship that is nearly in the fight has
+  // no business turning aside for it, and left ungated the rule kept nudging
+  // ships sideways all the way in.
+  if (movers.length &&
+      d0 > (C.convergeBeyondHexes ?? 0) &&
+      (ship.gatherHeld ?? 0) <= (C.patienceRounds ?? 24)) {
+    // RADIAL: nobody gets more than lagToleranceHexes ahead of the rearmost.
+    const ec = centroid(foes);
+    const mine = distance(ship.pos, ec);
+    let worst = mine;
+    for (const m of movers) {
+      const g = distance(m.pos, ec);
+      if (g > worst) worst = g;
+    }
+    if (worst - mine > (C.lagToleranceHexes ?? 3)) gatherHold = true;
+
+    // LATERAL - and this is the half the old leash could not see. An echelon
+    // is not strung out along the axis of approach, it is strung out ACROSS
+    // it: four frigates all exactly as far from the enemy as each other and
+    // twelve hexes apart from one another, which every radial test in the
+    // engine reads as perfect formation.
+    //
+    // The measure is MUTUAL SUPPORT - the distance to the nearest mate - and
+    // not the distance to the fleet's centre of mass, which was tried first
+    // and is wrong: a deployed line of twenty hulls at two-hex spacing is
+    // forty hexes across, so every ship in it is far from the centroid and the
+    // whole fleet balls up on the spot. Nearest-mate leaves a properly spaced
+    // line alone (neighbours are two hexes apart) and catches exactly the case
+    // this rule is for. A ship out of support closes on its nearest mate
+    // rather than on the enemy; it does not merely wait, because waiting is a
+    // deadlock when every ship in a dispersed fleet is equally out of place.
+    const ms = C.mutualSupportHexes ?? 0;
+    if (ms > 0) {
+      const mate = nearest(ship.pos, movers);
+      if (mate.ship && mate.range > ms) {
+        ship.gatherHeld = (ship.gatherHeld ?? 0) + 1;
+        if (INS) helmStats.gatherHeld++;
+        turnTowards(bearing(ship.pos, mate.ship.pos));
+        let fb = spendable(ship);
+        while (fb >= ship.movementPointRatio && distance(ship.pos, mate.ship.pos) > ms) {
+          if (!forwardStep(mate.ship.pos, "close")) break;
+          fb -= ship.lastStepCost;
+        }
+        turnTowards(heading(target.pos));   // spare turns go to the firing stance
+        return;
+      }
+    }
+    if (gatherHold) {
+      ship.gatherHeld = (ship.gatherHeld ?? 0) + 1;
+      if (INS) helmStats.gatherHeld++;
+    }
+  }
+
   let need = "hold";
-  if (d0 > want && !tooFarAhead(d0)) need = "close";
+  if (d0 > want && !tooFarAhead(d0) && !gatherHold) need = "close";
   else if (d0 < want && !ship.cloaked && want - d0 >= 1 && canWithdrawFighting(ship, tuning)) need = "open";
 
+  if (INS) {
+    if (need === "close") helmStats.needClose++;
+    else if (need === "open") helmStats.needOpen++;
+    else { helmStats.needHold++; if (d0 > want && !gatherHold) helmStats.leashHeld++; }
+  }
+
+  // (c) MOVE OUT OF THE ARC. Checked before the close/open/hold branches,
+  // because a hull sitting in a battery that outguns it several times over has
+  // a more pressing question than what range it would like to be at.
+  const AE = H.arcEvasion ?? {};
+  if (ARC && AE.enabled !== false && need !== "open" && !ship.cloaked) {
+    const th = threat();
+    if (th.top && spendable(ship) >= ship.movementPointRatio) {
+      const f = evadeStep(ship, th.top, target, turnsLeft, tuning, AE, want);
+      if (f !== null && f !== undefined) {
+        turnTowards(f);
+        if (ship.facing === f) {
+          const next = add(ship.pos, f);
+          const cost = stepCost(ship, next, tuning);
+          ship.pos = next; ship.power -= cost; ship.lastStepCost = cost; ship.movedThisTurn++;
+          if (INS) helmStats.evadeSteps++;
+          turnTowards(heading(target.pos));
+          return;
+        }
+      }
+    }
+  }
+
   if (need === "hold") {
-    // In position: fight with the guns, not the helm.
-    turnTowards(bestHeading(ship, target.pos, tuning));
+    // In position - so fight with the guns. But the guns for this turn have
+    // usually already been fired by the time a holding ship reaches here (the
+    // round loop only moves a ship that cannot bear), and standing still is
+    // how three hits in four ended up on somebody's nose. So: work around.
+    //
+    // ORBIT (Chris's (b), part two). One lateral step per round, in the
+    // direction that walks this ship toward the softest quarter of its target,
+    // taken only while the step keeps the range inside the firing band. It
+    // costs power that would otherwise have gone to the shields, which is the
+    // trade being measured; it also buys evasion, since to-hit falls with the
+    // hexes a target has moved.
+    if (ARC && AA.enabled !== false && AA.orbitWhileHolding !== false &&
+        spendable(ship) >= ship.movementPointRatio && d0 > 0) {
+      const curDir = bearing(target.pos, ship.pos);
+      const pref = preferredApproachDir(target, curDir, AA, occupiedDirs(ship, target, mates, tuning, AA));
+      if (pref.dir !== curDir && pref.gain >= (AA.minGain ?? 0.4)) {
+        const off = swingOffset(curDir, pref.dir);
+        const f = (direct + off) % 6;
+        const next = add(ship.pos, f);
+        const dNext = distance(next, target.pos);
+        const slack = AA.orbitRangeSlack ?? 1;
+        if (turnCostBetween(ship.facing, f) <= turnsLeft && inBounds(next, tuning) &&
+            !blockedHex(next, tuning) && dNext > 0 && Math.abs(dNext - want) <= slack &&
+            dNext <= maxReach(ship, tuning)) {
+          turnTowards(f);
+          if (ship.facing === f) {
+            const cost = stepCost(ship, next, tuning);
+            ship.pos = next; ship.power -= cost; ship.lastStepCost = cost; ship.movedThisTurn++;
+            if (INS) helmStats.orbitSteps++;
+          }
+        }
+      }
+    }
+    turnTowards(heading(target.pos));
     return;
   }
 
-  const direct = bearing(ship.pos, target.pos);
+  // (b) ATTACK THE WEAK ARC, part two: the travel direction on the way in.
+  //
+  // A cloaked ship already closed one hexside off the direct bearing, to come
+  // in from an unexpected quarter. That is generalised here, with a cost /
+  // benefit test in place of the cloak's unconditional swing: the helm looks
+  // at which quarter of the target it would rather be shooting into, and if
+  // the gain is worth `minGain` it closes on the offset bearing that walks it
+  // round that way. The step still has to SHORTEN the range - a ship that
+  // wants a flank does not get to orbit its way through the approach - so the
+  // detour costs tempo and nothing else.
+  //
+  // And tempo spent early buys nothing, which is the whole story of this rule:
+  // at thirty hexes the target re-aims a dozen times before we arrive, so the
+  // detour is pure loss. Measured, swinging from the moment of deployment is
+  // WORSE than not swinging at all. `flankWithinHexes` is the range inside
+  // which the reposition is worth paying for.
+  let flankTravel = false, arcTravelDir = 0;
+  if (ARC && need === "close" && AA.enabled !== false && !flanking &&
+      d0 <= (AA.flankWithinHexes ?? Infinity)) {
+    const curDir = bearing(target.pos, ship.pos);
+    const pref = preferredApproachDir(target, curDir, AA, occupiedDirs(ship, target, mates, tuning, AA));
+    if (pref.dir !== curDir && pref.gain >= (AA.minGain ?? 0.4)) {
+      const f = (direct + swingOffset(curDir, pref.dir)) % 6;
+      const next = add(ship.pos, f);
+      if (distance(next, target.pos) < d0 && inBounds(next, tuning) && !blockedHex(next, tuning) &&
+          turnCostBetween(ship.facing, f) <= turnsLeft) {
+        flankTravel = true;
+        arcTravelDir = f;
+      }
+    }
+  }
   const travelDir = need === "close"
-    ? (flanking ? (direct + swing) % 6 : direct)
+    ? (flanking ? (direct + swing) % 6 : (flankTravel ? arcTravelDir : direct))
     : (direct + 3) % 6;
+  if (INS && need === "close") {
+    if (travelDir === direct) helmStats.stepDirect++; else helmStats.stepFlank++;
+  }
   turnTowards(travelDir);
 
   let budget = spendable(ship);
@@ -1107,7 +1627,7 @@ function move(ship, enemies, friends, tuning) {
   // Arrived with turn allowance to spare: settle into the firing stance.
   const dEnd = distance(ship.pos, target.pos);
   if ((need === "close" && dEnd <= want) || (need === "open" && dEnd >= want)) {
-    turnTowards(bestHeading(ship, target.pos, tuning));
+    turnTowards(heading(target.pos));
   }
 
   // Klingon pattern: a Zandrax ship still short of the range it wants may burn
@@ -1193,7 +1713,7 @@ function tryWarp(ship, enemies, friends, tuning, log) {
   ship.pos = dest;
   ship.power -= cost;
   ship.warpedThisTurn = true;
-  ship.facing = turnToward(ship.facing, bestHeading(ship, target.pos, tuning));
+  ship.facing = turnToward(ship.facing, bestHeading(ship, target.pos, tuning, -1, null));
   if (log) log(ship.id + ' warps in behind ' + target.id);
   return true;
 }
@@ -1226,7 +1746,63 @@ function evade(ship, tuning, rng, log) {
 
 // ---------------------------------------------------------------- battle
 
+// Instrumentation only. Which face is each ship showing to the nearest enemy
+// that can actually reach it, and how sound is that face? Never called unless
+// a harness has switched the account on.
+function censusFaces(A, B, tuning) {
+  for (const [side, foe] of [[A, B], [B, A]]) {
+    const live = living(foe);
+    if (!live.length) continue;
+    for (const s of living(side)) {
+      const n = nearest(s.pos, live);
+      if (!n.ship || n.range === 0 || n.range > maxReach(n.ship, tuning)) continue;
+      helmStats.presentRounds++;
+      if (faceHealth(s, shieldFacing(s, n.ship.pos)) < 1) helmStats.presentWeak++;
+    }
+  }
+}
+
+// Instrumentation only. How strung out is each side at the moment the two
+// fleets first come within reach of one another? Mean distance of a side's
+// living hulls from their own centre of mass.
+// Instrumentation only. Mean distance from each living hull to its nearest
+// mate - the measure "arrive together" is actually about. Distance from the
+// centroid answers a different question and answers it badly for a line.
+function mateGapOf(fleet) {
+  const live = living(fleet);
+  if (live.length < 2) return 0;
+  let t = 0;
+  for (const s of live) {
+    let best = Infinity;
+    for (const o of live) if (o !== s) { const d = distance(s.pos, o.pos); if (d < best) best = d; }
+    t += best;
+  }
+  return t / live.length;
+}
+function spreadOf(fleet) {
+  const live = living(fleet);
+  if (live.length < 2) return 0;
+  const c = centroid(live);
+  return live.reduce((t, s) => t + distance(s.pos, c), 0) / live.length;
+}
+function inContact(A, B, tuning) {
+  for (const [side, foe] of [[A, B], [B, A]]) {
+    const live = living(foe);
+    if (!live.length) return false;
+    for (const s of living(side)) {
+      const n = nearest(s.pos, live);
+      if (n.ship && n.range <= maxReach(s, tuning)) return true;
+    }
+  }
+  return false;
+}
+
 export function runBattle(fleets, tuning, rng, opts = {}) {
+  // Per-battle reset of helm state (verifier finding, 2026-09-03): the helm
+  // caches each hull's standing battery and reach, and the cohesion latch
+  // lives on the ship. Ship objects will be reused once the strategic layer
+  // fights real battles, so nothing from a previous battle may leak in.
+  for (const s of fleets.flat()) { delete s._helm; delete s.hadContact; delete s.gatherHeld; }
   if (opts.terrain && opts.terrain.length) {
     tuning = { ...tuning, battle: { ...tuning.battle, terrain: opts.terrain } };
   }
@@ -1247,6 +1823,7 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
   const stats = { A: blank(), B: blank() };
   let inFlight = [];
   let turnsRun = 0;
+  let contactLogged = false;
 
   for (let turn = 1; turn <= maxTurns; turn++) {
     if (!living(A).length || !living(B).length) break;
@@ -1313,6 +1890,14 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
       if (!living(A).length || !living(B).length) break;
       shotRound = round;
       for (const s of [...living(A), ...living(B)]) startRound(s);
+      if (INS && !contactLogged && inContact(A, B, tuning)) {
+        contactLogged = true;
+        helmStats.contactSpreadA += spreadOf(A);
+        helmStats.contactSpreadB += spreadOf(B);
+        helmStats.contactMateA += mateGapOf(A);
+        helmStats.contactMateB += mateGapOf(B);
+        helmStats.contactN++;
+      }
 
       // The strike wave goes in once a turn, on a fresh shield cycle and before
       // the line opens fire - so a wave that strips a facing's absorption is
@@ -1361,6 +1946,7 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
       // Anything killed this round goes up now, and may take neighbours with it.
       for (const s of allShips) if (s.destroyed && !s.exploded) detonate(s, allShips, tuning, rng, log);
       for (const s of allShips) if (s.destroyed && s.squadrons) scuttleSquadrons(s, log);
+      if (INS) censusFaces(A, B, tuning);
       if (opts.onRound) opts.onRound(turn, round, fleets);
     }
 

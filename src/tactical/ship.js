@@ -282,7 +282,13 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
     }
     if (sys === "weapon-mount") {
       const usable = ship.mounts.filter((m) => !m.inop);
-      if (usable.length > 1) usable[rng.int(usable.length)].inop = true;
+      if (usable.length > 1) {
+        usable[rng.int(usable.length)].inop = true;
+        // The helm caches this hull's standing battery per face and its reach.
+        // A lost mount is the ONLY event that can change either, so this is the
+        // one place the cache has to be dropped.
+        ship._helm = null;
+      }
     }
   }
   if (ship.superstructure <= 0) {

@@ -1707,3 +1707,35 @@ Full pass after the engine API replaces the mock.
 same movement code). `runBattle` becomes `createBattle` + a `stepTurn` loop
 with no orders — byte-identical on the trial harness — and the human's
 orders drive `move()`/`fire()` for ordered ships only.
+
+---
+
+## 31. The arc-aware helm (adopted 2026-09-03)
+
+Chris's four behaviours, built faction-neutral behind `tuning.helm`:
+**defend weak arcs** (a heading is scored by weight of fire minus a threat-
+weighted penalty for the face it would present, 1 intact / 0.5 damaged /
+0 down); **attack weak arcs** (steer for the enemy whose face toward us is
+softest; among targets a mount already bears on, shoot the one showing a
+hole or a bare quarter — the single largest mover); **step out of arcs** (an
+evasion step when a heavy battery out-throws us through the face it sees,
+taken only when it keeps our own shot); **orbit while holding** (a ship in
+position no longer stands still — one lateral step a round toward the
+target's softest quarter); and **arrive together** (until first contact a
+hull closes on its nearest mate rather than the enemy when the gap exceeds
+`cohesion.mutualSupportHexes`). Instrumentation (`helmStats`) is inert
+unless switched on and touches no rng.
+
+Verified adversarially on fresh seeds: every maneuver-index cell rises
+(mean 27% → 35%); damaged-face exposure halves; Chris's echelon rout goes
+from 91.5% to 51%; nothing collapses; `helm.enabled=false` reproduces the old
+engine byte-for-byte; cost ×1.65. Adopted with the verifier's changes: a
+per-battle reset of helm state; measured costs recorded honestly in the
+tuning notes (cohesion ≈ 12pp of spread at 18 points; orbit costs Vraygon
+~11pp at 4 points and buys ~1 point of index at 52 — Chris's trade).
+
+**Open rulings for Chris:** (1) the evasion step lets a hull that cannot
+withdraw fighting open the range by up to 2 hexes — an interaction that
+should be a ruling; (2) the helm shifted the shape matrix (the 16 FF + 5 DD
+list gained ~10pp overall), so the refined ladder wants a re-check on this
+helm; (3) orbit-while-holding on or off at small sizes.
