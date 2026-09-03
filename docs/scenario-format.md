@@ -72,3 +72,28 @@ const result = runBattle(fleets, tuning, rng, { terrain, onRound, onShot, log })
 `rng` is `makePrng(seedFromString(scenario.seed))` from `src/prng.js`. The
 same seed always reproduces the same battle. The engine has no Node
 dependencies and runs unchanged in a browser as ES modules.
+
+## Arc glossary (ruling 2026-09-03)
+
+Shield faces number clockwise around the bow: **1** forward-port, **2**
+forward, **3** forward-starboard, **4** aft-starboard, **5** aft, **6**
+aft-port. Weapon arcs are sets of faces (`arcs` in `data/tactical-tuning.json`):
+
+| arc | faces | meaning |
+|---|---|---|
+| `f` | 2 | forward only |
+| `a` | 5 | aft only |
+| `fwd` | 1, 2, 3 | forward 180 |
+| `aft` | 4, 5, 6 | aft 180 |
+| `p` | 6, 1 | port broadside |
+| `s` | 3, 4 | starboard broadside |
+| `fp` | 1, 2 | port fore |
+| `fs` | 2, 3 | starboard fore |
+| `pa` | 5, 6 | port rear |
+| `sa` | 4, 5 | starboard rear |
+| `bow` | 6, 1, 2, 3, 4 | forward turret: everything but dead astern |
+| `stern` | 3, 4, 5, 6, 1 | rear turret: everything but dead ahead |
+| `all` | 1–6 | all-round |
+
+The bow and stern turrets overlap on faces 1, 3, 4 and 6 — the two-turret
+broadside.

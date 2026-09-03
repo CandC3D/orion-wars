@@ -26,7 +26,9 @@ const WEAPON_COLORS = { "laser-cannon": "#9fd7ff", "blaster-beam": "#ff8a5b", "h
 // 2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left.
 const FACE_AT_OFFSET = [2, 1, 6, 5, 4, 3]; // clockwise faces (ruling 2026-09-03), as src/tactical/hex.js
 const OFFSET_OF_FACE = { 2: 0, 1: 1, 6: 2, 5: 3, 4: 4, 3: 5 };
-const FACE_NAMES = { 1: "front-left", 2: "forward", 3: "front-right", 4: "rear-right", 5: "rear", 6: "rear-left" };
+const FACE_NAMES = { 1: "forward-port", 2: "forward", 3: "forward-starboard", 4: "aft-starboard", 5: "aft", 6: "aft-port" };
+const ARC_NAMES = { f: "forward", a: "aft", fwd: "forward 180", aft: "aft 180", p: "port", s: "starboard", fp: "port fore", fs: "starboard fore", pa: "port rear", sa: "starboard rear", bow: "bow turret", stern: "stern turret", all: "all-round" };
+const arcLabel = (name) => `${ARC_NAMES[name] || name.toUpperCase()}`;
 const clone = (v) => JSON.parse(JSON.stringify(v));
 const norm = (v) => ((v % 6) + 6) % 6;
 const key = (p) => `${p.q},${p.r}`;
@@ -234,7 +236,7 @@ function drawSchematic(ship) {
   sctx.fillStyle = "#8aa0b0"; sctx.font = "9px sans-serif"; sctx.textAlign = "center"; sctx.fillText("BOW", cx, cy - R * .92);
   // Legend of mounts along the bottom.
   sctx.textAlign = "left"; sctx.font = "9px sans-serif";
-  ship.mounts.forEach((mount, i) => { const y = h - 8 - (ship.mounts.length - 1 - i) * 11; sctx.fillStyle = WEAPON_COLORS[mount.type] || "#ddd"; sctx.fillRect(6, y - 7, 8, 8); sctx.fillStyle = mount.inop ? "#7d5a5a" : "#cfe3f0"; sctx.fillText(`${label(mount.type)} · ${mount.arcName.toUpperCase()} · ${mount.maxRange} hex${mount.inop ? " · OUT" : ""}`, 18, y); });
+  ship.mounts.forEach((mount, i) => { const y = h - 8 - (ship.mounts.length - 1 - i) * 11; sctx.fillStyle = WEAPON_COLORS[mount.type] || "#ddd"; sctx.fillRect(6, y - 7, 8, 8); sctx.fillStyle = mount.inop ? "#7d5a5a" : "#cfe3f0"; sctx.fillText(`${label(mount.type)} · ${arcLabel(mount.arcName)} · ${mount.maxRange} hex${mount.inop ? " · OUT" : ""}`, 18, y); });
 }
 
 // ----------------------------------------------------------- fire solution
@@ -268,7 +270,7 @@ function fireSolution(ship) {
     verdict = inRange ? `<b class="warn">No weapon bears</b> from the planned heading — turn so a weapon's arc covers ${target.id}.` : `<b class="warn">Out of range</b> after your moves (${dAfter} hexes; longest reach ${Math.max(...rows.map((r) => r.m.maxRange))}). Close ${dAfter - Math.max(...rows.map((r) => r.m.maxRange))} more.`;
   }
   el.innerHTML = `<p class="fs-head">FIRE SOLUTION · ${target.id}</p><p>Range now <b>${dNow}</b> → after moves <b>${dAfter}</b>. Its face toward you after moves: <b>${FACE_NAMES[faceToward(target.facing, bearingTo(target.pos, after.pos))]}${target.shieldDown[faceToward(target.facing, bearingTo(target.pos, after.pos))] ? " (shield DOWN)" : ""}</b>.</p>` +
-    `<ul>${rows.map((r) => `<li><i style="background:${WEAPON_COLORS[r.m.type] || "#ddd"}"></i>${label(r.m.type)} (${r.m.arcName.toUpperCase()}, ${r.m.maxRange}) — now ${r.bearsNow ? "<b class=ok>bears</b>" : "no"} · after ${r.bearsAfter ? "<b class=ok>bears</b>" : "<b class=warn>no</b>"}</li>`).join("")}</ul><p class="fs-verdict">${verdict}</p>`;
+    `<ul>${rows.map((r) => `<li><i style="background:${WEAPON_COLORS[r.m.type] || "#ddd"}"></i>${label(r.m.type)} (${arcLabel(r.m.arcName)}, ${r.m.maxRange}) — now ${r.bearsNow ? "<b class=ok>bears</b>" : "no"} · after ${r.bearsAfter ? "<b class=ok>bears</b>" : "<b class=warn>no</b>"}</li>`).join("")}</ul><p class="fs-verdict">${verdict}</p>`;
 }
 
 // ------------------------------------------------------------- orders UI
@@ -287,7 +289,7 @@ function updateOrderPanel() {
   $("#ro-speed").textContent = `${ship.movementPointRatio} power / hex`;
   $("#ro-turn").textContent = `${ship.turnRate} hexside${ship.turnRate === 1 ? "" : "s"} / action`;
   $("#ro-mag").textContent = ship.magazine ?? "—";
-  $("#mount-list").innerHTML = ship.mounts.map((m) => `<span><i style="background:${WEAPON_COLORS[m.type] || "#ddd"}"></i>${label(m.type)} · arc ${m.arcName.toUpperCase()} (faces ${m.arc.join(",")}) · ${m.maxRange} hex${m.inop ? " · OUT" : ""}</span>`).join("");
+  $("#mount-list").innerHTML = ship.mounts.map((m) => `<span><i style="background:${WEAPON_COLORS[m.type] || "#ddd"}"></i>${label(m.type)} · ${arcLabel(m.arcName)} (faces ${m.arc.join(",")}) · ${m.maxRange} hex${m.inop ? " · OUT" : ""}</span>`).join("");
   drawSchematic(ship);
   const controls = ["#round-tabs", "#turn-left", "#turn-right", "#forward-up", "#forward-down", "#hold-button", "#reserve", "#target-auto"];
   for (const sel of controls) $(sel).closest("section") && ($(sel).disabled = !mine);
