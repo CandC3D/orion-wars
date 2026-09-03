@@ -39,7 +39,7 @@
     }
   },
   "arcs": {
-    "_note": "Which of the six shield faces a mount can fire through. Faces: 1 front-left, 2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left.",
+    "_note": "Which of the six shield faces a mount can fire through. Faces: 1 front-left, 2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left. aft = the 180-degree rear arc (faces 4,5,6), added 2026-09-03 for the destroyer rear turret. bow = a forward turret that fires everywhere but dead astern (6,1,2,3,4); stern = a rear turret that fires everywhere but dead ahead (3,4,5,6,1); the two overlap on faces 1,3,4,6 - a two-turret broadside (ruling 2026-09-03).",
     "f": [
       2
     ],
@@ -82,6 +82,25 @@
       4,
       5,
       6
+    ],
+    "aft": [
+      4,
+      5,
+      6
+    ],
+    "bow": [
+      6,
+      1,
+      2,
+      3,
+      4
+    ],
+    "stern": [
+      3,
+      4,
+      5,
+      6,
+      1
     ]
   },
   "hullClasses": {
@@ -122,8 +141,8 @@
       "shieldPointRatio": 0.7,
       "movementPointRatio": 1,
       "beamArcs": [
-        "fwd",
-        "sa"
+        "bow",
+        "stern"
       ],
       "missileArcs": [
         "f"
@@ -132,7 +151,8 @@
       "pointDefence": 1,
       "assault": 0,
       "sensorRating": 1,
-      "weaponReach": 0.83
+      "weaponReach": 0.83,
+      "_note": "RULING 2026-09-03 (Chris): a destroyer carries a forward turret (bow arc: everything but dead astern), a rear turret (stern arc: everything but dead ahead) - overlapping on the quarters for a two-turret broadside - and one forward torpedo tube (arc f). Applies to every faction's destroyer; faction fits may change the weapon types but not this layout. Untuned since the change (content-first). "
     },
     "light-cruiser": {
       "points": 10,
@@ -429,6 +449,33 @@
       "explosionYield": 1.2,
       "_note": "GUNSTAR BATTLECRUISER (renamed from dreadnought by ruling 2026-09-03: with so few weapons it is not really a dreadnought). The Yamato class. Earth sixth hull, replacing the retired command ship at the same 8 points and bought the same way (out of two light cruisers). Everything on it exists to serve the photonic cannon on its keel. Three secondary lasers and three tubes, all on forward arcs and NOTHING astern, so canWithdrawFighting refuses it a withdrawal and it does what a Federation line ship is for: it stands. Turn rate 1 and 3 power a hex because the gun is aimed by pointing the ship. maxShieldPower 15 against the heavy cruiser's 13 and shieldPointRatio 0.45 - 0.3825 with the Earth modifier, the cheapest absorption in the game - are the Earth identity and they are also what makes the charge affordable at all: the hull hands a third of its pool to the capacitor every turn and is still a hard target on the rest. 63 power on an 8-point hull is deliberate and it is not free gunnery: with only three beams and three tubes the guns physically cannot spend it, so it goes to the capacitor and to the shields, which is the whole point of the ship. Three numbers are load-bearing, each measured at 600 battles a pairing against the alternative. beamMounts 3 rather than 4: the fourth laser is worth +2.7pp to Earth against KRELATH at 64 points and only -1.0pp against Vraygon there, and Krelath sit on the floor in that cell - at 4 beams they come in at 35.8% at 64 and 37.7% at 24, at 3 beams 36.1% and 39.6%. screen 4 rather than the 0 every other capital carries: the dreadnought stations on the battle line and interposes for it (4 x screening.chancePerScreenPoint = 0.60, which is exactly screening.maxChance, so 4 is the largest useful value). A side effect worth knowing is that hull.screen > 0 also makes the formation code treat it as an escort, so it holds station on the nearest capital instead of manoeuvring alone. That is right for this ship and looks wrong on paper. superstructure 56 with corePower 19 is the endurance half of a deliberate trade against the gun's damage: value moved out of the bolt and into the body is worth more against Vraygon armour in a fifteen-turn action and less against thin Krelath hulls in a seven-turn one, and those are the two cells that bind. DO NOT give this hull pointDefence 2. It is the obvious fix for the one cell it loses badly (Earth v Zandrax at 32 points, 20%), and measured it takes Earth to 67% at 64 points and Krelath to 33% there. The swarm beating this hull is the game working.",
       "limit": 1
+    },
+    "missile-destroyer": {
+      "points": 4,
+      "cores": 1,
+      "corePower": 13,
+      "impulsePower": 3,
+      "beamMounts": 1,
+      "missileMounts": 2,
+      "magazine": 8,
+      "superstructure": 14,
+      "maxShieldPower": 4,
+      "_capNote": "Cut from 6, for the same reason as the frigate: at 6 a destroyer facing swallowed Earth's 7-damage laser almost whole while passing 3 of Vraygon's 9. Compressing the cap makes damage per shot matter roughly in proportion to itself again. This is the single change that carries the 8-point cell and it also lifts Zandrax at 16 and 32.",
+      "shieldPointRatio": 0.7,
+      "movementPointRatio": 1,
+      "beamArcs": [
+        "all"
+      ],
+      "missileArcs": [
+        "f",
+        "f"
+      ],
+      "screen": 2,
+      "pointDefence": 1,
+      "assault": 0,
+      "sensorRating": 1,
+      "weaponReach": 0.83,
+      "_note": "MISSILE DESTROYER variant (ruling 2026-09-03, Chris): two forward torpedo tubes (arc f) and one all-round beam. Same hull, speed and price as the destroyer (4) until measured; magazine 8 for the second tube. Untuned."
     }
   },
   "_arcNote": "Arc spread follows the FASA pattern: a battleship has all-round coverage but can bring only two beams onto any one bearing. Torpedoes are forward-weighted. This, not raw mount count, is what limits a capital ship.",
@@ -811,7 +858,8 @@
       "battleship": 1,
       "monitor": 2,
       "carrier": 2,
-      "gunstar-battlecruiser": 1
+      "gunstar-battlecruiser": 1,
+      "missile-destroyer": 2
     },
     "_note": "Flight rules (ruling 2026-08-30: ships were sliding like hockey pucks). A ship moves ONLY straight along its facing; it may turn at most turnRatePerRound hexsides per round. Turning is free in power - the cost is tempo, as in FASA. Light hulls dance, capitals wallow through their turns. The warp jump is exempt (it is dimensional, not flight). Momentum (a forced minimum speed carry-over) is a future dial, deliberately not in v1. Two hulls sit at 2 rather than the 1 their tonnage suggests, both for the same reason and both values-only: the command-ship (see hullClasses.command-ship) and the monitor. The monitor went 1 -> 2 in the merge pass because its guns do not need the helm but its ENGINES do - it has all-round arcs, so turning buys it no extra battery, but at 10.2 power per hex it is the slowest hull in the game and at turn rate 1 it was also the least able to point itself at the fight, which under the cohesion leash held the whole Vraygon line back with it. Worth +5pp to Vraygon at 32 points, the cell where the monitor is half their tonnage, and it does not touch its identity: the monitor is still by a wide margin the slowest hull in the game. Measured against the alternative of making it physically faster (movementPointRatio 7 -> 6 or 5), which buys the same 32-point cell but erases the identity sentence - at 6 the monitor exactly ties the Vraygon battleship's 8.7 power per hex - and pushes Vraygon to 63-64% at 64 points.",
     "_withdrawNote": "Ruling of the flight-rules balance pass: opening the range is a DECISION, not a reflex. Under the flight rules a ship that opens the range must turn its nose away, which puts the enemy dead astern (face 5); a hull with no stern battery that does this simply stops firing for the rest of the action and is run down anyway, since nobody can outrun anybody by much on a bounded map. Measured before the change: Earth and Zandrax battleships spent 66-68% of their mount-rounds blocked by arc and fired 27-30% of their battery, against 48% for a Krelath battleship of IDENTICAL arcs that stood and fought - which is the whole of why Krelath sat at 90-91% at 32 points. A ship now opens the range only if its stern arcs retain this share of the weight of fire its best heading would give it. Faction-neutral - one test, every hull - but it lands differently on each, which is the point: Vraygon, whose identity is having no blind side, keeps ~0.9 of its battery astern and can genuinely fight a withdrawal; a nose-heavy line fighter keeps about a fifth, so it holds its ground and fights. 0 restores the old reflex. Load-bearing: 0.55 and 0.9 were both measured and both are worse (8 and 6 off-band cells against 5 at 0.7)."
@@ -910,6 +958,7 @@
     "EAR": [
       "frigate",
       "destroyer",
+      "missile-destroyer",
       "light-cruiser",
       "heavy-cruiser",
       "battleship",
@@ -918,6 +967,7 @@
     "VRA": [
       "frigate",
       "destroyer",
+      "missile-destroyer",
       "light-cruiser",
       "heavy-cruiser",
       "battleship",
@@ -926,6 +976,7 @@
     "ZAN": [
       "frigate",
       "destroyer",
+      "missile-destroyer",
       "light-cruiser",
       "heavy-cruiser",
       "battleship",
@@ -934,6 +985,7 @@
     "KRE": [
       "frigate",
       "destroyer",
+      "missile-destroyer",
       "light-cruiser",
       "heavy-cruiser",
       "battleship",

@@ -36,7 +36,13 @@ export function bearing(from, to) {
 
 // Shields are numbered clockwise from front-left: #1 front-left, #2 forward,
 // #3 front-right, #4 rear-right, #5 rear, #6 rear-left. Offset 0 is dead ahead.
-const SHIELD_BY_OFFSET = [2, 3, 4, 5, 6, 1];
+// RULING 2026-09-03 (Chris): shield faces number CLOCKWISE around the bow, as
+// on the FASA sheet and as the viewer draws them - 1 front-left, 2 forward,
+// 3 front-right, 4 rear-right, 5 rear, 6 rear-left. Hex direction indices
+// increase counter-clockwise, so one step counter-clockwise from the bow
+// meets face 1 (front-left). (The table was [2,3,4,5,6,1] before, which put
+// "front-right" on the icon's left.)
+const SHIELD_BY_OFFSET = [2, 1, 6, 5, 4, 3];
 
 // Which shield number faces direction `dir` on a ship holding heading `facing`?
 export function faceFor(facing, dir) {

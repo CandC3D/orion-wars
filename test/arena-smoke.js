@@ -201,10 +201,10 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   const view = battleView(battle);
   const destroyer = view.ships.find((ship) => ship.faction === "EAR" && ship.className === "destroyer");
   assert(destroyer && destroyer.side === "A", "adapter battleView lost ship side or class identity");
-  assert(destroyer.mounts[0].arcName === "fwd" && JSON.stringify(destroyer.mounts[0].arc) === JSON.stringify(tuning.arcs.fwd),
+  assert(destroyer.mounts[0].arcName === "bow" && JSON.stringify(destroyer.mounts[0].arc) === JSON.stringify(tuning.arcs.bow),
     "adapter battleView does not apply the Earth destroyer loadout's fwd beam arc");
-  assert(destroyer.mounts[1].arcName === "fs" && JSON.stringify(destroyer.mounts[1].arc) === JSON.stringify(tuning.arcs.fs),
-    "adapter battleView does not compute the engine-equivalent fs beam arc");
+  assert(destroyer.mounts[1].arcName === "stern" && JSON.stringify(destroyer.mounts[1].arc) === JSON.stringify(tuning.arcs.stern),
+    "adapter battleView does not compute the engine-equivalent stern beam arc");
   assert(shipPlan(battle, destroyer.id).turnRate === tuning.movement.turnRatePerRound.destroyer,
     "adapter shipPlan lost the tuned turn rate");
   const originalFacing = destroyer.facing;

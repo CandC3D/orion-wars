@@ -22,10 +22,10 @@ const SCENARIOS = [
 const COLORS = { EAR: "#54a8ff", VRA: "#edc85e", ZAN: "#ec655d", KRE: "#62c98a" };
 const WEAPON_COLORS = { "laser-cannon": "#9fd7ff", "blaster-beam": "#ff8a5b", "heavy-blaster": "#ff6a3d", "neutronic-missile": "#ffd36b", "plasma-torpedo": "#7cf2b0", "photonic-cannon": "#d9b3ff" };
 // The engine's face table (src/tactical/hex.js): the face that meets a bearing
-// `offset` hexsides counter-clockwise from the bow. Faces: 1 front-left,
+// `offset` hexsides counter-clockwise from the bow; faces number clockwise. Faces: 1 front-left,
 // 2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left.
-const FACE_AT_OFFSET = [2, 3, 4, 5, 6, 1];
-const OFFSET_OF_FACE = { 2: 0, 3: 1, 4: 2, 5: 3, 6: 4, 1: 5 };
+const FACE_AT_OFFSET = [2, 1, 6, 5, 4, 3]; // clockwise faces (ruling 2026-09-03), as src/tactical/hex.js
+const OFFSET_OF_FACE = { 2: 0, 1: 1, 6: 2, 5: 3, 4: 4, 3: 5 };
 const FACE_NAMES = { 1: "front-left", 2: "forward", 3: "front-right", 4: "rear-right", 5: "rear", 6: "rear-left" };
 const clone = (v) => JSON.parse(JSON.stringify(v));
 const norm = (v) => ((v % 6) + 6) % 6;

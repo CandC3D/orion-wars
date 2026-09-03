@@ -16,6 +16,7 @@ const CLASSES = {
   corvette:         { size: 0.42, bars: 0, glyph: "dot",     abbr: "CT" },
   frigate:          { size: 0.52, bars: 1, glyph: null,      abbr: "FF" },
   destroyer:        { size: 0.60, bars: 2, glyph: null,      abbr: "DD" },
+  "missile-destroyer": { size: 0.60, bars: 2, glyph: "missile", abbr: "DM" },
   "light-cruiser":  { size: 0.70, bars: 3, glyph: null,      abbr: "CL" },
   "strike-cruiser": { size: 0.70, bars: 3, glyph: "missile", abbr: "CS" },
   "heavy-cruiser":  { size: 0.82, bars: 4, glyph: null,      abbr: "CA" },

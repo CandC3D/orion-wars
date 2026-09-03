@@ -41,6 +41,12 @@
       "glyph": null,
       "abbr": "DD"
     },
+    "missile-destroyer": {
+      "size": 0.6,
+      "bars": 2,
+      "glyph": "missile",
+      "abbr": "DM"
+    },
     "light-cruiser": {
       "size": 0.7,
       "bars": 3,
@@ -120,6 +126,11 @@
       "size": 0.6,
       "abbr": "DD"
     },
+    "EAR/missile-destroyer": {
+      "file": "ear_missile_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DM"
+    },
     "EAR/light-cruiser": {
       "file": "ear_light_cruiser.svg",
       "size": 0.7,
@@ -184,6 +195,11 @@
       "file": "vra_destroyer.svg",
       "size": 0.6,
       "abbr": "DD"
+    },
+    "VRA/missile-destroyer": {
+      "file": "vra_missile_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DM"
     },
     "VRA/light-cruiser": {
       "file": "vra_light_cruiser.svg",
@@ -250,6 +266,11 @@
       "size": 0.6,
       "abbr": "DD"
     },
+    "ZAN/missile-destroyer": {
+      "file": "zan_missile_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DM"
+    },
     "ZAN/light-cruiser": {
       "file": "zan_light_cruiser.svg",
       "size": 0.7,
@@ -314,6 +335,11 @@
       "file": "kre_destroyer.svg",
       "size": 0.6,
       "abbr": "DD"
+    },
+    "KRE/missile-destroyer": {
+      "file": "kre_missile_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DM"
     },
     "KRE/light-cruiser": {
       "file": "kre_light_cruiser.svg",

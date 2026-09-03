@@ -12,11 +12,7 @@
       "missileMix": {
         "neutronic-missile": 1
       },
-      "beamArcs": [
-        "fwd",
-        "fs"
-      ],
-      "_note": "Federation breadth on a light hull: both guns bear ahead instead of one forward and one on the starboard quarter. The class envelope's fwd+sa split meant an Earth destroyer fought every approach with half its battery, which is why Earth was the worst faction in the game at 8 points - the size where destroyers are half the fleet. Restoring the envelope arcs puts Earth back to 22% there. The trade is real: nothing now answers a target astern."
+      "_note": "Layout follows the class envelope (forward turret 180, rear turret 180, one forward tube) per the 2026-09-03 ruling; this fit sets weapon types only. Federation breadth on a light hull: both guns bear ahead instead of one forward and one on the starboard quarter. The class envelope's fwd+sa split meant an Earth destroyer fought every approach with half its battery, which is why Earth was the worst faction in the game at 8 points - the size where destroyers are half the fleet. Restoring the envelope arcs puts Earth back to 22% there. The trade is real: nothing now answers a target astern."
     },
     "heavy-cruiser": {
       "beam": "laser-cannon",
@@ -54,6 +50,13 @@
       },
       "spinal": "photonic-cannon",
       "_note": "Earth sixth hull. Fleet laser for the secondaries and the fleet missile for the tubes - the dreadnought is not a new armoury, it is the same Federation kit wrapped round one enormous gun. The spinal entry is what builds the keel mount; no other loadout in the game declares one."
+    },
+    "missile-destroyer": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1
+      },
+      "_note": "Missile destroyer variant: weapon types from the destroyer fit; layout from the hull."
     }
   },
   "VRA": {
@@ -78,15 +81,9 @@
       "missileMix": {
         "neutronic-missile": 1
       },
-      "beamArcs": [
-        "fp",
-        "sa"
-      ],
-      "missileArcs": [
-        "a"
-      ],
       "missileMounts": 2,
-      "magazine": 6
+      "magazine": 6,
+      "_note": "Layout follows the class envelope (forward turret 180, rear turret 180, one forward tube) per the 2026-09-03 ruling; this fit sets weapon types only. "
     },
     "light-cruiser": {
       "beam": "heavy-blaster",
@@ -159,6 +156,13 @@
       "missileMix": {
         "neutronic-missile": 1
       }
+    },
+    "missile-destroyer": {
+      "beam": "heavy-blaster",
+      "missileMix": {
+        "neutronic-missile": 1
+      },
+      "_note": "Missile destroyer variant: weapon types from the destroyer fit; layout from the hull."
     }
   },
   "ZAN": {
