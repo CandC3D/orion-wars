@@ -1,0 +1,369 @@
+{
+  "noseUp": true,
+  "factions": {
+    "EAR": {
+      "color": "#4f8ef7",
+      "dark": "#1e3a8a",
+      "name": "Earth Federation"
+    },
+    "VRA": {
+      "color": "#e2b53a",
+      "dark": "#7c5a0b",
+      "name": "Vraygon Star Realm"
+    },
+    "ZAN": {
+      "color": "#e8483f",
+      "dark": "#7f1d1d",
+      "name": "Zandrax Horde"
+    },
+    "KRE": {
+      "color": "#3fbf5a",
+      "dark": "#14532d",
+      "name": "Krelath Empire"
+    }
+  },
+  "classes": {
+    "corvette": {
+      "size": 0.42,
+      "bars": 0,
+      "glyph": "dot",
+      "abbr": "CT"
+    },
+    "frigate": {
+      "size": 0.52,
+      "bars": 1,
+      "glyph": null,
+      "abbr": "FF"
+    },
+    "destroyer": {
+      "size": 0.6,
+      "bars": 2,
+      "glyph": null,
+      "abbr": "DD"
+    },
+    "light-cruiser": {
+      "size": 0.7,
+      "bars": 3,
+      "glyph": null,
+      "abbr": "CL"
+    },
+    "strike-cruiser": {
+      "size": 0.7,
+      "bars": 3,
+      "glyph": "missile",
+      "abbr": "CS"
+    },
+    "heavy-cruiser": {
+      "size": 0.82,
+      "bars": 4,
+      "glyph": null,
+      "abbr": "CA"
+    },
+    "command-ship": {
+      "size": 0.82,
+      "bars": 4,
+      "glyph": "star",
+      "abbr": "CC"
+    },
+    "dreadnought": {
+      "size": 0.9,
+      "bars": 4,
+      "glyph": "spinal",
+      "abbr": "DN"
+    },
+    "carrier": {
+      "size": 0.9,
+      "bars": 3,
+      "glyph": "deck",
+      "abbr": "CV"
+    },
+    "battleship": {
+      "size": 1,
+      "bars": 5,
+      "glyph": null,
+      "abbr": "BB"
+    },
+    "monitor": {
+      "size": 1,
+      "bars": 5,
+      "glyph": "fort",
+      "abbr": "MN"
+    },
+    "interceptor": {
+      "size": 0.3,
+      "bars": 0,
+      "glyph": null,
+      "abbr": "IN",
+      "craft": "interceptor"
+    },
+    "bomber": {
+      "size": 0.36,
+      "bars": 0,
+      "glyph": "payload",
+      "abbr": "BM",
+      "craft": "bomber"
+    }
+  },
+  "icons": {
+    "EAR/corvette": {
+      "file": "ear_corvette.svg",
+      "size": 0.42,
+      "abbr": "CT"
+    },
+    "EAR/frigate": {
+      "file": "ear_frigate.svg",
+      "size": 0.52,
+      "abbr": "FF"
+    },
+    "EAR/destroyer": {
+      "file": "ear_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DD"
+    },
+    "EAR/light-cruiser": {
+      "file": "ear_light_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CL"
+    },
+    "EAR/strike-cruiser": {
+      "file": "ear_strike_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CS"
+    },
+    "EAR/heavy-cruiser": {
+      "file": "ear_heavy_cruiser.svg",
+      "size": 0.82,
+      "abbr": "CA"
+    },
+    "EAR/command-ship": {
+      "file": "ear_command_ship.svg",
+      "size": 0.82,
+      "abbr": "CC"
+    },
+    "EAR/dreadnought": {
+      "file": "ear_dreadnought.svg",
+      "size": 0.9,
+      "abbr": "DN"
+    },
+    "EAR/carrier": {
+      "file": "ear_carrier.svg",
+      "size": 0.9,
+      "abbr": "CV"
+    },
+    "EAR/battleship": {
+      "file": "ear_battleship.svg",
+      "size": 1,
+      "abbr": "BB"
+    },
+    "EAR/monitor": {
+      "file": "ear_monitor.svg",
+      "size": 1,
+      "abbr": "MN"
+    },
+    "EAR/interceptor": {
+      "file": "ear_interceptor.svg",
+      "size": 0.3,
+      "abbr": "IN"
+    },
+    "EAR/bomber": {
+      "file": "ear_bomber.svg",
+      "size": 0.36,
+      "abbr": "BM"
+    },
+    "VRA/corvette": {
+      "file": "vra_corvette.svg",
+      "size": 0.42,
+      "abbr": "CT"
+    },
+    "VRA/frigate": {
+      "file": "vra_frigate.svg",
+      "size": 0.52,
+      "abbr": "FF"
+    },
+    "VRA/destroyer": {
+      "file": "vra_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DD"
+    },
+    "VRA/light-cruiser": {
+      "file": "vra_light_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CL"
+    },
+    "VRA/strike-cruiser": {
+      "file": "vra_strike_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CS"
+    },
+    "VRA/heavy-cruiser": {
+      "file": "vra_heavy_cruiser.svg",
+      "size": 0.82,
+      "abbr": "CA"
+    },
+    "VRA/command-ship": {
+      "file": "vra_command_ship.svg",
+      "size": 0.82,
+      "abbr": "CC"
+    },
+    "VRA/dreadnought": {
+      "file": "vra_dreadnought.svg",
+      "size": 0.9,
+      "abbr": "DN"
+    },
+    "VRA/carrier": {
+      "file": "vra_carrier.svg",
+      "size": 0.9,
+      "abbr": "CV"
+    },
+    "VRA/battleship": {
+      "file": "vra_battleship.svg",
+      "size": 1,
+      "abbr": "BB"
+    },
+    "VRA/monitor": {
+      "file": "vra_monitor.svg",
+      "size": 1,
+      "abbr": "MN"
+    },
+    "VRA/interceptor": {
+      "file": "vra_interceptor.svg",
+      "size": 0.3,
+      "abbr": "IN"
+    },
+    "VRA/bomber": {
+      "file": "vra_bomber.svg",
+      "size": 0.36,
+      "abbr": "BM"
+    },
+    "ZAN/corvette": {
+      "file": "zan_corvette.svg",
+      "size": 0.42,
+      "abbr": "CT"
+    },
+    "ZAN/frigate": {
+      "file": "zan_frigate.svg",
+      "size": 0.52,
+      "abbr": "FF"
+    },
+    "ZAN/destroyer": {
+      "file": "zan_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DD"
+    },
+    "ZAN/light-cruiser": {
+      "file": "zan_light_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CL"
+    },
+    "ZAN/strike-cruiser": {
+      "file": "zan_strike_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CS"
+    },
+    "ZAN/heavy-cruiser": {
+      "file": "zan_heavy_cruiser.svg",
+      "size": 0.82,
+      "abbr": "CA"
+    },
+    "ZAN/command-ship": {
+      "file": "zan_command_ship.svg",
+      "size": 0.82,
+      "abbr": "CC"
+    },
+    "ZAN/dreadnought": {
+      "file": "zan_dreadnought.svg",
+      "size": 0.9,
+      "abbr": "DN"
+    },
+    "ZAN/carrier": {
+      "file": "zan_carrier.svg",
+      "size": 0.9,
+      "abbr": "CV"
+    },
+    "ZAN/battleship": {
+      "file": "zan_battleship.svg",
+      "size": 1,
+      "abbr": "BB"
+    },
+    "ZAN/monitor": {
+      "file": "zan_monitor.svg",
+      "size": 1,
+      "abbr": "MN"
+    },
+    "ZAN/interceptor": {
+      "file": "zan_interceptor.svg",
+      "size": 0.3,
+      "abbr": "IN"
+    },
+    "ZAN/bomber": {
+      "file": "zan_bomber.svg",
+      "size": 0.36,
+      "abbr": "BM"
+    },
+    "KRE/corvette": {
+      "file": "kre_corvette.svg",
+      "size": 0.42,
+      "abbr": "CT"
+    },
+    "KRE/frigate": {
+      "file": "kre_frigate.svg",
+      "size": 0.52,
+      "abbr": "FF"
+    },
+    "KRE/destroyer": {
+      "file": "kre_destroyer.svg",
+      "size": 0.6,
+      "abbr": "DD"
+    },
+    "KRE/light-cruiser": {
+      "file": "kre_light_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CL"
+    },
+    "KRE/strike-cruiser": {
+      "file": "kre_strike_cruiser.svg",
+      "size": 0.7,
+      "abbr": "CS"
+    },
+    "KRE/heavy-cruiser": {
+      "file": "kre_heavy_cruiser.svg",
+      "size": 0.82,
+      "abbr": "CA"
+    },
+    "KRE/command-ship": {
+      "file": "kre_command_ship.svg",
+      "size": 0.82,
+      "abbr": "CC"
+    },
+    "KRE/dreadnought": {
+      "file": "kre_dreadnought.svg",
+      "size": 0.9,
+      "abbr": "DN"
+    },
+    "KRE/carrier": {
+      "file": "kre_carrier.svg",
+      "size": 0.9,
+      "abbr": "CV"
+    },
+    "KRE/battleship": {
+      "file": "kre_battleship.svg",
+      "size": 1,
+      "abbr": "BB"
+    },
+    "KRE/monitor": {
+      "file": "kre_monitor.svg",
+      "size": 1,
+      "abbr": "MN"
+    },
+    "KRE/interceptor": {
+      "file": "kre_interceptor.svg",
+      "size": 0.3,
+      "abbr": "IN"
+    },
+    "KRE/bomber": {
+      "file": "kre_bomber.svg",
+      "size": 0.36,
+      "abbr": "BM"
+    }
+  }
+}

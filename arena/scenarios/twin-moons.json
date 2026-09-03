@@ -1,0 +1,67 @@
+{
+  "name": "Ambush at the Twin Moons",
+  "seed": "twin-moons",
+  "map": {
+    "widthHexes": 72,
+    "heightHexes": 40
+  },
+  "terrain": [
+    {
+      "type": "planet",
+      "q": 0,
+      "r": 0
+    },
+    {
+      "type": "moon",
+      "q": -8,
+      "r": -6
+    },
+    {
+      "type": "moon",
+      "q": 9,
+      "r": 5
+    }
+  ],
+  "sides": [
+    {
+      "faction": "EAR",
+      "ships": [
+        {
+          "className": "dreadnought",
+          "q": -15,
+          "r": 0,
+          "facing": 0
+        },
+        {
+          "className": "light-cruiser",
+          "q": -14,
+          "r": 3,
+          "facing": 0
+        },
+        {
+          "className": "destroyer"
+        }
+      ]
+    },
+    {
+      "faction": "KRE",
+      "ships": [
+        {
+          "className": "carrier",
+          "q": 15,
+          "r": 0,
+          "facing": 3
+        },
+        {
+          "className": "strike-cruiser",
+          "q": 14,
+          "r": -3,
+          "facing": 3
+        },
+        {
+          "className": "heavy-cruiser"
+        }
+      ]
+    }
+  ]
+}

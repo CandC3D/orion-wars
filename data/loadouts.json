@@ -4,13 +4,13 @@
     "_default": {
       "beam": "laser-cannon",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       }
     },
     "destroyer": {
       "beam": "laser-cannon",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "beamArcs": [
         "fwd",
@@ -21,7 +21,7 @@
     "heavy-cruiser": {
       "beam": "laser-cannon",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "beamArcs": [
         "fp",
@@ -35,30 +35,38 @@
     "command-ship": {
       "beam": "laser-cannon",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       }
     },
     "light-cruiser": {
       "beam": "laser-cannon",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "missileMounts": 2,
       "magazine": 8,
       "_note": "A second tube, against the class envelope's one. This is the 8-point cell's lever and only the 8-point cell's: Earth field a light cruiser at 8 points and NOWHERE else in the sweep, because at 24, 32 and 64 both light cruisers are swapped for the command ship and at 16 there are none, so the change is worth +19pp at 8 and a flat zero at every other size. That is worth stating plainly rather than hiding - it is a single-cell fix. Two things justify it beyond the number. Earth at 8 points was 22% against Zandrax and 27% against Krelath: a laser cannon is the lowest-damage beam in the game and this cell is decided before the fleets are in laser band, so the tube is what Earth needs and the neutronic missile is Earth's weapon. And one tube was the outlier, not two - three of the four powers already override this class's tube count (Vraygon 3, Zandrax 2), so Earth at 2 is inside the family rather than outside it. Eight rounds rather than the envelope's five so the second tube has something to fire in a fourteen-turn action."
+    },
+    "dreadnought": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1
+      },
+      "spinal": "photonic-cannon",
+      "_note": "Earth sixth hull. Fleet laser for the secondaries and the fleet missile for the tubes - the dreadnought is not a new armoury, it is the same Federation kit wrapped round one enormous gun. The spinal entry is what builds the keel mount; no other loadout in the game declares one."
     }
   },
   "VRA": {
     "_default": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       }
     },
     "frigate": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "beamArcs": [
         "all"
@@ -68,7 +76,7 @@
     "destroyer": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "beamArcs": [
         "fp",
@@ -83,7 +91,7 @@
     "light-cruiser": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "beamArcs": [
         "fp",
@@ -100,7 +108,7 @@
     "heavy-cruiser": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "beamMounts": 5,
       "missileMounts": 3,
@@ -121,7 +129,7 @@
     "battleship": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "missileMounts": 5,
       "magazine": 18,
@@ -149,7 +157,7 @@
     "monitor": {
       "beam": "heavy-blaster",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       }
     }
   },
@@ -195,13 +203,13 @@
     "_default": {
       "beam": "blaster-beam",
       "missileMix": {
-        "plasma-torpedo": 1.0
+        "plasma-torpedo": 1
       }
     },
     "heavy-cruiser": {
       "beam": "blaster-beam",
       "missileMix": {
-        "neutronic-missile": 1.0
+        "neutronic-missile": 1
       },
       "missileMounts": 5,
       "magazine": 20,
@@ -216,7 +224,7 @@
     "battleship": {
       "beam": "blaster-beam",
       "missileMix": {
-        "plasma-torpedo": 1.0
+        "plasma-torpedo": 1
       },
       "missileMounts": 7,
       "magazine": 26,
@@ -229,6 +237,13 @@
         "neutronic-missile": 0.5
       },
       "_note": "Mixed tubes: neutronic for the standoff exchange, plasma for the warp-in kill. Pure plasma decayed to nothing against a kiting enemy."
+    },
+    "carrier": {
+      "beam": "laser-cannon",
+      "missileMix": {
+        "neutronic-missile": 1
+      },
+      "_note": "Earth lasers on the beam and one neutronic tube forward - the whole of the hull's own armament. The air group is in hullClasses.carrier.hangar and the rules it fights by are in strikeCraft; nothing about either is Earth-specific."
     }
   },
   "_sixthHull": "Each power has one unique sixth hull: ZAN corvette, KRE strike cruiser (fast, missile-dominant), VRA monitor, EAR command ship. A faction cannot field another's."

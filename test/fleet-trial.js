@@ -12,6 +12,7 @@ import { dirname, join } from "node:path";
 
 import { makePrng, seedFromString } from "../src/prng.js";
 import { runBattle, buildFleet, deployFleets } from "../src/tactical/resolver.js";
+import { SCALES, STANDARD, compFor as comp6 } from "./comp.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, ""));
@@ -24,51 +25,10 @@ const NAMES = {
   ZAN: "Zandrax Horde", KRE: "Krelath Empire"
 };
 
-// Scenarios run anywhere from a two-point skirmish to a 64-point fleet action.
-// Balance has to hold across the range, not just at the reference size.
-const SCALES = {
-  2:  { frigate: 2 },
-  8:  { "light-cruiser": 1, destroyer: 2 },
-  16: { "heavy-cruiser": 1, destroyer: 2, frigate: 4 },
-  24: { "heavy-cruiser": 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
-  32: { battleship: 1, "light-cruiser": 2, destroyer: 2, frigate: 4 },
-  64: { battleship: 2, "heavy-cruiser": 2, "light-cruiser": 2, destroyer: 2, frigate: 4 }
-};
-const STANDARD = SCALES[24];
-
-// Each power has one unique sixth hull. Above a threshold it buys one, paying
-// for it out of the common hulls, so the sweep tests the hull rather than
-// handing its owner free points.
-const SIXTH = {
-  EAR: { hull: "command-ship", cost: 8, from: { "light-cruiser": 2 } },
-  VRA: { hull: "monitor", cost: 16, from: { battleship: 1 } },
-  ZAN: { hull: "corvette", cost: 0.5, from: {} },
-  KRE: { hull: "strike-cruiser", cost: 4, from: { "light-cruiser": 1 } }
-};
-
-// Build a faction's actual list for a composition: swap in its sixth hull when
-// the budget allows, keeping the point total identical.
-function compFor(faction, comp) {
-  const out = { ...comp };
-  const pts = Object.entries(comp).reduce((s, [k, n]) => s + TUNING.hullClasses[k].points * n, 0);
-  const spec = SIXTH[faction];
-  if (!spec) return out;
-  if (faction === "ZAN") {
-    // Zandrax trade a frigate for two corvettes wherever they have one.
-    if (out.frigate >= 2) { out.frigate -= 2; out.corvette = (out.corvette ?? 0) + 4; }
-    return out;
-  }
-  if (pts < spec.cost * 2) return out; // too small a scenario to justify it
-  let ok = true;
-  for (const [k, n] of Object.entries(spec.from)) if ((out[k] ?? 0) < n) ok = false;
-  if (!ok) return out;
-  for (const [k, n] of Object.entries(spec.from)) {
-    out[k] -= n;
-    if (out[k] <= 0) delete out[k];
-  }
-  out[spec.hull] = (out[spec.hull] ?? 0) + 1;
-  return out;
-}
+// Scenario compositions and each power's unique-hull fielding policy live in
+// test/comp.js, so the sweep, the instrumentation probe and the buy-delta
+// harness cannot drift apart.
+const compFor = (faction, comp) => comp6(faction, comp, TUNING);
 
 const args = process.argv.slice(2);
 const numArg = (flag, dflt) => {
@@ -87,19 +47,24 @@ function fight(fa, fb, compA, compB, seed, useSixth = true) {
 
 function series(fa, fb, compA = STANDARD, compB = STANDARD, n = BATTLES, tag = "") {
   let winsA = 0, winsB = 0, draws = 0, turns = 0;
+  // Maneuver-index accumulation: hits landing on the victim's forward faces
+  // (1-3) vs its flank/rear faces (4-6), booked against the SHOOTING side.
+  let hitsForwardA = 0, hitsRearA = 0, hitsForwardB = 0, hitsRearB = 0;
   for (let i = 0; i < n; i++) {
     const r = fight(fa, fb, compA, compB, `${tag}${fa}-${fb}-${i}`, tag !== "sh-");
     if (r.victor === "A") winsA++;
     else if (r.victor === "B") winsB++;
     else draws++;
     turns += r.turns;
+    hitsForwardA += r.stats.A.hitsForward; hitsRearA += r.stats.A.hitsRear;
+    hitsForwardB += r.stats.B.hitsForward; hitsRearB += r.stats.B.hitsRear;
   }
-  return { winsA, winsB, draws, avgTurns: turns / n };
+  return { winsA, winsB, draws, avgTurns: turns / n, hitsForwardA, hitsRearA, hitsForwardB, hitsRearB };
 }
 
 // Overall win rate per faction across every pairing at one composition.
 function matrix(comp, n, tag) {
-  const tally = Object.fromEntries(FACTIONS.map((f) => [f, { w: 0, t: 0 }]));
+  const tally = Object.fromEntries(FACTIONS.map((f) => [f, { w: 0, t: 0, hitsForward: 0, hitsRear: 0 }]));
   const rows = [];
   for (let i = 0; i < FACTIONS.length; i++) {
     for (let j = i + 1; j < FACTIONS.length; j++) {
@@ -108,11 +73,19 @@ function matrix(comp, n, tag) {
       const total = r.winsA + r.winsB + r.draws;
       tally[a].w += r.winsA; tally[a].t += total;
       tally[b].w += r.winsB; tally[b].t += total;
+      tally[a].hitsForward += r.hitsForwardA; tally[a].hitsRear += r.hitsRearA;
+      tally[b].hitsForward += r.hitsForwardB; tally[b].hitsRear += r.hitsRearB;
       rows.push({ a, b, ...r, total });
     }
   }
   const rates = Object.fromEntries(FACTIONS.map((f) => [f, tally[f].w / tally[f].t]));
-  return { rows, rates };
+  // Share of a faction's landed hits (as shooter) that struck the target's
+  // flank/rear faces (4-6) rather than its forward faces (1-3).
+  const maneuver = Object.fromEntries(FACTIONS.map((f) => {
+    const hits = tally[f].hitsForward + tally[f].hitsRear;
+    return [f, hits > 0 ? tally[f].hitsRear / hits : 0];
+  }));
+  return { rows, rates, maneuver };
 }
 
 // --- watch mode ------------------------------------------------------------
@@ -139,13 +112,15 @@ if (onlyScale) {
   const comp = SCALES[onlyScale];
   if (!comp) { console.error(`no composition for ${onlyScale} points`); process.exit(1); }
   console.log(`Matrix at ${onlyScale} points — ${BATTLES} battles per pairing\n`);
-  const { rows, rates } = matrix(comp, BATTLES, `s${onlyScale}-`);
+  const { rows, rates, maneuver } = matrix(comp, BATTLES, `s${onlyScale}-`);
   for (const r of rows) {
     const pct = (n) => `${((n / r.total) * 100).toFixed(0)}%`.padStart(6);
     console.log(`${r.a} v ${r.b}  ${pct(r.winsA)} ${pct(r.winsB)} ${pct(r.draws)} draws   ${r.avgTurns.toFixed(1)} turns`);
   }
   console.log("");
   for (const f of FACTIONS) console.log(`${NAMES[f].padEnd(20)} ${(rates[f] * 100).toFixed(1).padStart(5)}%`);
+  console.log("\nManeuver index — share of hits landing on flank/rear faces");
+  for (const f of FACTIONS) console.log(`${NAMES[f].padEnd(20)} ${(maneuver[f] * 100).toFixed(1).padStart(5)}%`);
   process.exit(0);
 }
 
@@ -173,8 +148,10 @@ console.log("-".repeat(52));
 const scaleN = Math.max(40, Math.round(BATTLES / 3));
 console.log("points  " + FACTIONS.map((f) => f.padStart(7)).join("") + "   spread");
 const sizes = Object.keys(SCALES).map(Number).sort((a, b) => a - b);
+const maneuverBySize = {};
 for (const pts of sizes) {
-  const { rates: r } = matrix(SCALES[pts], scaleN, `s${pts}-`);
+  const { rates: r, maneuver: m } = matrix(SCALES[pts], scaleN, `s${pts}-`);
+  maneuverBySize[pts] = m;
   const vals = FACTIONS.map((f) => r[f]);
   const spread = (Math.max(...vals) - Math.min(...vals)) * 100;
   console.log(
@@ -184,6 +161,17 @@ for (const pts of sizes) {
   );
 }
 console.log(`(${scaleN} battles per pairing at each size)`);
+
+console.log("\nManeuver index — share of hits landing on flank/rear faces");
+console.log("-".repeat(52));
+console.log("points  " + FACTIONS.map((f) => f.padStart(7)).join(""));
+for (const pts of sizes) {
+  const m = maneuverBySize[pts];
+  console.log(
+    String(pts).padEnd(8) +
+    FACTIONS.map((f) => `${(m[f] * 100).toFixed(0)}%`.padStart(7)).join("")
+  );
+}
 
 // --- concentration of force ------------------------------------------------
 console.log("\nConcentration of force — equal points, different shapes");

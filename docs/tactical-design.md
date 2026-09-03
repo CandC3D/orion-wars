@@ -965,3 +965,343 @@ Two code-intent bugs recorded, deliberately unfixed: `poolScaling`'s sign
 contradicts its comment (but the comment's intent measures as the worse
 game), and the command ship's sensor/detection ratings buy nothing while no
 cloak exists in-game.
+
+---
+
+## 22. The command ship retires; the Yamato and the flight deck arrive (rulings, 2026-09-01)
+
+Chris: "the Earth needs the Yamato more than ever," and "a Krelath carrier as
+a first go." Both adopted from referee-verified prototype trees.
+
+**Earth Dreadnought** (8 pts, sixth hull, replacing the command ship): three
+cores driving a 63-power pool into the **photonic cannon** — a spinal keel
+mount that draws the pool off the top for ~4 turns (visibly soft while
+charging, by the residual-shield model's own arithmetic), fires one 26-damage
+shield-bypassing bolt, then vents dark for 2 turns. Aimed by pointing the
+ship; worst band inside 6 hexes (a keel gun cannot track a knife fight). No
+stern battery — it cannot withdraw fighting, and per measurement it should
+not. Killed mid-charge, the capacitor bank goes up with the ship. The referee
+proved it the only candidate that repairs the balance hole the command ship's
+retirement opens (the old hull was secretly Earth's handicap holding Krelath
+in band).
+
+**Krelath Carrier** (8 pts, bought from the heavy cruiser): the strike-craft
+system adopted engine-wide — squadrons as persistent sub-units (2×6
+interceptors, 2×4 bombers), permanent attrition, PD interaction, and a
+carrier exempt from the withdrawal-fire test because its battery is its wing,
+which bears on every heading. Krelath keeps the strike cruiser too; fielding
+policy per scenario size is a harness matter. First measurements: fixes
+Krelath's chronic large-action weakness and overshoots (94% at 16, 77-80% at
+64), with one beautiful hole — Vraygon's all-round arcs and armour weather
+the strikes (30% at 24). A tune-and-verify workflow is bringing it into band.
+
+Maiden battle (dreadnought fleet vs carrier fleet, logged): the cannon charged
+20/40/60/72, fired its first historic bolt at point-blank range — and missed
+(its worst band; the game teaching its own doctrine). Mutual near-annihilation;
+Krelath's last ship held the field. Both new systems log fully for the arena.
+
+Merged via git merge-file three-way (both prototypes shared the pristine
+base): zero conflicts, harness green, both hulls coexist in one engine.
+
+Open: carrier tuning in flight; arena replays to re-record after it lands;
+models for the two new hulls (the retired command ship model is available for
+repurposing, Chris's call); the stale strategic-layer factions.json still
+awaits its bridge to the tactical roster.
+
+---
+
+## 23. The carrier tuned into band (adopted 2026-09-01)
+
+Tune-and-verify workflow, adopted with the verifier's four conditions. All 72
+cells (4 factions × 6 sizes × 3 seed sets) inside 35–65% at 600
+battles/pairing, **with the dreadnought present** — the combined state is the
+verified state. Data-only: resolver byte-identical.
+
+The diagnosis corrected our story again:
+- **The warp hypothesis was wrong.** Deleting the warp entirely barely moved
+  the carrier's numbers. What protected the deck: `fire()` targets the
+  nearest enemy, and the formation leash held the whole fleet back with the
+  carrier — it wasn't hiding behind the line; the line was chained to it.
+- **The CAP missile screen, not the strike wave, carried most of the hull's
+  value** — a ceiling-raising interception bonus cut missiles getting through
+  six-fold, fleet-wide, unbounded, free. Nerfed 5×: the single biggest lever
+  (+12 to +23pp of buy).
+- **16 points is structurally unfixable by tuning**: the carrier there is
+  bought out of the fleet's only capital and half the list's fighting power
+  is aircraft (79–94% under every tuning tried). Now a **game rule in data**:
+  `strikeCraft.minFleetPoints: 24` — a carrier requires a 24-point fleet.
+- Krelath now field a ladder: nothing at 2, strike cruiser at 8–16, carrier
+  at 24+ — the 8-point dip (34%) was simply their unique hull being
+  unaffordable there; fixed by fielding policy, row now 51/42/54/50.
+
+Honest numbers per the verifier: the carrier is **break-even at 24 and 32
+points** (+1.5 to +3.4pp) and genuinely positive only at 64 (+11pp). It pays
+for itself at fleet scale; it is not a bargain. Vraygon still beats it
+(armour + all-round arcs weather strikes) — the matchup texture survived.
+
+**KNOWN OPEN (documented in `strikeCraft._capCouplingNote`):** with the
+missile screen nerfed, flying CAP is now a strictly dominated AI stance, and
+the band depends on the AI continuing to fly it — tubeThreat 0 puts Krelath
+at 62–67%. The next strike-system pass must make CAP earn its cost or re-tune
+the stance weights. The verifier flagged this as the one finding that could
+have changed the verdict.
+
+Thinnest margins on record: ZAN 37.2% mean at 64 points; ZAN ~63% at 32
+(pre-existing). Also open: Chris's pending ruling on dreadnought
+charge-immobility (§22 follow-up); models for dreadnought and carrier.
+
+---
+
+## 24. Charge immobility, and the icon pivot (2026-09-01)
+
+**Ruling: the dreadnought is immobile except for turning to aim.** Implemented
+with the five defaults Chris accepted: planted while charging and while
+holding a full bank; free to move while venting; turns at the normal rate;
+and the bank is not lit until an enemy is within `chargeStartRangeHexes`
+(20) — without that gate the ship would plant at its deployment hex on turn
+one. Flags on `weapons.photonic-cannon`; guarded on `ship.spinal`; determinism
+byte-identical. Measured but NOT tuned (content-first directive): Earth 44%
+at 24 points and 38% at 32 — the rule costs roughly 5–11pp and stays in band.
+Maiden battle under the rule: cold → four planted turns → a hit on the
+Krelath battleship at 17 hexes → venting → reconnected.
+
+**Process directive (Chris): content first, tune once.** No more rolling
+balance passes; the consolidated tuning pass waits until the roster settles.
+
+**Visual pivot (Chris): schematic icons in place of 3D assets until the core
+game is complete.** `scripts/gen-icons.js` generates 44 SVGs to
+`assets/icons/` (+ manifest + contact sheet): faction = colour + hull family
+(Earth lozenge, Vraygon crystal, Zandrax arrowhead, Krelath carapace); class
+= footprint + rank bars (FF 1 … BB 5) with glyphs for the specials (spinal
+line, flight deck, fortress, missile, dot). Nose up; the viewer rotates by
+facing. Icons are the arena's default; sprites remain as a toggle.
+
+Also found and handed to Codex: the arena recorder carried a stale private
+roster copy, so no replay yet contained a dreadnought or carrier; it now
+imports `test/comp.js`.
+
+### 24a. Rulings queued 2026-09-01 (Chris)
+
+- **Landscape arena, FASA-paper-map style.** The battle map becomes a wide
+  rectangle of hexes rather than a hexagon of radius 34, with fleets entering
+  from the short ends — more room to manoeuvre along the long axis. Engine
+  side: `battle.map {shape: "rect", widthHexes, heightHexes}` with in-bounds
+  by hex-pixel extents; deployment on the long axis; start distance widened.
+  Viewer side: draw the rectangle, fit to width. Applied after the current
+  Codex arena task lands (it holds write access to the resolver).
+- **Small craft as stacks, not individuals.** Confirmed as already built:
+  each squadron is a stack with a `strength` (craft count) that depletes
+  under point defence and enemy CAP, and its striking power scales with what
+  is left — the wing thins as planes die. Squadrons carry no map position in
+  v1 (they fly from the parent carrier within a radius); giving them map
+  positions is the v2 step if the playfield needs it. Icons for both craft
+  types (interceptor: slim dart; bomber: broad wedge with payload) are in the
+  icon set for the viewer to place.
+
+### 24b. Scale ruling: one ship, one hex, no collisions (Chris, 2026-09-01)
+
+As in the FASA original, a ship occupies a single hex and is far smaller than
+it; ships may share a hex and pass through one another without collision.
+Only the largest objects (planets) will ever span more than one hex. This
+fixes the game at fleet-battle scale. Engine audit: already true — there is
+no occupancy or collision rule, and zero-range fire resolves (a co-located
+attacker registers as bearing east; a harmless deterministic fallback).
+Verified by stacking four ships in one hex and running a full battle. The
+perceived deviation was visual only: sprites scaled past a hex. Viewer rule
+from here: an icon's footprint fits inside one hex; co-located ships are
+drawn offset within the hex so each remains visible. Deployment spacing and
+formation stations are doctrine, not physics, and are unaffected.
+
+### 24c. Landscape arena — built (2026-09-01)
+
+`battle.map {shape: "rect", widthHexes: 72, heightHexes: 40}`; in-bounds is
+`|q + r/2| ≤ W/2 and |r| ≤ H/2` in pointy-top axial. Deployment needed no
+change — the fleets already stood west and east with the line of battle
+north–south; only the edges were hexagonal. Verified: harness green, zero
+draws in sixty 24-point battles, determinism byte-identical. Instructive
+number: fleets used 15 of the 36 available columns and 6 of 20 rows — the
+room exists; the helm AI does not yet seek it (see §24, maneuver incentive).
+A maneuver index (share of hits landing on flank/rear faces) is being added
+to the trial harness so the incentive is measured, not hoped.
+
+### 24d. Maneuver index — baseline (2026-09-01)
+
+Added to the trial harness (`stats.hitsForward/hitsRear`, counted in
+`resolveHit`; printed after the size sweep and in `--scale` mode): the share
+of a faction's landed hits that strike flank/rear faces (4/5/6). Baseline on
+the landscape map, 60 battles/pairing:
+
+    points   EAR   VRA   ZAN   KRE
+    8        19%   19%   31%   41%
+    24       24%   25%   32%   26%
+    64       14%   16%   27%   35%
+
+Reading: three hits in four land on the nose. Zandrax (fast, emergency
+burst) and Krelath (warp behind targets) reach the rear most; Earth, the line
+fighter, least — 14% at fleet scale. This is the number the maneuver
+incentive work must move; the map now has the room, the helm AI does not yet
+seek the flank. Strike-craft damage bypasses resolveHit and is not counted.
+
+### 24e. Same-hex rule restored from the original (2026-09-01)
+
+Research (Sonnet agent, from the rulebook's page images): FASA STTCS p.16,
+"Additional Rules" — *"Two or more starships may occupy the same hex, but
+they may not fire at one another while they are in that hex. Ships may
+neither ram nor collide with one another."* No stacking limit, no ramming,
+no point-blank fire. And p.7–8: the Starfield Mapsheet is 22×33 inches with
+the fleets deployed *"at the center of opposite short sides"* — the landscape
+ruling (§24c) is the original's own layout.
+
+Chris's concern — nothing to stop ships parking in an enemy's hex and
+slugging it out — is answered by the source: parking there **forfeits the
+shot at that ship**, mutually, while both may still fire at others. Restored
+as `battle.sameHexNoFire` (mayEngage() in the resolver, applied to beams,
+missiles and the spinal gun; the helm stops one hex short when closing).
+Verified: a frozen stacked pair exchanges zero shots; harness green;
+determinism byte-identical. Not balance-tuned (content-first).
+
+### 24f. Viewer caught up (2026-09-02, Opus agent after two Codex failures)
+
+Recorder now imports the shared roster (`test/comp.js` — untracked; must be
+committed with it) and echoes the map shape; replay meta v3; all four bundled
+replays re-recorded and finally field the dreadnought and the carrier.
+Viewer: landscape rectangle fitted to width (hexagon fallback kept), icons by
+default with a sprites toggle, icon footprint capped inside one hex, stacked
+ships ringed within the hex, and log-driven effects for the photonic cannon
+(cold/charging/held/bolt/venting) and the air group (orbit, strike run,
+attrition). Verified in a real browser, zero errors; engine hashes unchanged.
+Consequence of the map ruling: ~6 px ships at full-map fit — pan/zoom with
+auto-framing handed to Sol (first task on the repaired stdin invocation).
+
+### 24g. Camera (2026-09-02, Sol — first task on the repaired invocation)
+
+Cursor-centred wheel zoom (min whole map, max ~60 px hex), drag panning with
+a click/drag threshold, transformed hit-testing, a smooth auto-frame on the
+living fleets (default on; any manual zoom or drag disengages it; "Frame
+fleets" re-engages; "Fit map" shows the whole rectangle), camera-aware grid
+culling, one canvas transform for every element and effect. Verified in
+headless Chromium on all four replays, no errors. Smoke test not extended
+(test/ was declared read-only in the brief); camera assertions were run as
+temporary checks — extending `test/arena-smoke.js` for the camera is a small
+open item. The viewer is now complete for the playtest phase.
+
+Camera fix (Sol, same day): zoom initialised on load and resize; auto-frame
+engages immediately; playback hardened against NaN timestamps and a render
+failure no longer stops the loop; round matching unified across shots,
+effects and the log panel. Verified in headless Chrome on all four replays
+(finite zooms ~2.0–2.4, playback to the end at 1× and 4×). Script at
+`?v=camera2`.
+
+---
+
+## 25. Playtest ledger (observations for the consolidated tuning pass)
+
+Per the content-first directive, observations are logged here and NOT acted
+on until the roster settles. Each entry: what was seen, what the harness says.
+
+- **2026-09-02, Chris — "the game seems too short; torpedoes seem awfully
+  powerful"** (watching ear-kre-24, a commanding Earth victory). Harness,
+  240 battles/size: average 10.2 turns at 24 pts and 11.0 at 32 (31–33 fire
+  rounds); missiles land 35–37% of launches at ~10 damage each; beams hit
+  46–47%. Lopsided wins (victor keeps 75%+ of fleet): 26% at 24, 5% at 32.
+  The watched seed is a rout, and its cause is the next entry, not missiles.
+  Missile weight vs beams is a legitimate feel question for the pass.
+- **2026-09-02 — carrier fights in the battle line and dies on turn 3** with
+  15 craft aboard (round log: `B-carrier-9 destroyed … goes down with 15
+  craft`). Already measured by the carrier tuning pass: the deck trails its
+  line by 0.2–1.4 hexes because `formation.cohesionRadius` leashes the whole
+  fleet to its centre of mass, and the withdrawal exemption cannot act
+  against the leash. This is a FORMATION-ROLE gap (content), not a number:
+  a carrier needs a rear station behind the line, screened, with the line
+  advancing without it. Candidate for the roster-settled pass or a small
+  content change before it.
+- **2026-09-02 — the Yamato held its charge all battle** ("holds the photonic
+  charge - no capital in the arc") once Krelath's capitals were gone. Working
+  as designed (holdForCapitalTurns 2 then it fires anyway) — but in a rout it
+  looks idle; worth a glance at whether the hold should relax faster when
+  the enemy has no capitals left at all.
+
+---
+
+## 26. Scenarios and terrain (ruling 2026-09-02, Chris): the game editor
+
+Chris: a game editor to set up fleets and scenarios — composition and the
+position of every element under the player's control, all four factions,
+basic planets and moons, then run in a simulator (same product or separate).
+
+Engine side, built: **moons** are one impassable hex; **planets** are a
+seven-hex rosette (the footprint the old sprites spilled over). Both block
+movement, warp landings and deployment, and both block **line of fire**
+along the hex line (FASA: large bodies block fire) for beams, missile
+launches and the spinal cannon. `buildScenario()` places every element
+explicitly and falls back to the line deployment for unplaced ships;
+`runBattle` takes terrain via `opts.terrain`. Contract in
+`docs/scenario-format.md`. Verified: a planet between two frozen frigates
+yields zero shots; the same geometry without it yields fire; a moon is never
+entered; placement and facing honoured; terrain placement refused; a full
+mixed scenario with terrain is deterministic. Client side (Sol): the editor
+page, an in-browser runner (the engine is dependency-free ES modules), and
+the hand-off to the viewer.
+- **2026-09-02 — ships do not route around terrain.** In the moon test a
+  frigate whose forward step was blocked sat in place for the turn rather
+  than turning to go round. Flight rules plus the "close" step test explain
+  it; a helm rule for obstacle avoidance (steer to the neighbouring bearing
+  that still closes) is engine content for when scenarios with terrain are
+  played in earnest.
+
+### 26a. The editor delivered (Sol, 2026-09-02)
+
+`arena/editor.html` (+ editor.js, editor-core.js, editor.css): two sides
+with all four factions, roster with points and running totals, drag
+placement with snapping and facing, moon/planet tools, map size, seed and
+name, save/load of scenario JSON, validation, Random line deployment, and
+**Run battle** — the engine runs in the browser (dependency-free ES modules)
+and hands the replay to the viewer through sessionStorage
+(`orion-wars:scenario-replay:v3`; `index.html?replay=session`; "Back to
+editor" link). One shared recording module (`arena/record.js`) serves both
+the browser runner and `test/record-battle.js --scenario`, byte-identical.
+The viewer renders terrain from `meta.terrain` under ships and effects.
+Sample: `arena/scenarios/twin-moons.json` (a planet, two moons, placed and
+unplaced ships, EAR vs KRE). Seen in the pane: the planet as a large body,
+a laser crossing past it, the carrier's wing orbiting the deck, wrecks,
+zero console errors. Sonnet verification pending at time of writing.
+
+Verification (Sonnet, same day): adopt-with-fixes. Byte-identity between the
+browser runner and the CLI confirmed; protected hashes unchanged; three
+defects: no facing check in validation, Save/Run usable before data loads,
+and — the important one — the CONTRACT ITSELF was wrong: I had written that
+a faction fields "the keys of its loadouts entry", but loadouts lists only
+faction-specific fits, so the editor offered Earth no frigate or battleship
+and still offered the retired command ship. Fixed at the source: a
+`rosters` key in `data/tactical-tuning.json` is now the single source of
+truth (five common hulls plus each power's uniques); the editor, docs and
+smoke test follow it. A reminder that the contract is code too.
+
+Cache lesson, again (2026-09-02): after the `rosters` key was added, the
+editor still offered every hull to every faction — the browser served a
+cached `tactical-tuning.json` without the key, so the roster fallback ran.
+Data and manifest fetches in the arena now use `cache: "no-store"`, and the
+script tags are re-versioned (`editor.js?v=editor3`, `arena.js?v=terrain4`).
+Rule for the client: game data must never come from the browser cache — a
+stale tuning silently changes rosters and battles.
+
+Follow-up verification (Sonnet): **adopt.** Suites green and identical to
+the pre-patch run (the 48-turn deterministic campaign reproduces to the
+treasury); byte-identity holds with the new data; all six roster/facing
+checks pass; resolver hash unchanged; tuning hash changed by design (the
+`rosters` key). Practice adopted from the verifier: snapshot a protected
+file before an expected change so the diff is exact, not inferential.
+The editor is adopted.
+
+### 26b. The editor must be served (2026-09-02)
+
+Chris opened `arena/editor.html` from disk in two browsers: no map, dead
+buttons, "Loading tactical data…" forever. Cause: browsers block data
+fetches and ES-module imports on `file://` pages, and the editor runs the
+engine in the browser, so it cannot work from disk (the viewer only seemed
+to, thanks to its file-drop fallback). Fixes: `Start Orion Wars.cmd` at the
+repo root (serves on 8642 and opens the editor), `npm run arena`, a plain
+error message when the editor is opened from disk, README instructions
+first, and a permanent "Scenario editor" link in the viewer header (the
+back link had been conditional on a scenario replay). Lesson for briefs:
+"no server required" applies to the viewer only; state it explicitly.

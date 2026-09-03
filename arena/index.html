@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Orion Wars — Battle Arena</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./arena.css">
-  <script src="./arena.js?v=flight2" defer></script>
+  <script src="./arena.js?v=terrain4" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -13,13 +14,20 @@
       <p class="eyebrow">THE ORION WARS / TACTICAL ARCHIVE</p>
       <h1>Battle Arena</h1>
     </div>
-    <label class="load-button" for="file-input">Load replay</label>
+    <div class="viewer-actions">
+      <a id="back-to-editor" href="./editor.html">Scenario editor</a>
+      <label class="load-button" for="file-input">Load replay</label>
+    </div>
     <input id="file-input" type="file" accept="application/json,.json">
   </header>
 
   <main class="shell">
     <section class="viewport" aria-label="Tactical replay map">
       <canvas id="arena-canvas"></canvas>
+      <div class="camera-controls" role="group" aria-label="Map camera">
+        <button id="frame-fleets" class="active" aria-pressed="true">Frame fleets</button>
+        <button id="fit-map">Fit map</button>
+      </div>
       <div id="load-panel" class="load-panel" hidden>
         <p class="eyebrow">REPLAY REQUIRED</p>
         <h2>Drop a battle record here</h2>
@@ -27,8 +35,10 @@
         <label class="load-button primary" for="file-input">Choose file</label>
         <div class="examples">
           <span>Bundled records</span>
+          <button data-replay="./replay.json">EAR / KRE · 24 (default)</button>
           <button data-replay="./replays/ear-kre-24.json">EAR / KRE · 24</button>
           <button data-replay="./replays/vra-zan-32.json">VRA / ZAN · 32</button>
+          <button data-replay="./replays/ear-kre-32.json">EAR / KRE · 32</button>
         </div>
       </div>
       <div class="legend" aria-label="Faction legend">
@@ -68,6 +78,10 @@
     <button id="step-forward" aria-label="Next round">│▶</button>
     <input id="scrubber" type="range" min="0" max="0" value="0" aria-label="Replay position">
     <output id="position">0 / 0</output>
+    <span class="mode-toggle" role="group" aria-label="Ship rendering">
+      <button id="mode-icons" class="active" aria-pressed="true">Icons</button>
+      <button id="mode-sprites" aria-pressed="false">Sprites</button>
+    </span>
     <label for="speed">Speed</label>
     <select id="speed">
       <option value="0.5">0.5×</option>

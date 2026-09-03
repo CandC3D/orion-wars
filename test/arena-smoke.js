@@ -1,20 +1,35 @@
 // Dependency-free DOM/canvas smoke test for the static battle arena.
-// Advances every round in both bundled shot-enabled replays and verifies that
-// the distinct beam, missile, warp-cut, and motion-trail renderers execute.
+// Advances every round in all bundled shot-enabled replays and verifies that
+// the distinct beam, missile, warp-cut, and motion-trail renderers execute,
+// that the landscape rectangle of hexes is drawn and bounded correctly, that
+// the playtest icons are the default marker and stay inside their hex (with
+// co-located ships nudged apart), and that both new mechanics -- the photonic
+// cannon and the carrier air group -- render from the replay's log lines.
 // Also checks deployment frames and compatibility with a pre-round-0 replay.
 
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
+import { fleetPoints, inMap, rosterFor, snapWorldToHex, terrainFootprint, validateScenario } from "../arena/editor-core.js";
+import { recordScenario } from "../arena/record.js";
+
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const source = readFileSync(join(root, "arena", "arena.js"), "utf8");
+const tuning = JSON.parse(readFileSync(join(root, "data", "tactical-tuning.json"), "utf8"));
+const loadouts = JSON.parse(readFileSync(join(root, "data", "loadouts.json"), "utf8"));
+const sampleScenario = JSON.parse(readFileSync(join(root, "arena", "scenarios", "twin-moons.json"), "utf8"));
+const iconManifest = JSON.parse(readFileSync(join(root, "assets", "icons", "manifest.json"), "utf8"));
+const spriteManifest = JSON.parse(readFileSync(join(root, "arena", "sprites", "manifest.json"), "utf8"));
 const replayFiles = [
+  join(root, "arena", "replay.json"),
   join(root, "arena", "replays", "ear-kre-24.json"),
-  join(root, "arena", "replays", "vra-zan-32.json")
+  join(root, "arena", "replays", "vra-zan-32.json"),
+  join(root, "arena", "replays", "ear-kre-32.json")
 ];
-const bundledReplayFiles = [join(root, "arena", "replay.json"), ...replayFiles];
 const shotEffectKeys = ["laser", "blaster", "neutronic", "plasma", "intercept", "evade", "shieldFlash"];
 
 class ElementStub {
@@ -28,8 +43,11 @@ class ElementStub {
     this.style = {};
     this.dataset = {};
     this.listeners = new Map();
-    this.classList = { add() {}, remove() {} };
+    this.classes = new Set();
+    this.attributes = new Map();
+    this.classList = { add: (name) => this.classes.add(name), remove: (name) => this.classes.delete(name) };
   }
+  setAttribute(name, value) { this.attributes.set(name, value); }
   addEventListener(type, callback) { this.listeners.set(type, callback); }
   dispatch(type, extra = {}) {
     this.listeners.get(type)?.({ target: this, preventDefault() {}, ...extra });
@@ -39,19 +57,25 @@ class ElementStub {
   getBoundingClientRect() { return { left: 0, top: 0, width: 960, height: 640 }; }
 }
 
-function makeContext(counts) {
+// A canvas stub that keeps just enough of the transform stack to know where
+// each drawImage() actually landed, which is what the one-ship-one-hex and
+// same-hex-offset rules are asserted against.
+function makeContext(counts, draws) {
   const stack = [];
   const ctx = {
     fillStyle: "", strokeStyle: "", shadowColor: "", shadowBlur: 0,
     lineWidth: 1, lineCap: "butt", globalAlpha: 1, filter: "none",
+    tx: 0, ty: 0,
     save() {
       stack.push({ fillStyle: this.fillStyle, strokeStyle: this.strokeStyle, shadowColor: this.shadowColor,
         shadowBlur: this.shadowBlur, lineWidth: this.lineWidth, lineCap: this.lineCap,
-        globalAlpha: this.globalAlpha, filter: this.filter });
+        globalAlpha: this.globalAlpha, filter: this.filter, tx: this.tx, ty: this.ty });
     },
     restore() { Object.assign(this, stack.pop() || {}); },
     beginPath() {}, closePath() {}, moveTo() {}, lineTo() {}, arc() {},
-    translate() {}, rotate() {}, setTransform() {}, clearRect() {}, fillRect() {}, drawImage() {},
+    translate(x, y) { this.tx += x; this.ty += y; },
+    rotate() {}, setTransform() { this.tx = 0; this.ty = 0; }, clearRect() {}, fillRect() {},
+    drawImage(image, x, y, w) { draws.push({ key: image?.key, x: this.tx, y: this.ty, box: w }); },
     stroke() {
       if (this.strokeStyle === "#bfeaff" || this.strokeStyle === "#ffffff") counts.laser++;
       if (this.strokeStyle === "#ff7848" || this.strokeStyle === "#ff512f") counts.blaster++;
@@ -59,12 +83,19 @@ function makeContext(counts) {
       if (this.strokeStyle === "rgba(152,255,229,.75)") counts.evade++;
       if (this.strokeStyle === "#72f7cf") counts.warp++;
       if (this.strokeStyle === "rgba(116,210,190,.42)") counts.trail++;
+      if (this.strokeStyle === "#c9a6ff" || this.strokeStyle === "#fdfbff") counts.spinalBolt++;
+      if (this.strokeStyle === "rgba(228, 194, 117, .24)") counts.boundary++;
+      if (this.strokeStyle === "rgba(130, 161, 181, .105)") counts.grid++;
     },
     fill() {
       const stops = this.fillStyle?.stops || [];
       if (stops.some(([, color]) => color.includes("255,206,91"))) counts.neutronic++;
       if (stops.some(([, color]) => color.includes("46,235,174"))) counts.plasma++;
       if (stops.some(([, color]) => color.includes("78,206,255"))) counts.shieldFlash++;
+      if (stops.some(([, color]) => color.includes("163,120,255"))) counts.spinalGlow++;
+      if (stops.some(([, color]) => color.includes("255,176,84"))) counts.strikeImpact++;
+      if (stops.some(([, color]) => color.includes("244,247,248"))) counts.moon++;
+      if (stops.some(([, color]) => color.includes("255,241,201"))) counts.planet++;
     },
     createRadialGradient() {
       return { stops: [], addColorStop(offset, color) { this.stops.push([offset, color]); } };
@@ -73,8 +104,15 @@ function makeContext(counts) {
   return ctx;
 }
 
-async function runReplay(replay, legacy = false) {
-  const counts = { laser: 0, blaster: 0, neutronic: 0, plasma: 0, intercept: 0, evade: 0, shieldFlash: 0, warp: 0, trail: 0 };
+const BLANK = () => ({
+  laser: 0, blaster: 0, neutronic: 0, plasma: 0, intercept: 0, evade: 0, shieldFlash: 0,
+  warp: 0, trail: 0, spinalBolt: 0, spinalGlow: 0, strikeImpact: 0, grid: 0, boundary: 0,
+  moon: 0, planet: 0
+});
+
+async function runReplay(replay, { legacy = false, icons = true, mode = null } = {}) {
+  const counts = BLANK();
+  const draws = [];
   const elements = new Map();
   const get = (selector) => {
     const id = selector.startsWith("#") ? selector.slice(1) : selector;
@@ -82,7 +120,7 @@ async function runReplay(replay, legacy = false) {
     return elements.get(id);
   };
   const canvas = get("#arena-canvas");
-  const context2d = makeContext(counts);
+  const context2d = makeContext(counts, draws);
   canvas.getContext = () => context2d;
   canvas.width = 0;
   canvas.height = 0;
@@ -94,22 +132,40 @@ async function runReplay(replay, legacy = false) {
   const window = { devicePixelRatio: 1, addEventListener() {} };
   let clock = 0;
   let nextFrame = null;
+  // Images resolve on the microtask queue, exactly as a decoded <img> would.
+  class ImageStub {
+    constructor() { this.handlers = new Map(); }
+    addEventListener(type, callback) { this.handlers.set(type, callback); }
+    set src(value) {
+      this.key = value;
+      Promise.resolve().then(() => this.handlers.get(icons ? "load" : "error")?.());
+    }
+  }
   const context = vm.createContext({
     console, document, window,
     performance: { now: () => clock },
     requestAnimationFrame(callback) { nextFrame = callback; },
-    fetch: async (url) => url.includes("manifest")
-      ? { ok: false }
-      : { ok: true, json: async () => replay },
-    FileReader: class {}, Image: class {},
+    fetch: async (url) => {
+      if (url.includes("assets/icons/manifest.json")) return icons ? { ok: true, json: async () => iconManifest } : { ok: false };
+      if (url.includes("sprites/manifest.json")) return { ok: true, json: async () => spriteManifest };
+      if (url.includes("manifest")) return { ok: false };
+      return { ok: true, json: async () => replay };
+    },
+    FileReader: class {}, Image: ImageStub,
     setTimeout, clearTimeout
   });
   new vm.Script(source, { filename: "arena/arena.js" }).runInContext(context);
+  // Two macrotask turns: one for the replay fetch, one for the icon preloads.
   await new Promise((resolve) => setTimeout(resolve, 0));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  if (mode) window.__arena.setRenderMode(mode);
   const firstLabel = get("#round-label").textContent;
+  // Count only what playback draws: the first frame lands before the icon
+  // images have decoded, and legitimately falls back to chevrons.
+  for (const key of Object.keys(window.__arena.state.rendered)) window.__arena.state.rendered[key] = 0;
   for (let i = 1; i < replay.rounds.length; i++) {
     get("#play").dispatch("click");
-    for (let frame = 0; frame < 5; frame++) {
+    for (let frame = 0; frame < 8; frame++) {   // progress 0.1 .. 0.8 of each round
       clock += 100;
       const callback = nextFrame;
       nextFrame = null;
@@ -119,7 +175,7 @@ async function runReplay(replay, legacy = false) {
     get("#step-forward").dispatch("click");
   }
   if (legacy && shotEffectKeys.some((key) => counts[key])) throw new Error("Legacy replay unexpectedly rendered shot effects");
-  return { counts, firstLabel };
+  return { counts, draws, firstLabel, arena: window.__arena, elements };
 }
 
 function hexDistance(a, b) {
@@ -127,24 +183,105 @@ function hexDistance(a, b) {
   return Math.max(Math.abs(dq), Math.abs(dr), Math.abs(dq + dr));
 }
 
-for (const file of bundledReplayFiles) {
-  const replay = JSON.parse(readFileSync(file, "utf8"));
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+
+// -------------------------------------------- editor core and shared recorder
+
+{
+  const footprint = terrainFootprint({ type: "planet", q: 3, r: -2 });
+  assert(footprint.length === 7 && new Set(footprint.map((hex) => `${hex.q},${hex.r}`)).size === 7,
+    "planet footprint is not a seven-hex rosette");
+  assert(terrainFootprint({ type: "moon", q: 3, r: -2 }).length === 1, "moon footprint is not one hex");
+  for (const hex of [{ q: 0, r: 0 }, { q: -17, r: 8 }, { q: 12, r: -9 }, { q: 31, r: 5 }]) {
+    const x = Math.sqrt(3) * (hex.q + hex.r / 2), y = 1.5 * hex.r;
+    const snapped = snapWorldToHex(x + .08, y - .06);
+    assert(snapped.q === hex.q && snapped.r === hex.r, `hex snapping missed ${hex.q},${hex.r}`);
+  }
+  assert(inMap(36, 0, sampleScenario.map) && !inMap(37, 0, sampleScenario.map), "editor map bounds disagree with the contract");
+  assert(fleetPoints(sampleScenario.sides[0], tuning) === 14, "side A points total is wrong");
+  assert(fleetPoints(sampleScenario.sides[1], tuning) === 20, "side B points total is wrong");
+  assert(validateScenario(sampleScenario, tuning, loadouts).length === 0, "sample scenario does not validate");
+
+  // rosters.<faction> (data/tactical-tuning.json), not the keys of loadouts.json, is the
+  // source of truth for which hulls a faction may field: loadouts.json lists only
+  // faction-specific weapon fits, so it omits classes a faction fields on hull defaults.
+  const earRoster = rosterFor("EAR", tuning);
+  assert(earRoster.includes("frigate") && earRoster.includes("battleship"),
+    "EAR roster is missing a common hull that has no faction-specific loadout entry");
+  assert(!earRoster.includes("command-ship"), "EAR roster still offers the retired command-ship");
+  const kreRoster = rosterFor("KRE", tuning);
+  assert(kreRoster.includes("carrier") && kreRoster.includes("strike-cruiser"),
+    "KRE roster is missing its unique hulls");
+  assert(!kreRoster.includes("command-ship"), "KRE roster offers the retired command-ship");
+
+  const invalid = JSON.parse(JSON.stringify(sampleScenario));
+  invalid.sides[0].ships[0].q = 0; invalid.sides[0].ships[0].r = 0;
+  invalid.sides[0].ships[0].facing = 9;
+  invalid.sides[0].ships[1].className = "unknown-hull";
+  invalid.sides[1].ships = [];
+  const errors = validateScenario(invalid, tuning, loadouts).join(" | ");
+  assert(errors.includes("on terrain"), "validation missed a ship on terrain");
+  assert(errors.includes("unknown class"), "validation missed an unknown class");
+  assert(errors.includes("Side 2 is empty"), "validation missed an empty side");
+  assert(errors.includes("invalid facing"), "validation missed a bad facing value");
+
+  // A hull that exists in hullClasses but is outside the faction's roster (the
+  // retired command-ship, or another power's unique) must be rejected too, even
+  // though loadouts.json has no entry for it either.
+  const cannotField = JSON.parse(JSON.stringify(sampleScenario));
+  cannotField.sides[1].ships[2].className = "command-ship";
+  const cannotFieldErrors = validateScenario(cannotField, tuning, loadouts).join(" | ");
+  assert(cannotFieldErrors.includes("cannot be fielded"), "validation let KRE field the retired command-ship");
+
+  const sharedReplay = recordScenario(sampleScenario, tuning, loadouts);
+  const scratch = mkdtempSync(join(tmpdir(), "orion-arena-smoke-"));
+  const cliReplayPath = join(scratch, "twin-moons.json");
+  execFileSync(process.execPath, [join(root, "test", "record-battle.js"), "--scenario",
+    join(root, "arena", "scenarios", "twin-moons.json"), "--out", cliReplayPath], { cwd: root });
+  const cliBytes = readFileSync(cliReplayPath, "utf8");
+  assert(cliBytes === JSON.stringify(sharedReplay, null, 2) + "\n",
+    "browser/shared recorder output is not byte-identical to record-battle.js --scenario");
+}
+
+// ---------------------------------------------------------------- replays
+
+const replays = replayFiles.map((file) => ({ file, replay: JSON.parse(readFileSync(file, "utf8")) }));
+
+for (const { file, replay } of replays) {
   const deployment = replay.rounds[0];
-  if (deployment?.turn !== 0 || deployment?.round !== 0) throw new Error(`${file} does not start with a round-0 deployment frame`);
+  assert(deployment?.turn === 0 && deployment?.round === 0, `${file} does not start with a round-0 deployment frame`);
   const next = replay.rounds[1];
   for (const ship of deployment.ships) {
     const later = next.ships.find((candidate) => candidate.id === ship.id);
-    if (!later || Object.keys(ship).sort().join("|") !== Object.keys(later).sort().join("|")) {
-      throw new Error(`${file} deployment ship ${ship.id} does not use the normal snapshot fields`);
-    }
+    assert(later && Object.keys(ship).sort().join("|") === Object.keys(later).sort().join("|"),
+      `${file} deployment ship ${ship.id} does not use the normal snapshot fields`);
+  }
+  assert(replay.meta.version >= 3, `${file} was recorded before meta.version 3`);
+  const map = replay.meta.tuning.map;
+  assert(map && map.shape === "rect" && map.widthHexes > 0 && map.heightHexes > 0,
+    `${file} carries no rectangular map shape`);
+  assert(Number.isFinite(replay.meta.tuning.mapRadiusHexes),
+    `${file} dropped the mapRadiusHexes fallback`);
+  // Every ship in a replay must have an icon to render with.
+  for (const ship of deployment.ships) {
+    assert(iconManifest.icons[`${ship.faction}/${ship.className}`],
+      `${file} fields ${ship.faction}/${ship.className}, which has no icon in the manifest`);
   }
 }
 
-const totals = { laser: 0, blaster: 0, neutronic: 0, plasma: 0, intercept: 0, evade: 0, shieldFlash: 0, warp: 0, trail: 0 };
+// The recorder now imports the live roster, so the current sixth hulls appear.
+const rosterClasses = new Set(replays.flatMap(({ replay }) => replay.rounds[0].ships.map((s) => s.className)));
+for (const className of ["dreadnought", "carrier"]) {
+  assert(rosterClasses.has(className), `no bundled replay fields a ${className}`);
+}
+
+// ------------------------------------------------------------- animation
+
+const totals = BLANK();
 let warpTransitionFound = false;
-for (const file of replayFiles) {
-  const replay = JSON.parse(readFileSync(file, "utf8"));
-  if (!Array.isArray(replay.shots) || !replay.shots.length) throw new Error(`${file} has no shot events`);
+const drawTallies = [];
+for (const { file, replay } of replays) {
+  assert(Array.isArray(replay.shots) && replay.shots.length, `${file} has no shot events`);
   warpTransitionFound ||= replay.rounds.some((round, index) => {
     const next = replay.rounds[index + 1];
     return next && round.ships.some((ship) => {
@@ -152,17 +289,194 @@ for (const file of replayFiles) {
       return later && hexDistance(ship.pos, later.pos) >= 4;
     });
   });
-  const { counts } = await runReplay(replay);
-  for (const key of Object.keys(totals)) totals[key] += counts[key];
+  const run = await runReplay(replay);
+  for (const key of Object.keys(totals)) totals[key] += run.counts[key];
+  drawTallies.push({ file, run });
 }
-if (!warpTransitionFound) throw new Error("Bundled replays contain no warp-cut transition");
-const legacy = JSON.parse(readFileSync(replayFiles[0], "utf8"));
-delete legacy.shots;
-legacy.rounds = legacy.rounds.slice(1);
-const legacyRun = await runReplay(legacy, true);
-if (legacyRun.firstLabel !== "Turn 1 / Round 1") throw new Error("Legacy replay without round 0 did not open on its first available round");
+assert(warpTransitionFound, "Bundled replays contain no warp-cut transition");
 
-for (const [path, count] of Object.entries(totals)) {
-  if (!count) throw new Error(`Canvas ${path} effect path did not execute`);
+for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "moon" && path !== "planet")) {
+  assert(count, `Canvas ${path} effect path did not execute`);
 }
+
+// ---------------------------------------------------- landscape rectangle
+
+{
+  const { run } = drawTallies[0];
+  const arena = run.arena;
+  const shape = arena.mapShape();
+  assert(shape.shape === "rect" && shape.width === 72 && shape.height === 40,
+    `map shape is ${JSON.stringify(shape)}, expected the 72x40 rectangle`);
+  // |q + r/2| <= W/2 and |r| <= H/2, in pointy-top axial.
+  assert(arena.inBounds(0, 0, shape), "origin is out of bounds");
+  assert(arena.inBounds(36, 0, shape) && !arena.inBounds(37, 0, shape), "width bound is wrong on the long axis");
+  assert(arena.inBounds(-10, 20, shape) && !arena.inBounds(-10, 21, shape), "height bound is wrong on the short axis");
+  assert(arena.inBounds(16, 20, shape) && !arena.inBounds(27, 20, shape), "the r/2 shear is not applied to the width bound");
+  // Fit to WIDTH: the field must span most of the canvas across and must not
+  // be clipped by the canvas height.
+  const geo = arena.geometry();
+  const halfX = (Math.sqrt(3) * shape.width / 2 + Math.sqrt(3) / 2) * geo.scale;
+  const halfY = (1.5 * shape.height / 2 + 1) * geo.scale;
+  assert(halfX * 2 <= 960 + 1e-6 && halfX * 2 > 960 * .9, `landscape field is ${halfX * 2}px wide on a 960px canvas`);
+  assert(halfY * 2 <= 640 + 1e-6, `landscape field is ${halfY * 2}px tall on a 640px canvas`);
+  // A legacy replay carrying only mapRadiusHexes still gets the hexagon.
+  const legacyShape = (() => {
+    const saved = arena.state.replay.meta.tuning.map;
+    delete arena.state.replay.meta.tuning.map;
+    const out = arena.mapShape();
+    arena.state.replay.meta.tuning.map = saved;
+    return out;
+  })();
+  assert(legacyShape.shape === "hex" && legacyShape.radius === 34,
+    `legacy replays lost the hexagon path: ${JSON.stringify(legacyShape)}`);
+  assert(arena.inBounds(34, 0, legacyShape) && !arena.inBounds(35, 0, legacyShape), "hexagon bound is wrong");
+}
+
+// ------------------------------------------------- icons, hexes and stacks
+
+{
+  const { run } = drawTallies[1];
+  const arena = run.arena;
+  assert(arena.state.render === "icons", "icon mode is not the default");
+  assert(arena.icons.size >= 52, `only ${arena.icons.size} icons preloaded`);
+  assert(run.counts.laser + run.counts.blaster > 0, "no beams drawn alongside the icons");
+  assert(arena.state.rendered.icon > 0, "no ship was drawn as an icon");
+  assert(arena.state.rendered.chevron === 0, "a ship fell back to the chevron marker with icons available");
+
+  // Rule (a): an icon's footprint fits inside one hex. The drawing box is
+  // ICON_SPAN circumradii wide; the artwork inside it is `size` of that box and
+  // may be rotated to any facing, so its worst-case reach from the centre is
+  // half its diagonal.
+  const { HEX_INRADIUS, ICON_SPAN, ICON_EXTENT } = arena.constants;
+  assert(ICON_SPAN * ICON_EXTENT < HEX_INRADIUS,
+    `an unstacked icon reaches ${ICON_SPAN * ICON_EXTENT} circumradii, past the hex edge at ${HEX_INRADIUS}`);
+  const geo = arena.geometry();
+  const byKey = new Map();
+  for (const [key, entry] of arena.icons) byKey.set(entry.image.key, entry.size);
+  const shipDraws = run.draws.filter((d) => Math.abs(d.box - ICON_SPAN * geo.scale) < 1e-6);
+  assert(shipDraws.length, "no ship icon was drawn at the full hex box");
+  for (const draw of shipDraws) {
+    const size = byKey.get(draw.key) ?? 1;
+    const reach = .5 * Math.hypot(draw.box * size, draw.box * size);
+    assert(reach <= HEX_INRADIUS * geo.scale + 1e-9,
+      `an icon reaches ${reach.toFixed(2)}px from its hex centre, past the ${(HEX_INRADIUS * geo.scale).toFixed(2)}px edge`);
+  }
+
+  // Rule (b): ships MAY share a hex, and are then offset so each is visible.
+  for (const count of [2, 3, 4, 6]) {
+    const layout = arena.stackLayout(count);
+    assert(layout.length === count, `stackLayout(${count}) returned ${layout.length} places`);
+    for (const place of layout) {
+      const ring = Math.hypot(place.dx, place.dy);
+      assert(ring > 0, `stackLayout(${count}) left a ship on the hex centre`);
+      assert(ring + ICON_SPAN * ICON_EXTENT * place.shrink <= HEX_INRADIUS + 1e-9,
+        `a stack of ${count} spills out of its hex`);
+    }
+    // Neighbours on the ring must not sit on top of one another.
+    const chord = Math.hypot(layout[0].dx - layout[1].dx, layout[0].dy - layout[1].dy);
+    assert(chord > ICON_SPAN * ICON_EXTENT * layout[0].shrink,
+      `a stack of ${count} overlaps its own members`);
+  }
+  assert(arena.stackLayout(1).length === 1 && arena.stackLayout(1)[0].dx === 0, "a lone ship should not be offset");
+
+  // And the offsets must actually be applied when a replay stacks ships.
+  const stackedRun = drawTallies.find(({ run: r }) => r.arena.state.rendered.stacked > 0);
+  assert(stackedRun, "no bundled replay ever put two ships in one hex");
+
+  // Sprites stay available behind the toggle.
+  const spriteRun = await runReplay(drawTallies[1].run ? replays[1].replay : replays[1].replay, { mode: "sprites" });
+  assert(spriteRun.arena.state.render === "sprites", "the sprites toggle did not switch modes");
+  assert(spriteRun.arena.state.rendered.sprite > 0, "sprite mode drew no sprites");
+  // The sprite sheet predates the dreadnought and the carrier, which is why
+  // icons are now the default; those two hulls fall back to the chevron.
+  assert(spriteRun.arena.state.rendered.chevron > 0, "sprite mode lost its chevron fallback");
+  assert(spriteRun.elements.get("mode-sprites").classes.has("active"), "the sprites button is not marked active");
+
+  // Chevron fallback when the icon set is missing entirely.
+  const bareRun = await runReplay(replays[1].replay, { icons: false });
+  assert(bareRun.arena.icons.size === 0, "icons loaded when the manifest was unavailable");
+  assert(bareRun.arena.state.rendered.chevron > 0, "no chevron fallback without icons");
+}
+
+// ------------------------------------- photonic cannon and carrier air group
+
+{
+  const spinalRuns = drawTallies.filter(({ run }) => run.arena.state.rendered.spinalBolt > 0);
+  assert(spinalRuns.length >= 2, "the photonic cannon bolt never fired in the bundled replays");
+  const tallies = drawTallies.map(({ run }) => run.arena.state.rendered);
+  const sum = (key) => tallies.reduce((total, entry) => total + entry[key], 0);
+  for (const key of ["spinalCharge", "spinalHold", "spinalVent", "spinalBolt", "spinalHit", "spinalMiss", "craft", "strikeRun", "strikeImpact"]) {
+    assert(sum(key) > 0, `the ${key} render path did not execute`);
+  }
+  assert(totals.spinalGlow > 0, "no photonic charge glow reached the canvas");
+  assert(totals.strikeImpact > 0, "no strike impact flicker reached the canvas");
+
+  // The timeline itself, parsed straight out of the log lines. No single
+  // battle shows every capacitor phase - the bank in arena/replay.json holds a
+  // full charge to the end, the one in ear-kre-24 fires and vents - so the
+  // phases are checked across the bundled set.
+  const { run } = drawTallies[1];
+  const timelines = replays.map(({ replay }) => run.arena.buildLogEffects(replay));
+  const phases = new Set(timelines.flatMap((t) => t.spinal.flat()).map((entry) => entry.phase));
+  for (const phase of ["cold", "charging", "ready", "venting"]) {
+    assert(phases.has(phase), `the capacitor bank never reached the ${phase} phase`);
+  }
+  const effects = timelines[1];
+  const climbing = effects.spinal.map((frame) => frame.find((entry) => entry.phase === "charging")?.ratio ?? null)
+    .filter((ratio) => ratio !== null);
+  assert(climbing.length >= 3 && Math.max(...climbing) > Math.min(...climbing),
+    "the charge ratio does not grow with the logged charge level");
+  const fires = effects.fires.flat();
+  assert(fires.length === 1 && fires[0].shooterId.includes("dreadnought") && fires[0].targetId && !fires[0].hit,
+    `unexpected photonic-cannon fire events: ${JSON.stringify(fires)}`);
+  const strikes = effects.strikes.flat();
+  assert(strikes.length > 5 && strikes.every((s) => s.carrierId && (s.type === "bomber" || s.type === "interceptor")),
+    "squadron strikes were not parsed out of the log");
+  const aloft = effects.wing.map((frame) =>
+    frame.reduce((total, entry) => total + entry.squadrons.reduce((n, sq) => n + sq.strength, 0), 0));
+  assert(Math.max(...aloft) >= 12, `the air group never reached strength: peak ${Math.max(...aloft)}`);
+  const peak = aloft.indexOf(Math.max(...aloft));
+  assert(aloft.slice(peak).some((n) => n < Math.max(...aloft)), "the air group never thinned as losses were logged");
+  // A deck that goes down takes its air group with it.
+  const scuttled = replays.findIndex(({ replay }) =>
+    replay.log.some((entry) => / goes down with \d+ craft still aboard or in the air$/.test(entry.message)));
+  assert(scuttled >= 0, "no bundled replay sinks a carrier");
+  const afterScuttle = timelines[scuttled].wing[timelines[scuttled].wing.length - 1]
+    .reduce((total, entry) => total + entry.squadrons.reduce((n, sq) => n + sq.strength, 0), 0);
+  assert(afterScuttle === 0, "the wing survived its carrier");
+}
+
+// -------------------------------------------------------------- terrain
+
+{
+  const scenarioReplay = recordScenario(sampleScenario, tuning, loadouts);
+  assert(scenarioReplay.meta.terrain.length === 3 && scenarioReplay.meta.scenario.name === sampleScenario.name,
+    "scenario metadata was not preserved in the replay");
+  const terrainRun = await runReplay(scenarioReplay);
+  assert(terrainRun.counts.planet > 0 && terrainRun.counts.moon > 0,
+    "planet and moon bodies did not reach the canvas");
+  assert(terrainRun.arena.state.rendered.planet > 0 && terrainRun.arena.state.rendered.moon > 0,
+    "terrain render paths did not execute");
+
+  const oldReplay = JSON.parse(JSON.stringify(scenarioReplay));
+  delete oldReplay.meta.terrain;
+  delete oldReplay.meta.scenario;
+  const oldRun = await runReplay(oldReplay);
+  assert(oldRun.counts.planet === 0 && oldRun.counts.moon === 0,
+    "an old replay without terrain drew a body");
+}
+
+// --------------------------------------------------------------- legacy
+
+const legacy = JSON.parse(readFileSync(replayFiles[1], "utf8"));
+delete legacy.shots;
+delete legacy.meta.tuning.map;
+legacy.rounds = legacy.rounds.slice(1);
+const legacyRun = await runReplay(legacy, { legacy: true });
+assert(legacyRun.firstLabel === "Turn 1 / Round 1", "Legacy replay without round 0 did not open on its first available round");
+assert(legacyRun.arena.mapShape().shape === "hex", "Legacy replay was not drawn on the hexagonal field");
+assert(legacyRun.counts.grid > 0 && legacyRun.counts.boundary > 0, "Legacy replay drew no grid");
+
 console.log("Arena DOM smoke passed:", totals);
+console.log("Render tallies:", drawTallies.map(({ file, run }) =>
+  `${file.split(/[\\/]/).pop()} ${JSON.stringify(run.arena.state.rendered)}`).join("\n                 "));

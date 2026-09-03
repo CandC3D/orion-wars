@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "war": "node test/harness.js",
-    "test": "node test/harness.js --quiet"
+    "test": "node test/harness.js --quiet",
+    "arena": "python -m http.server 8642"
   }
 }

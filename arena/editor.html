@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orion Wars — Scenario Editor</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./editor.css">
+  <script type="module" src="./editor.js?v=editor5"></script>
+</head>
+<body class="editor-page">
+  <header class="masthead editor-head">
+    <div>
+      <p class="eyebrow">THE ORION WARS / TACTICAL COMMAND</p>
+      <h1>Scenario Editor</h1>
+    </div>
+    <div class="scenario-fields">
+      <label>Name <input id="scenario-name" value="Untitled scenario"></label>
+      <label>Seed <input id="scenario-seed" value="orion"></label>
+      <label>Map <span><input id="map-width" type="number" min="8" max="160" value="72"> × <input id="map-height" type="number" min="8" max="100" value="40"></span></label>
+    </div>
+    <nav class="head-actions" aria-label="Scenario actions">
+      <a href="./index.html">Replay viewer</a>
+      <label class="load-button" for="scenario-file">Load scenario</label>
+      <input id="scenario-file" type="file" accept="application/json,.json">
+      <button id="save-scenario">Save scenario</button>
+      <button id="run-battle" class="primary">Run battle</button>
+    </nav>
+  </header>
+
+  <main class="editor-shell">
+    <aside id="side-a" class="fleet-panel" data-side="0"></aside>
+    <section class="editor-viewport" aria-label="Scenario map">
+      <canvas id="editor-canvas"></canvas>
+      <div class="editor-tools" role="toolbar" aria-label="Map tools">
+        <button id="tool-select" class="active" data-tool="select">Select</button>
+        <button data-tool="moon">+ Moon</button>
+        <button data-tool="planet">+ Planet</button>
+        <button id="rotate-selected">Rotate</button>
+        <button id="delete-selected">Delete</button>
+        <button id="clear-positions">Random line deployment</button>
+        <button id="fit-editor-map">Fit map</button>
+      </div>
+      <div id="drop-hint" class="drop-hint">Drop a scenario JSON anywhere to load it</div>
+      <div class="map-legend"><span class="moon-key">Moon</span><span class="planet-key">Planet</span><span>Drag fleet cards onto hexes</span></div>
+    </section>
+    <aside id="side-b" class="fleet-panel" data-side="1"></aside>
+  </main>
+
+  <footer class="editor-status">
+    <p id="editor-message" role="status">Loading tactical data…</p>
+    <ul id="validation-list"></ul>
+  </footer>
+</body>
+</html>

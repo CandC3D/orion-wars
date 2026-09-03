@@ -62,3 +62,21 @@ export function turnToward(facing, targetDir) {
   const cw = (targetDir - facing + 6) % 6;
   return cw <= 3 ? (facing + 1) % 6 : (facing + 5) % 6;
 }
+
+// Every hex on the straight line from a to b (inclusive), by cube-lerp
+// rounding - the standard hex-grid line. Used for line-of-fire tests
+// against planets and moons.
+export function hexLine(a, b) {
+  const n = distance(a, b);
+  if (n === 0) return [{ q: a.q, r: a.r }];
+  const out = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    const q = a.q + (b.q - a.q) * t, r = a.r + (b.r - a.r) * t, s = -q - r;
+    let rq = Math.round(q), rr = Math.round(r), rs = Math.round(s);
+    const dq = Math.abs(rq - q), dr = Math.abs(rr - r), ds = Math.abs(rs - s);
+    if (dq > dr && dq > ds) rq = -rr - rs; else if (dr > ds) rr = -rq - rs;
+    out.push({ q: rq, r: rr });
+  }
+  return out;
+}

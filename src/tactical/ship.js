@@ -4,6 +4,29 @@
 
 export const SHIELD_NUMBERS = [1, 2, 3, 4, 5, 6];
 
+// A hangar declaration is `{ <type>: { squadrons, strength } }` on the hull
+// class. Squadron identity is stable and derived from the parent hull's id, so
+// a replay can key an icon off it. Returns null for every hull without a
+// hangar, which is the guard the whole strike-craft system hangs on.
+function buildSquadrons(shipId, hangar) {
+  if (!hangar) return null;
+  const out = [];
+  for (const [type, spec] of Object.entries(hangar)) {
+    const n = spec.squadrons ?? 0;
+    for (let i = 0; i < n; i++) {
+      out.push({
+        id: `${shipId}/${type}-${i + 1}`,
+        type,
+        strength: spec.strength,
+        max: spec.strength,
+        launched: false,
+        stance: "offence"
+      });
+    }
+  }
+  return out.length ? out : null;
+}
+
 export function buildShip(id, faction, className, tuning, loadouts, rng) {
   const hull = tuning.hullClasses[className];
   if (!hull) throw new Error(`unknown hull class: ${className}`);
@@ -60,8 +83,29 @@ export function buildShip(id, faction, className, tuning, loadouts, rng) {
     }
   }
 
+  // SPINAL MOUNT. A weapon bolted to the keel: one mount, one arc, aimed by
+  // pointing the whole ship. Built only when the hull or loadout declares one,
+  // so every existing hull builds byte-for-byte as before.
+  const spinalType = lo.spinal ?? hull.spinal ?? null;
+  if (spinalType) {
+    const sName = (lo.spinalArcs ?? hull.spinalArcs ?? ["f"])[0];
+    mounts.push({
+      id: mounts.length + 1, type: spinalType, kind: "spinal",
+      arc: arcFaces(sName), arcName: sName,
+      ...scaleWeapon(spinalType),
+      inop: false, firedThisTurn: false
+    });
+  }
+
   const canCloak = (tuning.cloak.carriedBy[faction] ?? []).includes(className);
   const superstructure = Math.round(hull.superstructure * (mod.superstructure ?? 1));
+
+  // STRIKE CRAFT. A hull with a `hangar` carries squadrons: abstract sub-units
+  // with strength rather than map positions, flown from the parent hull. Faction
+  // -generic by construction - the hangar lives on the hull class and the rules
+  // live in tuning.strikeCraft, so any power may be given a carrier later.
+  // Every other hull gets `squadrons: null`, which is what every guard tests.
+  const squadrons = buildSquadrons(id, hull.hangar);
 
   const ship = {
     id, faction, className,
@@ -84,6 +128,9 @@ export function buildShip(id, faction, className, tuning, loadouts, rng) {
     damageSinceLastSystemHit: 0,
     systems: {},
     magazine,
+    // --- strike craft (null on every hull without a hangar) ---
+    squadrons,
+    squadronsLost: false,
     // --- cloak ---
     canCloak,
     cloaked: canCloak,
@@ -102,6 +149,19 @@ export function buildShip(id, faction, className, tuning, loadouts, rng) {
     movementPointRatio: hull.movementPointRatio * (mod.movementPointRatio ?? 1),
     detectionBonusAgainst: mod.detectionRangeAgainst ?? 0
   };
+  // Capacitor state for the spinal gun. Absent on every other hull, which is
+  // what guards every spinal branch elsewhere in the engine.
+  if (spinalType) {
+    ship.spinal = {
+      type: spinalType,
+      state: "charging",   // charging | ready | cooldown | wrecked
+      charge: 0,
+      cooldown: 0,
+      readyTurns: 0,
+      holdLogged: false,
+      shots: 0
+    };
+  }
   ship.power = fullPower(ship);
   return ship;
 }
@@ -156,11 +216,14 @@ export function isSystemInop(ship, name, threshold) {
 // Damage lands on a facing. The defender absorbs what it can afford: limited by
 // the facing's remaining capacity this round AND by the power left in the pool.
 // Everything else goes internal.
-export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0) {
+// `bypassShield` is the photonic cannon's signature: a bolt of that order is
+// not deflected, it is simply through. Defaults false, so every existing
+// weapon resolves exactly as before.
+export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0, bypassShield = false) {
   let remaining = amount;
   ship.damageThisTurn = (ship.damageThisTurn ?? 0) + amount;
 
-  if (!ship.shieldDown[shieldNo]) {
+  if (!bypassShield && !ship.shieldDown[shieldNo]) {
     const affordable = Math.floor(ship.power / ship.shieldPointRatio);
     const absorbed = Math.min(remaining, ship.shieldCap[shieldNo], affordable);
     if (absorbed > 0) {
@@ -204,6 +267,17 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
       if (live.length > 1) {
         live[rng.int(live.length)].alive = false;
         ship.power = Math.max(0, ship.power - ship.hull.corePower);
+      }
+      // A spinal capacitor bank being fed by a core that has just been shot
+      // away loses containment and dumps whatever it had stored. This is the
+      // teeth in "vulnerable mid-charge": a rear pass on a charging dreadnought
+      // does not merely slow the gun, it throws the shot away. Guarded on
+      // ship.spinal, which no other hull has.
+      if (ship.spinal && ship.spinal.charge > 0 &&
+          (ship.spinal.state === "charging" || ship.spinal.state === "ready")) {
+        ship.spinal.charge = 0;
+        ship.spinal.state = "charging";
+        if (log) log(`${ship.id} loses containment - spinal charge dumped`);
       }
     }
     if (sys === "weapon-mount") {

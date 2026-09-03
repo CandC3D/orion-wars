@@ -7,7 +7,7 @@
 // Sits behind the frozen combat interface in src/combat.js; the strategic
 // layer never sees anything in this file.
 
-import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward } from "./hex.js";
+import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLine } from "./hex.js";
 import { buildShip, fullPower, startTurn, startRound, spendable, applyDamage } from "./ship.js";
 
 // ---------------------------------------------------------------- helpers
@@ -38,6 +38,17 @@ function bandFor(mount, range) {
   return null;
 }
 
+// FASA STTCS p.16, "Additional Rules": "Two or more starships may occupy the
+// same hex, but they may not fire at one another while they are in that hex.
+// Ships may neither ram nor collide with one another." Restored 2026-09-01
+// (battle.sameHexNoFire). Mutual and pairwise: each ship may still engage
+// anyone ELSE. This is the original's disincentive against parking in an
+// enemy's hex - it forfeits the shot rather than granting a point-blank one.
+function mayEngage(shooter, target, tuning) {
+  if (tuning.battle?.sameHexNoFire === false) return true;
+  return distance(shooter.pos, target.pos) > 0;
+}
+
 // Which face of the SHOOTER does the target lie off? A mount bears only if
 // that face falls inside its arc. This is what limits a big ship: a battleship
 // has all-round coverage but only two beams on any one bearing.
@@ -54,7 +65,9 @@ function fireWeight(ship, face, tuning, standing = false) {
   for (const m of ship.mounts) {
     if (m.inop || (!standing && m.firedThisTurn) || !m.arc.includes(face)) continue;
     const w = tuning.weapons[m.type];
-    score += w.kind === "beam" ? w.maxPower : (w.damage / 3);
+    score += w.kind === "beam" ? w.maxPower
+      : w.kind === "spinal" ? (w.aimWeight ?? 0)   // keel gun: aimed by the helm
+      : (w.damage / 3);
   }
   return score;
 }
@@ -101,6 +114,13 @@ function bestHeading(ship, targetPos, tuning) {
 function canWithdrawFighting(ship, tuning) {
   const need = tuning.movement?.withdrawFireFraction ?? 0;
   if (need <= 0) return true;
+  // A carrier with an air group still flying is exempt, and the exemption is
+  // the test's own logic rather than a hole in it: the rule exists because a
+  // hull that turns its nose away stops shooting. A carrier's battery is its
+  // squadrons, they bear on every heading regardless of where the deck is
+  // pointing, and so opening the range costs it nothing. Once the wing is dead
+  // the exemption lapses and the hull fights - or runs - like any other.
+  if (hasAirGroup(ship, tuning)) return true;
   const astern = fireWeight(ship, 5, tuning, true);
   let best = 0;
   for (let face = 1; face <= 6; face++) best = Math.max(best, fireWeight(ship, face, tuning, true));
@@ -108,7 +128,17 @@ function canWithdrawFighting(ship, tuning) {
   return astern >= need * best;
 }
 
-// The range this ship wants: the best band of its longest-reaching beam.
+// Does this ship still have craft in hand? The gate on every carrier behaviour.
+// False for every hull without a hangar, and false again once the wing is gone.
+function hasAirGroup(ship, tuning) {
+  const SC = tuning.strikeCraft;
+  if (!SC || !SC.enabled || !ship.squadrons) return false;
+  return ship.squadrons.some((sq) => sq.strength > 0);
+}
+
+// The range this ship wants: the best band of its longest-reaching beam - or,
+// for a carrier, the range at which its air group can work and the enemy line
+// cannot reach it. A flight deck has no business in a gun duel.
 function preferredRange(ship, tuning) {
   let best = 4;
   for (const m of ship.mounts) {
@@ -116,6 +146,9 @@ function preferredRange(ship, tuning) {
     let top = m.bands[0];
     for (const b of m.bands) if ((b.damageBonus ?? 0) > (top.damageBonus ?? 0)) top = b;
     best = Math.max(best, top.to);
+  }
+  if (hasAirGroup(ship, tuning)) {
+    best = Math.max(best, tuning.strikeCraft.standoffRangeHexes ?? 0);
   }
   return best;
 }
@@ -138,6 +171,12 @@ function maxReach(ship, tuning) {
   let r = 0;
   for (const m of ship.mounts) {
     if (m.inop) continue;
+    // A spinal gun is deliberately excluded. Read the note above: engagement
+    // geometry turns on ONE integer comparison of nominal reach, and a 25-hex
+    // keel gun on an 8-point hull would flip the whole Earth line into the
+    // stand-off branch - the exact failure the plasma-torpedo experiment
+    // recorded. The cannon out-ranges the fight; it does not choose it.
+    if (m.kind === "spinal") continue;
     r = Math.max(r, m.maxRange);
   }
   return r;
@@ -157,7 +196,56 @@ function engagementRange(ship, enemy, tuning) {
 
 // The engagement area is bounded. A fleet that only wants to open the range
 // eventually runs out of room and has to fight.
+
+// ------------------------------------------------------------- terrain
+// Scenario terrain (ruling 2026-09-02): MOONS occupy one hex and cannot be
+// passed through; PLANETS occupy a seven-hex rosette (centre + ring), the
+// footprint the old sprites spilled over before ships were confined to one
+// hex. Both block movement, warp landings and deployment, and both block
+// line of fire (FASA: large bodies block fire and cast sensor shadows).
+// Terrain arrives on tuning.battle.terrain, which runBattle attaches from
+// opts.terrain; with no terrain every function here is a no-op.
+const HEX_DIRS = [0, 1, 2, 3, 4, 5];
+function terrainSet(tuning) {
+  const list = tuning.battle?.terrain;
+  if (!list || !list.length) return null;
+  if (tuning.battle._terrainSet && tuning.battle._terrainSet.src === list) return tuning.battle._terrainSet.set;
+  const set = new Set();
+  const key = (p) => p.q + "," + p.r;
+  for (const t of list) {
+    const c = { q: t.q, r: t.r };
+    set.add(key(c));
+    if (t.type === "planet") for (const d of HEX_DIRS) set.add(key(add(c, d)));
+  }
+  tuning.battle._terrainSet = { src: list, set };
+  return set;
+}
+function blockedHex(pos, tuning) {
+  const set = terrainSet(tuning);
+  return set ? set.has(pos.q + "," + pos.r) : false;
+}
+// Line of fire: blocked if any hex strictly between shooter and target is
+// terrain. Endpoints are never terrain for a living ship.
+function lineOfFire(shooterPos, targetPos, tuning) {
+  const set = terrainSet(tuning);
+  if (!set) return true;
+  const line = hexLine(shooterPos, targetPos);
+  for (let i = 1; i < line.length - 1; i++) if (set.has(line[i].q + "," + line[i].r)) return false;
+  return true;
+}
 function inBounds(pos, tuning) {
+  // RULING (2026-09-01): the engagement area is a LANDSCAPE RECTANGLE of hexes,
+  // like the FASA paper map - fleets enter from the short ends and the long
+  // axis is the axis of approach. battle.map {shape: "rect", widthHexes,
+  // heightHexes} is the extent in hex columns and rows; in pointy-top axial
+  // coordinates a column is (q + r/2) and a row is r. The old hexagonal
+  // boundary (mapRadiusHexes) remains as the fallback when no rect is given.
+  if (blockedHex(pos, tuning)) return false;
+  const map = tuning.battle?.map;
+  if (map && map.shape === "rect") {
+    const col = pos.q + pos.r / 2, row = pos.r;
+    return Math.abs(col) <= map.widthHexes / 2 && Math.abs(row) <= map.heightHexes / 2;
+  }
   const r = tuning.battle?.mapRadiusHexes;
   if (!r) return true;
   return (Math.abs(pos.q) + Math.abs(pos.q + pos.r) + Math.abs(pos.r)) / 2 <= r;
@@ -189,7 +277,12 @@ function detonate(dead, allShips, tuning, rng, log) {
   // hull that had spent its turn shooting and soaking still went up as if
   // untouched - which is the opposite of the documented rule and made a
   // corvette squadron chain-detonate itself off a single hit.
-  const punch = Math.max(0, dead.power) * yieldMult;
+  // A spinal capacitor bank that never got to fire goes up with the ship. This
+  // is the other half of the photonic cannon's bargain: kill a dreadnought
+  // mid-charge and you are standing next to the charge. Guarded on dead.spinal,
+  // which no other hull has, so `stored` is 0 and the arithmetic is unchanged.
+  const stored = dead.spinal ? Math.max(0, dead.spinal.charge ?? 0) : 0;
+  const punch = (Math.max(0, dead.power) + stored) * yieldMult;
   if (punch <= 0) return;
   let hurt = 0;
   for (const other of allShips) {
@@ -202,7 +295,10 @@ function detonate(dead, allShips, tuning, rng, log) {
     applyDamage(other, face, dmg, tuning, rng, log);
     hurt++;
   }
-  if (hurt && log) log(dead.id + ' detonates, catching ' + hurt + ' ship(s)');
+  if (hurt && log) {
+    log(dead.id + (stored > 0 ? ' detonates - the spinal bank lets go' : ' detonates') +
+      ', catching ' + hurt + ' ship(s)');
+  }
 }
 
 
@@ -290,21 +386,458 @@ function intercepted(target, friends, tuning, rng) {
     (f) => !f.cloaked && f.hull.pointDefence > 0 &&
       distance(f.pos, target.pos) <= tuning.pointDefence.rangeHexes
   );
-  if (!pd.length) return false;
+  // Interceptors flying combat air patrol over a friendly ship eat missiles as
+  // well as bombers. Zero for any fleet without a carrier in it, so the whole
+  // computation below is unchanged when no squadron exists - including the
+  // early return, which must still fire before the rng is touched.
+  const capBonus = capMissileScreen(target, friends, tuning);
+  if (!pd.length && capBonus <= 0) return false;
   const total = pd.reduce((s, f) => s + f.hull.pointDefence, 0);
-  return rng.next() < Math.min(tuning.pointDefence.maxChance, total * tuning.pointDefence.chancePerPoint);
+  // The patrol raises the CEILING as well as the total. A fleet's own point
+  // defence saturates at maxChance long before its escorts run out of barrels,
+  // so a bonus added underneath that cap would have been worth exactly nothing
+  // wherever it mattered - measured, holding interceptors back to fly it cost
+  // 4-11pp against simply sweeping with them. Fighters standing above the
+  // formation are reaching missiles the hulls cannot.
+  return rng.next() < Math.min(tuning.pointDefence.maxChance + capBonus,
+    total * tuning.pointDefence.chancePerPoint + capBonus);
 }
 
-function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, log, spread) {
+function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, log, spread, bypassShield) {
   if (target.destroyed) return;
   const victim = screenFor(target, defenders, tuning, rng) ?? target;
   if (victim.destroyed) return;
   if (victim !== target) stats.screened++;
   const face = shieldFacing(victim, shooterPos);
   stats.damage += damage;
+  // Maneuver index bookkeeping: which side of the victim did this hit land on?
+  // Faces 1-3 are forward (front-left, forward, front-right); 4-6 are the
+  // flank/rear (rear-right, rear, rear-left). Pure counting - no rng, no effect
+  // on the outcome below.
+  if (face >= 4) stats.hitsRear++; else stats.hitsForward++;
   // The blow lands whole against the shield; only what penetrates is spread
-  // across the hull for damage-location purposes.
-  stats.internal += applyDamage(victim, face, damage, tuning, rng, log, spread).internal;
+  // across the hull for damage-location purposes. `bypassShield` is passed
+  // only by the photonic cannon and is undefined - falsy - for everything else.
+  stats.internal += applyDamage(victim, face, damage, tuning, rng, log, spread, bypassShield).internal;
+}
+
+// ------------------------------------------------------- spinal weapons
+// The photonic cannon (Earth dreadnought). A capacitor bank on the keel that
+// drinks the ship's power pool for several turns and then empties itself into
+// one bolt.
+//
+// The draw comes OFF THE TOP of the pool, before the doctrine reserve is set -
+// the same hook the cloak uses. That is the whole of the design. Under the
+// residual-shield model the pool IS the shield generator, so a dreadnought
+// building a charge cannot pay for absorption it has already spent: it is
+// visibly soft for the three or four turns it spends aiming, and it gets that
+// power back only by firing. Nothing else in the engine had to change to make
+// the trade real; the power model already prices it.
+//
+// Every branch here is reached only through ship.spinal, which buildShip sets
+// on hulls that declare a spinal weapon and on no others.
+function chargeSpinal(ship, enemies, tuning, log) {
+  const st = ship.spinal;
+  if (!st) return;
+  const w = tuning.weapons[st.type];
+  // RULING (2026-09-01): the bank is not lit until an enemy is inside
+  // chargeStartRangeHexes. Without this gate an immobile-while-charging hull
+  // would plant itself at its deployment hex on turn one, a full map from the
+  // fight. A bank that is already partly charged keeps charging regardless.
+  const startRange = w.chargeStartRangeHexes ?? Infinity;
+  if (st.state === "charging" && st.charge <= 0 && Number.isFinite(startRange)) {
+    const near = living(enemies).some((e) => distance(ship.pos, e.pos) <= startRange);
+    if (!near) {
+      if (log && !st.coldLogged) { st.coldLogged = true; log(`${ship.id} ${st.type} capacitors cold - no enemy within ${startRange} hexes`); }
+      return;
+    }
+    st.coldLogged = false;
+  }
+  const mount = ship.mounts.find((m) => m.kind === "spinal");
+  st.holdLogged = false;
+
+  if (!mount || mount.inop) {
+    if (st.state !== "wrecked") {
+      st.state = "wrecked";
+      st.charge = 0;
+      if (log) log(`${ship.id} spinal mount wrecked - ${st.type} offline`);
+    }
+    return;
+  }
+
+  if (st.state === "cooldown") {
+    st.cooldown--;
+    if (st.cooldown <= 0) {
+      st.state = "charging";
+      if (log) log(`${ship.id} ${st.type} cool - capacitors reconnected`);
+    } else if (log) {
+      log(`${ship.id} ${st.type} venting, dark for ${st.cooldown} more turn(s)`);
+    }
+    return;
+  }
+
+  if (st.state === "ready") {
+    // Holding a full bank is not free - the containment field draws upkeep.
+    const hold = Math.min(w.holdDrawPerTurn ?? 0, Math.max(0, ship.power));
+    ship.power -= hold;
+    st.readyTurns++;
+    if (log) log(`${ship.id} ${st.type} holding at full charge (turn ${st.readyTurns})`);
+    return;
+  }
+
+  // charging
+  const draw = Math.min(w.chargeDrawPerTurn ?? 0, Math.max(0, ship.power));
+  ship.power -= draw;
+  st.charge += draw;
+  if (st.charge >= (w.chargeRequired ?? Infinity)) {
+    st.state = "ready";
+    st.readyTurns = 0;
+    if (log) log(`${ship.id} ${st.type} CHARGED - ${Math.round(st.charge)} units, weapon free`);
+  } else if (log) {
+    log(`${ship.id} ${st.type} charging ${Math.round(st.charge)}/${w.chargeRequired}`);
+  }
+}
+
+// One bolt. Aimed at the heaviest hull in the arc rather than the nearest,
+// because a shot that took four turns to build is not spent on a picket.
+function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
+  const st = ship.spinal;
+  if (!st || st.state !== "ready") return 0;
+  const mount = ship.mounts.find((m) => m.kind === "spinal");
+  if (!mount || mount.inop || mount.firedThisTurn) return 0;
+  const w = tuning.weapons[st.type];
+  if (spendable(ship) < (w.firePower ?? 0)) return 0;
+
+  const arc = targetable(enemies).filter(
+    (f) => !f.destroyed && mayEngage(ship, f, tuning) && distance(ship.pos, f.pos) <= mount.maxRange && bears(ship, mount, f.pos) && lineOfFire(ship.pos, f.pos, tuning)
+  );
+  if (!arc.length) return 0;
+
+  const capital = (f) => f.points >= (w.capitalPoints ?? 8);
+  const target = [...arc].sort((a, b) =>
+    (b.points - a.points) || (distance(ship.pos, a.pos) - distance(ship.pos, b.pos)))[0];
+
+  // Fire discipline. If only light hulls are in the arc the gunnery officer
+  // waits for something worth the bank - but not indefinitely.
+  if (!capital(target) && st.readyTurns < (w.holdForCapitalTurns ?? 0)) {
+    if (log && !st.holdLogged) {
+      st.holdLogged = true;
+      log(`${ship.id} holds the photonic charge - no capital in the arc`);
+    }
+    return 0;
+  }
+
+  const range = distance(ship.pos, target.pos);
+  const band = bandFor(mount, range);
+  if (!band) return 0;
+
+  ship.power -= (w.firePower ?? 0);
+  mount.firedThisTurn = true;
+  stats.shots++;
+
+  // A keel gun cannot traverse. Evasion tells against it much harder than
+  // against a turreted beam, and a light hull is a genuinely poor target -
+  // this is the class-interaction ruling taken to its logical end.
+  const evasion = Math.floor(target.movedThisTurn / tuning.toHit.evasionPerHexesMoved)
+    * (w.evasionMultiplier ?? 1);
+  // Three tiers, not two. The fire-control solution for a keel gun is laid on
+  // a battle-line target; a cruiser is a poor mark and a picket is a joke.
+  const size = target.points >= (w.battleLinePoints ?? Infinity) ? 0
+    : capital(target) ? (w.vsMediumPenalty ?? 0)
+    : (w.vsLightPenalty ?? 0);
+  const roll = rng.int(tuning.toHit.die) + 1;
+  const aim = roll + (band.toHitMod ?? 0) + (w.toHitBonus ?? 0)
+    + commandBonus(ship, friends, 'commandToHit') + tuning.toHit.crewRatingDefault
+    - evasion - (ship.toHitPenalty ?? 0) + size;
+  const hit = aim >= tuning.toHit.target;
+
+  if (log) log(`${ship.id} FIRES ${st.type} at ${target.id} across ${range} hexes - ${hit ? "HIT" : "miss"}`);
+  if (hit) {
+    stats.hits++;
+    // The whole bank into one facing. A deflector screen is rated for weapons
+    // fire, not for this - if bypassShield is set the bolt goes straight to the
+    // hull, which is the only reason the weapon is worth its charge against
+    // heavy armour: raw damage means little to a 198-point Vraygon monitor, but
+    // the facing cap that would have eaten a third of it means a great deal.
+    // The bolt then cascades - one damage-location roll per spreadPer points.
+    resolveHit(ship.pos, target, (w.damage ?? 0) + (band.damageBonus ?? 0),
+      enemies, tuning, rng, stats, log, w.spreadPer ?? 0, !!w.bypassShield);
+  }
+  if (onShot) onShot({ kind: "spinal", weapon: st.type, shooterId: ship.id, targetId: target.id, hit });
+
+  st.charge = 0;
+  st.shots++;
+  st.state = "cooldown";
+  st.cooldown = w.cooldownTurns ?? 3;
+  if (log) log(`${ship.id} ${st.type} discharged - dark for ${st.cooldown} turn(s)`);
+  return 1;
+}
+
+// ------------------------------------------------------------ strike craft
+//
+// CARRIERS. A hull with a `hangar` carries squadrons: abstract sub-units with a
+// strength and no map position of their own. A squadron flies from its parent
+// hull and can reach anything within strikeRadiusHexes of it, which is longer
+// than the range at which the beam fleets actually choose to fight - so the
+// carrier's reach is real, but it is spent through craft that can be shot down
+// rather than through a gun that cannot.
+//
+// Everything below is faction-generic: the hangar is a hull-class field and the
+// rules are tuning.strikeCraft. Nothing here names a power. Every entry point is
+// guarded on `ship.squadrons`, which is null for every hull without a hangar, so
+// a battle containing no carrier takes not one extra rng draw.
+//
+// The shape of a turn:
+//   1. launch/replenish     - carriers pay power to put squadrons in the air
+//   2. stance               - interceptors split between CAP and offensive sweep
+//   3. raids, in initiative - each offensive squadron picks a target of its own
+//                             class, is met by enemy CAP, then by point defence,
+//                             and what survives attacks
+// Interceptors may only engage hulls at or below interceptorMaxTargetPoints
+// (frigates, destroyers and their like); bombers only hulls at or above
+// bomberMinTargetPoints (cruisers and up). Nothing rearms a lost craft quickly:
+// replenishPerTurn is the whole of a carrier's recovery.
+
+const craftCfg = (tuning, type) => (tuning.strikeCraft?.types ?? {})[type] ?? {};
+
+// Squadrons in the air, optionally filtered. `fn(squadron, carrier)`.
+function airborne(fleet, fn) {
+  const out = [];
+  for (const s of living(fleet)) {
+    if (!s.squadrons) continue;
+    for (const sq of s.squadrons) {
+      if (!sq.launched || sq.strength <= 0) continue;
+      if (fn && !fn(sq, s)) continue;
+      out.push({ carrier: s, sq });
+    }
+  }
+  return out;
+}
+
+const fleetHasSquadrons = (fleet) => living(fleet).some((s) => s.squadrons);
+
+// Combat air patrol overhead of one ship, expressed as a flat addition to the
+// interception chance against a missile aimed at it. Zero without carriers.
+function capMissileScreen(target, friends, tuning) {
+  const SC = tuning.strikeCraft;
+  if (!SC || !SC.enabled || !(SC.missileScreenPerCraft > 0)) return 0;
+  if (!fleetHasSquadrons(friends)) return 0;
+  let bonus = 0;
+  for (const { carrier, sq } of airborne(friends, (sq) => sq.stance === "defence")) {
+    if (!craftCfg(tuning, sq.type).canDefend) continue;
+    if (distance(carrier.pos, target.pos) > SC.strikeRadiusHexes) continue;
+    bonus += sq.strength * SC.missileScreenPerCraft;
+  }
+  return Math.min(SC.missileScreenMax ?? 1, bonus);
+}
+
+// Deck cycle: replenish, then put squadrons in the air or keep them there. Both
+// cost power out of the carrier's pool, so a carrier flying a full deck has less
+// left to absorb with - which is the tension the hull is built around.
+function cycleDeck(carrier, foe, tuning, log) {
+  const SC = tuning.strikeCraft;
+  const foes = targetable(foe);
+  const range = foes.length ? nearest(carrier.pos, foes).range : Infinity;
+  let launched = 0, recovered = 0;
+  for (const sq of carrier.squadrons) {
+    if (SC.replenishPerTurn > 0 && sq.strength > 0 && sq.strength < sq.max) {
+      sq.strength = Math.min(sq.max, sq.strength + SC.replenishPerTurn);
+    }
+    if (sq.strength <= 0) { sq.launched = false; continue; }
+    if (range > SC.launchRangeHexes) {
+      if (sq.launched) { sq.launched = false; recovered++; }
+      continue;
+    }
+    const cost = sq.launched ? (SC.powerToSustain ?? 0) : (SC.powerToLaunch ?? 0);
+    if (carrier.power < cost) {
+      if (sq.launched) { sq.launched = false; recovered++; }
+      continue;
+    }
+    carrier.power -= cost;
+    if (!sq.launched) { sq.launched = true; launched++; }
+  }
+  if (log && launched) {
+    log(`${carrier.id} launches ${launched} squadron(s), deck strength ` +
+      carrier.squadrons.filter((s) => s.launched).reduce((a, s) => a + s.strength, 0));
+  }
+  if (log && recovered) log(`${carrier.id} recovers ${recovered} squadron(s)`);
+}
+
+// How many interceptor squadrons fly CAP rather than sweeping. Enough strength
+// to cover the enemy bomber strength actually in the air, times defenceRatio;
+// the rest go hunting light hulls. No rng - it is a standing order, not a roll.
+function setStances(side, foe, tuning) {
+  const SC = tuning.strikeCraft;
+  // What the CAP is being asked to stop: enemy bombers in the air, plus the
+  // enemy's live missile tubes at tubeThreat apiece. Without the tube term an
+  // interceptor squadron facing a fleet that has no carrier of its own has
+  // nothing to defend against and the whole wing sweeps, which throws away the
+  // half of an interceptor's job that every navy actually built them for.
+  let threat = 0;
+  for (const { sq } of airborne(foe)) {
+    if (!craftCfg(tuning, sq.type).canDefend) threat += sq.strength;
+  }
+  const tubes = SC.tubeThreat ?? 0;
+  if (tubes > 0) {
+    for (const f of living(foe)) {
+      for (const m of f.mounts) if (m.kind === "missile" && !m.inop) threat += tubes;
+    }
+  }
+  const want = threat * (SC.defenceRatio ?? 1);
+  let onStation = 0;
+  for (const s of living(side)) {
+    if (!s.squadrons) continue;
+    for (const sq of s.squadrons) {
+      if (!craftCfg(tuning, sq.type).canDefend) { sq.stance = "offence"; continue; }
+      if (sq.launched && sq.strength > 0 && onStation < want) {
+        sq.stance = "defence";
+        onStation += sq.strength;
+      } else {
+        sq.stance = "offence";
+      }
+    }
+  }
+}
+
+// One squadron's raid: target, then CAP, then point defence, then the attack.
+function runRaid(raid, tuning, rng, stats, log, onShot) {
+  const SC = tuning.strikeCraft;
+  const { carrier, sq, foe } = raid;
+  if (carrier.destroyed || sq.strength <= 0 || !sq.launched) return;
+  const cfg = craftCfg(tuning, sq.type);
+
+  const cands = targetable(foe).filter((f) =>
+    distance(carrier.pos, f.pos) <= SC.strikeRadiusHexes &&
+    f.points >= (cfg.targetMinPoints ?? 0) &&
+    f.points <= (cfg.targetMaxPoints ?? Infinity));
+  if (!cands.length) return;
+  // Bombers go for the biggest thing they can reach; interceptors take the
+  // nearest light hull, which is what a sweep actually does.
+  const target = cands.sort((a, b) => cfg.preferLargest
+    ? (b.points - a.points) || (distance(carrier.pos, a.pos) - distance(carrier.pos, b.pos))
+    : (distance(carrier.pos, a.pos) - distance(carrier.pos, b.pos)) || (b.points - a.points))[0];
+
+  let strength = sq.strength;
+  let capLoss = 0;
+
+  // --- combat air patrol over the target ---
+  const cap = airborne(foe, (s2, c) =>
+    s2.stance === "defence" && craftCfg(tuning, s2.type).canDefend &&
+    distance(c.pos, target.pos) <= SC.strikeRadiusHexes);
+  for (const d of cap) {
+    if (strength <= 0) break;
+    const dKill = craftCfg(tuning, d.sq.type).dogfight ?? 0;
+    let kills = 0;
+    for (let i = 0; i < d.sq.strength && kills < strength; i++) {
+      if (rng.next() < dKill) kills++;
+    }
+    strength -= kills;
+    capLoss += kills;
+    // The raid shoots back with whatever is left of it.
+    let back = 0;
+    for (let i = 0; i < strength && back < d.sq.strength; i++) {
+      if (rng.next() < (cfg.dogfight ?? 0)) back++;
+    }
+    if (back > 0) {
+      d.sq.strength -= back;
+      raid.oppStats.craftLost += back;   // losses book against the craft's owner
+      if (log) log(`${d.sq.id} loses ${back} to escorting fire`);
+      if (d.sq.strength <= 0) {
+        d.sq.strength = 0; d.sq.launched = false;
+        if (log) log(`${d.sq.id} is wiped out`);
+      }
+    }
+    if (kills > 0 && log) log(`${d.sq.id} intercepts ${sq.id}, ${kills} shot down`);
+  }
+
+  // --- point defence around the target ---
+  let pdLoss = 0;
+  const pdShips = living(foe).filter((f) => f.hull.pointDefence > 0 &&
+    distance(f.pos, target.pos) <= tuning.pointDefence.rangeHexes);
+  const pdTotal = pdShips.reduce((a, f) => a + f.hull.pointDefence, 0);
+  if (strength > 0 && pdTotal > 0) {
+    const chance = Math.min(SC.pdMaxKillChance ?? 1,
+      pdTotal * (SC.pdKillChancePerPoint ?? 0) * (cfg.pdVulnerability ?? 1));
+    for (let i = 0; i < strength; i++) if (rng.next() < chance) pdLoss++;
+    strength -= pdLoss;
+  }
+
+  sq.strength = Math.max(0, sq.strength - capLoss - pdLoss);
+  stats.craftLost += capLoss + pdLoss;
+  if ((capLoss || pdLoss) && log) {
+    const to = [];
+    if (capLoss) to.push(`${capLoss} to interceptors`);
+    if (pdLoss) to.push(`${pdLoss} to point defence`);
+    log(`${sq.id} loses ${capLoss + pdLoss} craft on the run in (${to.join(", ")})`);
+  }
+  if (sq.strength <= 0) {
+    sq.launched = false;
+    if (log) log(`${sq.id} is wiped out`);
+  }
+  if (strength <= 0) {
+    if (onShot) onShot({ kind: "strike", craft: sq.type, squadronId: sq.id,
+      shooterId: carrier.id, targetId: target.id, strength: 0, hits: 0, damage: 0 });
+    return;
+  }
+
+  // --- the attack run ---
+  // Each craft is a separate small hit, which is the point of strike craft under
+  // this damage model: absorption is capped per facing per round AND paid for
+  // out of the pool, so a wave first drains a capital's power and then starts
+  // rolling damage locations on it.
+  const face = shieldFacing(target, carrier.pos);
+  let hits = 0;
+  for (let i = 0; i < strength; i++) if (rng.next() < (cfg.hitChance ?? 0)) hits++;
+  stats.sorties++;
+  // Logged BEFORE the damage lands, so that a "destroyed" line from inside
+  // applyDamage reads as the consequence of the run rather than as something
+  // that happened before it. The viewer replays these in order.
+  if (log) {
+    log(`${sq.id}: ${strength} ${sq.type}(s) press home on ${target.id}, ` +
+      `${hits} hit for ${hits * cfg.damage}`);
+  }
+  let dealt = 0;
+  for (let i = 0; i < hits && !target.destroyed; i++) {
+    stats.damage += cfg.damage;
+    stats.internal += applyDamage(target, face, cfg.damage, tuning, rng, log).internal;
+    dealt += cfg.damage;
+  }
+  if (onShot) onShot({ kind: "strike", craft: sq.type, squadronId: sq.id,
+    shooterId: carrier.id, targetId: target.id, strength, hits, damage: dealt });
+}
+
+// The whole strike phase, run once a turn. Returns immediately - and without
+// touching the rng - if neither fleet has a carrier in it.
+function strikePhase(A, B, tuning, rng, stats, log, onShot) {
+  const SC = tuning.strikeCraft;
+  if (!SC || !SC.enabled) return;
+  const hasA = fleetHasSquadrons(A), hasB = fleetHasSquadrons(B);
+  if (!hasA && !hasB) return;
+
+  for (const [side, foe] of [[A, B], [B, A]]) {
+    for (const s of living(side)) if (s.squadrons) cycleDeck(s, foe, tuning, log);
+  }
+  setStances(A, B, tuning);
+  setStances(B, A, tuning);
+
+  const raids = [];
+  for (const [side, foe, st, opp] of [[A, B, stats.A, stats.B], [B, A, stats.B, stats.A]]) {
+    for (const { carrier, sq } of airborne(side, (sq) => sq.stance === "offence")) {
+      raids.push({ carrier, sq, foe, st, oppStats: opp, roll: rng.int(100) });
+    }
+  }
+  raids.sort((x, y) => y.roll - x.roll);
+  for (const raid of raids) runRaid(raid, tuning, rng, raid.st, log, onShot);
+}
+
+// A carrier that dies takes its air group with it. Called where the dead are
+// swept up, so the loss lands in the log at the moment the hull goes.
+function scuttleSquadrons(ship, log) {
+  if (!ship.squadrons || ship.squadronsLost) return;
+  ship.squadronsLost = true;
+  const lost = ship.squadrons.reduce((a, s) => a + s.strength, 0);
+  for (const sq of ship.squadrons) { sq.strength = 0; sq.launched = false; }
+  if (lost > 0 && log) log(`${ship.id} goes down with ${lost} craft still aboard or in the air`);
 }
 
 // ---------------------------------------------------------------- actions
@@ -332,17 +865,21 @@ function classInteractionMod(shooter, target, tuning, rng) {
 
 function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot) {
   const cmd = commandBonus(ship, friends, 'commandToHit');
-  let fired = 0;
+  // The keel gun resolves before the secondaries and out of its own capacitor.
+  // `fired` is 0 for every hull without ship.spinal, so the two early returns
+  // below behave exactly as they always did.
+  let fired = ship.spinal ? fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) : 0;
   let budget = spendable(ship);
-  if (budget <= 0) return 0;
+  if (budget <= 0) return fired;
   const foes = targetable(enemies);
-  if (!foes.length) return 0;
+  if (!foes.length) return fired;
 
   for (const mount of ship.mounts) {
     if (mount.inop || mount.firedThisTurn || budget <= 0) continue;
+    if (mount.kind === "spinal") continue;   // handled above, never by this loop
     const weapon = tuning.weapons[mount.type];
     const candidates = foes.filter(
-      (f) => !f.destroyed && distance(ship.pos, f.pos) <= mount.maxRange && bears(ship, mount, f.pos)
+      (f) => !f.destroyed && mayEngage(ship, f, tuning) && distance(ship.pos, f.pos) <= mount.maxRange && bears(ship, mount, f.pos) && lineOfFire(ship.pos, f.pos, tuning)
     );
     if (!candidates.length) continue;
     const target = candidates.sort((a, b) => distance(ship.pos, a.pos) - distance(ship.pos, b.pos))[0];
@@ -385,6 +922,18 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
   return fired;
 }
 
+// NOTE for anyone who reaches for it next: a "hunt the flight deck" rule - every
+// hull steering for an enemy carrier inside some radius instead of for whatever
+// is nearest - was written, measured and thrown away. It is the obvious way to
+// put the carrier under threat and it does not work, in either direction. At a
+// hunt radius of 12 it moved the buy delta from +6.3 to +6.7pp and the carrier's
+// loss rate from 33% to 35% of battles; at 26 (which is the whole map) it reached
+// 41% and the buy delta fell only to +5.6. It does not police a long standoff
+// either: at standoffRangeHexes 10 the runaway cells stayed exactly where they
+// were (Vraygon at 32 points, +32pp without hunting and +33pp with it). Ships
+// that converge on a carrier arrive strung out and are beaten in detail, which
+// is worth about as much to the carrier's owner as the extra fire costs it. The
+// thing that actually governs this hull is standoffRangeHexes; see there.
 function move(ship, enemies, friends, tuning) {
   const foes = living(enemies);
   if (!foes.length) return;
@@ -405,6 +954,21 @@ function move(ship, enemies, friends, tuning) {
     }
   };
 
+  // RULING (2026-09-01): a spinal gun that is charging or holding a full bank
+  // plants the ship. It may turn to aim at its normal rate and nothing else -
+  // the Wave Motion Gun tradition, and a real cost: enemies may work round to
+  // the bare quarters, or close inside six hexes where the gun cannot track.
+  // Venting (cooldown) is free movement: plant, fire, run, plant. Guarded on
+  // ship.spinal, so no other hull is touched.
+  if (ship.spinal && (tuning.weapons[ship.spinal.type]?.immobileWhileCharging)) {
+    const st = ship.spinal;
+    const planted = (st.state === "charging" && st.charge > 0) || st.state === "ready";
+    if (planted) {
+      turnTowards(bestHeading(ship, target.pos, tuning));
+      return;
+    }
+  }
+
   // One forward step along the current facing, if legal and if it moves the
   // ship the way it needs to go ("close" shrinks the gap, "open" grows it).
   const forwardStep = (goalPos, need) => {
@@ -413,6 +977,9 @@ function move(ship, enemies, friends, tuning) {
     const dNow = distance(ship.pos, goalPos);
     const dNext = distance(next, goalPos);
     if (need === "close" && dNext >= dNow) return false;
+    // Same-hex rule: closing to range zero silences both ships, so the helm
+    // stops one hex short. Passing through a hex is still legal.
+    if (need === "close" && dNext === 0 && tuning.battle?.sameHexNoFire !== false) return false;
     if (need === "open" && dNext <= dNow) return false;
     ship.pos = next;
     ship.power -= ship.movementPointRatio;
@@ -598,6 +1165,9 @@ function evade(ship, tuning, rng, log) {
 // ---------------------------------------------------------------- battle
 
 export function runBattle(fleets, tuning, rng, opts = {}) {
+  if (opts.terrain && opts.terrain.length) {
+    tuning = { ...tuning, battle: { ...tuning.battle, terrain: opts.terrain } };
+  }
   const log = opts.log ?? null;
   let shotTurn = 0, shotRound = 0;
   const onShot = opts.onShot
@@ -608,7 +1178,10 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
   const [A, B] = fleets;
   A.forEach((s) => { s.side = "A"; });
   B.forEach((s) => { s.side = "B"; });
-  const blank = () => ({ shots: 0, hits: 0, launches: 0, damage: 0, internal: 0, screened: 0 });
+  const blank = () => ({
+    shots: 0, hits: 0, launches: 0, damage: 0, internal: 0, screened: 0,
+    sorties: 0, craftLost: 0, hitsForward: 0, hitsRear: 0
+  });
   const stats = { A: blank(), B: blank() };
   let inFlight = [];
   let turnsRun = 0;
@@ -649,6 +1222,11 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
     }
 
     for (const s of [...living(A), ...living(B)]) startTurn(s, tuning);
+    // Spinal capacitors draw off the top of the fresh pool, before the reserve
+    // is set - so the charge is paid for in shields as well as in gunnery.
+    // No-op on every hull that has no spinal mount.
+    for (const s of living(A)) chargeSpinal(s, B, tuning, log);
+    for (const s of living(B)) chargeSpinal(s, A, tuning, log);
     // The spending brake is set once a turn, against the tactical picture.
     for (const s of [...living(A), ...living(B)]) {
       s.reserve = doctrineReserve(s, s.side === "A" ? B : A, tuning);
@@ -673,6 +1251,14 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
       if (!living(A).length || !living(B).length) break;
       shotRound = round;
       for (const s of [...living(A), ...living(B)]) startRound(s);
+
+      // The strike wave goes in once a turn, on a fresh shield cycle and before
+      // the line opens fire - so a wave that strips a facing's absorption is
+      // followed straight in by the guns. No-op without a carrier on the field.
+      if (round === (tuning.strikeCraft?.strikeRound ?? 1)) {
+        strikePhase(A, B, tuning, rng, stats, log, onShot);
+        for (const s of [...A, ...B]) if (s.destroyed) scuttleSquadrons(s, log);
+      }
 
       // Action order: d100 plus captain rating, as in FASA.
       // FASA bid initiative from declared movement. A ship that can commit more
@@ -712,6 +1298,7 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
 
       // Anything killed this round goes up now, and may take neighbours with it.
       for (const s of allShips) if (s.destroyed && !s.exploded) detonate(s, allShips, tuning, rng, log);
+      for (const s of allShips) if (s.destroyed && s.squadrons) scuttleSquadrons(s, log);
       if (opts.onRound) opts.onRound(turn, round, fleets);
     }
 
@@ -786,4 +1373,41 @@ export function deployFleets(A, B, tuning) {
     s.pos = { q: -p.q, r: -p.r };
     s.facing = 3;
   });
+}
+
+
+// ------------------------------------------------------------ scenarios
+// A scenario places every element explicitly (ruling 2026-09-02: fleet
+// composition and the position of every scenario element are the player's
+// to set). Shape:
+//   { name, seed, map: {widthHexes, heightHexes},
+//     terrain: [{type: "moon"|"planet", q, r}],
+//     sides: [{faction, ships: [{className, q, r, facing, loadout?}]}, {...}] }
+// Ships without q/r fall back to the line-of-battle deployment for their
+// side. Returns {fleets, terrain, tuning} ready for runBattle(fleets, tuning,
+// rng, {terrain}). Terrain hexes are refused as ship positions.
+export function buildScenario(scenario, tuning, loadouts, rng) {
+  const t = scenario.map
+    ? { ...tuning, battle: { ...tuning.battle, map: { shape: "rect", widthHexes: scenario.map.widthHexes, heightHexes: scenario.map.heightHexes } } }
+    : tuning;
+  const terrain = (scenario.terrain ?? []).map((x) => ({ type: x.type, q: x.q, r: x.r }));
+  const withTerrain = { ...t, battle: { ...t.battle, terrain } };
+  const fleets = scenario.sides.slice(0, 2).map((side, i) => {
+    const tag = i === 0 ? "A" : "B";
+    return side.ships.map((sh, k) =>
+      buildShip(`${tag}-${sh.className}-${k + 1}`, side.faction, sh.className, withTerrain, loadouts, rng, sh.loadout));
+  });
+  // Explicit positions first; anything unplaced takes the line deployment.
+  const placedA = scenario.sides[0].ships.map((sh) => Number.isFinite(sh.q) && Number.isFinite(sh.r));
+  const placedB = scenario.sides[1].ships.map((sh) => Number.isFinite(sh.q) && Number.isFinite(sh.r));
+  if (!placedA.every(Boolean) || !placedB.every(Boolean)) deployFleets(fleets[0], fleets[1], withTerrain);
+  scenario.sides.slice(0, 2).forEach((side, i) => side.ships.forEach((sh, k) => {
+    const ship = fleets[i][k];
+    if (Number.isFinite(sh.q) && Number.isFinite(sh.r)) {
+      if (blockedHex({ q: sh.q, r: sh.r }, withTerrain)) throw new Error(`${ship.id} placed on terrain at ${sh.q},${sh.r}`);
+      ship.pos = { q: sh.q, r: sh.r };
+    }
+    if (Number.isFinite(sh.facing)) ship.facing = ((sh.facing % 6) + 6) % 6;
+  }));
+  return { fleets, terrain, tuning: withTerrain };
 }
