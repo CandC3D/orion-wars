@@ -284,3 +284,14 @@ also explains the earlier "light-gray band" puzzle: the band IS gray in
 Tinkercad; the export swapped that group. Union Group re-export
 requested. NOTE: all v2 renders before 2026-09-02 were colour-
 inaccurate (whole hull glowed via an over-broad emissive gate).
+
+## Coincident-shell artefact: renderer-independent (2026-09-02)
+
+The Destroyer's collar/pod/dome speckle persists under Cycles (float
+ray-hit, no depth buffer) => the overlapping colour shells are EXACTLY
+coincident, not near-coincident. No render setting fixes it; only a
+geometric exterior extraction (kit-pass cleanup) will. Testing Blender
+exact self-union (mesh.intersect_boolean UNION use_self) as a candidate.
+Hulls that render CLEAN in true colour: CL (Union), CA, BB, DN, CV.
+Confetti: DD (heavy). Scrambled palette: FF (re-export pending).
+Sol's legibility demo therefore moved to the CL/CA sister pair.
