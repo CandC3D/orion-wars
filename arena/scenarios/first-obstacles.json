@@ -1,0 +1,149 @@
+{
+  "name": "Untitled scenario",
+  "seed": "orion",
+  "map": {
+    "widthHexes": 72,
+    "heightHexes": 40
+  },
+  "terrain": [
+    {
+      "type": "moon",
+      "q": -14,
+      "r": -6
+    },
+    {
+      "type": "moon",
+      "q": -14,
+      "r": 3
+    },
+    {
+      "type": "planet",
+      "q": -12,
+      "r": -3
+    },
+    {
+      "type": "moon",
+      "q": 11,
+      "r": 9
+    },
+    {
+      "type": "moon",
+      "q": 6,
+      "r": -15
+    }
+  ],
+  "sides": [
+    {
+      "faction": "EAR",
+      "ships": [
+        {
+          "className": "dreadnought",
+          "q": -31,
+          "r": -4,
+          "facing": 0
+        },
+        {
+          "className": "heavy-cruiser",
+          "q": -28,
+          "r": -4,
+          "facing": 0
+        },
+        {
+          "className": "light-cruiser",
+          "q": -28,
+          "r": -6,
+          "facing": 0
+        },
+        {
+          "className": "light-cruiser",
+          "q": -30,
+          "r": -2,
+          "facing": 0
+        },
+        {
+          "className": "frigate",
+          "q": -28,
+          "r": -8,
+          "facing": 0
+        },
+        {
+          "className": "frigate",
+          "q": -31,
+          "r": 0,
+          "facing": 0
+        },
+        {
+          "className": "destroyer",
+          "q": -26,
+          "r": -7,
+          "facing": 0
+        },
+        {
+          "className": "destroyer",
+          "q": -28,
+          "r": -2,
+          "facing": 0
+        }
+      ]
+    },
+    {
+      "faction": "KRE",
+      "ships": [
+        {
+          "className": "carrier",
+          "q": 13,
+          "r": -4,
+          "facing": 3
+        },
+        {
+          "className": "strike-cruiser",
+          "q": 10,
+          "r": -6,
+          "facing": 3
+        },
+        {
+          "className": "strike-cruiser",
+          "q": 8,
+          "r": -2,
+          "facing": 3
+        },
+        {
+          "className": "light-cruiser",
+          "q": 11,
+          "r": -5,
+          "facing": 3
+        },
+        {
+          "className": "light-cruiser",
+          "q": 15,
+          "r": -3,
+          "facing": 3
+        },
+        {
+          "className": "destroyer",
+          "q": 9,
+          "r": -8,
+          "facing": 3
+        },
+        {
+          "className": "destroyer",
+          "q": 4,
+          "r": 1,
+          "facing": 3
+        },
+        {
+          "className": "frigate",
+          "q": 6,
+          "r": 1,
+          "facing": 3
+        },
+        {
+          "className": "frigate",
+          "q": 11,
+          "r": -9,
+          "facing": 3
+        }
+      ]
+    }
+  ]
+}
