@@ -38,6 +38,8 @@
   const CAMERA_MARGIN_HEXES = 4;
   const CAMERA_MAX_HEX_WIDTH = 60;
   const PAN_THRESHOLD = 5;
+  const ARRIVAL_LABEL_PX = 12;
+  const ARRIVAL_LABEL_SECONDS = 1.5;
 
   // --- deterministic asteroid art -----------------------------------------
   // Same algorithm as arena/editor-core.js's hashHex/hexRng/asteroidFieldRocks/
@@ -837,6 +839,22 @@
     return true;
   }
 
+  // Effects are drawn inside the world-space camera transform. Convert a
+  // fraction of the displayed hex radius back to world units, retaining a
+  // small screen-pixel floor so fine fire is still visible at fit-map zoom.
+  function effectScreenSize(geo, hexFraction, minPixels = 1) {
+    const zoom = Math.max(.001, state.camera.zoom || 1);
+    return Math.max(minPixels, geo.scale * zoom * hexFraction);
+  }
+
+  function effectWorldSize(geo, hexFraction, minPixels = 1) {
+    return effectScreenSize(geo, hexFraction, minPixels) / Math.max(.001, state.camera.zoom || 1);
+  }
+
+  function screenWorldSize(pixels) {
+    return pixels / Math.max(.001, state.camera.zoom || 1);
+  }
+
   function project(pos, geo) {
     const x = Math.sqrt(3) * (pos.q + pos.r / 2);
     const y = -1.5 * pos.r;
@@ -956,12 +974,12 @@
     ctx.lineCap = "round";
     ctx.strokeStyle = laser ? "#bfeaff" : heavy ? "#ff512f" : "#ff7848";
     ctx.shadowColor = laser ? "#5bbdff" : "#ff3b20";
-    ctx.shadowBlur = laser ? 9 : heavy ? 18 : 13;
-    ctx.lineWidth = laser ? 1.6 : heavy ? 6.5 : 4.2;
+    ctx.shadowBlur = effectScreenSize(geo, laser ? .14 : heavy ? .28 : .22, laser ? 2 : 3);
+    ctx.lineWidth = effectWorldSize(geo, laser ? .06 : heavy ? .16 : .12, laser ? 1 : 1.5);
     ctx.beginPath(); ctx.moveTo(tail.x, tail.y); ctx.lineTo(head.x, head.y); ctx.stroke();
     if (laser) {
       ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = .7;
+      ctx.lineWidth = effectWorldSize(geo, .025, .65);
       ctx.stroke();
     }
     ctx.restore();
@@ -971,6 +989,14 @@
   function drawMissile(effect, geo, now) {
     const phase = effectProgress();
     const arrivalIndex = Math.min(effect.arrivalIndex, state.replay.rounds.length - 1);
+    const labelElapsed = state.index + state.progress - arrivalIndex - MOVEMENT_END;
+    const label = effect.arrival?.outcome === "hit" ? `HIT ${effect.arrival.damage ?? 0}`
+      : effect.arrival?.outcome === "evaded" ? "evaded"
+        : effect.arrival?.outcome === "dead-target" ? "dead target" : effect.arrival?.outcome;
+    if (label && labelElapsed >= 0 && labelElapsed < ARRIVAL_LABEL_SECONDS) {
+      const liveTarget = shipAt(currentRound(), effect.launch.targetId) || lastShipAt(effect.launch.targetId, state.index);
+      if (liveTarget) drawArrivalLabel(pointFor(liveTarget, geo), label, labelElapsed, geo, liveTarget);
+    }
     if (state.index === effect.launchIndex && state.progress < MOVEMENT_END) return;
     const resolving = state.progress >= MOVEMENT_END;
     const absolute = state.index === arrivalIndex && !resolving ? state.index - .08 : state.index + phase;
@@ -995,20 +1021,16 @@
       at.y += dx / length * wide;
     }
     if (outcome === "intercepted" && state.index === arrivalIndex && resolving) {
-      if (phase < .34) drawMissilePop(at, plasma, phase / .34);
-      if (phase < .42) drawArrivalLabel(end, "intercepted", phase, geo);
+      if (phase < .34) drawMissilePop(at, plasma, phase / .34, geo);
       return;
     }
     const fade = outcome === "dead-target" && travel > .78 ? Math.max(0, (1 - travel) / .22) : 1;
     if (fade <= 0) return;
-    if (plasma) drawPlasma(at, start, end, cappedTravel, bend, fade, now);
-    else drawNeutronic(at, fade, now);
-    if (effect.arrival && state.index === arrivalIndex && resolving && phase < .42) {
+    if (plasma) drawPlasma(at, start, end, cappedTravel, bend, fade, now, geo);
+    else drawNeutronic(at, fade, now, geo);
+    if (effect.arrival && state.index === arrivalIndex && resolving) {
       if (outcome === "hit" && phase < .32) drawShieldFlash(target, shooter.pos, geo, phase / .32);
-      else if (outcome === "evaded" && phase < .32) drawEvadeStreak(at, start, end, phase);
-      const label = outcome === "hit" ? `HIT ${effect.arrival.damage ?? 0}`
-        : outcome === "evaded" ? "evaded" : outcome === "dead-target" ? "dead target" : outcome;
-      if (label) drawArrivalLabel(end, label, phase, geo);
+      else if (outcome === "evaded" && phase < .32) drawEvadeStreak(at, start, end, phase, geo);
     }
   }
 
@@ -1016,13 +1038,13 @@
     ctx.save();
     ctx.globalAlpha = .48;
     ctx.strokeStyle = effect.launch.weapon === "plasma-torpedo" ? "#56ffd0" : "#ffd36a";
-    ctx.lineWidth = Math.max(1, geo.scale * .08);
-    ctx.setLineDash?.([Math.max(3, geo.scale * .42), Math.max(3, geo.scale * .32)]);
+    ctx.lineWidth = screenWorldSize(1);
+    ctx.setLineDash?.([screenWorldSize(5), screenWorldSize(4)]);
     ctx.beginPath(); ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y); ctx.stroke();
     ctx.setLineDash?.([]);
-    const radius = Math.max(5, geo.scale * .55);
+    const radius = effectWorldSize(geo, .6, 5);
     ctx.globalAlpha = .8;
-    ctx.lineWidth = 1.2;
+    ctx.lineWidth = screenWorldSize(1);
     ctx.beginPath(); ctx.arc(end.x, end.y, radius, 0, Math.PI * 2);
     ctx.moveTo(end.x - radius * 1.45, end.y); ctx.lineTo(end.x - radius * .65, end.y);
     ctx.moveTo(end.x + radius * .65, end.y); ctx.lineTo(end.x + radius * 1.45, end.y);
@@ -1031,63 +1053,67 @@
     ctx.stroke(); ctx.restore();
   }
 
-  function drawArrivalLabel(at, text, phase, geo) {
+  function drawArrivalLabel(at, text, elapsed, geo, target) {
     if (!ctx.fillText) return;
     ctx.save();
-    ctx.globalAlpha = Math.max(0, 1 - phase / .42);
+    ctx.globalAlpha = Math.max(0, 1 - elapsed / ARRIVAL_LABEL_SECONDS);
     ctx.fillStyle = text.startsWith("HIT") ? "#fff0c2" : "#b8c8d2";
-    ctx.font = `600 ${Math.max(10, geo.scale * .78)}px ui-sans-serif, system-ui, sans-serif`;
+    ctx.font = `600 ${screenWorldSize(ARRIVAL_LABEL_PX)}px ui-sans-serif, system-ui, sans-serif`;
     ctx.textAlign = "center";
-    ctx.fillText(text, at.x, at.y - Math.max(13, geo.scale * 1.4));
+    ctx.textBaseline = "bottom";
+    const iconTop = target ? markerSize(target, geo) : geo.scale * .5;
+    ctx.fillText(text, at.x, at.y - iconTop - screenWorldSize(6));
     ctx.restore();
   }
 
-  function drawNeutronic(at, alpha, now) {
+  function drawNeutronic(at, alpha, now, geo) {
     if (!finiteXY(at) || !Number.isFinite(alpha)) return;
     const pulse = 1 + Math.sin(now / 85) * .16;
-    const radius = 11 * pulse;
+    const radius = effectWorldSize(geo, .18, 2.5) * pulse;
     const gradient = safeRadial(at.x, at.y, 0, at.x, at.y, radius);
     if (!gradient) return;
     gradient.addColorStop(0, `rgba(255,255,238,${alpha})`);
     gradient.addColorStop(.25, `rgba(255,206,91,${alpha * .95})`);
     gradient.addColorStop(1, "rgba(255,119,25,0)");
-    ctx.save(); ctx.fillStyle = gradient; ctx.shadowColor = "#ffac32"; ctx.shadowBlur = 12;
+    ctx.save(); ctx.fillStyle = gradient; ctx.shadowColor = "#ffac32"; ctx.shadowBlur = effectScreenSize(geo, .18, 2.5);
     ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.fill(); ctx.restore();
   }
 
-  function drawPlasma(at, start, end, travel, bend, alpha, now) {
+  function drawPlasma(at, start, end, travel, bend, alpha, now, geo) {
     if (!finiteXY(at, start, end)) return;
-    const wobble = Math.sin(now / 67 + travel * 9) * 1.5;
+    const trailRadius = effectWorldSize(geo, .055, 1);
+    const wobble = Math.sin(now / 67 + travel * 9) * effectWorldSize(geo, .025, .5);
     for (let i = 4; i >= 1; i--) {
       const trailTravel = Math.max(0, travel - i * .035);
       const p = curvePoint(start, end, trailTravel, bend);
       ctx.fillStyle = `rgba(35,220,166,${alpha * (5 - i) * .07})`;
-      ctx.beginPath(); ctx.arc(p.x, p.y, 3 + i * 1.2, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, trailRadius * (1 + i * .32), 0, Math.PI * 2); ctx.fill();
     }
-    const radius = 15 + wobble;
+    const radius = effectWorldSize(geo, .24, 3) + wobble;
     const gradient = safeRadial(at.x - 2, at.y - 2, 1, at.x, at.y, radius);
     if (!gradient) return;
     gradient.addColorStop(0, `rgba(225,255,217,${alpha})`);
     gradient.addColorStop(.3, `rgba(46,235,174,${alpha * .92})`);
     gradient.addColorStop(.72, `rgba(12,137,124,${alpha * .65})`);
     gradient.addColorStop(1, "rgba(0,82,77,0)");
-    ctx.save(); ctx.fillStyle = gradient; ctx.shadowColor = "#24e0b0"; ctx.shadowBlur = 18;
+    ctx.save(); ctx.fillStyle = gradient; ctx.shadowColor = "#24e0b0"; ctx.shadowBlur = effectScreenSize(geo, .24, 3);
     ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.fill(); ctx.restore();
   }
 
-  function drawMissilePop(at, plasma, phase) {
-    const radius = 5 + phase * 24;
+  function drawMissilePop(at, plasma, phase, geo) {
+    const radius = effectWorldSize(geo, .1 + phase * .42, 2);
     ctx.save(); ctx.globalAlpha = 1 - phase; ctx.strokeStyle = plasma ? "#56ffd0" : "#ffd36a";
-    ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = 14; ctx.lineWidth = 2.5;
+    ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = effectScreenSize(geo, .2, 2); ctx.lineWidth = effectWorldSize(geo, .055, 1);
     ctx.beginPath(); ctx.arc(at.x, at.y, radius, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
   }
 
-  function drawEvadeStreak(at, start, end, phase) {
+  function drawEvadeStreak(at, start, end, phase, geo) {
     const dx = end.x - start.x, dy = end.y - start.y;
     const length = Math.max(1, Math.hypot(dx, dy));
     ctx.save(); ctx.globalAlpha = Math.max(0, 1 - phase / .32); ctx.strokeStyle = "rgba(152,255,229,.75)";
-    ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(at.x, at.y);
-    ctx.lineTo(at.x + dx / length * 30, at.y + dy / length * 30); ctx.stroke(); ctx.restore();
+    ctx.lineWidth = effectWorldSize(geo, .05, 1); ctx.beginPath(); ctx.moveTo(at.x, at.y);
+    const streak = effectWorldSize(geo, .7, 8);
+    ctx.lineTo(at.x + dx / length * streak, at.y + dy / length * streak); ctx.stroke(); ctx.restore();
   }
 
   function shieldFace(target, attackerPos) {
@@ -1105,9 +1131,9 @@
     const face = shieldFace(target, attackerPos);
     const offset = [5, 0, 1, 2, 3, 4][face - 1];
     const angle = -(target.facing + offset) * Math.PI / 3;
-    const gap = size + Math.max(4, geo.scale * .45);
+    const gap = size + effectWorldSize(geo, .45, 4);
     const center = { x: at.x + Math.cos(angle) * gap, y: at.y + Math.sin(angle) * gap };
-    const radius = Math.max(4, geo.scale * .5) + phase * Math.max(6, geo.scale * .9);
+    const radius = effectWorldSize(geo, .5, 4) + phase * effectWorldSize(geo, .9, 6);
     const gradient = safeRadial(center.x, center.y, 0, center.x, center.y, radius);
     if (!gradient) return;
     gradient.addColorStop(0, `rgba(235,252,255,${1 - phase})`);
@@ -1637,18 +1663,18 @@
       ctx.globalAlpha = alpha;
       ctx.lineCap = "round";
       ctx.shadowColor = "#a678ff";
-      ctx.shadowBlur = 26;
+      ctx.shadowBlur = effectScreenSize(geo, .42, 4);
       ctx.strokeStyle = "#c9a6ff";
-      ctx.lineWidth = Math.max(6, geo.scale * .62);
+      ctx.lineWidth = effectWorldSize(geo, .25, 2);
       ctx.beginPath(); ctx.moveTo(start.x, start.y); ctx.lineTo(head.x, head.y); ctx.stroke();
       ctx.strokeStyle = "#fdfbff";
-      ctx.shadowBlur = 12;
-      ctx.lineWidth = Math.max(2, geo.scale * .2);
+      ctx.shadowBlur = effectScreenSize(geo, .2, 2);
+      ctx.lineWidth = effectWorldSize(geo, .08, 1);
       ctx.stroke();
       ctx.restore();
       state.rendered.spinalBolt++;
       if (shot.hit && phase < .42) {
-        drawSpinalImpact(aim, markerSize(target, geo), phase / .42);
+        drawSpinalImpact(aim, markerSize(target, geo), phase / .42, geo);
         state.rendered.spinalHit++;
       } else if (!shot.hit && phase > .2) {
         state.rendered.spinalMiss++;
@@ -1656,7 +1682,7 @@
     }
   }
 
-  function drawSpinalImpact(at, size, phase) {
+  function drawSpinalImpact(at, size, phase, geo) {
     const radius = size * (1.4 + phase * 3.4);
     const fade = 1 - phase;
     drawGlow(at, radius, [
@@ -1669,8 +1695,8 @@
     ctx.globalAlpha = fade * .9;
     ctx.strokeStyle = "#e6d6ff";
     ctx.shadowColor = "#b98cff";
-    ctx.shadowBlur = 18;
-    ctx.lineWidth = 2.4;
+    ctx.shadowBlur = effectScreenSize(geo, .3, 3);
+    ctx.lineWidth = effectWorldSize(geo, .045, 1);
     ctx.beginPath(); ctx.arc(at.x, at.y, radius * .72, 0, Math.PI * 2); ctx.stroke();
     ctx.restore();
   }
@@ -2013,9 +2039,10 @@
     mapShape, inBounds, geometry, project, hexRound, stackLayout, markerSize,
     buildLogEffects, buildNarrative, buildShotEffects, effectEndpoints, setRenderMode, drawTerrain,
     cameraLimits, clampCameraZoom, livingShipBounds, cameraForBounds,
-    setAutoFrame, fitMap, screenToWorld,
+    setAutoFrame, fitMap, screenToWorld, effectScreenSize, effectWorldSize,
     constants: { HEX_INRADIUS, ICON_SPAN, ICON_EXTENT, CRAFT_SPAN, READY_SPAN, READY_MAX_GLYPHS, READY_GAP,
-      CAMERA_MARGIN_HEXES, CAMERA_MAX_HEX_WIDTH, PAN_THRESHOLD, MOVEMENT_END }
+      CAMERA_MARGIN_HEXES, CAMERA_MAX_HEX_WIDTH, PAN_THRESHOLD, MOVEMENT_END,
+      ARRIVAL_LABEL_PX, ARRIVAL_LABEL_SECONDS }
   };
 
   async function loadInitialReplay() {

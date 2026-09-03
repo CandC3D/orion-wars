@@ -494,6 +494,24 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
   assert(ICON_SPAN * ICON_EXTENT < HEX_INRADIUS,
     `an unstacked icon reaches ${ICON_SPAN * ICON_EXTENT} circumradii, past the hex edge at ${HEX_INRADIUS}`);
   const geo = arena.geometry();
+  // Combat strokes are specified against the displayed hex size, with only a
+  // small screen-pixel floor. Zooming the camera must therefore grow a laser
+  // from its floor to 0.06 of the on-screen hex, not multiply a fixed world
+  // width into a cruiser-sized stripe.
+  const oldZoom = arena.state.camera.zoom;
+  const effectGeo = { scale: 10 };
+  arena.state.camera.zoom = 1;
+  assert(arena.effectScreenSize(effectGeo, .06, 1) === 1,
+    "fit-map laser did not retain its 1px visibility floor");
+  arena.state.camera.zoom = 4;
+  for (const [name, fraction, floor] of [["laser", .06, 1], ["blaster", .12, 1.5], ["spinal", .25, 2]]) {
+    const screenWidth = arena.effectScreenSize(effectGeo, fraction, floor);
+    assert(Math.abs(screenWidth - effectGeo.scale * arena.state.camera.zoom * fraction) < 1e-9,
+      `${name} width does not scale as ${fraction} of the on-screen hex radius`);
+    assert(Math.abs(arena.effectWorldSize(effectGeo, fraction, floor) * arena.state.camera.zoom - screenWidth) < 1e-9,
+      `${name} world width is not camera-compensated`);
+  }
+  arena.state.camera.zoom = oldZoom;
   const byKey = new Map();
   for (const [key, entry] of arena.icons) byKey.set(entry.image.key, entry.size);
   const shipDraws = run.draws.filter((d) => Math.abs(d.box - ICON_SPAN * geo.scale) < 1e-6);
