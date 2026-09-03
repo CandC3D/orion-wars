@@ -1,3 +1,12 @@
+## Play online (no install)
+
+- **Scenario editor:** https://candc3d.github.io/orion-wars/arena/editor.html
+- **Battle arena (viewer):** https://candc3d.github.io/orion-wars/arena/index.html
+
+Served by GitHub Pages from the `master` branch; every push updates the site
+within a minute or two. The local launcher below is only needed for offline
+work or for changes not yet pushed.
+
 ## Starting the arena and editor (read this first)
 
 The editor runs the game engine in your browser, and browsers refuse to load

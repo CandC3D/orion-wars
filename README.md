@@ -90,3 +90,8 @@ brief — color schemes, surface language per species, and rulings — is
 - Player seat: all four powers are symmetric at engine level; UI will expose
   the Earth Federation first.
 - Flagship mechanic: omitted, but the engine does not preclude it.
+
+## Play online
+
+The scenario editor and battle arena are published by GitHub Pages:
+https://candc3d.github.io/orion-wars/arena/editor.html
