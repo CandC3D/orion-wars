@@ -103,6 +103,23 @@ function drawShip(ship, geo) {
   const image = state.icons.get(`${ship.faction}/${ship.className}`); if (image) ctx.drawImage(image, -geo.scale*.52, -geo.scale*.52, geo.scale*1.04, geo.scale*1.04); else { ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(geo.scale*.5,0); ctx.lineTo(-geo.scale*.35,-geo.scale*.3); ctx.lineTo(-geo.scale*.24,0); ctx.lineTo(-geo.scale*.35,geo.scale*.3); ctx.closePath(); ctx.fill(); }
   ctx.restore(); ctx.fillStyle = color; ctx.font = `${Math.max(9, geo.scale * .3)}px sans-serif`; ctx.textAlign = "center"; ctx.fillText(ship.id, p.x, p.y + geo.scale * .85);
 }
+
+// Polish (Fable, 2026-09-03): frame the living fleets - the camera used to
+// open on the whole 72x40 map with the ships as six-pixel dots.
+function frameFleets(margin = 4) {
+  const ships = (state.view?.ships || []).filter((ship) => !ship.destroyed);
+  if (!ships.length) return;
+  const pts = ships.map((ship) => axialToWorld(ship.pos));
+  const minX = Math.min(...pts.map((p) => p.x)) - margin * 1.8, maxX = Math.max(...pts.map((p) => p.x)) + margin * 1.8;
+  const minY = Math.min(...pts.map((p) => p.y)) - margin * 1.5, maxY = Math.max(...pts.map((p) => p.y)) + margin * 1.5;
+  const rect = canvas.getBoundingClientRect();
+  const base = geometry.fit ? geometry.fit() : (function () { const g = { ...state.camera }; state.camera = { zoom: 1, x: 0, y: 0 }; const fit = geometry().scale; state.camera = g; return fit; })();
+  const zoom = Math.max(0.65, Math.min(6, Math.min(rect.width / ((maxX - minX) * base), rect.height / ((maxY - minY) * base))));
+  state.camera.zoom = zoom;
+  const scale = base * zoom;
+  state.camera.x = -((minX + maxX) / 2) * scale;
+  state.camera.y = -((minY + maxY) / 2) * scale;
+}
 function draw() {
   const dpr = devicePixelRatio || 1, rect = canvas.getBoundingClientRect(); if (canvas.width !== rect.width*dpr || canvas.height !== rect.height*dpr) { canvas.width=rect.width*dpr; canvas.height=rect.height*dpr; }
   ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,rect.width,rect.height); const geo=geometry(); drawGrid(geo); drawTerrain(geo);
@@ -148,7 +165,7 @@ async function playback(turn) {
     $("#turn-label").textContent=`Turn ${frame.turn} / Round ${frame.round}`; await animateFrame(frame);
     appendLog(turn.log.filter((entry)=>entry.round===frame.round)); await new Promise((resolve)=>setTimeout(resolve,180));
   }
-  state.phase=turn.result?"ended":"planning"; state.orders={}; state.selected=null; refreshView();
+  state.phase=turn.result?"ended":"planning"; state.orders={}; state.selected=null; refreshView(); frameFleets(); draw();
   if (turn.result) { $("#verdict").hidden=false; $("#verdict").textContent=turn.result.victor?`${state.record.meta.factions[turn.result.victor]} VICTORY`:"BATTLE DRAWN"; $("#end-turn").disabled=true; }
   else $("#end-turn").disabled=false;
 }
@@ -167,7 +184,7 @@ async function start() {
     if(option==="session") { const stored=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null"); scenario=stored?.meta?.scenario; if(!scenario) throw new Error("The editor has not handed off a scenario in this tab."); }
     else scenario=await loadScenario(option);
     scenario=clone(scenario); scenario.seed=$("#seed-input").value||scenario.seed; state.scenario=scenario; state.humanSide=$("#side-select").value; state.battle=createBattle(scenario,state.tuning,state.loadouts,scenario.seed); state.view=battleView(state.battle); state.record=createPlayRecord(scenario,state.view); state.phase="planning";
-    $("#setup-panel").hidden=true; $("#side-label").textContent=`Commanding ${state.record.meta.factions[state.humanSide]} · Side ${state.humanSide}`; $("#end-turn").disabled=false; $("#hint").textContent="Select a friendly ship. Click an enemy to target it. Q/E turn · W/S speed · Tab ship · Enter end turn."; refreshView();
+    $("#setup-panel").hidden=true; $("#side-label").textContent=`Commanding ${state.record.meta.factions[state.humanSide]} · Side ${state.humanSide}`; $("#end-turn").disabled=false; $("#hint").textContent="Select a friendly ship. Click an enemy to target it. Q/E turn · W/S speed · Tab ship · Enter end turn."; refreshView(); frameFleets(); draw();
   } catch(error){setStatus(error.message);}
 }
 async function loadIcons() { try { const manifest=await (await fetch("../assets/icons/manifest.json")).json(); for(const [id,entry] of Object.entries(manifest.icons||{})){const image=new Image();image.onload=()=>{state.icons.set(id,image);draw();};image.src=`../assets/icons/${entry.file}`;} } catch(error){console.warn("Playfield icons unavailable",error);} }
@@ -181,13 +198,13 @@ async function init() {
 
 $("#start-battle").onclick=start; $("#turn-left").onclick=()=>adjustTurn(1); $("#turn-right").onclick=()=>adjustTurn(-1); $("#forward-up").onclick=()=>adjustForward(1); $("#forward-down").onclick=()=>adjustForward(-1);
 $("#reserve").oninput=(e)=>{const ship=selectedShip();if(ship){ensureOrder(ship).reserve=Number(e.target.value);updateOrderPanel();draw();}}; $("#target-auto").onclick=()=>{const ship=selectedShip();if(ship){ensureOrder(ship).target="auto";updateOrderPanel();draw();}};
-$("#end-turn").onclick=endTurn; $("#save-record").onclick=saveRecord; $("#open-viewer").onclick=openViewer; $("#fit-map").onclick=()=>{state.camera={zoom:1,x:0,y:0};draw();}; $("#frame-fleets").onclick=$("#fit-map").onclick;
+$("#end-turn").onclick=endTurn; $("#save-record").onclick=saveRecord; $("#open-viewer").onclick=openViewer; $("#fit-map").onclick=()=>{state.camera={zoom:1,x:0,y:0};draw();}; $("#frame-fleets").onclick=()=>{frameFleets();draw();};
 let drag=null, dragged=false;
 canvas.onpointerdown=(event)=>{drag={x:event.clientX,y:event.clientY,cx:state.camera.x,cy:state.camera.y};dragged=false;canvas.setPointerCapture?.(event.pointerId);};
 canvas.onpointermove=(event)=>{if(!drag)return;const dx=event.clientX-drag.x,dy=event.clientY-drag.y;if(Math.hypot(dx,dy)>5)dragged=true;if(dragged){state.camera.x=drag.cx+dx;state.camera.y=drag.cy+dy;draw();}};
 canvas.onpointerup=()=>{drag=null;};
 canvas.onclick=(event)=>{if(dragged){dragged=false;return;}if(!state.view||state.phase!=="planning")return;const hex=eventHex(event), ships=state.view.ships.filter(s=>key(s.pos)===key(hex)&&!s.destroyed);if(ships.length){selectShip(ships[0].id);return;}const ship=selectedShip();if(!ship||ship.side!==state.humanSide)return;const route=plannedRoute(ship), start=route.filter(p=>p.round<=state.round).at(-1)||route[0], entry=ensureOrder(ship).plan[state.round], facing=norm(start.facing+entry.turn), d=DIRS[facing];let cursor={q:start.q,r:start.r};for(let n=1;n<80;n++){cursor={q:cursor.q+d.q,r:cursor.r+d.r};if(key(cursor)===key(hex)){entry.forward=n;renderFleet();updateOrderPanel();draw();break;}}};
-canvas.onwheel=(event)=>{event.preventDefault();state.camera.zoom=Math.max(.65,Math.min(3,state.camera.zoom*(event.deltaY<0?1.12:.89)));draw();};
+canvas.onwheel=(event)=>{event.preventDefault();state.camera.zoom=Math.max(.65,Math.min(6,state.camera.zoom*(event.deltaY<0?1.12:.89)));draw();};
 window.addEventListener("keydown",(event)=>{if(["INPUT","SELECT"].includes(document.activeElement?.tagName))return;const k=event.key.toLowerCase();if(k==="q")adjustTurn(1);else if(k==="e")adjustTurn(-1);else if(k==="w")adjustForward(1);else if(k==="s")adjustForward(-1);else if(k==="tab"){event.preventDefault();const ids=state.view?.ships.filter(s=>s.side===state.humanSide&&!s.destroyed).map(s=>s.id)||[];if(ids.length)selectShip(ids[(Math.max(-1,ids.indexOf(state.selected))+1)%ids.length]);}else if(event.key==="Enter")endTurn();});
 window.addEventListener("resize",draw); window.__play={state,createBattle,battleView,shipPlan,stepTurn,plannedRoute,movementCost,selectShip,endTurn};
 init();loadIcons();draw();

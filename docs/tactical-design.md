@@ -1739,3 +1739,24 @@ withdraw fighting open the range by up to 2 hexes — an interaction that
 should be a ruling; (2) the helm shifted the shape matrix (the 16 FF + 5 DD
 list gained ~10pp overall), so the refined ladder wants a re-check on this
 helm; (3) orbit-while-holding on or off at small sizes.
+
+**Engine API landed and the mock retired (2026-09-03):** `createBattle` /
+`createBattleFromFleets` / `stepTurn` / `battleView` / `shipPlan` /
+`battleResult` in the resolver; `runBattle` is now create + a stepTurn loop
+and reproduces the trial harness byte-for-byte. Human orders: a round with
+movement in the plan is spent moving (turn then forward, every clamp
+logged); a planned hold fires if a mount bears, at the ordered target where
+that mount bears; the reserve order overrides doctrine. Parity with the AI's
+move-or-fire round is deliberate — whether a round may hold both is a ruling
+for Chris. `arena/play-engine.js` now adapts the real engine; the page did
+not change.
+
+**Fable's polish pass (real engine):** the "Frame fleets" button had been
+wired to the same handler as "Fit map" and never framed anything — the map
+opened on the whole 72×40 board with six-pixel ships. A real framing routine
+now fits the living fleets with a margin, runs on Take command and after
+every playback, and the wheel zoom cap rises to match. The power bar reads
+cleanly (movement / guns / reserve of the pool); the phase pill flips
+Planning → Playback → Planning; the narrative log narrates the ordered move.
+Left for the next pass: waypoint labels on the planned path, and the
+move-and-fire ruling above.
