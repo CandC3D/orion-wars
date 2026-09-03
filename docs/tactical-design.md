@@ -1572,3 +1572,91 @@ warhead, arrivals with outcome, strikes, cannon phases, detonations and
 deaths — with Movement / Fire / Damage / Specials filters and a raw-lines
 toggle. Verified in the pane with the 62-point Earth–Krelath replay; no
 console errors. Follow-up: effect widths and labels scaled with the camera.
+
+
+### 28a. The refined ladder — results (search landed 2026-09-03; applied)
+
+**Ladder (frigate = 2 is the unit of account):** corvette 1 · frigate 2 ·
+destroyer 4 · strike cruiser 8 · light cruiser 10 · heavy cruiser 16 ·
+dreadnought 16 · carrier 16 · monitor 20 · battleship 32; the three big
+specials limit one, fielded from a 52-point fleet (the reference line's
+cost). Every harness swap is equal-points.
+
+**Freedom index** (mean / max |field − 50| over 13 shapes, Earth mirror,
+160 battles a pairing): 15.5 / 48 at 52 points as shipped, 13.6 / 20.7 once
+oversized fleets deploy in ranks; the 32-point ladder measured 20.3 / 39.
+Specials at their prices are neutral to mildly positive buys (mirror
+50–53% at fleet sizes; the monitor a little rich at +9 at 52).
+
+**Two bugs the search found — both fixed with the ladder:**
+1. *Points were also rules.* Six dials read `hull.points` (the class-
+   interaction "heavy" thresholds, the cannon's capital and battle-line
+   thresholds, interceptor and bomber target points, plus timeout scoring
+   and deployment order). Chris's 32-point ladder had silently promoted
+   light and strike cruisers to "heavy" and let bombers hunt destroyers —
+   part of §27's measurement was a rules change in disguise. The dials are
+   now pinned to hull classes (heavy = CA 16; capital 16; battle line 32;
+   interceptors ≤ 4; bombers ≥ 8) and must be re-pinned on any re-pricing.
+2. *Fleets over ~21 hulls did not fit the map.* One deployment rank at
+   2-hex spacing put 30 frigates at rows ±30 on a ±20 map, some behind the
+   enemy start line — most of "swarms lose everything" was that. Deployment
+   now wraps into ranks of 20 (bit-identical for smaller fleets; the
+   52-point matrix reproduced exactly).
+Also corrected: the carrier's standoff (16) exceeded its own strike radius
+(12), so the wing could not reach from the deck's chosen range; standoff is
+now 11. Untuned.
+
+**What the ladder does not fix (the referee, plainly):** no ladder gets the
+worst pairing under 90/10 — at exactly equal points **combined arms beats
+monocultures structurally**, because capitals carry no screen or point
+defence and light hulls do (3 CA + 2 FF lose 9/91 to the reference line).
+Raising a capital's price only makes the mixed list buy fewer capitals and
+keep its escort. If a capital line is to be a viable shape, the lever is a
+rule — intrinsic screening or point defence on capitals, or a cap on how
+much screening a fleet may stack — not a price. Faction sweep under the
+ladder is out of band at fleet sizes (stats frozen): that is the tuning
+pass's job.
+
+**Per-hull rationale (the referee's prose, for Chris to read as design):**
+
+THE LADDER IN ONE LINE, on the frigate: corvette ½, frigate 1, destroyer 2, strike cruiser 4, light cruiser 5, heavy cruiser 8, dreadnought 8, carrier 8, monitor 10, battleship 16. Every rung is a doubling or a simple sum, and every price except the Zandrax corvette is EVEN — which is not decoration. The frigate at 2 is the smallest hull three of the four powers own, so an odd price anywhere makes some equal-points trade impossible. That single constraint decided three of the arguments below.
+
+  2 corvettes = a frigate.  2 frigates = a destroyer.  2 destroyers = a strike cruiser.
+  A strike cruiser and a frigate = a light cruiser.  8 frigates = a heavy cruiser.
+  2 light cruisers = a monitor.  A dreadnought = a carrier = a heavy cruiser.  2 heavy cruisers = a battleship.
+
+WHY THE LADDER IS SHAPED LIKE THIS, and it is not what the paper stats suggest. Per point, a frigate buys twice the guns and twice the hull of a battleship. The price ladder is close to the inverse of that, and the reason is the SHIELD THRESHOLD. Absorption is capped per facing per round, and a beam lands 7 damage (Earth's laser at max power inside 6 hexes) to 9 (Vraygon's heavy blaster inside 5). Against a corvette, frigate or destroyer — caps 3, 4, 4 — every single shot in the game puts 3 to 5 through. Against a light cruiser at cap 9, one shot puts through nothing; it takes two hits on the same facing in the same round. Against a heavy cruiser at 13 and a battleship at 18 it takes two heavy hits or three light ones. You are not buying guns or hull. You are buying the number of enemy ships that must bear on one facing at once before anything happens at all.
+
+CORVETTE 1 — two to a frigate. Not half a frigate: it is a frigate's worth of gun in two bodies you will lose, on 6 superstructure and cap 3, and its weaponReach of 0.70 drags the whole fleet's standoff down because the corvette is nearly always the nearest enemy. Measured at ½ point the Zandrax screen re-bought as corvettes wins its own mirror 61-73% and is a +6 to +28pp buy; at 1 point, 36-53% and −13 to +1pp; at 1½, 11-46% and −8 to −32pp. One point, and Chris's shipped price stands.
+
+FRIGATE 2 — the unit of account. One all-round beam, 8 superstructure, cap 4. Everything else is priced against it and it does not move.
+
+DESTROYER 4 — two frigates, and knowingly the one dear hull on the ladder. Its measured value is about 3½ and I can bracket it very sharply: at 3 points a pure destroyer flotilla wins 86% of the field at 52 points, 97% at 80 and 99% at 104; at 4 it wins 21-32%. The reason it is worth so little more than a frigate is that it does NOT buy the shield threshold — cap 4, the same as the frigate — and it trades the frigate's all-round beams for forward and starboard-aft. What it buys is a torpedo tube, six superstructure and a point of screen. A price of 3½ is unpayable on a ladder whose smallest common hull is 2, so 4 is delivered as the lesser of two errors and the destroyer stack is the shape most out of band (20-32%). If Chris will accept a doubled scale, corvette 2 / frigate 4 / destroyer 7 / strike cruiser 16 / light cruiser 20 / heavy cruiser 32 / dreadnought 32 / carrier 32 / monitor 40 / battleship 64 prices the destroyer at its measured value with every trade still exact — at the cost of doubling every point value in the game.
+
+STRIKE CRUISER 8 — four frigates, two destroyers, or a light cruiser less a frigate. Three tubes and two beams on a 22-point hull with screen 0: a light capital the fleet screens, not a picket. Unchanged from the shipped price, and see the buy-delta note for the one place my two instruments disagree.
+
+LIGHT CRUISER 10 — five frigates. This is the hull the whole ladder turns on: cap 9 is the cheapest place in the game where a single shot from any gun bounces. That threshold, not the third beam, is what the fifth frigate buys. Priced at 12 it was over; at 9 the cruiser pack runs away with the small budgets; 10 is where both ends sit.
+
+HEAVY CRUISER 16 — eight frigates, two strike cruisers, four destroyers. Cap 13, five beams, three tubes — and screen 0 and point defence 0, which is the whole story of the top of the ladder. It needs a fleet around it. Escorted it is worth 16; massed it is worth about 10, and at exactly equal points three heavy cruisers lose to two heavy cruisers with a screen 14/86.
+
+BATTLESHIP 32 — two heavy cruisers. Cap 18, eight beams, five tubes, the same screen 0 and PD 0. The same story, doubled. Raised from 28 rather than lowered, because at the reference size a battleship with a screen around it is the strongest thing on the board (1BB+2DD+6FF reads 68.6% against seven other 52-point shapes).
+
+DREADNOUGHT 16, limit 1 — exactly a heavy cruiser, and that identity is the design. The Yamato is not a bigger battleship: it is a heavy cruiser that gives up two lasers and two tubes and buys the photonic cannon, eleven superstructure, two points of shield cap and four points of screen. At 32 it was a −30 to −56pp purchase and the power that fielded one collapsed; at 16 its owner's mirror reads 53/50/45 across the three fleet-action sizes.
+
+CARRIER 16, limit 1 — the same rung. A heavy cruiser's worth of flight deck, and the price is stable across five different standoff settings. It is the strongest matchup piece in the game and the one hull whose price is conditional on a doctrine ruling.
+
+MONITOR 20, limit 1 — two light cruisers, or a heavy cruiser and two frigates. 110 superstructure, guns on every bearing, and by a wide margin the slowest hull in the game. It is the anti-swarm piece and it is what makes Vraygon competitive at 68 points at all.
+
+COMMAND SHIP 16 — retired, parked on the dreadnought's rung purely so an old replay does not load a hull whose class weight is an outlier.
+
+**Independent measurement after applying (150 battles/pairing at 52; 50 per
+pairing per size).** Shape matrix at 52 a side, row beats column: the
+monocultures are the weak shapes (3 CA + 2 FF beat by the reference line
+92/8 and by 1 BB + 2 DD + 6 FF 98/2; 13 DD lose to 3 CA 92/8) while the
+combined-arms lists sit near the top, and there are real cycles — 5 CL + 1 FF
+beat 1 BB + 2 CL 84/16 and lose to 16 FF + 5 DD 22/78; 13 DD lose to the
+light mix 20/80 and beat it 40/60 against the battleship line. Choice, with
+combined arms as the skill. Faction sweep (stats frozen): 4: 58/49/43/47 ·
+18: 53/51/59/37 · 32: 45/43/44/67 · 52: 47/68/57/27 · 68: 45/45/52/58 ·
+132: 74/37/32/57 — out of band at 52 and 132; that is the consolidated
+tuning pass's brief, now on an honest ladder and a map that holds a swarm.
