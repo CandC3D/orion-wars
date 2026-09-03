@@ -608,7 +608,7 @@ function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
     resolveHit(ship.pos, target, (w.damage ?? 0) + (band.damageBonus ?? 0),
       enemies, tuning, rng, stats, log, w.spreadPer ?? 0, !!w.bypassShield);
   }
-  if (onShot) onShot({ kind: "spinal", weapon: st.type, shooterId: ship.id, targetId: target.id, hit });
+  if (onShot) onShot({ kind: "spinal", weapon: st.type, shooterId: ship.id, targetId: target.id, hit, range, damage: hit ? w.damage : 0 });
 
   st.charge = 0;
   st.shots++;
@@ -928,7 +928,8 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
     );
     if (!candidates.length) continue;
     const target = candidates.sort((a, b) => distance(ship.pos, a.pos) - distance(ship.pos, b.pos))[0];
-    const band = bandFor(mount, distance(ship.pos, target.pos));
+    const range = distance(ship.pos, target.pos);
+    const band = bandFor(mount, range);
     if (!band) continue;
 
     if (weapon.kind === "beam") {
@@ -946,7 +947,7 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
         // FASA pattern: beam damage is the power put into it plus a range bonus.
         resolveHit(ship.pos, target, power + (band.damageBonus ?? 0), enemies, tuning, rng, stats, log);
       }
-      if (onShot) onShot({ kind: "beam", weapon: mount.type, shooterId: ship.id, targetId: target.id, hit });
+      if (onShot) onShot({ kind: "beam", weapon: mount.type, shooterId: ship.id, targetId: target.id, hit, range, damage: hit ? power + (band.damageBonus ?? 0) : 0 });
     } else {
       if (ship.magazine <= 0 || budget < weapon.powerToArm) continue;
       budget -= weapon.powerToArm; ship.power -= weapon.powerToArm;
@@ -955,13 +956,13 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
       fired++;
       stats.launches++;
       inFlight.push({
-        shooterPos: { ...ship.pos }, side: ship.side, targetId: target.id,
+        shooterPos: { ...ship.pos }, shooterId: ship.id, side: ship.side, targetId: target.id,
         weapon: mount.type,
         shooterPoints: ship.points,
         damage: Math.max(0, weapon.damage + (band.damageMod ?? 0)),
         spread: weapon.spreadPer ?? 0
       });
-      if (onShot) onShot({ kind: "launch", weapon: mount.type, shooterId: ship.id, targetId: target.id });
+      if (onShot) onShot({ kind: "launch", weapon: mount.type, shooterId: ship.id, targetId: target.id, range, damage: Math.max(0, weapon.damage + (band.damageMod ?? 0)) });
     }
   }
   return fired;
@@ -1253,7 +1254,7 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
       const st = m.side === "A" ? stats.A : stats.B;
       const target = foeSide.find((s) => s.id === m.targetId);
       if (!target || target.destroyed) {
-        if (onShot) onShot({ kind: "missile", weapon: m.weapon, targetId: m.targetId, outcome: "dead-target", damage: 0 });
+        if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "dead-target", damage: 0 });
         continue;
       }
       // Class interaction, missile half: a capital-grade missile cannot track a
@@ -1263,15 +1264,15 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
           (m.shooterPoints ?? 0) >= MC.heavyThresholdPoints &&
           target.points < MC.heavyThresholdPoints &&
           rng.next() < MC.heavyVsLightEvadeChance) {
-        if (onShot) onShot({ kind: "missile", weapon: m.weapon, targetId: m.targetId, outcome: "evaded", damage: 0 });
+        if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "evaded", damage: 0 });
         continue;
       }
       if (intercepted(target, foeSide, tuning, rng)) {
-        if (onShot) onShot({ kind: "missile", weapon: m.weapon, targetId: m.targetId, outcome: "intercepted", damage: 0 });
+        if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "intercepted", damage: 0 });
         continue;
       }
       resolveHit(m.shooterPos, target, m.damage, foeSide, tuning, rng, st, log, m.spread);
-      if (onShot) onShot({ kind: "missile", weapon: m.weapon, targetId: m.targetId, outcome: "hit", damage: m.damage });
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "hit", damage: m.damage });
     }
 
     for (const s of [...living(A), ...living(B)]) startTurn(s, tuning);
