@@ -1558,3 +1558,17 @@ triangles") — a coverage assertion proves every roster class has an icon.
 Verified in the pane with Chris's first scenario plus every tile type; no
 console errors. Committed. Sol now has the beam-connect, missile-target and
 narrative-log brief.
+
+### 26g. Viewer: connected beams, missile targets, narrative log (Sol, 2026-09-02)
+
+Shot effects are now drawn between the shooter's and target's recorded
+positions for the round the shot occurred, shown while that round plays
+(movement and firing phases separated), so beams connect; missiles fly a
+dashed line from shooter to target with a persistent reticle and an arrival
+label; the round log is a narrative built from the shot events (range,
+damage, shooter) and the per-round positions — moves with from/to and
+compass facing, holds, warps, fire with hit/miss and damage, launches with
+warhead, arrivals with outcome, strikes, cannon phases, detonations and
+deaths — with Movement / Fire / Damage / Specials filters and a raw-lines
+toggle. Verified in the pane with the 62-point Earth–Krelath replay; no
+console errors. Follow-up: effect widths and labels scaled with the camera.
