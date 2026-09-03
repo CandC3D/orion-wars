@@ -19,8 +19,8 @@ const args = process.argv.slice(2);
 const numArg = (f, d) => { const i = args.indexOf(f); return i >= 0 ? Number(args[i + 1]) : d; };
 const N = numArg("--battles", 150);
 const CANDS = readJson(args[0]);
-const BUY_SIZES = [24, 32, 64];
-const ALL_SIZES = [2, 8, 16, 24, 32, 64];
+const ALL_SIZES = Object.keys(SCALES).map(Number).sort((a, b) => a - b);
+const BUY_SIZES = ALL_SIZES.filter((size) => size >= 52);
 
 function setPath(obj, path, value) {
   const parts = path.split(".");
@@ -43,7 +43,7 @@ function run(T, fa, fb, comp, size, plain) {
 }
 
 console.log(`scan — ${N} battles per cell`);
-console.log("label".padEnd(34) + "  buy24   buy32   buy64  |  worst-miss   KRE 24/32/64   band");
+console.log("label".padEnd(34) + BUY_SIZES.map((s) => `buy${s}`.padStart(8)).join("") + "  |  worst-miss   KRE " + BUY_SIZES.join("/") + "   band");
 console.log("-".repeat(112));
 for (const c of CANDS) {
   const T = JSON.parse(BASE);

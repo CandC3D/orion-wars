@@ -14,7 +14,7 @@ contract between the game editor, the recorder and the engine.
   ],
   "sides": [
     { "faction": "EAR", "ships": [
-      { "className": "dreadnought",   "q": -14, "r": 0, "facing": 0 },
+      { "className": "gunstar-battlecruiser",   "q": -14, "r": 0, "facing": 0 },
       { "className": "light-cruiser", "q": -14, "r": 2, "facing": 0 },
       { "className": "frigate" }
     ]},

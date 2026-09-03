@@ -6,6 +6,6 @@
   "scripts": {
     "war": "node test/harness.js",
     "test": "node test/harness.js --quiet",
-    "arena": "python -m http.server 8642"
+    "arena": "node scripts/serve.js"
   }
 }

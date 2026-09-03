@@ -4,7 +4,7 @@
 //   node test/fleet-trial.js                 matrix + shapes + scale sweep
 //   node test/fleet-trial.js --battles 300
 //   node test/fleet-trial.js --watch EAR KRE one battle, narrated
-//   node test/fleet-trial.js --scale 64      matrix at one budget only
+//   node test/fleet-trial.js --scale 68      matrix at one budget only
 
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -96,7 +96,7 @@ if (args.includes("--watch")) {
   const A = buildFleet(fa, STANDARD, TUNING, LOADOUTS, rng, fa);
   const B = buildFleet(fb, STANDARD, TUNING, LOADOUTS, rng, fb);
   deployFleets(A, B, TUNING);
-  console.log(`${NAMES[fa]} vs ${NAMES[fb]} — 24 points each\n`);
+  console.log(`${NAMES[fa]} vs ${NAMES[fb]} — 52 points each\n`);
   const r = runBattle([A, B], TUNING, rng, { log: (m) => console.log("  " + m) });
   console.log(`\nvictor: ${r.victor === "A" ? NAMES[fa] : r.victor === "B" ? NAMES[fb] : "draw"} after ${r.turns} turns`);
   for (const [side, f, fl, st] of [["A", fa, A, r.stats.A], ["B", fb, B, r.stats.B]]) {

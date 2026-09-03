@@ -32,7 +32,11 @@ const replayFiles = [
   join(root, "arena", "replay.json"),
   join(root, "arena", "replays", "ear-kre-24.json"),
   join(root, "arena", "replays", "vra-zan-32.json"),
-  join(root, "arena", "replays", "ear-kre-32.json")
+  join(root, "arena", "replays", "ear-kre-32.json"),
+  // A 132-point EAR-KRE battle recorded to exercise every effect path at
+  // once (warps, cannon hold/hit/miss/vent, launches) so re-recording the
+  // showcase replays on new rules does not break the coverage assertions.
+  join(root, "arena", "replays", "coverage.json")
 ];
 const shotEffectKeys = ["laser", "blaster", "neutronic", "plasma", "intercept", "evade", "shieldFlash"];
 
@@ -293,7 +297,7 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
     assert(snapped.q === hex.q && snapped.r === hex.r, `hex snapping missed ${hex.q},${hex.r}`);
   }
   assert(inMap(36, 0, sampleScenario.map) && !inMap(37, 0, sampleScenario.map), "editor map bounds disagree with the contract");
-  // Re-priced point ladder (docs/tactical-design.md #27): dreadnought 32 +
+  // Re-priced point ladder (docs/tactical-design.md #27): gunstar-battlecruiser 32 +
   // light-cruiser 12 + destroyer 5 = 49; carrier 32 + strike-cruiser 8 +
   // heavy-cruiser 20 = 60.
   // Structural: the total must equal the sum of the ladder prices for the ships fielded,
@@ -356,17 +360,17 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   assert(cannotFieldErrors.includes("cannot be fielded"), "validation let KRE field the retired command-ship");
 
   // hullClasses.<class>.limit caps how many of that class one fleet may field
-  // (currently the big specials -- dreadnought, carrier, monitor -- at 1
+  // (currently the big specials -- gunstar-battlecruiser, carrier, monitor -- at 1
   // apiece, docs/tactical-design.md #27). The sample scenario already fields
-  // exactly one dreadnought (side A) and one carrier (side B), at their
+  // exactly one gunstar-battlecruiser (side A) and one carrier (side B), at their
   // limits, which is why it validates cleanly above; push a second
-  // dreadnought onto side A to exercise the cap.
-  assert(tuning.hullClasses.dreadnought?.limit === 1 && tuning.hullClasses.carrier?.limit === 1,
-    "dreadnought/carrier no longer carry a fleet limit of 1 in tactical-tuning.json");
+  // gunstar-battlecruiser onto side A to exercise the cap.
+  assert(tuning.hullClasses["gunstar-battlecruiser"]?.limit === 1 && tuning.hullClasses.carrier?.limit === 1,
+    "gunstar-battlecruiser/carrier no longer carry a fleet limit of 1 in tactical-tuning.json");
   const overLimit = JSON.parse(JSON.stringify(sampleScenario));
-  overLimit.sides[0].ships.push({ className: "dreadnought" });
+  overLimit.sides[0].ships.push({ className: "gunstar-battlecruiser" });
   const overLimitErrors = validateScenario(overLimit, tuning, loadouts).join(" | ");
-  assert(overLimitErrors.includes("Side 1 fields 2 dreadnought(s); the limit is 1."),
+  assert(overLimitErrors.includes("Side 1 fields 2 gunstar-battlecruiser(s); the limit is 1."),
     "validation did not enforce the per-class fleet limit");
   // A class with no `limit` in tuning is uncapped, same as before.
   const manyFrigates = JSON.parse(JSON.stringify(sampleScenario));
@@ -377,13 +381,13 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   // arena/editor.js disables a class's add button for a side once its limit
   // is reached, reading the same compositionFor() + hullClasses.<class>.limit
   // pairing checked here -- this is that logic exercised without a DOM.
-  const dnLimit = tuning.hullClasses.dreadnought.limit;
+  const dnLimit = tuning.hullClasses["gunstar-battlecruiser"].limit;
   const sideAComposition = compositionFor(sampleScenario.sides[0]);
-  assert((sideAComposition.dreadnought || 0) >= dnLimit,
-    "side A should already be at its dreadnought limit (button should disable)");
+  assert((sideAComposition["gunstar-battlecruiser"] || 0) >= dnLimit,
+    "side A should already be at its gunstar-battlecruiser limit (button should disable)");
   const sideBComposition = compositionFor(sampleScenario.sides[1]);
-  assert((sideBComposition.dreadnought || 0) < dnLimit,
-    "side B fields no dreadnought and should be under the limit (button should stay enabled)");
+  assert((sideBComposition["gunstar-battlecruiser"] || 0) < dnLimit,
+    "side B fields no gunstar-battlecruiser and should be under the limit (button should stay enabled)");
 
   const sharedReplay = recordScenario(sampleScenario, tuning, loadouts);
   const scratch = mkdtempSync(join(tmpdir(), "orion-arena-smoke-"));
@@ -423,7 +427,7 @@ for (const { file, replay } of replays) {
 
 // The recorder now imports the live roster, so the current sixth hulls appear.
 const rosterClasses = new Set(replays.flatMap(({ replay }) => replay.rounds[0].ships.map((s) => s.className)));
-for (const className of ["dreadnought", "carrier"]) {
+for (const className of ["gunstar-battlecruiser", "carrier"]) {
   assert(rosterClasses.has(className), `no bundled replay fields a ${className}`);
 }
 
@@ -599,7 +603,7 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
   const spriteRun = await runReplay(drawTallies[1].run ? replays[1].replay : replays[1].replay, { mode: "sprites" });
   assert(spriteRun.arena.state.render === "sprites", "the sprites toggle did not switch modes");
   assert(spriteRun.arena.state.rendered.sprite > 0, "sprite mode drew no sprites");
-  // The sprite sheet predates the dreadnought and the carrier, which is why
+  // The sprite sheet predates the gunstar-battlecruiser and the carrier, which is why
   // icons are now the default; there is no chevron any more (every roster
   // class has an icon), so those two hulls fall back to their icon instead.
   assert(spriteRun.arena.state.rendered.icon > 0, "sprite mode did not fall back to icons for hulls the sprite sheet predates");
@@ -647,9 +651,9 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
     "the charge ratio does not grow with the logged charge level");
   const fires = effects.fires.flat();
   // Structural, not pinned to one recording: every fire event is the
-  // dreadnought's, carries a target and a hit flag, and the bundled set
+  // gunstar-battlecruiser's, carries a target and a hit flag, and the bundled set
   // exercises both the miss and the hit render paths (asserted above).
-  assert(fires.length >= 1 && fires.every((f) => f.shooterId.includes("dreadnought") && f.targetId && typeof f.hit === "boolean"),
+  assert(fires.length >= 1 && fires.every((f) => f.shooterId.includes("gunstar-battlecruiser") && f.targetId && typeof f.hit === "boolean"),
     `unexpected photonic-cannon fire events: ${JSON.stringify(fires)}`);
   const strikes = effects.strikes.flat();
   assert(strikes.length > 0 && strikes.every((s) => s.carrierId && (s.type === "bomber" || s.type === "interceptor")),
@@ -710,7 +714,7 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
     ],
     sides: [
       { faction: "EAR", ships: [
-        { className: "dreadnought", q: -15, r: 0, facing: 0 },
+        { className: "gunstar-battlecruiser", q: -15, r: 0, facing: 0 },
         { className: "light-cruiser", q: -14, r: 3, facing: 0 },
         { className: "frigate", q: 5, r: -3, facing: 0 } // parked inside the asteroid field on purpose
       ] },

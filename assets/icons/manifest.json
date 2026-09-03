@@ -65,11 +65,11 @@
       "glyph": "star",
       "abbr": "CC"
     },
-    "dreadnought": {
+    "gunstar-battlecruiser": {
       "size": 0.9,
       "bars": 4,
       "glyph": "spinal",
-      "abbr": "DN"
+      "abbr": "GB"
     },
     "carrier": {
       "size": 0.9,
@@ -140,10 +140,10 @@
       "size": 0.82,
       "abbr": "CC"
     },
-    "EAR/dreadnought": {
-      "file": "ear_dreadnought.svg",
+    "EAR/gunstar-battlecruiser": {
+      "file": "ear_gunstar_battlecruiser.svg",
       "size": 0.9,
-      "abbr": "DN"
+      "abbr": "GB"
     },
     "EAR/carrier": {
       "file": "ear_carrier.svg",
@@ -205,10 +205,10 @@
       "size": 0.82,
       "abbr": "CC"
     },
-    "VRA/dreadnought": {
-      "file": "vra_dreadnought.svg",
+    "VRA/gunstar-battlecruiser": {
+      "file": "vra_gunstar_battlecruiser.svg",
       "size": 0.9,
-      "abbr": "DN"
+      "abbr": "GB"
     },
     "VRA/carrier": {
       "file": "vra_carrier.svg",
@@ -270,10 +270,10 @@
       "size": 0.82,
       "abbr": "CC"
     },
-    "ZAN/dreadnought": {
-      "file": "zan_dreadnought.svg",
+    "ZAN/gunstar-battlecruiser": {
+      "file": "zan_gunstar_battlecruiser.svg",
       "size": 0.9,
-      "abbr": "DN"
+      "abbr": "GB"
     },
     "ZAN/carrier": {
       "file": "zan_carrier.svg",
@@ -335,10 +335,10 @@
       "size": 0.82,
       "abbr": "CC"
     },
-    "KRE/dreadnought": {
-      "file": "kre_dreadnought.svg",
+    "KRE/gunstar-battlecruiser": {
+      "file": "kre_gunstar_battlecruiser.svg",
       "size": 0.9,
-      "abbr": "DN"
+      "abbr": "GB"
     },
     "KRE/carrier": {
       "file": "kre_carrier.svg",

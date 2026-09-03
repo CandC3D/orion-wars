@@ -27,7 +27,7 @@
       "faction": "EAR",
       "ships": [
         {
-          "className": "dreadnought",
+          "className": "gunstar-battlecruiser",
           "q": -15,
           "r": 0,
           "facing": 0

@@ -2,40 +2,43 @@
 
 ## State of play (read this first; sections below are the chronological log)
 
-*Updated 2026-08-29.*
+*Updated 2026-09-03.*
 
 **The system as it stands.** FASA-style power model: one pool per ship per
-turn; movement, beams, and missile arming all spend from it; shields absorb
-damage out of the residue, capped per facing per round. Six side-facing
-shields. Firing arcs limit which mounts bear; ships steer toward the heading
-that brings the most fire to bear. Weapon reach scales with hull class. One
-damage-location roll per penetrating hit, on a table chosen by the facing
-struck — rear hits take engineering and bite the current turn's pool. Turns
-are three rounds; initiative is bid from movement commitment; each weapon
-fires once per turn. Fleets hold formation and deploy as a line of battle,
-heaviest hulls centre. Ships detonate on death in proportion to remaining
-engine power. The engagement area is bounded.
+turn; movement, beams, missile arming and special systems spend from it;
+shields absorb damage out of the residue, capped per facing per round. Ships
+move forward along their facing, turn at a class rate, and fire only mounts
+whose arcs bear. Turns are three rounds and each weapon fires at most once per
+turn. Fleets deploy in one or more line-of-battle ranks. Ships can share a hex
+but cannot fire at one another there. Destroyed ships may detonate. The live
+engagement area is a bounded 72×40 rectangle; `mapRadiusHexes` remains only as
+a compatibility fallback for old replays. Scenarios may add planets, moons,
+large asteroids, asteroid fields and nebulae. The editor, replay viewer and
+one-side-vs-AI playfield all use the same headless engine.
 
-**Hulls.** Corvette 0.5 (ZAN only) / FF 1 / DD 2 / CL 4 / CA 8 / BB 16, plus
-unique sixth hulls: EAR Command Ship 8 (to-hit and sensor aura), VRA Monitor
-16 (siege hull), KRE Strike Cruiser 4 (fast missile boat). Assault rides on
-CA/BB; screening and point defence on the light hulls.
+**Hulls and points.** Corvette 1 (ZAN only) / FF 2 / DD 4 / Krelath Strike
+Cruiser 8 / CL 10 / CA 16 / BB 32, with special hulls EAR Dreadnought 16,
+VRA Monitor 20 and Krelath Carrier 16. Dreadnought, Monitor and Carrier are
+limited to one and require a 52-point fleet; the Strike Cruiser requires 32.
+The Earth Command Ship is retired from the roster and remains in
+`hullClasses` only so old replays load. `data/tactical-tuning.json` `rosters`
+and `hullClasses.*.points` are authoritative.
 
-**Factions.** EAR: best shields, long accurate lasers, command aura, nose-heavy
-arcs with a soft tail. VRA: worst shields on much the thickest hulls, heavy
-blasters, tubes and beams on every bearing, ponderous, easy to detect. ZAN:
-poor shields, tough, fastest, mixed weapons, emergency manoeuvre, corvette
-swarms. KRE: efficient everything, short brutal guns, plasma, and the
-short-range warp jump (once per turn, 30% of pool, up to 10 hexes, prefers
-the target's rear arc). **No cloak exists in the game**; the cloak/detection
-rules are written but dormant.
+**Factions.** EAR: best shields, long accurate lasers, nose-heavy arcs and the
+Yamato's photonic cannon. VRA: thickest hulls, weakest shield efficiency,
+heavy blasters and fire on every bearing; their Monitor is a slow siege hull.
+ZAN: poor shields, tough and fast hulls, mixed weapons, emergency manoeuvre
+and corvette swarms. KRE: short brutal guns, plasma, the rear-insertion warp
+jump, fast Strike Cruiser and standoff Carrier with persistent strike craft.
+**No cloak currently exists in play**; cloak/detection scaffolding is dormant.
 
-**Balance method.** All claims from the fleet trial harness
-(`node test/fleet-trial.js`, sweeping 2–64 point scenarios), instrumented
-workflow agents, and adversarial verification — several intuitive fixes
-measured backwards. As of 2026-08-30 (§18) every faction is inside 35–65% at
-all six scenario sizes; sweep at `--battles 450` minimum before trusting any
-cell, ±7pp at the default.
+**Balance method.** `node test/fleet-trial.js` sweeps the six current harness
+budgets, 4 / 18 / 32 / 52 / 68 / 132, and a 52-point equal-shape matrix.
+`test/buy.js`, `test/probe.js`, `test/scan.js` and `test/xp.js` provide focused
+buy-value, strike-system and tuning diagnostics. Sections below are a dated
+decision log: old ladders and measurements remain historical evidence, not
+current rules. Re-run a sufficiently large seeded sweep before treating a
+balance cell as settled.
 
 ---
 
@@ -1803,3 +1806,15 @@ fights, but the labels contradict the picture — **a ruling for Chris**:
 rename faces 1/3 and 4/6 to match the picture, or flip the table (and the
 per-facing damage tables) so starboard is starboard. (3) Icons were rotated
 90° in the playfield — a nose-up sprite rotated by the facing alone; fixed.
+
+
+---
+
+## 32. Semantic ruling: the Gunstar Battlecruiser (2026-09-03)
+
+Chris: "with so few weapons, our dreadnought isn't really a dreadnought" —
+new designation **Gunstar Battlecruiser** (hull key `gunstar-battlecruiser`;
+the Yamato class keeps its class name; the model files keep theirs until
+the art session renames them). Everything live is renamed — data, rosters,
+harness swaps, scenarios, icons, tests, the playfield — and the engine's
+comments; earlier sections of this log keep "dreadnought" as history.

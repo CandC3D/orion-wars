@@ -47,7 +47,7 @@
       "magazine": 8,
       "_note": "A second tube, against the class envelope's one. This is the 8-point cell's lever and only the 8-point cell's: Earth field a light cruiser at 8 points and NOWHERE else in the sweep, because at 24, 32 and 64 both light cruisers are swapped for the command ship and at 16 there are none, so the change is worth +19pp at 8 and a flat zero at every other size. That is worth stating plainly rather than hiding - it is a single-cell fix. Two things justify it beyond the number. Earth at 8 points was 22% against Zandrax and 27% against Krelath: a laser cannon is the lowest-damage beam in the game and this cell is decided before the fleets are in laser band, so the tube is what Earth needs and the neutronic missile is Earth's weapon. And one tube was the outlier, not two - three of the four powers already override this class's tube count (Vraygon 3, Zandrax 2), so Earth at 2 is inside the family rather than outside it. Eight rounds rather than the envelope's five so the second tube has something to fire in a fourteen-turn action."
     },
-    "dreadnought": {
+    "gunstar-battlecruiser": {
       "beam": "laser-cannon",
       "missileMix": {
         "neutronic-missile": 1

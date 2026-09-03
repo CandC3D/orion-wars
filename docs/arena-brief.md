@@ -1,10 +1,18 @@
-# Battle Arena Brief — for Sol / Codex
+# Battle Arena Brief — archived implementation brief
+
+**Status (2026-09-03): implemented and superseded.** This document records the
+original watch-only viewer assignment. The live browser suite now also has a
+scenario editor and interactive playfield; `docs/playfield-contract.md`,
+`docs/scenario-format.md`, `arena/README.md` and the code take precedence.
+Current harness budgets are 4 / 18 / 32 / 52 / 68 / 132, the live map is a
+72×40 rectangle, roster ships use manifest icons (never chevrons), and only the
+replay viewer can operate without a server.
 
 Build a simple browser arena for **observing battles** from The Orion Wars'
 tactical combat engine. Watch-only for now; it will grow into the interactive
 tactical playfield later, so keep the bones clean.
 
-## Architecture rules (binding — the engine's design depends on these)
+## Original architecture rules (historical)
 
 1. **The engine stays headless.** Everything under `src/` runs with no DOM.
    The arena is a CLIENT that consumes recorded battle data. Do not import
@@ -28,12 +36,12 @@ tactical playfield later, so keep the bones clean.
 
 ## Part 1 — the recorder: `test/record-battle.js`
 
-CLI: `node test/record-battle.js --a EAR --b KRE --points 24 --seed mybattle --out arena/replay.json`
+CLI: `node test/record-battle.js --a EAR --b KRE --points 52 --seed mybattle --out arena/replay.json`
 
 - Factions: EAR, VRA, ZAN, KRE. Compositions by points: reuse the SCALES
-  table pattern from `test/fleet-trial.js` (2/8/16/24/32/64) including the
-  per-faction sixth-hull swap (`compFor`) — copy those two small functions
-  rather than importing from the trial script.
+  shared `SCALES` table from `test/comp.js` (4/18/32/52/68/132), including the
+  per-faction unique-hull swap (`compFor`) — import that shared authority; do
+  not copy it.
 - Build fleets with `buildFleet`, place with `deployFleets`, run with
   `runBattle`, seeding via `makePrng(seedFromString(seed))` exactly as the
   trial script does. Determinism matters: same args → identical replay.
@@ -44,7 +52,7 @@ CLI: `node test/record-battle.js --a EAR --b KRE --points 24 --seed mybattle --o
 - Also capture `opts.log` lines tagged with turn/round, and the final result
   object (victor, survivors, points, stats).
 - Replay JSON shape: `{ meta: {factions, comps, seed, tuning: {name-only
-  echo of key battle constants: startDistanceHexes, mapRadiusHexes,
+  echo of key battle constants: startDistanceHexes, map,
   roundsPerTurn}}, rounds: [{turn, round, ships: [...]}], log: [...],
   result: {...} }`.
 
@@ -53,9 +61,10 @@ CLI: `node test/record-battle.js --a EAR --b KRE --points 24 --seed mybattle --o
 A static page; opening it with a replay loaded shows the battle.
 
 - **Hex geometry:** axial coordinates, pointy-top, matching `src/tactical/hex.js`
-  (`x = sqrt(3) * (q + r/2)`, `y = -1.5 * r`). Draw a subtle hex grid out to
-  `mapRadiusHexes`.
-- **Ships:** a marker per ship — triangle or chevron pointing along `facing`
+  (`x = sqrt(3) * (q + r/2)`, `y = -1.5 * r`). Draw the subtle hex grid inside
+  the rectangular `map.widthHexes` × `map.heightHexes` bounds. A replay with
+  only `mapRadiusHexes` is a legacy compatibility case.
+- **Ships:** a manifest icon per roster ship, pointing along `facing`
   (facing 0 = east, counter-clockwise by 60°). Size scaled roughly by points
   (corvette smallest → monitor/battleship largest). Faction colors: EAR blue,
   VRA gold, ZAN red, KRE green. Destroyed ships: brief explosion flash, then
@@ -70,9 +79,9 @@ A static page; opening it with a replay loaded shows the battle.
   rounds for smoothness; snap on scrub.
 - **Side panel:** turn/round counter, per-side surviving points, the log lines
   for the current round, and the final verdict banner when the replay ends.
-- **File loading:** try `fetch('./replay.json')` first; if that fails (file://
-  CORS), fall back to a drag-and-drop / file-picker target. No server
-  required, but it should also work served statically.
+- **File loading:** try `fetch('./replay.json')` first; if that fails (`file://`
+  CORS), fall back to a drag-and-drop / file-picker target. No server is
+  required for this replay viewer alone; the editor and playfield require one.
 - Click a ship to pin a detail card (name, class, power, magazine, per-face
   shields, mount status).
 
@@ -82,7 +91,7 @@ A static page; opening it with a replay loaded shows the battle.
 - A couple of pre-generated replays checked into `arena/replays/` (EAR vs KRE
   at 24, VRA vs ZAN at 32) so the viewer works out of the box.
 
-## Acceptance
+## Original acceptance checks
 
 1. `node test/harness.js --quiet` still passes (engine untouched apart from
    the optional callback).
@@ -98,9 +107,9 @@ A static page; opening it with a replay loaded shows the battle.
   combat model (power pool, residual shields, arcs, warp jump).
 - Ship visual identity: EAR clean navy, VRA crystalline, ZAN brutalist,
   KRE arthropod — echo these in marker styling only if it stays cheap.
-- Future direction (do not build now): order input, ship selection for
-  commands, camera follow, 3D models. Keep module boundaries such that the
-  replay format could later carry richer events.
+- The former future direction — order input and ship selection — is now the
+  interactive playfield governed by `docs/playfield-contract.md`. Camera and
+  replay event work also continued after this brief.
 
 ---
 

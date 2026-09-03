@@ -9,11 +9,12 @@ entirely over the independents. Victory is worlds held when the war ends.
 
 Original setting and ships; no licensed material.
 
-## Status: Phase 1 — Engine core (complete, awaiting check-in)
+## Status: strategic prototype + tactical playtest
 
-Headless rules engine with a placeholder world graph, seeded PRNG, save/load,
-and a WEGO turn loop (movement + economy phases live; combat, assault, and
-unrest are stubs behind frozen interfaces for Phases 2 and 5).
+The repository contains a headless strategic prototype (placeholder world
+graph, seeded PRNG, save/load and a WEGO turn loop) and the current tactical
+game: a deterministic fleet-combat engine, scenario editor, replay viewer and
+interactive one-side-vs-AI playfield.
 
 ```bash
 node test/harness.js
@@ -32,11 +33,12 @@ save/load, and the deterrence rule (no foreign fleets in home spheres).
 | Zandrax Horde | Red | Speed and heavy beams on thin shields; conquers fastest, holds worst |
 | Krelath Empire | Green | Short-range warp jump and ambush volley; smallest economy |
 
-Each fields six hull classes: Frigate (1 pt), Destroyer (2), Light Cruiser
-(4), Heavy Cruiser (8), Battleship (16), plus one hull unique to the power —
-Earth Command Ship (8), Vraygon Monitor (16), Zandrax Corvette (0.5), Krelath
-Strike Cruiser (4). The 3D models are in `assets/models/`, referenced by the
-`model` field on each ship class.
+The common tactical ladder is Frigate 2, Destroyer 4, Light Cruiser 10, Heavy
+Cruiser 16 and Battleship 32. Unique roster hulls are Earth Gunstar Battlecruiser 16,
+Vraygon Monitor 20, Zandrax Corvette 1, and Krelath Strike Cruiser 8 plus
+Carrier 16. The Earth Command Ship is retired from the roster and retained
+only for old replay compatibility. `data/tactical-tuning.json` is the source
+of truth for points and rosters.
 
 ## Tactical combat trials
 
@@ -50,32 +52,35 @@ Design and current findings: [docs/tactical-design.md](docs/tactical-design.md).
 
 ## Layout
 
-- `src/tuning.js` — **the** tuning table; every balance constant lives here
+- `src/tuning.js` — strategic-layer tuning constants
 - `src/prng.js` — seeded PRNG (mulberry32); all engine randomness flows through it
 - `src/map.js` — warp-lane graph, pathfinding, deterrence rule, supply tracing
 - `src/model.js` — game state, new game, save/load
 - `src/orders.js` — order validation + random legal-order generation
-- `src/combat.js` — the frozen combat interface; Phase 1 stub resolver
+- `src/combat.js` — strategic-layer combat interface (still a stub)
 - `src/engine.js` — WEGO turn pipeline: movement → combat → assault → economy → unrest
 - `data/worlds-placeholder.json` — placeholder graph: four home spheres around 12 contested worlds (to be replaced by the Orion Wars map)
 - `data/factions.json` — four orders of battle, first-draft stats for review
-- `assets/models/` — 24 ship STLs (4 powers × 6 classes)
+- `assets/models/` — original fleet STLs plus the later gunstar-battlecruiser/carrier prototypes
 - `src/tactical/` — hex geometry, ship model, and combat resolver
 - `data/tactical-tuning.json` — all tactical balance constants
 - `data/loadouts.json` — which weapons each power fits to each hull
 - `test/harness.js` — full-war harness
 - `test/fleet-trial.js` — fleet action trials
 
-## Battle arena (handed to Sol/Codex)
+## Tactical browser tools
 
-A watch-only browser arena for observing tactical battles — recorder script +
-static replay viewer. Spec: [docs/arena-brief.md](docs/arena-brief.md).
+The browser tools now include a scenario editor, static replay viewer and
+interactive turn-by-turn playfield. Start them with `npm run arena`; operating
+details are in [arena/README.md](arena/README.md). The original viewer brief is
+kept as implementation history in [docs/arena-brief.md](docs/arena-brief.md).
 
 ## Ship visual assets
 
-A Blender MCP polish pass on the 24 STLs is the next art task; the starting
-brief — color schemes, surface language per species, and rulings — is
-[docs/ship-asset-brief.md](docs/ship-asset-brief.md).
+The original 24-hull Blender pass is complete, with later Earth Gunstar Battlecruiser
+and Carrier prototypes also present. The starting brief and subsequent intake
+notes remain in [docs/ship-asset-brief.md](docs/ship-asset-brief.md) and
+`docs/*inspection*.md`.
 
 ## Open rulings (Chris's — the build does not decide these)
 

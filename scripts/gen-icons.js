@@ -20,7 +20,7 @@ const CLASSES = {
   "strike-cruiser": { size: 0.70, bars: 3, glyph: "missile", abbr: "CS" },
   "heavy-cruiser":  { size: 0.82, bars: 4, glyph: null,      abbr: "CA" },
   "command-ship":   { size: 0.82, bars: 4, glyph: "star",    abbr: "CC" },
-  dreadnought:      { size: 0.90, bars: 4, glyph: "spinal",  abbr: "DN" },
+  "gunstar-battlecruiser":      { size: 0.90, bars: 4, glyph: "spinal",  abbr: "GB" },
   carrier:          { size: 0.90, bars: 3, glyph: "deck",    abbr: "CV" },
   battleship:       { size: 1.00, bars: 5, glyph: null,      abbr: "BB" },
   monitor:          { size: 1.00, bars: 5, glyph: "fort",    abbr: "MN" },

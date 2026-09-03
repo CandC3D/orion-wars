@@ -28,7 +28,7 @@ const turn   = stepTurn(battle, orders, opts);                    // resolves ON
   shieldDown[1..6], magazine, mounts[]` where each mount has `id, type,
   kind (beam|missile|spinal), arcName, arc (faces it covers, 1..6),
   maxRange, bands (to, toHitMod, damageBonus), inop, firedThisTurn`; plus
-  `squadrons` for carriers and `spinal` state for the dreadnought; plus
+  `squadrons` for carriers and `spinal` state for the gunstar-battlecruiser; plus
   `terrain`, `turn`, `roundsPerTurn`, `map`, and `result`.
 - `shipPlan(battle, shipId)` returns `{ turnRate, movementPointRatio,
   spendable, maxHexesPerRound, stepCosts }` so the UI can draw a legal path

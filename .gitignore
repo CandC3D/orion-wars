@@ -4,3 +4,10 @@ assets/blender/*.blend
 assets/blender/preview/
 __pycache__/
 *.pyc
+
+# machine-local tool settings
+.claude/settings.local.json
+
+# repository-root scratch and recovery workspaces
+/.tmp-*/
+/.tmp_*

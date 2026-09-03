@@ -24,7 +24,7 @@ const numArg = (f, d) => { const i = args.indexOf(f); return i >= 0 ? Number(arg
 const strArg = (f, d) => { const i = args.indexOf(f); return i >= 0 ? args[i + 1] : d; };
 const N = numArg("--battles", 150);
 const ME = strArg("--f", "KRE");
-const SIZES = (strArg("--sizes", "8,16,24,32,64")).split(",").map(Number);
+const SIZES = (strArg("--sizes", Object.keys(SCALES).join(","))).split(",").map(Number);
 
 function rate(fa, fb, comp, n, size, plain) {
   let w = 0;

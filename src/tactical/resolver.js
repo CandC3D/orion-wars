@@ -551,7 +551,7 @@ function detonate(dead, allShips, tuning, rng, log) {
   // untouched - which is the opposite of the documented rule and made a
   // corvette squadron chain-detonate itself off a single hit.
   // A spinal capacitor bank that never got to fire goes up with the ship. This
-  // is the other half of the photonic cannon's bargain: kill a dreadnought
+  // is the other half of the photonic cannon's bargain: kill a gunstar
   // mid-charge and you are standing next to the charge. Guarded on dead.spinal,
   // which no other hull has, so `stored` is 0 and the arithmetic is unchanged.
   const stored = dead.spinal ? Math.max(0, dead.spinal.charge ?? 0) : 0;
@@ -696,13 +696,13 @@ function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, l
 }
 
 // ------------------------------------------------------- spinal weapons
-// The photonic cannon (Earth dreadnought). A capacitor bank on the keel that
+// The photonic cannon (Earth Gunstar Battlecruiser). A capacitor bank on the keel that
 // drinks the ship's power pool for several turns and then empties itself into
 // one bolt.
 //
 // The draw comes OFF THE TOP of the pool, before the doctrine reserve is set -
 // the same hook the cloak uses. That is the whole of the design. Under the
-// residual-shield model the pool IS the shield generator, so a dreadnought
+// residual-shield model the pool IS the shield generator, so a gunstar
 // building a charge cannot pay for absorption it has already spent: it is
 // visibly soft for the three or four turns it spends aiming, and it gets that
 // power back only by firing. Nothing else in the engine had to change to make

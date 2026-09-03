@@ -28,7 +28,7 @@ export const STANDARD = SCALES[52];
 // hulls so the sweep tests the hull rather than handing its owner free points.
 //
 // Keys of SCALES are fleet costs on the REFINED ladder (2026-09-02 referee):
-// corvette 1 / FF 2 / DD 4 / strike cruiser 8 / CL 10 / CA 16 / dreadnought 16
+// corvette 1 / FF 2 / DD 4 / strike cruiser 8 / CL 10 / CA 16 / gunstar-battlecruiser 16
 // / carrier 16 / monitor 20 / BB 32, limit one on the three specials. Every
 // price except the Zandrax corvette is EVEN, which is what makes each swap
 // below exact: the frigate at 2 is the smallest hull three of the four powers
@@ -38,20 +38,20 @@ export const STANDARD = SCALES[52];
 //   2 corvettes = 1 frigate          2 frigates    = 1 destroyer
 //   2 destroyers = 1 strike cruiser  strike cruiser + 1 frigate = 1 light cruiser
 //   8 frigates  = 1 heavy cruiser    2 light cruisers = 1 monitor
-//   dreadnought = carrier = 1 heavy cruiser = 1 light cruiser + 3 frigates
+//   gunstar-battlecruiser = carrier = 1 heavy cruiser = 1 light cruiser + 3 frigates
 //   2 heavy cruisers = 1 battleship
 //
 // CARRIER_MIN (tuning.strikeCraft.minFleetPoints, now 52) is the fleet floor
 // for all three 16-20 point specials, and it is load-bearing rather than
 // cosmetic. Measured on the owner's own mirror at 160 battles a cell, a fleet
-// that buys its special reads 91% (monitor) / 58% (dreadnought) / 52% (carrier)
+// that buys its special reads 91% (monitor) / 58% (gunstar-battlecruiser) / 52% (carrier)
 // at 32 points and 52 / 53 / 47 at 52 points: below the floor the special IS
 // the list. The strike cruiser carries its own floor of 32 for the same reason
 // (77% mirror and +33pp of buy delta in an 18-point list, 50% and +8pp at 32).
 export const SIXTH = {
   EAR: { options: [
-    { hull: "dreadnought", cost: 16, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 }, add: { dreadnought: 1 } },
-    { hull: "dreadnought", cost: 16, minPoints: CARRIER_MIN, from: { "light-cruiser": 1, frigate: 3 }, add: { dreadnought: 1 } }
+    { hull: "gunstar-battlecruiser", cost: 16, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 }, add: { "gunstar-battlecruiser": 1 } },
+    { hull: "gunstar-battlecruiser", cost: 16, minPoints: CARRIER_MIN, from: { "light-cruiser": 1, frigate: 3 }, add: { "gunstar-battlecruiser": 1 } }
   ] },
   VRA: { options: [
     { hull: "monitor", cost: 20, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, frigate: 2 }, add: { monitor: 1 } },

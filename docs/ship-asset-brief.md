@@ -1,7 +1,9 @@
 # Ship Visual Asset Brief — Blender Polish Pass
 
-Starting brief for a fresh session. The task: use the Blender MCP connection to
-turn the game's 24 ship STLs into polished visual assets — surface features,
+Archived starting brief for the original fleet-art session. That 24-hull pass
+is complete; later Dreadnought and Carrier prototypes expanded the asset set.
+The task was to use the Blender MCP connection to turn the game's 24 original
+ship STLs into polished visual assets — surface features,
 bump/normal detail, materials, textures, and emissive glows — while preserving
 each hull's silhouette, which is final and approved.
 
@@ -11,14 +13,16 @@ Four-power tactical/strategic wargame (original setting, no licensed material).
 Browser-based game; the models will eventually render in the strategic map and
 watched tactical battles, so deliverables must stay real-time friendly.
 
-Source models: `assets/models/*.stl` — 24 files, six hulls per faction:
+Original source set: 24 files, six hulls per faction:
 Frigate, Destroyer, Light Cruiser, Heavy Cruiser, Battleship, plus one unique
 sixth hull per power (Earth Command Ship, Vraygon Monitor, Zandrax Corvette,
-Krelath Strike Cruiser). STLs are faceted low-poly with cosmetic engine pods;
+Krelath Strike Cruiser). The Command Ship is now retired, Earth fields the
+Dreadnought, and Krelath also fields the Carrier. STLs are faceted low-poly with cosmetic engine pods;
 treat the silhouette as canon and add detail on top rather than resculpting.
 
-Relative scale matters: the point ladder is Corvette 0.5 / FF 1 / DD 2 / CL 4 /
-CA 8 / BB 16 — visual mass should read accordingly (the source models already
+Relative scale matters: the current point ladder is Corvette 1 / FF 2 / DD 4 /
+Strike Cruiser 8 / CL 10 / CA 16 / Dreadnought 16 / Carrier 16 / Monitor 20 /
+BB 32 — visual mass should read accordingly (the source models already
 step up in size; keep their relative proportions).
 
 ## Species and design language (drives surface treatment)

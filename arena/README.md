@@ -24,7 +24,7 @@ engine modules or data from a page opened straight from disk (`file://`). So:
 Record a deterministic battle from the repository root:
 
 ```sh
-node test/record-battle.js --a EAR --b KRE --points 62 --seed mybattle --out arena/replay.json
+node test/record-battle.js --a EAR --b KRE --points 52 --seed mybattle --out arena/replay.json
 ```
 
 Or record an editor scenario (the fleet flags are ignored when `--scenario`
@@ -56,18 +56,21 @@ start "" arena\index.html
 On macOS use `open arena/index.html`; on Linux use `xdg-open arena/index.html`.
 The viewer tries `arena/replay.json` automatically. If the browser blocks local
 `file://` fetches, use **Load replay** and choose that file (or drag it onto the
-load panel). No server is required.
+load panel). No server is required for the replay viewer alone. The scenario
+editor and interactive playfield import engine modules and data, so run them
+through the launcher or another static server.
 
-Four records ship with the viewer: `replay.json` (EAR vs KRE, 24 points, seed
-`mybattle`) plus `replays/ear-kre-24.json`, `replays/vra-zan-32.json` and
-`replays/ear-kre-32.json` (seed `yamato-vs-flightdeck`). Each carries its own
-seed and composition in `meta`, so any of them can be reproduced exactly with
-the command above. When served, all four can be opened from the bundled-record
-buttons; when opened directly from disk, select the JSON file with the picker.
+Four records ship with the viewer: `replay.json` plus
+`replays/ear-kre-24.json`, `replays/vra-zan-32.json` and
+`replays/ear-kre-32.json`. The numbered filenames are historical labels from
+earlier point ladders, not current fleet totals. Each record carries its own
+seed, composition and tuning echo in `meta`. When served, all four can be
+opened from the bundled-record buttons; when opened directly from disk, select
+the JSON file with the picker.
 
 Ships are drawn with the schematic icons from `assets/icons/` by default; the
 **Sprites** button in the transport bar switches to the rendered sprite sheet,
-and any hull the sprite sheet predates (dreadnought, carrier) falls back to
+and any hull the sprite sheet predates (gunstar-battlecruiser, carrier) falls back to
 its icon instead — every roster class has one, so there is no chevron/
 triangle marker any more. The engagement area is
 the landscape rectangle of hexes from `battle.map` and is fitted to the width

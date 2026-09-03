@@ -270,7 +270,7 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
       }
       // A spinal capacitor bank being fed by a core that has just been shot
       // away loses containment and dumps whatever it had stored. This is the
-      // teeth in "vulnerable mid-charge": a rear pass on a charging dreadnought
+      // teeth in "vulnerable mid-charge": a rear pass on a charging gunstar
       // does not merely slow the gun, it throws the shot away. Guarded on
       // ship.spinal, which no other hull has.
       if (ship.spinal && ship.spinal.charge > 0 &&

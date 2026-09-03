@@ -22,7 +22,7 @@ const args = process.argv.slice(2);
 const numArg = (f, d) => { const i = args.indexOf(f); return i >= 0 ? Number(args[i + 1]) : d; };
 const strArg = (f, d) => { const i = args.indexOf(f); return i >= 0 ? args[i + 1] : d; };
 const N = numArg("--battles", 150);
-const SIZES = (strArg("--sizes", "2,8,16,24,32,64")).split(",").map(Number);
+const SIZES = (strArg("--sizes", Object.keys(SCALES).join(","))).split(",").map(Number);
 const SEEDTAG = strArg("--seedtag", "");
 const NOBUY = args.includes("--nobuy");
 const NOSWEEP = args.includes("--nosweep");

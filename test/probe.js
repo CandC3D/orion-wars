@@ -1,5 +1,5 @@
 // Instrumentation probe for the carrier / strike-craft system.
-//   node test/probe.js --size 24 --battles 150
+//   node test/probe.js --size 52 --battles 150
 // Reports, for every pairing that contains a carrier fleet:
 //   where strike damage lands, what kills craft, how the deck cycles,
 //   where the carrier sits, and how the warp interacts with all of it.
@@ -35,7 +35,7 @@ const strArg = (f, d) => { const i = args.indexOf(f); return i >= 0 ? args[i + 1
     }
   }
 }
-const SIZE = numArg("--size", 24);
+const SIZE = numArg("--size", 52);
 const N = numArg("--battles", 150);
 const ONLY = strArg("--vs", null);
 
