@@ -12,10 +12,10 @@ const T = JSON.parse(readFileSync(join(root, "data", "tactical-tuning.json"), "u
 const L = JSON.parse(readFileSync(join(root, "data", "loadouts.json"), "utf8"));
 const assert = (c, m) => { if (!c) { console.error("FAIL: " + m); process.exitCode = 1; } else console.log("ok: " + m); };
 
-const duel = (terrain, aPos, bPos, freeze = true) => {
+const duel = (terrain, aPos, bPos, freeze = true, foe = "ZAN") => {
   const sc = { name: "t", map: { widthHexes: 40, heightHexes: 20 }, terrain,
     sides: [{ faction: "EAR", ships: [{ className: "frigate", ...aPos, facing: 0 }] },
-            { faction: "ZAN", ships: [{ className: "frigate", ...bPos, facing: 3 }] }] };
+            { faction: foe, ships: [{ className: "frigate", ...bPos, facing: 3 }] }] };
   const b = buildScenario(sc, T, L, makePrng(seedFromString("t")));
   if (freeze) for (const s of b.fleets.flat()) s.movementPointRatio = 999;
   const r = runBattle(b.fleets, b.tuning, makePrng(seedFromString("t")), { terrain: b.terrain });
@@ -71,3 +71,36 @@ for (const arr of lines) {
   runBattle(b.fleets, b.tuning, makePrng(seedFromString("d")), { terrain: b.terrain, log: (m) => arr.push(m) });
 }
 assert(JSON.stringify(lines[0]) === JSON.stringify(lines[1]), "deterministic with all terrain types");
+
+// Nebula (Mutara rules): visibility, penalty, shields useless, fire not blocked.
+const neb6 = duel([{ type: "nebula", q: 3, r: 0 }], { q: -3, r: 0 }, { q: 3, r: 0 }, true, "VRA"); // not Zandrax: the burst would carry it out of the fog
+assert(neb6.shots === 0, "ship in a nebula cannot be engaged from 6 hexes (visibility 3)");
+const neb2 = duel([{ type: "nebula", q: 2, r: 0 }], { q: 0, r: 0 }, { q: 2, r: 0 }, true, "VRA");
+assert(neb2.shots > 0, "ship in a nebula can be engaged from 2 hexes (fire not blocked)");
+const through = duel([{ type: "nebula", q: 0, r: 0 }], { q: -3, r: 0 }, { q: 3, r: 0 });
+assert(through.shots > 0, "fire across a nebula hex between two ships outside it is not blocked");
+// Shields useless: a frigate in the fog hit by a Zandrax frigate at 2 hexes takes internal damage
+// on its first hit, where the same frigate in clear space would first lose shield.
+const shieldTest = (terrain) => {
+  const sc = { name: "sh", map: { widthHexes: 40, heightHexes: 20 }, terrain,
+    sides: [{ faction: "EAR", ships: [{ className: "frigate", q: 0, r: 0, facing: 0 }] },
+            { faction: "ZAN", ships: [{ className: "heavy-cruiser", q: 2, r: 0, facing: 3 }] }] };
+  const b = buildScenario(sc, T, L, makePrng(seedFromString("sh")));
+  for (const x of b.fleets.flat()) x.movementPointRatio = 999;
+  const r = runBattle(b.fleets, b.tuning, makePrng(seedFromString("sh")), { terrain: b.terrain, maxTurns: 1 });
+  return r.stats.B.internal;
+};
+const fogInternal = shieldTest([{ type: "nebula", q: 0, r: 0 }]);
+const clearInternal = shieldTest([]);
+console.log(`internal damage on the Earth frigate in one turn: in nebula ${fogInternal.toFixed(1)} vs clear ${clearInternal.toFixed(1)}`);
+assert(fogInternal > clearInternal, "shields are useless inside a nebula (more internal damage)");
+const nl = [[], []];
+for (const arr of nl) {
+  const sc = { name: "nd", map: { widthHexes: 72, heightHexes: 40 },
+    terrain: [{ type: "nebula", q: 0, r: 0 }, { type: "nebula", q: 1, r: 0 }, { type: "nebula", q: 0, r: 1 }, { type: "asteroids", q: -5, r: 2 }],
+    sides: [{ faction: "EAR", ships: [{ className: "light-cruiser" }, { className: "destroyer" }] },
+            { faction: "VRA", ships: [{ className: "light-cruiser" }, { className: "destroyer" }] }] };
+  const b = buildScenario(sc, T, L, makePrng(seedFromString("nd")));
+  runBattle(b.fleets, b.tuning, makePrng(seedFromString("nd")), { terrain: b.terrain, log: (m) => arr.push(m) });
+}
+assert(JSON.stringify(nl[0]) === JSON.stringify(nl[1]), "deterministic with nebula tiles");

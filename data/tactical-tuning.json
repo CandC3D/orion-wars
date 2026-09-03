@@ -29,6 +29,12 @@
         "moveCostMultiplier": 2,
         "blocksFire": true,
         "_note": "Rulings 2026-09-02 (Chris): a one-hex asteroid field is passable but slows travel (entering costs twice the normal movement power) and blocks fire IN AND OUT - a ship inside can neither shoot nor be shot, and no line of fire crosses a field. The large asteroid (type asteroid) is one impassable hex that blocks fire like a moon."
+      },
+      "nebula": {
+        "visibilityHexes": 3,
+        "toHitPenalty": 2,
+        "shieldsUseless": true,
+        "_note": "Ruling 2026-09-02 (Chris): follow the Battle of the Mutara Nebula. A nebula hex is passable and does not block fire; a ship inside can engage and be engaged only within visibilityHexes; any shot with a ship in the fog at either end takes toHitPenalty pips; shields are useless inside (every hit bypasses them). Untuned."
       }
     }
   },

@@ -40,6 +40,12 @@ Rules:
   - and **blocks fire in and out**: a ship inside a field can neither shoot
   nor be shot at, and no line of fire may cross a field. Ships may deploy in
   a field and warp into one.
+  `nebula` occupies one hex (paint several for a cloud) and follows the
+  Mutara pattern: passable, fire is **not** blocked, but a ship inside can
+  engage and be engaged only within `battle.terrainRules.nebula.
+  visibilityHexes` (3), every shot with a ship in the fog at either end takes
+  a to-hit penalty (2), and **shields are useless inside** - every hit on a
+  ship in a nebula bypasses its shields.
 - **Ships without `q`/`r`** are placed by the engine's line-of-battle
   deployment for their side (side 0 west facing east, side 1 east facing
   west); explicitly placed ships keep their positions. Placing a ship on

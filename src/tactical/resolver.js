@@ -45,8 +45,13 @@ function bandFor(mount, range) {
 // anyone ELSE. This is the original's disincentive against parking in an
 // enemy's hex - it forfeits the shot rather than granting a point-blank one.
 function mayEngage(shooter, target, tuning) {
-  if (tuning.battle?.sameHexNoFire === false) return true;
-  return distance(shooter.pos, target.pos) > 0;
+  const d = distance(shooter.pos, target.pos);
+  if (tuning.battle?.sameHexNoFire !== false && d === 0) return false;
+  // Nebula visibility: a ship in the fog sees and is seen only at short range.
+  if (inNebula(shooter.pos, tuning) || inNebula(target.pos, tuning)) {
+    if (d > (nebulaRules(tuning).visibilityHexes ?? 3)) return false;
+  }
+  return true;
 }
 
 // Which face of the SHOOTER does the target lie off? A mount bears only if
@@ -212,16 +217,35 @@ function terrainSet(tuning) {
   if (tuning.battle._terrainSet && tuning.battle._terrainSet.src === list) return tuning.battle._terrainSet.set;
   const set = new Set();      // impassable: moon, planet (7 hexes), large asteroid
   const field = new Set();    // asteroid field: passable at a cost, blocks fire in, out and through
+  const neb = new Set();      // nebula: passable, fire NOT blocked, but Mutara rules apply
   const key = (p) => p.q + "," + p.r;
   for (const t of list) {
     const c = { q: t.q, r: t.r };
     if (t.type === "asteroids") { field.add(key(c)); continue; }
+    if (t.type === "nebula") { neb.add(key(c)); continue; }
     set.add(key(c));
     if (t.type === "planet") for (const d of HEX_DIRS) set.add(key(add(c, d)));
   }
   set.field = field;
+  set.neb = neb;
   tuning.battle._terrainSet = { src: list, set };
   return set;
+}
+// NEBULA (ruling 2026-09-02, Chris: "let's follow the example" - the Battle
+// of the Mutara Nebula). A nebula hex is passable and does not block fire;
+// instead it degrades: a ship inside one can only be engaged, and can only
+// engage, within visibilityHexes; every shot with a ship in the fog at
+// either end suffers toHitPenalty; and shields are USELESS inside - every
+// hit on a ship in a nebula bypasses its shields. "We can't follow them into
+// the nebula, Sir. Our shields would be useless." (Joachim, to Khan.)
+function inNebula(pos, tuning) {
+  const set = terrainSet(tuning);
+  return !!(set && set.neb.has(pos.q + "," + pos.r));
+}
+function nebulaRules(tuning) { return tuning.battle?.terrainRules?.nebula ?? {}; }
+function nebulaPenalty(shooter, target, tuning) {
+  if (!inNebula(shooter.pos, tuning) && !inNebula(target.pos, tuning)) return 0;
+  return nebulaRules(tuning).toHitPenalty ?? 2;
 }
 // ASTEROID FIELD (rulings 2026-09-02, Chris): one hex, passable but slow -
 // entering costs moveCostMultiplier times the ship's normal movement power -
@@ -438,7 +462,8 @@ function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, l
   // The blow lands whole against the shield; only what penetrates is spread
   // across the hull for damage-location purposes. `bypassShield` is passed
   // only by the photonic cannon and is undefined - falsy - for everything else.
-  stats.internal += applyDamage(victim, face, damage, tuning, rng, log, spread, bypassShield).internal;
+  const fog = inNebula(victim.pos, tuning) && (nebulaRules(tuning).shieldsUseless !== false);
+  stats.internal += applyDamage(victim, face, damage, tuning, rng, log, spread, bypassShield || fog).internal;
 }
 
 // ------------------------------------------------------- spinal weapons
@@ -566,7 +591,7 @@ function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
     : capital(target) ? (w.vsMediumPenalty ?? 0)
     : (w.vsLightPenalty ?? 0);
   const roll = rng.int(tuning.toHit.die) + 1;
-  const aim = roll + (band.toHitMod ?? 0) + (w.toHitBonus ?? 0)
+  const aim = roll - nebulaPenalty(ship, target, tuning) + (band.toHitMod ?? 0) + (w.toHitBonus ?? 0)
     + commandBonus(ship, friends, 'commandToHit') + tuning.toHit.crewRatingDefault
     - evasion - (ship.toHitPenalty ?? 0) + size;
   const hit = aim >= tuning.toHit.target;
@@ -915,7 +940,7 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
       stats.shots++;
       const evasion = Math.floor(target.movedThisTurn / tuning.toHit.evasionPerHexesMoved);
       const roll = rng.int(tuning.toHit.die) + 1;
-      const hit = roll + (band.toHitMod ?? 0) + cmd + classInteractionMod(ship, target, tuning, rng) + tuning.toHit.crewRatingDefault - evasion - (ship.toHitPenalty ?? 0) >= tuning.toHit.target;
+      const hit = roll - nebulaPenalty(ship, target, tuning) + (band.toHitMod ?? 0) + cmd + classInteractionMod(ship, target, tuning, rng) + tuning.toHit.crewRatingDefault - evasion - (ship.toHitPenalty ?? 0) >= tuning.toHit.target;
       if (hit) {
         stats.hits++;
         // FASA pattern: beam damage is the power put into it plus a range bonus.

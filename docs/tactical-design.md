@@ -1470,3 +1470,55 @@ for fields, a per-hex step cost in the helm (the movement budget now looks
 at the cost of the hex ahead; the Zandrax burst refunds what the hex cost),
 and the line-of-fire test extended to endpoints for fields. Contract in
 `docs/scenario-format.md`; editor tools and rendering with the client agent.
+
+### 26d. What FASA had for terrain (lookup 2026-09-02, from the rulebook)
+
+Chris asked whether FASA had nebula rules. **It did not** — nothing on
+nebulae, gas clouds, ion storms, dust or energy fields anywhere (table of
+contents and every sensors/movement/fire/equipment section read directly).
+What the book defines:
+- **Obstacles — moons, planets, asteroid fields, "other large obstacles"**
+  (Advanced Course pp. 26–27): ships may not fire through them, and they
+  cast a **sensor shadow** — trace a line from sensor to target; if it
+  crosses any part of the obstacle's hex the target "does not register on
+  the sensors, and cannot be fired upon"; shadows are **mutual**, and a
+  gamemaster may hide counters in a shadow entirely. No movement cost.
+- **Mines** (p. 29): immobile photon torpedoes in a hex; detonation by die
+  roll on entry or lingering; damage to the shield facing the direction of
+  entry; one may be evaded per movement phase by an emergency turn.
+- **Defense outposts / space stations** (Graduate Course p. 38): immobile,
+  rotate in place, three firing arcs, their own damage table; optional
+  orbital drift of one hex a turn.
+
+Reading for us: our moons/planets/large asteroids are FASA's obstacles
+exactly (blocked fire is the sensor shadow, and it was mutual there too);
+our asteroid field's movement cost and its in-and-out blocking are our own
+additions. **A nebula would be an Orion Wars invention** — a natural design
+is a multi-hex region that casts a sensor shadow (mutual, no fire in or
+out) and perhaps degrades shields or absorbs beam power, priced by playtest.
+Mines and outposts are FASA content the editor could carry later.
+
+**Nebula, Mutara pattern (Chris, same day):** rather than a sensor shadow
+that blocks fire outright, a nebula *degrades* — reduced visibility and
+reduced hit chance, as at the Battle of the Mutara Nebula. Sketch: a
+multi-hex region; ships inside it (or firing into or through it) suffer a
+to-hit penalty and can only be detected/targeted at short range; shields
+are weakened or useless inside ("shields will be useless" — the film's
+rule); missiles and strike craft may lose their locks. Fire is not blocked,
+so the fog is a place to take a fight where gunnery counts for less and
+nerve for more. Distinct from the obstacle rule; both can coexist as tiles.
+
+### 26e. Nebula — the Mutara rules (ruling 2026-09-02, Chris: "let's follow the example")
+
+"We can't follow them into the nebula, Sir. Our shields would be useless."
+(Joachim, to Khan.) A nebula hex is passable and does **not** block fire; it
+degrades. Inside one, a ship can engage and be engaged only within
+`visibilityHexes` (3); any shot with a ship in the fog at either end takes a
+`toHitPenalty` (2 pips, applied to beams and the spinal gun alike); and
+**shields are useless inside** — every hit on a ship in a nebula bypasses
+its shields (the photonic cannon's bypass path, reused). Paint several tiles
+for a cloud. Untuned; the numbers are dials. Verified by the terrain check:
+unengageable at 6 hexes, engageable at 2, fire across a nebula between two
+ships outside it unaffected, more internal damage in the fog than in clear
+space for the same exchange, deterministic. Missiles and strike craft do
+not yet lose their locks in the fog — a later dial.
