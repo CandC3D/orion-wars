@@ -1,0 +1,57 @@
+{
+  "name": "Untitled scenario",
+  "seed": "orion",
+  "map": {
+    "widthHexes": 72,
+    "heightHexes": 40
+  },
+  "terrain": [],
+  "sides": [
+    {
+      "faction": "EAR",
+      "ships": [
+        {
+          "className": "destroyer",
+          "q": -20,
+          "r": -8,
+          "facing": 0
+        },
+        {
+          "className": "destroyer",
+          "q": -20,
+          "r": -6,
+          "facing": 0
+        }
+      ]
+    },
+    {
+      "faction": "KRE",
+      "ships": [
+        {
+          "className": "frigate",
+          "q": 23,
+          "r": -10,
+          "facing": 3
+        },
+        {
+          "className": "frigate",
+          "q": 23,
+          "r": -7,
+          "facing": 3
+        },
+        {
+          "className": "frigate",
+          "q": 21,
+          "r": -3,
+          "facing": 3
+        },
+        {
+          "className": "frigate",
+          "q": 18,
+          "r": 0,
+          "facing": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1660,3 +1660,13 @@ combined arms as the skill. Faction sweep (stats frozen): 4: 58/49/43/47 ·
 18: 53/51/59/37 · 32: 45/43/44/67 · 52: 47/68/57/27 · 68: 45/45/52/58 ·
 132: 74/37/32/57 — out of band at 52 and 132; that is the consolidated
 tuning pass's brief, now on an honest ladder and a map that holds a swarm.
+- **2026-09-03 — Chris's formation trio** (`arena/scenarios/formation-
+  column/echelon/loose.json`: 2 Earth destroyers vs 4 Krelath frigates,
+  8 vs 8, differing only in the frigates' deployment). 40 seeds each:
+  column 19–21 (even), echelon **40–0 Earth** (the frigates arrive
+  piecemeal and are defeated in detail), loose 30–10. Formation decides the
+  fight — and the arc analysis shows the AI never manoeuvres for arcs:
+  flank/rear hits 0–4% in all three. Chris's intent — defend weak shield
+  arcs, attack the enemy's, move out of firing arcs when possible — is not
+  something the helm does yet. Engine content: an arc-aware helm, measured
+  by the maneuver index and these three scenarios.
