@@ -1818,3 +1818,30 @@ the Yamato class keeps its class name; the model files keep theirs until
 the art session renames them). Everything live is renamed — data, rosters,
 harness swaps, scenarios, icons, tests, the playfield — and the engine's
 comments; earlier sections of this log keep "dreadnought" as history.
+
+---
+
+## 33. Destroyer layout, the missile destroyer, and clockwise faces (rulings 2026-09-03, Chris)
+
+Seeing the destroyer schematic ("forward and forward-starboard? makes no
+sense"): **every faction's destroyer now carries a forward turret, a rear
+turret and one forward torpedo tube.** The turrets overlap on the quarters —
+Chris: "the beams overlap at 1, 3, 4 and 6" — so the arcs are `bow`
+(everything but dead astern: faces 6,1,2,3,4; it fires dead ahead at face 2)
+and `stern` (everything but dead ahead: 3,4,5,6,1; it fires dead astern at
+face 5). On faces 1, 3, 4 and 6 both turrets bear: the two-turret broadside,
+which is the maneuver incentive Chris named — "a blow from the torpedoes,
+then turning to deliver a two-beam broadside." Faction fits set weapon types
+only; the Earth and Vraygon arc overrides are gone. Untuned, content-first.
+
+**Shield faces number clockwise** ("it ought to be clockwise"): 1 front-left,
+2 forward, 3 front-right, 4 rear-right, 5 rear, 6 rear-left around the bow.
+The engine's face table flips from `[2,3,4,5,6,1]` to `[2,1,6,5,4,3]`, which
+closes the mirrored-naming ruling of §30a — the viewer had been drawing
+clockwise all along; the engine now agrees with the picture. Gameplay is a
+mirror image of before (faces 1/3 and 4/6 swap), statistically identical,
+not byte-identical; the per-facing damage tables are unchanged.
+
+**Missile destroyer** (`missile-destroyer`, all rosters): two forward tubes
+(arc f, magazine 8) and one all-round beam, on the destroyer hull at the
+destroyer's price until measured. Icon "DM".
