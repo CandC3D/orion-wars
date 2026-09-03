@@ -22,13 +22,18 @@
   //   ICON_SPAN * ICON_EXTENT = .81 < HEX_INRADIUS = .866.
   const ICON_SPAN = 1.35;
   const ICON_EXTENT = .6;
-  // Squadrons have no map position of their own (they fly from the carrier), so
-  // they orbit just outside the deck's hex rather than competing with it.
-  // Craft art is 0.30-0.36 of its own box, so the box is drawn larger than a
-  // ship's to keep a fighter legible next to a 0.9 carrier. Even so an
-  // interceptor's footprint is ~0.5 circumradii: small, as it should be.
-  const CRAFT_ORBIT = 1.44;
+  // Squadrons have no map position of their own (they fly from the carrier).
+  // Ruling 27 ("carriers are standoff ships"): a wing orbiting the hull read
+  // as escort duty, so it no longer circles the deck. In hand it shows as a
+  // small "wing ready" cluster beside the marker (READY_*); on a strike it
+  // flies the run as a streak (CRAFT_SPAN, in drawStrikes). Craft art is
+  // 0.30-0.36 of its own box, so the box is drawn larger than a ship's to
+  // keep a fighter legible next to a 0.9 carrier. Even so an interceptor's
+  // footprint is ~0.5 circumradii: small, as it should be.
   const CRAFT_SPAN = 1.3;
+  const READY_SPAN = .85;
+  const READY_MAX_GLYPHS = 4;
+  const READY_GAP = 1.6;
   const CAMERA_MARGIN_HEXES = 4;
   const CAMERA_MAX_HEX_WIDTH = 60;
   const PAN_THRESHOLD = 5;
@@ -1363,42 +1368,57 @@
 
   // ------------------------------------------------------- carrier air group
   //
-  // Squadrons carry no map position in v1: they fly from the parent deck within
-  // a radius. So they orbit the carrier while in hand, streak out to the target
-  // on a strike, and thin as the log books their losses.
+  // Squadrons carry no map position in v1: they fly from the parent deck
+  // within a radius. Ruling 27: carriers are standoff ships, so a squadron in
+  // hand sits as a compact "wing ready" indicator beside the deck rather than
+  // orbiting the hull (drawWingReady), streaks out to the target on a strike
+  // (drawStrikes), and thins as the log books their losses.
 
   function craftIcon(faction, type) {
     return icons.get(`${faction}/${type}`);
   }
 
-  function drawWing(ships, geo, now) {
+  function drawWing(ships, geo) {
     const frame = state.effects?.wing[state.index];
     if (!frame || !frame.length) return;
     const striking = new Set((state.effects.strikes[state.index] ?? []).map((entry) => entry.squadronId));
     for (const entry of frame) {
       const carrier = ships.find((ship) => ship.id === entry.carrierId);
       if (!carrier || carrier.destroyed) continue;
-      const at = pointFor(carrier, geo);
-      const craft = [];
+      // Group in-hand strength by craft type: a compact indicator, not a
+      // swarm. A squadron mid-strike is drawn on its attack run instead (see
+      // drawStrikes), so it does not also show up parked on the deck.
+      const byType = new Map();
       for (const squadron of entry.squadrons) {
-        if (striking.has(squadron.id)) continue;   // drawn on its attack run instead
-        for (let i = 0; i < squadron.strength; i++) craft.push(squadron.type);
+        if (striking.has(squadron.id) || squadron.strength <= 0) continue;
+        byType.set(squadron.type, (byType.get(squadron.type) || 0) + squadron.strength);
       }
-      if (!craft.length) continue;
-      const box = ICON_SPAN * geo.scale * CRAFT_SPAN;
-      const spin = now / 2600;
-      craft.forEach((type, i) => {
-        const angle = spin + i * 2 * Math.PI / craft.length;
-        // Alternate rings so a full twenty-craft group reads as a swarm rather
-        // than as one crowded circle.
-        const ring = geo.scale * (CRAFT_ORBIT + (i % 2) * .42);
+      if (byType.size) drawWingReady(carrier, byType, geo);
+    }
+  }
+
+  // The "wing ready" indicator: one short row of glyphs per craft type still
+  // aboard, capped at READY_MAX_GLYPHS so a full establishment still reads as
+  // "the deck has strength" rather than as fighters swarming the hull, and
+  // thinning exactly as the log attrits the wing (fewer glyphs, same spot).
+  // Parked, not flying: no heading of its own, so every glyph noses "up".
+  function drawWingReady(carrier, byType, geo) {
+    const at = pointFor(carrier, geo);
+    const size = markerSize(carrier, geo);
+    const box = ICON_SPAN * geo.scale * READY_SPAN;
+    const originX = at.x + size + ringGap(geo) * READY_GAP;
+    let row = 0;
+    for (const [type, strength] of byType) {
+      const shown = Math.min(strength, READY_MAX_GLYPHS);
+      const y = at.y - size * .55 + row * box * .82;
+      for (let i = 0; i < shown; i++) {
+        const x = originX + i * box * .58;
         const icon = craftIcon(carrier.faction, type);
-        const x = at.x + Math.cos(angle) * ring;
-        const y = at.y + Math.sin(angle) * ring;
-        if (icon) drawIconImage(icon.image, x, y, box, angle + Math.PI / 2, .92, false);
+        if (icon) drawIconImage(icon.image, x, y, box, -Math.PI / 2, .92, false);
         else drawCraftDot(x, y, type, geo);
         state.rendered.craft++;
-      });
+      }
+      row++;
     }
   }
 
@@ -1504,7 +1524,7 @@
 
     drawSpinalAuras(ships, geo, now);
     for (const ship of ships) drawShip(ship, shipAt(previous, ship.id), geo, now);
-    drawWing(ships, geo, now);
+    drawWing(ships, geo);
     drawShotEffects(geo, now);
     drawStrikes(ships, geo, now);
     drawSpinalFire(geo);
@@ -1677,7 +1697,7 @@
     buildLogEffects, setRenderMode, drawTerrain,
     cameraLimits, clampCameraZoom, livingShipBounds, cameraForBounds,
     setAutoFrame, fitMap, screenToWorld,
-    constants: { HEX_INRADIUS, ICON_SPAN, ICON_EXTENT, CRAFT_ORBIT, CRAFT_SPAN,
+    constants: { HEX_INRADIUS, ICON_SPAN, ICON_EXTENT, CRAFT_SPAN, READY_SPAN, READY_MAX_GLYPHS, READY_GAP,
       CAMERA_MARGIN_HEXES, CAMERA_MAX_HEX_WIDTH, PAN_THRESHOLD }
   };
 

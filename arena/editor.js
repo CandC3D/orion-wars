@@ -1,5 +1,5 @@
 import {
-  FACTIONS, axialToWorld, fleetPoints, inMap, normalizeFacing, rosterFor, scenarioForSave,
+  FACTIONS, axialToWorld, compositionFor, fleetPoints, inMap, normalizeFacing, rosterFor, scenarioForSave,
   snapWorldToHex, terrainFootprint, terrainHexSet, validateScenario
 } from "./editor-core.js";
 import { recordScenario } from "./record.js";
@@ -147,7 +147,14 @@ function renderFleet(sideIndex) {
   panel.style.setProperty("--side-color", color);
   panel.innerHTML = `<div class="fleet-heading"><div><p class="eyebrow">SIDE ${sideIndex ? "B" : "A"}</p><h2 style="color:${color}">${side.faction} Fleet</h2></div><strong>${fleetPoints(side, tuning)} pts</strong></div>` +
     `<select class="faction-picker" aria-label="Side ${sideIndex + 1} faction">${FACTIONS.map((f) => `<option${f === side.faction ? " selected" : ""}>${f}</option>`).join("")}</select>` +
-    `<div class="class-list">${classesFor(side.faction).map((name) => `<button data-add="${name}"><span>+ ${name}</span><em>${tuning.hullClasses[name].points}</em></button>`).join("")}</div>` +
+    `<div class="class-list">${classesFor(side.faction).map((name) => {
+      const hull = tuning.hullClasses[name];
+      const limit = hull.limit;
+      const count = compositionFor(side)[name] || 0;
+      const atLimit = Number.isFinite(limit) && count >= limit;
+      const points = Number.isFinite(limit) ? `${hull.points} (max ${limit})` : hull.points;
+      return `<button data-add="${name}"${atLimit ? " disabled" : ""}><span>+ ${name}</span><em>${points}</em></button>`;
+    }).join("")}</div>` +
     `<div class="ship-tray">${side.ships.length ? side.ships.map((ship) => {
       const placed = Number.isFinite(ship.q) && Number.isFinite(ship.r);
       return `<article class="ship-card-editor${selected?.kind === "ship" && selected.uid === ship._uid ? " selected" : ""}" draggable="true" data-ship="${ship._uid}"><strong>${ship.className}</strong><small>${tuning.hullClasses[ship.className]?.points ?? "?"} pts · ${placed ? `${ship.q},${ship.r} · facing ${normalizeFacing(ship.facing)}` : "line deployment"}</small><span class="ship-buttons"><button data-rotate="${ship._uid}" title="Rotate">↻</button><button data-remove="${ship._uid}" title="Remove">×</button></span></article>`;

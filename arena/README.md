@@ -24,7 +24,7 @@ engine modules or data from a page opened straight from disk (`file://`). So:
 Record a deterministic battle from the repository root:
 
 ```sh
-node test/record-battle.js --a EAR --b KRE --points 24 --seed mybattle --out arena/replay.json
+node test/record-battle.js --a EAR --b KRE --points 62 --seed mybattle --out arena/replay.json
 ```
 
 Or record an editor scenario (the fleet flags are ignored when `--scenario`

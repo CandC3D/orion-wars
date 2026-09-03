@@ -14,7 +14,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
-import { fleetPoints, inMap, rosterFor, snapWorldToHex, terrainFootprint, validateScenario } from "../arena/editor-core.js";
+import { compositionFor, fleetPoints, inMap, rosterFor, snapWorldToHex, terrainFootprint, validateScenario } from "../arena/editor-core.js";
 import { recordScenario } from "../arena/record.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -198,8 +198,11 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
     assert(snapped.q === hex.q && snapped.r === hex.r, `hex snapping missed ${hex.q},${hex.r}`);
   }
   assert(inMap(36, 0, sampleScenario.map) && !inMap(37, 0, sampleScenario.map), "editor map bounds disagree with the contract");
-  assert(fleetPoints(sampleScenario.sides[0], tuning) === 14, "side A points total is wrong");
-  assert(fleetPoints(sampleScenario.sides[1], tuning) === 20, "side B points total is wrong");
+  // Re-priced point ladder (docs/tactical-design.md #27): dreadnought 32 +
+  // light-cruiser 12 + destroyer 5 = 49; carrier 32 + strike-cruiser 8 +
+  // heavy-cruiser 20 = 60.
+  assert(fleetPoints(sampleScenario.sides[0], tuning) === 49, "side A points total is wrong");
+  assert(fleetPoints(sampleScenario.sides[1], tuning) === 60, "side B points total is wrong");
   assert(validateScenario(sampleScenario, tuning, loadouts).length === 0, "sample scenario does not validate");
 
   // rosters.<faction> (data/tactical-tuning.json), not the keys of loadouts.json, is the
@@ -232,6 +235,36 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   cannotField.sides[1].ships[2].className = "command-ship";
   const cannotFieldErrors = validateScenario(cannotField, tuning, loadouts).join(" | ");
   assert(cannotFieldErrors.includes("cannot be fielded"), "validation let KRE field the retired command-ship");
+
+  // hullClasses.<class>.limit caps how many of that class one fleet may field
+  // (currently the big specials -- dreadnought, carrier, monitor -- at 1
+  // apiece, docs/tactical-design.md #27). The sample scenario already fields
+  // exactly one dreadnought (side A) and one carrier (side B), at their
+  // limits, which is why it validates cleanly above; push a second
+  // dreadnought onto side A to exercise the cap.
+  assert(tuning.hullClasses.dreadnought?.limit === 1 && tuning.hullClasses.carrier?.limit === 1,
+    "dreadnought/carrier no longer carry a fleet limit of 1 in tactical-tuning.json");
+  const overLimit = JSON.parse(JSON.stringify(sampleScenario));
+  overLimit.sides[0].ships.push({ className: "dreadnought" });
+  const overLimitErrors = validateScenario(overLimit, tuning, loadouts).join(" | ");
+  assert(overLimitErrors.includes("Side 1 fields 2 dreadnought(s); the limit is 1."),
+    "validation did not enforce the per-class fleet limit");
+  // A class with no `limit` in tuning is uncapped, same as before.
+  const manyFrigates = JSON.parse(JSON.stringify(sampleScenario));
+  for (let i = 0; i < 5; i++) manyFrigates.sides[0].ships.push({ className: "frigate" });
+  assert(!validateScenario(manyFrigates, tuning, loadouts).some((m) => m.includes("frigate")),
+    "a hull class with no configured limit was wrongly capped");
+
+  // arena/editor.js disables a class's add button for a side once its limit
+  // is reached, reading the same compositionFor() + hullClasses.<class>.limit
+  // pairing checked here -- this is that logic exercised without a DOM.
+  const dnLimit = tuning.hullClasses.dreadnought.limit;
+  const sideAComposition = compositionFor(sampleScenario.sides[0]);
+  assert((sideAComposition.dreadnought || 0) >= dnLimit,
+    "side A should already be at its dreadnought limit (button should disable)");
+  const sideBComposition = compositionFor(sampleScenario.sides[1]);
+  assert((sideBComposition.dreadnought || 0) < dnLimit,
+    "side B fields no dreadnought and should be under the limit (button should stay enabled)");
 
   const sharedReplay = recordScenario(sampleScenario, tuning, loadouts);
   const scratch = mkdtempSync(join(tmpdir(), "orion-arena-smoke-"));

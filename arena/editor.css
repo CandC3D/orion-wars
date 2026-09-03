@@ -22,6 +22,8 @@
 .class-list { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .class-list button { display: flex; justify-content: space-between; padding: 6px 7px; text-align: left; font-size: 10px; }
 .class-list em { color: var(--accent); font-style: normal; }
+.class-list button:disabled { opacity: .4; cursor: not-allowed; }
+.class-list button:disabled em { color: var(--muted); }
 .ship-tray { display: grid; gap: 6px; margin-top: 12px; }
 .empty-tray { padding: 20px 4px; color: var(--muted); text-align: center; font-size: 11px; }
 .ship-card-editor { display: grid; grid-template-columns: 1fr auto; gap: 1px 7px; padding: 7px 8px; border: 1px solid var(--line); border-left: 3px solid var(--side-color); border-radius: 4px; background: #0b1117; cursor: grab; }

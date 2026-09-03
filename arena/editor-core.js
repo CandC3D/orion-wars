@@ -142,6 +142,19 @@ export function validateScenario(scenario, tuning, loadouts) {
         messages.push(`${label} ship ${shipIndex + 1} (${ship.className ?? "ship"}) has an invalid facing “${ship.facing}” (must be an integer 0–5).`);
       }
     });
+
+    // hullClasses.<class>.limit caps how many of that class one fleet may
+    // field (currently the big specials: dreadnought, carrier, monitor, at 1
+    // apiece — see docs/tactical-design.md #27). Driven entirely off the
+    // tuning data so any class that later carries a limit is enforced here
+    // without a code change.
+    const composition = compositionFor(side);
+    for (const [className, count] of Object.entries(composition)) {
+      const limit = tuning?.hullClasses?.[className]?.limit;
+      if (Number.isFinite(limit) && count > limit) {
+        messages.push(`${label} fields ${count} ${className}(s); the limit is ${limit}.`);
+      }
+    }
   });
   return [...new Set(messages)];
 }
