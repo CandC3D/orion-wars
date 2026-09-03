@@ -166,17 +166,17 @@ async function runReplay(replay, { legacy = false, icons = true, mode = null } =
   // Count only what playback draws: the first frame lands before the icon
   // images have decoded, and legitimately draws nothing for that one frame.
   for (const key of Object.keys(window.__arena.state.rendered)) window.__arena.state.rendered[key] = 0;
-  for (let i = 1; i < replay.rounds.length; i++) {
-    get("#play").dispatch("click");
-    for (let frame = 0; frame < 8; frame++) {   // progress 0.1 .. 0.8 of each round
-      clock += 100;
-      const callback = nextFrame;
-      nextFrame = null;
-      callback?.(clock);
-    }
-    get("#play").dispatch("click");
-    get("#step-forward").dispatch("click");
+  // Let the actual transport run continuously so each interval exercises its
+  // movement phase followed by the snapshot-true firing phase.
+  get("#play").dispatch("click");
+  const frameLimit = replay.rounds.length * 14;
+  for (let frame = 0; frame < frameLimit && window.__arena.state.playing; frame++) {
+    clock += 100;
+    const callback = nextFrame;
+    nextFrame = null;
+    callback?.(clock);
   }
+  assert(!window.__arena.state.playing, "replay transport did not reach its final round");
   if (legacy && shotEffectKeys.some((key) => counts[key])) throw new Error("Legacy replay unexpectedly rendered shot effects");
   return { counts, draws, firstLabel, arena: window.__arena, elements };
 }
@@ -395,6 +395,48 @@ for (const { file, replay } of replays) {
   drawTallies.push({ file, run });
 }
 assert(warpTransitionFound, "Bundled replays contain no warp-cut transition");
+
+// -------------------------------- narrative log and snapshot-true endpoints
+
+{
+  const arena = drawTallies[0].run.arena;
+  const ship = (id, q, r, facing = 0) => ({ id, pos: { q, r }, facing });
+  const synthetic = {
+    rounds: [
+      { turn: 0, round: 0, ships: [ship("A-destroyer-3", -12, 2), ship("B-frigate-4", 0, 2, 3)] },
+      { turn: 1, round: 1, ships: [ship("A-destroyer-3", -9, 2), ship("B-frigate-4", 0, 2, 3)] }
+    ],
+    log: [],
+    shots: [
+      { turn: 1, round: 1, kind: "beam", weapon: "laser-cannon", shooterId: "A-destroyer-3", targetId: "B-frigate-4", hit: true, range: 7, damage: 9 },
+      { turn: 1, round: 1, kind: "beam", weapon: "heavy-blaster", shooterId: "B-frigate-4", targetId: "A-destroyer-3", hit: false, range: 7, damage: 0 },
+      { turn: 1, round: 1, kind: "launch", weapon: "plasma-torpedo", shooterId: "A-destroyer-3", targetId: "B-frigate-4", range: 9, damage: 12 },
+      { turn: 1, round: 1, kind: "missile", weapon: "plasma-torpedo", shooterId: "A-destroyer-3", targetId: "B-frigate-4", outcome: "hit", damage: 10 }
+    ]
+  };
+  const lines = arena.buildNarrative(synthetic, 1).map((entry) => entry.text);
+  for (const expected of [
+    "A-destroyer-3 moves (-12,2) → (-9,2), facing E",
+    "B-frigate-4 holds (0,2), facing W",
+    "A-destroyer-3 fires laser-cannon at B-frigate-4, range 7: HIT for 9",
+    "B-frigate-4 fires heavy-blaster at A-destroyer-3, range 7: miss",
+    "A-destroyer-3 launches plasma-torpedo at B-frigate-4, range 9 (warhead 12)",
+    "plasma-torpedo from A-destroyer-3 hits B-frigate-4 for 10"
+  ]) assert(lines.includes(expected), `narrative line missing: ${expected}\n${lines.join("\n")}`);
+
+  const savedReplay = arena.state.replay;
+  arena.state.replay = synthetic;
+  const beam = arena.buildShotEffects(synthetic).find((effect) => effect.kind === "beam");
+  const geo = arena.geometry();
+  const endpoints = arena.effectEndpoints(beam, geo);
+  const expectedStart = arena.project(synthetic.rounds[1].ships[0].pos, geo);
+  const expectedEnd = arena.project(synthetic.rounds[1].ships[1].pos, geo);
+  assert(endpoints.start.x === expectedStart.x && endpoints.start.y === expectedStart.y,
+    `beam start ${JSON.stringify(endpoints.start)} does not equal the shooter's round position ${JSON.stringify(expectedStart)}`);
+  assert(endpoints.end.x === expectedEnd.x && endpoints.end.y === expectedEnd.y,
+    `beam end ${JSON.stringify(endpoints.end)} does not equal the target's round position ${JSON.stringify(expectedEnd)}`);
+  arena.state.replay = savedReplay;
+}
 
 for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "moon" && path !== "planet")) {
   assert(count, `Canvas ${path} effect path did not execute`);

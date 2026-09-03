@@ -8,6 +8,7 @@
   const SPRITE_UNITS_TO_HEX_RADIUS = .105;
   const WARP_FALLBACK_DISTANCE_HEXES = 8;
   const WARP_CUT = .48;
+  const MOVEMENT_END = .42;
   const SESSION_REPLAY_KEY = "orion-wars:scenario-replay:v3";
 
   // --- hex geometry constants -------------------------------------------
@@ -95,6 +96,7 @@
     // sheet stays available behind the toggle.
     render: "icons",
     offsets: new Map(),
+    logFilters: { movement: true, fire: true, damage: true, specials: true, raw: false },
     effects: null,
     camera: {
       zoom: 1, x: 0, y: 0, autoFrame: true,
@@ -238,6 +240,90 @@
     return replay.log.filter((entry) => roundKey(entry) === key);
   }
 
+  const FACING_NAMES = ["E", "NE", "NW", "W", "SW", "SE"];
+  const fmtPos = (pos) => `(${pos.q},${pos.r})`;
+  const facingName = (facing) => FACING_NAMES[((Math.round(facing) % 6) + 6) % 6];
+  const shotSuffix = (event) => {
+    const range = Number.isFinite(event.range) ? `, range ${event.range}` : "";
+    return event.hit
+      ? `${range}: HIT${Number.isFinite(event.damage) ? ` for ${event.damage}` : ""}`
+      : `${range}: miss`;
+  };
+
+  function pairedMissileLaunches(replay) {
+    const queues = new Map();
+    const pairs = new Map();
+    for (const event of replay.shots ?? []) {
+      const exact = `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
+      if (event.kind === "launch") {
+        const queue = queues.get(exact) ?? [];
+        queue.push(event);
+        queues.set(exact, queue);
+      } else if (event.kind === "missile") {
+        let launch = queues.get(exact)?.shift();
+        if (!launch) {
+          for (const [key, queue] of queues) {
+            if (key.startsWith(`${event.weapon}|`) && key.endsWith(`|${event.targetId}`) && queue.length) {
+              launch = queue.shift();
+              break;
+            }
+          }
+        }
+        if (launch) pairs.set(event, launch);
+      }
+    }
+    return pairs;
+  }
+
+  function buildNarrative(replay, roundIndex) {
+    const round = replay.rounds?.[roundIndex];
+    if (!round) return [];
+    const previous = replay.rounds[roundIndex - 1];
+    const raw = roundLogLines(replay, round);
+    const events = (replay.shots ?? []).filter((event) => roundKey(event) === roundKey(round));
+    const out = [];
+    const add = (category, text) => out.push({ category, text });
+
+    if (previous) {
+      const warpIds = new Set(raw.map((entry) => /^(\S+) warps in behind\b/.exec(entry.message)?.[1]).filter(Boolean));
+      for (const ship of round.ships) {
+        const before = shipAt(previous, ship.id);
+        if (!before || (before.destroyed && ship.destroyed)) continue;
+        const verb = warpIds.has(ship.id) ? "warps" :
+          (before.pos.q === ship.pos.q && before.pos.r === ship.pos.r ? "holds" : "moves");
+        if (verb === "holds") add("movement", `${ship.id} holds ${fmtPos(ship.pos)}, facing ${facingName(ship.facing)}`);
+        else add("movement", `${ship.id} ${verb} ${fmtPos(before.pos)} \u2192 ${fmtPos(ship.pos)}, facing ${facingName(ship.facing)}`);
+      }
+    }
+
+    for (const event of events.filter((entry) => entry.kind === "beam" || entry.kind === "spinal")) {
+      add("fire", `${event.shooterId} fires ${event.weapon} at ${event.targetId}${shotSuffix(event)}`);
+    }
+    for (const event of events.filter((entry) => entry.kind === "launch")) {
+      const range = Number.isFinite(event.range) ? `, range ${event.range}` : "";
+      const warhead = Number.isFinite(event.damage) ? ` (warhead ${event.damage})` : "";
+      add("fire", `${event.shooterId ?? "Unknown ship"} launches ${event.weapon} at ${event.targetId}${range}${warhead}`);
+    }
+    const missilePairs = pairedMissileLaunches(replay);
+    for (const event of events.filter((entry) => entry.kind === "missile")) {
+      const launch = missilePairs.get(event);
+      const shooter = event.shooterId ?? launch?.shooterId ?? "unknown ship";
+      if (event.outcome === "hit") add("damage", `${event.weapon} from ${shooter} hits ${event.targetId} for ${event.damage ?? 0}`);
+      else if (event.outcome === "dead-target") add("damage", `${event.weapon} from ${shooter} finds ${event.targetId} already destroyed`);
+      else add("damage", `${event.weapon} from ${shooter} targeting ${event.targetId} is ${event.outcome ?? "lost"}`);
+    }
+    for (const event of events.filter((entry) => entry.kind === "strike")) {
+      const result = event.hits > 0 ? `${event.hits} hit for ${event.damage}` : "miss";
+      add("fire", `${event.squadronId ?? `${event.shooterId} ${event.craft}`} strikes ${event.targetId}: ${result}`);
+    }
+
+    const consumed = (message) => / warps in behind\b/.test(message) || / FIRES photonic-cannon\b/.test(message) || /: \d+ \w+\(s\) press home on /.test(message);
+    const remaining = raw.map((entry) => entry.message).filter((message) => !consumed(message));
+    for (const message of remaining.filter((message) => !/ destroyed$| detonates\b/.test(message))) add("specials", message);
+    for (const message of remaining.filter((message) => / destroyed$| detonates\b/.test(message))) add("damage", message);
+    return out;
+  }
+
   function buildShotEffects(replay) {
     if (!Array.isArray(replay.shots)) return [];
     const effects = [];
@@ -249,15 +335,23 @@
       if (event.kind === "beam") {
         effects.push({ kind: "beam", roundIndex, event });
       } else if (event.kind === "launch") {
-        const key = `${event.weapon}|${event.targetId}`;
+        const key = `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
         const queue = launches.get(key) || [];
         const effect = { kind: "missile", launchIndex: roundIndex, arrivalIndex: replay.rounds.length, launch: event, arrival: null };
         queue.push(effect);
         launches.set(key, queue);
         effects.push(effect);
       } else if (event.kind === "missile") {
-        const key = `${event.weapon}|${event.targetId}`;
-        const effect = launches.get(key)?.shift();
+        const key = `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
+        let effect = launches.get(key)?.shift();
+        if (!effect) {
+          for (const [candidate, queue] of launches) {
+            if (candidate.startsWith(`${event.weapon}|`) && candidate.endsWith(`|${event.targetId}`) && queue.length) {
+              effect = queue.shift();
+              break;
+            }
+          }
+        }
         if (effect) {
           effect.arrivalIndex = roundIndex;
           effect.arrival = event;
@@ -502,7 +596,10 @@
     $("#scrubber").value = String(state.index);
     $("#position").textContent = `${state.index + 1} / ${replay.rounds.length}`;
 
-    const lines = roundLogLines(replay, round);
+    const rawLines = roundLogLines(replay, round);
+    const lines = state.logFilters.raw
+      ? rawLines.map((entry) => ({ category: "raw", text: entry.message }))
+      : buildNarrative(replay, state.index).filter((entry) => state.logFilters[entry.category]);
     $("#log-count").textContent = `${lines.length} event${lines.length === 1 ? "" : "s"}`;
     const list = $("#log-lines");
     list.replaceChildren();
@@ -514,7 +611,8 @@
     } else {
       for (const entry of lines) {
         const item = document.createElement("li");
-        item.textContent = entry.message;
+        item.className = `log-${entry.category}`;
+        item.textContent = entry.text;
         list.append(item);
       }
     }
@@ -809,25 +907,50 @@
     }
   }
 
+  // Exact displayed centre in a recorded snapshot, including the deterministic
+  // nudge used when several ships share a hex.
+  function snapshotPoint(ship, round, geo) {
+    const at = project(ship.pos, geo);
+    const hex = hexRound(ship.pos.q, ship.pos.r);
+    const members = round.ships.filter((candidate) => {
+      if (candidate.destroyed) return false;
+      const candidateHex = hexRound(candidate.pos.q, candidate.pos.r);
+      return candidateHex.q === hex.q && candidateHex.r === hex.r;
+    }).map((candidate) => candidate.id).sort();
+    if (members.length < 2) return at;
+    const index = members.indexOf(ship.id);
+    const offset = stackLayout(members.length)[index];
+    return offset ? { x: at.x + offset.dx * geo.scale, y: at.y + offset.dy * geo.scale } : at;
+  }
+
+  function effectEndpoints(effect, geo) {
+    if (effect.kind === "beam") {
+      const round = state.replay.rounds[effect.roundIndex];
+      const shooter = shipAt(round, effect.event.shooterId);
+      const target = shipAt(round, effect.event.targetId);
+      return shooter && target ? { start: snapshotPoint(shooter, round, geo), end: snapshotPoint(target, round, geo), shooter, target } : null;
+    }
+    const launchRound = state.replay.rounds[effect.launchIndex];
+    const arrivalRound = state.replay.rounds[Math.min(effect.arrivalIndex, state.replay.rounds.length - 1)];
+    const shooter = shipAt(launchRound, effect.launch.shooterId) || lastShipAt(effect.launch.shooterId, effect.launchIndex);
+    const target = shipAt(arrivalRound, effect.launch.targetId) || lastShipAt(effect.launch.targetId, effect.arrivalIndex);
+    return shooter && target ? { start: snapshotPoint(shooter, launchRound, geo), end: snapshotPoint(target, arrivalRound, geo), shooter, target } : null;
+  }
+
   function drawBeam(effect, geo) {
-    const phase = state.progress;
+    if (state.progress < MOVEMENT_END) return;
+    const phase = effectProgress();
     if (phase > .38) return;
     const shot = effect.event;
-    const shooter = lastShipAt(shot.shooterId, effect.roundIndex);
-    const target = lastShipAt(shot.targetId, effect.roundIndex);
-    if (!shooter || !target) return;
-    const start = pointFor(shooter, geo);
-    let end = pointFor(target, geo);
-    if (!shot.hit) {
-      const dx = end.x - start.x, dy = end.y - start.y;
-      const length = Math.max(1, Math.hypot(dx, dy));
-      end = { x: end.x + dx / length * 34, y: end.y + dy / length * 34 };
-    }
+    const endpoints = effectEndpoints(effect, geo);
+    if (!endpoints) return;
+    const { start, shooter, target } = endpoints;
+    const end = endpoints.end;
     const laser = shot.weapon === "laser-cannon";
     const heavy = shot.weapon === "heavy-blaster";
     const alpha = Math.max(0, 1 - phase / .38);
-    const head = mixPoint(start, end, Math.min(1, phase / .16 + .35));
-    const tail = laser ? start : mixPoint(start, head, .58);
+    const head = end;
+    const tail = start;
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.lineCap = "round";
@@ -846,20 +969,22 @@
   }
 
   function drawMissile(effect, geo, now) {
-    const absolute = state.index + state.progress;
+    const phase = effectProgress();
     const arrivalIndex = Math.min(effect.arrivalIndex, state.replay.rounds.length - 1);
+    if (state.index === effect.launchIndex && state.progress < MOVEMENT_END) return;
+    const resolving = state.progress >= MOVEMENT_END;
+    const absolute = state.index === arrivalIndex && !resolving ? state.index - .08 : state.index + phase;
     if (absolute < effect.launchIndex || state.index > arrivalIndex) return;
-    const shooter = lastShipAt(effect.launch.shooterId, effect.launchIndex);
-    const target = lastShipAt(effect.launch.targetId, arrivalIndex);
-    if (!shooter || !target) return;
-    const start = pointFor(shooter, geo);
-    const end = pointFor(target, geo);
+    const endpoints = effectEndpoints(effect, geo);
+    if (!endpoints) return;
+    const { start, end, shooter, target } = endpoints;
+    drawMissileGuide(start, end, effect, geo);
     const span = Math.max(1, effect.arrivalIndex - effect.launchIndex);
     const rawTravel = Math.max(0, Math.min(1, (absolute - effect.launchIndex) / span));
     const outcome = effect.arrival?.outcome;
     const plasma = effect.launch.weapon === "plasma-torpedo";
     const travel = plasma ? Math.pow(rawTravel, 1.18) : rawTravel;
-    const bend = plasma ? geo.scale * .3 : 0;
+    const bend = 0;
     const cappedTravel = outcome === "intercepted" ? Math.min(travel, .62) : travel;
     const at = curvePoint(start, end, cappedTravel, bend);
     if (outcome === "evaded") {
@@ -869,18 +994,52 @@
       at.x -= dy / length * wide;
       at.y += dx / length * wide;
     }
-    if (outcome === "intercepted" && state.index === arrivalIndex) {
-      if (state.progress < .34) drawMissilePop(at, plasma, state.progress / .34);
+    if (outcome === "intercepted" && state.index === arrivalIndex && resolving) {
+      if (phase < .34) drawMissilePop(at, plasma, phase / .34);
+      if (phase < .42) drawArrivalLabel(end, "intercepted", phase, geo);
       return;
     }
     const fade = outcome === "dead-target" && travel > .78 ? Math.max(0, (1 - travel) / .22) : 1;
     if (fade <= 0) return;
     if (plasma) drawPlasma(at, start, end, cappedTravel, bend, fade, now);
     else drawNeutronic(at, fade, now);
-    if (effect.arrival && state.index === arrivalIndex && state.progress < .32) {
-      if (outcome === "hit") drawShieldFlash(target, shooter.pos, geo, state.progress / .32);
-      else if (outcome === "evaded") drawEvadeStreak(at, start, end, state.progress);
+    if (effect.arrival && state.index === arrivalIndex && resolving && phase < .42) {
+      if (outcome === "hit" && phase < .32) drawShieldFlash(target, shooter.pos, geo, phase / .32);
+      else if (outcome === "evaded" && phase < .32) drawEvadeStreak(at, start, end, phase);
+      const label = outcome === "hit" ? `HIT ${effect.arrival.damage ?? 0}`
+        : outcome === "evaded" ? "evaded" : outcome === "dead-target" ? "dead target" : outcome;
+      if (label) drawArrivalLabel(end, label, phase, geo);
     }
+  }
+
+  function drawMissileGuide(start, end, effect, geo) {
+    ctx.save();
+    ctx.globalAlpha = .48;
+    ctx.strokeStyle = effect.launch.weapon === "plasma-torpedo" ? "#56ffd0" : "#ffd36a";
+    ctx.lineWidth = Math.max(1, geo.scale * .08);
+    ctx.setLineDash?.([Math.max(3, geo.scale * .42), Math.max(3, geo.scale * .32)]);
+    ctx.beginPath(); ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y); ctx.stroke();
+    ctx.setLineDash?.([]);
+    const radius = Math.max(5, geo.scale * .55);
+    ctx.globalAlpha = .8;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(end.x, end.y, radius, 0, Math.PI * 2);
+    ctx.moveTo(end.x - radius * 1.45, end.y); ctx.lineTo(end.x - radius * .65, end.y);
+    ctx.moveTo(end.x + radius * .65, end.y); ctx.lineTo(end.x + radius * 1.45, end.y);
+    ctx.moveTo(end.x, end.y - radius * 1.45); ctx.lineTo(end.x, end.y - radius * .65);
+    ctx.moveTo(end.x, end.y + radius * .65); ctx.lineTo(end.x, end.y + radius * 1.45);
+    ctx.stroke(); ctx.restore();
+  }
+
+  function drawArrivalLabel(at, text, phase, geo) {
+    if (!ctx.fillText) return;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, 1 - phase / .42);
+    ctx.fillStyle = text.startsWith("HIT") ? "#fff0c2" : "#b8c8d2";
+    ctx.font = `600 ${Math.max(10, geo.scale * .78)}px ui-sans-serif, system-ui, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.fillText(text, at.x, at.y - Math.max(13, geo.scale * 1.4));
+    ctx.restore();
   }
 
   function drawNeutronic(at, alpha, now) {
@@ -1168,31 +1327,39 @@
 
   function clamp01(value) { return Math.max(0, Math.min(1, value)); }
 
+  function movementProgress() {
+    return clamp01(state.progress / MOVEMENT_END);
+  }
+
+  function effectProgress() {
+    return clamp01((state.progress - MOVEMENT_END) / (1 - MOVEMENT_END));
+  }
+
   function shortestFacingDelta(from, to) {
     return ((to - from + 3) % 6 + 6) % 6 - 3;
   }
 
-  function interpolateShip(ship, nextRound, amount) {
-    const next = shipAt(nextRound, ship.id);
-    if (!next || amount <= 0) return ship;
-    const distance = hexDistance(ship.pos, next.pos);
-    const warpKey = `${nextRound.turn}:${nextRound.round}:${ship.id}`;
+  function interpolateShip(ship, previousRound, amount) {
+    const previous = shipAt(previousRound, ship.id);
+    if (!previous || amount >= 1) return ship;
+    const distance = hexDistance(previous.pos, ship.pos);
+    const warpKey = `${currentRound().turn}:${currentRound().round}:${ship.id}`;
     const warp = state.warpEvents.has(warpKey) || (!state.hasReplayLog && distance >= WARP_FALLBACK_DISTANCE_HEXES);
     const pos = warp
-      ? (amount < WARP_CUT ? ship.pos : next.pos)
-      : { q: ship.pos.q + (next.pos.q - ship.pos.q) * amount, r: ship.pos.r + (next.pos.r - ship.pos.r) * amount };
+      ? (amount < WARP_CUT ? previous.pos : ship.pos)
+      : { q: previous.pos.q + (ship.pos.q - previous.pos.q) * amount, r: previous.pos.r + (ship.pos.r - previous.pos.r) * amount };
     const opacity = warp
       ? (amount < WARP_CUT ? clamp01(1 - amount / .36) : clamp01((amount - WARP_CUT) / .28))
       : 1;
     return {
       ...ship,
       pos,
-      facing: ship.facing + shortestFacingDelta(ship.facing, next.facing) * amount,
-      destroyed: amount < .72 ? ship.destroyed : next.destroyed,
-      superstructure: amount < .72 ? ship.superstructure : next.superstructure,
-      shieldCap: amount < .72 ? ship.shieldCap : next.shieldCap,
-      shieldDown: amount < .72 ? ship.shieldDown : next.shieldDown,
-      _motion: { start: ship.pos, end: next.pos, amount, distance, warp, opacity }
+      facing: previous.facing + shortestFacingDelta(previous.facing, ship.facing) * amount,
+      destroyed: amount < .72 ? previous.destroyed : ship.destroyed,
+      superstructure: amount < .72 ? previous.superstructure : ship.superstructure,
+      shieldCap: amount < .72 ? previous.shieldCap : ship.shieldCap,
+      shieldDown: amount < .72 ? previous.shieldDown : ship.shieldDown,
+      _motion: { start: previous.pos, end: ship.pos, amount, distance, warp, opacity }
     };
   }
 
@@ -1453,21 +1620,19 @@
   function drawSpinalFire(geo) {
     const fires = state.effects?.fires[state.index];
     if (!fires || !fires.length) return;
-    const phase = state.progress;
+    if (state.progress < MOVEMENT_END) return;
+    const phase = effectProgress();
     if (phase > .52) return;
     for (const shot of fires) {
-      const shooter = lastShipAt(shot.shooterId, state.index);
-      const target = lastShipAt(shot.targetId, state.index);
+      const snapshot = state.replay.rounds[state.index];
+      const shooter = shipAt(snapshot, shot.shooterId);
+      const target = shipAt(snapshot, shot.targetId);
       if (!shooter || !target) continue;
-      const start = pointFor(shooter, geo);
-      const aim = pointFor(target, geo);
-      const dx = aim.x - start.x, dy = aim.y - start.y;
-      const length = Math.max(1, Math.hypot(dx, dy));
-      // A miss from a keel gun does not stop at the target: it goes past it.
-      const end = shot.hit ? aim
-        : { x: aim.x + dx / length * geo.scale * 2.6, y: aim.y + dy / length * geo.scale * 2.6 };
+      const start = snapshotPoint(shooter, snapshot, geo);
+      const aim = snapshotPoint(target, snapshot, geo);
+      const end = aim;
       const alpha = Math.max(0, 1 - phase / .52);
-      const head = mixPoint(start, end, Math.min(1, phase / .14 + .3));
+      const head = end;
       ctx.save();
       ctx.globalAlpha = alpha;
       ctx.lineCap = "round";
@@ -1631,9 +1796,8 @@
     if (!state.replay) return;
     const geo = geometry();
     const round = currentRound();
-    const next = state.replay.rounds[state.index + 1];
     const previous = state.replay.rounds[state.index - 1];
-    const ships = round.ships.map((raw) => interpolateShip(raw, next, state.progress));
+    const ships = round.ships.map((raw) => interpolateShip(raw, previous, movementProgress()));
     state.camera.moving = autoFrameCamera(ships, geo, now);
 
     // Everything on the tactical map shares this one camera transform. UI and
@@ -1679,7 +1843,7 @@
     if (!state.replay) return;
     const old = state.index;
     state.index = Math.max(0, Math.min(state.replay.rounds.length - 1, index));
-    state.progress = 0;
+    state.progress = state.index === 0 ? 0 : MOVEMENT_END;
     if (flash && state.index !== old) state.flashUntil = performance.now() + 480;
     updatePanel();
     draw();
@@ -1746,6 +1910,15 @@
   $("#close-ship").addEventListener("click", () => { state.pinned = null; $("#ship-card").hidden = true; draw(); });
   $("#mode-icons")?.addEventListener("click", () => setRenderMode("icons"));
   $("#mode-sprites")?.addEventListener("click", () => setRenderMode("sprites"));
+  document.querySelectorAll("[data-log-filter]").forEach((input) => input.addEventListener("change", () => {
+    const key = input.dataset.logFilter;
+    if (!(key in state.logFilters)) return;
+    state.logFilters[key] = Boolean(input.checked);
+    if (key === "raw") {
+      document.querySelectorAll("[data-log-filter]:not([data-log-filter=raw])").forEach((filter) => { filter.disabled = state.logFilters.raw; });
+    }
+    updatePanel();
+  }));
   $("#frame-fleets")?.addEventListener("click", () => setAutoFrame(true, true));
   $("#fit-map")?.addEventListener("click", fitMap);
   canvas.addEventListener("wheel", (event) => {
@@ -1838,11 +2011,11 @@
   window.__arena = {
     state, icons, sprites,
     mapShape, inBounds, geometry, project, hexRound, stackLayout, markerSize,
-    buildLogEffects, setRenderMode, drawTerrain,
+    buildLogEffects, buildNarrative, buildShotEffects, effectEndpoints, setRenderMode, drawTerrain,
     cameraLimits, clampCameraZoom, livingShipBounds, cameraForBounds,
     setAutoFrame, fitMap, screenToWorld,
     constants: { HEX_INRADIUS, ICON_SPAN, ICON_EXTENT, CRAFT_SPAN, READY_SPAN, READY_MAX_GLYPHS, READY_GAP,
-      CAMERA_MARGIN_HEXES, CAMERA_MAX_HEX_WIDTH, PAN_THRESHOLD }
+      CAMERA_MARGIN_HEXES, CAMERA_MAX_HEX_WIDTH, PAN_THRESHOLD, MOVEMENT_END }
   };
 
   async function loadInitialReplay() {

@@ -6,7 +6,7 @@
   <title>Orion Wars — Battle Arena</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./arena.css">
-  <script src="./arena.js?v=terrain7" defer></script>
+  <script src="./arena.js?v=viewer-log1" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -67,6 +67,13 @@
 
       <section class="combat-log">
         <div class="section-head"><p class="eyebrow">ROUND LOG</p><span id="log-count">0 events</span></div>
+        <div class="log-filters" role="group" aria-label="Round log filters">
+          <label><input type="checkbox" data-log-filter="movement" checked> Movement</label>
+          <label><input type="checkbox" data-log-filter="fire" checked> Fire</label>
+          <label><input type="checkbox" data-log-filter="damage" checked> Damage</label>
+          <label><input type="checkbox" data-log-filter="specials" checked> Specials</label>
+          <label class="raw"><input type="checkbox" data-log-filter="raw"> Raw engine lines</label>
+        </div>
         <ol id="log-lines"></ol>
       </section>
     </aside>

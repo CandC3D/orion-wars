@@ -1546,3 +1546,15 @@ missiles lose their sensor locks. So nothing crosses a nebula and nothing
 reaches its interior from outside; a ship in the first fog hex can still be
 hit from outside, one deeper cannot. From inside, the visibility rule
 governs. Verified: through-fire blocked; first hex reachable; second not.
+
+### 26f. Editor and viewer caught up with the tiles (2026-09-02, Sonnet agent)
+
+Five terrain brushes in the editor (moon, planet, large asteroid, asteroid
+field, nebula — the nebula brush stays active so a cloud is painted a hex
+per click), the same deterministic per-hex art in editor and viewer, ships
+drawn with the icon set on the map, the fleet-builder buttons and the tray
+cards, and the chevron fallback removed everywhere ("no need for little
+triangles") — a coverage assertion proves every roster class has an icon.
+Verified in the pane with Chris's first scenario plus every tile type; no
+console errors. Committed. Sol now has the beam-connect, missile-target and
+narrative-log brief.
