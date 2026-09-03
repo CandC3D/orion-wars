@@ -5,17 +5,19 @@ Run with:
         --background --python assets/blender/scripts/legibility_demo.py
 
 The source meshes and silhouettes are never edited.  The AFTER treatment flood-
-fills source-blue faces across position-welded edges, then recolours complete
-regions only.  This keeps every boundary on an existing geometric edge.
+fills source-colour faces across position-welded edges, recolours complete blue
+regions, and masks complete authored lit-system regions for emission.  This
+keeps every boundary on an existing geometric edge.
 """
 
 import math
 import os
 import subprocess
 import tempfile
+from array import array
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Dict, Tuple
+from typing import Dict, Iterable, Tuple
 
 import bpy
 from mathutils import Vector
@@ -46,6 +48,10 @@ SYSTEM_CORE_SRGB = (0.02, 0.50, 0.72, 1.0)
 NO_EMISSION = (0.0, 0.0, 0.0, 1.0)
 MASK_ON = (1.0, 1.0, 1.0, 1.0)
 WELD_EPSILON = 1.0e-4
+WINDOW_COMPONENT_AREA_MAX = 4.0
+SPRITE_TILE_PIXELS = 64
+SPRITE_SILHOUETTE_PIXELS = 48
+SPRITE_MIN_CLEARANCE_PIXELS = 5
 
 
 @dataclass(frozen=True)
@@ -295,19 +301,26 @@ class BlueRegion:
     total_area: float
 
 
+@dataclass(frozen=True)
+class ColourRegion:
+    face_indices: Tuple[int, ...]
+    centroid: Vector
+    total_area: float
+
+
 def position_key(point: Vector) -> Tuple[int, int, int]:
     return tuple(round(point[axis] / WELD_EPSILON) for axis in range(3))
 
 
-def build_blue_regions(obj, config: HullConfig, frame: HullFrame):
-    """Flood-fill blue faces across geometric edges after position welding."""
+def build_colour_regions(obj, palette_name: str):
+    """Flood-fill one authored colour across geometric edges after welding."""
     mesh = obj.data
     color_attr = mesh.color_attributes["Color"]
-    blue_faces = [
+    colour_faces = [
         poly for poly in mesh.polygons
-        if dominant_face_colour(poly, color_attr) == "blue"
+        if dominant_face_colour(poly, color_attr) == palette_name
     ]
-    parent = {poly.index: poly.index for poly in blue_faces}
+    parent = {poly.index: poly.index for poly in colour_faces}
 
     def find(index):
         root = index
@@ -326,7 +339,7 @@ def build_blue_regions(obj, config: HullConfig, frame: HullFrame):
 
     world_vertices = [obj.matrix_world @ vertex.co for vertex in mesh.vertices]
     edge_faces = defaultdict(list)
-    for poly in blue_faces:
+    for poly in colour_faces:
         keys = [position_key(world_vertices[index]) for index in poly.vertices]
         for edge_index, first in enumerate(keys):
             second = keys[(edge_index + 1) % len(keys)]
@@ -336,12 +349,33 @@ def build_blue_regions(obj, config: HullConfig, frame: HullFrame):
             union(owners[0], owner)
 
     grouped = defaultdict(list)
-    for poly in blue_faces:
+    for poly in colour_faces:
         grouped[find(poly.index)].append(poly)
 
     regions = []
-    eligible_dorsal_blue_area = 0.0
     for polys in grouped.values():
+        total_area = sum(poly.area for poly in polys)
+        weighted = sum(
+            ((obj.matrix_world @ poly.center) * poly.area for poly in polys),
+            Vector(),
+        )
+        regions.append(
+            ColourRegion(
+                face_indices=tuple(poly.index for poly in polys),
+                centroid=weighted / total_area,
+                total_area=total_area,
+            )
+        )
+    return regions
+
+
+def build_blue_regions(obj, config: HullConfig, frame: HullFrame):
+    """Add dorsal measurements to complete, position-welded blue regions."""
+    mesh = obj.data
+    regions = []
+    eligible_dorsal_blue_area = 0.0
+    for colour_region in build_colour_regions(obj, "blue"):
+        polys = [mesh.polygons[index] for index in colour_region.face_indices]
         dorsal_faces = []
         for poly in polys:
             center = obj.matrix_world @ poly.center
@@ -364,7 +398,7 @@ def build_blue_regions(obj, config: HullConfig, frame: HullFrame):
                 face_indices=tuple(poly.index for poly in polys),
                 dorsal_centroid=dorsal_centroid,
                 dorsal_area=dorsal_area,
-                total_area=sum(poly.area for poly in polys),
+                total_area=colour_region.total_area,
             )
         )
     return regions, eligible_dorsal_blue_area
@@ -389,11 +423,28 @@ def recolour_region(mesh, region: BlueRegion, color_attr, colour) -> None:
             color_attr.data[loop_index].color = colour
 
 
+def mark_regions_emissive(mesh, emission_attr, regions: Iterable) -> int:
+    face_count = 0
+    for region in regions:
+        face_count += len(region.face_indices)
+        for face_index in region.face_indices:
+            for loop_index in mesh.polygons[face_index].loop_indices:
+                emission_attr.data[loop_index].color = MASK_ON
+    return face_count
+
+
 def apply_after_scheme(obj, config: HullConfig, frame: HullFrame) -> dict:
     mesh = obj.data
     color_attr = mesh.color_attributes["Color"]
     emission_attr = ensure_emission_attribute(mesh)
     regions, eligible_dorsal_blue_area = build_blue_regions(obj, config, frame)
+    red_regions = build_colour_regions(obj, "red")
+    green_regions = build_colour_regions(obj, "green")
+    light_gray_regions = build_colour_regions(obj, "light_gray")
+    window_regions = [
+        region for region in light_gray_regions
+        if region.total_area <= WINDOW_COMPONENT_AREA_MAX
+    ]
     class_regions = []
     glow_regions = []
 
@@ -418,9 +469,11 @@ def apply_after_scheme(obj, config: HullConfig, frame: HullFrame) -> dict:
     # these complete regions receive the explicit emission mask.
     for region in glow_regions:
         recolour_region(mesh, region, color_attr, SYSTEM_CORE_SRGB)
-        for face_index in region.face_indices:
-            for loop_index in mesh.polygons[face_index].loop_indices:
-                emission_attr.data[loop_index].color = MASK_ON
+
+    cyan_faces = mark_regions_emissive(mesh, emission_attr, glow_regions)
+    red_faces = mark_regions_emissive(mesh, emission_attr, red_regions)
+    window_faces = mark_regions_emissive(mesh, emission_attr, window_regions)
+    green_faces = mark_regions_emissive(mesh, emission_attr, green_regions)
 
     # A selected or untouched source-blue region must remain one uniform
     # per-face colour after the pass.  Any mixed result would mean a mask cut
@@ -446,6 +499,19 @@ def apply_after_scheme(obj, config: HullConfig, frame: HullFrame) -> dict:
     print("PANEL_REGIONS", config.key, "blue=%d class=%s glow=%s" % (
         len(regions), centroid_list(class_regions), centroid_list(glow_regions)
     ))
+    print(
+        "LIT_SYSTEM_REGIONS %s cyan=%d red=%d white_windows=%d/%d green=%d "
+        "window_area_max=%.1f"
+        % (
+            config.key,
+            len(glow_regions),
+            len(red_regions),
+            len(window_regions),
+            len(light_gray_regions),
+            len(green_regions),
+            WINDOW_COMPONENT_AREA_MAX,
+        )
+    )
 
     return {
         "painted_faces": sum(len(region.face_indices) for region in class_regions),
@@ -455,6 +521,12 @@ def apply_after_scheme(obj, config: HullConfig, frame: HullFrame) -> dict:
         "painted_regions": len(class_regions),
         "glow_regions": len(glow_regions),
         "eligible_dorsal_blue_area": eligible_dorsal_blue_area,
+        "cyan_emissive_faces": cyan_faces,
+        "red_emissive_faces": red_faces,
+        "window_emissive_faces": window_faces,
+        "window_emissive_regions": len(window_regions),
+        "light_gray_regions": len(light_gray_regions),
+        "green_emissive_faces": green_faces,
     }
 
 
@@ -487,8 +559,9 @@ def make_vertex_colour_material(name: str, emission_strength: float):
     bsdf.inputs["Metallic"].default_value = 0.0
     bsdf.inputs["Specular IOR Level"].default_value = 0.20
     links.new(decode.outputs["Color"], bsdf.inputs["Base Color"])
-    # Glow regions receive SYSTEM_CORE_SRGB in Color, so the same gamma-decoded
-    # value drives emission; the face mask controls where strength is nonzero.
+    # The decoded base colour drives emission for every masked face.  Cyan
+    # stations receive SYSTEM_CORE_SRGB; red, white, and green retain their
+    # authored hues.  The face mask controls where strength is nonzero.
     links.new(decode.outputs["Color"], bsdf.inputs["Emission Color"])
     links.new(strength.outputs[0], bsdf.inputs["Emission Strength"])
     links.new(bsdf.outputs["BSDF"], output.inputs["Surface"])
@@ -576,20 +649,130 @@ def render_view(scene, camera, before, after, frame: HullFrame, state: str, view
     bpy.ops.render.render(write_still=True)
 
 
-def render_sprite_tile(scene, camera, before, after, frame: HullFrame, state: str, filepath: str, scale: int) -> None:
-    """Render one 64 px square tile with a full 48 px ship silhouette."""
-    set_visibility(before, after, state)
-    ship_length = frame.size.x
-    scene.render.resolution_x = 64 * scale
-    scene.render.resolution_y = 64 * scale
+def projected_vertex_bounds(obj, camera):
+    """Return exact camera-plane bounds from every mesh vertex."""
+    bpy.context.view_layer.update()
+    world_to_camera = camera.matrix_world.inverted()
+    projected = [
+        world_to_camera @ (obj.matrix_world @ vertex.co)
+        for vertex in obj.data.vertices
+    ]
+    return (
+        min(point.x for point in projected),
+        max(point.x for point in projected),
+        min(point.y for point in projected),
+        max(point.y for point in projected),
+    )
+
+
+def fit_sprite_camera(scene, camera, obj, frame: HullFrame, scale: int):
+    """Centre and fit the complete projected mesh with 8 px nominal clearance."""
+    width = SPRITE_TILE_PIXELS * scale
+    height = SPRITE_TILE_PIXELS * scale
+    aspect = (
+        width * scene.render.pixel_aspect_x
+        / (height * scene.render.pixel_aspect_y)
+    )
     camera.data.type = "ORTHO"
-    camera.data.ortho_scale = ship_length * (64.0 / 48.0)
     camera.data.shift_x = 0.0
     camera.data.shift_y = 0.0
-    camera.location = frame.center + Vector((0.0, 0.0, ship_length * 2.0))
+    camera.location = frame.center + Vector((0.0, 0.0, max(frame.size) * 2.0))
     camera.rotation_euler = (0.0, 0.0, 0.0)
+
+    min_x, max_x, min_y, max_y = projected_vertex_bounds(obj, camera)
+    centre_x = (min_x + max_x) * 0.5
+    centre_y = (min_y + max_y) * 0.5
+    camera_right = camera.matrix_world.to_3x3() @ Vector((1.0, 0.0, 0.0))
+    camera_up = camera.matrix_world.to_3x3() @ Vector((0.0, 1.0, 0.0))
+    camera.location += camera_right * centre_x + camera_up * centre_y
+    bpy.context.view_layer.update()
+
+    min_x, max_x, min_y, max_y = projected_vertex_bounds(obj, camera)
+    projected_width = max_x - min_x
+    projected_height = max_y - min_y
+    fill_fraction = SPRITE_SILHOUETTE_PIXELS / SPRITE_TILE_PIXELS
+    camera.data.ortho_scale = max(
+        projected_height,
+        projected_width / aspect,
+    ) / fill_fraction
+    expected_width = projected_width / (camera.data.ortho_scale * aspect) * width
+    expected_height = projected_height / camera.data.ortho_scale * height
+    print(
+        "SPRITE_PROJECTED_FIT %s %dx expected=%.2fx%.2f px vertex_bounds="
+        "(%.5f,%.5f,%.5f,%.5f)"
+        % (
+            obj.name,
+            scale,
+            expected_width,
+            expected_height,
+            min_x,
+            max_x,
+            min_y,
+            max_y,
+        )
+    )
+
+
+def non_background_pixel_bounds(filepath: str, region=None):
+    """Measure RGB pixels that differ visibly from the tile's corner pixel."""
+    image = bpy.data.images.load(filepath, check_existing=False)
+    try:
+        width, height = image.size
+        pixels = array("f", [0.0]) * (width * height * 4)
+        image.pixels.foreach_get(pixels)
+        if region is None:
+            x0, y0, region_width, region_height = 0, 0, width, height
+        else:
+            x0, y0, region_width, region_height = region
+        background_offset = (y0 * width + x0) * 4
+        background = pixels[background_offset:background_offset + 3]
+        tolerance = 3.0 / 255.0
+        min_x, min_y = region_width, region_height
+        max_x = max_y = -1
+        for local_y in range(region_height):
+            for local_x in range(region_width):
+                offset = ((y0 + local_y) * width + x0 + local_x) * 4
+                if max(
+                    abs(pixels[offset + channel] - background[channel])
+                    for channel in range(3)
+                ) > tolerance:
+                    min_x = min(min_x, local_x)
+                    max_x = max(max_x, local_x)
+                    min_y = min(min_y, local_y)
+                    max_y = max(max_y, local_y)
+        if max_x < 0:
+            raise RuntimeError("No non-background pixels found in %s" % filepath)
+        return min_x, max_x, min_y, max_y
+    finally:
+        bpy.data.images.remove(image)
+
+
+def verify_sprite_bounds(filepath: str, scale: int, label: str, region=None):
+    bounds = non_background_pixel_bounds(filepath, region)
+    tile_size = SPRITE_TILE_PIXELS * scale
+    min_x, max_x, min_y, max_y = bounds
+    clearance = (min_x, tile_size - 1 - max_x, min_y, tile_size - 1 - max_y)
+    minimum = SPRITE_MIN_CLEARANCE_PIXELS * scale
+    if min(clearance) < minimum:
+        raise RuntimeError(
+            "%s sprite clearance %s is below %d px" % (label, clearance, minimum)
+        )
+    print(
+        "SPRITE_PIXEL_BOUNDS %s x=%d..%d y=%d..%d clearance=%s"
+        % (label, min_x, max_x, min_y, max_y, clearance)
+    )
+    return bounds
+
+
+def render_sprite_tile(scene, camera, before, after, frame: HullFrame, state: str, filepath: str, scale: int) -> None:
+    """Render one square tile with the full silhouette fitted from all vertices."""
+    set_visibility(before, after, state)
+    scene.render.resolution_x = SPRITE_TILE_PIXELS * scale
+    scene.render.resolution_y = SPRITE_TILE_PIXELS * scale
+    fit_sprite_camera(scene, camera, before, frame, scale)
     scene.render.filepath = filepath
     bpy.ops.render.render(write_still=True)
+    verify_sprite_bounds(filepath, scale, "%s-%s-%dx" % (before.name, state, scale))
 
 
 def powershell_quote(value: str) -> str:
@@ -634,17 +817,26 @@ def render_composite(source_paths, output_path: str) -> None:
 
 def assemble_sprite_strip(tile_paths, output_path: str, scale: int) -> None:
     """Join CL-before, CL-after, CA-before, CA-after without resampling."""
-    tile_width = 64 * scale
-    tile_height = 64 * scale
+    tile_width = SPRITE_TILE_PIXELS * scale
+    tile_height = SPRITE_TILE_PIXELS * scale
     draw_commands = []
     for index, path in enumerate(tile_paths):
         draw_commands.append(
             "$img=[Drawing.Image]::FromFile(%s); "
-            "$g.DrawImageUnscaled($img,%d,0); $img.Dispose();"
-            % (powershell_quote(path), index * tile_width)
+            "$dest=[Drawing.Rectangle]::new(%d,0,%d,%d); "
+            "$g.DrawImage($img,$dest,0,0,%d,%d,[Drawing.GraphicsUnit]::Pixel); "
+            "$img.Dispose();"
+            % (
+                powershell_quote(path),
+                index * tile_width,
+                tile_width,
+                tile_height,
+                tile_width,
+                tile_height,
+            )
         )
     script = (
-        "Add-Type -AssemblyName System.Drawing; "
+        "$ErrorActionPreference='Stop'; Add-Type -AssemblyName System.Drawing; "
         "$canvas=New-Object Drawing.Bitmap %d,%d; " % (tile_width * 4, tile_height)
         + "$g=[Drawing.Graphics]::FromImage($canvas); "
         + "$g.Clear([Drawing.Color]::FromArgb(255,5,6,9)); "
@@ -733,4 +925,13 @@ if __name__ == "__main__":
             strip_path = os.path.join(OUTPUT_DIR, "cruisers_sprite_strip%s.png" % suffix)
             print("ASSEMBLE", strip_path)
             assemble_sprite_strip(ordered, strip_path, scale)
+            tile_size = SPRITE_TILE_PIXELS * scale
+            labels = ("CL-before", "CL-after", "CA-before", "CA-after")
+            for index, label in enumerate(labels):
+                verify_sprite_bounds(
+                    strip_path,
+                    scale,
+                    "%s-strip-%dx" % (label, scale),
+                    region=(index * tile_size, 0, tile_size, tile_size),
+                )
     print("LEGIBILITY_DEMO_DONE")
