@@ -1845,3 +1845,20 @@ not byte-identical; the per-facing damage tables are unchanged.
 **Missile destroyer** (`missile-destroyer`, all rosters): two forward tubes
 (arc f, magazine 8) and one all-round beam, on the destroyer hull at the
 destroyer's price until measured. Icon "DM".
+
+### 25 (ledger) — 2026-09-03, six destroyer duels in the playfield (Chris): "standing still wins"
+
+Six EAR-vs-KRE destroyer duels, Earth under human orders, Krelath on the
+helm. Holding at range 11 won twice (once without the Krelath firing at all,
+to a twin neutronic salvo); closing to range 2-3 lost or traded four times
+(blaster 8 + plasma 18 at point blank). Diagnosis: (1) HELM DEFECT - the
+Krelath destroyer opens with a 15-hex dash that spends 11.7 of 16 power and
+parks at range 11, its worst band and Earth's best; next turn it fires from
+there BEFORE closing. Dash-and-park plus fire-then-move gives Earth a fight at
+Earth's range. Fix in the helm: plan the turn, close early, fire late from the
+best band, open with a dash that leaves power to shoot, use the warp.
+(2) MOVEMENT PRICE - 1 power per hex on a 16-point pool with 5-point beams and
+2-3-point missiles: ten hexes cost a turn's gunnery. FASA charged 1 per hex on
+pools two to three times larger relative to weapon costs. Candidate ruling:
+halve the power per hex, or raise pools. Measure first. (3) Plasma at range
+3 doing 18 is flavour working; leave it.
