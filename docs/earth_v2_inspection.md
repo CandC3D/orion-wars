@@ -295,3 +295,31 @@ exact self-union (mesh.intersect_boolean UNION use_self) as a candidate.
 Hulls that render CLEAN in true colour: CL (Union), CA, BB, DN, CV.
 Confetti: DD (heavy). Scrambled palette: FF (re-export pending).
 Sol's legibility demo therefore moved to the CL/CA sister pair.
+
+## DD "confetti" root cause: per-triangle colour NOISE, not shells (2026-09-02)
+
+Ray-cast overlap test: CA has MORE coincident different-colour faces
+(5.5% of sampled) than DD (1.0%) yet renders clean; DD alone has 1.7% of
+faces whose colour matches NONE of its position-neighbours (CA: 0%).
+Cycles and exact self-union both left the speckle. => The DD export
+assigned random palette colours to individual triangles on collars,
+pods and domes. Fix: neighbour majority-vote filter
+(assets/blender/scripts/colour_denoise.py) - isolated minority-colour
+faces adopt the neighbourhood consensus; large colour regions untouched.
+
+## DD cleanup attempts (2026-09-02) - all three FAILED to remove the stripes
+
+1. Cycles render (float ray hits): stripes unchanged.
+2. Exact self-union (mesh.intersect_boolean UNION use_self): 158k -> 128k
+   faces (interior removed), stripes unchanged.
+3. Neighbour majority-vote colour filter (colour_denoise.py): 3.5% faces
+   changed, stripes unchanged.
+4. Coincident-shell cleanup by region size (coincident_cleanup.py):
+   only 3,282 coincident different-colour faces found, 1,945 deleted,
+   stripes unchanged.
+=> The striped collars/pods/domes are single continuous surfaces whose
+adjacent strips are coloured in alternation IN THE FILE (see
+probe_collar_stripes.py). Not a rendering problem, not overlap, not
+isolated noise. Every DD export to date (v2.0, v2.1 plain, Bundle,
+Union) shows it. Needs owner investigation in Tinkercad (stacked
+duplicate shapes at those parts?) or a rebuilt collar/pod group.
