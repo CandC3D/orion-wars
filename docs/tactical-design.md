@@ -1670,3 +1670,40 @@ tuning pass's brief, now on an honest ladder and a map that holds a swarm.
   arcs, attack the enemy's, move out of firing arcs when possible — is not
   something the helm does yet. Engine content: an arc-aware helm, measured
   by the maneuver index and these three scenarios.
+
+---
+
+## 30. The interactive playfield (2026-09-03)
+
+Chris: "make it possible for me to give commands to one of the fleets from
+turn to turn; this will enable me to teach through scenarios by combatting
+the scripted opponent behaviour, allowing for analysis of what human players
+are likely to do" — with a selected ship's firing arcs, ranges, shield and
+power levels shown graphically, and speed, movement and changes of
+direction both controllable and visualised on the map.
+
+Contract: `docs/playfield-contract.md` (createBattle / battleView /
+shipPlan / stepTurn; per-round orders of turn-then-forward clamped by the
+flight rules and power; target or auto; shield reserve; every clamp logged;
+the recording keeps the human's orders per turn beside the replay).
+
+Sol built `arena/play.html` against a mock adapter (`arena/play-engine.js`)
+with the contract's exact surface: setup (bundled scenarios incl. the
+formation trio, or a scenario from the editor; choose the side; seed),
+planning on the map with arcs as range-band wedges, the shield hexagon, the
+power bar, per-round plans with Q/E/W/S and buttons, targets by click, End
+turn with playback, the narrative log, record/save/open-in-viewer. Verified
+in the pane: the loop runs turn to turn on the mock.
+
+**Fable's polish notes (first pass, before the real engine):** auto-frame the
+fleets on Take command and make Frame fleets visibly zoom (the map opens at
+whole-map fit with tiny ships); waypoint labels on the planned path; check
+the power bar's numbers read at a glance once real costs flow; make the
+planning-to-playback-to-planning rhythm unmistakable (a phase banner);
+evaluate the arc wedge shading and range rings against real engagements.
+Full pass after the engine API replaces the mock.
+
+**Engine API:** to be built once the arc-aware helm lands (both rewrite the
+same movement code). `runBattle` becomes `createBattle` + a `stepTurn` loop
+with no orders — byte-identical on the trial harness — and the human's
+orders drive `move()`/`fire()` for ordered ships only.
