@@ -1018,8 +1018,14 @@ function move(ship, enemies, friends, tuning) {
   const swing = ship.id.length % 2 === 0 ? 1 : 5;
 
   const d0 = distance(ship.pos, target.pos);
+  // The leash only binds a ship that HAS a fleet to lag behind. With no
+  // living mates fleetGap is Infinity, and the old test read "always too far
+  // ahead", which froze every lone ship - a one-ship scenario never moved,
+  // and the last survivor of any fleet stopped advancing. (Bug found by
+  // Chris's destroyer duel, 2026-09-02.)
+  const tooFarAhead = (d) => Number.isFinite(fleetGap) && d < fleetGap - leash;
   let need = "hold";
-  if (d0 > want && !(d0 < fleetGap - leash)) need = "close";
+  if (d0 > want && !tooFarAhead(d0)) need = "close";
   else if (d0 < want && !ship.cloaked && want - d0 >= 1 && canWithdrawFighting(ship, tuning)) need = "open";
 
   if (need === "hold") {
@@ -1037,7 +1043,7 @@ function move(ship, enemies, friends, tuning) {
   let budget = spendable(ship);
   while (budget >= ship.movementPointRatio) {
     const d = distance(ship.pos, target.pos);
-    if (need === "close" && (d <= want || d < fleetGap - leash)) break;
+    if (need === "close" && (d <= want || tooFarAhead(d))) break;
     if (need === "open" && d >= want) break;
     if (!forwardStep(target.pos, need)) break; // facing not yet useful: finish the turn next round
     budget -= ship.movementPointRatio;
