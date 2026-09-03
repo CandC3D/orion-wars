@@ -1760,3 +1760,46 @@ cleanly (movement / guns / reserve of the pool); the phase pill flips
 Planning → Playback → Planning; the narrative log narrates the ordered move.
 Left for the next pass: waypoint labels on the planned path, and the
 move-and-fire ruling above.
+
+### 30a. Fleet Command, rebuilt (Fable, 2026-09-03) — after Chris's first sortie
+
+Chris's verdict on the first playfield: unclear what to do; the three
+"Phase" buttons unexplained; firing arcs indistinguishable from movement;
+which weapon covers which arc unclear; could not fire, and the enemy's fire
+left no visual trace; scenario preset; wanted Star Trek-style readouts and a
+top-down schematic with per-weapon arc markers; and "turn order is whack —
+make it make sense." Rebuilt by hand:
+
+- **The turn sequence is on screen at all times** (POWER → IMPACTS →
+  ACTION 1 · 2 · 3 → END) and lights up during playback; a help panel
+  explains each step on first command. The three buttons are now **three
+  actions**: each reads "hold & fire" or "turn port 1, 3 hexes"; W/S/Q/E,
+  H for hold, 1/2/3 to pick the action.
+- **Arcs by weapon colour** (laser, blaster, missile, spinal) with band
+  rings; the planned course in white with numbered waypoints and an "F" on
+  hold rounds; shield faces **numbered** on the map; a **schematic** with
+  the same numbered faces, weapon wedges by colour and a bow mark; LCARS-
+  style readouts (hull, power, speed, turn rate, magazine).
+- **Fire solution**: range now and after the planned moves, the target's
+  face toward you (and whether its shield is down), and per weapon whether
+  it bears now and after — with a plain verdict: "will fire in actions 2, 3
+  with 3 of 4 weapons", "out of range — close 7 more", "no weapon bears —
+  turn", or "every action is a move — nothing fires."
+- **Playback with fire**: beams, missiles and impacts drawn per action
+  round from the shot events; fire narrated ("fires laser cannon at …,
+  range 9: HIT for 7"); impacts of last turn's missiles shown in their own
+  step.
+- **Set the board**: a fleet builder (all four powers, roster with points,
+  map size, start gap; line deployment), bundled scenarios with blurbs, or a
+  scenario from the editor.
+
+Two engine-facing findings from the rebuild: (1) the first page drew the
+arcs **mirrored** — it assumed face 1 lay counter-clockwise of the bow, but
+the engine's table (`SHIELD_BY_OFFSET = [2,3,4,5,6,1]`) puts face 3 there;
+the page now uses the engine's table. (2) Consequence for naming: with icons
+drawn nose-up and rotated by facing, the engine's "front-right" (3) appears
+on the icon's **left**. Gameplay is symmetric so nothing is wrong in the
+fights, but the labels contradict the picture — **a ruling for Chris**:
+rename faces 1/3 and 4/6 to match the picture, or flip the table (and the
+per-facing damage tables) so starboard is starboard. (3) Icons were rotated
+90° in the playfield — a nose-up sprite rotated by the facing alone; fixed.
