@@ -356,3 +356,13 @@ out fully colour-SCRAMBLED (confetti everywhere, no orange) - so the
 FIRST export is kept as authoritative; strip faces >200 units from the
 hull at kit time. Owner may delete the stray square in the Tinkercad
 scene for future exports.
+
+## Missile Destroyer v3: Union Group export ADOPTED (2026-09-03)
+
+Owner's tidy-up re-exported as Union Group (2): clean palette, stray
+plate gone, 192,180 tris (same structure as the first export; the
+scrambled (1) export had 234,888 - a different flattening), weapons
+1 turret + 2 tube rings. Authoritative. The plain (1) tidy-up export
+scrambled. Tally of Tinkercad exports: EVERY Union Group export has
+come through clean (DD, LC, Krelath FF, MDD); plain/Bundle exports
+scramble often. RULE FOR THE OWNER: always export as Union Group.
