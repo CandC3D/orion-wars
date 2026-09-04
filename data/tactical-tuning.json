@@ -451,6 +451,7 @@
       "limit": 1
     },
     "missile-destroyer": {
+      "_priceNote": "4 measured 2026-09-03 (value 4.15, sixteen crossings; see design log 33a). Conditional on the current fire control (both tubes double-book one target) and on the class weight staying 4 (interceptor threshold).",
       "points": 4,
       "cores": 1,
       "corePower": 13,

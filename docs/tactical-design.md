@@ -1862,3 +1862,77 @@ best band, open with a dash that leaves power to shoot, use the warp.
 pools two to three times larger relative to weapon costs. Candidate ruling:
 halve the power per hex, or raise pools. Measure first. (3) Plasma at range
 3 doing 18 is flavour working; leave it.
+
+### 33a. The missile destroyer measured (2026-09-03, Opus measure + adversarial verify, ~10,000 battles)
+
+**Price: 4, adopted as measured.** Sixteen price crossings (four powers ×
+two budgets × two controls, 300 symmetrised battles a cell) put the hull's
+value at a mean of 4.15 points; crossings by instrument 4.39 / 3.94 / 4.08 /
+3.80. At 4 the pure-exchange buy is +1.25pp and the real-list swap (the
+reference fleet's two destroyers for missile destroyers, all three foes) is
++1.75pp at 52 and +1.00pp at 132 — inside the 0-to-+6 band. At 5 the buy
+collapses (24% at 52, 4% at 132 against destroyers); at 3 it runs to 98%.
+Independent reproduction agreed to two decimal places.
+
+**Two conditions on the price.** (1) It is conditional on the current fire
+control: both tubes fire at the same target on 90-100% of two-tube turns, and
+35-44% of the salvo arrives at a target already destroyed (17-21% for the
+single-tube destroyer). `fire()` never reads the in-flight list. Fixing that
+makes the hull better and the curve must be re-measured. (2) It is
+conditional on the class weight staying 4: the engine still compares
+`hull.points` at seven sites (capital / battle-line / interceptor-target /
+heavy thresholds and scoring), so a price of 5 would silently make the hull
+invisible to interceptors. Measurement separated what a list pays from what
+the engine reads.
+
+**What it is.** A matchup piece in two directions. By owner: worth ~5 points
+to Earth (the laser is the weakest beam, the tube the best weapon), ~4.4 to
+Vraygon, under 4 to Krelath and Zandrax (a plasma torpedo decays past 8 hexes
+and is intercepted more). By enemy shape: superb against a few big hulls,
+hopeless against numbers — a frigate wall intercepts 37-53% of missiles and
+another 26-42% land on corpses; Vraygon missile destroyers beat frigates
+99-100%, Earth's lose 2% at 132. Legible rock-paper-scissors; keep it.
+
+**It does not stand off.** Mean gap to the nearest enemy is identical to the
+gun destroyer's in every power (9.1 v 9.3, 9.9 v 9.9, 5.1 v 5.0, 5.9 v 6.0):
+`preferredRange` is computed from beam bands only, so a two-tube hull fights
+at knife range with one gun and throws its salvo at 7-13 hexes when the tubes
+reach 14-17. The lever for a missile boat that feels like one is a hull-level
+preferred range, not a price.
+
+**The magazine buys rate, not endurance.** In a long action Earth's missile
+destroyer fights 52% of its ship-turns dry (its gun destroyer 6%): the
+magazine doubled, the launch rate went up sevenfold. Dry, it is worse than a
+one-beam frigate (2.4 beam damage a turn against the destroyer's 3.4). An
+alpha-strike piece whose case is spent in four turns.
+
+**Second tube starved by power** on 9-15% of ship-turns: the mount loop walks
+beams first, the beam takes its full maxPower, and the second tube cannot arm.
+
+**Vraygon's missile destroyer is a magazine variant**, because the Vraygon
+standard destroyer already carries two tubes (loadout override, magazine 6);
+it measures well only because the Vraygon second turret fires on 45% of its
+turns and costs nothing to give up. Ruling wanted: a distinct fit, or the
+note.
+
+**Freedom.** Nothing dead at 4 (weakest DM shape 45%). Two shapes hot: the
+Earth missile-destroyer stack at 73% against the standard eight (the Earth
+gun-destroyer stack was the weakest shape at 36% — a 37-point swing), and the
+**Vraygon missile-destroyer stack at 85%**, the strongest shape in any panel
+measured. A faction-balance reading, not a pricing one: a price of 5 would
+make the hull a bad buy for all four powers and kill the Vraygon swarm
+outright. Levers are the loadout or the fire-control defect, not the ladder.
+
+**Harness findings that touch earlier numbers.** (a) The harness is not
+side-symmetric: identical fleets, mirrored deployment, same seeds give side A
+36-58% depending on size, and side A lands 15-20% of hits on flank/rear faces
+against side B's 2-3% — a factor of six that follows POSITION, not label, and
+survives `helm.enabled:false`. Lead: `bestHeading`, `evadeStep` and
+`preferredApproachDir` break ties by absolute hex-direction index (east
+first), which is not invariant under the 180° rotation relating the fleets.
+Fix: break ties in the ship's own frame. The §28a shape matrix, the faction
+sweep and the §29 formation-trio manoeuvre-index reading (0-4%) all stand on
+one edge. Every number in this section was symmetrised. (b) Composition key
+order is load-bearing: `{frigate:16, destroyer:5}` and the reverse measure
+6-16pp apart, because array order breaks distance ties in target selection.
+Canonical key order and intrinsic tie-breaks wanted in comp.js/fleet-trial.js.
