@@ -85,6 +85,13 @@ scene.camera = cam
 cs = [obj.matrix_world @ v.co for v in obj.data.vertices]
 lo = mathutils.Vector((min(c.x for c in cs), min(c.y for c in cs), min(c.z for c in cs)))
 hi = mathutils.Vector((max(c.x for c in cs), max(c.y for c in cs), max(c.z for c in cs)))
+# robust framing: ignore stray geometry far from the hull (median-anchored)
+import statistics
+_ws = [obj.matrix_world @ v.co for v in obj.data.vertices]
+_med = mathutils.Vector((statistics.median(w.x for w in _ws), statistics.median(w.y for w in _ws), statistics.median(w.z for w in _ws)))
+_keep = [w for w in _ws if (w - _med).length < 250]
+lo = mathutils.Vector((min(w.x for w in _keep), min(w.y for w in _keep), min(w.z for w in _keep)))
+hi = mathutils.Vector((max(w.x for w in _keep), max(w.y for w in _keep), max(w.z for w in _keep)))
 ctr = (lo + hi) / 2
 size = max(hi - lo)
 for label, off in (("persp", (1.0, 0.9, 0.5)), ("rear", (0.9, -1.15, 0.3))):

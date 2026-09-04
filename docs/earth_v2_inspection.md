@@ -335,3 +335,24 @@ FIX (all render_tc_*.py): ShaderNodeGamma 2.2 between Vertex Color and
 Base Color (sRGB -> linear decode). Verified on CL: palette now matches
 Tinkercad. Any kit-pass material must apply the same decode (or convert
 the attribute once on import). Sol's legibility_demo.py needs it too.
+
+## Earth v3 series intake (2026-09-03)
+
+Four hulls in assets/models/v3/: Monoceros Frigate v3 (120,756 tris),
+Victory Destroyer v3 (192,716), Missile Destroyer v3 [NEW] (192,366),
+Corvette v3 [NEW] (103,512). New palette entry on every v3 hull: DARK
+BLUE (0,0.46,0.67) - a native two-tone plate scheme. Fingerprints hold
+(gold ~12.5k = sensor dish, green ~3,846 = dome light). True-colour
+renders CLEAN for all four; dorsal profiles visibly more distinct.
+Weapons audit vs envelopes - all EXACT: FF 1 turret/0 tubes; Victory DD
+2/1; Missile DD 1/2 (missile-destroyer envelope 1 beam, 2 tubes);
+Corvette 1/0.
+Missile Destroyer quirk: the first export carries a STRAY 20x20 orange
+plate (288 faces) parked at x=999,y~466 on the Tinkercad workplane -
+harmless, but it blows up bounding-box framing. render_tc_v3_mdd.py now
+frames on a median-anchored vertex set (ignores geometry >250 units
+from the hull). The owner's re-export (1) removed the plate but came
+out fully colour-SCRAMBLED (confetti everywhere, no orange) - so the
+FIRST export is kept as authoritative; strip faces >200 units from the
+hull at kit time. Owner may delete the stray square in the Tinkercad
+scene for future exports.
