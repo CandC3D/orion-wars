@@ -5,7 +5,9 @@ Established by Chris, 2026-08-31. Prefix: **UES** (United Earth Ship).
 | Hull | Class | Naming convention | Notes |
 |---|---|---|---|
 | Frigate | **Monoceros** class | Constellations, asterisms, and stars | Fast, effective patrol, scout, and escort craft |
+| Corvette | **Kestrel** class | (TBD) | v3 series; 1 beam, no tubes |
 | Destroyer | **Victory** class | Wooden and iron warships of note (pre-Dreadnought era) | |
+| Missile Destroyer | **Archer** class | (TBD) | v3 series; 1 beam, 2 torpedo tubes, magazine 8 |
 | Light Cruiser | **Acamar** class | Stars visible from Earth | |
 | Heavy Cruiser | **Yi Sun-Sin** class | Admirals (Nelson, etc.) | Often a fleet flagship; its mass necessitates the unusual three-engine design |
 | Battleship | **Federation** class | Federation worlds | Series begins with UES Federation, continues UES Terra, UES Mars, … |
