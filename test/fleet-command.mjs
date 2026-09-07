@@ -73,7 +73,14 @@ check('Formation planning and camera/layout depend only on own telemetry and cur
   const ships=Array.from({length:4},(_,i)=>({id:'own-'+i,pos:{q:0,r:0},name:'Light Cruiser '+i}));
   const actions=[1,2,3].map(round=>({round,kind:'hold',end:{q:0,r:0}}));
   for(const font of [16,35,42]){const layout=layoutContactMap(ships,actions,{project:()=>({x:450,y:260}),font,icon:font*1.6,label:s=>s.name});
-    assert.equal(layout.course.length,1);assert.match(layout.course[0].text,/A1 F \/ A2 F \/ A3 F/);
+    // The course tag must exist and read correctly. It need not be PLACED: ship
+    // names take below-symbol slots first (2026-09-07), so four hulls stacked on
+    // one projected point can leave no clear slot at the smallest font, and the
+    // tag defers to the schematic rather than overlapping a name. Deferral is the
+    // designed fallback; a missing tag would be the regression.
+    const course=layout.course[0]??layout.deferred.find(d=>d.course);
+    assert.ok(course,`font ${font}: course tag neither placed nor deferred`);
+    assert.match(course.text,/A1 F \/ A2 F \/ A3 F/);
     const boxes=[...layout.markers,...layout.labels,...layout.course].map(x=>x.box);
     for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++)assert.equal(intersects(boxes[i],boxes[j],0),false,`font ${font}: ${i}/${j}`);
     assert.ok(layout.markers.some(m=>m.x!==m.anchor.x||m.y!==m.anchor.y));
