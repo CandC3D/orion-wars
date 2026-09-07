@@ -259,7 +259,7 @@ check('AI selects from known reports rather than concealed centroid; a clear obs
   w.battle.B.push(contact);
   const r=run(w,{[w.b.id]:hold(undefined,1),[contact.id]:hold(undefined,1)},
     {onRound(_turn,round){if(round===2){w.a.pos={q:0,r:0};w.a.facing=0;}}});
-  equal(sweeps(r).map(l=>l.message),['A-main sweeps arc 5: 0 contact(s)']);
+  equal(sweeps(r).map(l=>l.message.replace(/, shields read on \d+$/,'')),['A-main sweeps arc 5: 0 contact(s)']);
   equal(C.sideContacts(w.battle,'A').map(c=>c.id),[contact.id]);
   const x=world({cloaked:false});
   const observer=S.buildShip('A-spotter','EAR','destroyer',x.tuning,baseL,makePrng(1));
@@ -271,7 +271,7 @@ check('AI selects from known reports rather than concealed centroid; a clear obs
       terrain(x,[{type:'moon',q:3,r:0}]);
       equal(C.sideContacts(x.battle,'A').map(c=>c.id),[x.b.id],'clear friendly spotter supports contact');
     }});
-  equal(ownShots(xr),[]);equal(sweeps(xr).map(l=>l.message),['A-main sweeps arc 2: 0 contact(s)']);
+  equal(ownShots(xr),[]);equal(sweeps(xr).map(l=>l.message.replace(/, shields read on \d+$/,'')),['A-main sweeps arc 2: 0 contact(s)']);
 });
 check('full accepted Scan packets resimulate without controller execution; observer callbacks are inert',()=>{
   const left=world(),right=world();left.a.mounts=[];right.a.mounts=[];

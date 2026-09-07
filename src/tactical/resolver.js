@@ -15,7 +15,7 @@ import { deploymentErrors, terrainFootprint } from "./deployment.js";
 import { specialCapabilities } from "./specials.js";
 import { objectiveErrors } from "./objectives.js";
 import { grantScanContact, loseContact, sensorAbility, assertExecutableContacts } from './contacts.js';
-import { SENSING_PROFILE, currentContacts, pruneScanLocks } from './sensing.js';
+import { SENSING_PROFILE, currentContacts, pruneScanLocks, recordShieldSweep } from './sensing.js';
 import { scanCapabilities, scanActionError } from './scans.js';
 import { createMissileFlight, advanceMissileFlights, missileImpactFace, missileGeometry, snapshotMissiles } from './missiles.js';
 import { advanceManualSpinal } from './spinal-control.js';
@@ -1917,10 +1917,14 @@ function scan(ship, enemies, friends, tuning, log, battle = null, face = null) {
   // Guess the arc from known contacts only; with none, sweep dead ahead.
   const known = targetable(enemies, battle, ship.side);
   const guess = face ?? (known.length ? shieldFacing(ship, centroid(known)) : 2);
-  let found = 0;
+  let found = 0, read = 0;
   for (const e of foes) {
     if (finiteSensing(battle)) {
       if (grantScanContact(battle, ship, e, guess)) found++;
+      // RULING (2026-09-07, Chris): the scan action IS the lock for shields.
+      // A sweep reads every contact it already holds inside the swept arc; the
+      // reading is then free to consult until it goes stale.
+      if (recordShieldSweep(battle, ship, e, guess)) read++;
       continue;
     }
     if (!e.cloaked || e.detected) continue;
@@ -1930,7 +1934,7 @@ function scan(ship, enemies, friends, tuning, log, battle = null, face = null) {
     grantScanContact(battle, ship, e);
     found++;
   }
-  if ((found || finiteSensing(battle)) && log) log(`${ship.id} sweeps arc ${guess}: ${found} contact(s)`);
+  if ((found || finiteSensing(battle)) && log) log(`${ship.id} sweeps arc ${guess}: ${found} contact(s)${read?`, shields read on ${read}`:''}`);
 }
 
 function evade(ship, tuning, rng, log, battle = null) {

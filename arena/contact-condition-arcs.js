@@ -1,16 +1,17 @@
 // Condition rings drawn on the map, in the schematic's own vocabulary.
 //
 // INFORMATION BOUNDARY. Own ships carry a full per-face shield reading, so the
-// six-face ring is real state. A contact carries no shield reading at all - the
-// reports panel says "Engineering and shield points: unknown" and that is the
-// truth - so the contact ring shows the DISCLOSED HULL condition and is
-// labelled hull. Nothing here infers a shield value for an enemy, and the two
-// rings never share a colour or a shape.
+// six-face ring is real state. A contact discloses its hull condition always,
+// and its shields ONLY where a sector scan has read them (RULING 2026-09-07):
+// the engine hands over `contact.shields` with the turn it was taken and
+// whether it has gone stale. Nothing here infers a shield value - a contact
+// with no reading draws no shield ring at all - and own and contact rings
+// never share a colour.
 import {escapeHTML as esc} from './command-model.js';
 import {OFFSET_OF_FACE, FACE_NAMES} from './command-model.js';
 import {shieldFaces} from './console-instruments.js';
 
-const TRACK='#43535d', DOWN='#ffafa2', OWN='#7bc6ec', HULL='#efb773', GAP_DEG=7;
+const TRACK='#43535d', DOWN='#ffafa2', OWN='#7bc6ec', HULL='#efb773', SHIELD='#b5e3a0', GAP_DEG=7;
 const num=n=>Number.isFinite(Number(n))?Number(n):0;
 // Direction 0 is screen right and directions increase counter-clockwise, the
 // same convention the weapon labels use for arc anchors.
@@ -81,4 +82,46 @@ export function conditionArcMarkup(contact,{project,scale,at=null,radius=null,wi
     }).join('');
   }
   return `<g class="condition-arc" data-condition-detail="${esc(reading.detail)}" data-condition-ring="${esc(String(contact.id))}" pointer-events="none" role="img" aria-label="${title}"><title>${title}</title>${track}${body}</g>`;
+}
+
+// A scan reading, normalised to the same {face, ratio, down} the own-ship ring
+// draws from. A band reports an interval: the fill takes the floor of the band
+// so the ring never flatters the target, and the title states the interval.
+export function readingFaces(reading){
+  if(!reading||!Array.isArray(reading.faces))return [];
+  return reading.faces.map(f=>{
+    if(reading.detail==='points'){
+      const capacity=Math.max(0,num(f.capacity)),remaining=Math.max(0,num(f.remaining));
+      return {face:f.face,down:!!f.down,ratio:capacity>0?Math.min(1,remaining/capacity):0,
+        label:f.down?'DOWN':`${remaining} of ${capacity}`};
+    }
+    if(reading.detail==='band'){
+      const lo=Math.max(0,Math.min(1,num(f.remainingFraction?.min))),hi=Math.max(lo,Math.min(1,num(f.remainingFraction?.max)));
+      return {face:f.face,down:!!f.down,ratio:lo,
+        label:f.down?'DOWN':`${Math.round(lo*100)}-${Math.round(hi*100)}%`};
+    }
+    return {face:f.face,down:!f.up,ratio:f.up?1:0,label:f.up?'UP':'DOWN'};
+  });
+}
+
+// A CONTACT's shields, drawn only from a scan reading. A stale reading is drawn
+// dashed and dimmed: it is what the sweep saw, not what is there now.
+export function contactShieldArcMarkup(contact,{project,scale,at=null,radius=null,width=null}={}){
+  const reading=contact?.shields;const faces=readingFaces(reading);
+  if(!faces.length)return '';
+  const centre=at||project(contact.pos);
+  const r=num(radius)||scale*1.45, w=num(width)||Math.max(1.2,scale*.12);
+  if(!(r>0))return '';
+  const age=reading.stale?` · ${reading.ageTurns} turn(s) old`:' · current';
+  const body=faces.map(f=>{
+    const dir=(num(contact.facing)+(OFFSET_OF_FACE[f.face]??0))%6;
+    const centreDeg=-60*dir,half=30-GAP_DEG/2,from=centreDeg-half,to=centreDeg+half;
+    const title=`Face ${f.face} · ${FACE_NAMES[f.face]} · ${f.label} · read turn ${reading.takenTurn}${age}`;
+    return `<g data-contact-shield-face="${f.face}" data-shield-down="${f.down?'true':'false'}"><title>${esc(title)}</title>`
+      +`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${TRACK}" stroke-opacity=".4" stroke-width="${w.toFixed(2)}"/>`
+      +(f.down||f.ratio<=0?'':`<path d="${arcPath(centre.x,centre.y,r,from,from+(to-from)*f.ratio)}" fill="none" stroke="${SHIELD}" stroke-opacity="${reading.stale?'.45':'.95'}" stroke-width="${w.toFixed(2)}"${reading.stale?` stroke-dasharray="${Math.max(1,w*1.2).toFixed(2)} ${Math.max(1,w).toFixed(2)}"`:''}/>`)
+      +(f.down?`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${DOWN}" stroke-opacity="${reading.stale?'.4':'.8'}" stroke-width="${w.toFixed(2)}" stroke-dasharray="${Math.max(1,w).toFixed(2)} ${Math.max(1,w*1.6).toFixed(2)}"/>`:'')
+      +`</g>`;
+  }).join('');
+  return `<g class="contact-shields" data-contact-shield-ring="${esc(String(contact.id))}" data-shield-stale="${reading.stale?'true':'false'}" pointer-events="none" role="img" aria-label="Scanned shields, ${reading.detail}, read turn ${reading.takenTurn}${reading.stale?', stale':', current'}">${body}</g>`;
 }

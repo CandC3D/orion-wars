@@ -12,7 +12,7 @@ import { DIRS, distance } from '../src/tactical/hex.js';
 import { movementRange, movementRangeMarkup } from './contact-movement-range.js';
 import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
-import { shieldArcMarkup, conditionArcMarkup } from './contact-condition-arcs.js';
+import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
 import { batterySolutions } from './fire-solution.js';
 import { schematicMarkup, headingRoseMarkup, powerBarMarkup, consolePower, mountState, WEAPON_COLOURS } from './console-instruments.js';
 const $ = selector => document.querySelector(selector);
@@ -107,6 +107,16 @@ function resetOrders() {
   const fresh=allHoldOrders(state.latest.observation);state.orders=fresh;state.action=0;state.actionShip=null;
   if(!state.latest.observation.own.some(s=>s.id===state.selected&&!s.destroyed))state.selected=state.latest.observation.own.find(s=>!s.destroyed)?.id??state.latest.observation.own[0]?.id;
 }
+// What a sweep read, in the console's own vocabulary. Never shown without a
+// reading: absence of a reading is not "shields up".
+function shieldWords(reading){
+  const faces=reading.faces.map(f=>{
+    if(reading.detail==='points')return `${f.face}: ${f.down?'DOWN':`${Math.round(f.remaining)}/${Math.round(f.capacity)}`}`;
+    if(reading.detail==='band')return `${f.face}: ${f.down?'DOWN':`${Math.round(f.remainingFraction.min*100)}-${Math.round(f.remainingFraction.max*100)}%`}`;
+    return `${f.face}: ${f.up?'UP':'DOWN'}`;
+  }).join(' · ');
+  return `Shields ${faces} · read turn ${reading.takenTurn}${reading.stale?` · ${reading.ageTurns} turn(s) old`:' · current'}`;
+}
 function damageText(report) {
   const d=report.observedDamage;
   return d.detail==='interval'?`${Math.round(d.remainingFraction.min*100)}–${Math.round(d.remainingFraction.max*100)}% hull band`:d.condition.replaceAll('-',' ');
@@ -115,7 +125,7 @@ function render() {
   if(!state.current)return;const frame=state.current,view=frame.observation;
   $('#clock').textContent=`TURN ${frame.turn} · ${frame.phase==='planning'?'PLANNING':frame.phase.toUpperCase()+(frame.round?' '+frame.round:'')}`;
   $('#contact-count').textContent=`${view.contacts.length} current report${view.contacts.length===1?'':'s'}`;
-  $('#contacts-list').innerHTML=view.contacts.length?view.contacts.map(c=>`<article class="contact-report"><b>${esc(shipLabel(c))} · ${esc(c.faction)}</b><span>${esc(damageText(c))}</span><small>${esc(c.id)} · ${c.pos.q}, ${c.pos.r} · heading ${c.facing}</small><small>Observers: ${c.observers.map(o=>esc(o.observerId)+` / rating ${o.rating} ${o.kind}`).join(', ')}</small><small>Engineering and shield points: unknown</small></article>`).join(''):'<p>No current enemy reports. Absence is not confirmation of destruction.</p>';
+  $('#contacts-list').innerHTML=view.contacts.length?view.contacts.map(c=>`<article class="contact-report"><b>${esc(shipLabel(c))} · ${esc(c.faction)}</b><span>${esc(damageText(c))}</span><small>${esc(c.id)} · ${c.pos.q}, ${c.pos.r} · heading ${c.facing}</small><small>Observers: ${c.observers.map(o=>esc(o.observerId)+` / rating ${o.rating} ${o.kind}`).join(', ')}</small><small>${c.shields?esc(shieldWords(c.shields)):'Engineering and shield points: unknown · scan a sector to read shields'}</small></article>`).join(''):'<p>No current enemy reports. Absence is not confirmation of destruction.</p>';
   $('#own-vessel').innerHTML=view.own.map(s=>`<option value="${esc(s.id)}">${esc(shipLabel(s))}${s.destroyed?' · DESTROYED':''}</option>`).join('');
   if(!view.own.some(s=>s.id===state.selected))state.selected=view.own[0]?.id;
   $('#own-vessel').value=state.selected;
@@ -358,7 +368,7 @@ function refreshPreview() {
 // Weapon names share the existing ship/course occupancy; coverage is unchanged.
 function weaponLabels(ship,mounts,{project,scale,font,layout,solutions=null}){
   const occupied=[...layout.markers.map(m=>m.box),...layout.labels.map(l=>l.box),...layout.course.map(c=>c.box)];
-  const placed=weaponLabelLayout(ship,mounts,{project,scale,font,measure:measureText($('#contact-map'),font*.9),occupied,annotate:m=>solutions?.get?.(m.id)?.short||''});
+  const placed=weaponLabelLayout(ship,mounts,{project,scale,font,measure:measureText($('#contact-map'),font*.9),occupied,annotate:m=>solutions?.get?.(m.id)?.short||'',arcs:state.current?.observation?.rules?.arcs||null});
   return placed.labels.map(({mount:m,text,full,box:b})=>{
     const colour=WEAPON_COLOURS[m.kind]||'#8ec6dc',st=mountState(m,ship);
     const fx=solutions?.get?.(m.id);
@@ -433,7 +443,10 @@ function drawMap() {
   for(const marker of layout.markers){
     const s=marker.ship;if(s.destroyed)continue;
     const ring={project:xy,scale,at:{x:marker.x,y:marker.y},radius:icon*.95,width:Math.max(1.5,icon*.16)};
-    svg+=view.own.some(o=>o.id===s.id)?shieldArcMarkup(s,ring):conditionArcMarkup(s,ring);
+    if(view.own.some(o=>o.id===s.id))svg+=shieldArcMarkup(s,ring);
+    // A contact shows hull always, and scanned shields on an outer ring when a
+    // sweep has read them - dashed and dimmed once the reading is stale.
+    else svg+=conditionArcMarkup(s,ring)+contactShieldArcMarkup(s,{...ring,radius:icon*1.3,width:Math.max(1.2,icon*.12)});
   }
   if(consoleMode&&own&&!own.destroyed&&mapCells.length<=6000)svg+=weaponLabels(own,shownMount?[shownMount]:own.mounts,{project:xy,scale,font,layout,solutions});
   const tag=(entry,kind,color)=>{const b=entry.box;return `<rect data-map-label="${kind}" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="2" fill="#060e15" fill-opacity=".92" stroke="${color}" stroke-opacity="${entry.primary?.7:.3}"/><text x="${b.x+b.w/2}" y="${b.y+b.h-Math.max(2,font*.28)}" fill="${color}" font-size="${font}" text-anchor="middle">${esc(entry.text)}</text>`;};

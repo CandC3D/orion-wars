@@ -9,6 +9,7 @@ export const DEFAULT_SENSING_PROFILE = Object.freeze({
   passiveRadiusHexes: Object.freeze({ 0: 0, 1: 18, 2: 26, 3: 34, 4: 42, 5: 50 })
 });
 const sides = ['A', 'B'];
+const SHIELD_FACES = [1, 2, 3, 4, 5, 6];
 const compareId = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const key = p => `${p.q},${p.r}`;
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -56,7 +57,10 @@ export function createSensingState(battle, profile = DEFAULT_SENSING_PROFILE) {
   }
   // The pinned profile cannot be changed through this state object; lock
   // arrays remain writable solely for explicit simulation-boundary operations.
-  return Object.freeze({ profile: SENSING_PROFILE, sensing: pinned, locks: { A: [], B: [] } });
+  // `shields` holds the last sweep reading per target, per observing side.
+  // Written only by recordShieldSweep, read only by currentContacts.
+  return Object.freeze({ profile: SENSING_PROFILE, sensing: pinned, locks: { A: [], B: [] },
+    shields: { A: Object.create(null), B: Object.create(null) } });
 }
 
 function stateOf(battle) {
@@ -150,6 +154,62 @@ export function revokeTargetLocks(battle, targetId) {
   for (const side of sides) state.locks[side] = state.locks[side].filter(l => l.targetId !== targetId);
 }
 
+// RULING (2026-09-07, Chris): a sector scan reads the target's shields. The
+// scan action is the lock - there is no separate sensor lock and no second
+// cost; once a sweep has read a ship, consulting the reading is free. All six
+// facings come back together, and a reading goes stale the moment the turn it
+// was taken ends. Detail follows the observing sensor rating, the same ladder
+// observedDamage already uses. FASA STTCS calls this Q4 ("is a specific shield
+// up?" -> yes or no, and the number of points in that shield); we answer for
+// every facing at once because a captain says "shields down 30%", not "shield
+// four is at nine points".
+const faceCapacity = (ship, face) =>
+  ship.shieldGenerators?.[face]?.capacity ?? ship.hull?.maxShieldPower ?? ship.shieldMax ?? 0;
+
+export function observedShields(target, ability) {
+  const read = face => {
+    const down = !!target.shieldDown?.[face];
+    const capacity = Math.max(0, faceCapacity(target, face));
+    const remaining = down ? 0 : Math.max(0, Math.min(capacity, target.shieldCap?.[face] ?? 0));
+    return { face, down, capacity, remaining,
+      fraction: capacity > 0 ? remaining / capacity : 0 };
+  };
+  const faces = SHIELD_FACES.map(read);
+  // Rating 1 cannot sweep at all, so this branch is reachable only if the scan
+  // rules change; it discloses the least the question can answer - up or down.
+  if (ability < 2) return { detail: 'state', faces: faces.map(f => ({ face: f.face, up: !f.down && f.remaining > 0 })) };
+  if (ability < 3) return { detail: 'band', faces: faces.map(f => ({ face: f.face, down: f.down,
+    remainingFraction: { min: Math.floor(f.fraction * 10) / 10, max: Math.min(1, (Math.floor(f.fraction * 10) + 1) / 10) } })) };
+  return { detail: 'points', faces: faces.map(f => ({ face: f.face, down: f.down, remaining: f.remaining, capacity: f.capacity })) };
+}
+
+// Record a sweep. The observer must ALREADY hold the target as a current
+// passive report and the target must lie in the swept face's arc: a scan reads
+// what it sweeps, it does not find a ship and read it in the same breath.
+export function recordShieldSweep(battle, observer, target, face) {
+  const state = stateOf(battle);
+  if (!Number.isInteger(face) || face < 1 || face > 6) throw new Error('A sweep must name one swept face');
+  const support = observerSupport(battle, observer, target);
+  if (!support || support.rating < 2 || !inArc(observer, face, target.pos)) return false;
+  state.shields[observer.side][target.id] =
+    { turn: battle.turn, rating: support.rating, observerId: observer.id, face,
+      reading: observedShields(target, support.rating) };
+  return true;
+}
+
+// What the side may consult about this target now, with its age stated.
+export function shieldReading(battle, side, targetId) {
+  const held = stateOf(battle).shields[side]?.[targetId];
+  if (!held) return null;
+  // A sweep during turn N is accurate as of turn N's execution, and the player
+  // consults it while planning turn N+1, when nothing has happened since. So
+  // one turn of age is the freshest a reading can be at the planning board;
+  // beyond that the target has acted and the reading is stale.
+  const age = Math.max(0, (battle.turn ?? 0) - held.turn);
+  return { ...held.reading, takenTurn: held.turn, sweptFace: held.face,
+    observerId: held.observerId, rating: held.rating, ageTurns: age, stale: age > 1 };
+}
+
 export function observedDamage(target, ability) {
   const fraction = Math.max(0, Math.min(1, target.superstructure / target.superstructureMax));
   if (ability < 2) return { detail: 'condition', condition: fraction === 1 ? 'intact' : 'damaged' };
@@ -170,7 +230,9 @@ export function currentContacts(battle, side) {
     observers.sort((a, b) => compareId(a.observerId, b.observerId));
     reports.push({ id: target.id, faction: target.faction, className: target.className,
       pos: { q: target.pos.q, r: target.pos.r }, facing: target.facing,
-      observedDamage: observedDamage(target, Math.max(...observers.map(o => o.rating))), observers });
+      observedDamage: observedDamage(target, Math.max(...observers.map(o => o.rating))),
+      ...(shieldReading(battle, side, target.id) ? { shields: shieldReading(battle, side, target.id) } : {}),
+      observers });
   }
   return freeze(reports.sort((a, b) => compareId(a.id, b.id)));
 }

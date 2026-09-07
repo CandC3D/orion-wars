@@ -1,7 +1,8 @@
 // Display-only labels. Reserve ship/name/course boxes first; never alter arcs.
 import {intersects} from './contact-map-layout.js';
 import {effectiveBand} from './contact-weapon-arcs.js';
-export function weaponLabelLayout(ship,mounts,{project,scale,font,measure,occupied=[],annotate=null}){
+import {matchingArc} from './arc-labels.js';
+export function weaponLabelLayout(ship,mounts,{project,scale,font,measure,occupied=[],annotate=null,arcs=null}){
   const taken=[...occupied],labels=[],deferred=[];
   const offsets={2:0,1:1,6:2,5:3,4:4,3:5},origin=project(ship.pos),h=font*1.5;
   for(const m of mounts){
@@ -15,7 +16,14 @@ export function weaponLabelLayout(ship,mounts,{project,scale,font,measure,occupi
     // The reason joins the text BEFORE measurement, so the box reserves room
     // for it and cannot start overlapping a neighbour when a target is chosen.
     const note=annotate?annotate(m):'';
-    const full=`${ship.mounts.indexOf(m)+1} · ${(m.displayName||m.type).replaceAll('-',' ').toUpperCase()} · ${reach}${note?` · ${note}`:''}`;
+    // A weapon is named the way Drydock names it: its coverage, its type, and
+    // the turret number Drydock shows in its human-facing list, counting from
+    // one. The coverage name comes from the SHARED arc vocabulary so the two
+    // pages cannot drift; an unrecognised combination stays visibly custom.
+    const preset=arcs?matchingArc(m.arc,arcs):null;
+    const coverage=(preset?preset.name:`custom (${[...m.arc].sort((a,b)=>a-b).join(',')})`).toUpperCase();
+    const turret=ship.mounts.indexOf(m)+1;
+    const full=`${coverage} ${(m.displayName||m.type).replaceAll('-',' ').toUpperCase()} (${turret}) · ${reach}${note?` · ${note}`:''}`;
     let text=full;while(measure(text)+8>890&&text.length>12)text=text.slice(0,-2)+'…';
     const w=measure(text)+8,candidates=[];
     // Start at the arc edge, then use a bounded full-map sweep. Nearest clear
