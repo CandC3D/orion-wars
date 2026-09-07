@@ -1,0 +1,129 @@
+.command-links { display:flex; gap:12px; flex-wrap:wrap; margin-left:auto; }
+.command-links a { margin-left:0; }
+/* Preserve the live compact-order adjustment preceding this integration. */
+@media(max-height:760px){
+  body[data-command] .contact-orders .order-top { gap:0; padding-bottom:0; }
+  body[data-command] .contact-orders .order-top label { margin:2px 0; }
+}
+.command-setup { max-width:1100px; margin:22px auto; }
+.command-setup>label,.command-setup>div>label { margin:15px 0; }
+.fleet-builders { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin:18px 0; }
+.command-roster>label { display:grid; grid-template-columns:1fr auto 65px; gap:8px; margin:5px 0; }
+.command-roster small { color:var(--accent); }
+.command-roster input { width:65px!important; }
+#mission-warnings { border-left:3px solid var(--signal); padding:6px 10px; color:var(--signal); margin-bottom:6px; font-size:12px; }
+body[data-command] .contact-head { flex-wrap:wrap; }
+
+/* ---- Fleet Command console: the viewport is the station. Map left, console right, dock below. Nothing scrolls. ---- */
+body[data-command] { display:flex; flex-direction:column; height:100dvh; overflow:hidden; }
+body[data-command] .contact-head,body[data-command] #trial-status,body[data-command] .contact-footer { flex:none; }
+body[data-command] .contact-head { padding:8px 18px; }
+body[data-command] #trial-status { padding:6px 18px; }
+body[data-command] #contact-station { display:grid; grid-template-columns:minmax(0,1fr) 520px; grid-template-rows:minmax(0,1fr); flex:1 1 auto; min-height:0; }
+body[data-command] #contact-station>.contact-map { display:flex; flex-direction:column; min-height:0; overflow:hidden; padding:8px 14px 6px; }
+body[data-command] .contact-map .station-cap { margin-bottom:4px; }
+.drawer-keys { display:inline-flex; gap:4px; margin-left:10px; }
+.map-stage { position:relative; flex:1 1 auto; min-height:0; display:flex; }
+body[data-command] #contact-map { flex:1 1 auto; min-height:0; height:auto; max-height:none; width:100%; touch-action:none; margin-top:4px; }
+.drawer { position:absolute; top:6px; right:6px; bottom:6px; width:min(420px,60%); background:rgb(17 31 45 / .96); border:1px solid var(--line); border-left:4px solid var(--accent); padding:10px 14px; overflow:auto; scrollbar-width:thin; z-index:5; box-shadow:-8px 0 24px rgb(0 0 0 / .45); }
+.drawer .station-cap { margin-top:0; }
+.drawer #contacts-list { display:grid; grid-template-columns:1fr; gap:6px; }
+.drawer #events { max-height:none; }
+body[data-command] .mission-line { margin:0 0 2px; color:var(--signal); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12px; }
+body[data-command] .map-tools { gap:6px; }
+body[data-command] .map-tools label { min-width:120px; max-width:170px; }
+body[data-command] #map-legend { margin:2px 0 0; }
+body[data-command] #map-legend ul { padding-top:2px; }
+.map-weapon-controls,#range-disclosure,#movement-range-caption { display:none; }
+
+/* console column */
+.command-station { display:flex; flex-direction:column; min-height:0; padding:8px 12px 8px; border-left:1px solid var(--line); overflow:hidden; gap:6px; background:var(--panel); }
+.command-station>.instrument-well,.command-station>.console-row { flex:none; }
+.console-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:6px; min-height:0; }
+.console-row.helm-row-wrap { grid-template-columns:minmax(0,3fr) minmax(0,2fr); }
+.key-row { display:flex; flex-wrap:wrap; gap:4px; }
+.key-row .console-key { flex:1 1 auto; }
+.compat { display:none!important; }
+.vessel-well { display:flex; flex-direction:column; gap:4px; }
+.ship-key[aria-pressed=true] { background:var(--accent); color:#06121a; }
+.ship-key[data-lost=true] { color:var(--error); }
+.vessel-head { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+.vessel-head h2 { margin:0; font-size:20px; letter-spacing:.5px; }
+#vessel-class { font-size:11px; padding:3px 8px; }
+.schematic-well #schematic svg { width:100%; height:auto; max-height:270px; display:block; }
+@media(min-height:1300px){ .schematic-well #schematic svg { max-height:330px; } .readout-grid b { font-size:20px; } .rose-well #heading-rose svg { width:170px; height:170px; } }
+#arc-caption { margin:2px 0 0; font-size:11px; min-height:14px; }
+.readout-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.readout-grid>div { display:flex; flex-direction:column; padding:4px 7px; background:var(--bg); border:1px solid var(--line); box-shadow:inset 0 1px 0 rgb(255 255 255 / .04); }
+.readout-grid span { font-size:10px; letter-spacing:.8px; text-transform:uppercase; color:var(--muted); }
+.readout-grid b { font-size:18px; font-weight:500; color:var(--accent); font-variant-numeric:tabular-nums; line-height:1.15; }
+.readout-grid b small { font-size:11px; color:var(--muted); }
+.power-well #power-well { padding-top:2px; }
+/* helm: the numeric model stays as readouts; keys drive it */
+.helm-well #action-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; margin-bottom:4px; }
+.helm-well #action-tabs button { text-align:left; min-height:40px; padding:4px 8px; font-size:11px; line-height:1.25; border:1px solid var(--line); background:var(--bg); color:var(--muted); letter-spacing:.3px; text-transform:none; }
+.helm-well #action-tabs button b { display:block; color:var(--signal); font-size:10px; letter-spacing:.8px; }
+.helm-well #action-tabs button[aria-selected=true] { border-color:var(--accent); color:var(--ink); background:var(--panel-2); box-shadow:inset 0 3px 0 var(--accent); }
+.helm-well #action-program { display:block; }
+.helm-well .action-card { border:0; margin:0; padding:0; }
+.helm-well .action-card legend { display:none; }
+.helm-well .assign-keys { margin-bottom:6px; }
+.helm-well .helm-row { display:grid; grid-template-columns:62px auto 58px auto minmax(0,1fr); gap:4px; align-items:center; margin:3px 0; }
+.helm-well .helm-row>span { color:var(--muted); font-size:10px; letter-spacing:.8px; text-transform:uppercase; }
+.helm-well .helm-row button { min-width:44px; }
+.helm-well .helm-row input[type=number] { width:58px; box-sizing:border-box; text-align:center; background:var(--bg); border:1px solid var(--line); color:var(--accent); font-size:16px; font-variant-numeric:tabular-nums; padding:3px; min-height:32px; box-shadow:inset 0 2px 4px rgb(0 0 0 / .5); }
+.helm-well .helm-row input[type=number]::-webkit-inner-spin-button { opacity:.4; }
+.helm-well .helm-row output { color:var(--accent); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.helm-well #helm-heading { color:var(--signal); }
+.helm-well .action-card .result { margin:4px 0 0; padding:4px 0 0; border-top:1px solid var(--line); color:var(--accent); font-size:12px; min-height:0; }
+.helm-well .action-card .instrument-note { font-size:11px; margin-top:2px; max-height:32px; overflow:hidden; }
+#order-feedback { color:var(--signal); border-left:3px solid var(--signal); padding:4px 8px; font-size:12px; margin:4px 0 0; }
+#spinal-control { margin:4px 0 0; padding:5px 7px; border:1px solid #6d5aa0; background:rgb(194 160 241 / .08); font-size:11px; }
+.cannon-control .spinal-buttons .console-key { font-size:10px; padding:4px 5px; min-height:28px; }
+.cannon-control strong { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#spinal-control strong { color:#c2a0f1; letter-spacing:.5px; }
+#spinal-control progress { width:100%; height:6px; accent-color:#c2a0f1; }
+#spinal-control .spinal-buttons { display:flex; gap:4px; margin:4px 0; }
+#spinal-control details { margin-top:2px; font-size:11px; }
+.rose-well { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.rose-well #heading-rose svg { width:150px; height:150px; display:block; }
+.rose-well #course-readout { width:100%; box-sizing:border-box; font-size:12px; text-align:center; line-height:1.35; }
+.target-well .target-key small,.target-key small { display:block; font-size:10px; color:var(--muted); letter-spacing:0; text-transform:none; }
+.target-well .key-row { max-height:96px; overflow:auto; scrollbar-width:thin; }
+.fleet-well #formation-note { font-size:11px; margin-top:4px; min-height:14px; }
+.fleet-well .formation-bank { margin:0; }
+.fleet-well .formation-bank .console-key { border-style:dashed; }
+
+/* dock */
+body[data-command] .contact-footer { position:static; flex-wrap:nowrap; gap:8px; padding:8px 16px; min-height:56px; box-sizing:border-box; align-items:center; }
+.dock-views { display:none; gap:4px; }
+.dock-ship { color:var(--ink); font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:22%; }
+.execute-scope { color:var(--muted); font-size:11px; white-space:nowrap; }
+body[data-command] .contact-footer>#incoming { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.playback-controls { display:inline-flex; gap:4px; }
+#combat-announce { margin:2px 0 0; padding:4px 8px; font-size:12px; color:var(--ink); border-left:3px solid var(--accent); background:rgb(123 198 236 / .08); }
+#combat-announce[data-weight=major] { border-left-color:var(--signal); color:var(--signal); }
+
+/* shorter desktops: the console keeps every control but tightens; below 900px tall it may scroll internally as a last resort */
+@media(max-height:1200px){ .command-console #shield-readouts { display:none; } .readout-grid { grid-template-columns:1fr 1fr 1fr; gap:3px; } .readout-grid b { font-size:13px; } .readout-grid span { font-size:9px; } .power-bar-readout { font-size:10px; line-height:1.2; } .reserve-keys { margin-top:2px; } .target-well .key-row { max-height:56px; } .helm-well .action-card .result { font-size:11px; } .cannon-control { padding:3px 6px; } .cannon-control progress { height:4px; } .cannon-control .spinal-buttons .console-key { min-height:24px; padding:2px 4px; } .schematic-well #schematic svg { max-height:210px; } .readout-grid b { font-size:15px; } .readout-grid>div { padding:2px 6px; } .rose-well #heading-rose svg { width:120px; height:120px; } .helm-well #action-tabs button { min-height:34px; } #spinal-control details,#spinal-control p { display:none; } #spinal-control { padding:4px 8px; margin-bottom:4px; } .helm-well .action-card .instrument-note { max-height:16px; } .command-station { gap:4px; } .vessel-head h2 { font-size:17px; } .target-well .key-row { max-height:70px; } #arc-caption { display:none; } .helm-well .action-card .instrument-note { display:none; } .schematic-well #schematic svg { max-height:190px; } .vessel-well { gap:2px; } .fleet-well #formation-note { display:none; } }
+@media(max-height:900px){ .command-station { overflow:auto; scrollbar-width:thin; } body[data-command] .contact-head { padding:5px 14px; } body[data-command] .contact-head h1 { font-size:19px; } }
+@media(max-width:1400px) and (min-width:761px){ body[data-command] #contact-station { grid-template-columns:minmax(0,1fr) 440px; } .rose-well #heading-rose svg { width:120px; height:120px; } .readout-grid b { font-size:15px; } }
+@media(max-width:1100px) and (min-width:761px){ body[data-command] #contact-station { grid-template-columns:minmax(0,1fr) 400px; } body[data-command] .command-links { display:none; } .console-row.helm-row-wrap { grid-template-columns:1fr; } .rose-well { flex-direction:row; } }
+/* compact: one view at a time, chosen from the dock */
+@media(max-width:760px){
+  body[data-command] .contact-head { padding:8px 12px; gap:8px; } body[data-command] .contact-head h1 { font-size:18px; } body[data-command] .command-links { display:none; }
+  body[data-command] #trial-status { padding:6px 12px; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  body[data-command] #contact-station { display:block; }
+  body[data-command] #contact-station>.contact-map,body[data-command] .command-station { height:100%; box-sizing:border-box; }
+  body[data-command][data-view=map] .command-station { display:none; }
+  body[data-command][data-view=orders] #contact-station>.contact-map { display:none; }
+  .command-station { border-left:0; padding:6px 10px 8px; overflow:auto; }
+  .console-row,.console-row.helm-row-wrap { grid-template-columns:1fr; }
+  .drawer { width:auto; left:6px; }
+  body[data-command] .contact-footer { position:sticky; bottom:0; flex-wrap:nowrap; padding:8px 10px; }
+  .dock-views { display:inline-flex; }
+  .execute-scope,body[data-command] .contact-footer>#incoming,body[data-command] #export-contact,.playback-controls { display:none; }
+  .dock-ship { flex:1; max-width:none; }
+  body[data-command] #resolve-orders { padding:8px 12px; white-space:nowrap; } .scope-suffix { display:none; }
+  .fleet-builders{grid-template-columns:1fr;} .command-setup{margin:8px;} .command-roster>label{grid-template-columns:1fr 90px 60px;} .command-links{margin:0;}
+}

@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { fleetConstraintErrors } from '../src/tactical/fleet-rules.js';
 const _root = dirname(dirname(fileURLToPath(import.meta.url)));
 const TUNING = JSON.parse(readFileSync(join(_root, "data", "tactical-tuning.json"), "utf8"));
-const CARRIER_MIN = TUNING.strikeCraft?.minFleetPoints ?? 62; // fleet floor for every 32-point special
 
 // Scenario compositions and each power's sixth-hull fielding policy.
 //
@@ -41,30 +41,39 @@ export const STANDARD = SCALES[52];
 //   gunstar-battlecruiser = carrier = 1 heavy cruiser = 1 light cruiser + 3 frigates
 //   2 heavy cruisers = 1 battleship
 //
-// CARRIER_MIN (tuning.strikeCraft.minFleetPoints, now 52) is the fleet floor
-// for all three 16-20 point specials, and it is load-bearing rather than
+// The price identities and measured results above/below are historical context.
+// Chris's September 6 monitor policy is 24 points, funded by CA + 4 FF (first)
+// or 2 CL + 2 FF. Every live option derives prices/floors from caller tuning.
+// No old outcome/balance result is claimed preserved by the revised list.
+//
+// Each hull's minFleetPoints is the source of truth for its fleet floor, and
+// these floors are load-bearing rather than
 // cosmetic. Measured on the owner's own mirror at 160 battles a cell, a fleet
 // that buys its special reads 91% (monitor) / 58% (gunstar-battlecruiser) / 52% (carrier)
 // at 32 points and 52 / 53 / 47 at 52 points: below the floor the special IS
 // the list. The strike cruiser carries its own floor of 32 for the same reason
 // (77% mirror and +33pp of buy delta in an 18-point list, 50% and +8pp at 32).
-export const SIXTH = {
+export function sixthFor(tuning, policy = process.env.KRE_SIXTH) {
+const minFor = (hull, fallback) => tuning.hullClasses?.[hull]?.minFleetPoints ?? fallback;
+const SIXTH = {
   EAR: { options: [
-    { hull: "gunstar-battlecruiser", cost: 16, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 }, add: { "gunstar-battlecruiser": 1 } },
-    { hull: "gunstar-battlecruiser", cost: 16, minPoints: CARRIER_MIN, from: { "light-cruiser": 1, frigate: 3 }, add: { "gunstar-battlecruiser": 1 } }
+    { hull: "gunstar-battlecruiser", cost: 16, minPoints: minFor("gunstar-battlecruiser", 52), from: { "heavy-cruiser": 1 }, add: { "gunstar-battlecruiser": 1 } },
+    { hull: "gunstar-battlecruiser", cost: 16, minPoints: minFor("gunstar-battlecruiser", 52), from: { "light-cruiser": 1, frigate: 3 }, add: { "gunstar-battlecruiser": 1 } }
   ] },
   VRA: { options: [
-    { hull: "monitor", cost: 20, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1, frigate: 2 }, add: { monitor: 1 } },
-    { hull: "monitor", cost: 20, minPoints: CARRIER_MIN, from: { "light-cruiser": 2 }, add: { monitor: 1 } }
+    // Chris, 6 September: option A first; 2 CL + 2 DD + MON = 52.
+    { hull: "monitor", minPoints: minFor("monitor", 52), from: { "heavy-cruiser": 1, frigate: 4 }, add: { monitor: 1 } },
+    { hull: "monitor", minPoints: minFor("monitor", 52), from: { "light-cruiser": 2, frigate: 2 }, add: { monitor: 1 } }
   ] },
   ZAN: { corvetteSwap: true },
   KRE: { options: [
-    { hull: "carrier", cost: 16, minPoints: CARRIER_MIN, from: { "heavy-cruiser": 1 }, add: { carrier: 1 } },
-    { hull: "carrier", cost: 16, minPoints: CARRIER_MIN, from: { "light-cruiser": 1, frigate: 3 }, add: { carrier: 1 } },
-    { hull: "strike-cruiser", cost: 8, minPoints: 32, from: { "light-cruiser": 1 }, add: { "strike-cruiser": 1, frigate: 1 } },
-    { hull: "strike-cruiser", cost: 8, minPoints: 32, from: { destroyer: 2 }, add: { "strike-cruiser": 1 } }
+    { hull: "carrier", cost: 16, minPoints: minFor("carrier", 52), from: { "heavy-cruiser": 1 }, add: { carrier: 1 } },
+    { hull: "carrier", cost: 16, minPoints: minFor("carrier", 52), from: { "light-cruiser": 1, frigate: 3 }, add: { carrier: 1 } },
+    { hull: "strike-cruiser", cost: 8, minPoints: minFor("strike-cruiser", 32), from: { "light-cruiser": 1 }, add: { "strike-cruiser": 1, frigate: 1 } },
+    { hull: "strike-cruiser", cost: 8, minPoints: minFor("strike-cruiser", 32), from: { destroyer: 2 }, add: { "strike-cruiser": 1 } }
   ] }
 };
+for (const spec of Object.values(SIXTH)) for (const opt of spec.options ?? []) opt.cost = tuning.hullClasses[opt.hull].points;
 
 const ALT = {
   // the carrier-only policy this table replaced (carrier from 16 points up)
@@ -74,24 +83,51 @@ const ALT = {
   "sc-only": (o) => o.filter((x) => x.hull === "strike-cruiser"),
   "carrier-32": (o) => o.map((x) => (x.hull === "carrier" ? { ...x, minPoints: 32 } : x)),
   // pay for the carrier with light cruisers wherever that is possible
-  "cl-first": (o) => [o[1], o[0], o[2]]
+  "cl-first": (o) => [o[1], o[0], o[2], o[3]]
 };
-if (process.env.KRE_SIXTH && ALT[process.env.KRE_SIXTH]) {
-  SIXTH.KRE.options = ALT[process.env.KRE_SIXTH](SIXTH.KRE.options);
+if (policy && !ALT[policy]) throw new Error(`Unknown KRE_SIXTH policy: ${policy}`);
+if (policy) {
+  SIXTH.KRE.options = ALT[policy](SIXTH.KRE.options);
+}
+return SIXTH;
+}
+// Display/export convenience only. compFor derives from ITS caller's tuning.
+export const SIXTH = sixthFor(TUNING);
+
+export function compositionCost(comp, tuning) {
+  return Object.entries(comp).reduce((sum, [name, count]) => {
+    const price = tuning.hullClasses[name]?.points;
+    if (!Number.isSafeInteger(count) || count < 0 || !Number.isFinite(price) || price <= 0)
+      throw new Error(`Invalid composition entry: ${name}`);
+    return sum + count * price;
+  }, 0);
 }
 
 // Build a faction's actual list for a composition: swap in its unique hull when
 // the budget allows, keeping the point total identical.
-export function compFor(faction, comp, tuning, plain = null) {
+export function compFor(faction, comp, tuning, plain = null, options = {}) {
+  if (!Array.isArray(tuning.rosters?.[faction])) throw new Error(`Unknown faction: ${faction}`);
   const out = { ...comp };
-  const pts = Object.entries(comp).reduce((s, [k, n]) => s + tuning.hullClasses[k].points * n, 0);
-  const spec = SIXTH[faction];
-  if (!spec) return out;
-  if (plain && plain.includes(faction)) return out;   // measurement only: no unique hull
+  const pts = compositionCost(comp, tuning);
+  const finish = () => {
+    const actual = compositionCost(out, tuning);
+    if (Math.abs(actual - pts) > 1e-9) throw new Error(`Non-neutral ${faction} swap: requested ${pts}, built ${actual}`);
+    const ships = Object.entries(out).flatMap(([className, n]) => Array.from({ length: n }, () => ({ className })));
+    if (ships.some(s => !tuning.rosters[faction].includes(s.className))) throw new Error(`Illegal ${faction} roster`);
+    // Historical low-floor experiments require explicit call-site opt-in.
+    // Prices, rosters and unique-hull limits are never waived.
+    const rules = options.historicalFloorOverride ? { ...tuning, hullClasses: Object.fromEntries(
+      Object.entries(tuning.hullClasses).map(([k, h]) => [k, { ...h, minFleetPoints: 0 }])) } : tuning;
+    const errors = fleetConstraintErrors({ ships }, rules, faction);
+    if (errors.length) throw new Error(errors.join(' '));
+    return out;
+  };
+  const spec = sixthFor(tuning, options.policy ?? process.env.KRE_SIXTH)[faction];
+  if (plain && plain.includes(faction)) return finish();   // measurement only: no unique hull
   if (spec.corvetteSwap) {
     // Zandrax trade a frigate for two corvettes wherever they have one.
     if (out.frigate >= 2) { out.frigate -= 2; out.corvette = (out.corvette ?? 0) + 4; }
-    return out;
+    return finish();
   }
   for (const opt of spec.options) {
     // Too small a scenario to justify it. The default floor is twice the hull's
@@ -111,7 +147,7 @@ export function compFor(faction, comp, tuning, plain = null) {
       if (out[k] <= 0) delete out[k];
     }
     for (const [k, n] of Object.entries(opt.add ?? { [opt.hull]: 1 })) out[k] = (out[k] ?? 0) + n;
-    return out;
+    return finish();
   }
-  return out;
+  return finish();
 }

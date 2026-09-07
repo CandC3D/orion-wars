@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orion Wars — Legacy omniscient play</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./arena.css?v=cmd2">
+  <link rel="stylesheet" href="./play.css?v=scenario-rules1">
+  <link rel="stylesheet" href="./command-console.css?v=stage31">
+  <script type="module" src="./play.js?v=scenario-rules1"></script>
+</head>
+<body class="play-page" data-faction="EAR">
+  <header class="masthead play-head">
+    <div><p class="eyebrow">LEGACY PLAY / OMNISCIENT · <a href="play.html">Restricted Fleet Command ↗</a></p><h1 id="station-title">Earth command</h1></div>
+    <div class="sequence" id="sequence" aria-label="Turn sequence">
+      <span data-step="impacts" title="Missiles launched last turn arrive: intercepted, evaded, or hit">IMPACTS</span>
+      <span data-step="power" title="Every ship's power pool refills; spinal capacitors charge; the shield reserve is set">POWER</span>
+      <span data-step="a1" title="Action round 1: initiative, then every ship takes ONE action — move as planned, or hold and fire">ACTION 1</span>
+      <span data-step="a2" title="Action round 2">ACTION 2</span>
+      <span data-step="a3" title="Action round 3">ACTION 3</span>
+      <span data-step="end" title="Wrecks detonate; the turn ends">END</span>
+    </div>
+    <nav class="viewer-actions" aria-label="Playfield navigation">
+      <button id="sound-toggle" class="ghost" aria-pressed="true" title="Toggle tactical audio">◉ Sound</button>
+      <button id="help-button" class="ghost" title="How a turn works">Help</button>
+      <a href="../drydock/index.html">Drydock</a><a href="./editor.html">Scenario editor</a><a href="./index.html">Replay viewer</a>
+    </nav>
+  </header>
+
+  <div class="command-rail">
+    <div><strong id="turn-label">Turn — / Planning</strong><span id="side-label">No command assigned</span></div>
+    <span id="mission-brief">Select an engagement</span>
+    <nav aria-label="Command drawers"><button data-drawer="mission-drawer">Mission</button><button data-drawer="fleet-drawer">Fleet &amp; formation</button><button data-drawer="log-drawer">Event log</button></nav>
+  </div>
+  <main class="play-shell">
+    <section class="viewport play-viewport" aria-label="Interactive tactical map">
+      <canvas id="play-canvas" tabindex="0" aria-label="Tactical plot. Drag to pan, wheel to zoom. Use the fleet drawer or vessel selector for keyboard selection."></canvas>
+      <div id="impact-flash" class="impact-flash" aria-hidden="true"></div>
+      <div id="combat-alert" class="combat-alert" role="status" aria-live="polite"></div>
+      <div class="camera-controls"><span>01 / TACTICAL PLOT</span><button id="frame-fleets">Frame fleets</button><button id="fit-map">Fit map</button><button id="grid-toggle" aria-pressed="false">Hex grid</button></div>
+      <details id="scenario-warnings" class="scenario-warnings" open hidden>
+        <summary>Fleet-floor exception · authored fleets unchanged</summary>
+        <ul id="scenario-warning-list"></ul>
+        <p>Allowed for this scenario. Quick fleet building and balance controls remain strict.</p>
+      </details>
+      <div id="map-legend" class="map-legend" hidden><div id="course-warning" class="course-warning" role="status" hidden></div><span id="arc-caption">Selected mount: bearing outline only</span><span>Dashed: forecast · amber: editing · F: hold/fire</span></div>
+
+      <dialog aria-label="Set up an engagement" id="setup-panel" class="setup-panel">
+        <p class="eyebrow">NEW COMMAND</p><h2>Set the board</h2>
+        <div class="setup-tabs"><button data-mode="quick" class="active">Build fleets</button><button data-mode="bundled">Bundled scenario</button><button data-mode="session">From the editor</button></div>
+
+        <div id="mode-quick" class="setup-mode">
+          <div class="quick-grid">
+            <div class="quick-side"><label>Side A <select id="quick-faction-a"></select></label><div id="quick-roster-a" class="roster"></div><div class="quick-total">Total <b id="quick-total-a">0</b> pts</div></div>
+            <div class="quick-side"><label>Side B <select id="quick-faction-b"></select></label><div id="quick-roster-b" class="roster"></div><div class="quick-total">Total <b id="quick-total-b">0</b> pts</div></div>
+          </div>
+          <div class="quick-row"><label>Map <input id="quick-width" type="number" value="72" min="24" max="120"> × <input id="quick-height" type="number" value="40" min="16" max="80"></label><label>Start gap <input id="quick-gap" type="number" value="26" min="8" max="60"> hexes</label></div>
+          <p class="setup-note">Ships deploy in line of battle at the short ends; use the editor to place ships and terrain by hand.</p>
+        </div>
+        <div id="mode-bundled" class="setup-mode" hidden><label>Scenario <select id="scenario-select"></select></label><p id="scenario-blurb" class="setup-note"></p></div>
+        <div id="mode-session" class="setup-mode" hidden><p id="session-blurb" class="setup-note">Design a scenario in the editor and choose “Play” there; it will appear here.</p></div>
+
+        <div class="quick-row"><label>I command <select id="side-select"><option value="A">Side A</option><option value="B">Side B</option></select></label><label>Seed <input id="seed-input" value="orion"></label></div>
+        <button id="start-battle" class="primary">Take command</button>
+        <p id="setup-message" role="status"></p>
+      </dialog>
+
+      <dialog aria-label="How a turn works" id="help-panel" class="help-panel" hidden>
+        <p class="eyebrow">HOW A TURN WORKS</p>
+        <ol>
+          <li><b>Impacts.</b> Missiles launched <i>last</i> turn arrive now: point defence may intercept them, small hulls may evade, the rest hit.</li>
+          <li><b>Power.</b> Every ship's power pool refills. A spinal capacitor draws its charge. Your <b>shield reserve</b> is held back for absorption; the rest is for movement and guns.</li>
+          <li><b>Three action rounds.</b> Each round, initiative is rolled and every ship takes <b>one action</b>: <b>move</b> as planned (turn up to its turn rate, then run forward along its facing), or <b>hold and fire</b> every weapon that bears on a target in range. A carrier's strike wave goes in during round 1. Wrecks detonate at the end of each round.</li>
+          <li><b>End.</b> The turn closes; missiles fired this turn are in flight until next turn's impacts.</li>
+        </ol>
+<p>Select an action to inspect its predicted position, heading and weapon allocations. The forecast assumes stationary contacts and no damage: eligibility is not a guaranteed shot. A blocked move or a turn-only order still consumes its action. Mounts normally fire once per turn.</p>
+<p>Q/E turn port/starboard; W/S adjust distance; H holds; 1–3 select the action. Enter commits from the plot/page, never behind a dialog. Tab moves through controls normally. A preferred target allows fallback to other legal targets.</p>
+        <p class="setup-note">The scripted opponent lives under exactly the same rules: one action per ship per round.</p>
+        <button id="help-close" class="primary">Understood</button>
+      </dialog>
+      <dialog aria-label="Command briefing" id="briefing-panel" class="help-panel briefing-panel" hidden>
+        <p id="briefing-kicker" class="eyebrow">COMMAND BRIEFING</p>
+        <h2 id="briefing-title"></h2>
+        <p id="briefing-copy" class="briefing-copy"></p>
+        <div id="briefing-progress" class="briefing-progress" aria-label="Briefing progress"></div>
+        <div class="briefing-actions"><button id="briefing-back" class="ghost">Back</button><button id="briefing-next" class="primary">Next</button></div>
+      </dialog>
+      <div id="verdict" class="battle-verdict" hidden><strong id="verdict-title"></strong><span id="verdict-reason"></span></div>
+    </section>
+
+
+    <section id="orders-panel" class="vessel-station" hidden>
+      <div class="station-cap"><span>02</span> VESSEL / DEFENCE</div>
+      <div class="vessel-selector"><label class="sr-only" for="vessel-select">Inspect vessel</label><select id="vessel-select"><option>No vessel selected</option></select><button id="next-vessel" title="Select next friendly vessel">Next</button></div>
+      <h2 id="ship-name"></h2><p id="vessel-status" class="instrument-note"></p>
+      <div class="schematic-row"><canvas id="schematic" width="420" height="330" aria-label="Bow-up shield schematic; exact values are listed alongside"></canvas><div id="shield-readouts" class="shield-readouts"></div></div>
+      <div class="vessel-totals"><span>HULL <b id="ro-hull"></b></span><span>MAGAZINE <b id="ro-mag"></b></span></div>
+      <p id="shield-note" class="instrument-note"></p>
+    </section>
+    <div id="command-deck" class="command-deck" hidden>
+      <section class="instrument helm-station">
+        <div class="station-cap"><span>03</span> HELM</div>
+        <div class="action-slots" id="round-tabs" aria-label="Action to edit"></div>
+        <div class="helm-bank">
+          <div class="heading-dial"><svg viewBox="0 0 120 120" role="img" aria-label="Planned absolute heading"><circle class="dial-circle" cx="60" cy="60" r="52"/><path class="dial-hex" d="M60 5L108 32V88L60 115L12 88V32Z"/><g id="heading-needle"><path d="M60 22L51 44H69Z"/><path d="M60 40V74"/></g><text id="heading-value" x="60" y="91" text-anchor="middle">E / 0</text></svg></div>
+          <div class="helm-controls"><button id="turn-left" title="Q: turn to port">↶ Port</button><button id="turn-right" title="E: turn to starboard">Starboard ↷</button><button id="forward-down" title="S: one hex less">− Hex</button><button id="forward-up" title="W: one hex more">+ Hex</button><button id="hold-button">Hold &amp; fire</button></div>
+        </div>
+        <output id="forward-value">Hold &amp; fire</output>
+        <div class="helm-ratings"><span id="ro-speed"></span><span id="ro-turn"></span></div>
+        <div id="special-controls" class="special-controls" hidden>
+          <button id="warp-action" aria-pressed="false" hidden>Warp insertion</button>
+          <label id="burst-control" hidden>Extra burst hexes <input id="burst-extra" type="number" min="0" max="5" step="1" value="0"></label>
+          <p id="special-note" class="instrument-note" role="status"></p>
+        </div>
+        <p id="course-note" class="instrument-note"></p>
+      </section>
+      <section class="instrument power-station">
+        <div class="station-cap"><span>04</span> POWER CONTROL</div>
+        <div class="power-live"><strong id="ro-power">—</strong><span>power now<br><b id="power-output"></b></span></div>
+        <label class="reserve-control">Next-turn reserve <output id="reserve-value">30%</output><input aria-label="Next-turn shield reserve fraction" id="reserve" type="range" min="0" max="0.8" step="0.05" value="0.3"></label>
+        <div class="power-block"><div class="power-bar"><i id="power-move"></i><i id="power-guns"></i><i id="power-reserve"></i></div><div class="power-labels"><span>helm <b id="movement-cost">0</b></span><span>weapons <b id="gun-power">0</b></span><span>reserve <b id="reserve-power">0</b></span></div></div>
+        <p id="power-forecast" class="instrument-note"></p>
+      </section>
+      <section class="instrument fire-station">
+        <div class="station-cap"><span>05</span> FIRE CONTROL <small id="fire-round-label">ACTION 1</small></div>
+        <div class="target-row"><label for="target-select">Priority</label><select id="target-select"><option value="auto">Automatic</option></select><button id="target-auto">Auto</button></div>
+        <p id="target-name" class="instrument-note">Automatic target selection</p>
+        <div id="mount-list" class="mount-list" aria-label="Inspect weapon mounts"></div>
+        <div id="fire-solution" class="fire-solution" role="status"></div>
+      </section>
+    </div>
+  </main>
+  <div class="damage-strip"><span>06 / DAMAGE CONTROL</span><span id="damage-summary">Awaiting vessel telemetry</span><button data-drawer="damage-drawer">System readout</button></div>
+  <dialog id="mission-drawer" class="command-drawer" aria-label="Mission" hidden><button class="drawer-close" data-close="mission-drawer">Close</button>
+      <section id="mission-summary" class="mission-summary" hidden>
+        <div class="section-head"><p class="eyebrow">MISSION</p><span id="mission-clock"></span></div>
+        <h2 id="mission-name"></h2><p id="mission-objective"></p>
+        <div id="objective-assets" class="objective-assets"></div>
+      </section>
+  </dialog>
+  <dialog id="fleet-drawer" class="command-drawer" aria-label="Fleet and formation orders" hidden><button class="drawer-close" data-close="fleet-drawer">Close</button>
+      <section id="formation-panel" hidden>
+        <div class="section-head"><p class="eyebrow">FORMATION CONTROL</p><span>whole fleet</span></div>
+        <div class="formation-controls">
+          <button data-formation="advance">▲<span>Advance<br>&amp; fire</span></button>
+          <button data-formation="hold">◆<span>Hold<br>&amp; fire</span></button>
+          <button data-formation="port">↶<span>Wheel<br>port</span></button>
+          <button data-formation="starboard">↷<span>Wheel<br>starboard</span></button>
+        </div>
+        <p id="formation-status" class="formation-status">Issue a plan to every friendly vessel, then refine individual orders below.</p>
+      </section>
+      <section><div class="section-head"><p class="eyebrow">FLEET</p><span>unordered = holds &amp; fires</span></div><div id="ship-list" class="ship-list"></div></section>
+  </dialog>
+  <dialog id="log-drawer" class="command-drawer" aria-label="Combat event log" hidden><button class="drawer-close" data-close="log-drawer">Close</button>
+      <section class="combat-log"><div class="section-head"><p class="eyebrow">NARRATIVE LOG</p><span id="log-count">0 events</span></div><ol id="log-lines"></ol></section>
+  </dialog>
+  <dialog id="damage-drawer" class="command-drawer" aria-label="Selected vessel system damage" hidden><button class="drawer-close" data-close="damage-drawer">Close</button><h2>System readout</h2><div id="damage-detail"></div></dialog>
+  <footer class="play-controls">
+    <span id="hint">Set the board to begin.</span>
+    <div><button id="restart-battle" disabled>Restart battle</button><button id="save-record" disabled>Save game record</button><button id="open-viewer" disabled>Review replay</button><button id="end-turn" class="primary" disabled>End turn <kbd>Enter</kbd></button></div>
+  </footer>
+</body>
+</html>

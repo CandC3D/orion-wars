@@ -29,17 +29,20 @@ const SIZES = (strArg("--sizes", Object.keys(SCALES).join(","))).split(",").map(
 function rate(fa, fb, comp, n, size, plain) {
   let w = 0;
   for (let i = 0; i < n; i++) {
-    const rng = makePrng(seedFromString(`s${size}-${fa}-${fb}-${i}`));
-    const A = buildFleet(fa, compFor(fa, comp, TUNING, plain), TUNING, LOADOUTS, rng, "A");
-    const B = buildFleet(fb, compFor(fb, comp, TUNING), TUNING, LOADOUTS, rng, "B");
-    deployFleets(A, B, TUNING);
-    const r = runBattle([A, B], TUNING, rng, {});
-    if (r.victor === "A") w++;
+    const seed = seedFromString(`s${size}-${fa}-${fb}-${i}`);
+    for (const reversed of [false, true]) {
+      const rng = makePrng(seed);
+      const A = buildFleet(reversed ? fb : fa, reversed ? compFor(fb, comp, TUNING) : compFor(fa, comp, TUNING, plain), TUNING, LOADOUTS, rng, "A");
+      const B = buildFleet(reversed ? fa : fb, reversed ? compFor(fa, comp, TUNING, plain) : compFor(fb, comp, TUNING), TUNING, LOADOUTS, rng, "B");
+      deployFleets(A, B, TUNING);
+      const r = runBattle([A, B], TUNING, rng, {});
+      if ((!reversed && r.victor === "A") || (reversed && r.victor === "B")) w++;
+    }
   }
-  return w / n;
+  return w / (n * 2);
 }
 
-console.log(`${ME} unique-hull buy delta — ${N} battles per cell`);
+console.log(`${ME} unique-hull buy delta — ${N} mirrored pairs per cell`);
 console.log("size  list                                       " +
   FACTIONS.filter((f) => f !== ME).map((f) => `vs ${f}`.padStart(16)).join("") + "   overall");
 console.log("-".repeat(110));

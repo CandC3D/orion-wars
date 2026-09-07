@@ -1,3 +1,7 @@
+import { eventShips, hitAttribution, shieldFace, OFFSET_OF_FACE } from "./replay-geometry.js";
+import { fleetSummary, sideLabel, resultLabel, replayCoverage } from "./replay-status.js";
+import { missileTrack, sampleMissileTrack } from "./missile-tracks.js";
+
 (() => {
   "use strict";
 
@@ -183,6 +187,8 @@
   function loadReplay(data) {
     try {
       state.replay = validateReplay(data);
+      state.coverage = replayCoverage(data);
+      updateRecordingNotice();
       state.index = 0;
       state.progress = 0;
       state.playing = false;
@@ -190,6 +196,15 @@
       state.shotEffects = buildShotEffects(data);
       state.warpEvents = buildWarpEvents(data);
       state.effects = buildLogEffects(data);
+      // Structured events supersede log-derived effects where available.
+      // Keep the old parser for saved recordings containing only text logs.
+      for (let index = 0; index < data.rounds.length; index++) {
+        const events = (data.shots ?? []).filter(e => roundKey(e) === roundKey(data.rounds[index]));
+        const fires = events.filter(e => e.kind === "spinal");
+        const strikes = events.filter(e => e.kind === "strike");
+        if (fires.length) state.effects.fires[index] = fires;
+        if (strikes.length) state.effects.strikes[index] = strikes.map(e => ({ ...e, carrierId: e.shooterId, type: e.craft }));
+      }
       state.hasReplayLog = data.log.length > 0;
       resetAutoFrameCamera();
       updateCameraButtons();
@@ -248,7 +263,7 @@
   const shotSuffix = (event) => {
     const range = Number.isFinite(event.range) ? `, range ${event.range}` : "";
     return event.hit
-      ? `${range}: HIT${Number.isFinite(event.damage) ? ` for ${event.damage}` : ""}`
+      ? `${range}: HIT${Number.isFinite(event.damage) ? ` for ${event.damage}` : ""}${hitAttribution(event)}`
       : `${range}: miss`;
   };
 
@@ -286,13 +301,16 @@
     const out = [];
     const add = (category, text) => out.push({ category, text });
 
-    if (previous) {
+    if (previous && !round.terminal) {
       const warpIds = new Set(raw.map((entry) => /^(\S+) warps in behind\b/.exec(entry.message)?.[1]).filter(Boolean));
       for (const ship of round.ships) {
         const before = shipAt(previous, ship.id);
         if (!before || (before.destroyed && ship.destroyed)) continue;
         const verb = warpIds.has(ship.id) ? "warps" :
           (before.pos.q === ship.pos.q && before.pos.r === ship.pos.r ? "holds" : "moves");
+        // A stationary wreck is not evidence of a hold order. Preserve actual
+        // movement observed before destruction, but do not invent wreck orders.
+        if (ship.destroyed && verb === 'holds') continue;
         if (verb === "holds") add("movement", `${ship.id} holds ${fmtPos(ship.pos)}, facing ${facingName(ship.facing)}`);
         else add("movement", `${ship.id} ${verb} ${fmtPos(before.pos)} \u2192 ${fmtPos(ship.pos)}, facing ${facingName(ship.facing)}`);
       }
@@ -310,12 +328,12 @@
     for (const event of events.filter((entry) => entry.kind === "missile")) {
       const launch = missilePairs.get(event);
       const shooter = event.shooterId ?? launch?.shooterId ?? "unknown ship";
-      if (event.outcome === "hit") add("damage", `${event.weapon} from ${shooter} hits ${event.targetId} for ${event.damage ?? 0}`);
+      if (event.outcome === "hit") add("damage", `${event.weapon} from ${shooter} hits ${event.targetId} for ${event.damage ?? 0}${hitAttribution(event)}`);
       else if (event.outcome === "dead-target") add("damage", `${event.weapon} from ${shooter} finds ${event.targetId} already destroyed`);
       else add("damage", `${event.weapon} from ${shooter} targeting ${event.targetId} is ${event.outcome ?? "lost"}`);
     }
     for (const event of events.filter((entry) => entry.kind === "strike")) {
-      const result = event.hits > 0 ? `${event.hits} hit for ${event.damage}` : "miss";
+      const result = event.hits > 0 ? `${event.hits} hit for ${event.damage}${hitAttribution(event)}` : "miss";
       add("fire", `${event.squadronId ?? `${event.shooterId} ${event.craft}`} strikes ${event.targetId}: ${result}`);
     }
 
@@ -337,16 +355,16 @@
       if (event.kind === "beam") {
         effects.push({ kind: "beam", roundIndex, event });
       } else if (event.kind === "launch") {
-        const key = `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
+        const key = event.missileId ?? `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
         const queue = launches.get(key) || [];
         const effect = { kind: "missile", launchIndex: roundIndex, arrivalIndex: replay.rounds.length, launch: event, arrival: null };
         queue.push(effect);
         launches.set(key, queue);
         effects.push(effect);
       } else if (event.kind === "missile") {
-        const key = `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
+        const key = event.missileId ?? `${event.weapon}|${event.shooterId ?? ""}|${event.targetId}`;
         let effect = launches.get(key)?.shift();
-        if (!effect) {
+        if (!effect && !event.missileId) {
           for (const [candidate, queue] of launches) {
             if (candidate.startsWith(`${event.weapon}|`) && candidate.endsWith(`|${event.targetId}`) && queue.length) {
               effect = queue.shift();
@@ -360,6 +378,7 @@
         }
       }
     }
+    for (const effect of effects) if (effect.kind === 'missile') effect.track = missileTrack(effect, replay.rounds);
     return effects;
   }
 
@@ -578,8 +597,24 @@
     }
   }
 
-  function survivingPoints(round, faction) {
-    return round.ships.reduce((sum, ship) => sum + (ship.faction === faction && !ship.destroyed ? ship.points : 0), 0);
+  function updateRecordingNotice() {
+    const floorWarnings = Array.isArray(state.replay.meta.warnings) ? state.replay.meta.warnings.filter(w => typeof w === 'string') : [];
+    $('#scenario-floor-warning').hidden = !floorWarnings.length;
+    $('#scenario-floor-warning').textContent = floorWarnings.length ? `AUTHORED FLEET EXCEPTION — ${floorWarnings.join(' ')} Fleets were retained as supplied.` : '';
+    const coverage = state.coverage;
+    $('#recording-notice').hidden = !coverage.incomplete;
+    $('#recording-warning').textContent = coverage.incomplete
+      ? `INCOMPLETE RECORDING — ${coverage.reasons.join(' ')} Map and points show the available frame, not the final result. Missing state has not been reconstructed.` : '';
+    const list = $('#unframed-events');
+    list.replaceChildren();
+    $('#unframed-details').hidden = !coverage.shots.length && !coverage.log.length;
+    // Keep raw evidence accessible, without pretending these events have a
+    // frame to animate or assigning them to the preceding action.
+    for (const entry of [...coverage.shots.map(e => ({ ...e, message: `Shot record: ${JSON.stringify(e)}` })), ...coverage.log]) {
+      const item = document.createElement('li');
+      item.textContent = `T${entry.turn} / R${entry.round}: ${entry.message}`;
+      list.append(item);
+    }
   }
 
   function updatePanel() {
@@ -588,13 +623,16 @@
     if (!round) return;
     const factionA = replay.meta.factions.A;
     const factionB = replay.meta.factions.B;
-    $("#round-label").textContent = `Turn ${round.turn} / Round ${round.round}`;
-    $("#faction-a").textContent = factionA;
-    $("#faction-b").textContent = factionB;
+    $("#round-label").textContent = `Turn ${round.turn} / ${round.terminal ? (round.phase === 'impacts' ? 'Final impacts' : 'Final state') : `Round ${round.round}`}`;
+    $("#faction-a").textContent = sideLabel(replay, 'A');
+    $("#faction-b").textContent = sideLabel(replay, 'B');
     $("#faction-a").style.color = colors[factionA];
     $("#faction-b").style.color = colors[factionB];
-    $("#points-a").textContent = formatPoints(survivingPoints(round, factionA));
-    $("#points-b").textContent = formatPoints(survivingPoints(round, factionB));
+    const totals = fleetSummary(replay, round);
+    $("#points-a").textContent = totals.unknown.length || totals.A.points === null ? '—' : formatPoints(totals.A.points);
+    $("#points-b").textContent = totals.unknown.length || totals.B.points === null ? '—' : formatPoints(totals.B.points);
+    $('#ownership-warning').hidden = !totals.unknown.length;
+    $('#ownership-warning').textContent = totals.unknown.length ? 'Side ownership is missing for surviving ships in this older record. Fleet point totals are unknown.' : '';
     $("#scrubber").value = String(state.index);
     $("#position").textContent = `${state.index + 1} / ${replay.rounds.length}`;
 
@@ -623,24 +661,25 @@
     const verdict = $("#verdict");
     verdict.hidden = !ended;
     if (ended) {
-      const victor = replay.result.victor;
-      verdict.textContent = victor ? `${replay.meta.factions[victor]} VICTORY` : "BATTLE DRAWN";
+      verdict.textContent = `${state.coverage.incomplete ? 'RECORDED RESULT: ' : ''}${resultLabel(replay)}`;
     }
     updateShipCard();
   }
 
   function formatPoints(points) { return Number.isInteger(points) ? String(points) : points.toFixed(1); }
+  // UI precision only; retain the untouched values in the replay object.
+  function formatReading(value) { return Number.isFinite(value) ? String(Number(value.toFixed(2))) : '—'; }
 
   function updateShipCard() {
     if (!state.pinned || !state.replay) return;
     const ship = shipAt(currentRound(), state.pinned);
     if (!ship) return;
     $("#ship-card").hidden = false;
-    $("#ship-name").textContent = ship.id;
+    $("#ship-name").textContent = ship.displayName ? `${ship.displayName} / ${ship.id}` : ship.id;
     $("#ship-name").style.color = colors[ship.faction];
-    const active = ship.mounts.filter((mount) => !mount.inop).length;
+    const active = ship.destroyed ? 0 : ship.mounts.filter((mount) => !mount.inop).length;
     const shields = [1, 2, 3, 4, 5, 6].map((face) =>
-      `<span class="${ship.shieldDown[face] ? "down" : ""}">${face}:${ship.shieldDown[face] ? "×" : ship.shieldCap[face]}</span>`
+      `<span class="${ship.shieldDown[face] ? "down" : ""}">${face}:${ship.shieldDown[face] ? "×" : ship.shieldCap[face]}${ship.shieldGenerators ? `/${ship.shieldGenerators[face].capacity}` : ''}</span>`
     ).join("");
     const bank = state.effects?.spinal[state.index]?.find((entry) => entry.id === ship.id);
     const wing = state.effects?.wing[state.index]?.find((entry) => entry.carrierId === ship.id);
@@ -651,12 +690,13 @@
       `<div class="detail-grid">` +
       `<div>Class<strong>${escapeHtml(ship.className)}</strong></div>` +
       `<div>Status<strong>${ship.destroyed ? "Destroyed" : ship.cloaked ? "Cloaked" : "Operational"}</strong></div>` +
-      `<div>Power<strong>${ship.power}</strong></div>` +
+      `<div>${ship.destroyed ? 'Recorded power' : 'Power'}<strong>${formatReading(ship.power)}</strong></div>` +
       `<div>Magazine<strong>${ship.magazine}</strong></div>` +
       `<div>Hull<strong>${ship.superstructure} / ${ship.superstructureMax}</strong></div>` +
       `<div>Mounts<strong>${active} / ${ship.mounts.length} online</strong></div>` +
       extras + `</div>` +
-      `<div class="shield-list">Shield faces<div>${shields}</div></div>`;
+      `<div class="shield-list">${ship.destroyed ? 'Recorded shield faces (wreck)' : 'Shield faces'}<div>${shields}</div></div>` +
+      (ship.shieldGenerators ? `<h3>COMPONENT ENGINEERING</h3><div class="detail-grid">${(ship.cores||[]).map((c,i)=>`<div>Reactor ${i+1} · ${escapeHtml(c.displayName)}<strong>${c.alive && !ship.destroyed ? `${c.power} power online` : `OFFLINE · ${c.power} rated`}</strong></div>`).join('')}${[1,2,3,4,5,6].map(face=>{const g=ship.shieldGenerators[face];return `<div>Shield ${face} · ${escapeHtml(g.displayName)}<strong>${g.capacity} cap · ${g.powerPerDamage} P / damage</strong></div>`;}).join('')}</div><p>${ship.destroyed ? 'Destroyed vessel. Retained component values are recording data, not operational equipment.' : 'Shield faces share the remaining power pool.'}</p>` : '');
   }
 
   function spinalLabel(bank) {
@@ -944,15 +984,25 @@
   function effectEndpoints(effect, geo) {
     if (effect.kind === "beam") {
       const round = state.replay.rounds[effect.roundIndex];
-      const shooter = shipAt(round, effect.event.shooterId);
-      const target = shipAt(round, effect.event.targetId);
-      return shooter && target ? { start: snapshotPoint(shooter, round, geo), end: snapshotPoint(target, round, geo), shooter, target } : null;
+      const actors = eventShips(effect.event, id => shipAt(round, id));
+      const { shooter, target } = actors;
+      return shooter && target ? { ...actors,
+        start: actors.exactSource ? project(shooter.pos, geo) : snapshotPoint(shooter, round, geo),
+        end: actors.exactTarget ? project(target.pos, geo) : snapshotPoint(target, round, geo) } : null;
     }
     const launchRound = state.replay.rounds[effect.launchIndex];
     const arrivalRound = state.replay.rounds[Math.min(effect.arrivalIndex, state.replay.rounds.length - 1)];
-    const shooter = shipAt(launchRound, effect.launch.shooterId) || lastShipAt(effect.launch.shooterId, effect.launchIndex);
-    const target = shipAt(arrivalRound, effect.launch.targetId) || lastShipAt(effect.launch.targetId, effect.arrivalIndex);
-    return shooter && target ? { start: snapshotPoint(shooter, launchRound, geo), end: snapshotPoint(target, arrivalRound, geo), shooter, target } : null;
+    // Never use the launch target's position as the impact position. An old
+    // arrival lacks geometry and falls back to the previous (pre-move) frame.
+    const preImpact = state.replay.rounds[Math.max(0, effect.arrivalIndex - 1)] ?? arrivalRound;
+    const source = eventShips(effect.launch, id => shipAt(launchRound, id) || lastShipAt(id, effect.launchIndex));
+    const arrival = effect.arrival ?? { targetId: effect.launch.targetId };
+    const actors = eventShips(arrival, id => shipAt(effect.arrival ? preImpact : arrivalRound, id) || lastShipAt(id, effect.arrivalIndex));
+    const shooter = source.shooter, target = actors.target;
+    return shooter && target ? { ...actors, shooter,
+      face: arrival.face ?? (arrival.approachPos ? actors.face : shieldFace(target, shooter.pos)),
+      start: source.exactSource ? project(shooter.pos, geo) : snapshotPoint(shooter, launchRound, geo),
+      end: actors.exactTarget ? project(target.pos, geo) : snapshotPoint(target, effect.arrival ? preImpact : arrivalRound, geo) } : null;
   }
 
   function drawBeam(effect, geo) {
@@ -983,19 +1033,19 @@
       ctx.stroke();
     }
     ctx.restore();
-    if (shot.hit && phase < .3) drawShieldFlash(target, shooter.pos, geo, phase / .3);
+    if (shot.hit && phase < .3) drawShieldFlash(target, shooter.pos, geo, phase / .3, endpoints.face, end);
   }
 
   function drawMissile(effect, geo, now) {
     const phase = effectProgress();
     const arrivalIndex = Math.min(effect.arrivalIndex, state.replay.rounds.length - 1);
-    const labelElapsed = state.index + state.progress - arrivalIndex - MOVEMENT_END;
+    const labelElapsed = state.index + state.progress - arrivalIndex - MOVEMENT_END - (effect.track ? .15 * (1-MOVEMENT_END) : 0);
     const label = effect.arrival?.outcome === "hit" ? `HIT ${effect.arrival.damage ?? 0}`
       : effect.arrival?.outcome === "evaded" ? "evaded"
         : effect.arrival?.outcome === "dead-target" ? "dead target" : effect.arrival?.outcome;
     if (label && labelElapsed >= 0 && labelElapsed < ARRIVAL_LABEL_SECONDS) {
-      const liveTarget = shipAt(currentRound(), effect.launch.targetId) || lastShipAt(effect.launch.targetId, state.index);
-      if (liveTarget) drawArrivalLabel(pointFor(liveTarget, geo), label, labelElapsed, geo, liveTarget);
+      const endpoints = effectEndpoints(effect, geo);
+      if (endpoints) drawArrivalLabel(endpoints.end, label, labelElapsed, geo, endpoints.target);
     }
     if (state.index === effect.launchIndex && state.progress < MOVEMENT_END) return;
     const resolving = state.progress >= MOVEMENT_END;
@@ -1004,6 +1054,10 @@
     const endpoints = effectEndpoints(effect, geo);
     if (!endpoints) return;
     const { start, end, shooter, target } = endpoints;
+    if (effect.track) {
+      drawTimedMissile(effect, endpoints, geo, now, absolute, phase, resolving);
+      return;
+    }
     drawMissileGuide(start, end, effect, geo);
     const span = Math.max(1, effect.arrivalIndex - effect.launchIndex);
     const rawTravel = Math.max(0, Math.min(1, (absolute - effect.launchIndex) / span));
@@ -1029,18 +1083,40 @@
     if (plasma) drawPlasma(at, start, end, cappedTravel, bend, fade, now, geo);
     else drawNeutronic(at, fade, now, geo);
     if (effect.arrival && state.index === arrivalIndex && resolving) {
-      if (outcome === "hit" && phase < .32) drawShieldFlash(target, shooter.pos, geo, phase / .32);
+      if (outcome === "hit" && phase < .32) drawShieldFlash(target, shooter.pos, geo, phase / .32, endpoints.face, end);
       else if (outcome === "evaded" && phase < .32) drawEvadeStreak(at, start, end, phase, geo);
     }
   }
 
-  function drawMissileGuide(start, end, effect, geo) {
+  function drawTimedMissile(effect, endpoints, geo, now, absolute, phase, resolving) {
+    const vertices = effect.track.map(point => project(point.pos, geo));
+    drawMissileGuide(vertices[0], vertices.at(-1), effect, geo, vertices);
+    const sample = sampleMissileTrack(effect.track, absolute);
+    const at = project(sample.pos, geo), from = project(sample.from, geo), to = project(sample.to, geo);
+    const plasma = effect.launch.weapon === 'plasma-torpedo';
+    const arrived = !!effect.arrival && state.index === effect.arrivalIndex && resolving && phase >= .15;
+    if (arrived) {
+      const progress = (phase-.15)/.32, outcome = effect.arrival.outcome;
+      if (progress < 1) {
+        if (outcome === 'hit') drawShieldFlash(endpoints.target, endpoints.attackFrom ?? endpoints.shooter.pos, geo, progress, endpoints.face, endpoints.end);
+        else if (outcome === 'intercepted') drawMissilePop(at, plasma, progress, geo);
+        else if (outcome === 'evaded') drawEvadeStreak(at, from, to, progress*.32, geo);
+      }
+      return; // No projectile flying through a recorded resolution.
+    }
+    if (plasma) drawPlasma(at, from, to, sample.fraction, 0, 1, now, geo);
+    else drawNeutronic(at, 1, now, geo);
+  }
+
+  function drawMissileGuide(start, end, effect, geo, vertices = [start, end]) {
     ctx.save();
     ctx.globalAlpha = .48;
     ctx.strokeStyle = effect.launch.weapon === "plasma-torpedo" ? "#56ffd0" : "#ffd36a";
     ctx.lineWidth = screenWorldSize(1);
     ctx.setLineDash?.([screenWorldSize(5), screenWorldSize(4)]);
-    ctx.beginPath(); ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(start.x, start.y);
+    for (const point of vertices.slice(1)) ctx.lineTo(point.x, point.y);
+    ctx.stroke();
     ctx.setLineDash?.([]);
     const radius = effectWorldSize(geo, .6, 5);
     ctx.globalAlpha = .8;
@@ -1116,20 +1192,12 @@
     ctx.lineTo(at.x + dx / length * streak, at.y + dy / length * streak); ctx.stroke(); ctx.restore();
   }
 
-  function shieldFace(target, attackerPos) {
-    const a = { x: Math.sqrt(3) * (target.pos.q + target.pos.r / 2), y: -1.5 * target.pos.r };
-    const b = { x: Math.sqrt(3) * (attackerPos.q + attackerPos.r / 2), y: -1.5 * attackerPos.r };
-    const degrees = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
-    const direction = Math.round(((degrees + 360) % 360) / 60) % 6;
-    return [2, 3, 4, 5, 6, 1][(direction - target.facing + 6) % 6];
-  }
-
-  function drawShieldFlash(target, attackerPos, geo, phase) {
+  function drawShieldFlash(target, attackerPos, geo, phase, recordedFace, recordedPoint) {
     if (!target || !target.pos || !attackerPos) return;
-    const at = pointFor(target, geo);
+    const at = recordedPoint ?? pointFor(target, geo);
     const size = markerSize(target, geo);
-    const face = shieldFace(target, attackerPos);
-    const offset = [5, 0, 1, 2, 3, 4][face - 1];
+    const face = recordedFace ?? shieldFace(target, attackerPos);
+    const offset = OFFSET_OF_FACE[face];
     const angle = -(target.facing + offset) * Math.PI / 3;
     const gap = size + effectWorldSize(geo, .45, 4);
     const center = { x: at.x + Math.cos(angle) * gap, y: at.y + Math.sin(angle) * gap };
@@ -1562,7 +1630,7 @@
   function drawShields(ship, at, size, geo) {
     const pip = Math.max(1.1, Math.min(1.7, geo.scale * .18));
     for (let face = 1; face <= 6; face++) {
-      const offset = [5, 0, 1, 2, 3, 4][face - 1];
+      const offset = OFFSET_OF_FACE[face];
       const angle = -(ship.facing + offset) * Math.PI / 3;
       const radius = size + ringGap(geo);
       const x = at.x + Math.cos(angle) * radius;
@@ -1651,11 +1719,11 @@
     if (phase > .52) return;
     for (const shot of fires) {
       const snapshot = state.replay.rounds[state.index];
-      const shooter = shipAt(snapshot, shot.shooterId);
-      const target = shipAt(snapshot, shot.targetId);
+      const actors = eventShips(shot, id => shipAt(snapshot, id));
+      const { shooter, target } = actors;
       if (!shooter || !target) continue;
-      const start = snapshotPoint(shooter, snapshot, geo);
-      const aim = snapshotPoint(target, snapshot, geo);
+      const start = actors.exactSource ? project(shooter.pos, geo) : snapshotPoint(shooter, snapshot, geo);
+      const aim = actors.exactTarget ? project(target.pos, geo) : snapshotPoint(target, snapshot, geo);
       const end = aim;
       const alpha = Math.max(0, 1 - phase / .52);
       const head = end;
@@ -1771,11 +1839,11 @@
     if (!strikes || !strikes.length) return;
     const phase = state.progress;
     for (const strike of strikes) {
-      const carrier = ships.find((ship) => ship.id === strike.carrierId) || lastShipAt(strike.carrierId, state.index);
-      const target = lastShipAt(strike.targetId, state.index);
+      const actors = eventShips({ ...strike, shooterId: strike.carrierId }, id => ships.find(ship => ship.id === id) || lastShipAt(id, state.index));
+      const { shooter: carrier, target } = actors;
       if (!carrier || !target) continue;
-      const start = pointFor(carrier, geo);
-      const end = pointFor(target, geo);
+      const start = actors.exactSource ? project(carrier.pos, geo) : pointFor(carrier, geo);
+      const end = actors.exactTarget ? project(target.pos, geo) : pointFor(target, geo);
       const travel = clamp01(phase / .5);
       if (travel < 1 || phase < .82) {
         const icon = craftIcon(carrier.faction, strike.type);

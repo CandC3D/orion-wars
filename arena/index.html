@@ -6,7 +6,7 @@
   <title>Orion Wars — Battle Arena</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./arena.css">
-  <script src="./arena.js?v=effect-scale2" defer></script>
+  <script type="module" src="./arena.js?v=scenario-rules1"></script>
 </head>
 <body>
   <header class="masthead">
@@ -53,10 +53,19 @@
         <p class="eyebrow">BATTLE CLOCK</p>
         <div id="round-label" class="round-label">Turn — / Round —</div>
         <div class="scoreboard">
-          <div><span id="faction-a">A</span><strong id="points-a">—</strong><small>pts surviving</small></div>
-          <div><span id="faction-b">B</span><strong id="points-b">—</strong><small>pts surviving</small></div>
+          <div><span id="faction-a">A</span><strong id="points-a">—</strong><small>pts at shown frame</small></div>
+          <div><span id="faction-b">B</span><strong id="points-b">—</strong><small>pts at shown frame</small></div>
         </div>
+        <p id="ownership-warning" class="recording-warning" hidden></p>
+        <p id="scenario-floor-warning" class="recording-warning" hidden></p>
         <div id="verdict" class="verdict" hidden></div>
+        <div id="recording-notice" hidden>
+          <p id="recording-warning" class="recording-warning" role="status"></p>
+          <details id="unframed-details" hidden>
+            <summary>Recorded events without frames</summary>
+            <ol id="unframed-events"></ol>
+          </details>
+        </div>
       </section>
 
       <section id="ship-card" class="ship-card" hidden>

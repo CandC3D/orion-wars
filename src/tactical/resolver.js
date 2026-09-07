@@ -7,13 +7,24 @@
 // Sits behind the frozen combat interface in src/combat.js; the strategic
 // layer never sees anything in this file.
 
-import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLine } from "./hex.js";
-import { buildShip, fullPower, startTurn, startRound, spendable, applyDamage } from "./ship.js";
+import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLineGroups } from "./hex.js";
+import { buildShip, weaponFor, fullPower, ratedPower, shieldCapacity, shieldCost, startTurn, startRound, spendable, applyDamage } from "./ship.js";
 import { makePrng, seedFromString } from "../prng.js";
+import { fleetRuleIssues } from "./fleet-rules.js";
+import { deploymentErrors, terrainFootprint } from "./deployment.js";
+import { specialCapabilities } from "./specials.js";
+import { objectiveErrors } from "./objectives.js";
+import { grantScanContact, loseContact, sensorAbility, assertExecutableContacts } from './contacts.js';
+import { SENSING_PROFILE, currentContacts, pruneScanLocks } from './sensing.js';
+import { scanCapabilities, scanActionError } from './scans.js';
+import { createMissileFlight, advanceMissileFlights, missileImpactFace, missileGeometry, snapshotMissiles } from './missiles.js';
+import { advanceManualSpinal } from './spinal-control.js';
 
 // ---------------------------------------------------------------- helpers
 
 const living = (fleet) => fleet.filter((s) => !s.destroyed);
+const enemyAt = (pos, enemies, tuning) => tuning.battle?.sameHexNoFire !== false &&
+  enemies.some(s => !s.destroyed && s.pos.q === pos.q && s.pos.r === pos.r);
 
 // ------------------------------------------------------- instrumentation
 // The helm keeps an account of itself, so each rule can be measured rather
@@ -42,19 +53,45 @@ resetHelmStats(false);
 
 function centroid(ships) {
   if (!ships.length) return { q: 0, r: 0 };
+  const symmetricRound = (value) => value < 0 ? -Math.round(-value) : Math.round(value);
   return {
-    q: Math.round(ships.reduce((s, x) => s + x.pos.q, 0) / ships.length),
-    r: Math.round(ships.reduce((s, x) => s + x.pos.r, 0) / ships.length)
+    q: symmetricRound(ships.reduce((s, x) => s + x.pos.q, 0) / ships.length),
+    r: symmetricRound(ships.reduce((s, x) => s + x.pos.r, 0) / ships.length)
   };
 }
 
-const targetable = (enemies) => living(enemies).filter((e) => !e.cloaked || e.detected);
+const finiteSensing = battle => battle?.contacts?.profile === SENSING_PROFILE;
+const reconcileContacts = battle => { if (finiteSensing(battle)) pruneScanLocks(battle); };
+const targetable = (enemies, battle = null, side = null) => {
+  if (!finiteSensing(battle)) return living(enemies).filter(e => !e.cloaked || e.detected);
+  const known = new Set(currentContacts(battle, side).map(c => c.id));
+  return living(enemies).filter(e => known.has(e.id));
+};
 
-function nearest(from, ships) {
+// Deterministic ties are expressed in the observer's local frame. Scanning
+// absolute hex directions (0..5) made an otherwise identical fleet behave
+// differently after a 180-degree rotation.
+const relativeDir = (origin, dir) => (dir - origin + 6) % 6;
+const directionTie = (a, b, origin) => {
+  const da = relativeDir(origin, a), db = relativeDir(origin, b);
+  return (Math.min(da, 6 - da) - Math.min(db, 6 - db)) || (da - db);
+};
+const canonicalShipCompare = (a, b) =>
+  ((b?.points ?? 0) - (a?.points ?? 0)) ||
+  String(a?.className ?? "").localeCompare(String(b?.className ?? "")) ||
+  String(a?.id ?? "").localeCompare(String(b?.id ?? ""), undefined, { numeric: true });
+const targetTie = (observer, a, b) =>
+  directionTie(bearing(observer.pos, a.pos), bearing(observer.pos, b.pos), observer.facing) ||
+  canonicalShipCompare(a, b);
+
+function nearest(from, ships, facing = 0) {
   let best = null, bestD = Infinity;
   for (const s of ships) {
     const d = distance(from, s.pos);
-    if (d < bestD) { bestD = d; best = s; }
+    if (d < bestD || (d === bestD && best &&
+        (directionTie(bearing(from, s.pos), bearing(from, best.pos), facing) || canonicalShipCompare(s, best)) < 0)) {
+      bestD = d; best = s;
+    }
   }
   return { ship: best, range: bestD };
 }
@@ -105,7 +142,7 @@ function fireWeight(ship, face, tuning, standing = false) {
   let score = 0;
   for (const m of ship.mounts) {
     if (m.inop || (!standing && m.firedThisTurn) || !m.arc.includes(face)) continue;
-    const w = tuning.weapons[m.type];
+    const w = weaponFor(ship, m.type, tuning);
     score += w.kind === "beam" ? w.maxPower
       : w.kind === "spinal" ? (w.aimWeight ?? 0)   // keel gun: aimed by the helm
       : (w.damage / 3);
@@ -141,18 +178,18 @@ const turnCostBetween = (a, b) => Math.min((b - a + 6) % 6, (a - b + 6) % 6);
 // to reach us at all. Normalised to a share, so the defensive term below means
 // the same thing whether the shooter is a frigate or a battleship. `top` is
 // the single heaviest contributor, which is all arc evasion needs.
-function threatProfile(ship, enemies, tuning) {
+function threatProfile(ship, enemies, tuning, battle = null) {
   const t = [0, 0, 0, 0, 0, 0];
   let total = 0, top = null, topW = 0;
   for (const e of enemies) {
-    if (e.destroyed || (e.cloaked && !e.detected)) continue;
+    if (e.destroyed || (!finiteSensing(battle) && e.cloaked && !e.detected)) continue;
     const d = distance(ship.pos, e.pos);
     if (d === 0 || d > maxReach(e, tuning)) continue;
     const w = standingWeight(e, shieldFacing(e, ship.pos), tuning);
     if (w <= 0) continue;
     t[bearing(ship.pos, e.pos)] += w;
     total += w;
-    if (w > topW) { topW = w; top = e; }
+    if (w > topW || (w === topW && top && targetTie(ship, e, top) < 0)) { topW = w; top = e; }
   }
   if (total > 0) for (let i = 0; i < 6; i++) t[i] /= total;
   return { t, total, top, topW };
@@ -204,7 +241,8 @@ function preferredApproachDir(target, fromDir, AA, taken) {
   for (let d = 0; d < 6; d++) {
     const v = value(d);
     const turn = turnCostBetween(fromDir, d);
-    if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 && turn < bestTurn)) {
+    if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 &&
+        (turn < bestTurn || (turn === bestTurn && directionTie(d, bestD, fromDir) < 0)))) {
       bestV = v; bestD = d; bestTurn = turn;
     }
   }
@@ -301,9 +339,9 @@ function bestHeading(ship, targetPos, tuning, budgetIn, profIn) {
     let score = fireWeight(ship, face, tuning);
     if (!ship.shieldDown[face]) score += 0.5;   // meet him with a live shield
     if (face === 2) score += 0.25;              // and keep the nose round on a tie
-    if (score > freeScore) { freeScore = score; free = f; }
+    if (score > freeScore || (score === freeScore && directionTie(f, free, ship.facing) < 0)) { freeScore = score; free = f; }
     if (turnCostBetween(ship.facing, f) > budget) continue;
-    if (score > plainScore) { plainScore = score; plain = f; }
+    if (score > plainScore || (score === plainScore && directionTie(f, plain, ship.facing) < 0)) { plainScore = score; plain = f; }
     if (prof) {
       // Presenting a hole to the fire costs the share of the fire that would
       // arrive through it. Down counts whole, damaged counts half.
@@ -311,7 +349,7 @@ function bestHeading(ship, targetPos, tuning, budgetIn, profIn) {
       for (let d = 0; d < 6; d++) if (prof.t[d] > 0) harm += prof.t[d] * harmOf[faceFor(f, d)];
       if (harm > 0) score -= defW * harm;
     }
-    if (score > bestScore) { bestScore = score; best = f; }
+    if (score > bestScore || (score === bestScore && directionTie(f, best, ship.facing) < 0)) { bestScore = score; best = f; }
   }
   if (INS) {
     if (best !== plain) helmStats.headingArc++;
@@ -431,7 +469,6 @@ function engagementRange(ship, enemy, tuning) {
 // line of fire (FASA: large bodies block fire and cast sensor shadows).
 // Terrain arrives on tuning.battle.terrain, which runBattle attaches from
 // opts.terrain; with no terrain every function here is a no-op.
-const HEX_DIRS = [0, 1, 2, 3, 4, 5];
 function terrainSet(tuning) {
   const list = tuning.battle?.terrain;
   if (!list || !list.length) return null;
@@ -444,8 +481,7 @@ function terrainSet(tuning) {
     const c = { q: t.q, r: t.r };
     if (t.type === "asteroids") { field.add(key(c)); continue; }
     if (t.type === "nebula") { neb.add(key(c)); continue; }
-    set.add(key(c));
-    if (t.type === "planet") for (const d of HEX_DIRS) set.add(key(add(c, d)));
+    for (const hex of terrainFootprint(t)) set.add(key(hex));
   }
   set.field = field;
   set.neb = neb;
@@ -464,6 +500,9 @@ function inNebula(pos, tuning) {
   return !!(set && set.neb.has(pos.q + "," + pos.r));
 }
 function nebulaRules(tuning) { return tuning.battle?.terrainRules?.nebula ?? {}; }
+function shieldsBypassedAt(pos, tuning) {
+  return inNebula(pos, tuning) && nebulaRules(tuning).shieldsUseless !== false;
+}
 function nebulaPenalty(shooter, target, tuning) {
   if (!inNebula(shooter.pos, tuning) && !inNebula(target.pos, tuning)) return 0;
   return nebulaRules(tuning).toHitPenalty ?? 2;
@@ -489,7 +528,7 @@ function blockedHex(pos, tuning) {
 function lineOfFire(shooterPos, targetPos, tuning) {
   const set = terrainSet(tuning);
   if (!set) return true;
-  const line = hexLine(shooterPos, targetPos);
+  const line = hexLineGroups(shooterPos, targetPos);
   const fieldsBlock = tuning.battle?.terrainRules?.asteroids?.blocksFire !== false;
   // NEBULA PENETRATION (ruling 2026-09-02, Chris): weapons fired from OUTSIDE
   // a nebula penetrate no further than the first fog hex - absorption
@@ -499,10 +538,14 @@ function lineOfFire(shooterPos, targetPos, tuning) {
   // (From inside, the visibility rule in mayEngage governs.)
   const shooterInFog = set.neb.has(shooterPos.q + "," + shooterPos.r);
   for (let i = 0; i < line.length; i++) {
-    const k = line[i].q + "," + line[i].r;
-    if (i > 0 && i < line.length - 1 && set.has(k)) return false;   // bodies block fire through
-    if (fieldsBlock && set.field.has(k)) return false;                // fields block in, out and through
-    if (!shooterInFog && i > 0 && set.neb.has(k) && i < line.length - 1) return false; // fog: first hex only
+    // RULING 2026-09-05: either touched hex can block an exact grazing edge.
+    // Both cells share this sample's depth; neither is artificially "first".
+    for (const cell of line[i]) {
+      const k = cell.q + "," + cell.r;
+      if (i > 0 && i < line.length - 1 && set.has(k)) return false;   // bodies block fire through
+      if (fieldsBlock && set.field.has(k)) return false;                // fields block in, out and through
+      if (!shooterInFog && i > 0 && set.neb.has(k) && i < line.length - 1) return false; // fog: first hex only
+    }
   }
   return true;
 }
@@ -565,7 +608,7 @@ function detonate(dead, allShips, tuning, rng, log) {
     const dmg = Math.ceil(punch / (E.divisor * Math.max(1, d)));
     if (dmg <= 0) continue;
     const face = shieldFacing(other, dead.pos);
-    applyDamage(other, face, dmg, tuning, rng, log);
+    applyDamage(other, face, dmg, tuning, rng, log, undefined, shieldsBypassedAt(other.pos, tuning));
     hurt++;
   }
   if (hurt && log) {
@@ -591,15 +634,15 @@ function detonate(dead, allShips, tuning, rng, log) {
 // worn down, and never more than the shields could physically absorb in the
 // three rounds of a turn. Absorption still comes out of the residue of the
 // pool exactly as before; only the spending brake has changed.
-function doctrineReserve(ship, enemies, tuning) {
+function doctrineReserve(ship, enemies, tuning, battle = null) {
   const doc = tuning.doctrine[ship.faction] ?? {};
   const base = doc.reserveFraction ?? 0.35;
   const D = tuning.doctrine.dynamic;
   if (!D || !D.enabled) return Math.round(ship.power * base);
 
-  const foes = targetable(enemies);
+  const foes = targetable(enemies, battle, ship.side);
   if (!foes.length) return 0;
-  const n = nearest(ship.pos, foes);
+  const n = nearest(ship.pos, foes, ship.facing);
 
   // Reach of the enemies actually near this ship. A lone distant picket should
   // not convince a captain the whole enemy line is on top of him.
@@ -633,9 +676,16 @@ function doctrineReserve(ship, enemies, tuning) {
   // a standing allowance (the facings' physical capacity, scaled) and what the
   // ship took last turn with a margin - so a quiet ship frees its pool for the
   // guns and a ship under a hammering keeps enough back to survive it.
-  const physical = ship.shieldPointRatio * ship.hull.maxShieldPower *
+  // V1 and uniformly upgraded grids retain their exact arithmetic. For an
+  // asymmetric grid use its mean rated-face budget as the standing allowance,
+  // not a single arbitrary face. Real absorption still uses the struck face.
+  const capacities = ship.shieldGenerators ? [1,2,3,4,5,6].map(face=>({cap:shieldCapacity(ship,face),cost:shieldCost(ship,face)})) : null;
+  const uniform = capacities?.every(f=>f.cap===capacities[0].cap&&f.cost===capacities[0].cost);
+  const physical = (capacities ? uniform ? capacities[0].cap*capacities[0].cost : capacities.reduce((n,f)=>n+f.cap*f.cost,0)/6 : ship.shieldPointRatio * ship.hull.maxShieldPower) *
     tuning.battle.roundsPerTurn * (D.absorbFacings ?? 2);
-  const memory = (ship.damageLastTurn ?? 0) * ship.shieldPointRatio * (D.threatMemory ?? 0);
+  const capacity = capacities?.reduce((n,f)=>n+f.cap,0) ?? 0;
+  const memoryRatio = capacities ? uniform ? capacities[0].cost : (capacity ? capacities.reduce((n,f)=>n+f.cap*f.cost,0)/capacity : 0) : ship.shieldPointRatio;
+  const memory = (ship.damageLastTurn ?? 0) * memoryRatio * (D.threatMemory ?? 0);
   const cap = Math.max(physical, memory);
   return Math.round(Math.max(0, Math.min(ship.power * frac, cap)));
 }
@@ -676,12 +726,21 @@ function intercepted(target, friends, tuning, rng) {
     total * tuning.pointDefence.chancePerPoint + capBonus);
 }
 
-function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, log, spread, bypassShield) {
+// Additive recording fields, captured at resolution time rather than inferred
+// from the end-of-round frame. targetId remains the intended target; screening
+// may redirect the hit to victimId. Missile shooterPos is launch attribution;
+// approachPos / flight record the projectile's own incoming geometry separately.
+function shotGeometry(shooterPos, target, shooterFacing) {
+  return { shooterPos: shooterPos ? { ...shooterPos } : undefined, shooterFacing,
+    targetPos: target?.pos ? { ...target.pos } : undefined, targetFacing: target?.facing };
+}
+function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, log, spread, bypassShield, missile = null) {
   if (target.destroyed) return;
   const victim = screenFor(target, defenders, tuning, rng) ?? target;
   if (victim.destroyed) return;
   if (victim !== target) stats.screened++;
-  const face = shieldFacing(victim, shooterPos);
+  const face = missile ? missileImpactFace(missile,victim) : shieldFacing(victim, shooterPos);
+  const impact = { victimId: victim.id, victimPos: { ...victim.pos }, victimFacing: victim.facing, face };
   stats.damage += damage;
   // Maneuver index bookkeeping: which side of the victim did this hit land on?
   // Faces 1-3 are forward (front-left, forward, front-right); 4-6 are the
@@ -691,8 +750,9 @@ function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, l
   // The blow lands whole against the shield; only what penetrates is spread
   // across the hull for damage-location purposes. `bypassShield` is passed
   // only by the photonic cannon and is undefined - falsy - for everything else.
-  const fog = inNebula(victim.pos, tuning) && (nebulaRules(tuning).shieldsUseless !== false);
+  const fog = shieldsBypassedAt(victim.pos, tuning);
   stats.internal += applyDamage(victim, face, damage, tuning, rng, log, spread, bypassShield || fog).internal;
+  return impact;
 }
 
 // ------------------------------------------------------- spinal weapons
@@ -710,17 +770,23 @@ function resolveHit(shooterPos, target, damage, defenders, tuning, rng, stats, l
 //
 // Every branch here is reached only through ship.spinal, which buildShip sets
 // on hulls that declare a spinal weapon and on no others.
-function chargeSpinal(ship, enemies, tuning, log) {
+function chargeSpinal(ship, enemies, tuning, log, battle = null, order = null) {
   const st = ship.spinal;
   if (!st) return;
-  const w = tuning.weapons[st.type];
+  const w = weaponFor(ship, st.type, tuning);
+  if(order || st.manualControl){
+    const note=advanceManualSpinal(ship,w,order?.spinal);
+    if(log)log(`${ship.id} ${note}`);
+    return;
+  }
   // RULING (2026-09-01): the bank is not lit until an enemy is inside
   // chargeStartRangeHexes. Without this gate an immobile-while-charging hull
   // would plant itself at its deployment hex on turn one, a full map from the
   // fight. A bank that is already partly charged keeps charging regardless.
   const startRange = w.chargeStartRangeHexes ?? Infinity;
   if (st.state === "charging" && st.charge <= 0 && Number.isFinite(startRange)) {
-    const near = living(enemies).some((e) => distance(ship.pos, e.pos) <= startRange);
+    const candidates = finiteSensing(battle) ? targetable(enemies, battle, ship.side) : living(enemies);
+    const near = candidates.some((e) => distance(ship.pos, e.pos) <= startRange);
     if (!near) {
       if (log && !st.coldLogged) { st.coldLogged = true; log(`${ship.id} ${st.type} capacitors cold - no enemy within ${startRange} hexes`); }
       return;
@@ -772,28 +838,31 @@ function chargeSpinal(ship, enemies, tuning, log) {
   }
 }
 
-// One bolt. Aimed at the heaviest hull in the arc rather than the nearest,
-// because a shot that took four turns to build is not spent on a picket.
-function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
+// One bolt. A legal explicit target order overrides capital-target doctrine;
+// without one, prefer the heaviest hull rather than spending the bank on a picket.
+function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot, forecast = null, battle = null) {
   const st = ship.spinal;
   if (!st || st.state !== "ready") return 0;
   const mount = ship.mounts.find((m) => m.kind === "spinal");
   if (!mount || mount.inop || mount.firedThisTurn) return 0;
-  const w = tuning.weapons[st.type];
+  const w = weaponFor(ship, st.type, tuning);
   if (spendable(ship) < (w.firePower ?? 0)) return 0;
 
-  const arc = targetable(enemies).filter(
+  const arc = targetable(enemies, battle, ship.side).filter(
     (f) => !f.destroyed && mayEngage(ship, f, tuning) && distance(ship.pos, f.pos) <= mount.maxRange && bears(ship, mount, f.pos) && lineOfFire(ship.pos, f.pos, tuning)
   );
   if (!arc.length) return 0;
 
   const capital = (f) => f.points >= (w.capitalPoints ?? 8);
-  const target = [...arc].sort((a, b) =>
-    (b.points - a.points) || (distance(ship.pos, a.pos) - distance(ship.pos, b.pos)))[0];
+  const ordered = ship.orderTarget ? arc.find(f => f.id === ship.orderTarget) : null;
+  const target = ordered || [...arc].sort((a, b) =>
+    (b.points - a.points) || (distance(ship.pos, a.pos) - distance(ship.pos, b.pos)) ||
+    targetTie(ship, a, b))[0];
 
   // Fire discipline. If only light hulls are in the arc the gunnery officer
-  // waits for something worth the bank - but not indefinitely.
-  if (!capital(target) && st.readyTurns < (w.holdForCapitalTurns ?? 0)) {
+  // waits for something worth the bank - but not indefinitely. Chris's explicit
+  // target ruling overrides that preference, not readiness or firing legality.
+  if (!ordered && !capital(target) && st.readyTurns < (w.holdForCapitalTurns ?? 0)) {
     if (log && !st.holdLogged) {
       st.holdLogged = true;
       log(`${ship.id} holds the photonic charge - no capital in the arc`);
@@ -805,9 +874,18 @@ function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
   const band = bandFor(mount, range);
   if (!band) return 0;
 
+  onShot?.before?.();
   ship.power -= (w.firePower ?? 0);
   mount.firedThisTurn = true;
   stats.shots++;
+
+  // Planning uses the real targeting/allocation path, but never rolls a die
+  // or damages a contact. All objects passed by previewOrders are private copies.
+  if (forecast) {
+    forecast.push({ mountId: mount.id, targetId: target.id, range, power: w.firePower ?? 0, kind: "spinal" });
+    dischargeSpinal(st, w);
+    return 1;
+  }
 
   // A keel gun cannot traverse. Evasion tells against it much harder than
   // against a turreted beam, and a light hull is a genuinely poor target -
@@ -824,6 +902,8 @@ function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
     + commandBonus(ship, friends, 'commandToHit') + tuning.toHit.crewRatingDefault
     - evasion - (ship.toHitPenalty ?? 0) + size;
   const hit = aim >= tuning.toHit.target;
+  const geometry = shotGeometry(ship.pos, target, ship.facing);
+  let impact;
 
   if (log) log(`${ship.id} FIRES ${st.type} at ${target.id} across ${range} hexes - ${hit ? "HIT" : "miss"}`);
   if (hit) {
@@ -834,17 +914,23 @@ function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) {
     // heavy armour: raw damage means little to a 198-point Vraygon monitor, but
     // the facing cap that would have eaten a third of it means a great deal.
     // The bolt then cascades - one damage-location roll per spreadPer points.
-    resolveHit(ship.pos, target, (w.damage ?? 0) + (band.damageBonus ?? 0),
+    impact = resolveHit(ship.pos, target, (w.damage ?? 0) + (band.damageBonus ?? 0),
       enemies, tuning, rng, stats, log, w.spreadPer ?? 0, !!w.bypassShield);
+    reconcileContacts(battle);
   }
-  if (onShot) onShot({ kind: "spinal", weapon: st.type, shooterId: ship.id, targetId: target.id, hit, range, damage: hit ? w.damage : 0 });
+  if (onShot) onShot({ kind: "spinal", weapon: st.type, shooterId: ship.id, targetId: target.id, hit, range,
+    damage: hit ? (w.damage ?? 0) + (band.damageBonus ?? 0) : 0, ...geometry, ...impact });
 
+  dischargeSpinal(st, w);
+  if (log) log(`${ship.id} ${st.type} discharged - dark for ${st.cooldown} turn(s)`);
+  return 1;
+}
+
+function dischargeSpinal(st, weapon) {
   st.charge = 0;
   st.shots++;
   st.state = "cooldown";
-  st.cooldown = w.cooldownTurns ?? 3;
-  if (log) log(`${ship.id} ${st.type} discharged - dark for ${st.cooldown} turn(s)`);
-  return 1;
+  st.cooldown = weapon.cooldownTurns ?? 3;
 }
 
 // ------------------------------------------------------------ strike craft
@@ -908,10 +994,10 @@ function capMissileScreen(target, friends, tuning) {
 // Deck cycle: replenish, then put squadrons in the air or keep them there. Both
 // cost power out of the carrier's pool, so a carrier flying a full deck has less
 // left to absorb with - which is the tension the hull is built around.
-function cycleDeck(carrier, foe, tuning, log) {
+function cycleDeck(carrier, foe, tuning, log, battle = null) {
   const SC = tuning.strikeCraft;
-  const foes = targetable(foe);
-  const range = foes.length ? nearest(carrier.pos, foes).range : Infinity;
+  const foes = targetable(foe, battle, carrier.side);
+  const range = foes.length ? nearest(carrier.pos, foes, carrier.facing).range : Infinity;
   let launched = 0, recovered = 0;
   for (const sq of carrier.squadrons) {
     if (SC.replenishPerTurn > 0 && sq.strength > 0 && sq.strength < sq.max) {
@@ -940,8 +1026,11 @@ function cycleDeck(carrier, foe, tuning, log) {
 // How many interceptor squadrons fly CAP rather than sweeping. Enough strength
 // to cover the enemy bomber strength actually in the air, times defenceRatio;
 // the rest go hunting light hulls. No rng - it is a standing order, not a roll.
-function setStances(side, foe, tuning) {
+function setStances(side, foe, tuning, battle = null) {
   const SC = tuning.strikeCraft;
+  // Contact eligibility is shared, but this scripted control still inspects
+  // the engineering of known hulls. It is not an observation-only captain.
+  if (finiteSensing(battle)) foe = targetable(foe, battle, side[0]?.side);
   // What the CAP is being asked to stop: enemy bombers in the air, plus the
   // enemy's live missile tubes at tubeThreat apiece. Without the tube term an
   // interceptor squadron facing a fleet that has no carrier of its own has
@@ -974,13 +1063,13 @@ function setStances(side, foe, tuning) {
 }
 
 // One squadron's raid: target, then CAP, then point defence, then the attack.
-function runRaid(raid, tuning, rng, stats, log, onShot) {
+function runRaid(raid, tuning, rng, stats, log, onShot, battle = null) {
   const SC = tuning.strikeCraft;
   const { carrier, sq, foe } = raid;
   if (carrier.destroyed || sq.strength <= 0 || !sq.launched) return;
   const cfg = craftCfg(tuning, sq.type);
 
-  const cands = targetable(foe).filter((f) =>
+  const cands = targetable(foe, battle, carrier.side).filter((f) =>
     distance(carrier.pos, f.pos) <= SC.strikeRadiusHexes &&
     f.points >= (cfg.targetMinPoints ?? 0) &&
     f.points <= (cfg.targetMaxPoints ?? Infinity));
@@ -988,8 +1077,10 @@ function runRaid(raid, tuning, rng, stats, log, onShot) {
   // Bombers go for the biggest thing they can reach; interceptors take the
   // nearest light hull, which is what a sweep actually does.
   const target = cands.sort((a, b) => cfg.preferLargest
-    ? (b.points - a.points) || (distance(carrier.pos, a.pos) - distance(carrier.pos, b.pos))
-    : (distance(carrier.pos, a.pos) - distance(carrier.pos, b.pos)) || (b.points - a.points))[0];
+    ? (b.points - a.points) || (distance(carrier.pos, a.pos) - distance(carrier.pos, b.pos)) || targetTie(carrier, a, b)
+    : (distance(carrier.pos, a.pos) - distance(carrier.pos, b.pos)) || (b.points - a.points) || targetTie(carrier, a, b))[0];
+
+  onShot?.before?.();
 
   let strength = sq.strength;
   let capLoss = 0;
@@ -1050,7 +1141,8 @@ function runRaid(raid, tuning, rng, stats, log, onShot) {
   }
   if (strength <= 0) {
     if (onShot) onShot({ kind: "strike", craft: sq.type, squadronId: sq.id,
-      shooterId: carrier.id, targetId: target.id, strength: 0, hits: 0, damage: 0 });
+      shooterId: carrier.id, targetId: target.id, strength: 0, hits: 0, damage: 0,
+      ...shotGeometry(carrier.pos, target, carrier.facing) });
     return;
   }
 
@@ -1060,6 +1152,7 @@ function runRaid(raid, tuning, rng, stats, log, onShot) {
   // out of the pool, so a wave first drains a capital's power and then starts
   // rolling damage locations on it.
   const face = shieldFacing(target, carrier.pos);
+  const geometry = shotGeometry(carrier.pos, target, carrier.facing);
   let hits = 0;
   for (let i = 0; i < strength; i++) if (rng.next() < (cfg.hitChance ?? 0)) hits++;
   stats.sorties++;
@@ -1073,26 +1166,28 @@ function runRaid(raid, tuning, rng, stats, log, onShot) {
   let dealt = 0;
   for (let i = 0; i < hits && !target.destroyed; i++) {
     stats.damage += cfg.damage;
-    stats.internal += applyDamage(target, face, cfg.damage, tuning, rng, log).internal;
+    stats.internal += applyDamage(target, face, cfg.damage, tuning, rng, log, undefined, shieldsBypassedAt(target.pos, tuning)).internal;
+    reconcileContacts(battle);
     dealt += cfg.damage;
   }
   if (onShot) onShot({ kind: "strike", craft: sq.type, squadronId: sq.id,
-    shooterId: carrier.id, targetId: target.id, strength, hits, damage: dealt });
+    shooterId: carrier.id, targetId: target.id, strength, hits, damage: dealt, ...geometry,
+    ...(dealt > 0 ? { victimId: target.id, victimPos: { ...geometry.targetPos }, victimFacing: geometry.targetFacing, face } : {}) });
 }
 
 // The whole strike phase, run once a turn. Returns immediately - and without
 // touching the rng - if neither fleet has a carrier in it.
-function strikePhase(A, B, tuning, rng, stats, log, onShot) {
+function strikePhase(A, B, tuning, rng, stats, log, onShot, prioritySide, battle = null) {
   const SC = tuning.strikeCraft;
   if (!SC || !SC.enabled) return;
   const hasA = fleetHasSquadrons(A), hasB = fleetHasSquadrons(B);
   if (!hasA && !hasB) return;
 
   for (const [side, foe] of [[A, B], [B, A]]) {
-    for (const s of living(side)) if (s.squadrons) cycleDeck(s, foe, tuning, log);
+    for (const s of living(side)) if (s.squadrons) cycleDeck(s, foe, tuning, log, battle);
   }
-  setStances(A, B, tuning);
-  setStances(B, A, tuning);
+  setStances(A, B, tuning, battle);
+  setStances(B, A, tuning, battle);
 
   const raids = [];
   for (const [side, foe, st, opp] of [[A, B, stats.A, stats.B], [B, A, stats.B, stats.A]]) {
@@ -1100,8 +1195,10 @@ function strikePhase(A, B, tuning, rng, stats, log, onShot) {
       raids.push({ carrier, sq, foe, st, oppStats: opp, roll: rng.int(100) });
     }
   }
-  raids.sort((x, y) => y.roll - x.roll);
-  for (const raid of raids) runRaid(raid, tuning, rng, raid.st, log, onShot);
+  raids.sort((x, y) => (y.roll - x.roll) ||
+    (x.carrier.side === y.carrier.side ? 0 : (x.carrier.side === prioritySide ? -1 : 1)) ||
+    canonicalShipCompare(x.carrier, y.carrier) || String(x.sq.id).localeCompare(String(y.sq.id), undefined, { numeric: true }));
+  for (const raid of raids) runRaid(raid, tuning, rng, raid.st, log, onShot, battle);
 }
 
 // A carrier that dies takes its air group with it. Called where the dead are
@@ -1137,7 +1234,7 @@ function classInteractionMod(shooter, target, tuning, rng) {
   return mod;
 }
 
-function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot) {
+function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot, forecast = null, clock = null, battle = null) {
   const cmd = commandBonus(ship, friends, 'commandToHit');
   const AAF = cfgHelm(tuning).arcAttack ?? {};
   const AIMWEAK = helmOn(tuning) && AAF.enabled !== false && AAF.aimAtWeakFace === true;
@@ -1145,17 +1242,21 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
   // The keel gun resolves before the secondaries and out of its own capacitor.
   // `fired` is 0 for every hull without ship.spinal, so the two early returns
   // below behave exactly as they always did.
-  let fired = ship.spinal ? fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot) : 0;
+  let fired = ship.spinal ? fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot, forecast, battle) : 0;
+  reconcileContacts(battle);
   let budget = spendable(ship);
   if (budget <= 0) return fired;
-  const foes = targetable(enemies);
+  const foes = targetable(enemies, battle, ship.side);
   if (!foes.length) return fired;
 
   for (const mount of ship.mounts) {
     if (mount.inop || mount.firedThisTurn || budget <= 0) continue;
     if (mount.kind === "spinal") continue;   // handled above, never by this loop
-    const weapon = tuning.weapons[mount.type];
-    const candidates = foes.filter(
+    const weapon = weaponFor(ship, mount.type, tuning);
+    // A previous mount can disable/destroy a spotting observer. Re-evaluate
+    // the next mount rather than retaining a stale action-wide contact list.
+    const currentFoes = finiteSensing(battle) ? targetable(enemies, battle, ship.side) : foes;
+    const candidates = currentFoes.filter(
       (f) => !f.destroyed && mayEngage(ship, f, tuning) && distance(ship.pos, f.pos) <= mount.maxRange && bears(ship, mount, f.pos) && lineOfFire(ship.pos, f.pos, tuning)
     );
     if (!candidates.length) continue;
@@ -1177,13 +1278,17 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
         const d = distance(ship.pos, c.pos);
         if (d > nearD + AIMSLACK) continue;
         const v = faceValueFrom(c, bearing(c.pos, ship.pos), AAF);
-        if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 && d < bestD)) { bestV = v; bestD = d; target = c; }
+        if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 &&
+            (d < bestD || (d === bestD && target && targetTie(ship, c, target) < 0)))) {
+          bestV = v; bestD = d; target = c;
+        }
       }
-      if (INS && target && distance(ship.pos, target.pos) > nearD) helmStats.aimSwitch++;
+      if (!forecast && INS && target && distance(ship.pos, target.pos) > nearD) helmStats.aimSwitch++;
     }
     // A human order names a target: if this mount bears on it, it is the one.
     if (ship.orderTarget) { const forced = candidates.find((c) => c.id === ship.orderTarget); if (forced) target = forced; }
-    if (!target) target = candidates.sort((a, b) => distance(ship.pos, a.pos) - distance(ship.pos, b.pos))[0];
+    if (!target) target = candidates.sort((a, b) =>
+      (distance(ship.pos, a.pos) - distance(ship.pos, b.pos)) || targetTie(ship, a, b))[0];
     const range = distance(ship.pos, target.pos);
     const band = bandFor(mount, range);
     if (!band) continue;
@@ -1191,34 +1296,46 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
     if (weapon.kind === "beam") {
       const power = Math.min(weapon.maxPower, budget);
       if (power < 1) continue;
+      onShot?.before?.();
       budget -= power; ship.power -= power;
       mount.firedThisTurn = true;
       fired++;
       stats.shots++;
+      if (forecast) {
+        forecast.push({ mountId: mount.id, targetId: target.id, range, power, kind: "beam" });
+        continue;
+      }
       const evasion = Math.floor(target.movedThisTurn / tuning.toHit.evasionPerHexesMoved);
       const roll = rng.int(tuning.toHit.die) + 1;
       const hit = roll - nebulaPenalty(ship, target, tuning) + (band.toHitMod ?? 0) + cmd + classInteractionMod(ship, target, tuning, rng) + tuning.toHit.crewRatingDefault - evasion - (ship.toHitPenalty ?? 0) >= tuning.toHit.target;
+      const geometry = shotGeometry(ship.pos, target, ship.facing);
+      let impact;
       if (hit) {
         stats.hits++;
         // FASA pattern: beam damage is the power put into it plus a range bonus.
-        resolveHit(ship.pos, target, power + (band.damageBonus ?? 0), enemies, tuning, rng, stats, log);
+        impact = resolveHit(ship.pos, target, power + (band.damageBonus ?? 0), enemies, tuning, rng, stats, log);
+        reconcileContacts(battle);
       }
-      if (onShot) onShot({ kind: "beam", weapon: mount.type, shooterId: ship.id, targetId: target.id, hit, range, damage: hit ? power + (band.damageBonus ?? 0) : 0 });
+      if (onShot) onShot({ kind: "beam", weapon: mount.type, shooterId: ship.id, targetId: target.id, hit, range, damage: hit ? power + (band.damageBonus ?? 0) : 0, ...geometry, ...impact });
     } else {
       if (ship.magazine <= 0 || budget < weapon.powerToArm) continue;
+      onShot?.before?.();
       budget -= weapon.powerToArm; ship.power -= weapon.powerToArm;
       ship.magazine--;
       mount.firedThisTurn = true;
       fired++;
       stats.launches++;
+      if (forecast) forecast.push({ mountId: mount.id, targetId: target.id, range, power: weapon.powerToArm, kind: "launch" });
+      const missileId=clock?`missile:${clock.turn}:${inFlight.length+1}`:null;
       inFlight.push({
-        shooterPos: { ...ship.pos }, shooterId: ship.id, side: ship.side, targetId: target.id,
+        ...(clock?{missileId,flight:createMissileFlight(ship.pos,target.pos,ship.facing,clock.turn,clock.round)}:{}),
+        shooterPos: { ...ship.pos }, shooterFacing: ship.facing, shooterId: ship.id, side: ship.side, targetId: target.id,
         weapon: mount.type,
         shooterPoints: ship.points,
         damage: Math.max(0, weapon.damage + (band.damageMod ?? 0)),
         spread: weapon.spreadPer ?? 0
       });
-      if (onShot) onShot({ kind: "launch", weapon: mount.type, shooterId: ship.id, targetId: target.id, range, damage: Math.max(0, weapon.damage + (band.damageMod ?? 0)) });
+      if (onShot) onShot({ kind: "launch", ...(missileId?{missileId}:{}), weapon: mount.type, shooterId: ship.id, targetId: target.id, range, damage: Math.max(0, weapon.damage + (band.damageMod ?? 0)), ...shotGeometry(ship.pos, target, ship.facing) });
     }
   }
   return fired;
@@ -1242,7 +1359,7 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot)
 // this before counting anyone late.
 function plantedByCharge(ship, tuning) {
   if (!ship.spinal) return false;
-  if (!tuning.weapons[ship.spinal.type]?.immobileWhileCharging) return false;
+  if (!weaponFor(ship, ship.spinal.type, tuning)?.immobileWhileCharging) return false;
   const st = ship.spinal;
   return (st.state === "charging" && st.charge > 0) || st.state === "ready";
 }
@@ -1264,7 +1381,8 @@ function steerTarget(ship, foes, near, tuning, AA) {
     const d = distance(ship.pos, e.pos);
     if (d > near.range + slack) continue;
     const v = faceValueFrom(e, bearing(e.pos, ship.pos), AA);
-    if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 && d < bestD)) {
+    if (v > bestV + 1e-9 || (Math.abs(v - bestV) <= 1e-9 &&
+        (d < bestD || (d === bestD && targetTie(ship, e, best) < 0)))) {
       best = e; bestV = v; bestD = d;
     }
   }
@@ -1299,25 +1417,78 @@ function evadeStep(ship, foe, target, turnsLeft, tuning, AE, want) {
     const df = distance(foe.pos, next);
     const w = df > maxReach(foe, tuning) ? 0
       : standingWeight(foe, faceFor(foe.facing, bearing(foe.pos, next)), tuning);
-    if (w < bestW) { bestW = w; best = f; }
+    if (w < bestW || (w === bestW && best !== null && directionTie(f, best, ship.facing) < 0)) {
+      bestW = w; best = f;
+    }
   }
   return best;
 }
 
-function move(ship, enemies, friends, tuning) {
-  const foes = living(enemies);
-  if (!foes.length) return;
+function move(ship, enemies, friends, tuning, log = null, battle = null) {
+  // The AI may transit occupied hexes too. Journal movement only, then trim
+  // an illegal final suffix before returning control to initiative/gunnery.
+  // This covers formation, ordinary travel, orbit, evasion and free bursts;
+  // Charge burst stress only after endpoint trimming: zero retained free steps
+  // consume no stress, accuracy penalty or per-turn burst allowance.
+  const steps = [];
+  const step = (next, cost, free = false, counter = null) => {
+    // All helm branches must afford the actual destination's terrain cost,
+    // not just the ordinary hex cost used by their coarse movement gates.
+    // Emergency bursts deliberately waive power, never terrain legality.
+    if (!free && spendable(ship) < cost) return false;
+    steps.push({ pos: ship.pos, power: ship.power, lastStepCost: ship.lastStepCost,
+      movedThisTurn: ship.movedThisTurn, counter, free,
+      ...(finiteSensing(battle) ? { contactLocks: structuredClone(battle.contacts.locks) } : {}) });
+    ship.pos = next;
+    if (!free) ship.power -= cost;
+    ship.lastStepCost = cost;
+    ship.movedThisTurn++;
+    reconcileContacts(battle);
+    if (INS && counter) helmStats[counter]++;
+    return true;
+  };
+  moveHelm(ship, enemies, friends, tuning, step, battle);
+  let trimmed = false;
+  while (!ship.destroyed && steps.length && enemyAt(ship.pos, enemies, tuning)) {
+    const { counter, free, contactLocks, ...before } = steps.pop();
+    Object.assign(ship, before);
+    // Discard contact transitions on a speculative, ultimately trimmed suffix.
+    if (contactLocks) Object.assign(battle.contacts.locks, contactLocks);
+    if (INS && counter) helmStats[counter]--;
+    trimmed = true;
+  }
+  if (trimmed && log) log(`${ship.id} helm clamped: will not end its move in an enemy's hex`);
+  payBurst(ship, steps.filter(s=>s.free).length, tuning);
+  reconcileContacts(battle);
+}
+
+function moveHelm(ship, enemies, friends, tuning, step, battle = null) {
+  const foes = finiteSensing(battle) ? targetable(enemies, battle, ship.side) : living(enemies);
+  if (!foes.length) {
+    if (!finiteSensing(battle) || plantedByCharge(ship, tuning)) return;
+    // A bounded public search course, not steering toward a concealed hull.
+    // Close one affordable hex toward the map centre on a movement action;
+    // once there, hold. This is a control doctrine, not balance tuning.
+    const centre = { q: 0, r: 0 };
+    if (distance(ship.pos, centre) === 0) return;
+    const goal = bearing(ship.pos, centre);
+    const rate = ship.turnRate ?? tuning.movement?.turnRatePerRound?.[ship.className] ?? 2;
+    for (let i = 0; i < rate && ship.facing !== goal; i++) ship.facing = turnToward(ship.facing, goal);
+    const next = add(ship.pos, ship.facing);
+    if (inBounds(next, tuning)) step(next, stepCost(ship, next, tuning));
+    return;
+  }
   const H = cfgHelm(tuning);
   const ARC = helmOn(tuning);
   const AA = H.arcAttack ?? {};
-  const near = nearest(ship.pos, foes);
+  const near = nearest(ship.pos, foes, ship.facing);
   // (b) ATTACK THE WEAK ARC, part one: which enemy to steer for.
   const target = ARC && AA.enabled !== false ? steerTarget(ship, foes, near, tuning, AA) : near.ship;
   // The threat histogram is built at most once per move() and shared by every
   // heading decision below it.
   let _prof = null;
   function threat() {
-    if (_prof === null) _prof = threatProfile(ship, foes, tuning);
+    if (_prof === null) _prof = threatProfile(ship, foes, tuning, battle);
     return _prof;
   }
 
@@ -1327,7 +1498,7 @@ function move(ship, enemies, friends, tuning) {
   // sliding like hockey pucks. The warp jump is exempt: it is not flight.
   const M = tuning.movement ?? {};
   const coupled = M.coupledToFacing !== false;
-  let turnsLeft = coupled ? ((M.turnRatePerRound ?? {})[ship.className] ?? 2) : 6;
+  let turnsLeft = coupled ? (ship.turnRate ?? (M.turnRatePerRound ?? {})[ship.className] ?? 2) : 6;
 
   const turnTowards = (desired) => {
     while (turnsLeft > 0 && ship.facing !== desired) {
@@ -1349,7 +1520,7 @@ function move(ship, enemies, friends, tuning) {
   // the bare quarters, or close inside six hexes where the gun cannot track.
   // Venting (cooldown) is free movement: plant, fire, run, plant. Guarded on
   // ship.spinal, so no other hull is touched.
-  if (ship.spinal && (tuning.weapons[ship.spinal.type]?.immobileWhileCharging)) {
+  if (ship.spinal && (weaponFor(ship, ship.spinal.type, tuning)?.immobileWhileCharging)) {
     const st = ship.spinal;
     const planted = (st.state === "charging" && st.charge > 0) || st.state === "ready";
     if (planted) {
@@ -1360,7 +1531,7 @@ function move(ship, enemies, friends, tuning) {
 
   // One forward step along the current facing, if legal and if it moves the
   // ship the way it needs to go ("close" shrinks the gap, "open" grows it).
-  const forwardStep = (goalPos, need) => {
+  const forwardStep = (goalPos, need, free = false) => {
     const next = add(ship.pos, ship.facing);
     if (!inBounds(next, tuning)) return false;
     const dNow = distance(ship.pos, goalPos);
@@ -1371,11 +1542,7 @@ function move(ship, enemies, friends, tuning) {
     if (need === "close" && dNext === 0 && tuning.battle?.sameHexNoFire !== false) return false;
     if (need === "open" && dNext <= dNow) return false;
     const cost = stepCost(ship, next, tuning);
-    ship.pos = next;
-    ship.power -= cost;
-    ship.lastStepCost = cost;
-    ship.movedThisTurn++;
-    return true;
+    return step(next, cost, free);
   };
 
   // FORMATION. Escorts hold station on the capital they screen.
@@ -1384,7 +1551,7 @@ function move(ship, enemies, friends, tuning) {
   let anchor = null;
   if (F.enabled && ship.hull.screen > 0) {
     const caps = mates.filter((f) => f.hull.screen === 0 && f.cloaked === ship.cloaked);
-    if (caps.length) anchor = nearest(ship.pos, caps).ship;
+    if (caps.length) anchor = nearest(ship.pos, caps, ship.facing).ship;
   }
   if (anchor && distance(ship.pos, anchor.pos) > (F.screenStation ?? 2)) {
     turnTowards(bearing(ship.pos, anchor.pos));
@@ -1392,7 +1559,7 @@ function move(ship, enemies, friends, tuning) {
     while (b >= ship.movementPointRatio &&
            distance(ship.pos, anchor.pos) > (F.screenStation ?? 2)) {
       if (!forwardStep(anchor.pos, "close")) break;
-      b -= ship.movementPointRatio;
+      b -= ship.lastStepCost;
     }
     turnTowards(heading(target.pos)); // spare turn = stance
     return;
@@ -1490,7 +1657,7 @@ function move(ship, enemies, friends, tuning) {
     // deadlock when every ship in a dispersed fleet is equally out of place.
     const ms = C.mutualSupportHexes ?? 0;
     if (ms > 0) {
-      const mate = nearest(ship.pos, movers);
+      const mate = nearest(ship.pos, movers, ship.facing);
       if (mate.ship && mate.range > ms) {
         ship.gatherHeld = (ship.gatherHeld ?? 0) + 1;
         if (INS) helmStats.gatherHeld++;
@@ -1533,8 +1700,7 @@ function move(ship, enemies, friends, tuning) {
         if (ship.facing === f) {
           const next = add(ship.pos, f);
           const cost = stepCost(ship, next, tuning);
-          ship.pos = next; ship.power -= cost; ship.lastStepCost = cost; ship.movedThisTurn++;
-          if (INS) helmStats.evadeSteps++;
+          step(next, cost, false, "evadeSteps");
           turnTowards(heading(target.pos));
           return;
         }
@@ -1570,8 +1736,7 @@ function move(ship, enemies, friends, tuning) {
           turnTowards(f);
           if (ship.facing === f) {
             const cost = stepCost(ship, next, tuning);
-            ship.pos = next; ship.power -= cost; ship.lastStepCost = cost; ship.movedThisTurn++;
-            if (INS) helmStats.orbitSteps++;
+            step(next, cost, false, "orbitSteps");
           }
         }
       }
@@ -1639,26 +1804,33 @@ function move(ship, enemies, friends, tuning) {
   const em = tuning.emergencyManoeuvre;
   const mayBurst = em && em.factions.includes(ship.faction) && !ship.emergencyUsed;
   if (mayBurst && need === "close" && distance(ship.pos, target.pos) > want) {
-    ship.emergencyUsed = true;
     for (let i = 0; i < em.extraHexes; i++) {
       if (distance(ship.pos, target.pos) <= want) break;
-      if (!forwardStep(target.pos, "close")) break;
-      ship.power += ship.lastStepCost; // burst hexes are free of power cost
+      if (!forwardStep(target.pos, "close", true)) break;
     }
-    ship.superstructure -= em.stressDamage;
-    ship.toHitPenalty = em.toHitPenalty;
-    if (ship.superstructure <= 0) { ship.superstructure = 0; ship.destroyed = true; }
   }
+}
+
+function payBurst(ship, moved, tuning) {
+  if (moved <= 0) return;
+  const em=tuning.emergencyManoeuvre;
+  ship.emergencyUsed=true;
+  ship.superstructure=Math.max(0,ship.superstructure-em.stressDamage);
+  ship.toHitPenalty=em.toHitPenalty;
+  if (ship.superstructure===0) ship.destroyed=true;
 }
 
 // Krelath short-range tactical warp. Replaces the cloak they lost: instead of
 // choosing WHETHER to engage, they choose WHERE they appear in one. Arrives by
 // preference behind the target, where the rear facing table takes engineering
 // and eats the current turn's power pool.
-function tryWarp(ship, enemies, friends, tuning, log) {
+function tryWarp(ship, enemies, friends, tuning, log, targetId=null, onStep=null, reportFailure=false, battle=null) {
+  const refused=reason=>{if(log&&reportFailure)log(`${ship.id} warp refused: ${reason}`);return false;};
   const W = tuning.warpJump;
-  if (!W || !W.factions.includes(ship.faction)) return false;
-  if (W.oncePerTurn && ship.warpedThisTurn) return false;
+  if (!W || !W.factions.includes(ship.faction)) return refused('not fitted');
+  if (ship.destroyed || ship.cloaked || ship.decloaking) return refused('vessel unavailable');
+  if (plantedByCharge(ship,tuning)) return refused('spinal charge plants the ship');
+  if (W.oncePerTurn && ship.warpedThisTurn) return refused('already used this turn');
 
   // A squadron manoeuvre, not a fleet teleport. Left uncapped, every Krelath
   // ship jumped behind the SAME enemy battleship on turn one and the whole
@@ -1668,18 +1840,19 @@ function tryWarp(ship, enemies, friends, tuning, log) {
   if (share < 1) {
     const fleet = living(friends);
     const already = fleet.filter((f) => f.warpedThisTurn).length;
-    if (already >= Math.max(1, Math.floor(fleet.length * share))) return false;
+    if (already >= Math.max(1, Math.floor(fleet.length * share))) return refused('fleet jump allowance exhausted');
   }
 
-  const foes = targetable(enemies);
-  if (!foes.length) return false;
-  const target = nearest(ship.pos, foes).ship;
+  const foes = targetable(enemies, battle, ship.side);
+  if (!foes.length) return refused('no visible contact');
+  const target = targetId ? foes.find(s=>s.id===targetId) : nearest(ship.pos, foes, ship.facing).ship;
+  if (!target) return refused('selected target is not a visible contact');
   const want = Math.max(1, preferredRange(ship, tuning));
   const gap = distance(ship.pos, target.pos);
-  if (gap <= want + 1) return false;              // already in position
+  if (gap <= want + 1) return refused('already in engagement position');
 
   const cost = Math.round(fullPower(ship) * W.powerCostFraction);
-  if (ship.power < cost) return false;
+  if (ship.power < cost) return refused('insufficient power');
 
   // Aim for a hex `want` behind the target; fall back to straight ahead of it.
   const behind = (target.facing + 3) % 6;
@@ -1696,7 +1869,7 @@ function tryWarp(ship, enemies, friends, tuning, log) {
     // points and 35pp at 16 against simply not having it. Gated to a real rear
     // insertion, the warp waits for the enemy to come inside jump range and
     // then does what it is named for.
-    if (W.requireRearArc) return false;
+    if (W.requireRearArc) return refused('rear insertion outside jump range or map');
     dest = ship.pos;
     const toward = bearing(ship.pos, target.pos);
     for (let i = 0; i < Math.min(W.rangeHexes, gap - want); i++) {
@@ -1705,44 +1878,70 @@ function tryWarp(ship, enemies, friends, tuning, log) {
       dest = step;
     }
   }
-  if (dest.q === ship.pos.q && dest.r === ship.pos.r) return false;
+  if (dest.q === ship.pos.q && dest.r === ship.pos.r) return refused('no displacement');
   // The jump has to be worth the round it costs and the third of the pool it
   // burns. Without this test the warp was also unreachable in practice: it was
   // only attempted when nothing could bear, and a Krelath blaster reaches 17
   // hexes of a 16-hex opening range, so every ship fired from the far side of
   // the field instead and the trait never fired once in a whole campaign.
-  if (gap - distance(dest, target.pos) < (W.minGain ?? 0)) return false;
+  if (gap - distance(dest, target.pos) < (W.minGain ?? 0)) return refused('minimum closing gain not met');
+  if (!inBounds(dest,tuning) || blockedHex(dest,tuning)) {
+    if(log)log(`${ship.id} warp refused: impassable terrain or the map edge`);
+    return false;
+  }
+
+  // Check every living enemy, not just the hull behind which we are jumping.
+  // Do not spend jump power or the per-turn jump slot for an illegal landing.
+  if (enemyAt(dest, enemies, tuning)) {
+    if (log) log(`${ship.id} warp refused: will not land in an enemy's hex`);
+    return false;
+  }
 
   ship.pos = dest;
   ship.power -= cost;
   ship.warpedThisTurn = true;
   ship.facing = turnToward(ship.facing, bestHeading(ship, target.pos, tuning, -1, null));
+  reconcileContacts(battle);
+  if(onStep)onStep({...ship.pos,facing:ship.facing,warp:true});
   if (log) log(ship.id + ' warps in behind ' + target.id);
   return true;
 }
 
-function scan(ship, enemies, friends, tuning, log) {
+function scan(ship, enemies, friends, tuning, log, battle = null, face = null) {
+  // Scanning, contact acquisition and preview share the same damage predicate.
+  // Disabled sensors cannot disclose a target to legacy automatic gunnery.
+  if (sensorAbility(ship, tuning) < 2) return;
   const cmdRange = commandBonus(ship, friends, 'commandDetectionBonus');
   const foes = living(enemies);
   if (!foes.length) return;
   // Guess the arc from known contacts only; with none, sweep dead ahead.
-  const known = foes.filter((e) => !e.cloaked || e.detected);
-  const guess = known.length ? shieldFacing(ship, centroid(known)) : 2;
+  const known = targetable(enemies, battle, ship.side);
+  const guess = face ?? (known.length ? shieldFacing(ship, centroid(known)) : 2);
   let found = 0;
   for (const e of foes) {
+    if (finiteSensing(battle)) {
+      if (grantScanContact(battle, ship, e, guess)) found++;
+      continue;
+    }
     if (!e.cloaked || e.detected) continue;
     if (distance(ship.pos, e.pos) > detectionRangeAgainst(e, tuning) + cmdRange) continue;
     if (!inArc(ship, guess, e.pos)) continue;
     e.detected = true; // a successful detection informs all friendly forces
+    grantScanContact(battle, ship, e);
     found++;
   }
-  if (found && log) log(`${ship.id} sweeps arc ${guess}: ${found} contact(s)`);
+  if ((found || finiteSensing(battle)) && log) log(`${ship.id} sweeps arc ${guess}: ${found} contact(s)`);
 }
 
-function evade(ship, tuning, rng, log) {
-  if (!ship.cloaked || !ship.detected) return;
+function evade(ship, tuning, rng, log, battle = null) {
+  if (!ship.cloaked) return;
+  const tracked = finiteSensing(battle)
+    ? currentContacts(battle, ship.side === 'A' ? 'B' : 'A').some(c => c.id === ship.id)
+    : ship.detected;
+  if (!tracked) return;
   if (rng.next() < tuning.cloak.evadeChance) {
     ship.detected = false;
+    loseContact(battle, ship);
     if (log) log(`${ship.id} evades, contact lost`);
   }
 }
@@ -1757,7 +1956,7 @@ function censusFaces(A, B, tuning) {
     const live = living(foe);
     if (!live.length) continue;
     for (const s of living(side)) {
-      const n = nearest(s.pos, live);
+      const n = nearest(s.pos, live, s.facing);
       if (!n.ship || n.range === 0 || n.range > maxReach(n.ship, tuning)) continue;
       helmStats.presentRounds++;
       if (faceHealth(s, shieldFacing(s, n.ship.pos)) < 1) helmStats.presentWeak++;
@@ -1793,7 +1992,7 @@ function inContact(A, B, tuning) {
     const live = living(foe);
     if (!live.length) return false;
     for (const s of living(side)) {
-      const n = nearest(s.pos, live);
+      const n = nearest(s.pos, live, s.facing);
       if (n.ship && n.range <= maxReach(s, tuning)) return true;
     }
   }
@@ -1806,31 +2005,77 @@ function inContact(A, B, tuning) {
 // clamped by the rules the AI lives under - turnRatePerRound, power at the
 // hex's step cost, the map edge, terrain, the same-hex rule - and every clamp
 // is logged so the player learns the rule. Returns the number of hexes moved.
-function moveOrdered(ship, plan, enemies, tuning, log) {
+function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = null) {
   const M = tuning.movement ?? {};
-  const turnRate = (M.turnRatePerRound ?? {})[ship.className] ?? 2;
+  const turnRate = ship.turnRate ?? (M.turnRatePerRound ?? {})[ship.className] ?? 2;
   let want = Math.trunc(Number(plan.turn) || 0);
   if (Math.abs(want) > turnRate) { if (log) log(`${ship.id} order clamped: turn ${want} exceeds turn rate ${turnRate}`); want = Math.sign(want) * turnRate; }
   ship.facing = ((ship.facing + want) % 6 + 6) % 6;
   let forward = Math.max(0, Math.trunc(Number(plan.forward) || 0));
-  let moved = 0;
-  const foes = living(enemies);
-  while (moved < forward) {
-    const next = add(ship.pos, ship.facing);
-    const cost = stepCost(ship, next, tuning);
-    if (spendable(ship) < cost) { if (log) log(`${ship.id} order clamped: power exhausted after ${moved} of ${forward} hexes`); break; }
-    if (!inBounds(next, tuning)) { if (log) log(`${ship.id} order clamped: impassable terrain or the map edge after ${moved} of ${forward} hexes`); break; }
-    if (tuning.battle?.sameHexNoFire !== false && moved === forward - 1 && foes.some((f) => f.pos.q === next.q && f.pos.r === next.r)) {
-      if (log) log(`${ship.id} order clamped: will not end its move in an enemy's hex`); break;
-    }
-    ship.pos = next;
-    ship.power -= cost;
-    ship.lastStepCost = cost;
-    ship.movedThisTurn++;
-    moved++;
+  const em=tuning.emergencyManoeuvre;
+  let burst=Math.max(0,Math.trunc(Number(plan.burst)||0));
+  if (burst && (!em?.factions?.includes(ship.faction) || ship.emergencyUsed)) {
+    if(log)log(`${ship.id} burst refused: ${ship.emergencyUsed?'already used this turn':'not fitted'}`);
+    burst=0;
   }
+  if(burst>(em?.extraHexes??0)){
+    if(log)log(`${ship.id} order clamped: burst ${burst} exceeds ${em.extraHexes} extra hexes`);
+    burst=em.extraHexes;
+  }
+  if ((forward > 0 || burst > 0) && plantedByCharge(ship, tuning)) {
+    if (log) log(`${ship.id} order clamped: spinal charge plants the ship; turning is allowed`);
+    return 0;
+  }
+  // Resolve the affordable/passable path before committing any steps. Trimming
+  // an enemy-occupied suffix keeps real transit legal without charging power
+  // or emitting preview points for a step that ultimately cannot be taken.
+  const steps = [];
+  let pos = ship.pos, power = ship.power, stop = null;
+  const foes = living(enemies);
+  while (steps.length < forward) {
+    const next = add(pos, ship.facing);
+    const cost = stepCost(ship, next, tuning);
+    if (Math.max(0, power - ship.reserve) < cost) { stop = "power exhausted"; break; }
+    if (!inBounds(next, tuning)) { stop = "impassable terrain or the map edge"; break; }
+    steps.push({ pos: next, cost });
+    pos = next; power -= cost;
+  }
+  // Burst adds free forward translation to the paid path, even if the normal
+  // pool is exhausted. It never ignores terrain, map edges or final occupancy.
+  for(let i=0;i<burst;i++){
+    const next=add(pos,ship.facing);
+    if(!inBounds(next,tuning)||blockedHex(next,tuning)){stop='impassable terrain or the map edge';break;}
+    steps.push({pos:next,cost:0,burst:true});pos=next;
+  }
+  let trimmed = false;
+  while (steps.length && enemyAt(steps.at(-1).pos, foes, tuning)) { steps.pop(); trimmed = true; }
+  if (trimmed && log) log(`${ship.id} order clamped: will not end its move in an enemy's hex${stop ? ` (${stop} limits transit)` : ""}`);
+  else if (stop && log) log(`${ship.id} order clamped: ${stop} after ${steps.length} of ${forward+burst} hexes`);
+  for (const step of steps) {
+    ship.pos = step.pos;
+    ship.power -= step.cost;
+    ship.lastStepCost = step.cost;
+    ship.movedThisTurn++;
+    reconcileContacts(battle);
+    if (onStep) onStep({ ...ship.pos, facing: ship.facing, ...(step.burst?{burst:true}:{}) });
+  }
+  const burstMoved=steps.filter(s=>s.burst).length;
+  payBurst(ship,burstMoved,tuning);
+  reconcileContacts(battle);
+  if(log&&plan.burst)log(burstMoved?`${ship.id} bursts ${burstMoved} hexes: ${em.stressDamage} stress, ${em.toHitPenalty} accuracy penalty`:`${ship.id} burst gains no hexes: no stress or accuracy penalty`);
+  const moved = steps.length;
   if (log && moved > 0) log(`${ship.id} moves as ordered (${moved} hexes), facing ${ship.facing}`);
   return moved;
+}
+
+// Explicit requests consume the action even when refused; never silently fire
+// or route a rejected special back into the privileged scripted helm.
+function orderedWarp(ship,plan,order,enemies,friends,tuning,log,onStep=null,battle=null){
+  if(plan.warp!==true || (Number(plan.turn)||0)!==0 || (Number(plan.forward)||0)!==0 || (Number(plan.burst)||0)!==0){
+    if(log)log(`${ship.id} warp refused: warp must occupy an action without turn, forward or burst`);
+    return false;
+  }
+  return tryWarp(ship,enemies,friends,tuning,log,order.target&&order.target!=='auto'?order.target:null,onStep,true,battle);
 }
 
 // ------------------------------------------------------------- stepping API
@@ -1839,13 +2084,18 @@ function moveOrdered(ship, plan, enemies, tuning, log) {
 // same machinery run to the end with no orders, and is byte-identical to the
 // engine before the API existed.
 export function createBattleFromFleets(fleets, tuning, rng, opts = {}) {
+  const errors = [...objectiveErrors(opts.victory, fleets),
+    ...deploymentErrors(fleets, opts.terrain ?? tuning.battle?.terrain ?? [])];
+  if (errors.length) throw new Error(errors.join(" "));
   for (const s of fleets.flat()) { delete s._helm; delete s.hadContact; delete s.gatherHeld; }
-  if (opts.terrain && opts.terrain.length) {
+  if (opts.terrain != null) {
     tuning = { ...tuning, battle: { ...tuning.battle, terrain: opts.terrain } };
   }
   const [A, B] = fleets;
   A.forEach((s) => { s.side = "A"; });
   B.forEach((s) => { s.side = "B"; });
+  A.sort(canonicalShipCompare);
+  B.sort(canonicalShipCompare);
   const blank = () => ({
     shots: 0, hits: 0, launches: 0, damage: 0, internal: 0, screened: 0,
     sorties: 0, craftLost: 0, hitsForward: 0, hitsRear: 0
@@ -1854,6 +2104,7 @@ export function createBattleFromFleets(fleets, tuning, rng, opts = {}) {
     fleets, A, B, tuning, rng,
     terrain: tuning.battle?.terrain ?? [],
     maxTurns: opts.maxTurns ?? tuning.battle.maxTurns,
+    victory: opts.victory ?? null,
     rounds: tuning.battle.roundsPerTurn,
     stats: { A: blank(), B: blank() },
     inFlight: [], turnsRun: 0, contactLogged: false,
@@ -1861,12 +2112,17 @@ export function createBattleFromFleets(fleets, tuning, rng, opts = {}) {
   };
 }
 
-export function createBattle(scenario, tuning, loadouts, seed) {
+export function createBattle(scenario, tuning, loadouts, seed, options = {}) {
   const rng = makePrngFor(seed);
-  const built = buildScenario(scenario, tuning, loadouts, rng);
-  const battle = createBattleFromFleets(built.fleets, built.tuning, rng, { terrain: built.terrain });
+  const built = buildScenario(scenario, tuning, loadouts, rng, options);
+  const battle = createBattleFromFleets(built.fleets, built.tuning, rng, {
+    terrain: built.terrain,
+    maxTurns: scenario.maxTurns,
+    victory: scenario.victory
+  });
   battle.scenario = scenario;
   battle.seed = seed;
+  if (built.warnings?.length) battle.warnings = [...built.warnings];
   return battle;
 }
 
@@ -1879,15 +2135,37 @@ export function battleResult(battle) {
   const ptsA = remA.reduce((s, x) => s + x.points, 0);
   const ptsB = remB.reduce((s, x) => s + x.points, 0);
   let victor = null;
-  if (!remB.length && remA.length) victor = "A";
-  else if (!remA.length && remB.length) victor = "B";
+  let reason = "surviving fleet points";
+  const protectedClass = battle.victory?.type === "flagship" ? battle.victory.protectedClass : null;
+  if (protectedClass) {
+    const aliveA = remA.some((ship) => ship.className === protectedClass.A);
+    const aliveB = remB.some((ship) => ship.className === protectedClass.B);
+    if (!aliveA || !aliveB) {
+      reason = !aliveA && !aliveB ? "both command assets destroyed" : "enemy command asset destroyed";
+      victor = aliveA === aliveB ? null : aliveA ? "A" : "B";
+      return {
+        victor, reason, turns: battle.turnsRun,
+        survivorsA: remA.length, survivorsB: remB.length,
+        pointsA: ptsA, pointsB: ptsB, stats: battle.stats
+      };
+    }
+  }
+  if (!remB.length && remA.length) { victor = "A"; reason = "enemy fleet destroyed"; }
+  else if (!remA.length && remB.length) { victor = "B"; reason = "enemy fleet destroyed"; }
   else if (ptsA > ptsB) victor = "A";
   else if (ptsB > ptsA) victor = "B";
   return {
-    victor, turns: battle.turnsRun,
+    victor, reason, turns: battle.turnsRun,
     survivorsA: remA.length, survivorsB: remB.length,
     pointsA: ptsA, pointsB: ptsB, stats: battle.stats
   };
+}
+
+function objectiveEnded(battle) {
+  const protectedClass = battle.victory?.type === "flagship" ? battle.victory.protectedClass : null;
+  if (!protectedClass) return false;
+  return !living(battle.A).some((ship) => ship.className === protectedClass.A) ||
+    !living(battle.B).some((ship) => ship.className === protectedClass.B);
 }
 
 // One full turn. `orders` maps ship id -> { plan: [{turn, forward} x rounds],
@@ -1896,32 +2174,46 @@ export function battleResult(battle) {
 // battle ends; the round frames, shots and log come through opts callbacks
 // exactly as in runBattle.
 export function stepTurn(battle, orders = {}, opts = {}) {
+  // Reject malformed direct special intents before any combat mutation.
+  for(const [id,order] of Object.entries(orders))if(order&&Object.hasOwn(order,'spinal')){
+    if(!['charge','vent'].includes(order.spinal)||!battle.fleets.flat().some(s=>s.id===id&&s.spinal&&!s.destroyed))
+      throw new Error('Invalid spinal intent');
+  }
+  assertExecutableContacts(battle);
   if (battle.done) return { turn: battle.turn, result: battle.result };
   const { A, B, tuning, rng, stats, fleets, rounds } = battle;
   const log = opts.log ?? null;
   const turn = battle.turn;
   let shotRound = 1;
-  const onShot = opts.onShot
-    ? (event) => opts.onShot({ turn, round: shotRound, ...event })
+  const onShot = opts.onShot || opts.onBeforeShot
+    ? (event) => opts.onShot?.({ turn, round: shotRound, ...event })
     : null;
+  // Trusted instrumentation only. Capture eligibility immediately before the
+  // event mutates state, including a final hit that destroys its observer.
+  // The internal callback property avoids carrying a second callback through
+  // every firing helper; no battle-wide/global observer or cache is installed.
+  if (onShot && opts.onBeforeShot) onShot.before = () => opts.onBeforeShot(turn, shotRound);
   const hasOrder = (s) => Object.prototype.hasOwnProperty.call(orders, s.id) && orders[s.id];
 
-  if (!living(A).length || !living(B).length || turn > battle.maxTurns) {
+  if (!living(A).length || !living(B).length || objectiveEnded(battle) || turn > battle.maxTurns) {
     battle.done = true; battle.result = battleResult(battle);
     return { turn, result: battle.result };
   }
   battle.turnsRun = turn;
+  reconcileContacts(battle);
 
   // Missiles launched last turn arrive, subject to interception.
   const arriving = battle.inFlight;
   battle.inFlight = [];
   const inFlight = battle.inFlight;
   for (const m of arriving) {
+    onShot?.before?.();
     const foeSide = m.side === "A" ? B : A;
     const st = m.side === "A" ? stats.A : stats.B;
     const target = foeSide.find((s) => s.id === m.targetId);
+    const geometry = { ...shotGeometry(m.shooterPos, target, m.shooterFacing), ...missileGeometry(m) };
     if (!target || target.destroyed) {
-      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "dead-target", damage: 0 });
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "dead-target", damage: 0, ...geometry });
       continue;
     }
     const MC = tuning.toHit.missileClassInteraction;
@@ -1929,34 +2221,35 @@ export function stepTurn(battle, orders = {}, opts = {}) {
         (m.shooterPoints ?? 0) >= MC.heavyThresholdPoints &&
         target.points < MC.heavyThresholdPoints &&
         rng.next() < MC.heavyVsLightEvadeChance) {
-      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "evaded", damage: 0 });
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "evaded", damage: 0, ...geometry });
       continue;
     }
     if (intercepted(target, foeSide, tuning, rng)) {
-      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "intercepted", damage: 0 });
+      if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "intercepted", damage: 0, ...geometry });
       continue;
     }
-    resolveHit(m.shooterPos, target, m.damage, foeSide, tuning, rng, st, log, m.spread);
-    if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "hit", damage: m.damage });
+    const impact = resolveHit(m.shooterPos, target, m.damage, foeSide, tuning, rng, st, log, m.spread, undefined, m);
+    reconcileContacts(battle);
+    if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "hit", damage: m.damage, ...geometry, ...impact });
   }
 
   for (const s of [...living(A), ...living(B)]) startTurn(s, tuning);
-  for (const s of living(A)) chargeSpinal(s, B, tuning, log);
-  for (const s of living(B)) chargeSpinal(s, A, tuning, log);
+  for (const s of living(A)) chargeSpinal(s, B, tuning, log, battle, hasOrder(s));
+  for (const s of living(B)) chargeSpinal(s, A, tuning, log, battle, hasOrder(s));
   for (const s of [...living(A), ...living(B)]) {
-    s.reserve = doctrineReserve(s, s.side === "A" ? B : A, tuning);
+    s.reserve = doctrineReserve(s, s.side === "A" ? B : A, tuning, battle);
     // A human reserve order overrides the doctrine: a fraction of the pool held for shields.
     const o = hasOrder(s);
     if (o && Number.isFinite(o.reserve)) s.reserve = Math.round(Math.min(1, Math.max(0, o.reserve)) * s.power);
     s.orderTarget = (o && o.target && o.target !== "auto") ? o.target : null;
   }
-  for (const s of [...living(A), ...living(B)]) evade(s, tuning, rng, log);
+  for (const s of [...living(A), ...living(B)]) evade(s, tuning, rng, log, battle);
 
   for (const [side, foe] of [[A, B], [B, A]]) {
     const cloaked = living(side).filter((s) => s.cloaked && !s.decloaking);
     if (!cloaked.length) continue;
     const ready = cloaked.filter((s) => {
-      const n = nearest(s.pos, living(foe));
+      const n = nearest(s.pos, finiteSensing(battle) ? targetable(foe, battle, s.side) : living(foe), s.facing);
       return n.ship && n.range <= preferredRange(s, tuning);
     });
     if (ready.length >= Math.ceil(cloaked.length * 0.6)) {
@@ -1965,6 +2258,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     }
   }
 
+  opts.onState?.(turn, 0, 'power');
   for (let round = 1; round <= rounds; round++) {
     if (!living(A).length || !living(B).length) break;
     shotRound = round;
@@ -1978,8 +2272,9 @@ export function stepTurn(battle, orders = {}, opts = {}) {
       helmStats.contactN++;
     }
 
+    const prioritySide = (turn + round) % 2 === 0 ? "A" : "B";
     if (round === (tuning.strikeCraft?.strikeRound ?? 1)) {
-      strikePhase(A, B, tuning, rng, stats, log, onShot);
+      strikePhase(A, B, tuning, rng, stats, log, onShot, prioritySide, battle);
       for (const s of [...A, ...B]) if (s.destroyed) scuttleSquadrons(s, log);
     }
 
@@ -1990,53 +2285,90 @@ export function stepTurn(battle, orders = {}, opts = {}) {
         roll: (byMovement ? Math.floor(spendable(s) / Math.max(0.1, s.movementPointRatio)) * 10 : 0)
           + rng.int(100) + 1 + tuning.toHit.crewRatingDefault
       }))
-      .sort((x, y) => y.roll - x.roll)
+      .sort((x, y) => (y.roll - x.roll) ||
+        (x.s.side === y.s.side ? 0 : (x.s.side === prioritySide ? -1 : 1)) ||
+        canonicalShipCompare(x.s, y.s))
       .map((x) => x.s);
 
     const allShips = [...A, ...B];
     for (const s of order) {
+      reconcileContacts(battle);
       if (s.destroyed) continue;
+      try {
       const foe = s.side === "A" ? B : A;
       const st = s.side === "A" ? stats.A : stats.B;
-      if (s.cloaked && !s.decloaking) { move(s, foe, s.side === "A" ? A : B, tuning); continue; }
+      const o = hasOrder(s);
+      const plan = o && Array.isArray(o.plan) ? o.plan[round - 1] : null;
+      // A Scan is an exclusive action even when it becomes unavailable after
+      // planning (for example, arriving fire disables the scanner). Invalid
+      // direct packets also refuse here, never falling through to fire/helm.
+      if (plan && Object.hasOwn(plan, 'scan')) {
+        const error = scanActionError(plan, scanCapabilities(s, tuning), finiteSensing(battle));
+        if (error) { if (log) log(`${s.id} scan refused: ${error}`); }
+        else scan(s, foe, s.side === 'A' ? A : B, tuning, log, battle, plan.scan);
+        continue;
+      }
+      if (s.cloaked && !s.decloaking) {
+        if(plan&&(Object.hasOwn(plan,'warp')||(Number(plan.burst)||0)>0)){if(log)log(`${s.id} special refused: cloak control`);}
+        else move(s, foe, s.side === "A" ? A : B, tuning, log, battle);
+        continue;
+      }
       if (s.decloaking) continue;
 
       // HUMAN ORDERS: a round with movement in the plan is spent moving (as the
       // scripted helm's rounds are - a ship either moves or fires in a round);
       // a round planned as a hold fires if a mount bears, on the ordered target
-      // where possible. Parity with the AI is deliberate; whether a round may
-      // hold both movement and fire is a ruling for Chris.
-      const o = hasOrder(s);
-      const plan = o && Array.isArray(o.plan) ? o.plan[round - 1] : null;
-      if (plan && ((Number(plan.turn) || 0) !== 0 || (Number(plan.forward) || 0) > 0)) {
-        moveOrdered(s, plan, foe, tuning, log);
+      // where possible. Move-or-fire, including turn-only and special actions,
+      // is confirmed by Chris in tactical-design.md section 34.
+      if (plan && Object.hasOwn(plan,'warp')) {
+        orderedWarp(s,plan,o,foe,s.side==='A'?A:B,tuning,log,null,battle);
+        continue;
+      }
+      if (plan && ((Number(plan.turn) || 0) !== 0 || (Number(plan.forward) || 0) > 0 || (Number(plan.burst)||0)>0)) {
+        moveOrdered(s, plan, foe, tuning, log, null, battle);
         continue;
       }
 
-      const hidden = living(foe).filter((e) => e.cloaked && !e.detected).length;
-      const canBear = targetable(foe).some((f) =>
+      const hidden = !finiteSensing(battle) && living(foe).some((e) => e.cloaked && !e.detected);
+      const canBear = targetable(foe, battle, s.side).some((f) =>
         s.mounts.some((m) => !m.inop && !m.firedThisTurn &&
           distance(s.pos, f.pos) <= m.maxRange && bears(s, m, f.pos)));
 
-      if (hidden && s.hull.sensorRating >= 2 && !canBear) { scan(s, foe, s.side === "A" ? A : B, tuning, log); continue; }
-      if (!o && tryWarp(s, foe, s.side === "A" ? A : B, tuning, log)) continue;
-      if (canBear && fire(s, foe, s.side === "A" ? A : B, tuning, rng, inFlight, st, log, onShot) > 0) continue;
+      if (hidden && sensorAbility(s, tuning) >= 2 && !canBear) { scan(s, foe, s.side === "A" ? A : B, tuning, log, battle); continue; }
+      if (!o && finiteSensing(battle) && round === 3 && scanCapabilities(s, tuning).available) {
+        // Fixed public cadence, not a hidden-enemy-count trigger. Let the
+        // actual firing path decide legality (power, magazine, readiness,
+        // line of fire, etc.), once only, without speculative RNG draws.
+        // On this action a legal shot takes priority over scan/warp/helm.
+        if (fire(s, foe, s.side === 'A' ? A : B, tuning, rng, inFlight, st, log, onShot, null, {turn,round}, battle) > 0) continue;
+        scan(s, foe, s.side === 'A' ? A : B, tuning, log, battle);
+        continue;
+      }
+      if (!o && tryWarp(s, foe, s.side === "A" ? A : B, tuning, log, null, null, false, battle)) continue;
+      if (canBear && fire(s, foe, s.side === "A" ? A : B, tuning, rng, inFlight, st, log, onShot, null, {turn,round}, battle) > 0) continue;
       if (o) { if (log && plan) log(`${s.id} holds as ordered`); continue; } // an ordered hold does not wander
-      move(s, foe, s.side === "A" ? A : B, tuning);
+      move(s, foe, s.side === "A" ? A : B, tuning, log, battle);
+      } finally {
+        opts.onState?.(turn, round, 'action');
+      }
     }
 
     for (const s of allShips) if (s.destroyed && !s.exploded) detonate(s, allShips, tuning, rng, log);
     for (const s of allShips) if (s.destroyed && s.squadrons) scuttleSquadrons(s, log);
+    reconcileContacts(battle);
+    advanceMissileFlights(inFlight,fleets,turn,round,rounds);
     if (INS) censusFaces(A, B, tuning);
-    if (opts.onRound) opts.onRound(turn, round, fleets);
+    if (opts.onRound) opts.onRound(turn, round, fleets, snapshotMissiles(inFlight));
+    if (objectiveEnded(battle)) break;
   }
 
   for (const s of [...living(A), ...living(B)]) {
     if (s.decloaking) { s.decloaking = false; s.cloaked = false; s.detected = true; }
   }
+  reconcileContacts(battle);
 
   battle.turn = turn + 1;
-  if (!living(A).length || !living(B).length || battle.turn > battle.maxTurns) {
+  if (!living(A).length || !living(B).length || objectiveEnded(battle) || battle.turn > battle.maxTurns) {
     battle.done = true; battle.result = battleResult(battle);
   }
   return { turn, result: battle.result };
@@ -2047,7 +2379,7 @@ export function shipPlan(battle, shipId) {
   const ship = battle.fleets.flat().find((s) => s.id === shipId);
   if (!ship) return null;
   const M = battle.tuning.movement ?? {};
-  const turnRate = (M.turnRatePerRound ?? {})[ship.className] ?? 2;
+  const turnRate = ship.turnRate ?? (M.turnRatePerRound ?? {})[ship.className] ?? 2;
   const pool = fullPower(ship);
   const doc = battle.tuning.doctrine?.[ship.faction];
   const reserveFraction = doc?.reserveFraction ?? 0.35;
@@ -2058,8 +2390,131 @@ export function shipPlan(battle, shipId) {
     defaultReserveFraction: reserveFraction,
     maxHexesPerTurn: Math.floor(pool * (1 - reserveFraction) / Math.max(0.1, ship.movementPointRatio)),
     roundsPerTurn: battle.rounds,
+    specials: specialCapabilities(ship,battle.tuning),
+    ...(finiteSensing(battle) ? { scan: scanCapabilities(ship,battle.tuning) } : {}),
     asteroidFieldCostMultiplier: battle.tuning.battle?.terrainRules?.asteroids?.moveCostMultiplier ?? 2
   };
+}
+
+// Read-only, deterministic order forecast against stationary contacts.
+// It shares movement, charge, launch and firing allocation with execution.
+// It deliberately excludes incoming/outgoing damage, initiative, evasion,
+// opponent orders and cloak coordination: it is not a promised battle outcome.
+export function previewOrders(battle, shipId, order = {}) {
+  assertExecutableContacts(battle);
+  if (finiteSensing(battle)) throw new Error('Finite sensing requires an observation-derived preview; omniscient preview refused');
+  const original = battle.fleets.flat().find(s => s.id === shipId);
+  if (!original || original.destroyed) return null;
+  const copy = v => JSON.parse(JSON.stringify(v));
+  const ship = copy(original);
+  const friends = battle.fleets.flat().filter(s => s.side === ship.side && s.id !== ship.id).map(copy);
+  // Execution resets the entire fleet before any action. This one-ship preview
+  // cannot predict which other planned jumps will claim the shared quota first.
+  friends.forEach(s=>{s.warpedThisTurn=false;});
+  friends.push(ship);
+  const enemies = battle.fleets.flat().filter(s => s.side !== ship.side).map(copy);
+  // Terrain caching must not mutate the live battle during a read-only preview.
+  const tuning = { ...battle.tuning, battle: { ...battle.tuning.battle, _terrainSet: null } };
+  const full = fullPower(ship);
+  startTurn(ship, tuning);
+  chargeSpinal(ship, enemies, tuning, null);
+  const available = ship.power;
+  const fraction = Number.isFinite(order.reserve) ? order.reserve : shipPlan(battle, shipId).defaultReserveFraction;
+  ship.reserve = Math.round(Math.max(0, Math.min(1, fraction)) * ship.power);
+  ship.orderTarget = order.target && order.target !== "auto" ? order.target : null;
+  const reserve = ship.reserve;
+  const route = [{ ...ship.pos, facing: ship.facing, round: 0 }];
+  const actions = [];
+  let movement = 0, weapons = 0, deck = 0;
+  const noRandom = { int() { throw new Error("Forecast attempted a random draw"); }, next() { throw new Error("Forecast attempted a random draw"); } };
+  for (let round = 1; round <= battle.rounds; round++) {
+    startRound(ship);
+    const notes = [], shots = [];
+    if (ship.squadrons && tuning.strikeCraft?.enabled && round === (tuning.strikeCraft.strikeRound ?? 1)) {
+      const before = ship.power;
+      cycleDeck(ship, enemies, tuning, null);
+      deck += before - ship.power;
+    }
+    const start = { ...ship.pos, facing: ship.facing };
+    const entry = order.plan?.[round - 1] ?? { turn: 0, forward: 0 };
+    const warping=Object.hasOwn(entry,'warp'), bursting=(Number(entry.burst)||0)>0;
+    const moving = warping || bursting || (Number(entry.turn) || 0) !== 0 || (Number(entry.forward) || 0) > 0;
+    const unavailable = ship.destroyed || ship.cloaked || ship.decloaking;
+    const beforeFired = new Set(ship.mounts.filter(m => m.firedThisTurn).map(m => m.id));
+    const before = ship.power;
+    let scanned = false;
+    if (unavailable) notes.push(ship.destroyed?"Vessel destroyed; later actions unavailable.":"Cloak coordination controls this vessel; manual course cannot be forecast.");
+    else if (warping) {
+      orderedWarp(ship,entry,order,enemies,friends,tuning,msg=>notes.push(msg.replace(ship.id+' ','')),p=>route.push({...p,round,moved:true}));
+      movement+=before-ship.power;
+    } else if (moving) {
+      moveOrdered(ship, entry, enemies, tuning, msg => notes.push(msg.replace(ship.id + " ", "")), p => route.push({ ...p, round, moved: true }));
+      movement += before - ship.power;
+    } else {
+      const canBear = targetable(enemies).some(f => ship.mounts.some(m => !m.inop && !m.firedThisTurn && distance(ship.pos, f.pos) <= m.maxRange && bears(ship, m, f.pos)));
+      const hidden = living(enemies).some(e => e.cloaked && !e.detected);
+      if (hidden && sensorAbility(ship, tuning) >= 2 && !canBear) {
+        scan(ship, enemies, friends, tuning, msg => notes.push(msg));
+        scanned = true;
+      } else if (canBear) fire(ship, enemies, friends, tuning, noRandom, [], { shots: 0, launches: 0 }, null, null, shots);
+      weapons += shots.reduce((n, s) => n + s.power, 0);
+    }
+    route.push({ ...ship.pos, facing: ship.facing, round, waypoint: true, hold: !moving && !unavailable });
+    const mounts = ship.mounts.map(m => {
+      const shot = shots.find(s => s.mountId === m.id);
+      let reason = shot ? "Eligible" : "No solution";
+      if (!shot) {
+        if (m.inop) reason = "Offline";
+        else if (unavailable) reason = ship.destroyed?"Destroyed":"Cloak control";
+        else if (moving) reason = warping?"Warp action":"Maneuver action";
+        else if (scanned) reason = "Scanning action";
+        else if (beforeFired.has(m.id)) reason = "Spent this turn";
+        else if (m.kind === "spinal" && ship.spinal?.state !== "ready") reason = `Spinal ${ship.spinal?.state ?? "offline"}`;
+        else {
+          const foes = targetable(enemies);
+          const preferred = foes.find(f => f.id === ship.orderTarget);
+          const candidates = foes.filter(f => !geometryReason(ship, m, f, tuning));
+          if (candidates.length) {
+            const w = weaponFor(ship, m.type, tuning);
+            if (m.kind === "spinal") reason = spendable(ship) < (w.firePower ?? 0) ? "Insufficient power" : "Capital target held";
+            else if (m.kind !== "beam" && ship.magazine <= 0) reason = "Magazine empty";
+            else reason = "Insufficient power";
+          } else if (preferred) reason = geometryReason(ship, m, preferred, tuning);
+          else if (!foes.length) reason = "No visible contact";
+          else reason = geometryReason(ship, m, nearest(ship.pos, foes, ship.facing).ship, tuning);
+        }
+      }
+      return { mountId: m.id, eligible: !!shot, reason, ...shot };
+    });
+    actions.push({ round, start, end: { ...ship.pos, facing: ship.facing }, moving, unavailable, scanned, notes, mounts, power: ship.power, magazine: ship.magazine,
+      ...(warping||bursting?{special:{kind:warping?'warp':'burst',executed:warping?route.some(p=>p.round===round&&p.warp):route.some(p=>p.round===round&&p.burst),
+        burstHexes:route.filter(p=>p.round===round&&p.burst).length,superstructure:ship.superstructure,toHitPenalty:ship.toHitPenalty,
+        caveat:warping?'Other fleet jumps and initiative can exhaust the shared allowance.':null}}:{}) });
+  }
+  return { fullPower: full, available, overhead: full - available, reserve, movement, weapons, deck, remaining: ship.power, free: spendable(ship), actions, route,
+    caveat: "Stationary contacts; no damage or initiative effects. Actual targets, movement and power may change during resolution." };
+}
+
+function geometryReason(ship, mount, target, tuning) {
+  if (tuning.battle?.sameHexNoFire !== false && distance(ship.pos, target.pos) === 0) return "Same hex — no fire";
+  if (!mayEngage(ship, target, tuning)) return "Nebula visibility";
+  if (distance(ship.pos, target.pos) > mount.maxRange || !bandFor(mount, distance(ship.pos, target.pos))) return "Out of range";
+  if (!bears(ship, mount, target.pos)) return "Outside bearing arc";
+  if (!lineOfFire(ship.pos, target.pos, tuning)) return "Line of fire blocked";
+  return null;
+}
+
+// Value-only adapters for observation-derived planning. No battle is accepted
+// or captured here. Public planners supply only own telemetry/current contacts;
+// private copies contain any terrain caches and tentative movement mutation.
+export function previewPublicStep(ship, action, contacts, tuning) {
+  const copy = structuredClone(ship), notes = [], route = [];
+  moveOrdered(copy, action, structuredClone(contacts), structuredClone(tuning),
+    note => notes.push(note), point => route.push(point));
+  return { ship: copy, notes, route };
+}
+export function publicWeaponGeometry(ship, mount, contact, tuning) {
+  return geometryReason(ship, mount, contact, structuredClone(tuning));
 }
 
 // A serialisable snapshot for the UI.
@@ -2067,15 +2522,23 @@ export function battleView(battle) {
   const M = battle.tuning.movement ?? {};
   const ships = battle.fleets.flat().map((s) => ({
     id: s.id, faction: s.faction, side: s.side, className: s.className, points: s.points,
+    ...(s.design ? { design: structuredClone(s.design), designId: s.designId, designRevision: s.designRevision, displayName: s.displayName } : {}),
     pos: { ...s.pos }, facing: s.facing, destroyed: !!s.destroyed,
     superstructure: s.superstructure, superstructureMax: s.superstructureMax ?? s.hull?.superstructure,
     power: s.power, fullPower: fullPower(s), reserve: s.reserve ?? 0,
     movementPointRatio: s.movementPointRatio,
-    turnRate: (M.turnRatePerRound ?? {})[s.className] ?? 2,
+    turnRate: s.turnRate ?? (M.turnRatePerRound ?? {})[s.className] ?? 2,
     shieldCap: { ...s.shieldCap }, shieldDown: { ...s.shieldDown },
+    shieldMax: s.hull.maxShieldPower, shieldPointRatio: s.shieldPointRatio,
+    ...(s.shieldGenerators ? { shieldGenerators: structuredClone(s.shieldGenerators) } : {}),
+    shieldsBypassed: inNebula(s.pos, battle.tuning) && nebulaRules(battle.tuning).shieldsUseless !== false,
+    systems: { ...s.systems }, cores: structuredClone(s.cores), impulse: s.impulse,
+    ratedPower: ratedPower(s),
+    impulseMax: s.hull.impulsePower, cloaked: !!s.cloaked, detected: !!s.detected, decloaking: !!s.decloaking,
     magazine: s.magazine,
     mounts: s.mounts.map((m) => ({
       id: m.id, type: m.type, kind: m.kind, arcName: m.arcName, arc: [...m.arc],
+      ...(m.position ? { position: { ...m.position }, orientation: m.orientation, displayName: m.displayName } : {}),
       maxRange: m.maxRange, bands: (m.bands ?? []).map((b) => ({ ...b })),
       inop: !!m.inop, firedThisTurn: !!m.firedThisTurn
     })),
@@ -2084,9 +2547,10 @@ export function battleView(battle) {
   }));
   return {
     turn: battle.turn, roundsPerTurn: battle.rounds, maxTurns: battle.maxTurns,
+    ...(battle.warnings?.length ? { warnings: [...battle.warnings] } : {}),
     map: battle.tuning.battle?.map ?? { shape: "hex", radiusHexes: battle.tuning.battle?.mapRadiusHexes },
     terrain: battle.terrain.map((t) => ({ ...t })),
-    ships, done: battle.done, result: battle.result
+    ships, victory: battle.victory ? { ...battle.victory } : null, done: battle.done, result: battle.result
   };
 }
 
@@ -2098,10 +2562,11 @@ export function runBattle(fleets, tuning, rng, opts = {}) {
 
 export function buildFleet(faction, composition, tuning, loadouts, rng, prefix) {
   const ships = [];
-  let n = 0;
-  for (const [className, count] of Object.entries(composition)) {
+  const entries = Object.entries(composition).sort(([classA], [classB]) =>
+    ((tuning.hullClasses[classB]?.points ?? 0) - (tuning.hullClasses[classA]?.points ?? 0)) || classA.localeCompare(classB));
+  for (const [className, count] of entries) {
     for (let i = 0; i < count; i++) {
-      ships.push(buildShip(`${prefix}-${className}-${++n}`, faction, className, tuning, loadouts, rng));
+      ships.push(buildShip(`${prefix}-${className}-${i + 1}`, faction, className, tuning, loadouts, rng));
     }
   }
   return ships;
@@ -2112,7 +2577,7 @@ export function buildFleet(faction, composition, tuning, loadouts, rng, prefix) 
 // parked whatever came last on the extreme flank - measured at ~27pp of win
 // rate against any 4-point hull unlucky enough to land there.
 function battleLine(fleet) {
-  const sorted = [...fleet].sort((a, b) => b.points - a.points);
+  const sorted = [...fleet].sort(canonicalShipCompare);
   const line = [];
   // Alternate heavy ships outward from the centre.
   for (let i = 0; i < sorted.length; i++) {
@@ -2171,7 +2636,15 @@ export function deployFleets(A, B, tuning) {
 // Ships without q/r fall back to the line-of-battle deployment for their
 // side. Returns {fleets, terrain, tuning} ready for runBattle(fleets, tuning,
 // rng, {terrain}). Terrain hexes are refused as ship positions.
-export function buildScenario(scenario, tuning, loadouts, rng) {
+export function buildScenario(scenario, tuning, loadouts, rng, options = {}) {
+  // Policy is selected by the host, never read from scenario JSON. Saved and
+  // hand-built scenario loaders explicitly request warn; harnesses stay strict.
+  const issues = (scenario?.sides ?? []).slice(0, 2).map((side, i) => fleetRuleIssues(side, tuning, `Side ${i + 1}`, options));
+  const ruleErrors = [
+    ...objectiveErrors(scenario?.victory, scenario?.sides?.map(side => side.ships)),
+    ...issues.flatMap(issue => issue.errors)
+  ];
+  if (ruleErrors.length) throw new Error(ruleErrors.join(" "));
   const t = scenario.map
     ? { ...tuning, battle: { ...tuning.battle, map: { shape: "rect", widthHexes: scenario.map.widthHexes, heightHexes: scenario.map.heightHexes } } }
     : tuning;
@@ -2179,8 +2652,11 @@ export function buildScenario(scenario, tuning, loadouts, rng) {
   const withTerrain = { ...t, battle: { ...t.battle, terrain } };
   const fleets = scenario.sides.slice(0, 2).map((side, i) => {
     const tag = i === 0 ? "A" : "B";
-    return side.ships.map((sh, k) =>
-      buildShip(`${tag}-${sh.className}-${k + 1}`, side.faction, sh.className, withTerrain, loadouts, rng, sh.loadout));
+    const counts = {};
+    return side.ships.map((sh) => {
+      counts[sh.className] = (counts[sh.className] ?? 0) + 1;
+      return buildShip(`${tag}-${sh.className}-${counts[sh.className]}`, side.faction, sh.className, withTerrain, loadouts, rng, sh.designPack);
+    });
   });
   // Explicit positions first; anything unplaced takes the line deployment.
   const placedA = scenario.sides[0].ships.map((sh) => Number.isFinite(sh.q) && Number.isFinite(sh.r));
@@ -2189,10 +2665,14 @@ export function buildScenario(scenario, tuning, loadouts, rng) {
   scenario.sides.slice(0, 2).forEach((side, i) => side.ships.forEach((sh, k) => {
     const ship = fleets[i][k];
     if (Number.isFinite(sh.q) && Number.isFinite(sh.r)) {
-      if (blockedHex({ q: sh.q, r: sh.r }, withTerrain)) throw new Error(`${ship.id} placed on terrain at ${sh.q},${sh.r}`);
       ship.pos = { q: sh.q, r: sh.r };
     }
     if (Number.isFinite(sh.facing)) ship.facing = ((sh.facing % 6) + 6) % 6;
   }));
-  return { fleets, terrain, tuning: withTerrain };
+  // Validate the FINAL placement, including fallback lines and mixed explicit /
+  // automatic deployment. Do not silently relocate an authored engagement.
+  const placementErrors = deploymentErrors(fleets, terrain);
+  if (placementErrors.length) throw new Error(placementErrors.join(' '));
+  const warnings = issues.flatMap(issue => issue.warnings);
+  return { fleets, terrain, tuning: withTerrain, ...(warnings.length ? { warnings } : {}) };
 }

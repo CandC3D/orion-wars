@@ -1,0 +1,135 @@
+{
+  "name": "The Asterion Line — Battleship",
+  "seed": "asterion-line",
+  "featured": true,
+  "maxTurns": 12,
+  "map": {
+    "widthHexes": 60,
+    "heightHexes": 36
+  },
+  "terrain": [
+    {
+      "type": "planet",
+      "q": 0,
+      "r": 0
+    },
+    {
+      "type": "asteroids",
+      "q": -5,
+      "r": -7
+    },
+    {
+      "type": "asteroids",
+      "q": 5,
+      "r": 7
+    },
+    {
+      "type": "asteroids",
+      "q": -7,
+      "r": -2
+    },
+    {
+      "type": "asteroids",
+      "q": -7,
+      "r": 0
+    },
+    {
+      "type": "asteroids",
+      "q": -7,
+      "r": 2
+    },
+    {
+      "type": "nebula",
+      "q": 4,
+      "r": -8
+    },
+    {
+      "type": "nebula",
+      "q": -4,
+      "r": 8
+    }
+  ],
+  "victory": {
+    "type": "flagship",
+    "protectedClass": {
+      "A": "battleship",
+      "B": "carrier"
+    },
+    "text": "Destroy the enemy command asset while protecting your own. If both survive through turn 12, the fleet with more surviving points wins."
+  },
+  "tutorial": {
+    "title": "Command briefing: The Asterion Line — Battleship",
+    "steps": [
+      "Two task forces have met around Asterion. Earth must protect its Federation-class battleship; Krelath must protect its fleet carrier. Destroy the opposing command asset to end the battle. The asteroid screen on Earth's approach blocks fire and slows ships that cross it. Both fleets total 68 stock points: Krelath receives an additional heavy cruiser to compensate for Earth's battleship replacing the gunstar.",
+      "Use Formation Control to issue a sensible plan to the whole fleet. Advance & Fire closes for two actions and fires on the third; Hold & Fire keeps every weapon available.",
+      "Select a vessel to inspect its six shield faces and colored firing arcs. Then click an enemy ship to make it that vessel’s target. Individual orders override the formation plan.",
+      "Movement and weapons spend the same power that shields use to absorb hits. End Turn when the fleet is ready; missiles arrive next turn, and every decision is retained for replay."
+    ]
+  },
+  "sides": [
+    {
+      "faction": "EAR",
+      "ships": [
+        {
+          "className": "battleship",
+          "q": -11,
+          "r": 0,
+          "facing": 0
+        },
+        {
+          "className": "heavy-cruiser",
+          "q": -12,
+          "r": -3,
+          "facing": 0
+        },
+        {
+          "className": "light-cruiser",
+          "q": -10,
+          "r": 4,
+          "facing": 0
+        },
+        {
+          "className": "light-cruiser",
+          "q": -14,
+          "r": 2,
+          "facing": 0
+        }
+      ]
+    },
+    {
+      "faction": "KRE",
+      "ships": [
+        {
+          "className": "carrier",
+          "q": 11,
+          "r": 0,
+          "facing": 3
+        },
+        {
+          "className": "heavy-cruiser",
+          "q": 12,
+          "r": 3,
+          "facing": 3
+        },
+        {
+          "className": "light-cruiser",
+          "q": 10,
+          "r": -4,
+          "facing": 3
+        },
+        {
+          "className": "light-cruiser",
+          "q": 14,
+          "r": -2,
+          "facing": 3
+        },
+        {
+          "className": "heavy-cruiser",
+          "q": 14,
+          "r": 5,
+          "facing": 3
+        }
+      ]
+    }
+  ]
+}

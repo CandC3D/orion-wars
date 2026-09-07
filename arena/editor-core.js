@@ -1,3 +1,14 @@
+import {
+  compositionFor, fleetPoints, fleetRuleIssues, rosterFor
+} from "../src/tactical/fleet-rules.js";
+import { objectiveErrors } from "../src/tactical/objectives.js";
+import { terrainBlocksShips, terrainFootprint } from '../src/tactical/deployment.js';
+import { buildScenario } from '../src/tactical/resolver.js';
+import { makePrng } from '../src/prng.js';
+
+export { compositionFor, fleetPoints, rosterFor };
+export { terrainBlocksShips, terrainFootprint };
+
 export const FACTIONS = ["EAR", "VRA", "ZAN", "KRE"];
 
 export const HEX_DIRECTIONS = [
@@ -18,12 +29,6 @@ export const TERRAIN_TYPES = ["moon", "planet", "asteroid", "asteroids", "nebula
 export const TERRAIN_LABELS = {
   moon: "Moon", planet: "Planet", asteroid: "Asteroid", asteroids: "Asteroid field", nebula: "Nebula"
 };
-
-// Only "asteroids" (the field) and "nebula" are passable; every other terrain
-// type blocks ships the way moons always have. Kept as one predicate so the
-// editor's placement checks and validateScenario agree with
-// src/tactical/resolver.js.
-export function terrainBlocksShips(type) { return type !== "asteroids" && type !== "nebula"; }
 
 export function normalizeFacing(value) {
   return ((Math.trunc(Number(value) || 0) % 6) + 6) % 6;
@@ -55,13 +60,6 @@ export function snapWorldToHex(x, y) {
   const r = y / 1.5;
   const q = x / Math.sqrt(3) - r / 2;
   return hexRound(q, r);
-}
-
-export function terrainFootprint(item) {
-  if (!item || !Number.isFinite(item.q) || !Number.isFinite(item.r)) return [];
-  const center = { q: item.q, r: item.r };
-  if (item.type !== "planet") return [center];
-  return [center, ...HEX_DIRECTIONS.map((dir) => ({ q: center.q + dir.q, r: center.r + dir.r }))];
 }
 
 export function terrainHexSet(terrain, omitIndex = -1) {
@@ -151,25 +149,8 @@ export function nebulaOutline(q, r) {
   return outline;
 }
 
-export function fleetPoints(side, tuning) {
-  return (side?.ships || []).reduce((total, ship) =>
-    total + (Number(tuning?.hullClasses?.[ship.className]?.points) || 0), 0);
-}
-
-export function rosterFor(faction, tuning) {
-  const roster = tuning?.rosters?.[faction];
-  if (Array.isArray(roster)) return roster;
-  return Object.keys(tuning?.hullClasses || {}).filter((name) => name !== "command-ship");
-}
-
-export function compositionFor(side) {
-  const composition = {};
-  for (const ship of side?.ships || []) composition[ship.className] = (composition[ship.className] || 0) + 1;
-  return composition;
-}
-
 export function scenarioForSave(model) {
-  return {
+  const scenario = {
     name: String(model?.name || "Untitled scenario"),
     seed: String(model?.seed || "orion"),
     map: {
@@ -181,6 +162,7 @@ export function scenarioForSave(model) {
       faction: side.faction,
       ships: (side.ships || []).map((ship) => {
         const out = { className: ship.className };
+        if (ship.designPack !== undefined) out.designPack = structuredClone(ship.designPack);
         if (Number.isFinite(ship.q) && Number.isFinite(ship.r)) {
           out.q = ship.q;
           out.r = ship.r;
@@ -190,10 +172,21 @@ export function scenarioForSave(model) {
       })
     }))
   };
+  if (Number.isInteger(model?.maxTurns) && model.maxTurns > 0) scenario.maxTurns = model.maxTurns;
+  if (model?.victory && typeof model.victory === "object") scenario.victory = JSON.parse(JSON.stringify(model.victory));
+  if (model?.tutorial && typeof model.tutorial === "object") scenario.tutorial = JSON.parse(JSON.stringify(model.tutorial));
+  if (model?.featured === true) scenario.featured = true;
+  return scenario;
 }
 
-export function validateScenario(scenario, tuning, loadouts) {
-  const messages = [];
+// Existing callers stay strict; authored-scenario UIs request warn and display
+// BOTH channels. A flag inside a JSON document cannot relax construction rules.
+export function validateScenario(scenario, tuning, loadouts, options = {}) {
+  return scenarioIssues(scenario, tuning, loadouts, options).errors;
+}
+
+export function scenarioIssues(scenario, tuning, loadouts, options = {}) {
+  const messages = [], warnings = [];
   const map = scenario?.map;
   if (!Number.isFinite(map?.widthHexes) || map.widthHexes <= 0 ||
       !Number.isFinite(map?.heightHexes) || map.heightHexes <= 0) {
@@ -201,7 +194,10 @@ export function validateScenario(scenario, tuning, loadouts) {
   }
   if (!Array.isArray(scenario?.sides) || scenario.sides.length !== 2) {
     messages.push("A scenario must contain exactly two sides.");
-    return messages;
+    return { errors: messages, warnings };
+  }
+  if (scenario.maxTurns !== undefined && !(Number.isInteger(scenario.maxTurns) && scenario.maxTurns > 0)) {
+    messages.push("Maximum turns must be a positive integer.");
   }
 
   const occupied = new Set();
@@ -225,13 +221,10 @@ export function validateScenario(scenario, tuning, loadouts) {
     const label = `Side ${sideIndex + 1}`;
     if (!FACTIONS.includes(side?.faction)) messages.push(`${label} has unknown faction “${side?.faction ?? ""}”.`);
     if (!Array.isArray(side?.ships) || side.ships.length === 0) messages.push(`${label} is empty.`);
-    const roster = rosterFor(side?.faction, tuning);
     (side?.ships || []).forEach((ship, shipIndex) => {
       const hull = tuning?.hullClasses?.[ship.className];
       if (!hull || !Number.isFinite(hull.points)) {
         messages.push(`${label} ship ${shipIndex + 1} has unknown class “${ship.className}”.`);
-      } else if (!roster.includes(ship.className)) {
-        messages.push(`${label} ship ${shipIndex + 1} (${ship.className}) cannot be fielded by ${side.faction}.`);
       }
       const hasQ = Number.isFinite(ship.q), hasR = Number.isFinite(ship.r);
       if (hasQ !== hasR) messages.push(`${label} ship ${shipIndex + 1} has an incomplete position.`);
@@ -244,18 +237,17 @@ export function validateScenario(scenario, tuning, loadouts) {
       }
     });
 
-    // hullClasses.<class>.limit caps how many of that class one fleet may
-    // field (currently the big specials: dreadnought, carrier, monitor, at 1
-    // apiece — see docs/tactical-design.md #27). Driven entirely off the
-    // tuning data so any class that later carries a limit is enforced here
-    // without a code change.
-    const composition = compositionFor(side);
-    for (const [className, count] of Object.entries(composition)) {
-      const limit = tuning?.hullClasses?.[className]?.limit;
-      if (Number.isFinite(limit) && count > limit) {
-        messages.push(`${label} fields ${count} ${className}(s); the limit is ${limit}.`);
-      }
-    }
+    const issues = fleetRuleIssues(side, tuning, label, options);
+    messages.push(...issues.errors);
+    warnings.push(...issues.warnings);
   });
-  return [...new Set(messages)];
+  messages.push(...objectiveErrors(scenario.victory, scenario.sides.map(side => side.ships)));
+  // The editor also accepts ships without explicit positions. Ask the same
+  // builder that will start the battle to check the resolved deployment, using
+  // private state / RNG. This is not a combat simulation or a placement change.
+  if (!messages.length && scenario.sides.some(side => side.ships.some(ship => !Number.isFinite(ship.q) || !Number.isFinite(ship.r)))) {
+    try { buildScenario(scenario, tuning, loadouts, makePrng(0), options); }
+    catch (error) { messages.push(error.message); }
+  }
+  return { errors: [...new Set(messages)], warnings: [...new Set(warnings)] };
 }

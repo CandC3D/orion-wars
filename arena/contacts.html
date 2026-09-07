@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleet Command · Contact trial</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="arena.css"><link rel="stylesheet" href="play.css"><link rel="stylesheet" href="command-console.css"><link rel="stylesheet" href="contacts.css">
+<script type="module" src="contacts.js"></script></head>
+<body class="play-page contact-page" data-faction="EAR">
+<header class="contact-head"><div><p class="eyebrow">FLEET COMMAND / SENSOR OPERATIONS</p><h1>Contact trial <small>C1c · preview</small></h1></div>
+<a href="play.html">Ordinary playfield ↗</a><button id="new-session">New trial</button></header>
+<section id="trial-setup" class="instrument"><div class="station-cap"><span>00</span> FIRST CONTACTS</div>
+<p>Command a light cruiser and destroyer. Enemy positions and condition require a current sensor report. The scripted opponent remains a privileged control, not a model captain.</p>
+<div class="setup-inline"><label>Your faction <select id="faction"><option value="EAR">Earth Defense Force</option><option value="KRE">Krelath Star Navy</option><option value="VRA">Vraygon Topaz Warshard</option><option value="ZAN">Zandrax Horde Swarmfleet</option></select></label>
+<label>Opponent <select id="opponent"><option value="KRE">Krelath Star Navy</option><option value="EAR">Earth Defense Force</option><option value="VRA">Vraygon Topaz Warshard</option><option value="ZAN">Zandrax Horde Swarmfleet</option></select></label><button id="begin" class="primary">Begin contact trial</button></div>
+<p class="instrument-note">Opt-in test station. Ordinary play, saved games, Drydock and fleet balance are unchanged. No model files are read.</p></section>
+<div id="trial-status" role="status" aria-live="polite">Awaiting command.</div>
+<main id="contact-station" hidden>
+<section class="contact-map instrument"><div class="station-cap"><span>01</span> TACTICAL PICTURE <small id="clock"></small></div>
+<div class="map-tools"><button id="fit-map">Fit map</button><button id="frame-contacts">Frame reports</button><button id="hex-grid" type="button" aria-pressed="true" title="Toggle the hex grid (planning aid only)">Hex grid</button><label>Zoom <input id="zoom" type="range" min="1" max="5" step="0.1" value="1"></label><span id="contact-count"></span></div>
+<svg id="contact-map" viewBox="0 0 900 520" role="img" aria-label="Tactical map showing friendly vessels and current sensor contacts only"></svg><p id="combat-announce" role="status" aria-live="polite" hidden></p><details id="map-legend"><summary>Terrain legend</summary><ul id="map-legend-items"></ul></details>
+<p class="instrument-note">Solid symbols: current reports. Amber dashed course: movement ceiling, not execution. Lost reports disappear; no ghost tracks or inferred kills.</p>
+<section class="contact-strip"><h2>Sensor reports</h2><div id="contacts-list"></div></section></section>
+<aside class="instrument contact-vessel"><div class="station-cap"><span>02</span> OWN VESSEL / ENGINEERING</div>
+<label>Command vessel <select id="own-vessel"></select></label><h2 id="vessel-title"></h2><div id="own-telemetry"></div>
+<h3>Shield faces · one shared power pool</h3><div id="own-shields"></div><h3>Installed battery</h3><div id="battery"></div></aside>
+<section class="instrument contact-orders"><div class="station-cap"><span>03</span> ACTION PROGRAM</div>
+<div class="order-top"><label>Priority target <select id="priority"><option value="auto">Automatic · current contacts</option></select></label>
+<label>Reserve after refill <input id="shield-reserve" type="range" min="0" max="1" step="0.05" value="0.3"><output id="reserve-readout">30%</output></label></div>
+<div id="action-program"></div><p id="order-feedback" role="status" aria-live="polite" hidden></p><p id="preview-caveat" class="instrument-note"></p>
+<details><summary>Sensor operating rules</summary><p>Passive radius: 18 / 26 / 34 / 42 / 50 hexes for ratings 1–5. Disabled sensors originate no report. Scan requires rating 2+, costs one action and no extra power. It searches a single face relative to your heading at execution.</p>
+<p>Nebula is intentionally asymmetric: inside sees out up to three hexes; outside stops at the first fog cell. Command detection bonuses help nearby friendly ships, not the command ship itself. AI sweeps on action 3 of the normal three-action turn when it cannot fire. Your hold orders never scan automatically.</p></details></section>
+<section class="instrument contact-history"><div class="station-cap"><span>04</span> SIDE-VISIBLE EVENT TAPE</div>
+<div class="tape-controls"><button id="live-picture">Latest picture</button><span class="playback-controls"><button id="playback-pause" type="button" aria-pressed="false" disabled>Pause</button><button id="playback-skip" type="button" disabled>Skip to latest</button></span><label>Recorded frame <input id="tape" type="range" min="0" max="0" value="0" step="1"></label><output id="tape-label"></output></div>
+<ol id="events"></ol><p class="instrument-note">Only your events and current contact changes are recorded here. Enemy shield points, engineering, hidden launch positions and unobserved destruction are not reported.</p></section>
+</main>
+<footer class="contact-footer"><span id="incoming"></span><button id="export-contact" disabled>Export side record</button><button id="resolve-orders" class="primary" disabled>Execute turn</button></footer>
+</body></html>

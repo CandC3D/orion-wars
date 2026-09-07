@@ -59,14 +59,15 @@ function probe(fa, fb, comp, n) {
   const acc = blankAcc();
   for (let i = 0; i < n; i++) {
     const seed = `s${SIZE}-${fa}-${fb}-${i}`;
-    const rng = makePrng(seedFromString(seed));
-    const A = buildFleet(fa, compFor(fa, comp), TUNING, LOADOUTS, rng, "A");
-    const B = buildFleet(fb, compFor(fb, comp), TUNING, LOADOUTS, rng, "B");
-    deployFleets(A, B, TUNING);
-    const byId = new Map();
-    for (const s of [...A, ...B]) byId.set(s.id, s);
-    const carriers = [...A, ...B].filter((s) => s.squadrons);
-    for (const c of carriers) acc.wingStartTotal += c.squadrons.reduce((a, q) => a + q.strength, 0);
+    for (const reversed of [false, true]) {
+      const rng = makePrng(seedFromString(seed));
+      const A = buildFleet(reversed ? fb : fa, compFor(reversed ? fb : fa, comp), TUNING, LOADOUTS, rng, "A");
+      const B = buildFleet(reversed ? fa : fb, compFor(reversed ? fa : fb, comp), TUNING, LOADOUTS, rng, "B");
+      deployFleets(A, B, TUNING);
+      const byId = new Map();
+      for (const s of [...A, ...B]) byId.set(s.id, s);
+      const carriers = [...A, ...B].filter((s) => s.squadrons);
+      for (const c of carriers) acc.wingStartTotal += c.squadrons.reduce((a, q) => a + q.strength, 0);
 
     let carrierDeadTurn = null;
     const logLines = [];
@@ -102,9 +103,11 @@ function probe(fa, fb, comp, n) {
             acc.cGapSum += best; acc.cGapN++; acc.inRadiusTurns++;
             const own = (c.side === "A" ? fleets[0] : fleets[1]).filter((s) => !s.destroyed && s !== c);
             if (own.length) {
+              const sumQ = own.reduce((a, s) => a + s.pos.q, 0);
+              const sumR = own.reduce((a, s) => a + s.pos.r, 0);
               const cen = {
-                q: Math.round(own.reduce((a, s) => a + s.pos.q, 0) / own.length),
-                r: Math.round(own.reduce((a, s) => a + s.pos.r, 0) / own.length)
+                q: Math.sign(sumQ) * Math.round(Math.abs(sumQ / own.length)),
+                r: Math.sign(sumR) * Math.round(Math.abs(sumR / own.length))
               };
               let fbest = Infinity;
               for (const s of alive) fbest = Math.min(fbest, distance(cen, s.pos));
@@ -135,16 +138,19 @@ function probe(fa, fb, comp, n) {
     }
     acc.battles++;
     acc.turns += r.turns;
-    if (r.victor === "A") acc.wins++;
-    acc.beamShots += r.stats.A.shots; acc.beamHits += r.stats.A.hits;
-    acc.totalDmgKRE += r.stats.A.damage; acc.totalDmgFoe += r.stats.B.damage;
+    if ((!reversed && r.victor === "A") || (reversed && r.victor === "B")) acc.wins++;
+    const kreStats = reversed ? r.stats.B : r.stats.A;
+    const foeStats = reversed ? r.stats.A : r.stats.B;
+    acc.beamShots += kreStats.shots; acc.beamHits += kreStats.hits;
+    acc.totalDmgKRE += kreStats.damage; acc.totalDmgFoe += foeStats.damage;
+    }
   }
   return acc;
 }
 
 // which side is A in each report row
 const comp = SCALES[SIZE];
-console.log(`=== probe at ${SIZE} points, ${N} battles per pairing ===`);
+console.log(`=== probe at ${SIZE} points, ${N} mirrored pairs per pairing ===`);
 for (const f of FACTIONS) {
   const c = compFor(f, comp);
   console.log(`  ${f}: ${JSON.stringify(c)}`);

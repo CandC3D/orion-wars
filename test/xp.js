@@ -51,19 +51,23 @@ for (let i = 0; i < args.length; i++) {
   }
 }
 if (patches.length) console.log("patches: " + patches.join("  "));
-console.log(`battles/cell ${N}` + (process.env.KRE_SIXTH ? `   KRE_SIXTH=${process.env.KRE_SIXTH}` : ""));
+console.log(`mirrored pairs/cell ${N}` + (process.env.KRE_SIXTH ? `   KRE_SIXTH=${process.env.KRE_SIXTH}` : ""));
 
 function rate(fa, fb, comp, n, size, plain) {
   let wa = 0, wb = 0;
   for (let i = 0; i < n; i++) {
-    const rng = makePrng(seedFromString(`${SEEDTAG}s${size}-${fa}-${fb}-${i}`));
-    const A = buildFleet(fa, compFor(fa, comp, TUNING, plain), TUNING, LOADOUTS, rng, "A");
-    const B = buildFleet(fb, compFor(fb, comp, TUNING), TUNING, LOADOUTS, rng, "B");
-    deployFleets(A, B, TUNING);
-    const r = runBattle([A, B], TUNING, rng, {});
-    if (r.victor === "A") wa++; else if (r.victor === "B") wb++;
+    const seed = seedFromString(`${SEEDTAG}s${size}-${fa}-${fb}-${i}`);
+    for (const reversed of [false, true]) {
+      const rng = makePrng(seed);
+      const A = buildFleet(reversed ? fb : fa, reversed ? compFor(fb, comp, TUNING) : compFor(fa, comp, TUNING, plain), TUNING, LOADOUTS, rng, "A");
+      const B = buildFleet(reversed ? fa : fb, reversed ? compFor(fa, comp, TUNING, plain) : compFor(fb, comp, TUNING), TUNING, LOADOUTS, rng, "B");
+      deployFleets(A, B, TUNING);
+      const r = runBattle([A, B], TUNING, rng, {});
+      const victor = reversed ? (r.victor === "A" ? "B" : r.victor === "B" ? "A" : null) : r.victor;
+      if (victor === "A") wa++; else if (victor === "B") wb++;
+    }
   }
-  return { wa, wb, n };
+  return { wa, wb, n: n * 2 };
 }
 
 if (!NOSWEEP) {

@@ -1,5 +1,6 @@
 {
   "_comment": "Rebuilt on the FASA power model (see docs/fasa-mechanics-notes.md). Two structural changes from the first draft: shields are the RESIDUAL of the power pool rather than a pre-allocation, and firing arcs limit which mounts can bear. Ratios are now POWER COSTS, not yields.",
+  "_fleetFloorNote": "Fleet-construction floors are authoritative on each hull as minFleetPoints: 52 for monitor, carrier, and gunstar-battlecruiser; 32 for strike-cruiser. Older measurement notes below describe historical experiments, not current legality.",
   "_model": {
     "power": "Each ship's pool resets at the start of every turn to the sum of its functioning cores plus impulse. Actions spend from it. Shields absorb out of whatever remains. At zero a ship can neither act nor absorb until the next turn.",
     "turn": "A turn is 3 rounds. Ships act in order of a d100 roll plus captain rating. Each weapon may fire at most once per turn.",
@@ -272,14 +273,15 @@
       "model": "Zandrax Corvette.stl"
     },
     "monitor": {
-      "points": 20,
+      "points": 24,
       "cores": 3,
       "corePower": 22,
       "impulsePower": 4,
       "beamMounts": 7,
       "missileMounts": 5,
-      "magazine": 20,
-      "superstructure": 110,
+      "magazine": 32,
+      "superstructure": 122,
+      "_publication": "Chris 2026-09-05: mobile battlestation, 24 points / 32 rounds / 220 effective Vraygon structure. Base structure 122 rounds to 220 after the unchanged 1.8 faction multiplier. Movement, weapons and other stats retain the returned definition.",
       "maxShieldPower": 16,
       "shieldPointRatio": 0.7,
       "movementPointRatio": 7,
@@ -296,7 +298,6 @@
         "f",
         "fp",
         "fs",
-        "a",
         "a"
       ],
       "screen": 0,
@@ -307,7 +308,8 @@
       "explosionYield": 1.5,
       "_note": "Silicoid siege hull. Guns on every bearing and armour rather than shields, and still by a wide margin the slowest hull in the game at 7 power per hex - 10.2 with the Vraygon modifier, against 8.7 for their own battleship. Retuned in the flight-rules pass, and the three numbers move together: a seventh beam, armour down from 130, and absorption up from 0.55 to 0.7 power per point. It leans harder into what the hull IS - it shoots and it soaks, it does not shield - and it is the lever that separates the two cells where Vraygon field it. Without the seventh gun Vraygon fall to 28% at 32 points; with the old 130 armour they run to 70-71% at 64, because once everyone stands and fights (see movement.withdrawFireFraction) the monitor stops being a slow gun platform and becomes the last ship alive winning on points. It does not manoeuvre; it arrives and stays.",
       "model": "Vraygon Monitor.stl",
-      "limit": 1
+      "limit": 1,
+      "minFleetPoints": 52
     },
     "command-ship": {
       "points": 16,
@@ -372,7 +374,8 @@
       "weaponReach": 0.89,
       "explosionYield": 1,
       "_note": "Krelath sixth hull. 3 tubes + 2 beams (missile-dominant per ruling), movement 1.3 - the fastest capital in the game - and screen 0 so it is a light capital the fleet screens rather than a picket chained to the heavy cruiser. It remains a slightly negative purchase against the light cruiser it replaces (-5pp at 64 points), and the obvious fix, pointDefence 2, is deliberately NOT taken: it makes the hull a positive buy but this hull is half of Krelath's whole list at 8 points, and PD 2 takes Krelath there to 62% while dropping Zandrax to 35%. Individually it is not a bad ship - it is the most efficient damage dealer in the Krelath list - and the cost of covering it is the price of the speed.",
-      "model": "Krelath Strike Cruiser.stl"
+      "model": "Krelath Strike Cruiser.stl",
+      "minFleetPoints": 32
     },
     "carrier": {
       "points": 16,
@@ -413,7 +416,8 @@
       "_note": "KRELATH sixth hull (ruling: the first carrier in the game is theirs), bought at 8 points out of a heavy cruiser where the list has one and out of two light cruisers where it does not. See test/comp.js for the fielding policy; the hull is NOT fielded below 24 points, and that floor is load-bearing rather than cosmetic - at 16 points the carrier would be bought out of the fleet's only capital, and measured, a 16-point Krelath list of two destroyers, four frigates and a flight deck wins 91-93% of the cell with its air group and 0-1% of it without, because half the fighting power of the list is aircraft. MEASURED at the tuned point, 500 battles a cell, against a plain Krelath list of the same points: +3.1pp at 24, +5.2pp at 32, +10.1pp at 64, and the matchup spread at 24 points is +12 / -7 / +4 against Earth, Vraygon and Zandrax, against +37 / -13 / +29 before this pass. It is still a matchup hull - a fleet that cannot close on the deck feeds it and Vraygon, who can, hold it to roughly even - but it is no longer the 47-percentage-point spread it was. The hull's own numbers were retuned in the same pass and both changes exist to raise the FLOOR rather than the ceiling. beamMounts 3 with a beam arc forward, against 2 on the broadside: this is the single most useful change on the hull, worth +6.5pp of buy delta at 32 points and closing the Vraygon hole at 24 from -15pp to -5pp, and it is worth almost nothing against a fleet that never closes, which is exactly the asymmetry wanted. maxShieldPower 16 on shieldPointRatio 0.5, against 12 on 0.55: without it the hull is a NEGATIVE purchase at 24 and 32 points (-0.4 and -1.3pp), because a carrier bought out of two light cruisers has to survive the turn the enemy line reaches it; 14 was measured and leaves 32 points at 0.0pp. Everything the hull does offensively is in tuning.strikeCraft and in the hangar block above; the hangar is a hull-class field and nothing in the resolver names a faction, so a carrier can be given to any power later by adding a hangar to a hull. superstructure 48 and movementPointRatio 2.5 unchanged: 56 and 60 were both measured and both push 64 points out of band by making the hull too hard to finish. All of the above was tuned on the tree that still had the command ship and then RE-MEASURED on the tree that replaced it with the dreadnought; the dials did not have to move, because what was wrong with this hull was never Earth-specific. pointDefence 2 rather than 0 because it is the ship enemy strike craft and missiles will come for and it is the ship least able to answer with its guns.",
       "model": "Earth Carrier.stl",
       "_buyNote": "Honest buy figures (verifier, cross-seed): break-even at 24 and 32 points (+1.5 to +3.4pp, negative on one seed set at 24), genuinely positive only at 64 (+11pp, top of target). The hull pays for itself and wins its points at fleet scale; it is not a bargain.",
-      "limit": 1
+      "limit": 1,
+      "minFleetPoints": 52
     },
     "gunstar-battlecruiser": {
       "points": 16,
@@ -448,7 +452,8 @@
       "weaponReach": 0.95,
       "explosionYield": 1.2,
       "_note": "GUNSTAR BATTLECRUISER (renamed from dreadnought by ruling 2026-09-03: with so few weapons it is not really a dreadnought). The Yamato class. Earth sixth hull, replacing the retired command ship at the same 8 points and bought the same way (out of two light cruisers). Everything on it exists to serve the photonic cannon on its keel. Three secondary lasers and three tubes, all on forward arcs and NOTHING astern, so canWithdrawFighting refuses it a withdrawal and it does what a Federation line ship is for: it stands. Turn rate 1 and 3 power a hex because the gun is aimed by pointing the ship. maxShieldPower 15 against the heavy cruiser's 13 and shieldPointRatio 0.45 - 0.3825 with the Earth modifier, the cheapest absorption in the game - are the Earth identity and they are also what makes the charge affordable at all: the hull hands a third of its pool to the capacitor every turn and is still a hard target on the rest. 63 power on an 8-point hull is deliberate and it is not free gunnery: with only three beams and three tubes the guns physically cannot spend it, so it goes to the capacitor and to the shields, which is the whole point of the ship. Three numbers are load-bearing, each measured at 600 battles a pairing against the alternative. beamMounts 3 rather than 4: the fourth laser is worth +2.7pp to Earth against KRELATH at 64 points and only -1.0pp against Vraygon there, and Krelath sit on the floor in that cell - at 4 beams they come in at 35.8% at 64 and 37.7% at 24, at 3 beams 36.1% and 39.6%. screen 4 rather than the 0 every other capital carries: the dreadnought stations on the battle line and interposes for it (4 x screening.chancePerScreenPoint = 0.60, which is exactly screening.maxChance, so 4 is the largest useful value). A side effect worth knowing is that hull.screen > 0 also makes the formation code treat it as an escort, so it holds station on the nearest capital instead of manoeuvring alone. That is right for this ship and looks wrong on paper. superstructure 56 with corePower 19 is the endurance half of a deliberate trade against the gun's damage: value moved out of the bolt and into the body is worth more against Vraygon armour in a fifteen-turn action and less against thin Krelath hulls in a seven-turn one, and those are the two cells that bind. DO NOT give this hull pointDefence 2. It is the obvious fix for the one cell it loses badly (Earth v Zandrax at 32 points, 20%), and measured it takes Earth to 67% at 64 points and Krelath to 33% there. The swarm beating this hull is the game working.",
-      "limit": 1
+      "limit": 1,
+      "minFleetPoints": 52
     },
     "missile-destroyer": {
       "_priceNote": "4 measured 2026-09-03 (value 4.15, sixteen crossings; see design log 33a). Conditional on the current fire control (both tubes double-book one target) and on the class weight staying 4 (interceptor threshold).",
@@ -507,8 +512,7 @@
           "toHitMod": -2
         }
       ],
-      "overcharge": true,
-      "_note": "Accurate, long, consistent. May be overcharged to twice max power for two shots at half each. EAR and ZAN."
+      "_note": "Accurate, long, consistent. EAR and ZAN."
     },
     "blaster-beam": {
       "kind": "beam",

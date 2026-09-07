@@ -1,0 +1,153 @@
+/* Console instruments: a control panel, not a web page. Everything is scoped
+   under .command-console so nothing leaks into the rest of the arena. Tokens
+   (--bg --panel --panel-2 --line --ink --muted --accent --signal --error) and
+   the body[data-faction] accents come from command-console.css. */
+
+.command-console { color: var(--ink); background: var(--bg); }
+
+/* ---------------------------------------------------------------- keys */
+.command-console .console-key {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 34px; padding: 4px 12px; border-radius: 0;
+  border: 2px inset var(--line); background: var(--panel-2); color: var(--ink);
+  font: inherit; font-size: 11px; letter-spacing: 1.4px; text-transform: uppercase;
+  box-shadow: inset 0 1px 0 #ffffff1f, inset 0 -3px 0 #0006;
+  cursor: pointer;
+}
+.command-console .console-key:hover:not(:disabled) { background: var(--line); border-color: var(--accent); }
+.command-console .console-key:active:not(:disabled) { box-shadow: inset 0 3px 0 #0007; }
+.command-console .console-key:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.command-console .console-key[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #0d161c; box-shadow: inset 0 1px 0 #ffffff55; }
+.command-console .console-key:disabled { opacity: .45; cursor: default; box-shadow: inset 0 1px 0 #ffffff12; }
+.command-console .console-key.primary {
+  min-height: 40px; padding: 5px 18px; font-size: 12px; letter-spacing: 1.8px;
+  background: var(--signal); border-color: var(--signal); color: #14202a;
+}
+.command-console .console-key.primary[aria-pressed="true"] { background: var(--signal); }
+.command-console .console-key.primary:hover:not(:disabled) { background: var(--signal); border-color: var(--ink); }
+
+/* ------------------------------------------------------------ readouts */
+.command-console .console-readout {
+  display: block; padding: 4px 8px; min-height: 24px;
+  font-variant-numeric: tabular-nums; font-size: 15px; letter-spacing: .5px;
+  color: var(--accent); background: #0a1219;
+  border: 1px solid var(--line); box-shadow: inset 0 2px 5px #0009;
+}
+.command-console .console-readout.warn { color: var(--signal); }
+.command-console .console-readout.fault { color: var(--error); }
+.command-console .console-readout small { display: block; color: var(--muted); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; }
+
+/* --------------------------------------------------------------- lamps */
+.command-console .console-lamp {
+  display: inline-block; width: 10px; height: 10px; vertical-align: -1px;
+  border: 1px solid #0009; background: var(--line);
+}
+.command-console .console-lamp.ready { background: #8ec6dc; box-shadow: 0 0 0 2px #8ec6dc3d; }
+.command-console .console-lamp.spent { background: #8ec6dc; opacity: .45; box-shadow: none; }
+.command-console .console-lamp.offline { background: #22323c; border-color: var(--error); }
+
+/* --------------------------------------------------------- instruments */
+.command-console .instrument-well {
+  position: relative; padding: 16px 10px 10px; margin: 0 0 8px;
+  background: var(--panel); border: 1px solid var(--line);
+  box-shadow: inset 0 0 0 1px #00000059;
+}
+.command-console .instrument-well::before {
+  content: attr(data-label); position: absolute; top: 2px; left: 8px;
+  font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--accent);
+}
+.command-console .instrument-well[data-label=""]::before { content: none; }
+
+.command-console .console-schematic { display: block; width: 100%; max-width: 320px; height: auto; margin: 0 auto; }
+.command-console .console-schematic .lamp { cursor: pointer; }
+.command-console .console-schematic .lamp:focus-visible { outline: 2px solid #fff; }
+.command-console .console-schematic .lamp.offline,
+.command-console .console-schematic .lamp.destroyed { cursor: default; }
+.command-console .heading-rose { display: block; width: 120px; height: 120px; }
+.command-console .heading-rose .rose-petal { cursor: pointer; }
+.command-console .heading-rose .rose-petal.reachable:hover { fill: var(--panel-2); stroke: var(--accent); }
+
+/* ----------------------------------------------------------- power bar */
+.command-console .power-bar { display: block; width: var(--power-bar-width, 360px); max-width: 100%; }
+.command-console .power-bar-track {
+  display: flex; align-items: stretch; height: 22px;
+  background: #0a1219; border: 1px solid var(--line); box-shadow: inset 0 2px 5px #0009;
+}
+.command-console .power-bar i {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; font-style: normal;
+}
+.command-console .power-bar i b {
+  font-weight: 500; font-size: 11px; font-variant-numeric: tabular-nums;
+  color: #101a20; letter-spacing: .4px;
+}
+.command-console .power-bar i[data-segment="helm"] { background: #7bc6ec; }
+.command-console .power-bar i[data-segment="weapons"] { background: #edb478; }
+.command-console .power-bar i[data-segment="charge"] { background: #c2a0f1; }
+.command-console .power-bar i[data-segment="reserve"] {
+  background: repeating-linear-gradient(135deg, #5f7b8c 0 5px, #4a626f 5px 10px);
+}
+.command-console .power-bar i[data-segment="reserve"] b { color: var(--ink); }
+.command-console .power-bar i[data-segment="free"] {
+  background: transparent; border: 1px dashed var(--line);
+}
+.command-console .power-bar i[data-segment="free"] b { color: var(--muted); }
+.command-console .power-bar[data-over="true"] .power-bar-track { border-color: var(--error); }
+.command-console .power-bar[data-over="true"] .power-bar-readout { color: var(--error); }
+.command-console .power-bar .reserve-handle {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 10px;
+  background: var(--ink); border-left: 1px solid #0009; cursor: ew-resize;
+}
+.command-console .power-bar .reserve-handle:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.command-console .power-bar-readout {
+  margin-top: 3px; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase;
+  font-variant-numeric: tabular-nums; color: var(--muted);
+}
+
+/* Integration: fixed instruments and keyed controls, with no hidden command deck. */
+.command-console .reserve-keys { display:flex; align-items:center; gap:8px; margin-top:4px; font-size:12px; }
+.command-console .reserve-keys output { min-width:40px; text-align:center; color:var(--accent); }
+.command-console .power-bar { height:auto; overflow:visible; border:0; }
+.command-console .target-well .key-row { max-height:none; overflow:visible; }
+.command-console .target-key { flex-direction:column; }
+.command-console .reserve-keys .console-key { min-width:34px; }
+.command-console #action-tabs button[aria-pressed=true] { border-color:var(--accent); color:var(--ink); box-shadow:inset 0 3px 0 var(--accent); }
+.command-console .console-record-strip { display:grid; grid-template-columns:1fr 1fr 1.35fr; gap:12px; flex:none; margin-top:6px; height:174px; }
+.command-console .console-record-strip>section { min-width:0; border-top:1px solid var(--line); font-size:12px; }
+.command-console .console-record-strip h2 { font-size:14px; margin:4px 0; }
+.command-console .console-record-strip p { margin:4px 0; }
+.command-console .console-record-strip .station-cap { margin:4px 0; }
+.command-console .console-record-strip #contacts-list { display:block; }
+.command-console .console-record-strip .contact-report { display:flex; flex-wrap:wrap; gap:3px 8px; padding:3px 5px; margin:2px 0; font-size:11px; }
+.command-console .console-record-strip .contact-report small { display:none; }
+.command-console .console-record-strip #events { margin:4px 0; padding-left:18px; max-height:none; overflow:visible; font-size:11px; }
+.command-console .console-record-strip .tape-controls { gap:4px; margin:0; }
+.command-console .console-record-strip .tape-controls .console-key { min-height:26px; padding:2px 8px; }
+.command-console #map-legend-items { display:flex; flex-wrap:wrap; gap:12px; margin:0; padding:0; list-style:none; }
+.command-console #map-legend-items li { display:flex; align-items:center; gap:5px; font-size:10px; }
+.command-console #map-legend-items small { display:none; }
+.command-console #shield-readouts { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-top:6px; font-size:11px; }
+.command-console #shield-readouts span { background:var(--bg); padding:3px; }
+.command-console #shield-readouts small { display:block; color:var(--muted); }
+.command-console #range-disclosure:not([hidden]) { display:block; font-size:11px; padding:4px 8px; border:1px solid var(--line); }
+.command-console #weapon-range-key .range-row { margin:1px 0; }
+.command-console #spinal-control .spinal-firing { display:block; color:var(--signal); }
+.command-console .cannon-control strong { white-space:normal; overflow:visible; }
+.command-console #spinal-control>p { display:block; margin:3px 0; font-size:11px; }
+.command-console .schematic-well #shield-readouts { display:grid; }
+.command-console #range-disclosure .range-limit { display:none; }
+.command-console #range-disclosure .range-band-key { font-size:11px; }
+@media(max-height:1200px){
+  .command-console .rose-well #heading-rose svg { width:96px; height:96px; }
+  .command-console .console-record-strip { height:154px; }
+  .command-console #range-summary { font-size:10px; }
+  .command-console .command-station .instrument-well { margin-bottom:0; padding-bottom:5px; }
+  .command-console .console-row:has(.target-well) { grid-template-columns:1fr; gap:4px; }
+  .command-console #target-keys { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .command-console #target-keys button { min-height:30px; padding:2px 4px; font-size:10px; letter-spacing:.4px; }
+  .command-console .formation-bank { flex-wrap:nowrap; }
+  .command-console .formation-bank button { font-size:10px; min-height:28px; padding:2px 4px; letter-spacing:.4px; }
+  .command-console #spinal-control>p { display:block; font-size:10px; margin:2px 0; }
+  .command-console .action-card .result { display:none; }
+  .command-console #ship-keys .console-key { min-height:28px; }
+}

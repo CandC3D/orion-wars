@@ -50,16 +50,23 @@ function series(fa, fb, compA = STANDARD, compB = STANDARD, n = BATTLES, tag = "
   // Maneuver-index accumulation: hits landing on the victim's forward faces
   // (1-3) vs its flank/rear faces (4-6), booked against the SHOOTING side.
   let hitsForwardA = 0, hitsRearA = 0, hitsForwardB = 0, hitsRearB = 0;
-  for (let i = 0; i < n; i++) {
-    const r = fight(fa, fb, compA, compB, `${tag}${fa}-${fb}-${i}`, tag !== "sh-");
-    if (r.victor === "A") winsA++;
-    else if (r.victor === "B") winsB++;
+  const account = (r, reversed) => {
+    const victor = reversed ? (r.victor === "A" ? "B" : r.victor === "B" ? "A" : null) : r.victor;
+    if (victor === "A") winsA++;
+    else if (victor === "B") winsB++;
     else draws++;
     turns += r.turns;
-    hitsForwardA += r.stats.A.hitsForward; hitsRearA += r.stats.A.hitsRear;
-    hitsForwardB += r.stats.B.hitsForward; hitsRearB += r.stats.B.hitsRear;
+    const a = reversed ? r.stats.B : r.stats.A;
+    const b = reversed ? r.stats.A : r.stats.B;
+    hitsForwardA += a.hitsForward; hitsRearA += a.hitsRear;
+    hitsForwardB += b.hitsForward; hitsRearB += b.hitsRear;
+  };
+  for (let i = 0; i < n; i++) {
+    const seed = `${tag}${fa}-${fb}-${i}`;
+    account(fight(fa, fb, compA, compB, seed, tag !== "sh-"), false);
+    account(fight(fb, fa, compB, compA, seed, tag !== "sh-"), true);
   }
-  return { winsA, winsB, draws, avgTurns: turns / n, hitsForwardA, hitsRearA, hitsForwardB, hitsRearB };
+  return { winsA, winsB, draws, avgTurns: turns / (n * 2), hitsForwardA, hitsRearA, hitsForwardB, hitsRearB };
 }
 
 // Overall win rate per faction across every pairing at one composition.
@@ -111,7 +118,7 @@ const onlyScale = numArg("--scale", null);
 if (onlyScale) {
   const comp = SCALES[onlyScale];
   if (!comp) { console.error(`no composition for ${onlyScale} points`); process.exit(1); }
-  console.log(`Matrix at ${onlyScale} points — ${BATTLES} battles per pairing\n`);
+  console.log(`Matrix at ${onlyScale} points — ${BATTLES} mirrored pairs per pairing\n`);
   const { rows, rates, maneuver } = matrix(comp, BATTLES, `s${onlyScale}-`);
   for (const r of rows) {
     const pct = (n) => `${((n / r.total) * 100).toFixed(0)}%`.padStart(6);
@@ -125,7 +132,7 @@ if (onlyScale) {
 }
 
 // --- full report -----------------------------------------------------------
-console.log(`Fleet action trials — ${BATTLES} battles per pairing`);
+console.log(`Fleet action trials — ${BATTLES} mirrored pairs per pairing`);
 console.log(`Reference fleet (52 pts): 1 CA + 2 CL + 2 DD + 4 FF\n`);
 
 const { rows, rates } = matrix(STANDARD, BATTLES, "");
@@ -160,7 +167,7 @@ for (const pts of sizes) {
     `   ${spread.toFixed(0)}pp`
   );
 }
-console.log(`(${scaleN} battles per pairing at each size)`);
+console.log(`(${scaleN} mirrored pairs per pairing at each size)`);
 
 console.log("\nManeuver index — share of hits landing on flank/rear faces");
 console.log("-".repeat(52));

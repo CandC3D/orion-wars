@@ -12,12 +12,13 @@ import {
   battleView as engineView,
   shipPlan as enginePlan
 } from "../src/tactical/resolver.js";
-import { snapshotShip } from "./record.js";
+import { snapshotShip, appendTerminalFrame } from "./record.js";
+export { previewOrders } from "../src/tactical/resolver.js";
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
-export function createBattle(scenario, tuning, loadouts, seed) {
-  const battle = engineCreate(clone(scenario), tuning, loadouts, String(seed ?? scenario.seed ?? "orion"));
+export function createBattle(scenario, tuning, loadouts, seed, options = {}) {
+  const battle = engineCreate(clone(scenario), tuning, loadouts, String(seed ?? scenario.seed ?? "orion"), options);
   const view = engineView(battle);
   battle.map = view.map;           // the page reads battle.map / view.map
   battle.loadouts = loadouts;
@@ -59,11 +60,12 @@ export function stepTurn(battle, orders = {}, opts = {}) {
   const result = engineStep(battle, orders, {
     log: (message) => { log.push({ turn: turnNo, round: roundInProgress, message }); if (opts.log) opts.log(message); },
     onShot: (event) => { shots.push(event); if (opts.onShot) opts.onShot(event); },
-    onRound: (turn, round, fleets) => {
-      rounds.push({ turn, round, ships: fleets.flat().map(snapshotShip) });
+    onRound: (turn, round, fleets, missiles = []) => {
+      rounds.push({ turn, round, ships: fleets.flat().map(snapshotShip), ...(missiles.length?{missiles:clone(missiles)}:{}) });
       roundInProgress = round + 1;
-      if (opts.onRound) opts.onRound(turn, round, fleets);
+      if (opts.onRound) opts.onRound(turn, round, fleets, missiles);
     }
   });
+  appendTerminalFrame(rounds, battle.fleets, result.result);
   return { turn: turnNo, rounds, shots, log, result: result.result ? clone(result.result) : null };
 }

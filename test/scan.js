@@ -32,17 +32,21 @@ function setPath(obj, path, value) {
 function run(T, fa, fb, comp, size, plain) {
   let wa = 0, wb = 0;
   for (let i = 0; i < N; i++) {
-    const rng = makePrng(seedFromString(`s${size}-${fa}-${fb}-${i}`));
-    const A = buildFleet(fa, compFor(fa, comp, T, plain), T, LOADOUTS, rng, "A");
-    const B = buildFleet(fb, compFor(fb, comp, T), T, LOADOUTS, rng, "B");
-    deployFleets(A, B, T);
-    const r = runBattle([A, B], T, rng, {});
-    if (r.victor === "A") wa++; else if (r.victor === "B") wb++;
+    const seed = seedFromString(`s${size}-${fa}-${fb}-${i}`);
+    for (const reversed of [false, true]) {
+      const rng = makePrng(seed);
+      const A = buildFleet(reversed ? fb : fa, reversed ? compFor(fb, comp, T) : compFor(fa, comp, T, plain), T, LOADOUTS, rng, "A");
+      const B = buildFleet(reversed ? fa : fb, reversed ? compFor(fa, comp, T, plain) : compFor(fb, comp, T), T, LOADOUTS, rng, "B");
+      deployFleets(A, B, T);
+      const r = runBattle([A, B], T, rng, {});
+      const victor = reversed ? (r.victor === "A" ? "B" : r.victor === "B" ? "A" : null) : r.victor;
+      if (victor === "A") wa++; else if (victor === "B") wb++;
+    }
   }
-  return { wa, wb };
+  return { wa, wb, n: N * 2 };
 }
 
-console.log(`scan — ${N} battles per cell`);
+console.log(`scan — ${N} mirrored pairs per cell`);
 console.log("label".padEnd(34) + BUY_SIZES.map((s) => `buy${s}`.padStart(8)).join("") + "  |  worst-miss   KRE " + BUY_SIZES.join("/") + "   band");
 console.log("-".repeat(112));
 for (const c of CANDS) {
@@ -55,8 +59,10 @@ for (const c of CANDS) {
     let sw = 0, sp = 0, k = 0;
     for (const fb of FACTIONS) {
       if (fb === "KRE") continue;
-      sw += run(T, "KRE", fb, comp, size, null).wa / N;
-      sp += run(T, "KRE", fb, comp, size, ["KRE"]).wa / N;
+      const withHull = run(T, "KRE", fb, comp, size, null);
+      const plain = run(T, "KRE", fb, comp, size, ["KRE"]);
+      sw += withHull.wa / withHull.n;
+      sp += plain.wa / plain.n;
       k++;
     }
     buys.push(((sw - sp) / k) * 100);
@@ -71,8 +77,8 @@ for (const c of CANDS) {
       for (let j = i + 1; j < FACTIONS.length; j++) {
         const a = FACTIONS[i], b = FACTIONS[j];
         const r = run(T, a, b, comp, size, null);
-        tally[a].w += r.wa; tally[a].t += N;
-        tally[b].w += r.wb; tally[b].t += N;
+        tally[a].w += r.wa; tally[a].t += r.n;
+        tally[b].w += r.wb; tally[b].t += r.n;
       }
     }
     for (const f of FACTIONS) {

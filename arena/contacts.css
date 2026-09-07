@@ -1,0 +1,110 @@
+.contact-page { display:block; min-width:320px; height:auto; margin:0; color:var(--ink); }
+.contact-page [hidden] { display:none!important; }
+.contact-head { display:flex; align-items:center; gap:24px; padding:14px 22px; border-bottom:5px solid var(--accent); background:var(--panel); }
+.contact-head h1 { margin:0; font-size:25px; letter-spacing:1px; }
+.contact-head h1 small { color:var(--signal); font-size:13px; letter-spacing:.7px; }
+.contact-head a { margin-left:auto; color:var(--accent); }
+.contact-page .eyebrow { margin:0 0 4px; }
+.contact-page label { display:flex; align-items:center; gap:8px; color:var(--muted); }
+.contact-page input[type=number] { width:72px; }
+.contact-page input,.contact-page select { padding:6px; background:var(--bg); color:var(--ink); border:1px solid var(--line); min-height:34px; min-width:0; }
+.contact-page select { max-width:100%; }
+.contact-page input[type=range] { accent-color:var(--accent); padding:0; }
+.setup-inline { display:flex; gap:20px; flex-wrap:wrap; padding:10px 0; }
+#trial-status { padding:9px 22px; color:var(--signal); border-bottom:1px solid var(--line); }
+#contact-station { display:grid; grid-template-columns:minmax(0,1fr) 340px; }
+.contact-page .instrument { background:var(--panel); padding:14px 20px; }
+.contact-map { background:var(--bg)!important; }
+#contact-map { width:100%; height:auto; display:block; background:#060e15; border:1px solid var(--line); margin-top:10px; }
+/* The tactical surface is an input control, not selectable document text.
+   Scope this to the SVG so reports and editable fields keep native selection. */
+#contact-map,#contact-map * { user-select:none; -webkit-user-select:none; }
+#contact-map { touch-action:none; cursor:grab; }
+#contact-map image { -webkit-user-drag:none; }
+#contact-map [data-ship] { cursor:pointer; }
+#contact-map.is-panning,#contact-map.is-panning * { cursor:grabbing; }
+#contact-map [data-ship]:focus-visible { outline:2px solid var(--signal); outline-offset:3px; }
+.map-tools,.order-top,.tape-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.map-tools label { flex:1; max-width:190px; }
+.map-tools input { width:100%; }
+#contact-count { margin-left:auto; color:var(--accent); }
+.contact-strip h2 { font-size:16px; color:var(--accent); text-transform:uppercase; letter-spacing:1px; }
+#contacts-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:7px; }
+.contact-report { padding:8px 10px; border-left:3px solid var(--signal); background:var(--panel); }
+.contact-report b,.contact-report small { display:block; }
+.contact-report small { color:var(--muted); margin-top:3px; }
+.contact-vessel label { align-items:stretch; flex-direction:column; }
+.telemetry-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.telemetry-grid>div { border-bottom:1px solid var(--line); padding:5px; }
+.telemetry-grid b { display:block; color:var(--accent); font-size:22px; font-weight:500; }
+.contact-page h3 { font-size:13px; text-transform:uppercase; letter-spacing:.8px; margin:18px 0 8px; color:var(--accent); }
+.contact-page .shield-row { display:grid; grid-template-columns:1fr auto; gap:4px; padding:5px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.battery-entry { border-bottom:1px solid var(--line); padding:7px 0; overflow-wrap:anywhere; }
+.battery-entry small { display:block; color:var(--muted); }
+.contact-orders,.contact-history { grid-column:1/-1; }
+.order-top { padding:5px 0 14px; justify-content:space-between; }
+#action-program { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+#order-feedback { color:var(--signal); border-left:3px solid var(--signal); padding:6px 10px; }
+.action-card { border:1px solid var(--line); margin:0; padding:12px; min-width:0; }
+.action-card legend { color:var(--signal); letter-spacing:1px; padding:0 8px; }
+.action-card label { margin:5px 0; justify-content:space-between; }
+.action-card select { width:65%; }
+.action-card .result { padding-top:8px; border-top:1px solid var(--line); color:var(--accent); margin-top:10px; min-height:52px; }
+.contact-page details { margin-top:12px; color:var(--muted); }
+.contact-page summary { cursor:pointer; color:var(--accent); }
+.tape-controls input { width:220px; max-width:100%; }
+#events { max-height:180px; overflow:auto; margin:10px 0; padding-left:22px; color:var(--muted); }
+#events li { padding:3px 0; }
+.contact-footer { position:sticky; bottom:0; display:flex; align-items:center; gap:10px; padding:10px 20px; background:var(--bg); border-top:3px solid var(--accent); }
+.contact-footer>span { flex:1; color:var(--signal); }
+.contact-page button:focus-visible,.contact-page select:focus-visible,.contact-page input:focus-visible,.contact-page summary:focus-visible { outline:3px solid white; outline-offset:2px; }
+@media(max-width:1050px) { #contact-station { grid-template-columns:minmax(0,1fr) 285px; } .contact-page .instrument { padding:12px; } }
+@media(max-width:760px) { #contact-station { display:block; } #action-program { grid-template-columns:1fr; } .contact-head { flex-wrap:wrap; gap:10px; padding:12px; } .contact-head a { margin-left:0; } .contact-head h1 { font-size:22px; } .contact-footer { flex-wrap:wrap; position:static; padding:12px; } .contact-footer>span { flex-basis:100%; } .order-top label { flex-wrap:wrap; } .setup-inline label { flex-wrap:wrap; } }
+
+/* Map repair: grid toggle, legend, compact label rendering. */
+/* The zoom slider keeps a usable width beside the extra button at phone width. */
+.map-tools label { min-width:150px; }
+#hex-grid[aria-pressed=true] { background:var(--accent); color:#06121a; border-color:var(--accent); }
+#map-legend { margin:6px 0 0; color:var(--muted); font-size:12px; }
+#map-legend summary { display:inline-block; }
+#map-legend ul { list-style:none; display:flex; flex-wrap:wrap; gap:6px 16px; padding:6px 0 0; margin:0; }
+#map-legend li { display:flex; align-items:center; gap:6px; }
+#map-legend li svg { flex:none; }
+#map-legend b { color:var(--ink); font-weight:500; }
+#contact-map [data-terrain] { pointer-events:auto; }
+#contact-map .leader { pointer-events:none; }
+#contact-map .weapon-coverage, #contact-map .weapon-coverage * { pointer-events:none; }
+.arc-picker { display:flex; gap:8px; align-items:center; }
+.arc-picker select { flex:1; min-width:0; max-width:100%; }
+#arc-caption { margin:3px 0 6px; }
+#weapon-range-key { display:flex; flex-wrap:wrap; gap:3px 10px; flex:none; margin:3px 0 5px; font-size:11px; color:var(--muted); }
+.range-band-key { padding:3px 5px; border:1px solid var(--line); background:rgb(142 198 220 / var(--band-opacity)); }
+.range-band-key b { color:var(--ink); }
+.range-limit { align-self:center; font-size:10px; }
+#contact-map .movement-range { pointer-events:none; fill:none; stroke:#73e0bd; stroke-width:2; stroke-dasharray:9 4 2 4; vector-effect:non-scaling-stroke; }
+#movement-range-caption { color:#73e0bd; margin:0 0 4px; font-size:10px; }
+#range-disclosure { flex:none; margin:3px 0 5px; font-size:12px; color:var(--ink); }
+#range-summary { cursor:pointer; }
+#spinal-control { border-left:3px solid #c2a0f1; background:#142332; padding:6px 8px; margin:4px 0; font-size:12px; }
+#spinal-control strong { color:#efb773; }
+#spinal-control progress { width:100%; height:7px; accent-color:#c2a0f1; }
+#spinal-control p { margin:4px 0; }
+#spinal-control details { margin-top:4px; }
+.spinal-buttons { display:flex; gap:5px; }
+.spinal-buttons button { padding:5px; font-size:12px; }
+.map-weapon-controls { display:flex; align-items:center; flex-wrap:wrap; gap:4px 12px; flex:none; font-size:12px; }
+.map-weapon-controls .arc-picker { flex:0 1 360px; margin:2px 0; }
+.map-weapon-controls #arc-caption { flex:1; margin:0; font-size:11px; }
+@media(max-width:760px) { .map-weapon-controls #arc-caption { display:none; } .map-weapon-controls .arc-picker { flex:1; } }
+#contact-map .target-preference, #contact-map .target-preference * { pointer-events:none; fill:none; stroke:#efb773; stroke-width:2; vector-effect:non-scaling-stroke; }
+#contact-map .target-preference line { stroke-dasharray:7 5; stroke-opacity:.8; }
+#contact-map [data-reveal-for] { pointer-events:none; }
+
+/* Combat presentation: announcement strip, playback controls, effects never capture input. */
+#combat-announce { margin:6px 0 0; padding:6px 10px; border-left:3px solid var(--accent); color:var(--ink); background:var(--panel); }
+#combat-announce[data-weight=major] { border-left-color:var(--signal); color:var(--signal); font-weight:600; }
+#contact-map #fx-live, #contact-map .fx-static { pointer-events:none; }
+#events li[data-weight=major] { color:var(--signal); }
+.playback-controls { display:inline-flex; gap:6px; margin-left:8px; }
+#playback-pause[aria-pressed=true] { background:var(--accent); color:#06121a; border-color:var(--accent); }
+@media (prefers-reduced-motion: reduce) { #contact-map #fx-live * { animation:none!important; } }

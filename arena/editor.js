@@ -1,9 +1,10 @@
 import {
   FACTIONS, TERRAIN_TYPES, TERRAIN_LABELS, asteroidFieldRocks, axialToWorld, blockingTerrainHexSet, compositionFor,
   fleetPoints, inMap, largeAsteroidOutline, nebulaOutline, normalizeFacing, rosterFor, scenarioForSave,
-  snapWorldToHex, terrainBlocksShips, terrainFootprint, terrainHexSet, validateScenario
+  snapWorldToHex, terrainBlocksShips, terrainFootprint, terrainHexSet, validateScenario, scenarioIssues
 } from "./editor-core.js";
 import { recordScenario } from "./record.js";
+import { readLibrary, stockRevision, LIBRARY_KEY } from '../src/construction/stock-library.js';
 
 export const SESSION_REPLAY_KEY = "orion-wars:scenario-replay:v3";
 const COLORS = { EAR: "#54a8ff", VRA: "#edc85e", ZAN: "#ec655d", KRE: "#62c98a" };
@@ -26,6 +27,9 @@ runBattleButton.disabled = true;
 
 let tuning;
 let loadouts;
+let stockLibrary = [];
+function stockFor(faction, className) { return stockRevision(faction, className, stockLibrary); }
+function stockEntry(faction, className) { const pack = stockFor(faction,className); return { className, ...(pack ? { designPack: structuredClone(pack) } : {}) }; }
 let iconManifest;
 // Decoded <img> elements for the canvas ship markers, keyed "FACTION/class".
 const shipIcons = new Map();
@@ -273,20 +277,26 @@ function renderFleet(sideIndex) {
       const limit = hull.limit;
       const count = compositionFor(side)[name] || 0;
       const atLimit = Number.isFinite(limit) && count >= limit;
-      const points = Number.isFinite(limit) ? `${hull.points} (max ${limit})` : hull.points;
+      const rules = [];
+      if (Number.isFinite(hull.minFleetPoints)) rules.push(`fleet min ${hull.minFleetPoints}`);
+      if (Number.isFinite(limit)) rules.push(`max ${limit}`);
+      const price = stockFor(side.faction,name)?.design.hull.points ?? hull.points;
+      const points = rules.length ? `${price} (${rules.join(", ")})` : price;
       return `<button data-add="${name}"${atLimit ? " disabled" : ""}><span>${iconImgTag(side.faction, name)}+ ${name}</span><em>${points}</em></button>`;
     }).join("")}</div>` +
     `<div class="ship-tray">${side.ships.length ? side.ships.map((ship) => {
       const placed = Number.isFinite(ship.q) && Number.isFinite(ship.r);
-      return `<article class="ship-card-editor${selected?.kind === "ship" && selected.uid === ship._uid ? " selected" : ""}" draggable="true" data-ship="${ship._uid}"><strong>${iconImgTag(side.faction, ship.className)}${ship.className}</strong><small>${tuning.hullClasses[ship.className]?.points ?? "?"} pts · ${placed ? `${ship.q},${ship.r} · facing ${normalizeFacing(ship.facing)}` : "line deployment"}</small><span class="ship-buttons"><button data-rotate="${ship._uid}" title="Rotate">↻</button><button data-remove="${ship._uid}" title="Remove">×</button></span></article>`;
+      return `<article class="ship-card-editor${selected?.kind === "ship" && selected.uid === ship._uid ? " selected" : ""}" draggable="true" data-ship="${ship._uid}"><strong>${iconImgTag(side.faction, ship.className)}${ship.className}</strong><small>${ship.designPack?.design.hull.points ?? tuning.hullClasses[ship.className]?.points ?? "?"} pts${ship.designPack?` · pinned r${ship.designPack.design.revision}`:''} · ${placed ? `${ship.q},${ship.r} · facing ${normalizeFacing(ship.facing)}` : "line deployment"}</small><span class="ship-buttons"><button data-rotate="${ship._uid}" title="Rotate">↻</button><button data-remove="${ship._uid}" title="Remove">×</button></span></article>`;
     }).join("") : `<p class="empty-tray">Add ships above. Unplaced ships use line deployment.</p>`}</div>`;
   panel.querySelector(".faction-picker").addEventListener("change", (event) => {
     side.faction = event.target.value;
     side.ships = side.ships.filter((ship) => rosterFor(side.faction, tuning).includes(ship.className));
+    for (const ship of side.ships) if (ship.designPack?.design.id.startsWith('stock:')) { delete ship.designPack; Object.assign(ship,stockEntry(side.faction,ship.className)); }
     selected = null; refresh();
   });
   panel.querySelectorAll("[data-add]").forEach((button) => button.addEventListener("click", () => {
-    side.ships.push({ className: button.dataset.add, facing: sideIndex ? 3 : 0, _uid: nextUid++ }); refresh();
+    try { stockLibrary = readLibrary(localStorage,tuning).library; side.ships.push({ ...stockEntry(side.faction,button.dataset.add), facing: sideIndex ? 3 : 0, _uid: nextUid++ }); refresh(); }
+    catch(error) { setMessage(`Stock library unavailable: ${error.message}. No ship added.`, 'error'); }
   }));
   panel.querySelectorAll("[data-remove]").forEach((button) => button.addEventListener("click", () => { removeShip(Number(button.dataset.remove)); }));
   panel.querySelectorAll("[data-rotate]").forEach((button) => button.addEventListener("click", () => { rotateShip(Number(button.dataset.rotate)); }));
@@ -300,10 +310,14 @@ function setMessage(message, kind = "") { actionMessage = message; const el = $(
 
 function refresh(message = actionMessage) {
   renderFleet(0); renderFleet(1); draw();
-  const errors = tuning && loadouts ? validateScenario(scenarioForSave(model), tuning, loadouts) : [];
-  $("#validation-list").innerHTML = errors.map((error) => `<li>${error}</li>`).join("");
-  if (message) setMessage(message, errors.length ? "error" : "ok");
-  else setMessage(errors.length ? "Resolve the listed scenario issues." : "Scenario is valid.", errors.length ? "error" : "ok");
+  const { errors, warnings } = tuning && loadouts ? scenarioIssues(scenarioForSave(model), tuning, loadouts, { fleetFloorPolicy: 'warn' }) : { errors: [], warnings: [] };
+  for (const [selector, items] of [['#validation-list', errors], ['#scenario-warnings', warnings]]) {
+    $(selector).replaceChildren(...items.map(text => { const li = document.createElement('li'); li.textContent = text; return li; }));
+    $(selector).hidden = !items.length;
+  }
+  const kind = errors.length ? 'error' : warnings.length ? 'warning' : 'ok';
+  const status = errors.length ? 'Resolve the listed scenario issues.' : warnings.length ? 'Fleet-floor exception: save and play allowed. Fleets unchanged.' : 'Scenario is valid.';
+  setMessage(message ? `${message}${warnings.length ? ' Fleet-floor exception: save and play allowed.' : ''}` : status, kind);
   return errors;
 }
 
@@ -328,8 +342,7 @@ function placeShip(uid, hex) {
 
 function canPlaceTerrain(item, omitIndex = -1) {
   const other = terrainHexSet(model.terrain, omitIndex);
-  // The asteroid field is passable, so it may share a hex with a ship (in
-  // either placement order); every other terrain type must not.
+  // Fields and nebulae may share a ship hex in either placement order.
   const ships = terrainBlocksShips(item.type)
     ? new Set(allShips().filter(({ ship }) => Number.isFinite(ship.q) && Number.isFinite(ship.r)).map(({ ship }) => `${ship.q},${ship.r}`))
     : new Set();
@@ -400,7 +413,7 @@ $("#delete-selected").addEventListener("click", () => {
   if (selected.kind === "ship") return removeShip(selected.uid);
   model.terrain = model.terrain.filter((item) => item._uid !== selected.uid); selected = null; refresh("Terrain deleted.");
 });
-$("#clear-positions").addEventListener("click", () => { allShips().forEach(({ ship }) => { delete ship.q; delete ship.r; }); refresh("All ships will use random line deployment."); });
+$("#clear-positions").addEventListener("click", () => { allShips().forEach(({ ship }) => { delete ship.q; delete ship.r; }); refresh("All ships will use line-of-battle deployment."); });
 $("#fit-editor-map").addEventListener("click", () => { Object.assign(camera, { zoom: 1, x: 0, y: 0 }); draw(); });
 
 for (const [selector, key] of [["#scenario-name", "name"], ["#scenario-seed", "seed"]]) $(selector).addEventListener("input", (event) => { model[key] = event.target.value; refresh(); });
@@ -439,11 +452,11 @@ playScenarioButton.addEventListener("click", () => {
   const errors = refresh(); if (errors.length) return setMessage("Fix validation errors before opening the playfield.", "error");
   const scenario = scenarioForSave(model);
   sessionStorage.setItem(SESSION_REPLAY_KEY, JSON.stringify({ meta: { version: 3, scenario }, rounds: [] }));
-  window.location.assign("./play.html");
+    window.location.assign("./play.html?scenario=session");
 });
 
 window.addEventListener("resize", draw);
-window.__editor = { get model() { return model; }, scenarioForSave: () => scenarioForSave(model), validate: () => validateScenario(scenarioForSave(model), tuning, loadouts), placeShip, addTerrain, loadScenarioObject, geometry, project, camera, SESSION_REPLAY_KEY };
+window.__editor = { get model() { return model; }, scenarioForSave: () => scenarioForSave(model), validate: () => validateScenario(scenarioForSave(model), tuning, loadouts, { fleetFloorPolicy: 'warn' }), placeShip, addTerrain, loadScenarioObject, geometry, project, camera, SESSION_REPLAY_KEY };
 
 // Fire-and-forget: decode every manifest icon into an <img>, redrawing (and
 // re-rendering the fleet panels, so button/tray thumbnails pick it up too) as
@@ -478,6 +491,8 @@ try {
   ]);
   if (!tuningResponse.ok || !loadoutsResponse.ok) throw new Error("tactical data could not be fetched");
   tuning = await tuningResponse.json(); loadouts = await loadoutsResponse.json();
+  stockLibrary = readLibrary(localStorage,tuning).library;
+  window.addEventListener('storage', event => { if(event.key === LIBRARY_KEY || event.key === null) { try { stockLibrary=readLibrary(localStorage,tuning).library; refresh('Drydock stock catalogue updated for new ships. Ships already in this scenario are unchanged.'); } catch(error) { setMessage(`Stock library unavailable: ${error.message}`, 'error'); } } });
   if (iconsResponse && iconsResponse.ok) {
     try { iconManifest = await iconsResponse.json(); preloadShipIcons(); }
     catch (_) { iconManifest = null; }

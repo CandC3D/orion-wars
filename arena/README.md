@@ -1,3 +1,25 @@
+## Local Fleet Command — restricted contacts
+
+On the project server, open `arena/play.html` for Fleet Command. Build either
+fleet and command side A or B, choose a bundled scenario, or import scenario JSON
+(including the scenario embedded in an old game recording). The editor and
+Drydock handoffs keep supplied design packs pinned. Quick-built fleets enforce
+fleet floors; authored scenarios warn and load without silently changing rosters.
+
+The battle stays in a side-bound worker. Only current enemy reports, condition
+bands and side-visible events reach the command display. Setup inputs are known
+to the author; this is not an anti-cheat system against the computer's owner.
+Restart repeats the initial seed and pinned configuration; New engagement opens
+setup. Unsaved play is lost on reload. Export side record saves restricted history,
+not a resumable game or a file for the omniscient replay viewer.
+
+The former interface remains at `arena/play-legacy.html`, explicitly labelled
+**Legacy omniscient play**. It retains the detailed schematic, older forecast,
+audio/hotkey and raw replay workflows while their restricted equivalents are
+unfinished. Switching pages starts a different session; there is no live view
+toggle. See `docs/tactical-ai/c1-sensing/MAIN-COMMAND.md` for scope and verification.
+These are local working-tree changes, not a claim of deployment to GitHub Pages.
+
 ## Play online (no install)
 
 - **Scenario editor:** https://candc3d.github.io/orion-wars/arena/editor.html

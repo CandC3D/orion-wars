@@ -13,19 +13,29 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
+import { eventShips, hitAttribution, shieldFace, OFFSET_OF_FACE } from "../arena/replay-geometry.js";
+import { fleetSummary, sideLabel, resultLabel, replayCoverage } from "../arena/replay-status.js";
+import { missileTrack, sampleMissileTrack } from "../arena/missile-tracks.js";
 
 import {
   FACTIONS, TERRAIN_TYPES, asteroidFieldRocks, blockingTerrainHexSet, compositionFor, fleetPoints, inMap,
-  largeAsteroidOutline, nebulaOutline, rosterFor, snapWorldToHex, terrainBlocksShips, terrainFootprint, validateScenario
+  largeAsteroidOutline, nebulaOutline, rosterFor, scenarioForSave, snapWorldToHex, terrainBlocksShips, terrainFootprint, validateScenario
 } from "../arena/editor-core.js";
 import { createPlayRecord, recordScenario } from "../arena/record.js";
 import { battleView, createBattle, shipPlan, stepTurn } from "../arena/play-engine.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const source = readFileSync(join(root, "arena", "arena.js"), "utf8");
+// The viewer is now an ES module to share canonical geometry. Inject the actual
+// imported helpers into this lightweight DOM harness (real browser QA covers
+// the module loader); execute the otherwise unmodified production body.
+const source = readFileSync(join(root, "arena", "arena.js"), "utf8")
+  .replace(/^import \{ eventShips, hitAttribution, shieldFace, OFFSET_OF_FACE \} from "\.\/replay-geometry\.js";\r?\n/, "")
+  .replace(/^import \{ fleetSummary, sideLabel, resultLabel, replayCoverage \} from "\.\/replay-status\.js";\r?\n/, "")
+  .replace(/^import \{ missileTrack, sampleMissileTrack \} from "\.\/missile-tracks\.js";\r?\n/, "");
 const tuning = JSON.parse(readFileSync(join(root, "data", "tactical-tuning.json"), "utf8"));
 const loadouts = JSON.parse(readFileSync(join(root, "data", "loadouts.json"), "utf8"));
 const sampleScenario = JSON.parse(readFileSync(join(root, "arena", "scenarios", "twin-moons.json"), "utf8"));
+const featuredScenario = JSON.parse(readFileSync(join(root, "arena", "scenarios", "asterion-line.json"), "utf8"));
 const iconManifest = JSON.parse(readFileSync(join(root, "assets", "icons", "manifest.json"), "utf8"));
 const spriteManifest = JSON.parse(readFileSync(join(root, "arena", "sprites", "manifest.json"), "utf8"));
 const replayFiles = [
@@ -150,6 +160,9 @@ async function runReplay(replay, { legacy = false, icons = true, mode = null } =
     }
   }
   const context = vm.createContext({
+    eventShips, hitAttribution, shieldFace, OFFSET_OF_FACE,
+    fleetSummary, sideLabel, resultLabel, replayCoverage,
+    missileTrack, sampleMissileTrack,
     console, document, window,
     performance: { now: () => clock },
     requestAnimationFrame(callback) { nextFrame = callback; },
@@ -201,10 +214,10 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   const view = battleView(battle);
   const destroyer = view.ships.find((ship) => ship.faction === "EAR" && ship.className === "destroyer");
   assert(destroyer && destroyer.side === "A", "adapter battleView lost ship side or class identity");
-  assert(destroyer.mounts[0].arcName === "bow" && JSON.stringify(destroyer.mounts[0].arc) === JSON.stringify(tuning.arcs.bow),
+  assert(destroyer.mounts[0].arcName === "fwd" && JSON.stringify(destroyer.mounts[0].arc) === JSON.stringify(tuning.arcs.fwd),
     "adapter battleView does not apply the Earth destroyer loadout's fwd beam arc");
-  assert(destroyer.mounts[1].arcName === "stern" && JSON.stringify(destroyer.mounts[1].arc) === JSON.stringify(tuning.arcs.stern),
-    "adapter battleView does not compute the engine-equivalent stern beam arc");
+  assert(destroyer.mounts[1].arcName === "aft" && JSON.stringify(destroyer.mounts[1].arc) === JSON.stringify(tuning.arcs.aft),
+    "adapter battleView does not apply the approved aft-180 destroyer beam arc");
   assert(shipPlan(battle, destroyer.id).turnRate === tuning.movement.turnRatePerRound.destroyer,
     "adapter shipPlan lost the tuned turn rate");
   const originalFacing = destroyer.facing;
@@ -297,15 +310,22 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
     assert(snapped.q === hex.q && snapped.r === hex.r, `hex snapping missed ${hex.q},${hex.r}`);
   }
   assert(inMap(36, 0, sampleScenario.map) && !inMap(37, 0, sampleScenario.map), "editor map bounds disagree with the contract");
-  // Re-priced point ladder (docs/tactical-design.md #27): gunstar-battlecruiser 32 +
-  // light-cruiser 12 + destroyer 5 = 49; carrier 32 + strike-cruiser 8 +
-  // heavy-cruiser 20 = 60.
   // Structural: the total must equal the sum of the ladder prices for the ships fielded,
   // whatever the ladder is today (pinned numbers broke on every re-pricing).
   const expectTotal = (side) => side.ships.reduce((sum, ship) => sum + tuning.hullClasses[ship.className].points, 0);
   assert(fleetPoints(sampleScenario.sides[0], tuning) === expectTotal(sampleScenario.sides[0]), "side A points total is wrong");
   assert(fleetPoints(sampleScenario.sides[1], tuning) === expectTotal(sampleScenario.sides[1]), "side B points total is wrong");
   assert(validateScenario(sampleScenario, tuning, loadouts).length === 0, "sample scenario does not validate");
+  assert(validateScenario(featuredScenario, tuning, loadouts).length === 0, "featured scenario does not validate");
+  assert(featuredScenario.sides.every((side) => fleetPoints(side, tuning) === 52),
+    "featured scenario is not the intended 52-point mirror match");
+  const savedFeatured = scenarioForSave(featuredScenario);
+  assert(savedFeatured.maxTurns === 12 && savedFeatured.victory?.type === "flagship" && savedFeatured.tutorial?.steps?.length === 4,
+    "scenario save dropped featured mission metadata");
+  const missingFlagship = JSON.parse(JSON.stringify(featuredScenario));
+  missingFlagship.sides[1].ships = missingFlagship.sides[1].ships.filter((ship) => ship.className !== "carrier");
+  assert(validateScenario(missingFlagship, tuning, loadouts).some((message) => message.includes("Flagship objective requires exactly one carrier")),
+    "validation accepted a flagship objective without its protected asset");
 
   // rosters.<faction> (data/tactical-tuning.json), not the keys of loadouts.json, is the
   // source of truth for which hulls a faction may field: loadouts.json lists only
@@ -372,6 +392,15 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   const overLimitErrors = validateScenario(overLimit, tuning, loadouts).join(" | ");
   assert(overLimitErrors.includes("Side 1 fields 2 gunstar-battlecruiser(s); the limit is 1."),
     "validation did not enforce the per-class fleet limit");
+  const belowFloor = JSON.parse(JSON.stringify(sampleScenario));
+  belowFloor.sides[0].ships = [{ className: "gunstar-battlecruiser" }];
+  const floorErrors = validateScenario(belowFloor, tuning, loadouts).join(" | ");
+  assert(floorErrors.includes("requires a fleet of at least 52 points (currently 16)"),
+    "validation did not enforce the special-hull fleet floor");
+  const strikeFloor = JSON.parse(JSON.stringify(sampleScenario));
+  strikeFloor.sides[1].ships = [{ className: "strike-cruiser" }, { className: "heavy-cruiser" }];
+  assert(validateScenario(strikeFloor, tuning, loadouts).join(" | ").includes("at least 32 points (currently 24)"),
+    "validation did not enforce the strike-cruiser fleet floor");
   // A class with no `limit` in tuning is uncapped, same as before.
   const manyFrigates = JSON.parse(JSON.stringify(sampleScenario));
   for (let i = 0; i < 5; i++) manyFrigates.sides[0].ships.push({ className: "frigate" });
@@ -716,12 +745,15 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
       { faction: "EAR", ships: [
         { className: "gunstar-battlecruiser", q: -15, r: 0, facing: 0 },
         { className: "light-cruiser", q: -14, r: 3, facing: 0 },
-        { className: "frigate", q: 5, r: -3, facing: 0 } // parked inside the asteroid field on purpose
+        { className: "frigate", q: 5, r: -3, facing: 0 }, // parked inside the asteroid field on purpose
+        { className: "heavy-cruiser" }, { className: "destroyer" },
+        { className: "frigate" }, { className: "frigate" }
       ] },
       { faction: "KRE", ships: [
         { className: "carrier", q: 15, r: 0, facing: 3 },
         { className: "strike-cruiser", q: 14, r: -3, facing: 3 },
-        { className: "frigate", q: -5, r: -3, facing: 3 } // parked inside the nebula on purpose
+        { className: "frigate", q: -5, r: -3, facing: 3 }, // parked inside the nebula on purpose
+        { className: "heavy-cruiser" }, { className: "light-cruiser" }
       ] }
     ]
   };

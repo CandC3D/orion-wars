@@ -40,6 +40,15 @@
         },
         {
           "className": "destroyer"
+        },
+        {
+          "className": "heavy-cruiser"
+        },
+        {
+          "className": "destroyer"
+        },
+        {
+          "className": "frigate"
         }
       ]
     },
@@ -60,6 +69,12 @@
         },
         {
           "className": "heavy-cruiser"
+        },
+        {
+          "className": "light-cruiser"
+        },
+        {
+          "className": "frigate"
         }
       ]
     }

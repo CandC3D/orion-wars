@@ -2,7 +2,15 @@
 // Built on the FASA power model: one pool per turn, actions spend from it,
 // shields absorb out of the residue. See docs/fasa-mechanics-notes.md.
 
+import { legacySpec } from '../construction/legacy.js';
+import { compileDesign } from '../construction/index.js';
 export const SHIELD_NUMBERS = [1, 2, 3, 4, 5, 6];
+
+// A custom ship owns its pinned definitions; stock ships use the tuning catalogue.
+export const weaponFor = (ship, type, tuning) => ship.weaponDefinitions?.[type] ?? tuning.weapons[type];
+export const shieldCapacity = (ship, face) => ship.shieldGenerators?.[face]?.capacity ?? ship.hull?.maxShieldPower ?? ship.shieldMax ?? 0;
+export const shieldCost = (ship, face) => ship.shieldGenerators?.[face]?.powerPerDamage ?? ship.shieldPointRatio;
+export const ratedPower = ship => ship.cores.reduce((sum,core)=>sum+core.power,0) + ship.hull.impulsePower;
 
 // A hangar declaration is `{ <type>: { squadrons, strength } }` on the hull
 // class. Squadron identity is stable and derived from the parent hull's id, so
@@ -27,78 +35,9 @@ function buildSquadrons(shipId, hangar) {
   return out.length ? out : null;
 }
 
-export function buildShip(id, faction, className, tuning, loadouts, rng) {
-  const hull = tuning.hullClasses[className];
-  if (!hull) throw new Error(`unknown hull class: ${className}`);
-  const mod = tuning.factionModifiers[faction] ?? {};
-  const lo = loadouts[faction][className] ?? loadouts[faction]._default;
-
-  // A loadout may override the class envelope for faction flavour.
-  const beamMounts = lo.beamMounts ?? hull.beamMounts;
-  const missileMounts = lo.missileMounts ?? hull.missileMounts;
-  const magazine = lo.magazine ?? hull.magazine;
-  const beamArcs = lo.beamArcs ?? hull.beamArcs;
-  const missileArcs = lo.missileArcs ?? hull.missileArcs;
-
-  const arcFaces = (name) => tuning.arcs[name] ?? tuning.arcs.f;
-
-  // Heavier hulls mount larger marks of the same weapon. Scale each mount's
-  // reach and its range-band boundaries by the class's weaponReach.
-  const reach = hull.weaponReach ?? 1;
-  const scaleWeapon = (typeName) => {
-    const w = tuning.weapons[typeName];
-    return {
-      maxRange: Math.max(1, Math.round(w.maxRange * reach)),
-      bands: w.rangeBands.map((b) => ({ ...b, to: Math.max(1, Math.round(b.to * reach)) }))
-    };
-  };
-
-  const mounts = [];
-  for (let i = 0; i < beamMounts; i++) {
-    mounts.push({
-      id: mounts.length + 1, type: lo.beam, kind: "beam",
-      arc: arcFaces(beamArcs[i % beamArcs.length]),
-      arcName: beamArcs[i % beamArcs.length],
-      ...scaleWeapon(lo.beam),
-      inop: false, firedThisTurn: false
-    });
-  }
-  // Split missile mounts by the faction's declared mix, largest remainder first.
-  const mix = Object.entries(lo.missileMix ?? {});
-  const counts = mix.map(([type, frac]) => ({ type, exact: frac * missileMounts }));
-  let assigned = 0;
-  for (const c of counts) { c.n = Math.floor(c.exact); assigned += c.n; }
-  counts.sort((a, b) => (b.exact - b.n) - (a.exact - a.n));
-  for (let i = 0; assigned < missileMounts; i++, assigned++) counts[i % counts.length].n++;
-  let mi = 0;
-  for (const c of counts) {
-    for (let i = 0; i < c.n; i++, mi++) {
-      const name = missileArcs.length ? missileArcs[mi % missileArcs.length] : "f";
-      mounts.push({
-        id: mounts.length + 1, type: c.type, kind: "missile",
-        arc: arcFaces(name), arcName: name,
-        ...scaleWeapon(c.type),
-        inop: false, firedThisTurn: false
-      });
-    }
-  }
-
-  // SPINAL MOUNT. A weapon bolted to the keel: one mount, one arc, aimed by
-  // pointing the whole ship. Built only when the hull or loadout declares one,
-  // so every existing hull builds byte-for-byte as before.
-  const spinalType = lo.spinal ?? hull.spinal ?? null;
-  if (spinalType) {
-    const sName = (lo.spinalArcs ?? hull.spinalArcs ?? ["f"])[0];
-    mounts.push({
-      id: mounts.length + 1, type: spinalType, kind: "spinal",
-      arc: arcFaces(sName), arcName: sName,
-      ...scaleWeapon(spinalType),
-      inop: false, firedThisTurn: false
-    });
-  }
-
-  const canCloak = (tuning.cloak.carriedBy[faction] ?? []).includes(className);
-  const superstructure = Math.round(hull.superstructure * (mod.superstructure ?? 1));
+export function buildShip(id, faction, className, tuning, loadouts, rng, designPack = null) {
+  const spec = designPack ? compileDesign(designPack, tuning, { faction, className }) : legacySpec(faction, className, tuning, loadouts);
+  const { hull, mounts, magazine, spinalType, canCloak, superstructure } = spec;
 
   // STRIKE CRAFT. A hull with a `hangar` carries squadrons: abstract sub-units
   // with strength rather than map positions, flown from the parent hull. Faction
@@ -110,18 +49,21 @@ export function buildShip(id, faction, className, tuning, loadouts, rng) {
   const ship = {
     id, faction, className,
     points: hull.points,
-    hull,
+    // A ship owns its hull, including nested hangar/arcs. In-memory per-ship
+    // edits must not rewrite the tuning catalogue or another vessel's hull.
+    hull: structuredClone(hull),
     mounts,
     // --- position ---
     pos: { q: 0, r: 0 },
     facing: 0,
     // --- power: the pool everything draws on ---
-    cores: Array.from({ length: hull.cores }, () => ({ power: hull.corePower, alive: true })),
+    cores: spec.reactors ? spec.reactors.map(core=>({...structuredClone(core),alive:true})) : Array.from({ length: hull.cores }, () => ({ power: hull.corePower, alive: true })),
     impulse: hull.impulsePower,
     power: 0,           // current, reset each turn
     reserve: 0,         // power held back for shield absorption
     // --- defence ---
-    shieldCap: Object.fromEntries(SHIELD_NUMBERS.map((n) => [n, hull.maxShieldPower])),
+    ...(spec.shieldGenerators ? { shieldGenerators: structuredClone(spec.shieldGenerators) } : {}),
+    shieldCap: Object.fromEntries(SHIELD_NUMBERS.map((n) => [n, spec.shieldGenerators?.[n]?.capacity ?? hull.maxShieldPower])),
     shieldDown: Object.fromEntries(SHIELD_NUMBERS.map((n) => [n, false])),
     superstructureMax: superstructure,
     superstructure,
@@ -145,9 +87,9 @@ export function buildShip(id, faction, className, tuning, loadouts, rng) {
     toHitPenalty: 0,
     destroyed: false,
     // --- cached faction-modified ratios (both are POWER COSTS) ---
-    shieldPointRatio: hull.shieldPointRatio * (mod.shieldPointRatio ?? 1),
-    movementPointRatio: hull.movementPointRatio * (mod.movementPointRatio ?? 1),
-    detectionBonusAgainst: mod.detectionRangeAgainst ?? 0
+    shieldPointRatio: spec.shieldPointRatio,
+    movementPointRatio: spec.movementPointRatio,
+    detectionBonusAgainst: spec.detectionBonusAgainst
   };
   // Capacitor state for the spinal gun. Absent on every other hull, which is
   // what guards every spinal branch elsewhere in the engine.
@@ -161,6 +103,14 @@ export function buildShip(id, faction, className, tuning, loadouts, rng) {
       holdLogged: false,
       shots: 0
     };
+  }
+  if (designPack) {
+    ship.design = structuredClone(designPack);
+    ship.designId = designPack.design.id;
+    ship.designRevision = designPack.design.revision;
+    ship.displayName = designPack.design.name;
+    ship.weaponDefinitions = spec.weaponDefinitions;
+    ship.turnRate = spec.turnRate;
   }
   ship.power = fullPower(ship);
   return ship;
@@ -200,7 +150,7 @@ export function startTurn(ship, tuning) {
 
 export function startRound(ship) {
   for (const n of SHIELD_NUMBERS) {
-    ship.shieldCap[n] = ship.shieldDown[n] ? 0 : ship.hull.maxShieldPower;
+    ship.shieldCap[n] = ship.shieldDown[n] ? 0 : shieldCapacity(ship,n);
   }
 }
 
@@ -219,15 +169,21 @@ export function isSystemInop(ship, name, threshold) {
 // `bypassShield` is the photonic cannon's signature: a bolt of that order is
 // not deflected, it is simply through. Defaults false, so every existing
 // weapon resolves exactly as before.
+export function shieldAbsorbable(ship, face) {
+  const cost = shieldCost(ship,face), cap = Math.max(0,ship.shieldCap?.[face] ?? 0);
+  // Chris, section 34.11: retain authored capacity/efficiency, but only complete
+  // damage points can be absorbed. A fractional cap remainder cannot stop a hit.
+  return ship.shieldDown?.[face] || !(cost > 0) ? 0 : Math.floor(Math.min(cap, Math.max(0,ship.power ?? 0) / cost));
+}
+
 export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0, bypassShield = false) {
   let remaining = amount;
   ship.damageThisTurn = (ship.damageThisTurn ?? 0) + amount;
 
   if (!bypassShield && !ship.shieldDown[shieldNo]) {
-    const affordable = Math.floor(ship.power / ship.shieldPointRatio);
-    const absorbed = Math.min(remaining, ship.shieldCap[shieldNo], affordable);
+    const absorbed = Math.floor(Math.min(remaining, shieldAbsorbable(ship, shieldNo)));
     if (absorbed > 0) {
-      ship.power -= absorbed * ship.shieldPointRatio;
+      ship.power -= absorbed * shieldCost(ship,shieldNo);
       ship.shieldCap[shieldNo] -= absorbed;
       remaining -= absorbed;
       // Spending on defence eats into the reserve first.
@@ -265,8 +221,9 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
       // can neither retreat nor absorb, so one good rear pass cascades.
       const live = ship.cores.filter((c) => c.alive);
       if (live.length > 1) {
-        live[rng.int(live.length)].alive = false;
-        ship.power = Math.max(0, ship.power - ship.hull.corePower);
+        const lost = live[rng.int(live.length)];
+        lost.alive = false;
+        ship.power = Math.max(0, ship.power - lost.power);
       }
       // A spinal capacitor bank being fed by a core that has just been shot
       // away loses containment and dumps whatever it had stored. This is the

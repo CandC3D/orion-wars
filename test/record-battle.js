@@ -54,6 +54,7 @@ if (scenarioPath) {
   description = `${factionA} vs ${factionB} at ${points} points`;
 }
 
+for (const warning of replay.meta.warnings ?? []) console.warn(`SCENARIO FLOOR WARNING: ${warning} Authored fleet retained.`);
 mkdirSync(dirname(output), { recursive: true });
 writeFileSync(output, JSON.stringify(replay, null, 2) + "\n", "utf8");
 console.log(`Recorded ${description} to ${output}`);
