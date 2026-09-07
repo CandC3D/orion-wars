@@ -14,6 +14,7 @@ import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
 import { batterySolutions } from './fire-solution.js';
+import { shadowMarkup, shadowCache } from './terrain-shadow.js';
 import { schematicMarkup, headingRoseMarkup, powerBarMarkup, consolePower, mountState, WEAPON_COLOURS } from './console-instruments.js';
 const $ = selector => document.querySelector(selector);
 const commandMode=document.body.dataset.command==='true';
@@ -375,6 +376,7 @@ function weaponLabels(ship,mounts,{project,scale,font,layout,solutions=null}){
     return `<g class="weapon-label" data-weapon-label="${esc(m.id)}" data-fire-state="${esc(fx?.state||'none')}" pointer-events="none"><title>${esc(full+' · '+st.label+(fx&&fx.state!=='none'?' · '+fx.full:''))}</title><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="#060e15" fill-opacity=".8"/><text x="${b.x+b.w/2}" y="${b.y+b.h*.72}" text-anchor="middle" font-size="${font*.9}" fill="${colour}">${esc(text)}</text></g>`;
   }).join('');
 }
+let shadowStore=null;
 function drawMap() {
   const view=state.current?.observation;if(!view)return;
   const map=$('#contact-map'),w=900,h=520,scale=Math.min(w/(view.map.widthHexes+8),h/(view.map.heightHexes+6))*state.zoom;
@@ -393,8 +395,17 @@ function drawMap() {
     const cells=mapCells;
     if(cells.length<=6000)svg+=`<path data-hex-grid="true" d="${hexGridPath(cells,xy,scale)}" fill="none" stroke="#8ec6dc" stroke-opacity="${scale<8?.08:.16}" stroke-width="${scale<8?.6:1}"/>`;
   }
-  svg+=terrainArt(view.terrain,{project:xy,scale,footprint:terrainFootprint});
   const own=currentShip(),order=state.orders[own?.id];let preview=null;
+  // Terrain shadow for the SELECTED hull, drawn UNDER the terrain that casts it:
+  // the bodies and fields are known and stay crisp, and only the space they
+  // hide goes dark. Own ships still draw inside it - this says where no report
+  // can come from, not where the board stops existing.
+  if(own&&!own.destroyed&&mapCells.length<=6000){
+    const key=`${own.pos.q},${own.pos.r}`;
+    if(!shadowStore||shadowStore.from!==key)shadowStore=shadowCache(own.pos);
+    svg+=shadowMarkup(own,view,mapCells,{project:xy,scale,cache:shadowStore});
+  }
+  svg+=terrainArt(view.terrain,{project:xy,scale,footprint:terrainFootprint});
   const movement=editable()&&own&&order?movementRange(own,order.reserve,order.spinal,true):null;
   $('#movement-range-caption').textContent=movement?(movement.label||movement.reason):'';
   $('#movement-range-caption').title=movement?.reason||'';

@@ -18,6 +18,7 @@ const tests = [
   ["Player-initiated spinal cycle, vent and restricted movement preview", "manual-spinal.mjs"],
   ["Per-mount fire solution against the preferred contact", "fire-solution.mjs"],
   ["Enemy shield disclosure through a sector scan", "shield-disclosure.mjs"],
+  ["Terrain shadow for the selected hull", "terrain-shadow.mjs"],
   ["Authored scenario warnings and deployment boundaries", "scenario-rulings.mjs"],
   ["Unused laser overcharge metadata removal", "overcharge-cleanup.mjs"],
   ["Timed missile homing and recorded approach geometry", "missile-homing.mjs"],
