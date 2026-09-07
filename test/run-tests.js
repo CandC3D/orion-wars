@@ -16,6 +16,7 @@ const tests = [
   ["Explicit warp and emergency burst commands", "special-orders.mjs"],
   ["Keel-gun target obedience and whole-point shields", "target-shield-rulings.mjs"],
   ["Player-initiated spinal cycle, vent and restricted movement preview", "manual-spinal.mjs"],
+  ["Per-mount fire solution against the preferred contact", "fire-solution.mjs"],
   ["Authored scenario warnings and deployment boundaries", "scenario-rulings.mjs"],
   ["Unused laser overcharge metadata removal", "overcharge-cleanup.mjs"],
   ["Timed missile homing and recorded approach geometry", "missile-homing.mjs"],

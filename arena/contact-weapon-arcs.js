@@ -83,11 +83,11 @@ export function batteryArcMarkup(ship,{project,scale,cells=null}){
     return `<g class="weapon-coverage" data-battery-family="${kind}" data-band-tiers="${tiers.length}" aria-label="Whole ${kind} battery coverage, shaded by the modifier available at each range">${shading}<path d="${hexGridPath([...union.values()].map(v=>v.p),project,scale)}" fill="none" stroke="${colour}" stroke-opacity=".55" stroke-width="1.2" stroke-linejoin="round"/></g>`;
   }).join('');
 }
-export function batteryRangeKey(ship){
+export function batteryRangeKey(ship,solutions=null){
   if(!ship||ship.destroyed)return '';
   return ship.mounts.map((m,i)=>{
     const eff=effectiveBand(m);
     const reach=eff&&eff.graded?`best ≤${eff.to} hex · reach ${m.maxRange} hex`:`1–${m.maxRange} hex`;
-    return `<span class="range-band-key" style="border-color:${WEAPON_COLORS[m.kind]||'#8ec6dc'}"><b>${i+1} · ${esc(m.displayName||m.type.replaceAll('-',' '))}</b> · ${m.kind} · faces ${m.arc.join(',')} · ${reach}${m.arc.includes(5)?' · REAR':''}${m.inop?' · offline':m.firedThisTurn?' · spent':''}</span>`;
+    return `<span class="range-band-key" style="border-color:${WEAPON_COLORS[m.kind]||'#8ec6dc'}"><b>${i+1} · ${esc(m.displayName||m.type.replaceAll('-',' '))}</b> · ${m.kind} · faces ${m.arc.join(',')} · ${reach}${m.arc.includes(5)?' · REAR':''}${m.inop?' · offline':m.firedThisTurn?' · spent':''}${(()=>{const f=solutions?.get?.(m.id);return f&&f.short?` · <b>${esc(f.short)}</b>`:'';})()}</span>`;
   }).join('')+'<span class="range-limit">Whole battery: overlapping families mix colours; deeper shading marks the ranges carrying the better modifier. Select one mount to inspect its exact range bands. Coverage is geometry, not a clear-shot or readiness guarantee.</span>';
 }

@@ -13,6 +13,7 @@ import { movementRange, movementRangeMarkup } from './contact-movement-range.js'
 import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup } from './contact-condition-arcs.js';
+import { batterySolutions } from './fire-solution.js';
 import { schematicMarkup, headingRoseMarkup, powerBarMarkup, consolePower, mountState, WEAPON_COLOURS } from './console-instruments.js';
 const $ = selector => document.querySelector(selector);
 const commandMode=document.body.dataset.command==='true';
@@ -355,12 +356,13 @@ function refreshPreview() {
   if(consoleMode)renderConsoleOrders(ship,order,forecast,editable()&&!ship.destroyed);
 }
 // Weapon names share the existing ship/course occupancy; coverage is unchanged.
-function weaponLabels(ship,mounts,{project,scale,font,layout}){
+function weaponLabels(ship,mounts,{project,scale,font,layout,solutions=null}){
   const occupied=[...layout.markers.map(m=>m.box),...layout.labels.map(l=>l.box),...layout.course.map(c=>c.box)];
-  const placed=weaponLabelLayout(ship,mounts,{project,scale,font,measure:measureText($('#contact-map'),font*.9),occupied});
+  const placed=weaponLabelLayout(ship,mounts,{project,scale,font,measure:measureText($('#contact-map'),font*.9),occupied,annotate:m=>solutions?.get?.(m.id)?.short||''});
   return placed.labels.map(({mount:m,text,full,box:b})=>{
     const colour=WEAPON_COLOURS[m.kind]||'#8ec6dc',st=mountState(m,ship);
-    return `<g class="weapon-label" data-weapon-label="${esc(m.id)}" pointer-events="none"><title>${esc(full+' · '+st.label)}</title><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="#060e15" fill-opacity=".8"/><text x="${b.x+b.w/2}" y="${b.y+b.h*.72}" text-anchor="middle" font-size="${font*.9}" fill="${colour}">${esc(text)}</text></g>`;
+    const fx=solutions?.get?.(m.id);
+    return `<g class="weapon-label" data-weapon-label="${esc(m.id)}" data-fire-state="${esc(fx?.state||'none')}" pointer-events="none"><title>${esc(full+' · '+st.label+(fx&&fx.state!=='none'?' · '+fx.full:''))}</title><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="#060e15" fill-opacity=".8"/><text x="${b.x+b.w/2}" y="${b.y+b.h*.72}" text-anchor="middle" font-size="${font*.9}" fill="${colour}">${esc(text)}</text></g>`;
   }).join('');
 }
 function drawMap() {
@@ -389,11 +391,21 @@ function drawMap() {
   if(movement)svg+=movementRangeMarkup(own,movement,xy);
   const shownMount=own?.mounts.find(m=>m.id===state.mount);
   $('#range-summary').textContent=(shownMount?`ONE mount ${shownMount.id} · ${shownMount.displayName||shownMount.type.replaceAll('-',' ')} · ${shownMount.kind} · ${shownMount.maxRange} hex · Range bands`:'WHOLE battery · blue beams / amber missiles / violet spinal · Weapons & ranges')+(mapCells.length>6000?' · zoom in for coverage':'');
-  $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own))+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
   if(own&&order&&editable()&&!own.destroyed){
     const p=preview=previewContactOrders(view,own.id,{...order,target:view.contacts.some(c=>c.id===order.target)?order.target:'auto'});
     if(p.route?.length>1)svg+=`<polyline points="${p.route.map(p=>{const q=xy(p);return q.x+','+q.y;}).join(' ')}" fill="none" stroke="#efb773" stroke-width="2.5" stroke-dasharray="6 5"/>`;
   }
+  // Why each mount is dark against the CHOSEN contact. Own telemetry and the
+  // current report only; never a firing solution. The budget is what the plan
+  // leaves for weapons once refill, cannon charge, helm and the floor are met.
+  const preferredContact=order?.target&&order.target!=='auto'?view.contacts.find(c=>c.id===order.target):null;
+  let solutions=null;
+  if(own&&!own.destroyed&&order){
+    const p=consolePower(own,order,preview);
+    const budget=Math.max(0,p.pool-p.charge-(p.helm??0)-p.reserve);
+    solutions=batterySolutions(own,preferredContact,view,budget);
+  }
+  $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own,solutions))+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
   if(mapCells.length<=6000)svg+=shownMount?weaponArcMarkup(own,shownMount,{project:xy,scale,cells:mapCells}):batteryArcMarkup(own,{project:xy,scale,cells:mapCells});
   if(own&&!own.destroyed){
     const a=xy(own.pos),d=DIRS[own.facing],b=xy({q:own.pos.q+d.q*.85,r:own.pos.r+d.r*.85});
@@ -405,7 +417,6 @@ function drawMap() {
   (state.tape[state.index]?.events||[]).forEach((event,i)=>{svg+=`<g class="fx-static" pointer-events="none">${effectMarkup(event,{project:xy,scale,icon,phase:1,reduced:true,victim:victimFor(frameNow,event),faction:factionFor(frameNow,event),seed:String(i)})}</g>`;});
   const priorityTarget=order?.target&&order.target!=='auto'?order.target:null;
   const layout=layoutContactMap([...view.own,...view.contacts],preview?.actions,{project:xy,width:w,height:h,font,icon,label:s=>shipLabel(s)+(s.destroyed?' / lost':s.spinal&&(s.spinal.charge>0||s.spinal.state==='ready')?' · LOCKED':''),measure:measureText(map,font),priority:{selected:state.selected,target:priorityTarget}});
-  if(consoleMode&&own&&!own.destroyed&&mapCells.length<=6000)svg+=weaponLabels(own,shownMount?[shownMount]:own.mounts,{project:xy,scale,font,layout});
   // Planning preference only, never a firing solution or a historical order.
   // Both endpoints must be current, visible markers from this projection.
   const preferred=editable()&&!own?.destroyed&&view.contacts.some(c=>c.id===priorityTarget)
@@ -424,6 +435,7 @@ function drawMap() {
     const ring={project:xy,scale,at:{x:marker.x,y:marker.y},radius:icon*.95,width:Math.max(1.5,icon*.16)};
     svg+=view.own.some(o=>o.id===s.id)?shieldArcMarkup(s,ring):conditionArcMarkup(s,ring);
   }
+  if(consoleMode&&own&&!own.destroyed&&mapCells.length<=6000)svg+=weaponLabels(own,shownMount?[shownMount]:own.mounts,{project:xy,scale,font,layout,solutions});
   const tag=(entry,kind,color)=>{const b=entry.box;return `<rect data-map-label="${kind}" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="2" fill="#060e15" fill-opacity=".92" stroke="${color}" stroke-opacity="${entry.primary?.7:.3}"/><text x="${b.x+b.w/2}" y="${b.y+b.h-Math.max(2,font*.28)}" fill="${color}" font-size="${font}" text-anchor="middle">${esc(entry.text)}</text>`;};
   // Own hull only: superstructure is own telemetry. A contact's condition is an
   // interval or an ordinal bracket and is drawn as its ring, never as a bar.
