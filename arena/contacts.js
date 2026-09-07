@@ -369,7 +369,12 @@ function drawMap() {
   const xy=p=>({x:w/2+((p.q-state.center.q)+(p.r-state.center.r)/2)*scale,y:h/2+(p.r-state.center.r)*scale*.866});
   // Screen-scale typography: about 12 px on screen whatever the rendered width,
   // expressed in viewBox units. Icons follow the type size, never the board.
-  const clientWidth=Math.max(240,map.clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth)),icon=font*1.45;
+  const clientWidth=Math.max(240,map.clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));
+  // Type stays screen-scaled. Symbols do NOT: a hull that keeps one size
+  // while the board grows reads as a dot on a zoomed map. The floor is the
+  // old screen-scaled size so a zoomed-out board stays legible, the ceiling
+  // keeps a symbol from swallowing its neighbours' hexes.
+  const baseIcon=font*1.7,icon=Math.max(baseIcon,Math.min(scale*1.5,baseIcon*3));
   let svg=terrainArtDefs(scale);
   const mapCells=hexGridCells(view.map,{center:state.center,scale,width:w,height:h});
   if(state.grid){
@@ -412,7 +417,28 @@ function drawMap() {
   const outside=view.contacts.filter(s=>!layout.markers.some(m=>m.ship.id===s.id)).length;
   const deferredNames=layout.deferred.filter(d=>!d.course).length;
   $('#contact-count').textContent=`${view.contacts.length} current report${view.contacts.length===1?'':'s'}${outside?' · '+outside+' outside view — Frame reports':''}${deferredNames?' · '+deferredNames+' name'+(deferredNames===1?'':'s')+' deferred (focus or select a marker)':''}${origin&&preferred?' · Dashed link: preferred target, not a firing solution':''}`;
+  // One pass for every ring, under all symbols and labels: at high zoom a
+  // later ship's ring would otherwise cover an earlier ship's name.
+  for(const marker of layout.markers){
+    const s=marker.ship;if(s.destroyed)continue;
+    const ring={project:xy,scale,at:{x:marker.x,y:marker.y},radius:icon*.95,width:Math.max(1.5,icon*.16)};
+    svg+=view.own.some(o=>o.id===s.id)?shieldArcMarkup(s,ring):conditionArcMarkup(s,ring);
+  }
   const tag=(entry,kind,color)=>{const b=entry.box;return `<rect data-map-label="${kind}" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="2" fill="#060e15" fill-opacity=".92" stroke="${color}" stroke-opacity="${entry.primary?.7:.3}"/><text x="${b.x+b.w/2}" y="${b.y+b.h-Math.max(2,font*.28)}" fill="${color}" font-size="${font}" text-anchor="middle">${esc(entry.text)}</text>`;};
+  // Own hull only: superstructure is own telemetry. A contact's condition is an
+  // interval or an ordinal bracket and is drawn as its ring, never as a bar.
+  const hullBar=(entry,ship)=>{
+    const max=Number(ship.superstructureMax),now=Number(ship.superstructure);
+    if(!(max>0)||!Number.isFinite(now))return '';
+    const b=entry.box,ratio=Math.max(0,Math.min(1,now/max));
+    const height=Math.max(2,font*.22),y=b.y+b.h+Math.max(1,font*.1);
+    const colour=ratio<=.25?'#ffafa2':ratio<=.5?'#efb773':'#7bc6ec';
+    return `<g class="hull-bar" data-hull-bar="${esc(ship.id)}" data-hull-ratio="${ratio.toFixed(3)}" pointer-events="none">`
+      +`<title>Hull ${Math.round(now)} of ${Math.round(max)}</title>`
+      +`<rect x="${b.x}" y="${y.toFixed(2)}" width="${b.w}" height="${height.toFixed(2)}" fill="#0b1620" stroke="#43535d" stroke-opacity=".5" stroke-width=".5"/>`
+      +(ratio>0?`<rect x="${b.x}" y="${y.toFixed(2)}" width="${(b.w*ratio).toFixed(2)}" height="${height.toFixed(2)}" fill="${colour}"/>`:'')
+      +`</g>`;
+  };
   for(const marker of layout.markers){
     const s=marker.ship,p=marker,isOwn=view.own.some(o=>o.id===s.id),selected=s.id===state.selected;
     const art=icons[`${s.faction}/${s.className}`]?.file;
@@ -422,7 +448,7 @@ function drawMap() {
     // Leaders and anchors are drawn but never capture pointer input, so a line crossing a neighbour's name cannot steal its click.
     const displacedLeader=marker.displaced?`<path class="leader" d="M${marker.anchor.x},${marker.anchor.y}L${p.x},${p.y}" stroke="#8ec6dc" stroke-dasharray="3 3"/>`:'';
     const labelLeader=text&&text.leader?`<path class="leader" d="M${p.x},${p.y}L${b.x+b.w/2},${b.y+b.h/2}" stroke="#496376" stroke-width="1"/>`:'';
-    svg+=`<g data-ship="${esc(s.id)}" data-own="${isOwn}" data-labelled="${!!text}" data-marker-x="${p.x.toFixed(1)}" data-marker-y="${p.y.toFixed(1)}" role="button" tabindex="0" aria-label="${esc(shipLabel(s))}${s.destroyed?' (lost)':''}"><title>${esc(shipLabel(s))} · ${isOwn?'friendly':damageText(s)} · hex ${s.pos.q}, ${s.pos.r}</title>${displacedLeader}<circle class="leader" data-hex-anchor="true" cx="${marker.anchor.x}" cy="${marker.anchor.y}" r="${Math.max(1.5,scale*.08)}" fill="#8ec6dc" fill-opacity="${marker.displaced?1:.55}"/>${selected?`<circle class="leader" cx="${p.x}" cy="${p.y}" r="${icon*.65}" fill="none" stroke="#efb773"/>`:''}${s.destroyed?'':isOwn?shieldArcMarkup(s,{project:xy,scale,at:{x:p.x,y:p.y},radius:icon*.95,width:Math.max(1.5,icon*.16)}):conditionArcMarkup(s,{project:xy,scale,at:{x:p.x,y:p.y},radius:icon*.95,width:Math.max(1.5,icon*.16)})}${symbol}${labelLeader}${text?tag(text,'ship',selected?'#efb773':'#dfeaf1'):''}</g>`;
+    svg+=`<g data-ship="${esc(s.id)}" data-own="${isOwn}" data-labelled="${!!text}" data-marker-x="${p.x.toFixed(1)}" data-marker-y="${p.y.toFixed(1)}" role="button" tabindex="0" aria-label="${esc(shipLabel(s))}${s.destroyed?' (lost)':''}"><title>${esc(shipLabel(s))} · ${isOwn?'friendly':damageText(s)} · hex ${s.pos.q}, ${s.pos.r}</title>${displacedLeader}<circle class="leader" data-hex-anchor="true" cx="${marker.anchor.x}" cy="${marker.anchor.y}" r="${Math.max(1.5,scale*.08)}" fill="#8ec6dc" fill-opacity="${marker.displaced?1:.55}"/>${selected?`<circle class="leader" cx="${p.x}" cy="${p.y}" r="${icon*.65}" fill="none" stroke="#efb773"/>`:''}${symbol}${labelLeader}${text?tag(text,'ship',selected?'#efb773':'#dfeaf1'):''}${text&&isOwn&&!s.destroyed?hullBar(text,s):''}</g>`;
   }
   for(const entry of layout.course){const b=entry.box;svg+=`<path d="M${entry.anchor.x},${entry.anchor.y}L${b.x+b.w/2},${b.y+b.h/2}" stroke="#efb773"/>${tag({...entry,primary:true},'course','#efb773')}`;}
   map.innerHTML=svg;
@@ -462,7 +488,7 @@ async function execute() {
     if(!result.ok){status('Invalid orders. No turn advanced.');return;}
     const first=state.tape.length;for(const item of result.timeline)state.tape.push(item);
     $('#playback-pause').disabled=false;$('#playback-skip').disabled=false;$('#playback-pause').setAttribute('aria-pressed','false');$('#playback-pause').textContent='Pause';
-    const geometry=()=>{const v=state.current.observation,w=900,h=520,scale=Math.min(w/(v.map.widthHexes+8),h/(v.map.heightHexes+6))*state.zoom,clientWidth=Math.max(240,$('#contact-map').clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));return {project:p=>({x:w/2+((p.q-state.center.q)+(p.r-state.center.r)/2)*scale,y:h/2+(p.r-state.center.r)*scale*.866}),scale,icon:font*1.45,font};};
+    const geometry=()=>{const v=state.current.observation,w=900,h=520,scale=Math.min(w/(v.map.widthHexes+8),h/(v.map.heightHexes+6))*state.zoom,clientWidth=Math.max(240,$('#contact-map').clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));const baseIcon=font*1.7;return {project:p=>({x:w/2+((p.q-state.center.q)+(p.r-state.center.r)/2)*scale,y:h/2+(p.r-state.center.r)*scale*.866}),scale,icon:Math.max(baseIcon,Math.min(scale*1.5,baseIcon*3)),font};};
     const slideTo=async (index,clock)=>{
       if(index<=0||reducedMotion()||playback.skipping)return;
       const prev=state.tape[index-1]?.frame?.observation,next=state.tape[index]?.frame?.observation;if(!prev||!next)return;
