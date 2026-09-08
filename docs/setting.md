@@ -60,6 +60,16 @@ Silicoid lifeforms from a Venus-like hellworld, pressing claims on areas of Ache
 
 Insectoid, hive-organised, with radically morphologically different individuals assuming the roles they were born for. They want the whole sector.
 
+## The Sethyr, and what Earth actually fought
+
+The enemy of the First Orion Arm War was not a species. It was the **Sethyr Battledrones**: the warrior servitors of a once-vast galactic hegemony, reduced to an isolated outpost of itself — a Dying Earth civilisation, running on relics.
+
+The drones cannot make anything new. They repair, and they build more ships of the same ancient types from whatever resources they hold, and that is the whole of it. Their technology is frozen at the moment their makers stopped advancing. They have neither the faculty to develop anything themselves nor the faculty to integrate what they capture, so an Earth weapon taken intact teaches them nothing.
+
+Their form is suspected to mimic their creators. It is only a guess, supported by architectural cues.
+
+**The name is Earth's, and it names the wrong party.** Every history, every memorial and every victory in the textbooks is attributed to the Sethyr. Earth has never met one. The war was fought against their servants, and the masters are still out there, on the far side of the bubble, unseen.
+
 ## The worlds of Achernar
 
 Settlers, refugees, traders, rogues and pirates. They will not surrender to any of the four powers easily, and each power must win them over, buy them up, or conquer them. The Federation alone can also grant them standing.
@@ -124,12 +134,18 @@ Kept separate so the fiction above stays Chris's.
 
 **Same-faction battles should already work.** Sides are A and B, not factions, and under the restricted view the player sees own ships and reported contacts rather than two coloured fleets, so a civil war needs no art change. Worth one check before it is promised.
 
+**Uniqueness has two causes, and each one characterises its owner.** The Valdar Cannon is unique through paranoia; Sethyr relics are unique through loss. Same mechanical fact, opposite reasons. It is a pattern the game can keep using.
+
+**A faction that cannot change is a fixed yardstick.** The Battledrones do not tech up, do not adapt, and cannot integrate captured equipment, by definition rather than by balance decision. Their roster is therefore constant across every game in the series — the same hulls in 2161 and in 2400 — which makes them the ruler against which every other power's progress can be measured. That is a rare and useful property and it should not be softened later for variety.
+
+**The hulls are the only anthropology.** If the drones' form is the sole evidence of what the Sethyr look like, then the ship silhouettes carry the reveal. Whoever designs the Battledrones is committing to the masters' body plan in advance, and should do it deliberately.
+
 **Valdar suggests a tier above ship captains.** Named admirals with their own doctrine, of which he would be the first, and the natural home for a hypercompetent opponent that sets traps rather than simply fielding more points.
 
 ## Open questions
 
 1. **Where exactly does the campaign sit relative to the election and the assassination?** It changes whether the Krelath fleet is divided or unified.
 2. **Whose voice is the opening text?** It reads from the Federation's side. If all four powers are playable, either each needs its own version or the document should say plainly that this is Earth's account.
-3. **Who invaded in the First Orion Arm War?** A power on the far side of Earth's bubble-shaped sphere of influence, and perhaps the subject of a future Distant Sector. Name pending.
+3. **The First Orion Arm War is answered** — the Sethyr Battledrones, on the far side of the bubble, and a candidate for a future Distant Sector. Still open: whether Earth holds salvage from that war, and whether any of it explains a Federation capability.
 
    One consequence is worth keeping whatever the name turns out to be: the two wars came from **opposite sides of the bubble**. The Federation can therefore never commit its full weight to Achernar, because the other side is unwatched. That is the reason the player commands what Earth can spare rather than what Earth has.
