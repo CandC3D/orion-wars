@@ -1,4 +1,4 @@
-# The Orion Wars
+# Distant Sectors: The Achernar Campaign
 
 A single-player strategic wargame in the browser. Four powers — the **Earth
 Federation** (blue), the **Vraygon Star Realm** (gold), the **Zandrax Horde**
@@ -33,10 +33,10 @@ save/load, and the deterrence rule (no foreign fleets in home spheres).
 | Zandrax Horde | Red | Speed and heavy beams on thin shields; conquers fastest, holds worst |
 | Krelath Empire | Green | Short-range warp jump and ambush volley; smallest economy |
 
-The common tactical ladder is Frigate 2, Destroyer 4, Light Cruiser 10, Heavy
-Cruiser 16 and Battleship 32. Unique roster hulls are Earth Gunstar Battlecruiser 16,
-Vraygon Monitor 20, Zandrax Corvette 1, and Krelath Strike Cruiser 8 plus
-Carrier 16. The Earth Command Ship is retired from the roster and retained
+The common tactical ladder is Frigate 2, Destroyer 4, Missile Destroyer 4, Light
+Cruiser 10, Heavy Cruiser 16 and Battleship 32 — six hulls, and every power
+fields all six. Unique roster hulls are Earth Gunstar Battlecruiser 16, Vraygon
+Monitor 24, Zandrax Corvette 1, and Krelath Strike Cruiser 8 plus Carrier 16. The Earth Command Ship is retired from the roster and retained
 only for old replay compatibility. `data/tactical-tuning.json` is the source
 of truth for points and rosters.
 
@@ -59,7 +59,7 @@ Design and current findings: [docs/tactical-design.md](docs/tactical-design.md).
 - `src/orders.js` — order validation + random legal-order generation
 - `src/combat.js` — strategic-layer combat interface (still a stub)
 - `src/engine.js` — WEGO turn pipeline: movement → combat → assault → economy → unrest
-- `data/worlds-placeholder.json` — placeholder graph: four home spheres around 12 contested worlds (to be replaced by the Orion Wars map)
+- `data/worlds-placeholder.json` — placeholder graph: four home spheres around 12 contested worlds (to be replaced by the Achernar Campaign map)
 - `data/factions.json` — four orders of battle, first-draft stats for review
 - `assets/models/` — original fleet STLs plus the later gunstar-battlecruiser/carrier prototypes
 - `src/tactical/` — hex geometry, ship model, and combat resolver
@@ -89,7 +89,7 @@ notes remain in [docs/ship-asset-brief.md](docs/ship-asset-brief.md) and
   Battleships, screening on Frigates and Destroyers. This keeps "kill the
   troop carriers to save the world" alive, but now the assault ships are also
   the line-of-battle ships — a real change to the original design tension.
-- **Map.** Chris is supplying the Orion Wars map, which replaces the placeholder
+- **Map.** Chris is supplying the Achernar Campaign map, which replaces the placeholder
   graph. World count, lane topology, and home-sphere placement come from it.
 - War length (default 48 monthly turns), turn cadence (monthly WEGO).
 - Player seat: all four powers are symmetric at engine level; UI will expose
