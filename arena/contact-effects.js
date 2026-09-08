@@ -507,10 +507,10 @@ function arrivalColours(outcome, F) {
   return { core: F.missile, halo: F.missileHalo, grad: 'fx-grad-burst' };
 }
 
-function missileArrival(b, icon, phase, reduced, outcome, F, approach, seed) {
+function missileArrival(b, icon, phase, reduced, outcome, F, approach, seed, face) {
   const col = arrivalColours(outcome, F);
   F = F || FLAVOURS.neutral;
-  const label = outcome === 'resolved' ? 'impact' : outcome;
+  const label = outcome === 'resolved' ? (face ? 'STRUCK FACE ' + face : 'ARRIVAL') : String(outcome || '').toUpperCase();
   const off = approach || { x: 0, y: -1 };
   if (reduced) {
     // At rest: the struck point, its spall, and the round that made it.
@@ -716,7 +716,7 @@ export function effectMarkup(event, options) {
       body = launchCue(b, icon, phase, reduced, F);
     }
   } else if (kind === 'missile') {
-    body = b ? missileArrival(b, icon, phase, reduced, outcome, F, approach, seed) : '';
+    body = b ? missileArrival(b, icon, phase, reduced, outcome, F, approach, seed, event.face) : '';
   } else {
     body = genericPulse(b || a, icon, phase, reduced);
   }
