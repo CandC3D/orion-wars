@@ -22,3 +22,6 @@ docs/visual-review/
 /map-layout-results.json
 /playback-results.json
 /*.log
+
+# rasterised review sheets — regenerable by scripts/glyph-sheet-png.py
+review/

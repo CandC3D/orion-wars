@@ -64,6 +64,57 @@ def load_mask(path, threshold=110):
     return [[1 if px[x, y] >= threshold else 0 for x in range(w)] for y in range(h)], w, h
 
 
+def find_holes(grid, w, h, min_area_px):
+    """Background regions fully enclosed by the shape.
+
+    Without these a ring fills as a disc. That is what turned the silver collar
+    around every Earth command sphere into a solid plate and left the pod a
+    featureless circle - the trace walked the outer boundary and threw the
+    middle away.
+    """
+    seen = [[False] * w for _ in range(h)]
+    holes = []
+    for sy in range(h):
+        for sx in range(w):
+            if grid[sy][sx] != 0 or seen[sy][sx]:
+                continue
+            stack, blob, edge = [(sx, sy)], [], False
+            seen[sy][sx] = True
+            while stack:
+                x, y = stack.pop()
+                blob.append((x, y))
+                if x in (0, w - 1) or y in (0, h - 1):
+                    edge = True
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < w and 0 <= ny < h and grid[ny][nx] == 0 and not seen[ny][nx]:
+                        seen[ny][nx] = True
+                        stack.append((nx, ny))
+            if edge or len(blob) < min_area_px:
+                continue
+            member = set(blob)
+            start = min(blob, key=lambda p: (p[1], p[0]))
+            nbrs = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
+            contour, cur, back = [start], start, 4
+            guard = 0
+            while guard < 8 * len(blob) + 64:
+                guard += 1
+                found = False
+                for step in range(8):
+                    dd = (back + 1 + step) % 8
+                    nx, ny = cur[0] + nbrs[dd][0], cur[1] + nbrs[dd][1]
+                    if (nx, ny) in member:
+                        back = (dd + 5) % 8
+                        cur = (nx, ny)
+                        contour.append(cur)
+                        found = True
+                        break
+                if not found or (len(contour) > 2 and cur == start):
+                    break
+            holes.append(contour)
+    return holes
+
+
 def trace_contours(grid, w, h, min_area_px):
     """Flood-fill each blob, then walk its border (Moore neighbourhood)."""
     seen = [[False] * w for _ in range(h)]
@@ -161,6 +212,17 @@ def measure(contours, w, h):
     return out
 
 
+def min_span(d):
+    """Narrowest dimension of a path's first subpath, in the 0-100 glyph space."""
+    import re as _re
+    first = d.split("Z")[0]
+    nums = [float(x) for x in _re.findall(r'-?\d+\.?\d*', first)]
+    xs, ys = nums[0::2], nums[1::2]
+    if len(xs) < 3:
+        return 0.0
+    return min(max(xs) - min(xs), max(ys) - min(ys))
+
+
 def to_paths(contours, w, h, epsilon, decimals=1):
     """Scale pixel contours into the 0-100 viewBox. One path per blob, so each
     structural band carries its own edge instead of merging into one shape."""
@@ -205,11 +267,27 @@ def main():
             if not os.path.exists(path):
                 continue
             grid, w, h = load_mask(path)
-            min_frac = 0.0015 if key == "hull" else spec["min_area"]
+            # Lights and painted marks are SMALL by nature - a nav light is
+            # 28 px in a 768px frame - so they need their own floor. A single
+            # threshold for every region discarded the red coolant fins on the
+            # nacelles and the green starboard light entirely.
+            role = ROLE_OF[args.faction].get(key)
+            if key == "hull":
+                min_frac = 0.0015
+            elif role in ("lit", "trim"):
+                min_frac = 0.000015
+            else:
+                min_frac = spec["min_area"]
             eps = spec["eps"] * (1.0 if key == "hull" else 1.25)
             contours = trace_contours(grid, w, h, int(w * h * min_frac))
             if contours:
-                got[key] = to_paths(contours, w, h, eps)
+                holes = find_holes(grid, w, h, max(24, int(w * h * min_frac * 0.35)))
+                subpaths = to_paths(contours, w, h, eps) + to_paths(holes, w, h, eps)
+                if role in ("lit", "trim"):
+                    # kept apart so a thin fin is not judged by a fat neighbour
+                    got[key] = subpaths
+                else:
+                    got[key] = [" ".join(subpaths)] if subpaths else []
                 anchors.setdefault(view, {})[key] = measure(contours, w, h)
         return got
 
@@ -228,7 +306,7 @@ def main():
                                % (d, line, width, 1.0 if key == "hull" else 0.8))
         else:
             for d in layers.get("hull", []):
-                out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" '
+                out.append('<path d="%s" fill="%s" fill-rule="evenodd" stroke="%s" stroke-width="%g" '
                            'stroke-linejoin="round"/>'
                            % (d, pal["fill"], pal["line"], spec["hull_stroke"]))
             # Painted in role order so structure sits over hull shading and the
@@ -240,9 +318,19 @@ def main():
                         continue
                     colour = colours.get(key) or pal.get(role, pal["fill"])
                     for d in paths:
-                        out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" '
-                                   'stroke-linejoin="round"/>'
-                                   % (d, colour, pal["line"], spec["edge"]))
+                        # A dark edge makes structural plates read as separate
+                        # parts, but on a thin shape it simply eats the shape: a
+                        # 1.0-wide stroke centred on a 1.9-wide coolant fin
+                        # leaves no colour at all, which is why the fins and the
+                        # nav lights disappeared. Stroke only what is wide
+                        # enough to survive it.
+                        edge = spec["edge"] if min_span(d) > spec["edge"] * 3.0 else 0.0
+                        if edge:
+                            out.append('<path d="%s" fill="%s" fill-rule="evenodd" stroke="%s" '
+                                       'stroke-width="%g" stroke-linejoin="round"/>'
+                                       % (d, colour, pal["line"], edge))
+                        else:
+                            out.append('<path d="%s" fill="%s" fill-rule="evenodd"/>' % (d, colour))
         out.append("</g>")
         return chr(10).join(out)
 

@@ -134,8 +134,8 @@
       "deep": "#1b4b96"
     },
     "orientation": {
-      "_note": "Yaw in degrees applied after the longest axis is rotated onto X. 180 turns a hull end-for-end. Set per hull where the fleet default is wrong.",
-      "yaw": 0,
+      "_note": "Chris's rule: the command sphere is always at the top. The painted orange cap sits on that sphere, so orienting by that region's position is a fact about the model rather than a guess about its silhouette.",
+      "markerRegion": "turret_orange",
       "hulls": {}
     }
   },
@@ -246,8 +246,8 @@
       "deep": "#1f6b45"
     },
     "orientation": {
-      "_note": "Yaw in degrees applied after the longest axis is rotated onto X. 180 turns a hull end-for-end. Set per hull where the fleet default is wrong.",
-      "yaw": 0,
+      "_note": "No marker region ruled yet - hulls keep the source convention (yaw 0). Set markerRegion, or a per-hull yaw, once Chris rules which end is the bow.",
+      "markerRegion": null,
       "hulls": {}
     }
   },

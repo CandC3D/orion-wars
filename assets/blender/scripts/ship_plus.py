@@ -121,7 +121,35 @@ def align_hull():
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
     orient = MARKUP.get("orientation", {})
-    yaw = orient.get("hulls", {}).get(SLUG, orient.get("yaw", 0))
+    yaw = orient.get("hulls", {}).get(SLUG)
+    if yaw is None:
+        key = orient.get("markerRegion")
+        rule_used = "none"
+        if key:
+            # Orient from the MARKUP, not from hull shape. On Earth the painted
+            # orange cap sits on the command sphere, and Chris's rule is that the
+            # sphere is always at the top - so putting that region forward is a
+            # fact about the model rather than a guess about its silhouette.
+            # Two shape heuristics were tried and both failed on whole classes:
+            # "slimmer end forward" inverted every hull whose point-defence
+            # blisters widen the bow, and "widest station forward" chose the
+            # nacelles, which spread wider than the sphere.
+            idx = [i for i, (k, _) in enumerate(PALETTE) if k == key]
+            if idx:
+                want = idx[0]
+                xs = []
+                for poly in mesh.polygons:
+                    if face_region[poly.index] == want:
+                        xs.append(poly.center.x)
+                if xs:
+                    allx = [v.co.x for v in mesh.vertices]
+                    mid = (min(allx) + max(allx)) / 2.0
+                    yaw = 0 if (sum(xs) / len(xs)) > mid else 180
+                    rule_used = "%s at %s" % (key, "+X" if yaw == 0 else "-X")
+        if yaw is None:
+            yaw = 0
+        print("orientation rule: %s" % rule_used)
+    yaw = yaw or 0
     if yaw:
         obj.rotation_euler = (0.0, 0.0, math.radians(yaw))
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
