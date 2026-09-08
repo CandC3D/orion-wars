@@ -312,3 +312,62 @@ already tried and rejected, with explicit warnings against particular values. An
 the light-hull work above would have moved Krelath as collateral, so it had to be
 resolved first. It resolved into "do not use these levers", which leaves the
 Krelath question clean and still open.
+
+---
+
+# Part four — CORRECTION: Krelath is not dependent on its special
+
+Part two said "Krelath without its carrier is not a viable power". **That was
+wrong**, and the error was mine: I attributed Krelath's 39% → 24% fall in the
+specials-free run to the loss of its carrier, when the specials-free run removed
+all four uniques at once. Toggling them independently shows what was really
+happening.
+
+## 16. Toggling each unique hull separately — 52 points, 150 mirrored pairs
+
+| configuration | EAR | VRA | ZAN | KRE |
+|---|---|---|---|---|
+| all four field their unique | 40% | 58% | 63% | **39%** |
+| nobody fields a unique | **67%** | 47% | 61% | **24%** |
+| everyone except EAR | 52% | 54% | 58% | 36% |
+| everyone except VRA | 37% | 55% | 68% | 40% |
+| everyone except ZAN | 40% | 55% | 66% | 39% |
+| **everyone except KRE** | 44% | 57% | 62% | **37%** |
+
+Taking Krelath's own carrier away costs Krelath **two points** — 39% to 37%. The
+purpose-built tool agrees: `node test/buy.js --f KRE` puts the carrier at
+**+1.0pp** at 52 points.
+
+The 24% figure was caused by **Earth**. Earth goes 40% → 67% when nobody fields a
+unique, and 40% → 52% when only Earth loses its own. Earth's plain common-hull
+fleet is the strongest in the game, and the gunstar is a millstone that drags it
+down by 12–27 points depending on configuration. Krelath's apparent collapse was
+Earth standing up.
+
+## 17. What the buy delta says by size
+
+`node test/buy.js --f KRE --battles 200`, opponents always fielding their own:
+
+| size | Krelath's unique | delta |
+|---|---|---|
+| 4, 18 | none fielded | — |
+| 32 | strike cruiser | **+14.3pp** |
+| 52 | carrier | **+1.0pp** |
+| 68 | carrier | **+24.3pp** |
+| 132 | carrier | +7.5pp |
+
+So dependence is real but **size-specific**: the carrier is worth almost nothing
+at 52 and a great deal at 68. A blanket statement either way is wrong.
+
+## 18. The actual Krelath problem, restated
+
+Krelath sit at **37–40% in every configuration** — with their carrier, without
+it, with or without anyone else's unique. They are not carrier-dependent. They
+are simply the weakest power at this fleet size, and the weakness is in the
+common hulls, which is where any fix has to go.
+
+And the faction that genuinely has a special problem is **Earth**, in the
+opposite direction: its unique hull is a penalty rather than an asset. Fixing the
+gunstar — so that a human can hold it cold, position it, and fire it, which the
+console can now do but the scripted captain cannot — is likely worth more to
+Earth than any statistical change.
