@@ -1,27 +1,45 @@
-"""Trace a ship's plan-view masks into the console's class-glyph SVG.
+"""Trace a ship's plan-view masks into a console glyph / paper-doll SVG.
 
-The console loads this file with <image href>, so it cannot inherit CSS colour -
-the faction palette is baked in. It is drawn at 120px inside the shield ring and
-at 28px on the tactical map, so the glyph is a filled plan OUTLINE with only the
-strongest internal features; anything finer is mush at map size.
+The console loads this with <image href>, so it cannot inherit CSS colour - the
+faction palette is baked in. Output matches the convention already in
+assets/icons/ (viewBox 0 0 100 100, bow up), so a generated file drops in.
 
-Output matches the existing icon convention exactly: viewBox 0 0 100 100,
-width/height 64, bow up, so it drops into assets/icons/ with no other change.
+DETAIL LEVELS exist because the same hull is wanted at very different sizes and
+for different jobs:
+
+  map      28px on the tactical map. Faction colour and silhouette only. Any
+           internal feature at this size is mush, so there is almost none.
+  console  120px inside the shield ring. This is the PAPER DOLL: weapon lamps
+           are placed at their physical positions on the hull, so the structural
+           bands have to stay legible or a turret has nothing to sit against.
+  full     Large display. Every traced feature, finest tolerance.
+
+The structural bands are separated by a DARKER EDGE, not a lighter fill. A pale
+fill over a mid-blue hull has almost no contrast and adjacent bands bleed into a
+single shape; an outline holds them apart at any size.
 
   python scripts/trace-ship-icon.py --slug earth_frigate --faction EAR \
-      --masks assets/blender/renders/v3/masks --out assets/icons/ear_frigate.svg
+      --view top --detail console --out assets/icons/ear_frigate.svg
 """
 import argparse
 import os
 
 from PIL import Image
 
-# Faction palettes, taken from the icons already in assets/icons/.
+# Faction palettes, extending the colours already used in assets/icons/.
 FACTIONS = {
-    "EAR": {"fill": "#4f8ef7", "line": "#1e3a8a", "metal": "#cfe0f5", "lit": "#ff5a4d"},
-    "VRA": {"fill": "#e0b02e", "line": "#7a5a06", "metal": "#f6e6b4", "lit": "#ff8a3d"},
-    "ZAN": {"fill": "#e0574a", "line": "#7a1d16", "metal": "#f7cfc9", "lit": "#ffd23d"},
-    "KRE": {"fill": "#4fae7a", "line": "#14512f", "metal": "#cdeadb", "lit": "#9be36a"},
+    "EAR": {"fill": "#4f8ef7", "line": "#1b2f6b", "band": "#a9c9f7", "edge": "#24408c", "lit": "#ff5a4d"},
+    "VRA": {"fill": "#e0b02e", "line": "#5f4506", "band": "#f7e3a8", "edge": "#8a6608", "lit": "#ff8a3d"},
+    "ZAN": {"fill": "#e0574a", "line": "#611711", "band": "#f7c3bc", "edge": "#8f2419", "lit": "#ffd23d"},
+    "KRE": {"fill": "#4fae7a", "line": "#0f3f24", "band": "#bfe8d2", "edge": "#1c6238", "lit": "#9be36a"},
+}
+
+# per level: hull stroke width, band fill opacity, band stroke width, trace
+# tolerance, minimum band blob area as a fraction of the frame, layers drawn.
+DETAIL = {
+    "map":     dict(hull_stroke=4.0, band_fill=0.0,  band_stroke=0.0, eps=2.2, min_band=1.0,    layers=("hull", "lit")),
+    "console": dict(hull_stroke=2.6, band_fill=0.55, band_stroke=1.1, eps=1.3, min_band=0.0009, layers=("hull", "metal", "lit")),
+    "full":    dict(hull_stroke=2.0, band_fill=0.62, band_stroke=0.9, eps=0.8, min_band=0.0004, layers=("hull", "metal", "lit")),
 }
 
 
@@ -33,10 +51,9 @@ def load_mask(path, threshold=110):
 
 
 def trace_contours(grid, w, h, min_area_px):
-    """Marching-squares boundary walk over each filled blob."""
+    """Flood-fill each blob, then walk its border (Moore neighbourhood)."""
     seen = [[False] * w for _ in range(h)]
     contours = []
-    # 8-connected flood fill to find blobs, then walk each blob's border.
     for sy in range(h):
         for sx in range(w):
             if grid[sy][sx] != 1 or seen[sy][sx]:
@@ -55,7 +72,6 @@ def trace_contours(grid, w, h, min_area_px):
             if len(blob) < min_area_px:
                 continue
             member = set(blob)
-            # Moore boundary trace, starting from the blob's topmost-leftmost pixel.
             start = min(blob, key=lambda p: (p[1], p[0]))
             nbrs = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
             contour, cur, back = [start], start, 4
@@ -79,7 +95,7 @@ def trace_contours(grid, w, h, min_area_px):
 
 
 def simplify(points, epsilon):
-    """Douglas-Peucker."""
+    """Douglas-Peucker on an open polyline."""
     if len(points) < 3:
         return points
     ax, ay = points[0]
@@ -93,29 +109,25 @@ def simplify(points, epsilon):
         if dist > worst:
             worst, index = dist, i
     if worst > epsilon:
-        left = simplify(points[:index + 1], epsilon)
-        right = simplify(points[index:], epsilon)
-        return left[:-1] + right
+        return simplify(points[:index + 1], epsilon)[:-1] + simplify(points[index:], epsilon)
     return [points[0], points[-1]]
 
 
 def simplify_closed(points, epsilon):
-    """Douglas-Peucker on a CLOSED ring. Run naively, the first and last points
-    are the same, the baseline has zero length and the whole ring collapses to
-    two points. Split at the point farthest from the start and simplify each
-    half against a real baseline."""
+    """Run naively on a closed ring, the first and last point are the same, the
+    baseline has zero length, and the whole ring collapses to two points. Split
+    at the point farthest from the start so each half has a real baseline."""
     ring = points[:-1] if len(points) > 1 and points[0] == points[-1] else points[:]
     if len(ring) < 4:
         return ring
     ax, ay = ring[0]
     far = max(range(1, len(ring)), key=lambda i: (ring[i][0] - ax) ** 2 + (ring[i][1] - ay) ** 2)
-    first = simplify(ring[:far + 1], epsilon)
-    second = simplify(ring[far:] + [ring[0]], epsilon)
-    return first[:-1] + second[:-1]
+    return simplify(ring[:far + 1], epsilon)[:-1] + simplify(ring[far:] + [ring[0]], epsilon)[:-1]
 
 
-def to_path(contours, w, h, epsilon, decimals=1):
-    """Scale pixel contours into the 0-100 viewBox and emit one path."""
+def to_paths(contours, w, h, epsilon, decimals=1):
+    """Scale pixel contours into the 0-100 viewBox. One path per blob, so each
+    structural band carries its own edge instead of merging into one shape."""
     out = []
     for contour in contours:
         pts = simplify_closed(contour, epsilon)
@@ -123,50 +135,62 @@ def to_path(contours, w, h, epsilon, decimals=1):
             continue
         d = []
         for i, (x, y) in enumerate(pts):
-            sx = round(x * 100.0 / w, decimals)
-            sy = round(y * 100.0 / h, decimals)
-            d.append("%s%g %g" % ("M" if i == 0 else "L", sx, sy))
+            d.append("%s%g %g" % ("M" if i == 0 else "L",
+                                  round(x * 100.0 / w, decimals), round(y * 100.0 / h, decimals)))
         out.append(" ".join(d) + " Z")
-    return " ".join(out)
+    return out
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--slug", required=True)
     ap.add_argument("--faction", required=True, choices=sorted(FACTIONS))
+    ap.add_argument("--view", default="top")
+    ap.add_argument("--detail", default="console", choices=sorted(DETAIL))
     ap.add_argument("--masks", default="assets/blender/renders/v3/masks")
+    ap.add_argument("--size", type=int, default=64, help="rendered width/height attribute")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--epsilon", type=float, default=1.6, help="trace tolerance in mask pixels")
     args = ap.parse_args()
 
     pal = FACTIONS[args.faction]
+    spec = DETAIL[args.detail]
     layers = {}
-    for tag, min_frac, eps_scale in (("hull", 0.0015, 1.0), ("metal", 0.0035, 1.8), ("lit", 0.0004, 1.5)):
-        path = os.path.join(args.masks, "%s_%s.png" % (args.slug, tag))
+    for tag in spec["layers"]:
+        path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, args.view, tag))
+        if not os.path.exists(path):
+            legacy = os.path.join(args.masks, "%s_%s.png" % (args.slug, tag))
+            if os.path.exists(legacy):
+                path = legacy
         if not os.path.exists(path):
             print("missing mask:", path)
             continue
         grid, w, h = load_mask(path)
+        min_frac = spec["min_band"] if tag == "metal" else (0.0015 if tag == "hull" else 0.0004)
+        eps = spec["eps"] * (1.0 if tag == "hull" else 1.3)
         contours = trace_contours(grid, w, h, int(w * h * min_frac))
-        layers[tag] = to_path(contours, w, h, args.epsilon * eps_scale)
-        print("%-6s %d blobs" % (tag, len(contours)))
+        layers[tag] = to_paths(contours, w, h, eps)
+        print("%-6s %d blobs" % (tag, len(layers[tag])))
 
     if not layers.get("hull"):
         raise SystemExit("no hull silhouette traced - is the mask empty?")
 
-    svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="64" height="64">']
-    svg.append('<path d="%s" fill="%s" stroke="%s" stroke-width="4" stroke-linejoin="round"/>'
-               % (layers["hull"], pal["fill"], pal["line"]))
-    if layers.get("metal"):
-        svg.append('<path d="%s" fill="%s" opacity="0.38"/>' % (layers["metal"], pal["metal"]))
-    if layers.get("lit"):
-        svg.append('<path d="%s" fill="%s"/>' % (layers["lit"], pal["lit"]))
+    svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" '
+           'width="%d" height="%d">' % (args.size, args.size)]
+    svg.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
+               % (" ".join(layers["hull"]), pal["fill"], pal["line"], spec["hull_stroke"]))
+    for d in layers.get("metal", []):
+        svg.append('<path d="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g" '
+                   'stroke-linejoin="round"/>'
+                   % (d, pal["band"], spec["band_fill"], pal["edge"], spec["band_stroke"]))
+    for d in layers.get("lit", []):
+        svg.append('<path d="%s" fill="%s"/>' % (d, pal["lit"]))
     svg.append("</svg>")
 
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:
         fh.write("\n".join(svg) + "\n")
-    print("wrote %s (%d bytes)" % (args.out, os.path.getsize(args.out)))
+    print("wrote %s (%d bytes, detail=%s, view=%s)"
+          % (args.out, os.path.getsize(args.out), args.detail, args.view))
 
 
 if __name__ == "__main__":

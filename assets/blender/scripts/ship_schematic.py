@@ -36,6 +36,18 @@ if "--" in sys.argv:
 SRC = args.get("src")
 SLUG = args.get("slug", "ship")
 RES = int(args.get("res", 768))
+# Named views, as (azimuth degrees about Z, elevation degrees). The hull's long
+# axis is world X with the bow at +X. More can be added here without touching
+# anything else; the tracer keys off whatever names appear in the filenames.
+VIEWS = {
+    "top":     (0.0,   90.0),
+    "bow":     (0.0,    0.0),
+    "stern":   (180.0,  0.0),
+    "side":    (90.0,   0.0),
+    "quarter": (35.0,  28.0),
+    "high":    (20.0,  62.0),
+}
+requested = args.get("views", "top")
 OUTDIR = args.get("out", os.path.join(ROOT, "assets", "blender", "renders", "v3", "masks"))
 os.makedirs(OUTDIR, exist_ok=True)
 
@@ -95,19 +107,35 @@ scene.world.use_nodes = True
 scene.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0, 0, 1)
 scene.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.0
 
-# Bow-up. The hull's long axis is world X with the bow at +X, and the top camera
-# looks down -Z, so rolling the camera -90 degrees puts the bow at screen top.
 corners = [obj.matrix_world @ mathutils.Vector(c) for c in obj.bound_box]
 centre = sum(corners, mathutils.Vector()) / 8.0
 span = max((max(c[i] for c in corners) - min(c[i] for c in corners)) for i in range(3))
-cam_data = bpy.data.cameras.new("cam")
-cam_data.type = "ORTHO"
-cam_data.ortho_scale = span * 1.04
-cam = bpy.data.objects.new("cam", cam_data)
-scene.collection.objects.link(cam)
-scene.camera = cam
-cam.location = centre + mathutils.Vector((0.0, 0.0, span * 3))
-cam.rotation_euler = (0.0, 0.0, math.radians(-90.0))
+
+
+def aim(view):
+    """Place an orthographic camera for a named view.
+
+    Top is special-cased: the console puts the BOW marker at the top of the
+    shield ring, so a plan view has to be rolled to put the bow at screen up.
+    Every other view is a straightforward track-to.
+    """
+    az, el = VIEWS[view]
+    cam_data = bpy.data.cameras.new("cam_" + view)
+    cam_data.type = "ORTHO"
+    cam_data.ortho_scale = span * 1.04
+    cam = bpy.data.objects.new("cam_" + view, cam_data)
+    bpy.context.scene.collection.objects.link(cam)
+    bpy.context.scene.camera = cam
+    if el >= 89.0:
+        cam.location = centre + mathutils.Vector((0.0, 0.0, span * 3))
+        cam.rotation_euler = (0.0, 0.0, math.radians(-90.0))
+        return cam
+    a, e = math.radians(az), math.radians(el)
+    d = mathutils.Vector((math.cos(e) * math.cos(a), math.cos(e) * math.sin(a), math.sin(e)))
+    cam.location = centre + d * span * 3
+    cam.rotation_mode = "QUATERNION"
+    cam.rotation_quaternion = (-d).to_track_quat("-Z", "Y")
+    return cam
 
 
 def flat(value):
@@ -126,19 +154,26 @@ def flat(value):
 
 white, black = flat(1.0), flat(0.0)
 
-for tag in ("hull", "lit", "metal"):
-    mesh.materials.clear()
-    mesh.materials.append(white)
-    mesh.materials.append(black)
-    if tag == "hull":
-        for poly in mesh.polygons:
-            poly.material_index = 0
-    else:
-        wanted = {i for i, (n, _) in enumerate(PALETTE) if n in GROUPS[tag]}
-        for poly in mesh.polygons:
-            poly.material_index = 0 if face_region[poly.index] in wanted else 1
-    scene.render.filepath = os.path.join(OUTDIR, "%s_%s.png" % (SLUG, tag))
-    bpy.ops.render.render(write_still=True)
-    print("wrote", scene.render.filepath)
+wanted_views = [v.strip() for v in requested.split(",") if v.strip() in VIEWS]
+if not wanted_views:
+    raise SystemExit("no known view requested; choose from %s" % ", ".join(sorted(VIEWS)))
+
+for view in wanted_views:
+    cam = aim(view)
+    for tag in ("hull", "lit", "metal"):
+        mesh.materials.clear()
+        mesh.materials.append(white)
+        mesh.materials.append(black)
+        if tag == "hull":
+            for poly in mesh.polygons:
+                poly.material_index = 0
+        else:
+            wanted = {i for i, (n, _) in enumerate(PALETTE) if n in GROUPS[tag]}
+            for poly in mesh.polygons:
+                poly.material_index = 0 if face_region[poly.index] in wanted else 1
+        scene.render.filepath = os.path.join(OUTDIR, "%s_%s_%s.png" % (SLUG, view, tag))
+        bpy.ops.render.render(write_still=True)
+        print("wrote", scene.render.filepath)
+    bpy.data.objects.remove(cam, do_unlink=True)
 
 print("MASKS_DONE")
