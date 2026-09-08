@@ -1,11 +1,15 @@
 {
-  "name": "orion-wars",
+  "name": "distant-sectors",
   "version": "0.1.0",
-  "description": "The Orion Wars: four-power strategic wargame. Headless rules engine + browser clients.",
+  "description": "Distant Sectors: The Achernar Campaign — four-power strategic wargame. Headless rules engine + browser clients.",
   "type": "module",
   "scripts": {
     "war": "node test/harness.js",
-    "test": "node test/harness.js --quiet",
-    "arena": "node scripts/serve.js"
+    "test": "node test/run-tests.js",
+    "arena": "node scripts/serve.js",
+    "review": "node scripts/visual-review.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }

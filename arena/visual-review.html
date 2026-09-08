@@ -82,6 +82,7 @@
 
 <footer id="foot">Booting&hellip;</footer>
 
+<script src="./visual-checks.js"></script>
 <script type="module">
 const $ = (s, r = document) => r.querySelector(s);
 const grid = $("#grid");
@@ -101,8 +102,7 @@ async function discoverScenarios() {
   await new Promise((r) => setTimeout(r, 400));
   let list = [];
   try {
-    const select = probe.contentDocument.querySelector("#bundled-scenario");
-    list = [...(select?.options ?? [])].map((o) => ({ file: o.value, label: o.textContent.trim() || o.value }));
+    list = window.DSVisualChecks.scenarioList(probe.contentDocument);
   } catch (error) {
     $("#foot").textContent = `Could not read the scenario list: ${error.message}. Serve this page over npm run arena, not from disk.`;
   }
@@ -129,67 +129,6 @@ function makePanel(entry) {
 
 function setChip(p, kind, text) { p.chip.className = `chip ${kind}`; p.chip.textContent = text; }
 
-// Drives the playfield's own setup form. There is no deep link for a bundled
-// scenario yet; if one lands, this is the only place that needs to change.
-function startEngagement(doc, entry) {
-  const mode = doc.querySelector("#setup-mode");
-  const bundled = doc.querySelector("#bundled-scenario");
-  const seed = doc.querySelector("#command-seed");
-  const side = doc.querySelector("#command-side");
-  const begin = doc.querySelector("#begin");
-  if (!mode || !bundled || !begin) throw new Error("setup controls not found");
-  // A select silently goes empty when handed a value it has no option for, and the
-  // playfield then refuses the setup with no clue why. Say which control it was.
-  const pick = (el, value, what) => {
-    el.value = value;
-    if (el.value !== value) throw new Error(`${what} has no option "${value}" (offers ${[...el.options].map((o) => o.value).join(", ")})`);
-    el.dispatchEvent(new Event("change", { bubbles: true }));
-  };
-  pick(mode, "bundled", "setup mode");
-  pick(bundled, entry.file, "bundled scenario");
-  if (side) pick(side, $("#side").value, "commanding side");
-  if (seed) seed.value = $("#seed").value;
-  begin.click();
-}
-
-function inspect(win, doc, size) {
-  const findings = [];
-  const setup = doc.querySelector("#trial-setup");
-  const started = !!doc.querySelector("#contact-map") && (!setup || setup.hidden || setup.offsetParent === null);
-  if (!started) findings.push({ level: "bad", text: "engagement did not start — still on the setup screen" });
-
-  const root = doc.documentElement;
-  const overX = root.scrollWidth - win.innerWidth;
-  const overY = root.scrollHeight - win.innerHeight;
-  if (overX > 1) findings.push({ level: "bad", text: `scrolls sideways by ${overX}px at ${size.w}px` });
-  if (overY > 1) findings.push({ level: "warn", text: `taller than the viewport by ${overY}px at ${size.h}px` });
-
-  // Chrome sitting past the right edge is off-screen for the operator. Content the
-  // map itself clips does not count — the hex view pans, so its contents legitimately
-  // extend beyond the frame.
-  const clipped = (el) => {
-    for (let a = el.parentElement; a; a = a.parentElement) {
-      if (/hidden|clip|auto|scroll/.test(getComputedStyle(a).overflowX)) return true;
-    }
-    return false;
-  };
-  const name = (el) => {
-    if (el.id) return `#${el.id}`;
-    const cls = typeof el.className === "string" ? el.className : el.className?.baseVal;
-    const first = cls?.trim().split(/\s+/)[0];
-    return first ? `.${first}` : el.tagName.toLowerCase();
-  };
-  let widest = 0, culprit = "";
-  for (const el of doc.body.querySelectorAll("*")) {
-    const r = el.getBoundingClientRect();
-    if (!r.width || r.right <= widest || clipped(el)) continue;
-    widest = r.right; culprit = name(el);
-  }
-  if (widest > win.innerWidth + 1) findings.push({ level: "warn", text: `${culprit} reaches ${Math.round(widest)}px, past the ${win.innerWidth}px edge` });
-
-  return { started, findings };
-}
-
 async function run(p) {
   const size = dims();
   const scale = Math.min(1, (p.stage.clientWidth || 560) / size.w);
@@ -215,17 +154,16 @@ async function run(p) {
   let result;
   try {
     const doc = frame.contentDocument;
-    startEngagement(doc, p.entry);
+    window.DSVisualChecks.startEngagement(doc, { scenario: p.entry.file, seed: $("#seed").value, side: $("#side").value });
     await new Promise((r) => setTimeout(r, SETTLE_MS));
-    result = inspect(frame.contentWindow, doc, size);
+    result = window.DSVisualChecks.inspect(frame.contentWindow, doc);
   } catch (error) {
     result = { started: false, findings: [{ level: "bad", text: `harness could not drive the page: ${error.message}` }] };
   }
 
   for (const message of errors) result.findings.push({ level: "bad", text: `threw: ${message}` });
 
-  const worst = result.findings.some((f) => f.level === "bad") ? "fail"
-    : result.findings.length ? "warn" : "pass";
+  const worst = window.DSVisualChecks.verdict(result.findings);
   setChip(p, worst, worst === "pass" ? "clean" : worst === "warn" ? `${result.findings.length} to look at` : "failing");
   p.findings.innerHTML = result.findings.length
     ? `<ul>${result.findings.map((f) => `<li class="${f.level === "bad" ? "bad" : "warn"}">${f.text}</li>`).join("")}</ul>`

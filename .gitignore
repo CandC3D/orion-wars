@@ -8,6 +8,12 @@ __pycache__/
 # machine-local tool settings
 .claude/settings.local.json
 
+# installed packages (package-lock.json is committed; node_modules is not)
+node_modules/
+
+# visual review captures — regenerable by npm run review
+docs/visual-review/
+
 # repository-root scratch and recovery workspaces
 /.tmp-*/
 /.tmp_*

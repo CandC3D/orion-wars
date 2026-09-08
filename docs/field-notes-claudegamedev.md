@@ -311,11 +311,18 @@ unclipped chrome sits past the right edge, nothing threw. It reads the scenario 
 playfield's own bundled-scenario select, so it tracks whatever `arena/scenarios/` holds. Zero
 dependencies, and it drives the existing setup form rather than needing a source change. At
 both 1440×900 and 1280×800 all eight scenarios currently pass. What it deliberately does not
-do is judge whether the console *reads* right — that is what the pictures are for. The
-unattended-capture and critic-scoring layer needs a headless browser driver, which is an open
-question: every existing browser probe in `docs/dispatch/**` and `docs/consultations/**` calls
-Playwright, Playwright is not installed on this machine, and the repository has no
-dependencies at all by apparent design.
+do is judge whether the console *reads* right — that is what the pictures are for.
+
+**Unattended capture, same day.** Chris ruled for Playwright as a devDependency (the repo's
+first, Chromium only, ~115 MB), so `npm run review` now runs the same checks headless against
+its own ephemeral server, captures a full-resolution PNG of every scenario, and writes
+`docs/visual-review/index.html` — the contact sheet — plus `review.json`. It exits 1 on any
+failure, so it can gate a commit; warnings do not fail the run. Flags: `--width --height
+--seed --side --out`, and `--out docs/visual-review/before` makes before/after pairs for a
+presentation change.
+
+The checks live once, in `arena/visual-checks.js`, and are shared verbatim: the sheet includes
+the file, the headless script injects it. They cannot drift apart.
 
 **Audio: the architecture is already right; the assets are placeholders.** `arena/combat-audio.js`
 is a small synthesized cue set — nine cues (ui, engage, beam, spinal, launch, impact,
