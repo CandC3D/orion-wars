@@ -204,3 +204,111 @@ Mirrored pairs throughout: every seed is played twice with the sides swapped, so
 a deployment or initiative edge cannot pass for a faction edge. Battles are AI
 against AI, so all of this describes how the scripted captains fight. Nothing has
 been retuned.
+
+---
+
+# Part three — light hulls, and why durability is the wrong lever
+
+Chris: light hulls feel fragile, and that shortens the game. He then made the
+point that decides the section: *with those kinds of losses you'd never have any
+commanders survive to command larger ships.*
+
+## 12. The claim is correct, and worse than it looks
+
+Asterion tutorial, 1500 runs, which ends on a flagship or the turn limit rather
+than extinction:
+
+| class | loss rate |
+|---|---|
+| destroyer | **94%** |
+| missile destroyer | **95%** |
+| light cruiser | 53% |
+| heavy cruiser | 37% |
+| battleship | 32% |
+
+Splitting the point-buy trials by outcome shows where it comes from:
+
+| class | on the winning side | on the losing side |
+|---|---|---|
+| frigate | 67% | **100%** |
+| destroyer | 64% | **100%** |
+| light cruiser | 51% | 99% |
+| heavy cruiser | 21% | 100% |
+| carrier | **1%** | 71% |
+| monitor | **1%** | 97% |
+
+Two things at once. The loser is annihilated — that is the victory condition. But
+even the **winner** loses two thirds of its frigates and destroyers while its
+capitals walk away almost untouched, at 1% for a carrier or monitor against 67%
+for a frigate. Light hulls are the fleet's ablative armour.
+
+## 13. Every tactical lever was tried, and none of them works
+
+52 points, all four powers, mirrored pairs. Frigate loss rate and battle length:
+
+| variant | frigate loss | turns |
+|---|---|---|
+| baseline | 86% | 11.3 |
+| light shield cap +50% | 83% | 11.6 |
+| light shield cap ×2 | 83% | 12.0 |
+| light absorption 25% cheaper | 87% | 11.5 |
+| light superstructure +30% | 86% | 12.0 |
+| capital tracking −1.0 pip, 10% evade | 85% | 11.8 |
+| capital tracking −2.0 pip, 20% evade | 86% | 12.5 |
+| capital tracking −3.0 pip, 30% evade | 86% | 13.3 |
+
+Nothing moves it. The design already intends that "capital guns cannot track
+small ships" — it is implemented as −0.5 pips and a 5% missile evade, both marked
+adjustable — and taking that to −3.0 pips and 30% evade changes the frigate loss
+rate by nothing at all. It does lengthen the battle by 18%, which is the only
+part of Chris's complaint any of these levers addresses.
+
+Then the absurd control, on the Asterion tutorial:
+
+| variant | DD | CL | CA | BB | EAR win |
+|---|---|---|---|---|---|
+| baseline | 95% | 53% | 37% | 32% | 56% |
+| light hull ×2, shield ×2 | 87% | 61% | 49% | 20% | 40% |
+| light hull ×3, shield ×2 | 77% | 63% | 55% | 10% | 32% |
+| light hull ×4, shield ×3 | 65% | 66% | 58% | **6%** | **25%** |
+
+Quadrupling a destroyer's hull and tripling its shields only takes it from 95% to
+65% — and it **makes capitals harder to kill, not easier**: battleship losses fall
+from 32% to 6%, and the tutorial's balance collapses from 56% to 25%. Durability
+buffs make the capital ships more dominant, which is the opposite of the goal.
+
+The reason is target selection. A 14-hull destroyer dies to concentrated fire
+whatever its shield is, while the same buff applied to a 76-hull battleship
+compounds into near-invulnerability.
+
+## 14. So it is not a tactical problem
+
+Chris's framing is the right one: the objection is not that a destroyer dies, it
+is that **no commander survives to command anything larger**. That is a campaign
+concern, and there is currently no campaign answer available, because there is no
+commander or crew model at all: `crewRating` is a flat to-hit constant defaulting
+to 0, and `test/xp.js` is a tuning experiment runner, not an experience system.
+
+Three structural options, none of which touches the tactical balance that has
+been tuned over many passes:
+
+1. **A crippled or disabled state.** A hull reduced to zero leaves the battle
+   without its crew being lost. `docs/fasa-mechanics-notes.md` already describes
+   both crippling and casualties — "a healthy ship dying is a bomb; a crippled
+   one fizzles" — so the source material is on side.
+2. **A survival roll on hull loss**, so a proportion of commanders persist. The
+   cheapest of the three, and enough on its own to make a career possible.
+3. **Withdrawal**, so a losing side is not annihilated. This is the single
+   largest contributor: 100% of the losing side dies today, by definition.
+
+Any of these gives commanders a career without moving a single tactical number.
+
+## 15. Krelath is untouched, deliberately
+
+Chris asked to leverage the Krelath hulls. That has NOT been done, for two
+reasons. Krelath's weakness is specials-free only — with the carrier they sit at
+35-39%, and the doctrine notes in `factionModifiers` record a long list of levers
+already tried and rejected, with explicit warnings against particular values. And
+the light-hull work above would have moved Krelath as collateral, so it had to be
+resolved first. It resolved into "do not use these levers", which leaves the
+Krelath question clean and still open.
