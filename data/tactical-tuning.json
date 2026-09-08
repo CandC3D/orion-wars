@@ -784,6 +784,15 @@
     "rangeHexes": 3
   },
   "damage": {
+    "crippling": {
+      "enabled": false,
+      "_note": "RULING 2026-09-07 (Chris): a hull reduced to zero structure is CRIPPLED, not destroyed - it is out of the action but its crew is alive. Measured motive: destroyers die at 94-95% in the Asterion tutorial and 100% on any losing side, so no commander survives to command anything larger. Durability tuning was measured and does not fix it (see docs/balance-2026-09-07-four-power.md part three): quadrupling light-hull structure only moves destroyer losses 95%->65% and makes CAPITALS harder to kill. Off by default until adopted, because it changes every battle outcome in the suite.",
+      "crewSurvivesCrippling": 1,
+      "crewSurvivesDestruction": 0.35,
+      "damageControlChance": 0.35,
+      "damageControlRestoresFraction": 0.15,
+      "_damageControlNote": "A crippled hull may attempt damage control once per turn. On success it recovers damageControlRestoresFraction of its maximum structure and returns to the action. FASA precedent: repairs once per turn per system, taking effect the following turn."
+    },
     "shieldsRegenerate": true,
     "superstructureRegenerates": false,
     "systemHitsToInoperative": 5,

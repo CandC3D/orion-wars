@@ -44,6 +44,12 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(laser._note,'Accurate, long, consistent. EAR and ZAN.');
   laser.overcharge=beforeT.weapons['laser-cannon'].overcharge;
   laser._note=beforeT.weapons['laser-cannon']._note;
+  // Crippling block added 2026-09-07 (ruling: Chris), disabled by default so no
+  // recorded battle changes. Asserted new and off, then reverted for the compare.
+  assert.equal(typeof restored.damage.crippling, 'object', 'crippling block');
+  assert.equal(restored.damage.crippling.enabled, false, 'crippling must ship disabled');
+  assert.equal(Object.hasOwn(beforeT.damage, 'crippling'), false, 'crippling must be new, not a rewrite');
+  delete restored.damage.crippling;
   // Five arc presets named 2026-09-07 (ruling: Chris). A survey found six
   // face-sets in use with no preset behind them, which the interface could only
   // render as "custom (1,2,6)". Additive: no existing preset was touched.

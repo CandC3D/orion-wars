@@ -250,8 +250,25 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
   }
   if (ship.superstructure <= 0) {
     ship.superstructure = 0;
-    ship.destroyed = true;
-    if (log) log(`${ship.id} destroyed`);
+    // RULING 2026-09-07 (Chris): zero structure CRIPPLES a hull; it is out of the
+    // action with its crew alive. Only a second reduction destroys it, and the
+    // crew then take a survival roll. Off unless tuning enables it, because it
+    // changes the outcome of every battle already recorded.
+    const rule = tuning?.damage?.crippling;
+    if (rule?.enabled && !ship.crippled && !ship.destroyed) {
+      ship.crippled = true;
+      ship.crewAlive = true;
+      if (log) log(`${ship.id} crippled - out of action, crew alive`);
+    } else {
+      ship.destroyed = true;
+      if (rule?.enabled) {
+        // A survival roll, so a commander can outlive a hull and go on to a
+        // larger one. Consumes the seeded PRNG like every other chance here.
+        const chance = ship.crippled ? (rule.crewSurvivesDestruction ?? 0) : (rule.crewSurvivesDestruction ?? 0);
+        ship.crewAlive = rng ? rng.int(100) < Math.round(chance * 100) : false;
+        if (log) log(`${ship.id} destroyed - crew ${ship.crewAlive ? 'recovered' : 'lost'}`);
+      } else if (log) log(`${ship.id} destroyed`);
+    }
   }
   return { absorbed: amount - remaining, internal: remaining };
 }

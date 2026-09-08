@@ -23,6 +23,9 @@ import { advanceManualSpinal } from './spinal-control.js';
 // ---------------------------------------------------------------- helpers
 
 const living = (fleet) => fleet.filter((s) => !s.destroyed);
+// Still fighting: not destroyed and not crippled. `living` remains "physically
+// present" - a crippled hull can still be shot at, and still explodes.
+const fighting = (fleet) => fleet.filter((s) => !s.destroyed && !s.crippled);
 const enemyAt = (pos, enemies, tuning) => tuning.battle?.sameHexNoFire !== false &&
   enemies.some(s => !s.destroyed && s.pos.q === pos.q && s.pos.r === pos.r);
 
@@ -1817,7 +1820,12 @@ function payBurst(ship, moved, tuning) {
   ship.emergencyUsed=true;
   ship.superstructure=Math.max(0,ship.superstructure-em.stressDamage);
   ship.toHitPenalty=em.toHitPenalty;
-  if (ship.superstructure===0) ship.destroyed=true;
+  if (ship.superstructure===0) {
+    // Same crippling rule as combat damage; burst stress must not be the one
+    // path that still vaporises a hull outright.
+    if (tuning?.damage?.crippling?.enabled && !ship.crippled) { ship.crippled=true; ship.crewAlive=true; }
+    else ship.destroyed=true;
+  }
 }
 
 // Krelath short-range tactical warp. Replaces the cloak they lost: instead of
@@ -2135,7 +2143,7 @@ function makePrngFor(seed) {
 }
 
 export function battleResult(battle) {
-  const remA = living(battle.A), remB = living(battle.B);
+  const remA = fighting(battle.A), remB = fighting(battle.B);
   const ptsA = remA.reduce((s, x) => s + x.points, 0);
   const ptsB = remB.reduce((s, x) => s + x.points, 0);
   let victor = null;
@@ -2168,8 +2176,8 @@ export function battleResult(battle) {
 function objectiveEnded(battle) {
   const protectedClass = battle.victory?.type === "flagship" ? battle.victory.protectedClass : null;
   if (!protectedClass) return false;
-  return !living(battle.A).some((ship) => ship.className === protectedClass.A) ||
-    !living(battle.B).some((ship) => ship.className === protectedClass.B);
+  return !fighting(battle.A).some((ship) => ship.className === protectedClass.A) ||
+    !fighting(battle.B).some((ship) => ship.className === protectedClass.B);
 }
 
 // One full turn. `orders` maps ship id -> { plan: [{turn, forward} x rounds],
@@ -2238,8 +2246,20 @@ export function stepTurn(battle, orders = {}, opts = {}) {
   }
 
   for (const s of [...living(A), ...living(B)]) startTurn(s, tuning);
-  for (const s of living(A)) chargeSpinal(s, B, tuning, log, battle, hasOrder(s));
-  for (const s of living(B)) chargeSpinal(s, A, tuning, log, battle, hasOrder(s));
+  // DAMAGE CONTROL (ruling 2026-09-07, Chris): a crippled hull may try to get
+  // back into the action once a turn. Success restores a slice of structure and
+  // clears the flag; the crew were never lost, so this is a repair, not a raise.
+  const dc = tuning.damage?.crippling;
+  if (dc?.enabled) for (const s of [...A, ...B]) {
+    if (!s.crippled || s.destroyed) continue;
+    if (rng.int(100) < Math.round((dc.damageControlChance ?? 0) * 100)) {
+      s.crippled = false;
+      s.superstructure = Math.max(1, Math.round((s.superstructureMax ?? 1) * (dc.damageControlRestoresFraction ?? 0.15)));
+      if (log) log(`${s.id} damage control succeeds - back in the action at ${s.superstructure} structure`);
+    } else if (log) log(`${s.id} adrift - damage control continues`);
+  }
+  for (const s of fighting(A)) chargeSpinal(s, B, tuning, log, battle, hasOrder(s));
+  for (const s of fighting(B)) chargeSpinal(s, A, tuning, log, battle, hasOrder(s));
   for (const s of [...living(A), ...living(B)]) {
     s.reserve = doctrineReserve(s, s.side === "A" ? B : A, tuning, battle);
     // A human reserve order overrides the doctrine: a fraction of the pool held for shields.
@@ -2247,7 +2267,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     if (o && Number.isFinite(o.reserve)) s.reserve = Math.round(Math.min(1, Math.max(0, o.reserve)) * s.power);
     s.orderTarget = (o && o.target && o.target !== "auto") ? o.target : null;
   }
-  for (const s of [...living(A), ...living(B)]) evade(s, tuning, rng, log, battle);
+  for (const s of [...fighting(A), ...fighting(B)]) evade(s, tuning, rng, log, battle);
 
   for (const [side, foe] of [[A, B], [B, A]]) {
     const cloaked = living(side).filter((s) => s.cloaked && !s.decloaking);
@@ -2297,7 +2317,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     const allShips = [...A, ...B];
     for (const s of order) {
       reconcileContacts(battle);
-      if (s.destroyed) continue;
+      if (s.destroyed || s.crippled) continue;
       try {
       const foe = s.side === "A" ? B : A;
       const st = s.side === "A" ? stats.A : stats.B;
