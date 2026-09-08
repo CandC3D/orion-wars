@@ -101,7 +101,7 @@ def main():
         if not args.skip_plus:
             code, out = blender("ship_plus.py", [
                 "src=" + cleaned, "slug=" + slug, "mode=light", "out=" + WORK, "faction=" + args.faction])
-            note(out, "welded", "decimated", "REGION_GATE", "PLUSSED")
+            note(out, "aligned", "welded", "decimated", "REGION_GATE", "PLUSSED")
             if "REGION_GATE_FAILED" in out:
                 failures.append((key, "region gate failed"))
             if code != 0:

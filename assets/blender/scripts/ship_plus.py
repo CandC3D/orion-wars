@@ -103,6 +103,10 @@ def align_hull():
     itself, so they have to agree with each other - the longest axis onto X, and
     the slimmer end (the bow, on every design in these fleets) at +X.
     """
+    # The glTF importer leaves objects in QUATERNION rotation mode, in which
+    # assigning rotation_euler is silently ignored - the alignment ran and did
+    # nothing at all until this line was added.
+    obj.rotation_mode = "XYZ"
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     dims = list(obj.dimensions)
     longest = dims.index(max(dims))

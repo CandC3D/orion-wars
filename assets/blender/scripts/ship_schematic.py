@@ -117,6 +117,10 @@ def align_hull():
     a class disagrees the contact sheet shows it at once, and the correction is
     a flag rather than a re-model.
     """
+    # The glTF importer leaves objects in QUATERNION rotation mode, in which
+    # assigning rotation_euler is silently ignored - the alignment ran and did
+    # nothing at all until this line was added.
+    obj.rotation_mode = "XYZ"
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     dims = list(obj.dimensions)
     longest = dims.index(max(dims))
