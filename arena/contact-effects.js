@@ -449,9 +449,13 @@ function strikeOrbit(b, icon, phase, reduced, seed) {
   return out;
 }
 
-// Launch: a departure cue at the launcher. The projectile glyph drifts a short
-// way clear of the hull along a fixed screen-up offset -- deliberately NOT
-// toward anything, because a launch discloses no course.
+// Launch: a DEPARTURE cue at the launcher, never an arrival. A torpedo launched
+// this round does not reach its target until the next turn's impact phase, and
+// the engine says so by emitting the arrival as a separate event there. So the
+// glyph clears the tube and no more; the rest of the disclosed line is drawn as
+// a dashed track showing where the shot was aimed, and the impact belongs to the
+// arrival cue. Source only: a short streak straight up, since no course is
+// disclosed at all.
 // Projectile glyph per faction: Earth torpedo (capsule), Krelath comet (dot with trailing sparks), Vraygon shard
 // (diamond), Zandrax swarm (three small dots). Drawn at (x, y), pointing screen-up; size in map units.
 function projectileGlyph(x, y, size, F, opacity) {
@@ -461,10 +465,11 @@ function projectileGlyph(x, y, size, F, opacity) {
   if (F.missileStyle === 'swarm') return circle(x, y - size * 0.3, size * 0.3, 'fill="' + c + '" opacity="' + o + '"') + circle(x - size * 0.5, y + size * 0.4, size * 0.26, 'fill="' + c + '" opacity="' + n(opacity * 0.85) + '"') + circle(x + size * 0.5, y + size * 0.4, size * 0.26, 'fill="' + c + '" opacity="' + n(opacity * 0.85) + '"');
   return polyline([{ x: x - size * 0.3, y: y + size * 0.8 }, { x: x - size * 0.3, y: y - size * 0.4 }, { x: x, y: y - size }, { x: x + size * 0.3, y: y - size * 0.4 }, { x: x + size * 0.3, y: y + size * 0.8 }, { x: x - size * 0.3, y: y + size * 0.8 }], 'fill="' + c + '" stroke="' + F.missileHalo + '" stroke-width="0.8" opacity="' + o + '"');
 }
+const LAUNCH_DEPARTURE = 0.2;
 function launchCue(a, icon, phase, reduced, F, toward) {
   F = F || FLAVOURS.neutral;
-  // Both endpoints disclosed: the torpedo flies the whole line from the launcher to the target hex it was fired at
-  // (a straight line between two known points, nothing inferred). Source only: a short streak straight up.
+  // Both endpoints disclosed: draw the aimed line, but move the torpedo only
+  // clear of the launcher. It lands on the arrival event, a turn later.
   if (reduced) {
     return ring(a.x, a.y, icon * 0.7, 'fill="none" stroke="' + F.missile + '" stroke-width="1.6" opacity="0.85"') +
       projectileGlyph(a.x, a.y - icon * 0.75, icon * 0.22, F, 0.95) +
@@ -474,9 +479,10 @@ function launchCue(a, icon, phase, reduced, F, toward) {
   const r = icon * (0.35 + 0.95 * Math.min(1, p * 2));
   let gx, gy, tx, ty;
   if (toward) {
-    const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; // ease in-out along the flight
+    // Only the opening fifth of the run: this is the tube emptying, not a flight.
+    const ease = (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2) * LAUNCH_DEPARTURE;
     gx = a.x + (toward.x - a.x) * ease; gy = a.y + (toward.y - a.y) * ease;
-    const tail = Math.max(0, ease - 0.22); tx = a.x + (toward.x - a.x) * tail; ty = a.y + (toward.y - a.y) * tail;
+    const tail = Math.max(0, ease - 0.06); tx = a.x + (toward.x - a.x) * tail; ty = a.y + (toward.y - a.y) * tail;
   } else {
     gx = a.x; gy = a.y - icon * 1.0 * p; tx = a.x; ty = a.y;
   }
@@ -490,7 +496,7 @@ function launchCue(a, icon, phase, reduced, F, toward) {
     line(tx, ty, gx, gy, 'stroke="' + F.missile + '" stroke-width="' + n(icon * 0.1) + '" stroke-linecap="round" opacity="0.8"') +
     projectileGlyph(gx, gy, size, F, 1) +
     circle(gx, gy, icon * 0.16, 'fill="' + C.white + '" opacity="0.95" filter="url(#fx-glow-tight)"') +
-    (toward && p > 0.82 ? ring(toward.x, toward.y, icon * (0.4 + (p - 0.82) * 3), 'fill="none" stroke="' + F.missile + '" stroke-width="1.6" opacity="' + n(1 - (p - 0.82) * 4) + '"') : '') +
+    (toward ? line(gx, gy, toward.x, toward.y, 'stroke="' + F.missile + '" stroke-width="' + n(icon * 0.05) + '" stroke-dasharray="' + n(icon * 0.22) + ' ' + n(icon * 0.28) + '" opacity="0.4"') : '') +
     tag(a.x, a.y - icon * 1.45, 'launch', F.missile, 0.9);
 }
 

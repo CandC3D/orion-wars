@@ -530,21 +530,32 @@ async function execute() {
       const prev=state.tape[index-1]?.frame?.observation,next=state.tape[index]?.frame?.observation;if(!prev||!next)return;
       const moves=[];for(const s of [...next.own,...next.contacts]){
         const was=[...prev.own,...prev.contacts].find(x=>x.id===s.id);
-        if(!was||s.destroyed||was.destroyed||(was.pos.q===s.pos.q&&was.pos.r===s.pos.r))continue;
+        if(!was||s.destroyed||was.destroyed)continue;
+        const moved=was.pos.q!==s.pos.q||was.pos.r!==s.pos.r;
+        // Shortest way round the six faces, signed: the symbol rotates by
+        // -60 degrees per face, matching the transform the marker is drawn with.
+        let turn=((Number(s.facing)-Number(was.facing))%6+6)%6;if(turn>3)turn-=6;
+        if(!moved&&!turn)continue;
         // A disappearing/reappearing report has no continuous visible track.
         // Own warp insertion is instantaneous, never drawn as ordinary flight.
         if(prev.own.some(o=>o.id===s.id)&&state.orders[s.id]?.plan[state.tape[index].frame.round-1]?.warp)continue;
-        moves.push({id:s.id,from:was.pos,to:s.pos});
+        moves.push({id:s.id,from:was.pos,to:s.pos,turn,moved});
       }
       if(!moves.length)return;
       try{await clock.hold(520,phase=>{
         if(token!==generation)return;
-        const g=geometry(),ease=phase*phase*(3-2*phase);
+        const g=geometry();
+        const TURN_UNTIL=0.35;
+        const spin=Math.min(1,phase/TURN_UNTIL),run=Math.max(0,(phase-TURN_UNTIL)/(1-TURN_UNTIL));
+        const easeSpin=spin*spin*(3-2*spin),easeRun=run*run*(3-2*run);
         for(const move of moves){
           const node=$('#contact-map').querySelector(`[data-ship="${CSS.escape(move.id)}"]`);if(!node)continue;
           const a=g.project(move.from),b=g.project(move.to);
           node.dataset.sliding=String(phase);
-          node.setAttribute('transform',`translate(${(b.x-a.x)*ease} ${(b.y-a.y)*ease})`);
+          // Applied right to left: rotate about the hull's own hex, then run.
+          const dx=move.moved?(b.x-a.x)*easeRun:0,dy=move.moved?(b.y-a.y)*easeRun:0;
+          const deg=-move.turn*60*easeSpin;
+          node.setAttribute('transform',`translate(${dx} ${dy}) rotate(${deg} ${a.x} ${a.y})`);
         }
       });}finally{
         if(token===generation)$('#contact-map').querySelectorAll('[data-sliding]').forEach(n=>{n.removeAttribute('transform');delete n.dataset.sliding;});
