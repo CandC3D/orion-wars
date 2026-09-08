@@ -28,10 +28,10 @@ from PIL import Image
 
 # Faction palettes, extending the colours already used in assets/icons/.
 FACTIONS = {
-    "EAR": {"wire": "#57d6ff", "fill": "#4f8ef7", "line": "#1b2f6b", "band": "#a9c9f7", "edge": "#24408c", "lit": "#ff5a4d", "trim": "#f0a63a", "deep": "#2f6ac4"},
-    "VRA": {"wire": "#ffd166", "fill": "#e0b02e", "line": "#5f4506", "band": "#f7e3a8", "edge": "#8a6608", "lit": "#ff8a3d", "trim": "#b57d12", "deep": "#c2941f"},
-    "ZAN": {"wire": "#ff7a66", "fill": "#e0574a", "line": "#611711", "band": "#f7c3bc", "edge": "#8f2419", "lit": "#ffd23d", "trim": "#b03a2e", "deep": "#c04537"},
-    "KRE": {"wire": "#6ee7a0", "fill": "#4fae7a", "line": "#0f3f24", "band": "#bfe8d2", "edge": "#1c6238", "lit": "#9be36a", "trim": "#2e8f5c", "deep": "#3a9668"},
+    "EAR": {"wire": "#57d6ff", "fill": "#4f8ef7", "line": "#1b2f6b", "band": "#a9c9f7", "edge": "#24408c", "lit": "#ff5a4d", "trim": "#f0a63a", "deep": "#1b4b96"},
+    "VRA": {"wire": "#ffd166", "fill": "#e0b02e", "line": "#5f4506", "band": "#f7e3a8", "edge": "#8a6608", "lit": "#ff8a3d", "trim": "#b57d12", "deep": "#9c7412"},
+    "ZAN": {"wire": "#ff7a66", "fill": "#e0574a", "line": "#611711", "band": "#f7c3bc", "edge": "#8f2419", "lit": "#ffd23d", "trim": "#b03a2e", "deep": "#96291d"},
+    "KRE": {"wire": "#6ee7a0", "fill": "#4fae7a", "line": "#0f3f24", "band": "#bfe8d2", "edge": "#1c6238", "lit": "#9be36a", "trim": "#2e8f5c", "deep": "#1f6b45"},
 }
 
 # per level: hull stroke width, band fill opacity, band stroke width, trace
@@ -217,7 +217,7 @@ def main():
         out = ['<g transform="translate(%g %g)">' % (dx, dy)]
         if wire:
             # Every region contributes its boundary; nothing is filled.
-            for tag, width in (("hull", spec["hull_stroke"]), ("deep", spec["band_stroke"] * 0.7),
+            for tag, width in (("hull", spec["hull_stroke"]), ("deep", spec["band_stroke"] * 0.8),
                                ("metal", spec["band_stroke"]), ("trim", spec["band_stroke"]),
                                ("lit", spec["band_stroke"])):
                 for d in layers.get(tag, []):
