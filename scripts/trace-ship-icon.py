@@ -34,21 +34,27 @@ _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(_REPO, "data", "ship-markup.json"), encoding="utf-8") as _fh:
     _MARKUP = json.load(_fh)
 FACTIONS = {k: v["palette"] for k, v in _MARKUP.items() if not k.startswith("_")}
+# Region -> its own glyph colour, so two regions sharing a role do not collapse
+# into one colour (Krelath orange and yellow are both self-lit, and are not the
+# same thing). Falls back to the role colour where a region has none.
+GLYPH = {k: {r["key"]: r.get("glyph") for r in v["regions"]}
+         for k, v in _MARKUP.items() if not k.startswith("_")}
+ROLE_OF = {k: {r["key"]: r["role"] for r in v["regions"]}
+           for k, v in _MARKUP.items() if not k.startswith("_")}
 ROLES = {k: {r["key"]: r["role"] for r in v["regions"]} for k, v in _MARKUP.items() if not k.startswith("_")}
 
-# per level: hull stroke width, band fill opacity, band stroke width, trace
-# tolerance, minimum band blob area as a fraction of the frame, layers drawn.
+# per level: hull stroke, region edge stroke, trace tolerance, minimum blob area
+# as a fraction of the frame, and which roles are drawn. Nothing is drawn
+# semi-transparent: these are solid parts of a ship seen from above, and a
+# translucent band over a dark hull is what muted the command spheres to
+# cornflower.
 DETAIL = {
-    # map keeps a heavy outline so the silhouette survives 28px, but it now
-    # carries the same structure the other levels do rather than a bare shape.
-    "map":     dict(hull_stroke=3.4, band_fill=0.5,  band_stroke=0.8, eps=1.1, min_band=0.0009, layers=("hull", "deep", "metal", "trim", "lit")),
-    "console": dict(hull_stroke=2.4, band_fill=0.58, band_stroke=1.0, eps=0.8, min_band=0.0004, layers=("hull", "deep", "metal", "trim", "lit")),
-    "full":    dict(hull_stroke=2.0, band_fill=0.62, band_stroke=0.9, eps=0.6, min_band=0.0003, layers=("hull", "deep", "metal", "trim", "lit")),
-    # Line only, for a large systems display: no fills, one accent colour, every
-    # region boundary drawn as an edge. This is the damage-report aesthetic
-    # rather than the map token, so it assumes room to be read.
-    "wire":    dict(hull_stroke=1.4, band_fill=0.0,  band_stroke=0.8, eps=0.5, min_band=0.0002, layers=("hull", "deep", "metal", "trim", "lit"), wire=True),
+    "map":     dict(hull_stroke=3.4, edge=0.8, eps=1.1, min_area=0.0012, roles=("hull", "deep", "metal", "trim", "lit")),
+    "console": dict(hull_stroke=2.4, edge=1.0, eps=0.8, min_area=0.0004, roles=("hull", "deep", "metal", "trim", "lit")),
+    "full":    dict(hull_stroke=2.0, edge=0.9, eps=0.6, min_area=0.0002, roles=("hull", "deep", "metal", "trim", "lit")),
+    "wire":    dict(hull_stroke=1.4, edge=0.8, eps=0.5, min_area=0.0002, roles=("hull", "deep", "metal", "trim", "lit"), wire=True),
 }
+ROLE_ORDER = ("deep", "metal", "trim", "lit")
 
 
 def load_mask(path, threshold=110):
@@ -194,60 +200,49 @@ def main():
 
     def trace_view(view):
         got = {}
-        found = {}
-        for tag in spec["layers"]:
-            path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, view, tag))
-            if not os.path.exists(path):
-                legacy = os.path.join(args.masks, "%s_%s.png" % (args.slug, tag))
-                if os.path.exists(legacy):
-                    path = legacy
+        for key in [k for k in ROLE_OF[args.faction] if ROLE_OF[args.faction][k] in spec["roles"]] + ["hull"]:
+            path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, view, key))
             if not os.path.exists(path):
                 continue
             grid, w, h = load_mask(path)
-            min_frac = (0.0015 if tag == "hull"
-                        else 0.0002 if tag in ("trim", "lit")
-                        else spec["min_band"])
-            eps = spec["eps"] * (1.0 if tag == "hull" else 1.3)
+            min_frac = 0.0015 if key == "hull" else spec["min_area"]
+            eps = spec["eps"] * (1.0 if key == "hull" else 1.25)
             contours = trace_contours(grid, w, h, int(w * h * min_frac))
-            got[tag] = to_paths(contours, w, h, eps)
-            found[tag] = measure(contours, w, h)
-        anchors[view] = found
+            if contours:
+                got[key] = to_paths(contours, w, h, eps)
+                anchors.setdefault(view, {})[key] = measure(contours, w, h)
         return got
 
     def draw(layers, dx, dy):
-        line = args.stroke or pal.get("wire", "#8fd6ff")
+        pal = FACTIONS[args.faction]
+        colours = GLYPH[args.faction]
+        roles = ROLE_OF[args.faction]
         out = ['<g transform="translate(%g %g)">' % (dx, dy)]
         if wire:
-            # Every region contributes its boundary; nothing is filled.
-            for tag, width in (("hull", spec["hull_stroke"]), ("deep", spec["band_stroke"] * 0.8),
-                               ("metal", spec["band_stroke"]), ("trim", spec["band_stroke"]),
-                               ("lit", spec["band_stroke"])):
-                for d in layers.get(tag, []):
+            line = args.stroke or pal.get("wire", "#8fd6ff")
+            for key, paths in layers.items():
+                width = spec["hull_stroke"] if key == "hull" else spec["edge"]
+                for d in paths:
                     out.append('<path d="%s" fill="none" stroke="%s" stroke-width="%g" '
                                'stroke-linejoin="round" opacity="%g"/>'
-                               % (d, line, width, 1.0 if tag == "hull" else 0.8))
+                               % (d, line, width, 1.0 if key == "hull" else 0.8))
         else:
-            out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
-                       % (" ".join(layers["hull"]), pal["fill"], pal["line"], spec["hull_stroke"]))
-            for d in layers.get("deep", []):
-                # Opaque, and outlined in the hull's darkest line. At 0.9 the
-                # lighter hull fill showed through and lifted it, and where a
-                # semi-transparent band also sits on top - the command spheres -
-                # a dark blue muted to cornflower. The outline is what makes a
-                # narrow deep-hull feature read: the spoke joining the nav ball
-                # to the nacelle shows as the pair of dark lines down its sides.
-                out.append('<path d="%s" fill="%s" fill-opacity="1" stroke="%s" stroke-width="%g" '
+            for d in layers.get("hull", []):
+                out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" '
                            'stroke-linejoin="round"/>'
-                           % (d, pal["deep"], pal["line"], spec["band_stroke"] * 1.15))
-            for d in layers.get("metal", []):
-                out.append('<path d="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g" '
-                           'stroke-linejoin="round"/>'
-                           % (d, pal["band"], spec["band_fill"], pal["edge"], spec["band_stroke"]))
-            for d in layers.get("trim", []):
-                out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
-                           % (d, pal["trim"], pal["edge"], spec["band_stroke"] * 0.8))
-            for d in layers.get("lit", []):
-                out.append('<path d="%s" fill="%s"/>' % (d, pal["lit"]))
+                           % (d, pal["fill"], pal["line"], spec["hull_stroke"]))
+            # Painted in role order so structure sits over hull shading and the
+            # lights sit over everything. Every region carries its own colour and
+            # its own dark edge, so adjacent parts stay distinct.
+            for role in ROLE_ORDER:
+                for key, paths in layers.items():
+                    if key == "hull" or roles.get(key) != role:
+                        continue
+                    colour = colours.get(key) or pal.get(role, pal["fill"])
+                    for d in paths:
+                        out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" '
+                                   'stroke-linejoin="round"/>'
+                                   % (d, colour, pal["line"], spec["edge"]))
         out.append("</g>")
         return chr(10).join(out)
 

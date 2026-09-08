@@ -15,7 +15,8 @@
         "role": "hull",
         "metal": 0.35,
         "rough": 0.42,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#4f8ef7"
       },
       {
         "key": "hull_deep",
@@ -27,7 +28,8 @@
         "role": "deep",
         "metal": 0.35,
         "rough": 0.5,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#1b4b96"
       },
       {
         "key": "structure",
@@ -39,7 +41,8 @@
         "role": "metal",
         "metal": 0.7,
         "rough": 0.45,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#93b4dd"
       },
       {
         "key": "gunmetal",
@@ -51,7 +54,8 @@
         "role": "metal",
         "metal": 0.55,
         "rough": 0.62,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#4a6685"
       },
       {
         "key": "dish_gold",
@@ -63,7 +67,8 @@
         "role": "trim",
         "metal": 0.7,
         "rough": 0.34,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#e0a93c"
       },
       {
         "key": "turret_orange",
@@ -75,7 +80,8 @@
         "role": "trim",
         "metal": 0.0,
         "rough": 0.88,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#e8792a"
       },
       {
         "key": "nav_red",
@@ -87,7 +93,8 @@
         "role": "lit",
         "metal": 0.0,
         "rough": 0.4,
-        "emit": 1.35
+        "emit": 1.35,
+        "glyph": "#ff4a3d"
       },
       {
         "key": "nav_green",
@@ -99,7 +106,8 @@
         "role": "lit",
         "metal": 0.0,
         "rough": 0.4,
-        "emit": 1.35
+        "emit": 1.35,
+        "glyph": "#4ef07a"
       },
       {
         "key": "window_white",
@@ -111,7 +119,8 @@
         "role": "lit",
         "metal": 0.0,
         "rough": 0.35,
-        "emit": 1.25
+        "emit": 1.25,
+        "glyph": "#ffffff"
       }
     ],
     "palette": {
@@ -123,6 +132,11 @@
       "lit": "#ff5a4d",
       "trim": "#f0a63a",
       "deep": "#1b4b96"
+    },
+    "orientation": {
+      "_note": "Yaw in degrees applied after the longest axis is rotated onto X. 180 turns a hull end-for-end. Set per hull where the fleet default is wrong.",
+      "yaw": 0,
+      "hulls": {}
     }
   },
   "KRE": {
@@ -139,7 +153,8 @@
         "role": "hull",
         "metal": 0.3,
         "rough": 0.48,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#2f7d4a"
       },
       {
         "key": "hull_bright",
@@ -151,7 +166,8 @@
         "role": "deep",
         "metal": 0.3,
         "rough": 0.44,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#5fbf72"
       },
       {
         "key": "bronze",
@@ -163,7 +179,8 @@
         "role": "metal",
         "metal": 0.7,
         "rough": 0.45,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#b08a56"
       },
       {
         "key": "turret_orange",
@@ -175,7 +192,8 @@
         "role": "lit",
         "metal": 0.0,
         "rough": 0.4,
-        "emit": 1.35
+        "emit": 1.35,
+        "glyph": "#f07820"
       },
       {
         "key": "glow_yellow",
@@ -187,7 +205,8 @@
         "role": "lit",
         "metal": 0.0,
         "rough": 0.38,
-        "emit": 1.35
+        "emit": 1.35,
+        "glyph": "#ffd90f"
       },
       {
         "key": "nav_red",
@@ -199,7 +218,8 @@
         "role": "trim",
         "metal": 0.0,
         "rough": 0.85,
-        "emit": 0.0
+        "emit": 0.0,
+        "glyph": "#e02a22"
       },
       {
         "key": "window_white",
@@ -211,7 +231,8 @@
         "role": "lit",
         "metal": 0.0,
         "rough": 0.35,
-        "emit": 1.25
+        "emit": 1.25,
+        "glyph": "#ffffff"
       }
     ],
     "palette": {
@@ -223,6 +244,12 @@
       "lit": "#ffcf3d",
       "trim": "#c0442f",
       "deep": "#1f6b45"
+    },
+    "orientation": {
+      "_note": "Yaw in degrees applied after the longest axis is rotated onto X. 180 turns a hull end-for-end. Set per hull where the fleet default is wrong.",
+      "yaw": 0,
+      "hulls": {}
     }
-  }
+  },
+  "_orientation_note": "Bow direction is a modelling convention, not something to infer from hull shape. An earlier heuristic put the slimmer end forward and inverted every ship whose point-defence blisters widen the bow."
 }

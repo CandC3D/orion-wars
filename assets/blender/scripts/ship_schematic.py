@@ -108,18 +108,19 @@ scene.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0,
 scene.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.0
 
 def align_hull():
-    """Put the hull on a known axis before any camera is placed.
+    """Put every hull on the same axis, without guessing which end is the bow.
 
-    These sets are not consistently oriented: across the Krelath Star Navy some
-    classes run along X and others along Y. A view named "top" has to mean the
-    same thing for every hull, so the longest axis is rotated onto X, and the
-    slimmer end - the bow on every design in these fleets - is put at +X. Where
-    a class disagrees the contact sheet shows it at once, and the correction is
-    a flag rather than a re-model.
+    Models within a fleet are authored to a consistent convention, so the
+    reliable move is to rotate the longest axis onto X and stop. An earlier
+    version tried to infer the bow by comparing the cross-section of the two
+    halves and putting the slimmer end forward. That inverted every hull whose
+    point-defence blisters widen the bow - a whole class of ships - and left
+    near-cubic strike craft to chance. Direction is data now: orientation.yaw in
+    data/ship-markup.json, per faction with per-hull overrides, applied after
+    the axis rotation.
     """
-    # The glTF importer leaves objects in QUATERNION rotation mode, in which
-    # assigning rotation_euler is silently ignored - the alignment ran and did
-    # nothing at all until this line was added.
+    # The glTF importer leaves objects in QUATERNION mode, in which assigning
+    # rotation_euler is silently ignored.
     obj.rotation_mode = "XYZ"
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     dims = list(obj.dimensions)
@@ -131,20 +132,12 @@ def align_hull():
     if longest != 0:
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
 
-    xs = [v.co.x for v in mesh.vertices]
-    mid = (min(xs) + max(xs)) / 2.0
-
-    def spread(front):
-        sel = [v for v in mesh.vertices if (v.co.x > mid) == front]
-        if not sel:
-            return 0.0
-        return max(abs(v.co.y) for v in sel) + max(abs(v.co.z) for v in sel)
-
-    if spread(True) > spread(False):
-        obj.rotation_euler = (0.0, 0.0, math.radians(180.0))
+    orient = MARKUP.get("orientation", {})
+    yaw = orient.get("hulls", {}).get(SLUG, orient.get("yaw", 0))
+    if yaw:
+        obj.rotation_euler = (0.0, 0.0, math.radians(yaw))
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
-    print("aligned: dims %s" % [round(d, 1) for d in obj.dimensions])
-
+    print("aligned: dims %s yaw %s" % ([round(d, 1) for d in obj.dimensions], yaw))
 
 align_hull()
 
@@ -199,9 +192,12 @@ wanted_views = [v.strip() for v in requested.split(",") if v.strip() in VIEWS]
 if not wanted_views:
     raise SystemExit("no known view requested; choose from %s" % ", ".join(sorted(VIEWS)))
 
+# One mask per REGION, not per role. Two regions can share a role and still be
+# different things - Krelath orange and yellow are both self-lit, and drawing
+# them in one colour turned every orange component gold.
 for view in wanted_views:
     cam = aim(view)
-    for tag in ["hull"] + [g for g in ("deep", "metal", "trim", "lit") if g in GROUPS]:
+    for tag in ["hull"] + [k for k, _ in PALETTE]:
         mesh.materials.clear()
         mesh.materials.append(white)
         mesh.materials.append(black)
@@ -209,12 +205,12 @@ for view in wanted_views:
             for poly in mesh.polygons:
                 poly.material_index = 0
         else:
-            wanted = {i for i, (n, _) in enumerate(PALETTE) if n in GROUPS[tag]}
+            want = [i for i, (k, _) in enumerate(PALETTE) if k == tag][0]
             for poly in mesh.polygons:
-                poly.material_index = 0 if face_region[poly.index] in wanted else 1
+                poly.material_index = 0 if face_region[poly.index] == want else 1
         scene.render.filepath = os.path.join(OUTDIR, "%s_%s_%s.png" % (SLUG, view, tag))
         bpy.ops.render.render(write_still=True)
-        print("wrote", scene.render.filepath)
+    print("rendered %d masks for view %s" % (len(PALETTE) + 1, view))
     bpy.data.objects.remove(cam, do_unlink=True)
 
 print("MASKS_DONE")

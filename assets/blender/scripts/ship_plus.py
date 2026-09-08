@@ -96,16 +96,19 @@ mesh = obj.data
 tris_before = len(mesh.polygons)
 
 def align_hull():
-    """Put every exported hull on the same axis.
+    """Put every hull on the same axis, without guessing which end is the bow.
 
-    These sets are not consistently modelled: across the Krelath Star Navy some
-    classes run along X and others along Y. The game will place and rotate these
-    itself, so they have to agree with each other - the longest axis onto X, and
-    the slimmer end (the bow, on every design in these fleets) at +X.
+    Models within a fleet are authored to a consistent convention, so the
+    reliable move is to rotate the longest axis onto X and stop. An earlier
+    version tried to infer the bow by comparing the cross-section of the two
+    halves and putting the slimmer end forward. That inverted every hull whose
+    point-defence blisters widen the bow - a whole class of ships - and left
+    near-cubic strike craft to chance. Direction is data now: orientation.yaw in
+    data/ship-markup.json, per faction with per-hull overrides, applied after
+    the axis rotation.
     """
-    # The glTF importer leaves objects in QUATERNION rotation mode, in which
-    # assigning rotation_euler is silently ignored - the alignment ran and did
-    # nothing at all until this line was added.
+    # The glTF importer leaves objects in QUATERNION mode, in which assigning
+    # rotation_euler is silently ignored.
     obj.rotation_mode = "XYZ"
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     dims = list(obj.dimensions)
@@ -116,20 +119,13 @@ def align_hull():
         obj.rotation_euler = (0.0, math.radians(90.0), 0.0)
     if longest != 0:
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
-    xs = [v.co.x for v in mesh.vertices]
-    mid = (min(xs) + max(xs)) / 2.0
 
-    def spread(front):
-        sel = [v for v in mesh.vertices if (v.co.x > mid) == front]
-        if not sel:
-            return 0.0
-        return max(abs(v.co.y) for v in sel) + max(abs(v.co.z) for v in sel)
-
-    if spread(True) > spread(False):
-        obj.rotation_euler = (0.0, 0.0, math.radians(180.0))
+    orient = MARKUP.get("orientation", {})
+    yaw = orient.get("hulls", {}).get(SLUG, orient.get("yaw", 0))
+    if yaw:
+        obj.rotation_euler = (0.0, 0.0, math.radians(yaw))
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
-    print("aligned: dims %s" % [round(d, 1) for d in obj.dimensions])
-
+    print("aligned: dims %s yaw %s" % ([round(d, 1) for d in obj.dimensions], yaw))
 
 align_hull()
 
