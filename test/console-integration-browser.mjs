@@ -11,6 +11,13 @@ const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json
 const server=createServer(async(req,res)=>{try{const p=resolve(root,'.'+new URL(req.url,'http://localhost').pathname);if(!p.startsWith(root+sep))throw Error('Path');res.writeHead(200,{'Content-Type':mime[extname(p)]||'application/octet-stream'}).end(await fs.readFile(p));}catch{res.writeHead(404).end();}});
 await new Promise(ok=>server.listen(0,'127.0.0.1',ok));assert.notEqual(server.address().port,8642);
 const {chromium}=await import(pathToFileURL('C:/Users/chorr/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs'));
+// The bundled scenario is editable content (it now has no gunstar). Pin the
+// test's required hulls explicitly; keep production host/worker construction.
+const gunstarSetup=JSON.parse(await fs.readFile('arena/scenarios/asterion-line.json'));
+gunstarSetup.name='Console cannon acceptance fixture';
+gunstarSetup.sides[0].ships.forEach((s,i)=>s.className=['gunstar-battlecruiser','heavy-cruiser','light-cruiser','light-cruiser'][i]);
+gunstarSetup.sides[1].ships.forEach((s,i)=>s.className=['carrier','heavy-cruiser','light-cruiser','light-cruiser'][i]);
+gunstarSetup.victory.protectedClass={A:'gunstar-battlecruiser',B:'carrier'};
 let browser;const checks=[],errors=[];const pass=s=>{checks.push(s);console.log('PASS '+s);};
 try{
   browser=await chromium.launch({channel:'msedge',headless:true});
@@ -20,9 +27,10 @@ try{
   await page.goto(`http://127.0.0.1:${server.address().port}/arena/play.html`);
   await page.waitForFunction(()=>!document.querySelector('#begin').disabled);
   await page.locator('#setup-mode').selectOption('authored');
-  await page.locator('#scenario-file').setInputFiles({name:'asterion.json',mimeType:'application/json',buffer:await fs.readFile('arena/scenarios/asterion-line.json')});
+  await page.locator('#scenario-file').setInputFiles({name:'cannon-fixture.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(gunstarSetup))});
   await page.waitForFunction(()=>document.querySelector('#import-note').textContent.includes('Ready:'));
   await page.locator('#begin').click();await page.waitForFunction(()=>!document.querySelector('#resolve-orders').disabled);
+  await page.locator('[data-ship-key*="gunstar"]').waitFor({state:'visible'});
   const gun=await page.locator('[data-ship-key]').evaluateAll(a=>a.find(o=>o.dataset.shipKey.includes('gunstar')).dataset.shipKey);
   const pick=async id=>page.locator(`[data-ship-key="${id}"]`).click();await pick(gun);
   const frame=()=>page.evaluate(()=>{for(const m of [...window.testMessages].reverse()){if(m.value?.frame)return m.value.frame;if(m.value?.frames?.length)return m.value.frames.at(-1);}return null;});
@@ -103,7 +111,7 @@ try{
   await fit('1440-battleship');pass('Every battleship lamp is click-accessible and selects its own arc');
   // Authored fixture changes only initial public setup. Charge and lock follow
   // four actual resolver turns, not mutated worker state or a fake response.
-  const readyFixture=JSON.parse(await fs.readFile('arena/scenarios/asterion-line.json'));
+  const readyFixture=structuredClone(gunstarSetup);
   readyFixture.terrain=[];readyFixture.map={widthHexes:100,heightHexes:60};
   Object.assign(readyFixture.sides[0].ships[0],{q:0,r:0,facing:3});readyFixture.sides[1].ships.forEach(s=>s.q+=29);
   await launch(readyFixture);await pick(gun);await page.locator('[data-spinal=charge]').click();

@@ -17,3 +17,8 @@ docs/visual-review/
 # repository-root scratch and recovery workspaces
 /.tmp-*/
 /.tmp_*
+
+# regenerable test outputs written at the repository root
+/map-layout-results.json
+/playback-results.json
+/*.log

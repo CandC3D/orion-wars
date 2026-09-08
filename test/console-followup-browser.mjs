@@ -34,6 +34,10 @@ try{
     await page.waitForFunction(()=>!!document.querySelector('[data-sliding]'),null,{timeout:20000});
   };
   const pausedPosition=()=>page.locator('[data-sliding]').first().evaluate(n=>{const b=n.getBoundingClientRect();return {id:n.dataset.ship,x:b.x,y:b.y,phase:n.dataset.sliding};});
+  const fit=async()=>{
+    const result=await page.evaluate(()=>{const station=document.querySelector('.command-station');return {overflow:station.scrollHeight-station.clientHeight,clipped:[...station.querySelectorAll('button')].filter(n=>{const b=n.getBoundingClientRect();if(!b.width||!b.height)return false;const hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2);return b.bottom>innerHeight||!n.contains(hit);}).map(n=>n.textContent)};});
+    assert.ok(result.overflow<=1,JSON.stringify(result));assert.deepEqual(result.clipped,[]);
+  };
   await start();await moving();await page.locator('#playback-pause').click();
   const a=await pausedPosition();await page.waitForTimeout(800);const b=await pausedPosition();
   assert.deepEqual(b,a);assert.ok(await page.locator('#resolve-orders').isDisabled());
@@ -52,10 +56,12 @@ try{
   assert.ok(Array.isArray(record.timeline));
   assert.equal(record.timeline.length,workerFrames.length);
   assert.equal(digest(record.timeline.map(x=>x.frame)),digest(workerFrames));pass('Animated playback export equals every original worker frame');
+  await fit();pass('Maneuver and acquired-target controls fit at 1512x1100');
   await page.locator('[data-assign=move]').click();await page.locator('#resolve-orders').click();
   await page.waitForFunction(()=>!!document.querySelector('.fx-caption'),null,{timeout:20000});
   await page.locator('#playback-pause').click();
   const caption=await page.locator('.fx-caption').textContent();
+  await fit();
   assert.match(caption,/^(STRUCK FACE [1-6]|MISS|INTERCEPTED|EVADED|UNCONFIRMED|ARRIVAL|STRIKE RUN|CANNON FIRE|FIRE|LAUNCHED)$/);
   await page.screenshot({path:join(out,'outcome-paused.png')});
   pass('A real combat event produces a readable outcome caption');

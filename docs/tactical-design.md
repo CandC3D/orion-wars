@@ -1302,7 +1302,7 @@ Chris opened `arena/editor.html` from disk in two browsers: no map, dead
 buttons, "Loading tactical data…" forever. Cause: browsers block data
 fetches and ES-module imports on `file://` pages, and the editor runs the
 engine in the browser, so it cannot work from disk (the viewer only seemed
-to, thanks to its file-drop fallback). Fixes: `Start Orion Wars.cmd` at the
+to, thanks to its file-drop fallback). Fixes: `Start Distant Sectors.cmd` at the
 repo root (serves on 8642 and opens the editor), `npm run arena`, a plain
 error message when the editor is opened from disk, README instructions
 first, and a permanent "Scenario editor" link in the viewer header (the
@@ -1496,7 +1496,7 @@ What the book defines:
 Reading for us: our moons/planets/large asteroids are FASA's obstacles
 exactly (blocked fire is the sensor shadow, and it was mutual there too);
 our asteroid field's movement cost and its in-and-out blocking are our own
-additions. **A nebula would be an Orion Wars invention** — a natural design
+additions. **A nebula would be a Distant Sectors invention** — a natural design
 is a multi-hex region that casts a sensor shadow (mutual, no fire in or
 out) and perhaps degrades shields or absorbs beam power, priced by playtest.
 Mines and outposts are FASA content the editor could carry later.
@@ -1842,6 +1842,13 @@ clockwise all along; the engine now agrees with the picture. Gameplay is a
 mirror image of before (faces 1/3 and 4/6 swap), statistically identical,
 not byte-identical; the per-facing damage tables are unchanged.
 
+**Audit correction, 2026-09-05:** the historical claim immediately above that
+the viewer already drew clockwise was incorrect. The engine's `[2,1,6,5,4,3]`
+table follows Chris's ruling; the replay viewer retained the older mirrored
+mapping. The correctness pass now makes replay pips/flash offsets derive from
+the authoritative engine convention, and new events record actual hit faces.
+This is a viewer correction, not a new face-numbering or arc-layout ruling.
+
 **Missile destroyer** (`missile-destroyer`, all rosters): two forward tubes
 (arc f, magazine 8) and one all-round beam, on the destroyer hull at the
 destroyer's price until measured. Icon "DM".
@@ -1936,3 +1943,94 @@ one edge. Every number in this section was symmetrised. (b) Composition key
 order is load-bearing: `{frigate:16, destroyer:5}` and the reverse measure
 6-16pp apart, because array order breaks distance ties in target selection.
 Canonical key order and intrinsic tie-breaks wanted in comp.js/fleet-trial.js.
+
+## Approved geometry rulings — 5 September 2026
+
+Chris explicitly approved both recommendations in Astra's decision brief:
+
+- The counter-clockwise sector owns an exact boundary between faces. Use exact
+  relative cube-coordinate comparisons, not floating-point angle rounding.
+- When a distance-step line-of-fire sample grazes two hexes, both count and
+  blocking terrain in either blocks the shot. Treat them as a simultaneous
+  group for fog depth as well. Existing field toggles and first-fog-hex rules
+  remain unchanged; continuous polygon/vertex supercover is not introduced.
+
+Implemented in `src/tactical/hex.js` and the resolver's shared line-of-fire
+test. New recordings identify `ccw-seams-grazing-blocks-v1`. See
+`docs/correctness-2026-09-05/approved-geometry/` for tests and seeded comparison
+evidence. These are approved outcome-changing rules, not loadout edits or
+an outcome-preserving patch. Older balance measurements remain historical.
+
+Chris also requested a starship/component construction editor with direct
+control over mounts, arcs, custom weapons, power, shields and other meaningful
+systems. The researched architectural proposal is in
+`docs/starship-construction-editor-plan.md`; workspace placement remains for
+Chris's choice. No stock designs were redesigned by that proposal.
+
+
+## 34. Engine-rule rulings (2026-09-06, Chris, on Fable's recommendations)
+
+Made after the C0.1 acceptance, from the outstanding-decisions rundown. All eleven agreed as recommended; none is implemented by this entry. Astra owns live integration; the balance sweep that follows them is one consolidated pass, not piecemeal.
+
+1. **Last-core immunity stays.** The engine's guard against losing a hull's last core is the rule; the earlier prose ("a frigate losing its single core is finished") is withdrawn. Rationale: an anti-cascade safeguard that has been playtested; a one-hit death for small hulls would be a balance change.
+2. **The keel gun obeys the human target order** whenever the ordered target bears; doctrine (heaviest hull in the arc) applies only when it does not. *Reading recorded 2026-09-06 (Chris, on the rule-acceptance review): "bears" means the ordered target is a legal shot in full: visible, engageable, inside the keel arc, within the weapon's range and with a clear line of fire. An ordered target failing any of those falls back to doctrine silently; the order overrides only the heaviest-hull preference and the hold-for-capital discipline, never readiness, power, arc, range, visibility, terrain, same-hex, offline state or move-or-fire.*
+3. **Missile struck face is computed at impact time**, from impact geometry, not from the launch position.
+4. **Move-or-fire per action stands:** a round with movement moves, otherwise it fires; a turn-only action forfeits fire.
+5. **Fleet floors: warn-and-load for hand-built and saved scenarios** (they are grandfathered, with a visible warning); the harness and the fleet builder still throw.
+6. **Flagship uniqueness:** a flagship objective requires exactly one hull of the protected class per side.
+7. **A Zandrax emergency burst that moves zero hexes costs nothing:** no superstructure stress and no to-hit penalty when no hex is moved.
+8. **Deployment validation rejects a body (moon or planet) on an occupied hex;** asteroid fields and nebulae remain legal deployment hexes.
+9. **Warp and emergency burst become explicit commands in the order packet**, for humans and captains alike, at the same costs and restrictions as the automatic versions; issuing orders no longer forfeits them. Required before any captain leaderboard.
+10. **The laser-cannon overcharge flag is removed** from tuning (no code reads it); it may return only with a designed rule.
+11. **Authored shield capacity absorbs whole points:** the amount a shield absorbs is floored to an integer; a fractional remainder of capacity or affordability never stops part of a hit. *Narrowed 2026-09-06 (Chris, on the rule-acceptance review): this is the whole rule. Authored capacity and cost stay fractional data, incoming damage is not rounded, and residual hull damage may therefore be fractional when an authored weapon deals fractional damage (none of the current stock does). The earlier phrase "so hull damage stays integer" was a rationale, not a second floor, and is withdrawn.*
+
+
+### 34a. Ship-data rulings (2026-09-06, Chris)
+
+- **Vraygon heavy cruiser:** the rear beam's firing arc is reconsidered and confined to face 5 (dead astern). This replaces the wrapped fifth mount that put three beams on face 2 against the hull's own note.
+- **Vraygon destroyer:** the second torpedo tube is removed. It had been adopted from the interface; the one-tube destroyer ruling of 2026-09-03 stands.
+- Updated Vraygon ship JSON was supplied by Chris directly to Astra, who owns integration. **Ruled: trim** the unused trailing arc entries on the Vraygon battleship (seven missile arcs for five tubes) and monitor (six missile arcs for five tubes; six beam arcs for seven beams) in the same pass; they change nothing in play but mislead readers and readouts.
+- Correction (Fable, same day): the "light cruisers blind on face 4" and "wrapped mount" findings described the stock data of 4–5 September. Chris's corrected-arc exports for all 29 ships were accepted and promoted by Astra before this entry, and the current frozen candidate confirms it (the Earth light cruiser now bears beams on every face). Those items are overtaken; only the two Vraygon revisions above remain to be incorporated.
+
+
+### 34b. Faction arc doctrine (2026-09-06, Chris) and the promoted layouts measured
+
+Chris's stated flavour, now the authority for weapon layouts, captain doctrine and the coming balance discussion:
+
+- **Earth:** most likely to have all-round coverage, including the rear.
+- **Krelath:** concentrates toward the forward arcs; may leave the rear minimally protected.
+- **Vraygon:** favours broadsides, where multiple beams and missiles can be brought to bear; light rear protection.
+- **Zandrax:** heavily into forward-mounted weapons; practically no side or rear protection.
+
+Chris authored the 29 corrected-arc layouts to read that way, and Astra promoted them to stock. Measured on the frozen candidate `.tmp-fable-captains-c01-20260906-DcNGYW` (bearing slots summed per face across each roster; a slot is one mount able to fire on that face):
+
+| Faction | Mounts | Slots per face 1..6 | Forward (1–3) | Rear (4–6) | Dead astern (5) | Broadside faces (1, 3, 4, 6) | Blind faces |
+|---|---|---|---|---|---|---|---|
+| Earth | 40 | 16/28/16/14/8/14 | 63% | 38% | 8% | 63% | gunstar astern only |
+| Krelath | 45 | 12/37/12/5/7/5 | 78% | 22% | 9% | 44% | destroyer, carrier (5); missile destroyer, strike cruiser (4–6); battleship (4, 6) |
+| Vraygon | 47 | 17/24/17/15/10/15 | 59% | 41% | 10% | 65% | none |
+| Zandrax | 36 | 10/34/10/1/2/1 | 93% | 7% | 3% | 38% | every hull; frigate, destroyer, light cruiser blind on 4–6; corvette forward only |
+
+The two Vraygon revisions of the same day (heavy-cruiser rear beam confined to face 5; destroyer second tube removed) are not yet in this candidate and will lower Vraygon's rear share slightly.
+
+### 34c. Drydock and presentation (2026-09-06, Chris)
+
+All recommendations in the outstanding-decisions rundown are agreed and deferred to a later time: show both definitions labelled by pack of origin on a same-id collision; show both the reactor lost and the pool change on the ship card; accept the in-panel scroll at 1000x900; keep the monotonic catalogue counter; bump new recordings to replay version 4; fix the sorted-CSV re-import by a canonical comparison in the importer. Drydock remains paused; no schedule is set.
+
+### 34d. Captain foundation, C1 (2026-09-06, Chris)
+
+All recommendations agreed: ship positions require detection, implemented as a per-side detection radius by sensor rating with a terrain shadow (the first C1 engine change); damage detail is per observer, from the best operational sensor rating within range, not a side-wide maximum; scan locks are observer-owned and revoked when the acquiring ship is lost; the legacy scan gate is brought into line with the contact lock (sensor damage honoured in both) before captains are compared with the scripted AI; globally unique ship ids are asserted at session creation. Warp and burst as explicit packet commands (section 34, item 9) remain the gate before any leaderboard.
+
+### 34e. Re-measurement (2026-09-06, Chris)
+
+Ruled: every published balance number predates the approved geometry change, the promoted arc layouts and the Vraygon option-A list, so none is a current oracle. The ladder, the specials and the faction sweep are re-measured in ONE thorough, consolidated sweep after all the necessaries have landed: the two Vraygon revisions and the arc-entry trim, the eleven engine rulings of section 34 (warp and burst as explicit commands first), and the C0.1 defect and gap fixes. Not piecemeal. Until then, historical numbers are cited as historical.
+
+### 34f. Special-command packet contract (2026-09-06, Chris)
+
+Ruled: the strict contract stands. An action carries the `warp` key only when the warp is ordered, and then only as `warp: true`; `warp: false` is invalid, not a synonym for omission. The engine refusing a direct packet that carries `warp: false` with movement (Fable special-commands review, note W12) is therefore correct behaviour against an invalid packet, not a defect, and no hardening is requested. Captain validation already rejects `warp: false`; the playfield UI omits the key when unused.
+
+### 34g. Point defence is a dedicated system (2026-09-06, Chris)
+
+Ruled: point defence stays a dedicated close-in system, separate from the beam battery, as the engine already models it (hull `pointDefence` rating summed over uncloaked friendly hulls within `pointDefence.rangeHexes`, one roll per arriving missile, `chancePerPoint` per point capped at `maxChance`, plus any fighter patrol bonus). Beam mounts never intercept and are never precluded from anti-ship fire on a missile impact turn, so there is no double use of a weapon: main batteries shoot ships, the point-defence gun shoots missiles. The alternative, precluding a beam that intercepted from firing at ships that turn, is rejected. A possible later addition, not requested, is an explicit per-turn order assigning one beam mount to point defence (adds to the rating, loses that mount's anti-ship fire), which would change no current outcome until chosen and would fold into the consolidated re-measure of 34e.
+
+Art consequence: qualifying hulls (those with a non-zero point-defence rating, currently frigate, destroyer and light cruiser) will carry a small visible point-defence gun in the ship models as they are made; hulls with rating 0 carry none. Model check for the art pipeline: the presence of the gun should track the rating, per faction and class.

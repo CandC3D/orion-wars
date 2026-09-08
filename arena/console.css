@@ -141,11 +141,11 @@
   .command-console .rose-well #heading-rose svg { width:96px; height:96px; }
   .command-console .console-record-strip { height:154px; }
   .command-console #range-summary { font-size:10px; }
-  .command-console .command-station .instrument-well { margin-bottom:0; padding-bottom:5px; }
+  .command-console .command-station .instrument-well { margin-bottom:0; padding-top:14px; padding-bottom:3px; }
   .command-console .console-row:has(.target-well) { grid-template-columns:1fr; gap:4px; }
   .command-console #target-keys { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
   .command-console #target-keys button { min-height:30px; padding:2px 4px; font-size:10px; letter-spacing:.4px; }
-  .command-console .formation-bank { flex-wrap:nowrap; }
+  .command-console .formation-bank { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
   .command-console .formation-bank button { font-size:10px; min-height:28px; padding:2px 4px; letter-spacing:.4px; }
   .command-console #spinal-control>p { display:block; font-size:10px; margin:2px 0; }
   .command-console .action-card .result { display:none; }

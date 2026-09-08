@@ -61,7 +61,7 @@ os.makedirs(OUTDIR, exist_ok=True)
 PALETTE = [
     ("hull_primary",   (0.00, 0.62, 0.85), dict(metal=0.35, rough=0.42, emit=0.0)),
     ("hull_deep",      (0.00, 0.46, 0.67), dict(metal=0.35, rough=0.50, emit=0.0)),
-    ("structure",      (0.75, 0.78, 0.80), dict(metal=0.45, rough=0.38, emit=0.0)),
+    ("structure",      (0.75, 0.78, 0.80), dict(metal=0.70, rough=0.45, emit=0.0)),
     ("gunmetal",       (0.38, 0.40, 0.42), dict(metal=0.55, rough=0.62, emit=0.0)),
     ("dish_gold",      (0.88, 0.68, 0.21), dict(metal=0.70, rough=0.34, emit=0.0)),
     ("turret_orange",  (0.96, 0.51, 0.12), dict(metal=0.00, rough=0.88, emit=0.0)),
@@ -274,25 +274,38 @@ def look(name, cam_dir, ortho_pad=1.15):
     bg.inputs["Color"].default_value = (0.05, 0.065, 0.09, 1)
     bg.inputs["Strength"].default_value = 1.0
     if "SkyGrad" not in wt.nodes:
+        # Two jobs, one world. The camera should see a dark backdrop, because
+        # that is what the game shows and the ship needs to read against it -
+        # but metal needs something BRIGHT to reflect or it renders as charcoal.
+        # Light Path separates them: dark to camera rays, bright to everything
+        # else (reflections, diffuse lighting).
         tex = wt.nodes.new("ShaderNodeTexGradient"); tex.name = "SkyGrad"
-        tex.gradient_type = "EASING"
         geo = wt.nodes.new("ShaderNodeNewGeometry")
         sep = wt.nodes.new("ShaderNodeSeparateXYZ")
         ramp = wt.nodes.new("ShaderNodeValToRGB")
-        # Three stops, not two: a distinct bright band near the horizon is what
-        # a brushed metal reflects as its characteristic streak. A smooth
-        # gradient has no feature to reflect, so metal reads as painted plastic.
         ramp.color_ramp.elements[0].position = 0.0
         ramp.color_ramp.elements[0].color = (0.06, 0.07, 0.10, 1)
         ramp.color_ramp.elements[1].position = 0.52
-        ramp.color_ramp.elements[1].color = (0.85, 0.92, 1.05, 1)
-        mid = ramp.color_ramp.elements.new(0.62)
-        mid.color = (0.30, 0.34, 0.44, 1)
-        top = ramp.color_ramp.elements.new(1.0)
-        top.color = (0.16, 0.19, 0.26, 1)
+        ramp.color_ramp.elements[1].color = (1.60, 1.70, 1.95, 1)
+        mid = ramp.color_ramp.elements.new(0.62); mid.color = (0.42, 0.47, 0.60, 1)
+        top = ramp.color_ramp.elements.new(1.0); top.color = (0.20, 0.24, 0.33, 1)
         wt.links.new(geo.outputs["Incoming"], sep.inputs["Vector"])
         wt.links.new(sep.outputs["Z"], ramp.inputs["Fac"])
-        wt.links.new(ramp.outputs["Color"], bg.inputs["Color"])
+
+        lit = wt.nodes.new("ShaderNodeBackground")
+        wt.links.new(ramp.outputs["Color"], lit.inputs["Color"])
+        lit.inputs["Strength"].default_value = 1.0
+        seen = wt.nodes.new("ShaderNodeBackground")
+        seen.inputs["Color"].default_value = (0.020, 0.026, 0.036, 1)
+        seen.inputs["Strength"].default_value = 1.0
+        path = wt.nodes.new("ShaderNodeLightPath")
+        mix = wt.nodes.new("ShaderNodeMixShader")
+        wt.links.new(lit.outputs["Background"], mix.inputs[1])
+        wt.links.new(seen.outputs["Background"], mix.inputs[2])
+        wt.links.new(path.outputs["Is Camera Ray"], mix.inputs["Fac"])
+        out = wt.nodes["World Output"]
+        wt.links.new(mix.outputs["Shader"], out.inputs["Surface"])
+
     cam_data = bpy.data.cameras.new("cam")
     cam_data.type = "ORTHO"
     cam = bpy.data.objects.new("cam", cam_data)
@@ -328,9 +341,12 @@ def add_lights():
         o.rotation_mode = "QUATERNION"
         o.rotation_quaternion = (-v).to_track_quat("-Z", "Y")
 
-    lamp("key", 8.5, 0.55, (-0.8, -1.0, 0.75))
-    lamp("fill", 3.0, 0.9, (1.0, -0.55, 0.10))
-    lamp("rim", 6.0, 0.40, (0.35, 1.0, 0.45))
+    lamp("key", 16.0, 0.55, (-0.8, -1.0, 0.75))
+    lamp("fill", 7.0, 0.90, (1.0, -0.55, 0.10))
+    lamp("rim", 11.0, 0.40, (0.35, 1.0, 0.45))
+    # The game sees these from above. Without an overhead source the top view -
+    # the only view that ships - renders flat and murky.
+    lamp("over", 13.0, 0.75, (-0.15, -0.25, 1.0))
 
 
 VIEWS = [("q34", (-0.75, -1.0, 0.42)), ("side", (-1.0, 0.0, 0.06)),

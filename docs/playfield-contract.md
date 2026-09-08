@@ -1,9 +1,81 @@
 # Playfield contract (v1, 2026-09-03)
 
+Current extension (2026-09-06): actions support exclusive `warp: true` or an
+integer `burst` extension alongside normal turn/forward. Exact execution costs,
+constraints, forecasts and failure behavior are in
+`docs/tactical-ai/special-commands/README.md`. These supersede the earlier notes
+below that ordered ships could not use specials and zero-gain bursts paid stress.
+
+Authored-scenario extension (2026-09-06): editor/imported/bundled games explicitly
+request `{ fleetFloorPolicy: "warn" }` at validation and engine construction.
+Quick build remains strict, and restart retains the initiating host policy.
+Class floor exceptions are visible and recorded; all other fleet and deployment
+errors remain blocking. Failed replacement does not overwrite the current battle
+or restart source. See `docs/tactical-ai/scenario-rulings/README.md`.
+
 The interactive playfield lets a human command ONE side turn by turn against
 the scripted AI, so scenarios can teach — and so what human players actually
 do can be recorded and analysed against the AI's choices. This document is
 the contract between the playfield page and the engine's turn-by-turn API.
+
+## Current implementation notes — 2026-09-05
+
+Chris approved two geometry rules: the counter-clockwise sector owns an exact
+face boundary, and either hex at an exact edge-grazing line sample can block
+fire. The engine and clients share the exact bearing classifier; line-of-fire
+checks retain simultaneous cell groups for terrain/nebula depth. New recordings
+identify these rules as `meta.geometryRules: "ccw-seams-grazing-blocks-v1"`.
+These are rule changes, so pre-geometry balance results are historical.
+
+The API's missing-order fallback remains scripted helm/gunnery. The Stage 3.1
+client, however, submits explicit hold/fire orders (30% reserve) for **every**
+living human ship at commit, including ships never inspected. Selecting a ship
+does not change that packet's default behavior. Enemy ships remain AI-controlled.
+
+`previewOrders` is the current course/fire forecast: it runs real movement,
+charge and weapon allocation on private copies, assuming stationary contacts
+and no incoming/outgoing damage, initiative or cloak coordination. `shipPlan`
+provides static helm properties, not a guaranteed affordable full-turn route.
+
+Ordered translation observes the established charging/ready spinal plant;
+turning is still allowed. A requested move that is clamped does not become a
+free firing action. Movement cannot finish in a living enemy's hex when the
+same-hex restriction is enabled, including a forced stop at terrain, an edge or
+a power limit. Legal transit and friendly co-location remain allowed; only
+committed steps consume power or appear in the preview.
+
+The same endpoint protection now covers every scripted helm movement path and
+warp landing. AI transit through enemy hexes remains legal; an occupied ending
+suffix is discarded with its movement cost restored before the next actor acts.
+Warp refuses an occupied destination without spending jump power or allowance.
+
+Every scripted helm step must also afford the actual destination's terrain
+price without spending reserved power. Formation, mutual support, orbit and
+evasion use the same step guard. Refusing an unaffordable step consumes no
+power or moved-distance. The Zandrax emergency burst explicitly waives power
+but retains terrain legality and its existing stress/accuracy costs.
+
+The engine validates flagship objectives at scenario construction and the
+direct-fleet entry point. Each side must field exactly one named protected
+class. A supplied wreck counts as fielded (and can validly end an objective);
+an absent class does not. No roster floors were added to the direct-fleet API.
+
+New version-3 recordings advertise `meta.eventGeometry: "resolution-v1"`.
+Shot events add `shooterPos`, `shooterFacing`, `targetPos`, `targetFacing`, and,
+when damage lands, `victimId`, `victimPos`, `victimFacing`, `face`. `targetId`
+continues to name the intended target; screening can change the victim.
+Timed-homing recordings additionally advertise `meta.missileFlight: "timed-homing/1"`.
+Missiles retain next-turn, pre-refill arrival, with action-end course updates.
+Their own final approach and the victim's impact-time heading determine the face;
+`shooterPos` remains launch attribution, while `approachPos` and `flight.path`
+record projectile geometry. Action frames carry copied pending `missiles`.
+See `tactical-ai/missile-homing/README.md` for the fixed-arrival formula and limits.
+Old recordings still load using their legacy geometry fallback; their
+missing event-time geometry cannot be recovered exactly. Round-based playback
+remains a compressed presentation, not a complete initiative-event timeline.
+
+The original v1 description below is retained for historical context. Its
+byte-parity claim applies to the API extraction, not later audited rule fixes.
 
 Ruling (Chris): when a ship is selected, its firing arcs, ranges, shield
 levels and power must be shown graphically on the map; speed, movement and
