@@ -1,0 +1,313 @@
+{
+ "date": "2026-09-07",
+ "authority": "Chris, in session: \"the vraygon battleship turret needs fixing - remove arc 6 from that turret\".",
+ "designs": [
+  {
+   "key": "VRA/battleship",
+   "sourceFile": null,
+   "sourceSha256": null,
+   "note": "No supplied design file. This amendment records a one-face correction ruled in conversation and applied to data/loadouts.json: mount-6, a heavy blaster, bore on faces 3, 4 and 6 - a disconnected arc with a gap at dead astern and face 6 stranded beyond it, unlike every other arc in the game. Face 6 was removed, leaving the starboard broadside (3,4). Found by the arc-naming survey of 2026-09-07.",
+   "suppliedRevision": 3,
+   "pack": {
+    "format": "orion-drydock",
+    "version": 1,
+    "profile": "six-face-residual-power-v1",
+    "weapons": [
+     {
+      "id": "stock:heavy-blaster",
+      "revision": 1,
+      "name": "heavy blaster",
+      "spec": {
+       "kind": "beam",
+       "maxPower": 6,
+       "maxRange": 16,
+       "rangeBands": [
+        {
+         "to": 5,
+         "damageBonus": 3,
+         "toHitMod": 2
+        },
+        {
+         "to": 9,
+         "damageBonus": 2,
+         "toHitMod": 1
+        },
+        {
+         "to": 13,
+         "damageBonus": 0,
+         "toHitMod": -2
+        },
+        {
+         "to": 16,
+         "damageBonus": 0,
+         "toHitMod": -4
+        }
+       ]
+      }
+     },
+     {
+      "id": "stock:neutronic-missile",
+      "revision": 1,
+      "name": "neutronic missile",
+      "spec": {
+       "kind": "missile",
+       "powerToArm": 2,
+       "damage": 10,
+       "maxRange": 20,
+       "rangeBands": [
+        {
+         "to": 20,
+         "damageMod": 0
+        }
+       ]
+      }
+     }
+    ],
+    "design": {
+     "id": "local:vra-battleship-arc-correction-2026-09-07",
+     "revision": 3,
+     "name": "VRA battleship - mount 6 arc correction",
+     "notes": "Face 6 removed from mount-6; the remaining arc is the starboard broadside.",
+     "faction": "VRA",
+     "className": "battleship",
+     "hull": {
+      "points": 32,
+      "cores": 4,
+      "corePower": 19,
+      "impulsePower": 8,
+      "magazine": 18,
+      "superstructure": 144,
+      "maxShieldPower": 18,
+      "shieldPointRatio": 0.63,
+      "movementPointRatio": 7.5,
+      "screen": 0,
+      "pointDefence": 0,
+      "sensorRating": 3,
+      "weaponReach": 1
+     },
+     "canCloak": false,
+     "detectionBonusAgainst": 6,
+     "turnRate": 1,
+     "mounts": [
+      {
+       "id": "mount-1",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        1,
+        2
+       ],
+       "position": {
+        "x": -0.3,
+        "y": 0.7,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-2",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        2,
+        3
+       ],
+       "position": {
+        "x": 0.3,
+        "y": 0.7,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-3",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        1,
+        2
+       ],
+       "position": {
+        "x": -0.3,
+        "y": 0.45,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-4",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        2,
+        3
+       ],
+       "position": {
+        "x": 0.3,
+        "y": 0.45,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-5",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        1,
+        6
+       ],
+       "position": {
+        "x": -0.45,
+        "y": 0.2,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-6",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        3,
+        4
+       ],
+       "position": {
+        "x": 0.45,
+        "y": 0.2,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-7",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        5,
+        6
+       ],
+       "position": {
+        "x": -0.4,
+        "y": -0.55,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-8",
+       "weapon": {
+        "id": "stock:heavy-blaster",
+        "revision": 1
+       },
+       "faces": [
+        4,
+        5
+       ],
+       "position": {
+        "x": 0.4,
+        "y": -0.55,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-9",
+       "weapon": {
+        "id": "stock:neutronic-missile",
+        "revision": 1
+       },
+       "faces": [
+        2
+       ],
+       "position": {
+        "x": -0.2,
+        "y": 1,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-10",
+       "weapon": {
+        "id": "stock:neutronic-missile",
+        "revision": 1
+       },
+       "faces": [
+        2
+       ],
+       "position": {
+        "x": 0.2,
+        "y": 1,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-11",
+       "weapon": {
+        "id": "stock:neutronic-missile",
+        "revision": 1
+       },
+       "faces": [
+        1
+       ],
+       "position": {
+        "x": -0.7,
+        "y": 0,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-12",
+       "weapon": {
+        "id": "stock:neutronic-missile",
+        "revision": 1
+       },
+       "faces": [
+        3
+       ],
+       "position": {
+        "x": 0.7,
+        "y": 0,
+        "z": 0
+       },
+       "orientation": 0
+      },
+      {
+       "id": "mount-13",
+       "weapon": {
+        "id": "stock:neutronic-missile",
+        "revision": 1
+       },
+       "faces": [
+        5
+       ],
+       "position": {
+        "x": 0,
+        "y": -1.1,
+        "z": 0
+       },
+       "orientation": 0
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -26,9 +26,11 @@ const untouched=JSON.stringify({tuning,loadouts,originalApproved,amendments});
 const identityFree=p=>{const n=copy(p);for(const k of ['id','revision','name','notes'])delete n.design[k];return n;};
 let groups=0;const check=(name,fn)=>{fn();groups++;console.log('ok: '+name);};
 
-check('Only the four approved amended ships advance revision; all catalogue identities and other 25 packs stay exact',()=>{
-  // Includes Chris's September 7 gunstar turret-1 face-3 amendment.
-  assert.deepEqual(amendments.map(e=>e.key).sort(),['EAR/gunstar-battlecruiser','EAR/light-cruiser','VRA/destroyer','VRA/heavy-cruiser']);
+check('Only the five approved amended ships advance revision; all catalogue identities and other 24 packs stay exact',()=>{
+  // Includes Chris's September 7 gunstar turret-1 face-3 amendment, and his
+  // September 7 Vraygon battleship correction: mount-6 bore on faces 3, 4 and 6,
+  // a disconnected arc with a gap at dead astern, and face 6 was removed.
+  assert.deepEqual(amendments.map(e=>e.key).sort(),['EAR/gunstar-battlecruiser','EAR/light-cruiser','VRA/battleship','VRA/destroyer','VRA/heavy-cruiser']);
   for(const e of approved){
     const [f,c]=e.key.split('/'),now=stockPack(f,c,tuning,loadouts),old=stockPack(f,c,previousTuning,previousLoadouts);
     assert.ok(STOCK_REFERENCES[now.design.id]);assert.equal(now.design.id,old.design.id);
@@ -73,10 +75,19 @@ check('A real destroyer turn launches and spends one round, with the old two-tub
   assert.equal(old.shots.filter(e=>e.kind==='launch').length,2);assert.equal(old.spentMagazine,2);
   assert.equal(now.preview.weapons,tuning.weapons['neutronic-missile'].powerToArm);
 });
-check('Trimming only unused missile entries preserves both explicit and historical cyclic mount output',()=>{
+check('Trimming only unused missile entries preserves mount output, apart from the ruled battleship arc',()=>{
   for(const c of ['battleship','monitor']){
     const before=legacySpec('VRA',c,previousTuning,previousLoadouts),now=legacySpec('VRA',c,tuning,loadouts);
-    assert.deepEqual(now.mounts,before.mounts);
+    if(c==='battleship'){
+      // Chris's 2026-09-07 correction: mount 6 bore on faces 3, 4 and 6 - a
+      // disconnected arc, with a gap at dead astern - and face 6 was removed.
+      // Exempt that one mount and no other, so this check still proves what it
+      // is for: trimming the unused missile entries moved nothing else.
+      const i=before.mounts.findIndex(m=>String(m.arc)==='3,4,6');
+      assert.ok(i>=0,'the pinned battleship must still carry the pre-correction arc');
+      assert.deepEqual(now.mounts[i].arc,[3,4],'the corrected mount keeps the starboard broadside');
+      assert.deepEqual(now.mounts.filter((_,k)=>k!==i),before.mounts.filter((_,k)=>k!==i));
+    } else assert.deepEqual(now.mounts,before.mounts);
     const oldL=copy(previousLoadouts),newL=copy(loadouts);delete oldL.VRA[c].mounts;delete newL.VRA[c].mounts;
     assert.deepEqual(legacySpec('VRA',c,tuning,newL).mounts,legacySpec('VRA',c,previousTuning,oldL).mounts);
   }

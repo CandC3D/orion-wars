@@ -34,7 +34,7 @@ check('All 29 current stock packs equal the latest approved returns, apart from 
     assert.deepEqual(identityFree(parsePack(JSON.stringify(p),t)),identityFree(pack),key);
   }
 });
-check('Non-layout changes are limited to the monitor, September 6 legacy tables and approved unused laser metadata',()=>{
+check('Non-layout changes are limited to the monitor, September 6 legacy tables, approved unused laser metadata and the September 7 arc presets',()=>{
   const restored=copy(t),m=restored.hullClasses.monitor,old=beforeT.hullClasses.monitor;
   assert.equal(m.points,24);assert.equal(m.magazine,32);assert.equal(Math.round(m.superstructure*t.factionModifiers.VRA.superstructure),220);
   assert.deepEqual(m.missileArcs,old.missileArcs.slice(0,5));m.missileArcs=old.missileArcs;
@@ -44,6 +44,14 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables 
   assert.equal(laser._note,'Accurate, long, consistent. EAR and ZAN.');
   laser.overcharge=beforeT.weapons['laser-cannon'].overcharge;
   laser._note=beforeT.weapons['laser-cannon']._note;
+  // Five arc presets named 2026-09-07 (ruling: Chris). A survey found six
+  // face-sets in use with no preset behind them, which the interface could only
+  // render as "custom (1,2,6)". Additive: no existing preset was touched.
+  for(const code of ['pfwd','sfwd','broad','pb','sb']){
+    assert.ok(Array.isArray(restored.arcs[code]),'new preset '+code);
+    assert.equal(Object.hasOwn(beforeT.arcs,code),false,'preset '+code+' must be new, not a rewrite');
+    delete restored.arcs[code];
+  }
   assert.deepEqual(restored,beforeT);
   const stripped=copy(l);delete stripped._publishedStock;
   assert.equal(stripped.VRA.destroyer.missileMounts,1);stripped.VRA.destroyer.missileMounts=beforeL.VRA.destroyer.missileMounts;

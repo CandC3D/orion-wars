@@ -1032,8 +1032,7 @@
           "type": "heavy-blaster",
           "faces": [
             3,
-            4,
-            6
+            4
           ],
           "position": {
             "x": 0.45,
@@ -2543,6 +2542,7 @@
     "revisions": {
       "EAR/gunstar-battlecruiser": 3,
       "EAR/light-cruiser": 3,
+   "VRA/battleship": 3,
       "VRA/destroyer": 3,
       "VRA/heavy-cruiser": 3
     },

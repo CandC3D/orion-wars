@@ -50,8 +50,10 @@ Rules:
   nothing reaches its interior from outside.
 - **Ships without `q`/`r`** are placed by the engine's line-of-battle
   deployment for their side (side 0 west facing east, side 1 east facing
-  west); explicitly placed ships keep their positions. Placing a ship on
-  terrain is an error.
+  west); explicitly placed ships keep their positions. A moon, large asteroid,
+  or any of a planet's seven cells cannot contain a deployed ship. This applies
+  to automatic and mixed placement too. Asteroid fields and nebulae are legal
+  starting positions. The loader rejects illegal placement, never relocates it.
 - **Factions**: EAR, VRA, ZAN, KRE — any pairing, including mirror matches.
   Class names are the keys of `hullClasses` in `data/tactical-tuning.json`;
   which classes a faction may field are listed in `rosters.<faction>` in the
@@ -65,13 +67,35 @@ Rules:
 Engine API (`src/tactical/resolver.js`):
 
 ```js
-const { fleets, terrain, tuning } = buildScenario(scenario, TUNING, LOADOUTS, rng);
+// For an authored/saved scenario, keep its roster and DISPLAY these warnings.
+// Omit the policy argument for strict harness / fleet-construction validation.
+const { fleets, terrain, tuning, warnings = [] } = buildScenario(
+  scenario, TUNING, LOADOUTS, rng, { fleetFloorPolicy: "warn" }
+);
+warnings.forEach(message => console.warn(message));
 const result = runBattle(fleets, tuning, rng, { terrain, onRound, onShot, log });
 ```
 
 `rng` is `makePrng(seedFromString(scenario.seed))` from `src/prng.js`. The
 same seed always reproduces the same battle. The engine has no Node
 dependencies and runs unchanged in a browser as ES modules.
+
+### Authored fleet exceptions (Chris, 6 September 2026, design §34)
+
+The scenario editor, editor/imported/bundled playfield engagements and scenario
+recorder **warn and load** a fleet below a class's `minFleetPoints`. No ship is
+added, removed, repriced or re-pinned. Warnings remain visible in play and travel
+in recording metadata to the replay viewer; scenario JSON stays unchanged.
+Roster restrictions, ship-count limits, invalid pinned designs and unsatisfiable
+objectives remain errors. Deployment restrictions are never warnings.
+
+Quick build, the composition harness and fleet recorder remain strict. The
+low-level `buildScenario`, `createBattle` (fifth argument) and `validateScenario`
+APIs default to strict validation; only a trusted loader opts into `warn`.
+Putting `fleetFloorPolicy` or `historicalFloorOverride` in scenario JSON grants
+no exemption. `scenarioIssues` returns separate `errors` and `warnings` for UIs.
+The low-level direct-fleet simulation API does not construct or re-price fleets;
+it now validates body occupancy before mutating caller-owned ships.
 
 ## Arc glossary (ruling 2026-09-03)
 
@@ -94,6 +118,23 @@ aft-port. Weapon arcs are sets of faces (`arcs` in `data/tactical-tuning.json`):
 | `bow` | 6, 1, 2, 3, 4 | forward turret: everything but dead astern |
 | `stern` | 3, 4, 5, 6, 1 | rear turret: everything but dead ahead |
 | `all` | 1–6 | all-round |
+| `pfwd` | 6, 1, 2 | port bow 180 |
+| `sfwd` | 2, 3, 4 | starboard bow 180 |
+| `broad` | 6, 1, 3, 4 | two-turret broadside |
+| `pb` | 1 | port bow only |
+| `sb` | 3 | starboard bow only |
 
 The bow and stern turrets overlap on faces 1, 3, 4 and 6 — the two-turret
-broadside.
+broadside.  That overlap is now a preset in its own right, `broad`.
+
+The five arcs below `all` were named on 2026-09-07 (ruling: Chris) after a survey
+found six face-sets in use with no preset behind them, which the interface could
+only render as `custom (1,2,6)`. `pfwd` and `sfwd` are true 180-degree spans
+rotated one face off the bow, so they belong to the forward-180 family rather
+than to the broadsides. Every arc in use is now named: 18 of 18, no mount falls
+back to a custom label.
+
+The same survey found the Vraygon battleship's sixth mount bearing on faces
+3, 4 and 6 — a disconnected arc, with a gap at dead astern and face 6 stranded
+on the far side of it, unlike every other arc in the game. Chris ruled it a slip
+and face 6 was removed, leaving the starboard broadside.
