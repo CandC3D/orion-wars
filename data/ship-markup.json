@@ -246,9 +246,15 @@
       "deep": "#1f6b45"
     },
     "orientation": {
-      "_note": "No marker region ruled yet - hulls keep the source convention (yaw 0). Set markerRegion, or a per-hull yaw, once Chris rules which end is the bow.",
+      "_note": "Chris, 2026-09-08: Krelath ships orient with the warp engines' bronze pods at the BOTTOM. On torpedo classes the three red hexagons mark torpedoes, mounted forward on most classes. Per-hull yaw below is his direct correction to the sheet.",
       "markerRegion": null,
-      "hulls": {}
+      "hulls": {
+        "krelath_frigate": 180,
+        "krelath_destroyer": 180,
+        "krelath_missile_destroyer": 180,
+        "krelath_light_cruiser": 180,
+        "krelath_bomber": 90
+      }
     }
   },
   "_orientation_note": "Bow direction is a modelling convention, not something to infer from hull shape. An earlier heuristic put the slimmer end forward and inverted every ship whose point-defence blisters widen the bow."

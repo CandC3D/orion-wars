@@ -54,14 +54,37 @@ DETAIL = {
     "full":    dict(hull_stroke=2.0, edge=0.9, eps=0.6, min_area=0.0002, roles=("hull", "deep", "metal", "trim", "lit")),
     "wire":    dict(hull_stroke=1.4, edge=0.8, eps=0.5, min_area=0.0002, roles=("hull", "deep", "metal", "trim", "lit"), wire=True),
 }
-ROLE_ORDER = ("deep", "metal", "trim", "lit")
+# trim last: the Krelath carrier's flight deck is a large self-lit white
+# surface, and its three red elevator hexes are painted markings ON that
+# deck. Drawing lit after trim buried them under the deck.
+ROLE_ORDER = ("deep", "metal", "lit", "trim")
 
 
-def load_mask(path, threshold=110):
+def load_mask(path, threshold=110, symmetric=False):
+    """Read a mask. Optionally force it symmetric about the vertical centreline.
+
+    These hulls are bilaterally symmetric, but a mask traced pixel by pixel is
+    not: antialiasing differs a fraction between the two sides, so the contour
+    wanders and the result looks hand-drawn rather than schematic - and whole
+    features appear on one side only, which is why the engine bells painted on
+    the port nacelle and not the starboard. Mirroring one half onto the other
+    removes both faults at the source.
+
+    Not applied to the lit regions: a red light to port and a green to starboard
+    are deliberately NOT symmetric, and mirroring would duplicate one and delete
+    the other.
+    """
     img = Image.open(path).convert("L")
     w, h = img.size
     px = img.load()
-    return [[1 if px[x, y] >= threshold else 0 for x in range(w)] for y in range(h)], w, h
+    grid = [[1 if px[x, y] >= threshold else 0 for x in range(w)] for y in range(h)]
+    if symmetric:
+        half = w // 2
+        for y in range(h):
+            row = grid[y]
+            for x in range(half):
+                row[w - 1 - x] = row[x]
+    return grid, w, h
 
 
 def find_holes(grid, w, h, min_area_px):
@@ -223,6 +246,39 @@ def min_span(d):
     return min(max(xs) - min(xs), max(ys) - min(ys))
 
 
+def inside(point, poly):
+    x, y = point
+    hit = False
+    for i in range(len(poly)):
+        x0, y0 = poly[i]
+        x1, y1 = poly[(i + 1) % len(poly)]
+        if (y0 > y) != (y1 > y) and x < (x1 - x0) * (y - y0) / ((y1 - y0) or 1e-9) + x0:
+            hit = not hit
+    return hit
+
+
+def assign_holes(contours, holes):
+    """Give each hole to the contour that encloses it.
+
+    Emitting every blob of a region as one even-odd path made disjoint and
+    nested blobs cancel: a bronze pod inside another bronze contour XORed itself
+    away and the hull colour showed through. One path per contour, carrying only
+    its own holes, keeps rings hollow without erasing anything.
+    """
+    groups = [[c] for c in contours]
+    for hole in holes:
+        probe = hole[0]
+        best, best_area = None, None
+        for i, c in enumerate(contours):
+            if inside(probe, c):
+                area = (max(x for x, _ in c) - min(x for x, _ in c)) *                        (max(y for _, y in c) - min(y for _, y in c))
+                if best_area is None or area < best_area:
+                    best, best_area = i, area
+        if best is not None:
+            groups[best].append(hole)
+    return groups
+
+
 def to_paths(contours, w, h, epsilon, decimals=1):
     """Scale pixel contours into the 0-100 viewBox. One path per blob, so each
     structural band carries its own edge instead of merging into one shape."""
@@ -266,28 +322,25 @@ def main():
             path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, view, key))
             if not os.path.exists(path):
                 continue
-            grid, w, h = load_mask(path)
+            role = ROLE_OF[args.faction].get(key)
+            grid, w, h = load_mask(path, symmetric=(role != "lit"))
             # Lights and painted marks are SMALL by nature - a nav light is
             # 28 px in a 768px frame - so they need their own floor. A single
             # threshold for every region discarded the red coolant fins on the
             # nacelles and the green starboard light entirely.
-            role = ROLE_OF[args.faction].get(key)
             if key == "hull":
                 min_frac = 0.0015
             elif role in ("lit", "trim"):
                 min_frac = 0.000015
             else:
                 min_frac = spec["min_area"]
-            eps = spec["eps"] * (1.0 if key == "hull" else 1.25)
+            eps = spec["eps"] * (1.0 if key == "hull" else 0.7)
             contours = trace_contours(grid, w, h, int(w * h * min_frac))
             if contours:
                 holes = find_holes(grid, w, h, max(24, int(w * h * min_frac * 0.35)))
-                subpaths = to_paths(contours, w, h, eps) + to_paths(holes, w, h, eps)
-                if role in ("lit", "trim"):
-                    # kept apart so a thin fin is not judged by a fat neighbour
-                    got[key] = subpaths
-                else:
-                    got[key] = [" ".join(subpaths)] if subpaths else []
+                groups = assign_holes(contours, holes)
+                got[key] = [" ".join(to_paths(g, w, h, eps)) for g in groups]
+                got[key] = [d for d in got[key] if d]
                 anchors.setdefault(view, {})[key] = measure(contours, w, h)
         return got
 
