@@ -46,11 +46,19 @@ assert.deepEqual(FACE_AT_OFFSET, [2,1,6,5,4,3]);
 {
   const b = createBattle(json("../arena/scenarios/asterion-line.json"), copy(tuning), copy(loadouts), "asterion-line");
   const id = "A-heavy-cruiser-1", o = order([{ turn: 0, forward: 16 }, { turn: 0, forward: 4 }, hold()]);
+  // This case is about the POWER ceiling, so put the hull on open water first.
+  // Borrowing the featured scenario's geography made it fragile: the flagship's
+  // deployment hex there now looks down a lane carrying the asteroid screen and
+  // the centre planet, which would clamp the route on terrain and quietly stop
+  // this from testing power at all.
+  const mover = b.A.find(ship => ship.id === id);
+  mover.pos = { q: -20, r: -10 }; mover.facing = 0;
   const p = previewOrders(b, id, o), before = JSON.stringify({ p, o });
   assert.equal(p.available, 48); assert.equal(p.reserve, 14); assert.equal(p.movement, 33);
   assert.deepEqual(courseReadings(p, o).map(r => [r.requested, r.moved, r.limited, r.reason]), [[16, 11, true, "POWER LIMIT"], [4, 0, true, "POWER LIMIT"], [0, 0, false, null]]);
   assert.equal(JSON.stringify({ p, o }), before);
-  assert.ok(p.actions.every(a => a.end.q === -1 && a.end.r === -3));
+  const endQ = -20 + 11, endR = -10;
+  assert.ok(p.actions.every(a => a.end.q === endQ && a.end.r === endR), "all three actions end at the power-limited hex");
   const shorter = order([{ turn: 0, forward: 7 }, { turn: 0, forward: 4 }, hold()]);
   assert.ok(courseReadings(previewOrders(b, id, shorter), shorter).every(r => !r.limited));
   const noReserve = { ...o, reserve: 0 };

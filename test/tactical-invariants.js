@@ -104,7 +104,10 @@ assert.equal(lowPowerPlan.reduce((total, action) => total + action.forward, 0), 
 const objectiveBattle = createBattle(featuredScenario, tuning, loadouts, featuredScenario.seed);
 assert.equal(objectiveBattle.maxTurns, 12, "scenario maximum turn count did not reach the battle engine");
 assert.equal(battleView(objectiveBattle).victory?.type, "flagship", "battle view dropped the mission objective");
-objectiveBattle.B.find((ship) => ship.className === "carrier").destroyed = true;
+const protectedB = featuredScenario.victory.protectedClass.B;
+const enemyFlagship = objectiveBattle.B.find((ship) => ship.className === protectedB);
+assert.ok(enemyFlagship, `featured scenario has no ${protectedB} on side B to protect`);
+enemyFlagship.destroyed = true;
 const objectiveResult = stepTurn(objectiveBattle).result;
 assert.equal(objectiveResult?.victor, "A", "destroying the enemy command asset did not award victory");
 assert.equal(objectiveResult?.reason, "enemy command asset destroyed", "flagship victory used the wrong result reason");

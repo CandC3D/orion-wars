@@ -317,14 +317,28 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
   assert(fleetPoints(sampleScenario.sides[1], tuning) === expectTotal(sampleScenario.sides[1]), "side B points total is wrong");
   assert(validateScenario(sampleScenario, tuning, loadouts).length === 0, "sample scenario does not validate");
   assert(validateScenario(featuredScenario, tuning, loadouts).length === 0, "featured scenario does not validate");
-  assert(featuredScenario.sides.every((side) => fleetPoints(side, tuning) === 52),
-    "featured scenario is not the intended 52-point mirror match");
+  const featuredTotals = featuredScenario.sides.map((side) => fleetPoints(side, tuning));
+  assert(featuredTotals.every((n) => n >= 30 && n <= 60), "featured fleets left the tutorial weight class");
+  assert(Math.abs(featuredTotals[0] - featuredTotals[1]) <= 6,
+    `featured sides are too far apart on points (${featuredTotals.join(" vs ")})`);
+  assert(featuredScenario.sides.every((side) => side.ships.every((ship) =>
+    !tuning.hullClasses[ship.className].spinal && !tuning.hullClasses[ship.className].hangar)),
+    "the featured tutorial must field no spinal cannon and no flight deck");
+  assert(featuredScenario.victory?.type === "flagship", "featured scenario lost its flagship objective");
+  featuredScenario.sides.forEach((side, index) => {
+    const protectedClass = featuredScenario.victory.protectedClass[["A", "B"][index]];
+    assert(side.ships.filter((ship) => ship.className === protectedClass).length === 1,
+      `side ${["A", "B"][index]} must field exactly one ${protectedClass} to protect`);
+  });
   const savedFeatured = scenarioForSave(featuredScenario);
-  assert(savedFeatured.maxTurns === 12 && savedFeatured.victory?.type === "flagship" && savedFeatured.tutorial?.steps?.length === 4,
+  assert(savedFeatured.maxTurns === 12 && savedFeatured.victory?.type === "flagship"
+    && savedFeatured.tutorial?.steps?.length === featuredScenario.tutorial.steps.length
+    && savedFeatured.tutorial.steps.length > 0,
     "scenario save dropped featured mission metadata");
   const missingFlagship = JSON.parse(JSON.stringify(featuredScenario));
-  missingFlagship.sides[1].ships = missingFlagship.sides[1].ships.filter((ship) => ship.className !== "carrier");
-  assert(validateScenario(missingFlagship, tuning, loadouts).some((message) => message.includes("Flagship objective requires exactly one carrier")),
+  const flagshipB = featuredScenario.victory.protectedClass.B;
+  missingFlagship.sides[1].ships = missingFlagship.sides[1].ships.filter((ship) => ship.className !== flagshipB);
+  assert(validateScenario(missingFlagship, tuning, loadouts).some((message) => message.includes(`Flagship objective requires exactly one ${flagshipB}`)),
     "validation accepted a flagship objective without its protected asset");
 
   // rosters.<faction> (data/tactical-tuning.json), not the keys of loadouts.json, is the

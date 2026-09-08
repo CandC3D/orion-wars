@@ -1,57 +1,130 @@
 {
-  "name": "The Asterion Line",
-  "seed": "asterion-line",
-  "featured": true,
-  "maxTurns": 12,
-  "map": {
-    "widthHexes": 60,
-    "heightHexes": 36
+ "name": "The Asterion Line",
+ "seed": "asterion-line",
+ "featured": true,
+ "maxTurns": 12,
+ "map": {
+  "widthHexes": 60,
+  "heightHexes": 36
+ },
+ "terrain": [
+  {
+   "type": "planet",
+   "q": 0,
+   "r": 0
   },
-  "terrain": [
-    { "type": "planet", "q": 0, "r": 0 },
-    { "type": "asteroids", "q": -5, "r": -7 },
-    { "type": "asteroids", "q": 5, "r": 7 },
-    { "type": "asteroids", "q": -7, "r": -2 },
-    { "type": "asteroids", "q": -7, "r": 0 },
-    { "type": "asteroids", "q": -7, "r": 2 },
-    { "type": "nebula", "q": 4, "r": -8 },
-    { "type": "nebula", "q": -4, "r": 8 }
-  ],
-  "victory": {
-    "type": "flagship",
-    "protectedClass": {
-      "A": "gunstar-battlecruiser",
-      "B": "carrier"
-    },
-    "text": "Destroy the enemy command asset while protecting your own. If both survive through turn 12, the fleet with more surviving points wins."
+  {
+   "type": "asteroids",
+   "q": -5,
+   "r": -7
   },
-  "tutorial": {
-    "title": "Command briefing: The Asterion Line",
-    "steps": [
-      "Two task forces have met around Asterion. Earth must protect the Yamato-class gunstar; Krelath must protect its fleet carrier. Destroy the opposing command asset to end the battle. The asteroid screen on Earth's approach blocks fire and slows ships that cross it.",
-      "Use Formation Control to issue a sensible plan to the whole fleet. Advance & Fire closes for two actions and fires on the third; Hold & Fire keeps every weapon available.",
-      "Select a vessel to inspect its six shield faces and colored firing arcs. Then click an enemy ship to make it that vessel’s target. Individual orders override the formation plan.",
-      "Movement and weapons spend the same power that shields use to absorb hits. End Turn when the fleet is ready; missiles arrive next turn, and every decision is retained for replay."
-    ]
+  {
+   "type": "asteroids",
+   "q": 5,
+   "r": 7
   },
-  "sides": [
-    {
-      "faction": "EAR",
-      "ships": [
-        { "className": "gunstar-battlecruiser", "q": -11, "r": 0, "facing": 0 },
-        { "className": "heavy-cruiser", "q": -12, "r": -3, "facing": 0 },
-        { "className": "light-cruiser", "q": -10, "r": 4, "facing": 0 },
-        { "className": "light-cruiser", "q": -14, "r": 2, "facing": 0 }
-      ]
-    },
-    {
-      "faction": "KRE",
-      "ships": [
-        { "className": "carrier", "q": 11, "r": 0, "facing": 3 },
-        { "className": "heavy-cruiser", "q": 12, "r": 3, "facing": 3 },
-        { "className": "light-cruiser", "q": 10, "r": -4, "facing": 3 },
-        { "className": "light-cruiser", "q": 14, "r": -2, "facing": 3 }
-      ]
-    }
+  {
+   "type": "asteroids",
+   "q": -7,
+   "r": -2
+  },
+  {
+   "type": "asteroids",
+   "q": -7,
+   "r": 0
+  },
+  {
+   "type": "asteroids",
+   "q": -7,
+   "r": 2
+  },
+  {
+   "type": "nebula",
+   "q": 4,
+   "r": -8
+  },
+  {
+   "type": "nebula",
+   "q": -4,
+   "r": 8
+  }
+ ],
+ "victory": {
+  "type": "flagship",
+  "protectedClass": {
+   "A": "heavy-cruiser",
+   "B": "battleship"
+  },
+  "text": "Destroy the enemy flagship while protecting your own. If both survive through turn 12, the fleet with more surviving points wins."
+ },
+ "tutorial": {
+  "title": "Command briefing: The Asterion Line",
+  "steps": [
+   "Two task forces have met around Asterion. Earth's flagship is the heavy cruiser; Krelath's is the battleship. Destroy the opposing flagship to end the battle, or hold the field to turn 12 and win on surviving points. The asteroid screen on Earth's approach blocks fire and slows ships that cross it, and the planet at the centre blocks fire through it entirely.",
+   "Earth fields four evenly matched cruisers; Krelath answers with one heavy battleship and three light escorts. Neither side has a spinal cannon or a flight deck here, so every hull fights with beams and tubes alone. Krelath ships can still make a short tactical warp.",
+   "Use Formation Control to issue a sensible plan to the whole fleet. Advance & Fire closes for two actions and fires on the third; Hold & Fire keeps every weapon available.",
+   "Select a vessel to inspect its six shield faces and its firing arcs. Weapon labels name each mount's coverage, its best range and its maximum reach: a beam is far weaker at the edge of its reach than inside its best band. Click an enemy ship to make it that vessel's target; individual orders override the formation plan.",
+   "Movement and weapons spend the same power that shields use to absorb hits. End Turn when the fleet is ready; missiles arrive next turn, and every decision is retained for replay."
   ]
+ },
+ "sides": [
+  {
+   "faction": "EAR",
+   "ships": [
+    {
+     "className": "heavy-cruiser",
+     "q": -11,
+     "r": 0,
+     "facing": 0
+    },
+    {
+     "className": "light-cruiser",
+     "q": -12,
+     "r": -3,
+     "facing": 0
+    },
+    {
+     "className": "light-cruiser",
+     "q": -10,
+     "r": 4,
+     "facing": 0
+    },
+    {
+     "className": "light-cruiser",
+     "q": -14,
+     "r": 2,
+     "facing": 0
+    }
+   ]
+  },
+  {
+   "faction": "KRE",
+   "ships": [
+    {
+     "className": "battleship",
+     "q": 11,
+     "r": 0,
+     "facing": 3
+    },
+    {
+     "className": "destroyer",
+     "q": 12,
+     "r": 3,
+     "facing": 3
+    },
+    {
+     "className": "destroyer",
+     "q": 10,
+     "r": -4,
+     "facing": 3
+    },
+    {
+     "className": "missile-destroyer",
+     "q": 14,
+     "r": -2,
+     "facing": 3
+    }
+   ]
+  }
+ ]
 }
