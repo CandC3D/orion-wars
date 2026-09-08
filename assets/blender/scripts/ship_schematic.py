@@ -62,6 +62,13 @@ PALETTE = [
 GROUPS = {
     "lit": {"nav_red", "nav_green", "window_white"},
     "metal": {"structure", "gunmetal"},
+    # The dish and the painted cap were in no group at all, so the two most
+    # identifying things in a plan view - the cap dead centre on the command
+    # sphere, the dish beneath it - were simply absent from the glyph.
+    "trim": {"dish_gold", "turret_orange"},
+    # Where the hull's own two blues meet. In a plan view this carries most of
+    # the structural break-up that a quarter view gets from its silhouette.
+    "deep": {"hull_deep"},
 }
 
 
@@ -160,7 +167,7 @@ if not wanted_views:
 
 for view in wanted_views:
     cam = aim(view)
-    for tag in ("hull", "lit", "metal"):
+    for tag in ("hull", "lit", "metal", "trim", "deep"):
         mesh.materials.clear()
         mesh.materials.append(white)
         mesh.materials.append(black)

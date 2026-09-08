@@ -28,18 +28,24 @@ from PIL import Image
 
 # Faction palettes, extending the colours already used in assets/icons/.
 FACTIONS = {
-    "EAR": {"fill": "#4f8ef7", "line": "#1b2f6b", "band": "#a9c9f7", "edge": "#24408c", "lit": "#ff5a4d"},
-    "VRA": {"fill": "#e0b02e", "line": "#5f4506", "band": "#f7e3a8", "edge": "#8a6608", "lit": "#ff8a3d"},
-    "ZAN": {"fill": "#e0574a", "line": "#611711", "band": "#f7c3bc", "edge": "#8f2419", "lit": "#ffd23d"},
-    "KRE": {"fill": "#4fae7a", "line": "#0f3f24", "band": "#bfe8d2", "edge": "#1c6238", "lit": "#9be36a"},
+    "EAR": {"wire": "#57d6ff", "fill": "#4f8ef7", "line": "#1b2f6b", "band": "#a9c9f7", "edge": "#24408c", "lit": "#ff5a4d", "trim": "#f0a63a", "deep": "#2f6ac4"},
+    "VRA": {"wire": "#ffd166", "fill": "#e0b02e", "line": "#5f4506", "band": "#f7e3a8", "edge": "#8a6608", "lit": "#ff8a3d", "trim": "#b57d12", "deep": "#c2941f"},
+    "ZAN": {"wire": "#ff7a66", "fill": "#e0574a", "line": "#611711", "band": "#f7c3bc", "edge": "#8f2419", "lit": "#ffd23d", "trim": "#b03a2e", "deep": "#c04537"},
+    "KRE": {"wire": "#6ee7a0", "fill": "#4fae7a", "line": "#0f3f24", "band": "#bfe8d2", "edge": "#1c6238", "lit": "#9be36a", "trim": "#2e8f5c", "deep": "#3a9668"},
 }
 
 # per level: hull stroke width, band fill opacity, band stroke width, trace
 # tolerance, minimum band blob area as a fraction of the frame, layers drawn.
 DETAIL = {
-    "map":     dict(hull_stroke=4.0, band_fill=0.0,  band_stroke=0.0, eps=2.2, min_band=1.0,    layers=("hull", "lit")),
-    "console": dict(hull_stroke=2.6, band_fill=0.55, band_stroke=1.1, eps=1.3, min_band=0.0009, layers=("hull", "metal", "lit")),
-    "full":    dict(hull_stroke=2.0, band_fill=0.62, band_stroke=0.9, eps=0.8, min_band=0.0004, layers=("hull", "metal", "lit")),
+    # map keeps a heavy outline so the silhouette survives 28px, but it now
+    # carries the same structure the other levels do rather than a bare shape.
+    "map":     dict(hull_stroke=3.4, band_fill=0.5,  band_stroke=0.8, eps=1.1, min_band=0.0009, layers=("hull", "deep", "metal", "trim", "lit")),
+    "console": dict(hull_stroke=2.4, band_fill=0.58, band_stroke=1.0, eps=0.8, min_band=0.0004, layers=("hull", "deep", "metal", "trim", "lit")),
+    "full":    dict(hull_stroke=2.0, band_fill=0.62, band_stroke=0.9, eps=0.6, min_band=0.0003, layers=("hull", "deep", "metal", "trim", "lit")),
+    # Line only, for a large systems display: no fills, one accent colour, every
+    # region boundary drawn as an edge. This is the damage-report aesthetic
+    # rather than the map token, so it assumes room to be read.
+    "wire":    dict(hull_stroke=1.4, band_fill=0.0,  band_stroke=0.8, eps=0.5, min_band=0.0002, layers=("hull", "deep", "metal", "trim", "lit"), wire=True),
 }
 
 
@@ -125,6 +131,28 @@ def simplify_closed(points, epsilon):
     return simplify(ring[:far + 1], epsilon)[:-1] + simplify(ring[far:] + [ring[0]], epsilon)[:-1]
 
 
+def measure(contours, w, h):
+    """Where each traced blob sits, in the same 0-100 space as the emitted paths.
+
+    This is what a LIVE damage-marker system binds to: a marker can be placed on
+    the real feature - this nav light, that structural band, the dish - instead
+    of at a guessed offset. Nothing is baked into the drawing.
+    """
+    out = []
+    for contour in contours:
+        xs = [p[0] for p in contour]
+        ys = [p[1] for p in contour]
+        sx, sy = 100.0 / w, 100.0 / h
+        out.append({
+            "cx": round(sum(xs) / len(xs) * sx, 2),
+            "cy": round(sum(ys) / len(ys) * sy, 2),
+            "x0": round(min(xs) * sx, 2), "y0": round(min(ys) * sy, 2),
+            "x1": round(max(xs) * sx, 2), "y1": round(max(ys) * sy, 2),
+            "px": len(contour),
+        })
+    return out
+
+
 def to_paths(contours, w, h, epsilon, decimals=1):
     """Scale pixel contours into the 0-100 viewBox. One path per blob, so each
     structural band carries its own edge instead of merging into one shape."""
@@ -145,7 +173,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--slug", required=True)
     ap.add_argument("--faction", required=True, choices=sorted(FACTIONS))
-    ap.add_argument("--view", default="top")
+    ap.add_argument("--view", default="top", help="one view, or several comma-separated for a multi-view sheet")
+    ap.add_argument("--layout", default="row", choices=("row", "column"))
+    ap.add_argument("--stroke", default=None, help="override the line colour")
+    ap.add_argument("--anchors", default=None, help="also write feature anchors as JSON")
     ap.add_argument("--detail", default="console", choices=sorted(DETAIL))
     ap.add_argument("--masks", default="assets/blender/renders/v3/masks")
     ap.add_argument("--size", type=int, default=64, help="rendered width/height attribute")
@@ -154,43 +185,110 @@ def main():
 
     pal = FACTIONS[args.faction]
     spec = DETAIL[args.detail]
-    layers = {}
-    for tag in spec["layers"]:
-        path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, args.view, tag))
-        if not os.path.exists(path):
-            legacy = os.path.join(args.masks, "%s_%s.png" % (args.slug, tag))
-            if os.path.exists(legacy):
-                path = legacy
-        if not os.path.exists(path):
-            print("missing mask:", path)
+    wire = bool(spec.get("wire"))
+    views = [v.strip() for v in args.view.split(",") if v.strip()]
+
+    anchors = {}
+
+    def trace_view(view):
+        got = {}
+        found = {}
+        for tag in spec["layers"]:
+            path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, view, tag))
+            if not os.path.exists(path):
+                legacy = os.path.join(args.masks, "%s_%s.png" % (args.slug, tag))
+                if os.path.exists(legacy):
+                    path = legacy
+            if not os.path.exists(path):
+                continue
+            grid, w, h = load_mask(path)
+            min_frac = (0.0015 if tag == "hull"
+                        else 0.0002 if tag in ("trim", "lit")
+                        else spec["min_band"])
+            eps = spec["eps"] * (1.0 if tag == "hull" else 1.3)
+            contours = trace_contours(grid, w, h, int(w * h * min_frac))
+            got[tag] = to_paths(contours, w, h, eps)
+            found[tag] = measure(contours, w, h)
+        anchors[view] = found
+        return got
+
+    def draw(layers, dx, dy):
+        line = args.stroke or pal.get("wire", "#8fd6ff")
+        out = ['<g transform="translate(%g %g)">' % (dx, dy)]
+        if wire:
+            # Every region contributes its boundary; nothing is filled.
+            for tag, width in (("hull", spec["hull_stroke"]), ("deep", spec["band_stroke"] * 0.7),
+                               ("metal", spec["band_stroke"]), ("trim", spec["band_stroke"]),
+                               ("lit", spec["band_stroke"])):
+                for d in layers.get(tag, []):
+                    out.append('<path d="%s" fill="none" stroke="%s" stroke-width="%g" '
+                               'stroke-linejoin="round" opacity="%g"/>'
+                               % (d, line, width, 1.0 if tag == "hull" else 0.8))
+        else:
+            out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
+                       % (" ".join(layers["hull"]), pal["fill"], pal["line"], spec["hull_stroke"]))
+            for d in layers.get("deep", []):
+                out.append('<path d="%s" fill="%s" fill-opacity="0.9"/>' % (d, pal["deep"]))
+            for d in layers.get("metal", []):
+                out.append('<path d="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g" '
+                           'stroke-linejoin="round"/>'
+                           % (d, pal["band"], spec["band_fill"], pal["edge"], spec["band_stroke"]))
+            for d in layers.get("trim", []):
+                out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
+                           % (d, pal["trim"], pal["edge"], spec["band_stroke"] * 0.8))
+            for d in layers.get("lit", []):
+                out.append('<path d="%s" fill="%s"/>' % (d, pal["lit"]))
+        out.append("</g>")
+        return chr(10).join(out)
+
+    panels = []
+    for view in views:
+        layers = trace_view(view)
+        if not layers.get("hull"):
+            print("no hull traced for view %s - skipping" % view)
             continue
-        grid, w, h = load_mask(path)
-        min_frac = spec["min_band"] if tag == "metal" else (0.0015 if tag == "hull" else 0.0004)
-        eps = spec["eps"] * (1.0 if tag == "hull" else 1.3)
-        contours = trace_contours(grid, w, h, int(w * h * min_frac))
-        layers[tag] = to_paths(contours, w, h, eps)
-        print("%-6s %d blobs" % (tag, len(layers[tag])))
+        print("%-8s %s" % (view, " ".join("%s:%d" % (t, len(v)) for t, v in layers.items())))
+        panels.append(layers)
+    if not panels:
+        raise SystemExit("nothing traced - are the masks present?")
 
-    if not layers.get("hull"):
-        raise SystemExit("no hull silhouette traced - is the mask empty?")
-
-    svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" '
-           'width="%d" height="%d">' % (args.size, args.size)]
-    svg.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
-               % (" ".join(layers["hull"]), pal["fill"], pal["line"], spec["hull_stroke"]))
-    for d in layers.get("metal", []):
-        svg.append('<path d="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g" '
-                   'stroke-linejoin="round"/>'
-                   % (d, pal["band"], spec["band_fill"], pal["edge"], spec["band_stroke"]))
-    for d in layers.get("lit", []):
-        svg.append('<path d="%s" fill="%s"/>' % (d, pal["lit"]))
+    across = len(panels) if args.layout == "row" else 1
+    down = 1 if args.layout == "row" else len(panels)
+    vb_w, vb_h = 100 * across, 100 * down
+    svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %g %g" width="%d" height="%d">'
+           % (vb_w, vb_h, args.size * across, args.size * down)]
+    for i, layers in enumerate(panels):
+        svg.append(draw(layers, 100 * i if args.layout == "row" else 0,
+                        0 if args.layout == "row" else 100 * i))
     svg.append("</svg>")
 
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:
         fh.write("\n".join(svg) + "\n")
-    print("wrote %s (%d bytes, detail=%s, view=%s)"
-          % (args.out, os.path.getsize(args.out), args.detail, args.view))
+    print("wrote %s (%d bytes, detail=%s, views=%s)"
+          % (args.out, os.path.getsize(args.out), args.detail, ",".join(views)))
+
+    if args.anchors:
+        import json
+        # Panel offsets so an anchor lands correctly on a multi-view sheet.
+        placed = {}
+        for i, view in enumerate([v for v in views if v in anchors]):
+            dx = 100 * i if args.layout == "row" else 0
+            dy = 0 if args.layout == "row" else 100 * i
+            placed[view] = {
+                "offset": {"x": dx, "y": dy},
+                "features": {tag: [dict(a, cx=a["cx"] + dx, cy=a["cy"] + dy,
+                                        x0=a["x0"] + dx, y0=a["y0"] + dy,
+                                        x1=a["x1"] + dx, y1=a["y1"] + dy)
+                                   for a in items]
+                             for tag, items in anchors[view].items()},
+            }
+        doc = {"slug": args.slug, "faction": args.faction, "detail": args.detail,
+               "layout": args.layout, "viewBox": [vb_w, vb_h], "views": placed}
+        with open(args.anchors, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, indent=1)
+        print("wrote %s (%d anchors)"
+              % (args.anchors, sum(len(v) for p in placed.values() for v in p["features"].values())))
 
 
 if __name__ == "__main__":

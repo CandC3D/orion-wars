@@ -2,10 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "arena",
+      "name": "worktree",
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/serve.js"],
-      "port": 8642
+      "port": 8643,
+      "autoPort": true
     }
   ]
 }
