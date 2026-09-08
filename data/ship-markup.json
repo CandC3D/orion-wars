@@ -253,7 +253,8 @@
         "krelath_destroyer": 180,
         "krelath_missile_destroyer": 180,
         "krelath_light_cruiser": 180,
-        "krelath_bomber": 90
+        "krelath_bomber": 90,
+        "krelath_strike_cruiser": 180
       }
     }
   },
