@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Distant Sectors — Visual review</title><link rel="icon" href="data:,">
+<style>
+  :root{
+    --ground:#0b1016; --panel:#111923; --edge:#1e2a37; --ink:#dbe4ee; --muted:#7f8ea0;
+    --ok:#4fae7a; --warn:#d8a13c; --bad:#e0614f; --accent:#4fb3bf;
+    --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font:13px/1.5 var(--mono)}
+  header{
+    position:sticky;top:0;z-index:5;background:var(--ground);border-bottom:1px solid var(--edge);
+    padding:14px 20px;display:flex;gap:22px;align-items:center;flex-wrap:wrap;
+  }
+  h1{font-size:14px;letter-spacing:.16em;text-transform:uppercase;margin:0;font-weight:600}
+  .sub{color:var(--muted);font-size:11.5px;max-width:62ch;margin:6px 20px 0;padding-bottom:12px}
+  label{color:var(--muted);display:inline-flex;gap:7px;align-items:center}
+  select,button{
+    font:inherit;background:#16202b;color:var(--ink);border:1px solid var(--edge);
+    border-radius:3px;padding:5px 9px;
+  }
+  button{cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .tally{margin-left:auto;display:flex;gap:16px;align-items:center}
+  .tally b{font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(560px,1fr));gap:20px;padding:20px}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+  .bar{display:flex;gap:10px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--edge)}
+  .name{font-weight:600;letter-spacing:.03em}
+  .chip{
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;
+    border-radius:2px;border:1px solid currentColor;white-space:nowrap;
+  }
+  .chip.pending{color:var(--muted)}
+  .chip.pass{color:var(--ok)}
+  .chip.warn{color:var(--warn)}
+  .chip.fail{color:var(--bad)}
+  .bar a{margin-left:auto;color:var(--accent);text-decoration:none;font-size:11px}
+  .bar a:hover{text-decoration:underline}
+  .stage{position:relative;overflow:hidden;background:#05090d}
+  .stage iframe{border:0;position:absolute;top:0;left:0;transform-origin:top left}
+  .findings{padding:9px 12px;border-top:1px solid var(--edge);color:var(--muted);font-size:11.5px;min-height:34px}
+  .findings li{margin:0 0 3px}
+  .findings ul{margin:0;padding-left:16px}
+  .findings .bad{color:var(--bad)}
+  .findings .warn{color:var(--warn)}
+  .findings .ok{color:var(--ok)}
+  footer{padding:18px 20px 42px;color:var(--muted);font-size:11.5px;border-top:1px solid var(--edge);margin-top:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Visual review</h1>
+  <label>Viewport
+    <select id="size">
+      <option value="1440x900" selected>1440 &times; 900</option>
+      <option value="1280x800">1280 &times; 800</option>
+      <option value="1920x1080">1920 &times; 1080</option>
+    </select>
+  </label>
+  <label>Seed <select id="seed"><option value="review-1" selected>review-1</option><option value="review-2">review-2</option><option value="review-3">review-3</option></select></label>
+  <label>Side <select id="side"><option value="A" selected>A</option><option value="B">B</option></select></label>
+  <button id="rerun">Re-run all</button>
+  <div class="tally">
+    <span><b id="n-done">0</b><span style="color:var(--muted)">/<span id="n-total">0</span> loaded</span></span>
+    <span class="chip fail" id="n-fail">0 failing</span>
+    <span class="chip warn" id="n-warn">0 warnings</span>
+  </div>
+</header>
+
+<p class="sub">
+  Every bundled scenario started on the real engine at a fixed viewport, side by side. Objective checks run per panel &mdash;
+  the engagement actually started, the console fits without scrolling (Chris&rsquo;s standing rule at 1440p), and nothing threw.
+  What the checks cannot tell you is whether it <em>reads</em> right; that is what the pictures are for.
+</p>
+
+<div class="grid" id="grid"></div>
+
+<footer id="foot">Booting&hellip;</footer>
+
+<script type="module">
+const $ = (s, r = document) => r.querySelector(s);
+const grid = $("#grid");
+const SETTLE_MS = 1400;
+let panels = [];
+
+function dims() { const [w, h] = $("#size").value.split("x").map(Number); return { w, h }; }
+
+// The scenario list is read from the playfield's own bundled-scenario select, so
+// this sheet tracks whatever arena/scenarios/ actually contains.
+async function discoverScenarios() {
+  const probe = document.createElement("iframe");
+  probe.style.cssText = "position:absolute;width:1200px;height:800px;left:-10000px;top:0;border:0";
+  probe.src = "./play.html";
+  document.body.appendChild(probe);
+  await new Promise((done) => { probe.addEventListener("load", done, { once: true }); });
+  await new Promise((r) => setTimeout(r, 400));
+  let list = [];
+  try {
+    const select = probe.contentDocument.querySelector("#bundled-scenario");
+    list = [...(select?.options ?? [])].map((o) => ({ file: o.value, label: o.textContent.trim() || o.value }));
+  } catch (error) {
+    $("#foot").textContent = `Could not read the scenario list: ${error.message}. Serve this page over npm run arena, not from disk.`;
+  }
+  probe.remove();
+  return list;
+}
+
+function makePanel(entry) {
+  const panel = document.createElement("div");
+  panel.className = "panel";
+  panel.innerHTML = `
+    <div class="bar">
+      <span class="name"></span>
+      <span class="chip pending">pending</span>
+      <a target="_blank" rel="noopener">open full size &rarr;</a>
+    </div>
+    <div class="stage"></div>
+    <div class="findings"></div>`;
+  $(".name", panel).textContent = entry.label;
+  $("a", panel).href = "./play.html";
+  grid.appendChild(panel);
+  return { entry, panel, stage: $(".stage", panel), chip: $(".chip", panel), findings: $(".findings", panel) };
+}
+
+function setChip(p, kind, text) { p.chip.className = `chip ${kind}`; p.chip.textContent = text; }
+
+// Drives the playfield's own setup form. There is no deep link for a bundled
+// scenario yet; if one lands, this is the only place that needs to change.
+function startEngagement(doc, entry) {
+  const mode = doc.querySelector("#setup-mode");
+  const bundled = doc.querySelector("#bundled-scenario");
+  const seed = doc.querySelector("#command-seed");
+  const side = doc.querySelector("#command-side");
+  const begin = doc.querySelector("#begin");
+  if (!mode || !bundled || !begin) throw new Error("setup controls not found");
+  // A select silently goes empty when handed a value it has no option for, and the
+  // playfield then refuses the setup with no clue why. Say which control it was.
+  const pick = (el, value, what) => {
+    el.value = value;
+    if (el.value !== value) throw new Error(`${what} has no option "${value}" (offers ${[...el.options].map((o) => o.value).join(", ")})`);
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+  pick(mode, "bundled", "setup mode");
+  pick(bundled, entry.file, "bundled scenario");
+  if (side) pick(side, $("#side").value, "commanding side");
+  if (seed) seed.value = $("#seed").value;
+  begin.click();
+}
+
+function inspect(win, doc, size) {
+  const findings = [];
+  const setup = doc.querySelector("#trial-setup");
+  const started = !!doc.querySelector("#contact-map") && (!setup || setup.hidden || setup.offsetParent === null);
+  if (!started) findings.push({ level: "bad", text: "engagement did not start — still on the setup screen" });
+
+  const root = doc.documentElement;
+  const overX = root.scrollWidth - win.innerWidth;
+  const overY = root.scrollHeight - win.innerHeight;
+  if (overX > 1) findings.push({ level: "bad", text: `scrolls sideways by ${overX}px at ${size.w}px` });
+  if (overY > 1) findings.push({ level: "warn", text: `taller than the viewport by ${overY}px at ${size.h}px` });
+
+  // Chrome sitting past the right edge is off-screen for the operator. Content the
+  // map itself clips does not count — the hex view pans, so its contents legitimately
+  // extend beyond the frame.
+  const clipped = (el) => {
+    for (let a = el.parentElement; a; a = a.parentElement) {
+      if (/hidden|clip|auto|scroll/.test(getComputedStyle(a).overflowX)) return true;
+    }
+    return false;
+  };
+  const name = (el) => {
+    if (el.id) return `#${el.id}`;
+    const cls = typeof el.className === "string" ? el.className : el.className?.baseVal;
+    const first = cls?.trim().split(/\s+/)[0];
+    return first ? `.${first}` : el.tagName.toLowerCase();
+  };
+  let widest = 0, culprit = "";
+  for (const el of doc.body.querySelectorAll("*")) {
+    const r = el.getBoundingClientRect();
+    if (!r.width || r.right <= widest || clipped(el)) continue;
+    widest = r.right; culprit = name(el);
+  }
+  if (widest > win.innerWidth + 1) findings.push({ level: "warn", text: `${culprit} reaches ${Math.round(widest)}px, past the ${win.innerWidth}px edge` });
+
+  return { started, findings };
+}
+
+async function run(p) {
+  const size = dims();
+  const scale = Math.min(1, (p.stage.clientWidth || 560) / size.w);
+  p.stage.style.height = `${Math.round(size.h * scale)}px`;
+  p.stage.innerHTML = "";
+  setChip(p, "pending", "loading");
+  p.findings.textContent = "";
+
+  const frame = document.createElement("iframe");
+  frame.width = size.w; frame.height = size.h;
+  frame.style.transform = `scale(${scale})`;
+  frame.src = "./play.html";
+  p.stage.appendChild(frame);
+
+  const errors = [];
+  await new Promise((done) => { frame.addEventListener("load", done, { once: true }); });
+  try {
+    frame.contentWindow.addEventListener("error", (e) => errors.push(e.message));
+    frame.contentWindow.addEventListener("unhandledrejection", (e) => errors.push(String(e.reason)));
+  } catch (_) { /* cross-origin: only when opened from disk */ }
+
+  await new Promise((r) => setTimeout(r, 300));
+  let result;
+  try {
+    const doc = frame.contentDocument;
+    startEngagement(doc, p.entry);
+    await new Promise((r) => setTimeout(r, SETTLE_MS));
+    result = inspect(frame.contentWindow, doc, size);
+  } catch (error) {
+    result = { started: false, findings: [{ level: "bad", text: `harness could not drive the page: ${error.message}` }] };
+  }
+
+  for (const message of errors) result.findings.push({ level: "bad", text: `threw: ${message}` });
+
+  const worst = result.findings.some((f) => f.level === "bad") ? "fail"
+    : result.findings.length ? "warn" : "pass";
+  setChip(p, worst, worst === "pass" ? "clean" : worst === "warn" ? `${result.findings.length} to look at` : "failing");
+  p.findings.innerHTML = result.findings.length
+    ? `<ul>${result.findings.map((f) => `<li class="${f.level === "bad" ? "bad" : "warn"}">${f.text}</li>`).join("")}</ul>`
+    : `<span class="ok">Started, fits the viewport, nothing thrown.</span>`;
+  p.state = worst;
+  tally();
+}
+
+function tally() {
+  const done = panels.filter((p) => p.state).length;
+  $("#n-done").textContent = done;
+  $("#n-fail").textContent = `${panels.filter((p) => p.state === "fail").length} failing`;
+  $("#n-warn").textContent = `${panels.filter((p) => p.state === "warn").length} warnings`;
+}
+
+async function runAll() {
+  for (const p of panels) { p.state = null; }
+  tally();
+  // Two at a time: each panel is a full engine instance.
+  const queue = [...panels];
+  const worker = async () => { while (queue.length) await run(queue.shift()); };
+  await Promise.all([worker(), worker()]);
+  $("#foot").textContent = `${panels.length} scenarios reviewed at ${$("#size").value}, seed ${$("#seed").value}, commanding side ${$("#side").value.toUpperCase()}. Checks are objective only — the pictures are the review.`;
+}
+
+const found = await discoverScenarios();
+if (found.length) {
+  $("#n-total").textContent = found.length;
+  panels = found.map(makePanel);
+  await runAll();
+} else if (!$("#foot").textContent.startsWith("Could not")) {
+  $("#foot").textContent = "No bundled scenarios found in the playfield's scenario list.";
+}
+
+$("#rerun").onclick = () => runAll();
+for (const id of ["#size", "#seed", "#side"]) $(id).onchange = () => runAll();
+</script>
+</body>
+</html>

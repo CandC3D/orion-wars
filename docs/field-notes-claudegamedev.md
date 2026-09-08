@@ -301,26 +301,39 @@ by unit tests and by Chris looking at them. Every ambitious project in that subr
 independently concluded that tests do not catch visual defects and that a render-inspect-score
 loop does. The currently-failing contact-map layout assertion in `test/fleet-command.mjs` is a
 concrete example of the seam — label collision is exactly the class of defect a screenshot
-gate catches faster and more convincingly than an assertion. Worth considering: a script that
-loads a known scenario, screenshots the console at 1440p, and a critic pass scoring it against
-the instrument direction.
+gate catches faster and more convincingly than an assertion.
 
-**Audio is unbuilt, and it should hang off the replay log.** We have no sound at all. The
-useful structural point is that the resolver already emits a structured event stream —
-replays, playback effects, weapon-coloured arcs from the face table, a resolved arrival
-naming the struck face. Sound cues driven off that same event stream work in live play and
-in replay playback for free, stay deterministic with the rest of the engine, and are
-testable by asserting which cues a known scenario emits. Bolting audio onto the view layer
-instead would give us none of that.
+**First piece built, 2026-09-07** (Chris ruled visual review the thing to build first):
+`arena/visual-review.html`, reachable from `npm run arena`, starts every bundled scenario on
+the real engine in its own iframe at a chosen viewport, side by side, and runs objective
+checks per panel — the engagement actually started, the console does not scroll at 1440p, no
+unclipped chrome sits past the right edge, nothing threw. It reads the scenario list from the
+playfield's own bundled-scenario select, so it tracks whatever `arena/scenarios/` holds. Zero
+dependencies, and it drives the existing setup form rather than needing a source change. At
+both 1440×900 and 1280×800 all eight scenarios currently pass. What it deliberately does not
+do is judge whether the console *reads* right — that is what the pictures are for. The
+unattended-capture and critic-scoring layer needs a headless browser driver, which is an open
+question: every existing browser probe in `docs/dispatch/**` and `docs/consultations/**` calls
+Playwright, Playwright is not installed on this machine, and the repository has no
+dependencies at all by apparent design.
 
-What the engine already names, and therefore what the cue list mostly writes itself from:
-weapon fire by weapon type, shield impact as distinct from hull damage, the photonic spinal
-cannon's charge and discharge (a mechanic that is immobile-while-charging from 20 hexes out,
-so it wants a long tail rather than a hit), the Krelath warp jump, strike-craft launch and
-recovery, the just-ruled cannon vent, target lock, rout and withdrawal. On music, the same
-caution as the art: a distinctive score is a real cost and licensed looping packs are the
-cheap path; the instrument direction argues for restrained, mechanical UI sound rather than
-sci-fi swooshes.
+**Audio: the architecture is already right; the assets are placeholders.** `arena/combat-audio.js`
+is a small synthesized cue set — nine cues (ui, engage, beam, spinal, launch, impact,
+intercept, victory, defeat) built from Web Audio oscillators, with no asset dependency, an
+AudioContext created only after a user gesture, and a sound toggle in the console. It is
+already driven off the playback shot stream in `arena/play.js`, which is exactly where sound
+should hang: cues fire from the same events that drive the visual effects, so they work in
+live play and replay alike, stay deterministic, and are assertable in a test. Nothing needs
+rearchitecting.
+
+The actual gap is narrower than "no audio": the cues are oscillator stand-ins rather than
+designed sounds, several engine events that deserve a cue have none (Krelath warp jump,
+strike-craft recovery, the just-ruled cannon vent, target lock, shield impact as distinct
+from hull damage), and there is no music at all. On music, the same caution as the art: a
+distinctive score is a real cost and licensed looping packs are the cheap path; the
+instrument direction argues for restrained, mechanical sound rather than sci-fi swooshes.
+Note also that the spinal cannon is immobile-while-charging from 20 hexes out, so it wants a
+long charge tail rather than a hit — the present `spinal` cue is a 0.46s sweep.
 
 **Worktrees for the concurrency problem.** This repo already has every symptom — several
 `.tmp-*` snapshot directories, a standing rule to stage explicit paths and never
