@@ -1,0 +1,228 @@
+{
+  "_comment": "Per-faction reading of the vertex-colour markup the ship models carry. The modelling tool writes sRGB values into the (linear-spec) COLOR_0 slot, so these are the raw values the attribute reads back. Every downstream art script keys off this file: the plussing pass, the plan-view masks and the glyph tracer. Adding a faction is an entry here, not a code change.",
+  "_emissive_rulings": "Which regions are self-lit is a per-faction ruling from Chris, not a modelling detail. Earth was ruled 2026-09-07: red, white and green emissive; the gold dish metallic like the grey; the orange cap painted safety orange, neither glowing nor chrome.",
+  "EAR": {
+    "name": "Earth Federation",
+    "ruled": "2026-09-07 by Chris",
+    "regions": [
+      {
+        "key": "hull_primary",
+        "colour": [
+          0.0,
+          0.62,
+          0.85
+        ],
+        "role": "hull",
+        "metal": 0.35,
+        "rough": 0.42,
+        "emit": 0.0
+      },
+      {
+        "key": "hull_deep",
+        "colour": [
+          0.0,
+          0.46,
+          0.67
+        ],
+        "role": "deep",
+        "metal": 0.35,
+        "rough": 0.5,
+        "emit": 0.0
+      },
+      {
+        "key": "structure",
+        "colour": [
+          0.75,
+          0.78,
+          0.8
+        ],
+        "role": "metal",
+        "metal": 0.7,
+        "rough": 0.45,
+        "emit": 0.0
+      },
+      {
+        "key": "gunmetal",
+        "colour": [
+          0.38,
+          0.4,
+          0.42
+        ],
+        "role": "metal",
+        "metal": 0.55,
+        "rough": 0.62,
+        "emit": 0.0
+      },
+      {
+        "key": "dish_gold",
+        "colour": [
+          0.88,
+          0.68,
+          0.21
+        ],
+        "role": "trim",
+        "metal": 0.7,
+        "rough": 0.34,
+        "emit": 0.0
+      },
+      {
+        "key": "turret_orange",
+        "colour": [
+          0.96,
+          0.51,
+          0.12
+        ],
+        "role": "trim",
+        "metal": 0.0,
+        "rough": 0.88,
+        "emit": 0.0
+      },
+      {
+        "key": "nav_red",
+        "colour": [
+          0.91,
+          0.11,
+          0.18
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35
+      },
+      {
+        "key": "nav_green",
+        "colour": [
+          0.27,
+          0.72,
+          0.29
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35
+      },
+      {
+        "key": "window_white",
+        "colour": [
+          0.98,
+          0.98,
+          0.98
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.35,
+        "emit": 1.25
+      }
+    ],
+    "palette": {
+      "wire": "#57d6ff",
+      "fill": "#4f8ef7",
+      "line": "#1b2f6b",
+      "band": "#a9c9f7",
+      "edge": "#24408c",
+      "lit": "#ff5a4d",
+      "trim": "#f0a63a",
+      "deep": "#1b4b96"
+    }
+  },
+  "KRE": {
+    "name": "Krelath Empire",
+    "ruled": "2026-09-08 by Chris: orange, yellow and white are emissive. Red is NOT - unlike Earth, where red is a running light; here it reads as a painted marking. Bronze is metallic, brushed to the same spec as Earth's silver/steel.",
+    "regions": [
+      {
+        "key": "hull_primary",
+        "colour": [
+          0.07,
+          0.41,
+          0.21
+        ],
+        "role": "hull",
+        "metal": 0.3,
+        "rough": 0.48,
+        "emit": 0.0
+      },
+      {
+        "key": "hull_bright",
+        "colour": [
+          0.27,
+          0.72,
+          0.29
+        ],
+        "role": "deep",
+        "metal": 0.3,
+        "rough": 0.44,
+        "emit": 0.0
+      },
+      {
+        "key": "bronze",
+        "colour": [
+          0.67,
+          0.49,
+          0.31
+        ],
+        "role": "metal",
+        "metal": 0.7,
+        "rough": 0.45,
+        "emit": 0.0
+      },
+      {
+        "key": "turret_orange",
+        "colour": [
+          0.96,
+          0.51,
+          0.12
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35
+      },
+      {
+        "key": "glow_yellow",
+        "colour": [
+          1.0,
+          0.86,
+          0.1
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.38,
+        "emit": 1.35
+      },
+      {
+        "key": "nav_red",
+        "colour": [
+          0.91,
+          0.11,
+          0.18
+        ],
+        "role": "trim",
+        "metal": 0.0,
+        "rough": 0.85,
+        "emit": 0.0
+      },
+      {
+        "key": "window_white",
+        "colour": [
+          0.98,
+          0.98,
+          0.98
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.35,
+        "emit": 1.25
+      }
+    ],
+    "palette": {
+      "wire": "#6ee7a0",
+      "fill": "#3f9e63",
+      "line": "#0d3a22",
+      "band": "#c9a878",
+      "edge": "#1c6238",
+      "lit": "#ffcf3d",
+      "trim": "#c0442f",
+      "deep": "#1f6b45"
+    }
+  }
+}

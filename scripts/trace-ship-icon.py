@@ -24,15 +24,17 @@ single shape; an outline holds them apart at any size.
 import argparse
 import os
 
+import json
+
 from PIL import Image
 
-# Faction palettes, extending the colours already used in assets/icons/.
-FACTIONS = {
-    "EAR": {"wire": "#57d6ff", "fill": "#4f8ef7", "line": "#1b2f6b", "band": "#a9c9f7", "edge": "#24408c", "lit": "#ff5a4d", "trim": "#f0a63a", "deep": "#1b4b96"},
-    "VRA": {"wire": "#ffd166", "fill": "#e0b02e", "line": "#5f4506", "band": "#f7e3a8", "edge": "#8a6608", "lit": "#ff8a3d", "trim": "#b57d12", "deep": "#9c7412"},
-    "ZAN": {"wire": "#ff7a66", "fill": "#e0574a", "line": "#611711", "band": "#f7c3bc", "edge": "#8f2419", "lit": "#ffd23d", "trim": "#b03a2e", "deep": "#96291d"},
-    "KRE": {"wire": "#6ee7a0", "fill": "#4fae7a", "line": "#0f3f24", "band": "#bfe8d2", "edge": "#1c6238", "lit": "#9be36a", "trim": "#2e8f5c", "deep": "#1f6b45"},
-}
+# Faction palettes live with the markup reading in data/ship-markup.json, so the
+# glyph colours and the asset materials cannot drift apart.
+_REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+with open(os.path.join(_REPO, "data", "ship-markup.json"), encoding="utf-8") as _fh:
+    _MARKUP = json.load(_fh)
+FACTIONS = {k: v["palette"] for k, v in _MARKUP.items() if not k.startswith("_")}
+ROLES = {k: {r["key"]: r["role"] for r in v["regions"]} for k, v in _MARKUP.items() if not k.startswith("_")}
 
 # per level: hull stroke width, band fill opacity, band stroke width, trace
 # tolerance, minimum band blob area as a fraction of the frame, layers drawn.
@@ -228,7 +230,15 @@ def main():
             out.append('<path d="%s" fill="%s" stroke="%s" stroke-width="%g" stroke-linejoin="round"/>'
                        % (" ".join(layers["hull"]), pal["fill"], pal["line"], spec["hull_stroke"]))
             for d in layers.get("deep", []):
-                out.append('<path d="%s" fill="%s" fill-opacity="0.9"/>' % (d, pal["deep"]))
+                # Opaque, and outlined in the hull's darkest line. At 0.9 the
+                # lighter hull fill showed through and lifted it, and where a
+                # semi-transparent band also sits on top - the command spheres -
+                # a dark blue muted to cornflower. The outline is what makes a
+                # narrow deep-hull feature read: the spoke joining the nav ball
+                # to the nacelle shows as the pair of dark lines down its sides.
+                out.append('<path d="%s" fill="%s" fill-opacity="1" stroke="%s" stroke-width="%g" '
+                           'stroke-linejoin="round"/>'
+                           % (d, pal["deep"], pal["line"], spec["band_stroke"] * 1.15))
             for d in layers.get("metal", []):
                 out.append('<path d="%s" fill="%s" fill-opacity="%g" stroke="%s" stroke-width="%g" '
                            'stroke-linejoin="round"/>'

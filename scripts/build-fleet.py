@@ -19,14 +19,17 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BLENDER = r"C:\Program Files\Blender Foundation\Blender 5.2\blender.exe"
-SOURCE = r"C:\Users\chorr\Downloads\Earth Defense Force (EDF) Ship Models"
+FLEETS = {
+    "EAR": r"C:\Users\chorr\Downloads\Earth Defense Force (EDF) Ship Models",
+    "KRE": r"C:\Users\chorr\Downloads\Krelath Star Navy (KSN) Ship Models",
+}
 
 WORK = os.path.join(ROOT, "assets", "blender", "renders", "v3")
 MASKS = os.path.join(WORK, "masks")
 ICONS = os.path.join(WORK, "icons")          # staged, NOT written over assets/icons yet
 
-# hull key -> (slug, source filename)
-HULLS = [
+# faction -> [(hull key, slug, source filename)]
+ROSTERS = {"EAR": [
     ("frigate",               "earth_frigate",               "Earth Monoceros Class Frigate v3 Series.glb"),
     ("destroyer",             "earth_destroyer",              "Earth Victory Class Destroyer v3 Series.glb"),
     ("missile-destroyer",     "earth_missile_destroyer",      "Earth Saturn Class Missile Destroyer v3 Series [NEW].glb"),
@@ -34,7 +37,18 @@ HULLS = [
     ("heavy-cruiser",         "earth_heavy_cruiser",          "Earth Yi Sun-sin Class Heavy Cruiser v3 series.glb"),
     ("battleship",            "earth_battleship",             "Earth Federation Class Battleship v3 series.glb"),
     ("gunstar-battlecruiser", "earth_gunstar_battlecruiser",  "Earth Yamato Class Gunstar Battlecruiser v3 Series.glb"),
-]
+], "KRE": [
+    ("frigate",           "krelath_frigate",            "Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb"),
+    ("destroyer",         "krelath_destroyer",          "Krelath KDD-02 _Swift_ Class _Destroyer.glb"),
+    ("missile-destroyer", "krelath_missile_destroyer",  "Krelath KDG-01 _Ballista_ Class Missile Destroyer.glb"),
+    ("light-cruiser",     "krelath_light_cruiser",      "Krelath KCL-02 _Raptor_ Class Light Cruiser.glb"),
+    ("heavy-cruiser",     "krelath_heavy_cruiser",      "Krelath KCA-03 _Star Knight_ Class Heavy Cruiser.glb"),
+    ("battleship",        "krelath_battleship",         "Krelath KBB-02 _Star Lord_ Class Battleship.glb"),
+    ("strike-cruiser",    "krelath_strike_cruiser",     "Krelath KCS-02 _Lightning_ Class Strike Cruiser.glb"),
+    ("carrier",           "krelath_carrier",            "Krelath KCV-01 _Bladestar_ Class Carrier.glb"),
+    ("interceptor",       "krelath_interceptor",        "Krelath Fighter - Interceptor.glb"),
+    ("bomber",            "krelath_bomber",             "Krelath Fighter - Bomber.glb"),
+]}
 
 
 def blender(script, extra):
@@ -51,6 +65,7 @@ def note(out, *keys):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--faction", default="EAR", choices=sorted(FLEETS))
     ap.add_argument("--only", help="hull key, e.g. frigate")
     ap.add_argument("--skip-clean", action="store_true")
     ap.add_argument("--skip-plus", action="store_true")
@@ -58,6 +73,8 @@ def main():
 
     os.makedirs(MASKS, exist_ok=True)
     os.makedirs(ICONS, exist_ok=True)
+    HULLS = ROSTERS[args.faction]
+    SOURCE = FLEETS[args.faction]
     hulls = [h for h in HULLS if not args.only or h[0] == args.only]
     if not hulls:
         raise SystemExit("unknown hull; choose from %s" % ", ".join(h[0] for h in HULLS))
@@ -82,8 +99,8 @@ def main():
                 continue
 
         if not args.skip_plus:
-            code, out = blender("earth_v3_plus.py", [
-                "src=" + cleaned, "slug=" + slug, "mode=light", "out=" + WORK])
+            code, out = blender("ship_plus.py", [
+                "src=" + cleaned, "slug=" + slug, "mode=light", "out=" + WORK, "faction=" + args.faction])
             note(out, "welded", "decimated", "REGION_GATE", "PLUSSED")
             if "REGION_GATE_FAILED" in out:
                 failures.append((key, "region gate failed"))
@@ -93,7 +110,7 @@ def main():
                 continue
 
         code, out = blender("ship_schematic.py", [
-            "src=" + cleaned, "slug=" + slug, "views=top", "out=" + MASKS])
+            "src=" + cleaned, "slug=" + slug, "views=top", "out=" + MASKS, "faction=" + args.faction])
         if code != 0:
             failures.append((key, "masks failed"))
             note(out, "Error", "Traceback")
@@ -102,9 +119,9 @@ def main():
         for detail, size in (("map", 28), ("console", 120)):
             done = subprocess.run([
                 sys.executable, os.path.join(ROOT, "scripts", "trace-ship-icon.py"),
-                "--slug", slug, "--faction", "EAR", "--view", "top",
+                "--slug", slug, "--faction", args.faction, "--view", "top",
                 "--detail", detail, "--size", str(size), "--masks", MASKS,
-                "--out", os.path.join(ICONS, "ear_%s_%s.svg" % (key.replace("-", "_"), detail)),
+                "--out", os.path.join(ICONS, "%s_%s_%s.svg" % (args.faction.lower(), key.replace("-", "_"), detail)),
             ], capture_output=True, text=True)
             if done.returncode != 0:
                 failures.append((key, "trace %s failed" % detail))

@@ -18,13 +18,15 @@ Bow-up, because the console puts the BOW marker at the top of the ring.
 Run:
   blender --background --python ship_schematic.py -- src=<glb> slug=<name> [res=768]
 """
+import os
 import bpy
 import math
 import mathutils
 import os
 import sys
 
-ROOT = r"C:\Users\chorr\Documents\triangle_campaign"
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+ROOT = REPO
 
 args = {}
 if "--" in sys.argv:
@@ -51,25 +53,16 @@ requested = args.get("views", "top")
 OUTDIR = args.get("out", os.path.join(ROOT, "assets", "blender", "renders", "v3", "masks"))
 os.makedirs(OUTDIR, exist_ok=True)
 
-# Same markup palette the plussing pass reads, so the masks agree with the asset.
-PALETTE = [
-    ("hull_primary",  (0.00, 0.62, 0.85)), ("hull_deep",     (0.00, 0.46, 0.67)),
-    ("structure",     (0.75, 0.78, 0.80)), ("gunmetal",      (0.38, 0.40, 0.42)),
-    ("dish_gold",     (0.88, 0.68, 0.21)), ("turret_orange", (0.96, 0.51, 0.12)),
-    ("nav_red",       (0.91, 0.11, 0.18)), ("nav_green",     (0.27, 0.72, 0.29)),
-    ("window_white",  (0.98, 0.98, 0.98)),
-]
-GROUPS = {
-    "lit": {"nav_red", "nav_green", "window_white"},
-    "metal": {"structure", "gunmetal"},
-    # The dish and the painted cap were in no group at all, so the two most
-    # identifying things in a plan view - the cap dead centre on the command
-    # sphere, the dish beneath it - were simply absent from the glyph.
-    "trim": {"dish_gold", "turret_orange"},
-    # Where the hull's own two blues meet. In a plan view this carries most of
-    # the structural break-up that a quarter view gets from its silhouette.
-    "deep": {"hull_deep"},
-}
+# The markup reading is per faction and lives in data/ship-markup.json, so a new
+# faction is an entry there rather than an edit here.
+import json
+FACTION = args.get("faction", "EAR")
+with open(os.path.join(REPO, "data", "ship-markup.json"), encoding="utf-8") as _fh:
+    MARKUP = json.load(_fh)[FACTION]
+PALETTE = [(r["key"], tuple(r["colour"])) for r in MARKUP["regions"]]
+GROUPS = {}
+for _r in MARKUP["regions"]:
+    GROUPS.setdefault(_r["role"], set()).add(_r["key"])
 
 
 def nearest(c):
@@ -113,6 +106,43 @@ if scene.world is None:
 scene.world.use_nodes = True
 scene.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0, 0, 1)
 scene.world.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.0
+
+def align_hull():
+    """Put the hull on a known axis before any camera is placed.
+
+    These sets are not consistently oriented: across the Krelath Star Navy some
+    classes run along X and others along Y. A view named "top" has to mean the
+    same thing for every hull, so the longest axis is rotated onto X, and the
+    slimmer end - the bow on every design in these fleets - is put at +X. Where
+    a class disagrees the contact sheet shows it at once, and the correction is
+    a flag rather than a re-model.
+    """
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    dims = list(obj.dimensions)
+    longest = dims.index(max(dims))
+    if longest == 1:
+        obj.rotation_euler = (0.0, 0.0, math.radians(-90.0))
+    elif longest == 2:
+        obj.rotation_euler = (0.0, math.radians(90.0), 0.0)
+    if longest != 0:
+        bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+
+    xs = [v.co.x for v in mesh.vertices]
+    mid = (min(xs) + max(xs)) / 2.0
+
+    def spread(front):
+        sel = [v for v in mesh.vertices if (v.co.x > mid) == front]
+        if not sel:
+            return 0.0
+        return max(abs(v.co.y) for v in sel) + max(abs(v.co.z) for v in sel)
+
+    if spread(True) > spread(False):
+        obj.rotation_euler = (0.0, 0.0, math.radians(180.0))
+        bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    print("aligned: dims %s" % [round(d, 1) for d in obj.dimensions])
+
+
+align_hull()
 
 corners = [obj.matrix_world @ mathutils.Vector(c) for c in obj.bound_box]
 centre = sum(corners, mathutils.Vector()) / 8.0
@@ -167,7 +197,7 @@ if not wanted_views:
 
 for view in wanted_views:
     cam = aim(view)
-    for tag in ("hull", "lit", "metal", "trim", "deep"):
+    for tag in ["hull"] + [g for g in ("deep", "metal", "trim", "lit") if g in GROUPS]:
         mesh.materials.clear()
         mesh.materials.append(white)
         mesh.materials.append(black)

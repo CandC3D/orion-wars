@@ -18,6 +18,8 @@ Two passes, so the treatments can be compared:
 Run:
   blender --background --python earth_v3_plus.py -- src="<glb>" slug=<name> mode=light
 """
+import os
+import json
 import bpy
 import bmesh
 import math
@@ -25,7 +27,8 @@ import mathutils
 import os
 import sys
 
-ROOT = r"C:\Users\chorr\Documents\triangle_campaign"
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+ROOT = REPO
 
 args = {}
 if "--" in sys.argv:
@@ -46,47 +49,25 @@ TARGET_TRIS = int(args.get("tris", 66000))
 os.makedirs(OUTDIR, exist_ok=True)
 
 # ---------------- the markup palette ----------------
-# Raw COLOR_0 values as stored. Tinkercad writes sRGB numbers into the
-# (linear-spec) COLOR_0 slot, so these match what the attribute reads back;
-# they are decoded to linear before being used as a colour.
-# role: how the region behaves.  metal/rough: PBR.  emit: emission strength.
-# Metals are BRUSHED, not polished (Chris, 2026-09-07): high metallic, but
-# roughness up around 0.5 so the silver reads as machined plate, not chrome.
-# Emission strengths are deliberately low: driven hard, a saturated emissive
-# clips to white and the reds render salmon-pink instead of red.
-# Metallic is deliberately MID, not 0.9. A near-pure metal has almost no
-# diffuse response, so in a dim environment the silver bands rendered DARKER
-# than the blue hull they band and the ship lost its structure at sprite size.
-# Mid metallic keeps the plate light while roughness keeps it brushed.
-PALETTE = [
-    ("hull_primary",   (0.00, 0.62, 0.85), dict(metal=0.35, rough=0.42, emit=0.0)),
-    ("hull_deep",      (0.00, 0.46, 0.67), dict(metal=0.35, rough=0.50, emit=0.0)),
-    ("structure",      (0.75, 0.78, 0.80), dict(metal=0.70, rough=0.45, emit=0.0)),
-    ("gunmetal",       (0.38, 0.40, 0.42), dict(metal=0.55, rough=0.62, emit=0.0)),
-    ("dish_gold",      (0.88, 0.68, 0.21), dict(metal=0.70, rough=0.34, emit=0.0)),
-    ("turret_orange",  (0.96, 0.51, 0.12), dict(metal=0.00, rough=0.88, emit=0.0)),
-    ("nav_red",        (0.91, 0.11, 0.18), dict(metal=0.00, rough=0.40, emit=1.35)),
-    ("nav_green",      (0.27, 0.72, 0.29), dict(metal=0.00, rough=0.40, emit=1.35)),
-    ("window_white",   (0.98, 0.98, 0.98), dict(metal=0.00, rough=0.35, emit=1.25)),
-]
-
-# Collapse decimation preferentially removes low-area triangles, and a thin lit
-# strip, a small window panel and a nav dot are made of precisely those. Left
-# alone it destroyed nav_red (18,551 -> 279 faces), window_white (2,206 -> 45)
-# and nav_green (1,296 -> 0) while the hull kept 40-50%. These are protected
-# from the collapse entirely.
-PROTECT = {"nav_red", "nav_green", "window_white"}
+# Per-faction, from data/ship-markup.json. Emissive rulings are Chris's and
+# live there beside the colours, so this file holds no faction knowledge.
+FACTION = args.get("faction", "EAR")
+with open(os.path.join(REPO, "data", "ship-markup.json"), encoding="utf-8") as _fh:
+    MARKUP = json.load(_fh)[FACTION]
+PALETTE = [(r["key"], tuple(r["colour"]),
+            dict(metal=r["metal"], rough=r["rough"], emit=r["emit"]))
+           for r in MARKUP["regions"]]
+PROTECT = {r["key"] for r in MARKUP["regions"] if r["role"] == "lit"}
 PROTECT_WEIGHT = 0.0    # full protection: at 0.22 the lit detail still vanished,
                         # because slivers are what a collapse removes first
 
 # Region-map colours: flat, maximally distinct, for the verification render.
-REGION_KEY = {
-    "hull_primary": (0.10, 0.45, 1.00), "hull_deep": (0.05, 0.20, 0.55),
-    "structure": (0.85, 0.85, 0.85), "gunmetal": (0.30, 0.30, 0.32),
-    "dish_gold": (1.00, 0.78, 0.10), "turret_orange": (1.00, 0.45, 0.05),
-    "nav_red": (1.00, 0.05, 0.05), "nav_green": (0.10, 1.00, 0.20),
-    "window_white": (1.00, 1.00, 1.00),
-}
+REGION_KEY = {}
+_spread = [(0.10, 0.45, 1.00), (0.05, 0.20, 0.55), (0.85, 0.85, 0.85), (0.30, 0.30, 0.32),
+           (1.00, 0.78, 0.10), (1.00, 0.45, 0.05), (1.00, 0.05, 0.05), (0.10, 1.00, 0.20),
+           (1.00, 1.00, 1.00)]
+for _i, (_k, _c, _s) in enumerate(PALETTE):
+    REGION_KEY[_k] = _spread[_i % len(_spread)]
 
 
 def srgb_to_linear(c):
@@ -113,6 +94,40 @@ obj.select_set(True)
 bpy.context.view_layer.objects.active = obj
 mesh = obj.data
 tris_before = len(mesh.polygons)
+
+def align_hull():
+    """Put every exported hull on the same axis.
+
+    These sets are not consistently modelled: across the Krelath Star Navy some
+    classes run along X and others along Y. The game will place and rotate these
+    itself, so they have to agree with each other - the longest axis onto X, and
+    the slimmer end (the bow, on every design in these fleets) at +X.
+    """
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    dims = list(obj.dimensions)
+    longest = dims.index(max(dims))
+    if longest == 1:
+        obj.rotation_euler = (0.0, 0.0, math.radians(-90.0))
+    elif longest == 2:
+        obj.rotation_euler = (0.0, math.radians(90.0), 0.0)
+    if longest != 0:
+        bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    xs = [v.co.x for v in mesh.vertices]
+    mid = (min(xs) + max(xs)) / 2.0
+
+    def spread(front):
+        sel = [v for v in mesh.vertices if (v.co.x > mid) == front]
+        if not sel:
+            return 0.0
+        return max(abs(v.co.y) for v in sel) + max(abs(v.co.z) for v in sel)
+
+    if spread(True) > spread(False):
+        obj.rotation_euler = (0.0, 0.0, math.radians(180.0))
+        bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    print("aligned: dims %s" % [round(d, 1) for d in obj.dimensions])
+
+
+align_hull()
 
 # A v3 export arrives as an unwelded triangle SOUP - exactly 3 vertices per
 # triangle, nothing shared. That single fact causes most of what looks like
