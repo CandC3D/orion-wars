@@ -52,16 +52,22 @@ os.makedirs(OUTDIR, exist_ok=True)
 # role: how the region behaves.  metal/rough: PBR.  emit: emission strength.
 # Metals are BRUSHED, not polished (Chris, 2026-09-07): high metallic, but
 # roughness up around 0.5 so the silver reads as machined plate, not chrome.
+# Emission strengths are deliberately low: driven hard, a saturated emissive
+# clips to white and the reds render salmon-pink instead of red.
+# Metallic is deliberately MID, not 0.9. A near-pure metal has almost no
+# diffuse response, so in a dim environment the silver bands rendered DARKER
+# than the blue hull they band and the ship lost its structure at sprite size.
+# Mid metallic keeps the plate light while roughness keeps it brushed.
 PALETTE = [
     ("hull_primary",   (0.00, 0.62, 0.85), dict(metal=0.35, rough=0.42, emit=0.0)),
     ("hull_deep",      (0.00, 0.46, 0.67), dict(metal=0.35, rough=0.50, emit=0.0)),
-    ("structure",      (0.75, 0.78, 0.80), dict(metal=0.90, rough=0.52, emit=0.0)),
-    ("gunmetal",       (0.38, 0.40, 0.42), dict(metal=0.80, rough=0.58, emit=0.0)),
-    ("dish_gold",      (0.88, 0.68, 0.21), dict(metal=0.90, rough=0.42, emit=0.0)),
-    ("turret_orange",  (0.96, 0.51, 0.12), dict(metal=0.00, rough=0.55, emit=0.0)),
-    ("nav_red",        (0.91, 0.11, 0.18), dict(metal=0.00, rough=0.40, emit=3.0)),
-    ("nav_green",      (0.27, 0.72, 0.29), dict(metal=0.00, rough=0.40, emit=3.0)),
-    ("window_white",   (0.98, 0.98, 0.98), dict(metal=0.00, rough=0.35, emit=2.2)),
+    ("structure",      (0.75, 0.78, 0.80), dict(metal=0.45, rough=0.38, emit=0.0)),
+    ("gunmetal",       (0.38, 0.40, 0.42), dict(metal=0.55, rough=0.62, emit=0.0)),
+    ("dish_gold",      (0.88, 0.68, 0.21), dict(metal=0.70, rough=0.34, emit=0.0)),
+    ("turret_orange",  (0.96, 0.51, 0.12), dict(metal=0.00, rough=0.88, emit=0.0)),
+    ("nav_red",        (0.91, 0.11, 0.18), dict(metal=0.00, rough=0.40, emit=1.35)),
+    ("nav_green",      (0.27, 0.72, 0.29), dict(metal=0.00, rough=0.40, emit=1.35)),
+    ("window_white",   (0.98, 0.98, 0.98), dict(metal=0.00, rough=0.35, emit=1.25)),
 ]
 
 # Collapse decimation preferentially removes low-area triangles, and a thin lit
@@ -108,8 +114,26 @@ bpy.context.view_layer.objects.active = obj
 mesh = obj.data
 tris_before = len(mesh.polygons)
 
-# A v3 export has POSITION only - no normals - so it arrives flat-faceted and
-# both decimation and lighting suffer. Smooth it by angle first.
+# A v3 export arrives as an unwelded triangle SOUP - exactly 3 vertices per
+# triangle, nothing shared. That single fact causes most of what looks like
+# separate problems: smoothing has no shared vertices to average across, so the
+# hull shades as hair; and a collapse has no real edges to collapse, so it
+# leaves slivers and bristles along every rim. Weld first, and the rest of the
+# pipeline behaves.
+bm = bmesh.new()
+bm.from_mesh(mesh)
+before_verts = len(bm.verts)
+span = max(obj.dimensions)
+bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=span * 1e-5)
+bmesh.ops.dissolve_degenerate(bm, dist=span * 1e-6, edges=bm.edges)
+bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+bm.to_mesh(mesh)
+bm.free()
+mesh.update()
+print("welded %d -> %d verts (%d faces)"
+      % (before_verts, len(mesh.vertices), len(mesh.polygons)))
+
+# Now that vertices are shared, smoothing by angle means something.
 bpy.ops.object.shade_smooth()
 try:
     bpy.ops.object.shade_auto_smooth(angle=math.radians(32))
@@ -119,6 +143,7 @@ except Exception as exc:
 # ---------------- classify faces by their markup colour ----------------
 attr = mesh.color_attributes[0]
 counts = [0] * len(PALETTE)
+areas = [0.0] * len(PALETTE)
 face_index = [0] * len(mesh.polygons)
 for poly in mesh.polygons:
     r = g = b = 0.0
@@ -129,6 +154,7 @@ for poly in mesh.polygons:
     idx = nearest((r / n, g / n, b / n))
     face_index[poly.index] = idx
     counts[idx] += 1
+    areas[idx] += poly.area
 
 print("REGION CENSUS")
 for (name, _, _), n in zip(PALETTE, counts):
@@ -226,8 +252,16 @@ def look(name, cam_dir, ortho_pad=1.15):
     scene.render.resolution_x = 960
     scene.render.resolution_y = 720
     scene.render.film_transparent = False
-    scene.view_settings.look = "AgX - Medium High Contrast" if "AgX" in scene.view_settings.view_transform else "None"
-    scene.view_settings.exposure = 1.2
+    # AgX rolls saturated emissives toward white, which rendered every red light
+    # salmon-pink and had the critic reporting a colour fault that was the view
+    # transform, not the asset. Standard is honest about emissive hue, which is
+    # what an art review needs.
+    try:
+        scene.view_settings.view_transform = "Standard"
+        scene.view_settings.look = "None"
+    except Exception as exc:
+        print("view transform unavailable:", exc)
+    scene.view_settings.exposure = 0.0
     if scene.world is None:                     # an empty factory start has no world
         scene.world = bpy.data.worlds.new("World")
     scene.world.use_nodes = True
@@ -238,15 +272,24 @@ def look(name, cam_dir, ortho_pad=1.15):
     wt = scene.world.node_tree
     bg = wt.nodes["Background"]
     bg.inputs["Color"].default_value = (0.05, 0.065, 0.09, 1)
-    bg.inputs["Strength"].default_value = 1.35
+    bg.inputs["Strength"].default_value = 1.0
     if "SkyGrad" not in wt.nodes:
         tex = wt.nodes.new("ShaderNodeTexGradient"); tex.name = "SkyGrad"
         tex.gradient_type = "EASING"
         geo = wt.nodes.new("ShaderNodeNewGeometry")
         sep = wt.nodes.new("ShaderNodeSeparateXYZ")
         ramp = wt.nodes.new("ShaderNodeValToRGB")
-        ramp.color_ramp.elements[0].color = (0.10, 0.115, 0.145, 1)
-        ramp.color_ramp.elements[1].color = (0.62, 0.68, 0.80, 1)
+        # Three stops, not two: a distinct bright band near the horizon is what
+        # a brushed metal reflects as its characteristic streak. A smooth
+        # gradient has no feature to reflect, so metal reads as painted plastic.
+        ramp.color_ramp.elements[0].position = 0.0
+        ramp.color_ramp.elements[0].color = (0.06, 0.07, 0.10, 1)
+        ramp.color_ramp.elements[1].position = 0.52
+        ramp.color_ramp.elements[1].color = (0.85, 0.92, 1.05, 1)
+        mid = ramp.color_ramp.elements.new(0.62)
+        mid.color = (0.30, 0.34, 0.44, 1)
+        top = ramp.color_ramp.elements.new(1.0)
+        top.color = (0.16, 0.19, 0.26, 1)
         wt.links.new(geo.outputs["Incoming"], sep.inputs["Vector"])
         wt.links.new(sep.outputs["Z"], ramp.inputs["Fac"])
         wt.links.new(ramp.outputs["Color"], bg.inputs["Color"])
@@ -360,22 +403,27 @@ print("decimated %d -> %d (planar) -> %d tris"
 
 # A triangle budget and a file size can both pass while the ship has silently
 # lost its navigation lights - that is exactly what happened on the first run.
-# Measure every region's survival and fail loudly on any that fell off a cliff.
-after = [0] * len(PALETTE)
+# The measure has to be surface AREA, not face count: a planar dissolve merging
+# a window panel into two big n-gons keeps every square millimetre of it, and a
+# face-count gate reads that as a loss. Area only falls when geometry is gone.
+after_area = [0.0] * len(PALETTE)
+after_count = [0] * len(PALETTE)
 for poly in mesh.polygons:
-    after[poly.material_index] += 1
-overall = len(mesh.polygons) / float(after_planar)
-print("REGION SURVIVAL (overall %.0f%%)" % (100 * overall))
+    after_area[poly.material_index] += poly.area
+    after_count[poly.material_index] += 1
+total_before, total_after = sum(areas), sum(after_area)
+overall = total_after / total_before if total_before else 1.0
+print("REGION SURVIVAL by area (overall %.1f%% of the source surface)" % (100 * overall))
 lost = []
-for (name, _, _), was, now in zip(PALETTE, counts, after):
-    if not was:
+for (name, _, _), area_was, area_now, was, now in zip(PALETTE, areas, after_area, counts, after_count):
+    if area_was <= 0:
         continue
-    rate = now / float(was)
+    rate = area_now / area_was
     flag = ""
-    if now == 0 or rate < overall * 0.5:
+    if rate < 0.90:
         flag = "  <-- LOST"
         lost.append(name)
-    print("  %-16s %7d -> %7d  %5.1f%%%s" % (name, was, now, 100 * rate, flag))
+    print("  %-16s area %5.1f%%   faces %6d -> %6d%s" % (name, 100 * rate, was, now, flag))
 if lost:
     print("REGION_GATE_FAILED: " + ", ".join(lost))
 else:
