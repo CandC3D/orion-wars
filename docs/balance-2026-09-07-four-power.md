@@ -117,3 +117,90 @@ The terrain supplement is not yet a committed tool. It is a small script over
 `test/comp.js` and `runBattle({terrain})`; if this pass is to be repeated it
 should be promoted into `test/` beside `fleet-trial.js` so the board dimension
 stops being optional.
+
+---
+
+# Part two — the Asterion board, specials-free
+
+Chris asked for the same pass on the Asterion board with the specials removed.
+"Specials" are each power's **unique hull**: EAR gunstar-battlecruiser, KRE
+carrier, VRA monitor, ZAN corvette. Excluding them is exactly `compFor` switched
+off, since the `SCALES` compositions are already built from the six common hulls
+— so no second composition table is introduced. 200 mirrored pairs per pairing.
+
+## 7. Removing the unique hulls reorders the whole game
+
+Same open board, same 52-point common fleet, the only change being that no power
+fields its unique hull.
+
+| power | with its unique hull | specials-free | change |
+|---|---|---|---|
+| Earth | 38% | **66%** | **+28** |
+| Vraygon | 61% | 48% | −13 |
+| Zandrax | 63% | 62% | −1 |
+| Krelath | 39% | **24%** | −15 |
+
+**The gunstar is a liability.** Taking it away nearly doubles Earth's win rate.
+That agrees with the 2000-run Asterion study: the gunstar plants itself the
+moment its bank lights, spends the battle unable to bear or unable to see past
+the planet, and dies holding a full charge in 17% of runs.
+
+The carrier and the monitor are the opposite — each is carrying its power by
+13–15 points of win rate. The corvette is worth nothing measurable to Zandrax.
+
+So the four "specials" are not comparable in value at all: one is negative, two
+are large positives, one is neutral.
+
+## 8. Map size does nothing; terrain does everything
+
+| board | EAR | VRA | ZAN | KRE | spread | avg turns |
+|---|---|---|---|---|---|---|
+| A. default arena 72×40, empty | 66% | 48% | 62% | 24% | 43pp | 6–12 |
+| B. Asterion map 60×36, empty | 66% | 48% | 62% | 24% | 43pp | 6–12 |
+| C. Asterion map 60×36 with its terrain | **74%** | **70%** | 42% | **13%** | 61pp | 17–20 |
+
+A and B are identical to the last digit — fleets deploy at `startDistanceHexes`
+and never reach the edges, so the board's dimensions are inert. The entire
+difference is the eight pieces of terrain, and they also **triple the length of
+the battle**, from 6–12 turns to 17–20.
+
+On the Asterion board specials-free, EAR v KRE runs **96% / 4%**.
+
+## 9. Bigger fleets are better balanced
+
+Asterion board, specials-free, across the ladder:
+
+| points | EAR | VRA | ZAN | KRE | spread |
+|---|---|---|---|---|---|
+| 4 | 67% | 32% | 50% | 50% | 35pp |
+| 18 | 59% | 60% | **75%** | **11%** | 63pp |
+| 32 | 69% | 65% | 37% | 30% | 39pp |
+| 52 | 72% | 72% | 43% | **13%** | 59pp |
+| 68 | 48% | 64% | 41% | 46% | 23pp |
+| 132 | 47% | 57% | 50% | 45% | **11pp** |
+
+At 132 points the four powers sit within 11 points of each other — very nearly
+balanced. The game converges as fleets grow, because single-hull quirks average
+out across a larger line. The worst imbalance is in the middle of the ladder,
+at 18 and 52 points, which is where most play actually happens.
+
+## 10. Two consequences worth acting on
+
+**Krelath without its carrier is not a viable power.** 24% on an open board, 13%
+on Asterion, 11% at 18 points. Either the carrier is load-bearing to a degree
+that should be deliberate, or the common Krelath hulls need help.
+
+**This validates the tutorial's asymmetry.** The rebuilt Asterion tutorial pits
+Earth against Krelath specials-free — and the table above says symmetric common
+fleets in that matchup run 96/4 to Earth. The tutorial measures 55/45 because it
+is deliberately asymmetric: Earth fields four even cruisers at 46 points while
+Krelath brings a battleship and three light escorts at 44. That asymmetry is not
+decoration; it is the only reason the matchup is playable, and it should not be
+"tidied" into a mirror later.
+
+## 11. Method notes
+
+Mirrored pairs throughout: every seed is played twice with the sides swapped, so
+a deployment or initiative edge cannot pass for a faction edge. Battles are AI
+against AI, so all of this describes how the scripted captains fight. Nothing has
+been retuned.
