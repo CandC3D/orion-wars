@@ -57,7 +57,11 @@ DETAIL = {
 # trim last: the Krelath carrier's flight deck is a large self-lit white
 # surface, and its three red elevator hexes are painted markings ON that
 # deck. Drawing lit after trim buried them under the deck.
-ROLE_ORDER = ("deep", "metal", "lit", "trim")
+# 'hull' is in here deliberately. The silhouette is painted first as one flat
+# shape, but the hull-role REGIONS were then never drawn at all - so the dark
+# green fin structures around the Krelath warp pods, which are hull_primary
+# against the brighter hull, vanished along with their outlines.
+ROLE_ORDER = ("hull", "deep", "metal", "lit", "trim")
 
 
 def load_mask(path, threshold=110, symmetric=False):
@@ -377,7 +381,17 @@ def main():
                         # leaves no colour at all, which is why the fins and the
                         # nav lights disappeared. Stroke only what is wide
                         # enough to survive it.
-                        edge = spec["edge"] if min_span(d) > spec["edge"] * 3.0 else 0.0
+                        # Scale the outline to the shape rather than dropping it.
+                        # All-or-nothing stopped the edge swallowing Earth's
+                        # 1.9-wide coolant fins, but it also left the Krelath
+                        # fin-like warp pods with no outline at all, which is an
+                        # important visual detail. A third of the narrow
+                        # dimension keeps a line on thin parts without eating
+                        # their colour.
+                        span = min_span(d)
+                        edge = min(spec["edge"], span / 3.0)
+                        if edge < 0.22:
+                            edge = 0.0
                         if edge:
                             out.append('<path d="%s" fill="%s" fill-rule="evenodd" stroke="%s" '
                                        'stroke-width="%g" stroke-linejoin="round"/>'
