@@ -30,5 +30,5 @@ createServer((request, response) => {
     response.end("Not found\n");
   }
 }).listen(port, host, () => {
-  console.log(`Orion Wars arena: http://${host}:${port}/arena/editor.html`);
+  console.log(`Distant Sectors arena: http://${host}:${port}/arena/editor.html`);
 });

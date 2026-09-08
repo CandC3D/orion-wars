@@ -8,7 +8,7 @@ Current harness budgets are 4 / 18 / 32 / 52 / 68 / 132, the live map is a
 72×40 rectangle, roster ships use manifest icons (never chevrons), and only the
 replay viewer can operate without a server.
 
-Build a simple browser arena for **observing battles** from The Orion Wars'
+Build a simple browser arena for **observing battles** from Distant Sectors'
 tactical combat engine. Watch-only for now; it will grow into the interactive
 tactical playfield later, so keep the bones clean.
 

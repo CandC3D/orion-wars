@@ -178,7 +178,7 @@ import { missileTrack, sampleMissileTrack } from "./missile-tracks.js";
 
   function validateReplay(data) {
     if (!data || !data.meta || !Array.isArray(data.rounds) || !Array.isArray(data.log) || !data.result) {
-      throw new Error("That file is not an Orion Wars replay.");
+      throw new Error("That file is not a Distant Sectors replay.");
     }
     if (!data.rounds.length) throw new Error("The replay contains no completed rounds.");
     return data;

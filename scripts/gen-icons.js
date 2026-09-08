@@ -94,8 +94,8 @@ const order = Object.keys(CLASSES);
 const rows = Object.keys(FACTIONS).map((fac) => `<tr><th>${FACTIONS[fac].name}</th>` +
   order.map((cls) => { const file = `${fac.toLowerCase()}_${cls.replace(/-/g, "_")}.svg`;
     return `<td><img src="${file}" width="64" height="64"><br><img src="${file}" width="28" height="28"><div>${CLASSES[cls].abbr}</div></td>`; }).join("") + "</tr>").join("\n");
-writeFileSync("assets/icons/contact-sheet.html", `<!doctype html><meta charset="utf-8"><title>Orion Wars unit icons</title>
+writeFileSync("assets/icons/contact-sheet.html", `<!doctype html><meta charset="utf-8"><title>Distant Sectors unit icons</title>
 <style>body{background:#0b1220;color:#cbd5e1;font:13px system-ui;padding:20px}table{border-collapse:collapse}th{text-align:left;padding:8px 14px 8px 0;white-space:nowrap}td{text-align:center;padding:8px 6px;border-top:1px solid #1e293b}td div{font-size:11px;color:#94a3b8;margin-top:2px}h1{font-weight:500;font-size:18px}</style>
-<h1>Orion Wars — playtest unit icons (64px and map-size 28px)</h1>
+<h1>Distant Sectors — playtest unit icons (64px and map-size 28px)</h1>
 <table><tr><th></th>${order.map((c) => `<th style="text-align:center">${c}</th>`).join("")}</tr>${rows}</table>`);
 console.log(`wrote ${cells.length} icons + manifest + contact-sheet.html`);

@@ -120,7 +120,7 @@ has a distinct live diagnostic role. None was deleted.
 - `package.json`: before, `npm run arena` required `python -m http.server 8642`;
   Python is unavailable in the audit environment. After, it uses the new
   dependency-free `node scripts/serve.js`.
-- `Start Orion Wars.cmd`: before, it launched Python. After, it launches the
+- `Start Orion Wars.cmd` (renamed 2026-09-07 to `Start Distant Sectors.cmd`): before, it launched Python. After, it launches the
   same Node server as the package script.
 - `scripts/serve.js`: new minimal, repository-root static server with MIME
   types, a root-bound path check, port 8642 and editor URL output.

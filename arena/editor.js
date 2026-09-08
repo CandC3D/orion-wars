@@ -480,7 +480,7 @@ try {
   if (location.protocol === "file:") {
     // Browsers block data fetches and engine module imports on file:// pages,
     // so the editor cannot run from disk. Say so plainly instead of hanging.
-    throw new Error("The Scenario Editor must be opened through the local server, not from disk: double-click \"Start Orion Wars.cmd\" in the project folder (or run \"npm run arena\"), then use http://localhost:8642/arena/editor.html");
+    throw new Error("The Scenario Editor must be opened through the local server, not from disk: double-click \"Start Distant Sectors.cmd\" in the project folder (or run \"npm run arena\"), then use http://localhost:8642/arena/editor.html");
   }
   const [tuningResponse, loadoutsResponse, iconsResponse] = await Promise.all([
     fetch("../data/tactical-tuning.json", { cache: "no-store" }),

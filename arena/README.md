@@ -34,7 +34,7 @@ work or for changes not yet pushed.
 The editor runs the game engine in your browser, and browsers refuse to load
 engine modules or data from a page opened straight from disk (`file://`). So:
 
-1. Double-click **`Start Orion Wars.cmd`** in the project folder (or run
+1. Double-click **`Start Distant Sectors.cmd`** in the project folder (or run
    `npm run arena` there). It serves the project on port 8642 and opens
    the editor.
 2. Editor: http://localhost:8642/arena/editor.html
