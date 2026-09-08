@@ -39,6 +39,12 @@ rather than the loudest ones.
   helped. Asked for balance advice by an ARPG dev whose bots were not smart enough to pick
   gear and skills, the answer was to let the bots make *all* the choices, brute-force it,
   and analyse the outcomes for imbalance.
+- **The same idea at small scale.** u/mkhorne built an economy testbench for an idle game
+  where a bot plays ten hours of game time in about one second of test runtime, with the
+  suite asserting the curve neither stalls nor explodes. It caught two real design failures
+  before any player saw them — chest costs that would have stalled the game after an hour,
+  and a collection that filled in minutes instead of hours. Their real-time features get a
+  hidden speed lever so end-to-end tests can run a twelve-hour loop in seconds.
 - **A sandbox that is not the game.** u/MDawg74 proves every asset in a walkable Three.js
   room with a follow cam before it touches the real project — collision, culling, seam
   shimmer and animation drift all surface there in minutes.
@@ -206,7 +212,82 @@ discipline — and, usefully, that Claude is bad at reviewing its own CSS.
 
 ---
 
-## 3. What this means for Distant Sectors
+## 3. Audio
+
+Chris flagged this as an obvious gap for us — effects and music both — and it is the part
+of the subreddit's practice that is least like the visual side, because the review problem
+is genuinely different.
+
+### The best technique post in the subreddit is about engine sound
+
+u/Grobot93 (Oversteer, an arcade racer in Godot 4) is worth reading in full. The shape of it
+transfers to any project that needs a family of related sounds:
+
+- **The failure first.** Their first attempt was three loops pitch-shifted by RPM — one
+  royalty-free V8 sample and two synths they made. It sounded awful, and Claude's research
+  turned up the reason: serious studios record an engine at many steady RPMs, on and off
+  throttle, and crossfade between them so any given recording is only ever pitched a few
+  percent. That needs 20–30 clean recordings per engine. They had eight cars, no dyno and
+  no budget.
+- **The move.** Rather than source recordings, they forked an open-source engine *physics
+  simulator* (Ange Yaghi's engine-sim, MIT) that synthesises sound from simulated pressure
+  waves rather than samples, and had Claude strip it to a headless build, replace the
+  realtime audio thread with a synchronous render-to-WAV path, and add scripted dyno
+  commands — hold an exact RPM at full throttle, hold at closed throttle, limiter, two-step,
+  start, shutdown, plus a per-cylinder diagnostic to confirm everything is firing.
+- **The bank.** Per engine: idle, 15 full-throttle holds, 9 overrun holds about 6% apart,
+  limiter, launch crackle, start, shutdown, **and a manifest recording the RPM of every
+  file**. A script cuts them into seam-crossfaded, loudness-matched loops. A worker pool
+  rendered 43 engines in about 20 minutes.
+- **The playback rig.** In-engine it is an RPM × load blend grid — one crossfade along the
+  on-throttle ladder, one along the off-throttle ladder, blended by load, each band
+  pitch-tracking only a few percent, with per-car EQ and compression varying by revs to
+  move the apparent mic position.
+- **What it still cannot do**, stated plainly: no turbo or supercharger modelling, so spool
+  and blower whine will have to be layered on top; and the public source is frozen at 2023
+  with newer community builds binary-only.
+
+The generalisable lessons: pitch-shifting one sample across a wide range is the naive
+approach and it audibly fails; a **ladder of steady states plus crossfade** is the
+professional one; a physical or procedural model beats sampling when you need a family of
+related sounds and have no recording budget; and the bank needs a **manifest** describing
+what each file is, or the playback rig cannot blend it.
+
+### The generate-and-stream stack
+
+u/PittWu0912's web ARPG is the other end of the spectrum — buy nothing, generate everything:
+Suno for a full four-minute vocal track performed by an in-game bard, ElevenLabs for
+discrete SFX (pick scrape, tumbler bite, pick snap, lock click, chest opening), weather
+ambience loops, and NPC voice acting. The detail worth stealing for a browser game is
+delivery, not generation: the long music track is **streamed on demand so it does not
+inflate the initial bundle**.
+
+### And the unglamorous option
+
+u/AndySv, who writes royalty-free music for game devs, put 591 WAV tracks across 48 packs
+into a Humble bundle — most with looping versions supplied. For a project that needs a
+score more than it needs a *distinctive* score, licensed loops remain the cheapest path and
+carry none of the provenance risk that generated art does.
+
+### The review problem is not the visual one
+
+Everything in section 1 about verification assumes a screenshot. Audio has no screenshot,
+and nobody in the subreddit has solved this — which means the gate has to be built rather
+than copied. The split that does exist:
+
+- **Machine-checkable, and worth automating:** loudness matched across the bank (the dyno
+  rig does this explicitly), true-peak and clipping, consistent sample rate, bit depth and
+  channel count, loop-point seam continuity, silence and DC offset, and duration against
+  what the cue is triggered by. A spectral summary per file catches the one asset that came
+  back far brighter or duller than its family.
+- **Not machine-checkable:** whether it sounds right. That needs a listening pass, and the
+  practical analogue of the icon contact sheet is an **audio contact sheet** — one page that
+  auditions every cue in the bank in order, grouped by family, so the whole set can be heard
+  in a sitting instead of one file at a time.
+
+---
+
+## 4. What this means for Distant Sectors
 
 **Already validated.** Our rule that balance claims come from the trial harness and never
 from intuition is the same practice Imperium arrived at independently, for the same stated
@@ -223,6 +304,23 @@ concrete example of the seam — label collision is exactly the class of defect 
 gate catches faster and more convincingly than an assertion. Worth considering: a script that
 loads a known scenario, screenshots the console at 1440p, and a critic pass scoring it against
 the instrument direction.
+
+**Audio is unbuilt, and it should hang off the replay log.** We have no sound at all. The
+useful structural point is that the resolver already emits a structured event stream —
+replays, playback effects, weapon-coloured arcs from the face table, a resolved arrival
+naming the struck face. Sound cues driven off that same event stream work in live play and
+in replay playback for free, stay deterministic with the rest of the engine, and are
+testable by asserting which cues a known scenario emits. Bolting audio onto the view layer
+instead would give us none of that.
+
+What the engine already names, and therefore what the cue list mostly writes itself from:
+weapon fire by weapon type, shield impact as distinct from hull damage, the photonic spinal
+cannon's charge and discharge (a mechanic that is immobile-while-charging from 20 hexes out,
+so it wants a long tail rather than a hit), the Krelath warp jump, strike-craft launch and
+recovery, the just-ruled cannon vent, target lock, rout and withdrawal. On music, the same
+caution as the art: a distinctive score is a real cost and licensed looping packs are the
+cheap path; the instrument direction argues for restrained, mechanical UI sound rather than
+sci-fi swooshes.
 
 **Worktrees for the concurrency problem.** This repo already has every symptom — several
 `.tmp-*` snapshot directories, a standing rule to stage explicit paths and never
@@ -256,3 +354,7 @@ answer to that complaint, and it was ruled before we read any of this.
 | AI-First Game Engine? | u/Eirdeth (thread) | No AI-native engine exists yet; browser-native as a distribution argument |
 | Momentum: A Portal Game | u/mattezell | Generate rough with one model, re-architect with another |
 | Week 6 of making my fishing game entirely with AI (r/ClaudeAI) | u/RUSuper | Instrument-style HUD; "objectively better model" vs. better-fitting model |
+| Engine audio is hard, so I turned a physics simulator into a dyno + recording rig | u/Grobot93 | The best audio post in the subreddit; pitch-shift failure, steady-state ladder, manifests, loudness matching |
+| Update on my web ARPG MMO — Hunter, Rogue, a dungeon, and lockpicking | u/PittWu0912 | Suno and ElevenLabs stack; streaming long music so it stays out of the web bundle |
+| My music bundle is on Humble until Sept 18 | u/AndySv | The licensed-loops option: 591 WAVs, most with looping versions |
+| Claude Code built my dragon-hoard idle game | u/mkhorne | Economy testbench (10 hours of game time per second of test); subagent market research; sprite alpha-channel debugging |
