@@ -42,6 +42,12 @@ They will not get him. The Krelath are preparing for their final thrust-upon-the
 
 Valdar is one of the few characters Chris is consciously importing: modelled on Leader Desslar, but grimmer and more relentlessly competent — an antagonist who is prepared for what you are about to do.
 
+### The Valdar Cannon
+
+At some point the Krelath surprise everyone with a flagship carrying the **Valdar Cannon**. It cannot bear his name before he holds power, so it belongs after 2202.
+
+Mechanically this is the second spinal hull in the game: the Earth gunstar is currently the only one of twenty-nine. It makes the charge-and-plant weapon a two-sided affair rather than a Federation quirk, and it hands the player the counter-play they have been on the wrong end of — a planted capital ship is a target for strike craft.
+
 ## The Vraygon
 
 Silicoid lifeforms from a Venus-like hellworld, pressing claims on areas of Achernar the Krelath want for themselves.
@@ -71,8 +77,9 @@ Dates are drafted to the register and are expected to change. 2201 is the 1926 b
 | 2200 | The accord confirming the peace. The Zandrax Horde appears in Achernar. |
 | **2201** | **The campaign opens.** Dominion equality is formally declared. Four powers contest the sector. |
 | 2202 | The Krelath hold their final election. Stratan Valdar becomes Supreme Leader. Archon Vezder is assassinated. |
+| 2202+ | The Krelath reveal a flagship carrying the **Valdar Cannon**. |
 
-The last entry sits inside playable time rather than behind it. Chris wants a Krelath-versus-Krelath battle or mini-campaign built around Valdar's rise.
+The last entries sit inside playable time rather than behind it. Chris wants a Krelath-versus-Krelath battle or mini-campaign built around Valdar's rise.
 
 ---
 
@@ -119,4 +126,6 @@ Kept separate so the fiction above stays Chris's.
 
 1. **Where exactly does the campaign sit relative to the election and the assassination?** It changes whether the Krelath fleet is divided or unified.
 2. **Whose voice is the opening text?** It reads from the Federation's side. If all four powers are playable, either each needs its own version or the document should say plainly that this is Earth's account.
-3. **Who invaded in the First Orion Arm War?**
+3. **Who invaded in the First Orion Arm War?** A power on the far side of Earth's bubble-shaped sphere of influence, and perhaps the subject of a future Distant Sector. Name pending.
+
+   One consequence is worth keeping whatever the name turns out to be: the two wars came from **opposite sides of the bubble**. The Federation can therefore never commit its full weight to Achernar, because the other side is unwatched. That is the reason the player commands what Earth can spare rather than what Earth has.
