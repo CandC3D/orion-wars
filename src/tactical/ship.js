@@ -120,7 +120,24 @@ export function fullPower(ship) {
   return ship.cores.reduce((s, c) => s + (c.alive ? c.power : 0), 0) + ship.impulse;
 }
 
+// A hull carries a capacitor only if the tuning lists its class. Everything else
+// returns 0 and behaves exactly as before.
+export function capacitorMax(ship, tuning) {
+  const rule = tuning?.damage?.shieldCapacitor;
+  if (!rule?.enabled || !rule.classes?.includes(ship.className)) return 0;
+  return Math.max(0, fullPower(ship) * (rule.capacityFraction ?? 0));
+}
+
 export function startTurn(ship, tuning) {
+  // The turn reset discards whatever the pool did not spend. A capacitor banks
+  // some of that remainder instead, which is the whole point of it: a light hull
+  // wastes power in a quiet turn and has none to absorb with in a loud one.
+  const bank = capacitorMax(ship, tuning);
+  if (bank > 0) {
+    const rule = tuning.damage.shieldCapacitor;
+    const spare = Math.max(0, ship.power ?? 0) * (rule.chargeEfficiency ?? 0);
+    ship.capacitor = Math.min(bank, (ship.capacitor ?? 0) + spare);
+  } else ship.capacitor = 0;
   ship.power = fullPower(ship);
   // Cloak draws its cost off the top for the whole turn it is running.
   if (ship.cloaked && !ship.decloaking) {
@@ -171,9 +188,15 @@ export function isSystemInop(ship, name, threshold) {
 // weapon resolves exactly as before.
 export function shieldAbsorbable(ship, face) {
   const cost = shieldCost(ship,face), cap = Math.max(0,ship.shieldCap?.[face] ?? 0);
+  // The capacitor DISCHARGES INTO A DEPLETED FACE, restoring capacity, rather
+  // than paying for absorption. Measured 2026-09-07: a frigate can afford 14
+  // points of absorption and is capped at 4 by the face, so relieving the purse
+  // bought nothing. Capacity is what binds, so capacity is what this lifts.
+  const purse = Math.max(0, ship.power ?? 0);
+  const restored = Math.max(0, ship.capacitor ?? 0);
   // Chris, section 34.11: retain authored capacity/efficiency, but only complete
   // damage points can be absorbed. A fractional cap remainder cannot stop a hit.
-  return ship.shieldDown?.[face] || !(cost > 0) ? 0 : Math.floor(Math.min(cap, Math.max(0,ship.power ?? 0) / cost));
+  return ship.shieldDown?.[face] || !(cost > 0) ? 0 : Math.floor(Math.min(cap + restored, purse / cost));
 }
 
 export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0, bypassShield = false) {
@@ -184,7 +207,11 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
     const absorbed = Math.floor(Math.min(remaining, shieldAbsorbable(ship, shieldNo)));
     if (absorbed > 0) {
       ship.power -= absorbed * shieldCost(ship,shieldNo);
-      ship.shieldCap[shieldNo] -= absorbed;
+      // Points absorbed beyond the face's own remaining capacity came out of the
+      // capacitor, one stored point per point of capacity restored.
+      const beyondFace = Math.max(0, absorbed - Math.max(0, ship.shieldCap[shieldNo] ?? 0));
+      if (beyondFace > 0) ship.capacitor = Math.max(0, (ship.capacitor ?? 0) - beyondFace);
+      ship.shieldCap[shieldNo] = Math.max(0, ship.shieldCap[shieldNo] - absorbed);
       remaining -= absorbed;
       // Spending on defence eats into the reserve first.
       ship.reserve = Math.min(ship.reserve, ship.power);

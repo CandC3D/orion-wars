@@ -44,6 +44,11 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(laser._note,'Accurate, long, consistent. EAR and ZAN.');
   laser.overcharge=beforeT.weapons['laser-cannon'].overcharge;
   laser._note=beforeT.weapons['laser-cannon']._note;
+  // Shield-capacitor experiment added 2026-09-07 (Chris), disabled by default.
+  assert.equal(typeof restored.damage.shieldCapacitor, 'object', 'capacitor block');
+  assert.equal(restored.damage.shieldCapacitor.enabled, false, 'capacitor must ship disabled');
+  assert.equal(Object.hasOwn(beforeT.damage, 'shieldCapacitor'), false, 'capacitor must be new, not a rewrite');
+  delete restored.damage.shieldCapacitor;
   // Crippling block added 2026-09-07 (ruling: Chris), disabled by default so no
   // recorded battle changes. Asserted new and off, then reverted for the compare.
   assert.equal(typeof restored.damage.crippling, 'object', 'crippling block');

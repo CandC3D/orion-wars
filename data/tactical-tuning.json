@@ -784,6 +784,13 @@
     "rangeHexes": 3
   },
   "damage": {
+    "shieldCapacitor": {
+      "enabled": false,
+      "classes": ["frigate", "corvette", "destroyer", "missile-destroyer"],
+      "capacityFraction": 1.0,
+      "chargeEfficiency": 0.5,
+      "_note": "EXPERIMENT 2026-09-07 (Chris): a bank that stores unspent power and spends it on shield absorption when the live pool cannot. A light hull's problem is not its shield CAP but that it cannot AFFORD absorption - shieldAbsorbable is limited by power/cost, and a frigate's pool is tiny. Flat durability buffs were measured and failed because a capital exploits them better (see docs/balance-2026-09-07-four-power.md part three). This is directional instead: it only pays for damage, only on hulls listed in `classes`, and it is charged from power that the turn reset would otherwise discard. capacityFraction is a multiple of the hull's full power pool; chargeEfficiency is how much of the unspent remainder survives banking. Off by default."
+    },
     "crippling": {
       "enabled": false,
       "_note": "RULING 2026-09-07 (Chris): a hull reduced to zero structure is CRIPPLED, not destroyed - it is out of the action but its crew is alive. Measured motive: destroyers die at 94-95% in the Asterion tutorial and 100% on any losing side, so no commander survives to command anything larger. Durability tuning was measured and does not fix it (see docs/balance-2026-09-07-four-power.md part three): quadrupling light-hull structure only moves destroyer losses 95%->65% and makes CAPITALS harder to kill. Off by default until adopted, because it changes every battle outcome in the suite.",
