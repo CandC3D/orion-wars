@@ -48,6 +48,10 @@ At some point the Krelath surprise everyone with a flagship carrying the **Valda
 
 Mechanically this is the second spinal hull in the game: the Earth gunstar is currently the only one of twenty-nine. It makes the charge-and-plant weapon a two-sided affair rather than a Federation quirk, and it hands the player the counter-play they have been on the wrong end of — a planted capital ship is a target for strike craft.
 
+**There is only ever one.** Not for technical reasons: who could be trusted with a second, other than the Supreme Leader? The scarcity is his paranoia, and it means the ship is a named vessel rather than a class, and that losing it ends it. Chris conceives it as the campaign's boss.
+
+**Parked — not to be designed yet.** One practical note for whenever it is: a unique boss hull must stay out of `rosters` in `data/tactical-tuning.json`, which is the single source of truth for what each power may field. If it lands there it appears in quick build and in the balance sweep, and it will wreck both.
+
 ## The Vraygon
 
 Silicoid lifeforms from a Venus-like hellworld, pressing claims on areas of Achernar the Krelath want for themselves.
