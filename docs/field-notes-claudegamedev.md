@@ -9,6 +9,10 @@ Two sources came in from Chris directly: the week-6 fishing-game update in r/Cla
 (u/RUSuper — Godot, assets by Claude/Astra, characters by Tripo 3D) and the
 r/ClaudeGameDev front page.
 
+
+A companion set of notes from r/aigamedev — asset pipelines, image-to-3D and
+decimation — is in [field-notes-aigamedev.md](field-notes-aigamedev.md).
+
 ---
 
 ## 1. Techniques that recur
