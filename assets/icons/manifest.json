@@ -201,22 +201,30 @@
       "abbr": "CT"
     },
     "VRA/frigate": {
-      "file": "vra_frigate.svg",
+      "file": "vra_frigate_console.svg",
+      "mapFile": "vra_frigate_map.svg",
+      "framed": true,
       "size": 0.52,
       "abbr": "FF"
     },
     "VRA/destroyer": {
-      "file": "vra_destroyer.svg",
+      "file": "vra_destroyer_console.svg",
+      "mapFile": "vra_destroyer_map.svg",
+      "framed": true,
       "size": 0.6,
       "abbr": "DD"
     },
     "VRA/missile-destroyer": {
-      "file": "vra_missile_destroyer.svg",
+      "file": "vra_missile_destroyer_console.svg",
+      "mapFile": "vra_missile_destroyer_map.svg",
+      "framed": true,
       "size": 0.6,
       "abbr": "DM"
     },
     "VRA/light-cruiser": {
-      "file": "vra_light_cruiser.svg",
+      "file": "vra_light_cruiser_console.svg",
+      "mapFile": "vra_light_cruiser_map.svg",
+      "framed": true,
       "size": 0.7,
       "abbr": "CL"
     },
@@ -226,7 +234,9 @@
       "abbr": "CS"
     },
     "VRA/heavy-cruiser": {
-      "file": "vra_heavy_cruiser.svg",
+      "file": "vra_heavy_cruiser_console.svg",
+      "mapFile": "vra_heavy_cruiser_map.svg",
+      "framed": true,
       "size": 0.82,
       "abbr": "CA"
     },
@@ -246,12 +256,16 @@
       "abbr": "CV"
     },
     "VRA/battleship": {
-      "file": "vra_battleship.svg",
+      "file": "vra_battleship_console.svg",
+      "mapFile": "vra_battleship_map.svg",
+      "framed": true,
       "size": 1,
       "abbr": "BB"
     },
     "VRA/monitor": {
-      "file": "vra_monitor.svg",
+      "file": "vra_monitor_console.svg",
+      "mapFile": "vra_monitor_map.svg",
+      "framed": true,
       "size": 1,
       "abbr": "MN"
     },
@@ -426,5 +440,6 @@
       "abbr": "BM"
     }
   },
-  "_framedNote": "A `framed` entry is traced to fill the common 100x100 viewBox, so its class scale is NOT in the artwork and the renderer applies `size` when drawing. An entry without it is a placeholder whose artwork already carries its scale - the Krelath placeholder heights run 38.6/47.8/55.2/64.4/75.4/92 for corvette through battleship, which is the size ladder itself - and scaling those again would apply it twice."
+  "_framedNote": "A `framed` entry is traced to fill the common 100x100 viewBox, so its class scale is NOT in the artwork and the renderer applies `size` when drawing. An entry without it is a placeholder whose artwork already carries its scale - the Krelath placeholder heights run 38.6/47.8/55.2/64.4/75.4/92 for corvette through battleship, which is the size ladder itself - and scaling those again would apply it twice.",
+  "_weaponRegionNote": "Held for when all four fleets are traced: the glyphs can say where a hull's weapons are, so turret lamp positions need not be hand-authored. The colours are semantic, from data/ship-markup.json on the art branch. EARTH: turrets are the painted orange cap region (#e8792a); red and green are running lights. KRELATH: RED MARKS WEAPONS (#e02a22) - Chris's correction 2026-09-08, and the reason the region is misnamed nav_red in the markup file and described as 'a painted marking' in the v3 brief, which also says two lines earlier that the red hexagons mark torpedoes. Both want fixing at source. VRAYGON: no turret or weapon region is declared at all - its list is hull, three metals and four glows - so Vraygon weapon positions cannot be derived the same way until the markup gains one. Zandrax is not traced yet."
 }
