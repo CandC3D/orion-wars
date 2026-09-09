@@ -157,3 +157,42 @@ export function captainReview(ship, plannedEnds, enemies, tuning) {
   if (vent) notes.push(vent);
   return notes;
 }
+
+// ---------------------------------------------------------------- reading the plot
+//
+// Everything above decides from truth, because the resolver has truth. The console does not: it has
+// contact reports. So that the SAME rules can be declared before the player commits, a contact is
+// appraised into the shape the rules read - and the two things the rules need are not directly
+// observable, so both are read the way a bridge crew would read them:
+//
+//   weight     nominal points for the reported class, from the published ladder. A refit is invisible.
+//   condition  the TOP of the observed damage interval. A contact reported only as "damaged" is
+//              therefore treated as very nearly whole.
+//
+// Both readings are deliberately generous to the enemy, which means the captain states his objection
+// whenever the plot leaves room for it. The opposite bias would have him assume the enemy is weak,
+// stay silent, and then refuse at execution - a surprise, which is the one thing the ruling forbids.
+
+// The top of the reported damage interval. 'damaged' spans up to whole at every detail level, so it
+// yields 1: the sensors have not ruled out an undamaged ship.
+function observedCeiling(damage) {
+  if (!damage) return 1;
+  if (damage.detail === 'interval') return damage.remainingFraction?.max ?? 1;
+  if (damage.condition === 'critical') return 0.25;
+  if (damage.condition === 'heavily-damaged') return 0.5;
+  return 1;
+}
+
+// A contact report as the decision rules read it. Scaled to a nominal 1000 so no integer assumption
+// downstream can round an appraisal onto the wrong side of a threshold.
+export function appraiseContact(contact, hullPoints) {
+  const max = 1000;
+  return {
+    id: contact.id, className: contact.className, faction: contact.faction,
+    pos: { q: contact.pos.q, r: contact.pos.r }, facing: contact.facing,
+    destroyed: false, cloaked: false,
+    points: hullPoints?.[contact.className] ?? 0,
+    superstructureMax: max, superstructure: Math.round(observedCeiling(contact.observedDamage) * max),
+    appraised: true
+  };
+}
