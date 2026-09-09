@@ -14,7 +14,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(process.argv.includes('--source') ? process.argv[process.argv.indexOf('--source') + 1] : fileURLToPath(new URL('../', import.meta.url)));
 const mod = p => import(pathToFileURL(path.join(root, p)));
-const { drawCaptain, drawCaptains, commissionCaptains } = await mod('src/tactical/captain-roster.js');
+const { drawCaptain, drawCaptains, commissionCaptains, registerSpace } = await mod('src/tactical/captain-roster.js');
 const { captainOf, DEFAULT_POSTURE } = await mod('src/tactical/ship-command.js');
 const { makePrng } = await mod('src/prng.js');
 const registers = JSON.parse(fs.readFileSync(path.join(root, 'data/captain-names.json'), 'utf8')).registers;
@@ -22,6 +22,14 @@ const registers = JSON.parse(fs.readFileSync(path.join(root, 'data/captain-names
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('ok:', name); };
 const fleet = (faction, n, prefix = 'S') => Array.from({ length: n }, (_, i) => ({ id: `${prefix}-${i}`, faction }));
+// A register is either a written-out list or two pools that combine, so membership is asked of the
+// index space rather than of one shape's array.
+const inRegister = (faction, personalName) => {
+  const space = registerSpace(registers[faction]);
+  for (let i = 0; i < space.size; i++) if (space.at(i) === personalName) return true;
+  return false;
+};
+const COMBINING = ['EAR', 'KRE'], WRITTEN_OUT = ['VRA', 'ZAN'];
 
 check('every power in the register deals a titled officer', () => {
   for (const faction of ['EAR', 'KRE', 'VRA', 'ZAN']) {
@@ -29,7 +37,7 @@ check('every power in the register deals a titled officer', () => {
     assert.ok(c, `${faction} drew nothing`);
     assert.equal(c.faction, faction);
     assert.equal(c.name, `${c.title} ${c.personalName}`);
-    assert.ok(registers[faction].names.includes(c.personalName), `${c.personalName} is not in the ${faction} register`);
+    assert.ok(inRegister(faction, c.personalName), `${c.personalName} is not in the ${faction} register`);
   }
 });
 
@@ -89,7 +97,7 @@ check('two powers in one battle draw from their own registers and do not collide
   for (const [id, c] of Object.entries(drawn)) {
     const expected = id.startsWith('A-') ? 'EAR' : 'KRE';
     assert.equal(c.faction, expected);
-    assert.ok(registers[expected].names.includes(c.personalName));
+    assert.ok(inRegister(expected, c.personalName));
   }
 });
 
@@ -128,25 +136,83 @@ check('every register is populated, titled and free of duplicates', () => {
   for (const [faction, r] of Object.entries(registers)) {
     assert.ok(r.title, `${faction} has no title`);
     assert.ok(r.register, `${faction} has no note saying what the register is`);
-    assert.ok(r.names.length >= 30, `${faction} has only ${r.names.length} names`);
-    assert.equal(new Set(r.names).size, r.names.length, `${faction} repeats a name`);
-    assert.ok(r.names.every(n => typeof n === 'string' && n.trim() === n && n.length), `${faction} has a malformed name`);
+    const space = registerSpace(r);
+    assert.ok(space && space.size >= 30, `${faction} offers only ${space?.size} officers`);
+    for (const pool of [r.names, r.given, r.family].filter(Boolean)) {
+      assert.equal(new Set(pool).size, pool.length, `${faction} repeats an entry`);
+      assert.ok(pool.every(n => typeof n === 'string' && n.trim() === n && n.length), `${faction} has a malformed entry`);
+    }
   }
+});
+
+check('the registers are plain ASCII, as ruled', () => {
+  // Chris, 8 September 2026. One fewer thing to go wrong between the JSON, the browser console and
+  // Windows; a name that wants a diacritic is spelled the way it is spelled without one.
+  for (const [faction, r] of Object.entries(registers))
+    for (const pool of [r.names, r.given, r.family].filter(Boolean))
+      for (const n of pool) assert.ok(/^[ -~]+$/.test(n), `${faction} carries a non-ASCII entry: ${n}`);
+});
+
+check('the two peoples with family names combine; the two with one name do not', () => {
+  for (const faction of COMBINING) {
+    const r = registers[faction];
+    assert.ok(r.given?.length && r.family?.length, `${faction} should carry two pools`);
+    assert.ok(!r.names, `${faction} should not also carry a written-out list`);
+    assert.equal(registerSpace(r).size, r.given.length * r.family.length);
+  }
+  for (const faction of WRITTEN_OUT) {
+    const r = registers[faction];
+    assert.ok(r.names?.length, `${faction} should carry a written-out list`);
+    assert.ok(!r.given && !r.family, `${faction} names are not assembled from parts`);
+  }
+});
+
+check('a combined draw takes each half from its own pool', () => {
+  for (const faction of COMBINING) {
+    const r = registers[faction];
+    for (let i = 0; i < 40; i++) {
+      const c = drawCaptain(`hull-${i}`, 909, faction, registers);
+      const [given, family, ...rest] = c.personalName.split(' ');
+      assert.equal(rest.length, 0, `${c.personalName} is not two parts`);
+      assert.ok(r.given.includes(given), `${given} is not in the ${faction} given pool`);
+      assert.ok(r.family.includes(family), `${family} is not in the ${faction} family pool`);
+    }
+  }
+});
+
+check('the crossing is real: one pool alone does not decide the officer', () => {
+  // If the family name moved with the given name, a fleet would only ever field the pairs that were
+  // written down, and there would have been no point splitting the pools.
+  const drawn = Object.values(drawCaptains(fleet('EAR', 60), 2026, registers));
+  const pairs = new Set(drawn.map(c => c.personalName));
+  const givens = new Set(drawn.map(c => c.personalName.split(' ')[0]));
+  const families = new Set(drawn.map(c => c.personalName.split(' ')[1]));
+  assert.equal(pairs.size, 60, 'every officer is distinct');
+  assert.ok(givens.size > 20 && families.size > 20, `pools look stuck: ${givens.size} given, ${families.size} family`);
+});
+
+check('a large fleet still fields no two officers of the same name', () => {
+  const names = Object.values(drawCaptains(fleet('EAR', 200), 44, registers)).map(c => c.name);
+  assert.equal(names.length, 200);
+  assert.equal(new Set(names).size, 200);
+  assert.ok(!names.some(n => / II$/.test(n)), 'ten thousand combinations should never need an ordinal');
 });
 
 check('the named characters are not dealt out as ship captains', () => {
   // Archon Vezder and Supreme Leader Stratan Valdar are people, not a name pool. The Valdar Cannon
   // is theirs too, and there is only ever one.
-  const krelath = registers.KRE.names.join(' ');
+  const krelath = [...registers.KRE.given, ...registers.KRE.family].join(' ');
   assert.ok(!/\bValdar\b/.test(krelath), 'Valdar belongs to the Supreme Leader');
   assert.ok(!/\bVezder\b/.test(krelath), 'Vezder belongs to the deposed Archon');
 });
 
 check('each register keeps its own morphology', () => {
   assert.ok(registers.ZAN.names.every(n => n.includes("'")), 'Zandrax names click and carry apostrophes');
-  assert.ok(registers.KRE.names.every(n => n.split(' ').length === 2), 'Krelath names are two-part');
-  assert.ok(registers.EAR.names.every(n => n.split(' ').length === 2), 'the phone book lists a given name and a surname');
-  assert.ok(['Scott Ridley', 'Marvin Kaminski'].every(n => registers.EAR.names.includes(n)), 'the two Chris supplied must be in the Federation register');
+  for (const faction of COMBINING)
+    for (const pool of [registers[faction].given, registers[faction].family])
+      assert.ok(pool.every(n => !n.includes(' ')), `${faction} pool entries are single words`);
+  assert.ok(inRegister('EAR', 'Scott Ridley') && inRegister('EAR', 'Marvin Kaminski'), 'the two Chris supplied must still be drawable');
+  assert.ok(inRegister('KRE', 'Stratan Rukk'), 'and the Krelath pools must still cross');
   assert.ok(['Stalactar', 'Geos', 'Hydron'].every(n => registers.VRA.names.includes(n)), 'the three Chris supplied must be in the Vraygon register');
 });
 
