@@ -117,22 +117,30 @@
       "abbr": "CT"
     },
     "EAR/frigate": {
-      "file": "ear_frigate.svg",
+      "file": "ear_frigate_console.svg",
+      "mapFile": "ear_frigate_map.svg",
+      "framed": true,
       "size": 0.52,
       "abbr": "FF"
     },
     "EAR/destroyer": {
-      "file": "ear_destroyer.svg",
+      "file": "ear_destroyer_console.svg",
+      "mapFile": "ear_destroyer_map.svg",
+      "framed": true,
       "size": 0.6,
       "abbr": "DD"
     },
     "EAR/missile-destroyer": {
-      "file": "ear_missile_destroyer.svg",
+      "file": "ear_missile_destroyer_console.svg",
+      "mapFile": "ear_missile_destroyer_map.svg",
+      "framed": true,
       "size": 0.6,
       "abbr": "DM"
     },
     "EAR/light-cruiser": {
-      "file": "ear_light_cruiser.svg",
+      "file": "ear_light_cruiser_console.svg",
+      "mapFile": "ear_light_cruiser_map.svg",
+      "framed": true,
       "size": 0.7,
       "abbr": "CL"
     },
@@ -142,7 +150,9 @@
       "abbr": "CS"
     },
     "EAR/heavy-cruiser": {
-      "file": "ear_heavy_cruiser.svg",
+      "file": "ear_heavy_cruiser_console.svg",
+      "mapFile": "ear_heavy_cruiser_map.svg",
+      "framed": true,
       "size": 0.82,
       "abbr": "CA"
     },
@@ -152,7 +162,9 @@
       "abbr": "CC"
     },
     "EAR/gunstar-battlecruiser": {
-      "file": "ear_gunstar_battlecruiser.svg",
+      "file": "ear_gunstar_battlecruiser_console.svg",
+      "mapFile": "ear_gunstar_battlecruiser_map.svg",
+      "framed": true,
       "size": 0.9,
       "abbr": "GB"
     },
@@ -162,7 +174,9 @@
       "abbr": "CV"
     },
     "EAR/battleship": {
-      "file": "ear_battleship.svg",
+      "file": "ear_battleship_console.svg",
+      "mapFile": "ear_battleship_map.svg",
+      "framed": true,
       "size": 1,
       "abbr": "BB"
     },
@@ -327,32 +341,44 @@
       "abbr": "CT"
     },
     "KRE/frigate": {
-      "file": "kre_frigate.svg",
+      "file": "kre_frigate_console.svg",
+      "mapFile": "kre_frigate_map.svg",
+      "framed": true,
       "size": 0.52,
       "abbr": "FF"
     },
     "KRE/destroyer": {
-      "file": "kre_destroyer.svg",
+      "file": "kre_destroyer_console.svg",
+      "mapFile": "kre_destroyer_map.svg",
+      "framed": true,
       "size": 0.6,
       "abbr": "DD"
     },
     "KRE/missile-destroyer": {
-      "file": "kre_missile_destroyer.svg",
+      "file": "kre_missile_destroyer_console.svg",
+      "mapFile": "kre_missile_destroyer_map.svg",
+      "framed": true,
       "size": 0.6,
       "abbr": "DM"
     },
     "KRE/light-cruiser": {
-      "file": "kre_light_cruiser.svg",
+      "file": "kre_light_cruiser_console.svg",
+      "mapFile": "kre_light_cruiser_map.svg",
+      "framed": true,
       "size": 0.7,
       "abbr": "CL"
     },
     "KRE/strike-cruiser": {
-      "file": "kre_strike_cruiser.svg",
+      "file": "kre_strike_cruiser_console.svg",
+      "mapFile": "kre_strike_cruiser_map.svg",
+      "framed": true,
       "size": 0.7,
       "abbr": "CS"
     },
     "KRE/heavy-cruiser": {
-      "file": "kre_heavy_cruiser.svg",
+      "file": "kre_heavy_cruiser_console.svg",
+      "mapFile": "kre_heavy_cruiser_map.svg",
+      "framed": true,
       "size": 0.82,
       "abbr": "CA"
     },
@@ -367,12 +393,16 @@
       "abbr": "GB"
     },
     "KRE/carrier": {
-      "file": "kre_carrier.svg",
+      "file": "kre_carrier_console.svg",
+      "mapFile": "kre_carrier_map.svg",
+      "framed": true,
       "size": 0.9,
       "abbr": "CV"
     },
     "KRE/battleship": {
-      "file": "kre_battleship.svg",
+      "file": "kre_battleship_console.svg",
+      "mapFile": "kre_battleship_map.svg",
+      "framed": true,
       "size": 1,
       "abbr": "BB"
     },
@@ -382,14 +412,19 @@
       "abbr": "MN"
     },
     "KRE/interceptor": {
-      "file": "kre_interceptor.svg",
+      "file": "kre_interceptor_console.svg",
+      "mapFile": "kre_interceptor_map.svg",
+      "framed": true,
       "size": 0.3,
       "abbr": "IN"
     },
     "KRE/bomber": {
-      "file": "kre_bomber.svg",
+      "file": "kre_bomber_console.svg",
+      "mapFile": "kre_bomber_map.svg",
+      "framed": true,
       "size": 0.36,
       "abbr": "BM"
     }
-  }
+  },
+  "_framedNote": "A `framed` entry is traced to fill the common 100x100 viewBox, so its class scale is NOT in the artwork and the renderer applies `size` when drawing. An entry without it is a placeholder whose artwork already carries its scale - the Krelath placeholder heights run 38.6/47.8/55.2/64.4/75.4/92 for corvette through battleship, which is the size ladder itself - and scaling those again would apply it twice."
 }

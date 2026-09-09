@@ -167,9 +167,9 @@ import { missileTrack, sampleMissileTrack } from "./missile-tracks.js";
           .map(([key, entry]) => ({
             key,
             src: `../assets/icons/${encodeURIComponent(entry.file)}`,
-            extra: { size: Number.isFinite(entry.size) && entry.size > 0 ? entry.size : 1, abbr: entry.abbr || "" }
+            extra: { size: Number.isFinite(entry.size) && entry.size > 0 ? entry.size : 1, abbr: entry.abbr || "", framed: entry.framed === true }
           })),
-        (key, image, extra) => icons.set(key, { image, size: extra.size, abbr: extra.abbr })
+        (key, image, extra) => icons.set(key, { image, size: extra.size, abbr: extra.abbr, framed: extra.framed })
       );
     } catch (_) {
       // Chevron markers cover every hull if the icon set is unavailable.
@@ -1584,9 +1584,12 @@ import { missileTrack, sampleMissileTrack } from "./missile-tracks.js";
       state.rendered.sprite++;
     } else if (icon) {
       if (state.pinned === ship.id) drawPin(at, size + 3);
-      // Every icon shares one drawing box; the generator baked the manifest
-      // `size` into each SVG, so the artwork comes out at its class's scale.
-      drawIconImage(icon.image, at.x, at.y, ICON_SPAN * geo.scale * shrink,
+      // Placeholder art has the manifest `size` baked in, so one shared drawing
+      // box already yields the right relative scale. The traced v3 glyphs are
+      // `framed` - they fill the viewBox whatever the hull - so their box is
+      // scaled by `size` here instead. Either way a battleship reads bigger
+      // than a frigate, which is the whole point of the ladder.
+      drawIconImage(icon.image, at.x, at.y, ICON_SPAN * geo.scale * shrink * (icon.framed ? icon.size : 1),
         -ship.facing * Math.PI / 3, alpha, destroyedNow);
       state.rendered.icon++;
     } else {
