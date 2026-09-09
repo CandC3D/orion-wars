@@ -259,5 +259,134 @@
       }
     }
   },
-  "_orientation_note": "Bow direction is a modelling convention, not something to infer from hull shape. An earlier heuristic put the slimmer end forward and inverted every ship whose point-defence blisters widen the bow."
+  "_orientation_note": "Bow direction is a modelling convention, not something to infer from hull shape. An earlier heuristic put the slimmer end forward and inverted every ship whose point-defence blisters widen the bow.",
+  "VRA": {
+    "name": "Vraygon Star Realm",
+    "ruled": "2026-09-08 by Chris: emissive are red, purple, orange and GREEN - the Vraygon love glowing things. Metallic, brushed to the same spec as Earth's steel: yellow, gold and blue. The pale lilac is the hull itself.",
+    "regions": [
+      {
+        "key": "hull_lilac",
+        "colour": [
+          0.83,
+          0.75,
+          0.9
+        ],
+        "role": "hull",
+        "metal": 0.3,
+        "rough": 0.46,
+        "emit": 0.0,
+        "glyph": "#cdc2dd"
+      },
+      {
+        "key": "gold",
+        "colour": [
+          0.88,
+          0.68,
+          0.21
+        ],
+        "role": "metal",
+        "metal": 0.7,
+        "rough": 0.45,
+        "emit": 0.0,
+        "glyph": "#9a6f1c"
+      },
+      {
+        "key": "yellow_metal",
+        "colour": [
+          1.0,
+          0.86,
+          0.1
+        ],
+        "role": "metal",
+        "metal": 0.7,
+        "rough": 0.45,
+        "emit": 0.0,
+        "glyph": "#f0d64a"
+      },
+      {
+        "key": "blue_metal",
+        "colour": [
+          0.46,
+          0.81,
+          0.85
+        ],
+        "role": "metal",
+        "metal": 0.7,
+        "rough": 0.45,
+        "emit": 0.0,
+        "glyph": "#5aa8b8"
+      },
+      {
+        "key": "glow_purple",
+        "colour": [
+          0.5,
+          0.25,
+          0.6
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35,
+        "glyph": "#9a4fd0"
+      },
+      {
+        "key": "glow_orange",
+        "colour": [
+          0.96,
+          0.51,
+          0.12
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35,
+        "glyph": "#f07820"
+      },
+      {
+        "key": "glow_green",
+        "colour": [
+          0.27,
+          0.72,
+          0.29
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35,
+        "glyph": "#3fd45c"
+      },
+      {
+        "key": "glow_red",
+        "colour": [
+          0.91,
+          0.11,
+          0.18
+        ],
+        "role": "lit",
+        "metal": 0.0,
+        "rough": 0.4,
+        "emit": 1.35,
+        "glyph": "#ff3b30"
+      }
+    ],
+    "palette": {
+      "wire": "#c9a8ff",
+      "fill": "#b9aecb",
+      "line": "#3a2b52",
+      "band": "#d9c68a",
+      "edge": "#5c4a2a",
+      "lit": "#c26ce0",
+      "trim": "#c26ce0",
+      "deep": "#8f83a8"
+    },
+    "orientation": {
+      "_note": "Verified from the source renders: the purple drive wedge and honeycomb panels are AFT, the pointed prow with green nav lamps forward. Battleship, light cruiser and monitor traced stern-up and are turned here.",
+      "markerRegion": null,
+      "hulls": {
+        "vraygon_battleship": 180,
+        "vraygon_light_cruiser": 180,
+        "vraygon_monitor": 180
+      }
+    }
+  }
 }

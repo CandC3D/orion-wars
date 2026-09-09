@@ -22,6 +22,7 @@ BLENDER = r"C:\Program Files\Blender Foundation\Blender 5.2\blender.exe"
 FLEETS = {
     "EAR": r"C:\Users\chorr\Downloads\Earth Defense Force (EDF) Ship Models",
     "KRE": r"C:\Users\chorr\Downloads\Krelath Star Navy (KSN) Ship Models",
+    "VRA": r"C:\Users\chorr\Downloads\Vraygon Topaz Warshard (VTW) Ship Models",
 }
 
 WORK = os.path.join(ROOT, "assets", "blender", "renders", "v3")
@@ -48,6 +49,14 @@ ROSTERS = {"EAR": [
     ("carrier",           "krelath_carrier",            "Krelath KCV-01 _Bladestar_ Class Carrier.glb"),
     ("interceptor",       "krelath_interceptor",        "Krelath Fighter - Interceptor.glb"),
     ("bomber",            "krelath_bomber",             "Krelath Fighter - Bomber.glb"),
+], "VRA": [
+    ("frigate",           "vraygon_frigate",            "Vraygon VFG-04 _Shard_ Class Frigate.glb"),
+    ("destroyer",         "vraygon_destroyer",          "Vraygon DD-03 _Point_ Class Destroyer.glb"),
+    ("missile-destroyer", "vraygon_missile_destroyer",  "Vraygon VDD-05 _Avalanche_ Class.glb"),
+    ("light-cruiser",     "vraygon_light_cruiser",      "Vraygon VLC-01 _Feldspar_ Class Light Cruiser.glb"),
+    ("heavy-cruiser",     "vraygon_heavy_cruiser",      "Vraygon VCA-02 _Crystal_ Heavy Cruiser.glb"),
+    ("battleship",        "vraygon_battleship",         "Vraygon BB-01 _Cluster_ Class Battlship.glb"),
+    ("monitor",           "vraygon_monitor",            "Vraygon VMN-01 _Bastion_ Class Monitor.glb"),
 ]}
 
 
