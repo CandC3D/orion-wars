@@ -14,7 +14,7 @@ Everything here except the campaign present is **backstory**. The game opens in 
 >
 > Unfortunately, the galaxy is not an idyllic place. Humanity is not alone in the universe, and while Man has made friends he has also found enemies amongst the stars. The Federation fought two wars valiantly against invaders. Its ships, while equipped with laboratories and powerful scientific instruments, are also heavily armed.
 >
-> A hushed but turbulent peace fell the defeat of the Krelath Empire in the Second Orion Arm War and the defeat of its leader, Archon Vezder. Empire now seeks out new resources in its quest to avenge itself on the Federation for its defeat.
+> A hushed but turbulent peace fell the defeat of the Krelath Empire in the Second Orion Arm War and the defeat of its leader, Archon Zeltus. Empire now seeks out new resources in its quest to avenge itself on the Federation for its defeat.
 >
 > Those resources are needed more than ever. The Vraygon, a species of silicoid lifeforms from a Venus-like hellworld, have recently been pressing claims to areas of the Achernar Sector that the Krelath hope to take for themselves.
 >
@@ -38,7 +38,7 @@ It also gives the Federation something none of the other three powers can offer 
 
 Defeated in the Second Orion Arm War, the Krelath Empire was not dismembered. Democracy was imposed on it by the peace terms. It is revanchist, and its restorationists want their Archon back.
 
-They will not get him. The Krelath are preparing for their final thrust-upon-them democratic election, which will place their fate in the hands of **Supreme Leader Stratan Valdar**. Valdar then has the former Archon Vezder assassinated, so that he cannot come back. The restoration is the ladder he climbs and the first thing he kicks away.
+They will not get him. The Krelath are preparing for their final thrust-upon-them democratic election, which will place their fate in the hands of **Supreme Leader Stratan Valdar**. Valdar then has the former Archon Zeltus assassinated, so that he cannot come back. The restoration is the ladder he climbs and the first thing he kicks away.
 
 Valdar is one of the few characters Chris is consciously importing: modelled on Leader Desslar, but grimmer and more relentlessly competent — an antagonist who is prepared for what you are about to do.
 
@@ -84,13 +84,13 @@ Dates are drafted to the register and are expected to change. 2201 is the 1926 b
 |---|---|
 | c. 2090s | Humanity reaches the stars. The Earth Federation is founded from Earth, its colonies and its Dominion worlds. |
 | 2161–2164 | **First Orion Arm War.** The invader is not yet named. |
-| 2189–2193 | **Second Orion Arm War.** The Krelath Empire is defeated; Archon Vezder is deposed. |
+| 2189–2193 | **Second Orion Arm War.** The Krelath Empire is defeated; Archon Zeltus is deposed. |
 | 2194 | Peace terms. Democracy is imposed on the Krelath. |
 | 2197 | Armaments agreement limiting fleet tonnage between the powers. *(Proposed — see design notes.)* |
 | 2198 | The Vraygon begin pressing claims in the Achernar Sector. |
 | 2200 | The accord confirming the peace. The Zandrax Horde appears in Achernar. |
 | **2201** | **The campaign opens.** Dominion equality is formally declared. Four powers contest the sector. |
-| 2202 | The Krelath hold their final election. Stratan Valdar becomes Supreme Leader. Archon Vezder is assassinated. |
+| 2202 | The Krelath hold their final election. Stratan Valdar becomes Supreme Leader. Archon Zeltus is assassinated. |
 | 2202+ | The Krelath reveal a flagship carrying the **Valdar Cannon**. |
 
 The last entries sit inside playable time rather than behind it. Chris wants a Krelath-versus-Krelath battle or mini-campaign built around Valdar's rise.
@@ -113,7 +113,7 @@ The convention is **title plus name**. The title comes from rank or caste; the n
 
 | Power | Worked examples | Register |
 |---|---|---|
-| Krelath | Archon Vezder · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
+| Krelath | Archon Zeltus · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
 | Zandrax | Hivelord Kzzx'xt | Caste titles; clicking consonants, apostrophes |
 | Federation | Capt. Scott Ridley · Capt. Marvin Kaminski · Capt. Sachiko Yamada | **Open the phone book.** Given name and surname, both real, and a world phone book rather than an Earth one: Earth registers and Dominion registers side by side in one navy |
 | Vraygon | Stalactar · Geos · Hydron | Mineral and geological roots with a classical ring, ending in -ar, -os, -on |

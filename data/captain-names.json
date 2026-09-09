@@ -212,7 +212,7 @@
     },
     "KRE": {
       "title": "Navarch",
-      "register": "Hard consonants, two-part names, drawn from two pools and combined. Chris's worked examples are Archon Vezder and Supreme Leader Stratan Valdar; neither Valdar nor Vezder appears in either pool, because both belong to named characters. The titles above them are imperial and then revolutionary.",
+      "register": "Hard consonants, two-part names, drawn from two pools and combined. Chris's worked examples are Archon Zeltus and Supreme Leader Stratan Valdar; neither Valdar nor Zeltus appears in either pool, because both belong to named characters, and the test in test/captain-roster.mjs holds them out. Vezder was the Archon's name until 9 September 2026, when Chris renamed him: Vezder and Valdar read too alike for two men who are the whole political quarrel of the setting.",
       "given": [
         "Korvan",
         "Dathek",

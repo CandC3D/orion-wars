@@ -199,11 +199,15 @@ check('a large fleet still fields no two officers of the same name', () => {
 });
 
 check('the named characters are not dealt out as ship captains', () => {
-  // Archon Vezder and Supreme Leader Stratan Valdar are people, not a name pool. The Valdar Cannon
+  // Archon Zeltus and Supreme Leader Stratan Valdar are people, not a name pool. The Valdar Cannon
   // is theirs too, and there is only ever one.
   const krelath = [...registers.KRE.given, ...registers.KRE.family].join(' ');
   assert.ok(!/\bValdar\b/.test(krelath), 'Valdar belongs to the Supreme Leader');
-  assert.ok(!/\bVezder\b/.test(krelath), 'Vezder belongs to the deposed Archon');
+  assert.ok(!/\bZeltus\b/.test(krelath), 'Zeltus belongs to the deposed Archon');
+  // Renamed from Vezder on 9 September 2026: it read too close to Valdar, and those two men are the
+  // whole political quarrel of the setting. Hold the retired name out as well - a pool entry that
+  // revived it would quietly undo the reason for the change.
+  assert.ok(!/\bVezder\b/.test(krelath), 'Vezder was the Archon and is not free to reuse');
 });
 
 check('each register keeps its own morphology', () => {
