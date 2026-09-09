@@ -196,6 +196,74 @@ check('a scratch is not a reason to throw the charge away, in the forecast or th
   assert.notEqual(r.a.spinal.state, 'cooldown');
 });
 
+// ---------------------------------------------------------------- the admiral insists
+// Clause 3 of the ruling: a direct order is obeyed regardless, with the objection logged. The
+// player is never trapped by their own crew - and the crew are never silently overruled either.
+const insisted = { ...close, insist: true };
+
+check('a direct order is obeyed, and the objection is still declared first', () => {
+  const w = world({ captain: { id: 'c1', name: 'Capt. Renard', posture: 'cautious' } });
+  const p = previewContactOrders(captainObservation(w.battle, 'A'), 'A-own', insisted);
+  assert.equal(p.captain.insisted, true);
+  assert.equal(p.captain.declared.length, 1);
+  const d = p.captain.declared[0];
+  assert.equal(d.rule, 'closes-under-protest');
+  assert.equal(d.insisted, true);
+  assert.equal(d.hexes, 4, 'he goes the whole way');
+  assert.match(d.reason, /Capt\. Renard closes under protest: would not close inside 5 hexes at 40% hull/);
+  assert.deepEqual(d.holdAt, bare.actions[0].end, 'and ends where an unofficered ship would');
+});
+
+check('the engine obeys the direct order and logs the same protest', () => {
+  const w = world({ captain: { id: 'c1', name: 'Capt. Renard', posture: 'cautious' } });
+  const d = previewContactOrders(captainObservation(w.battle, 'A'), 'A-own', insisted).captain.declared[0];
+  const log = []; stepTurn(w.battle, { 'A-own': insisted, 'B-foe': hold }, { log: l => log.push(l) });
+  const said = log.find(l => / captain: /.test(l));
+  assert.ok(said?.includes(d.reason), `engine said "${said}"`);
+  assert.equal(w.a.movedThisTurn, 4, 'the order stands');
+  assert.deepEqual(w.a.pos, { q: 4, r: 0 });
+});
+
+check('the objection is reported once, not once per refused step', () => {
+  const w = world({ captain: { id: 'c1', posture: 'cautious' } });
+  const log = []; stepTurn(w.battle, { 'A-own': insisted, 'B-foe': hold }, { log: l => log.push(l) });
+  assert.equal(log.filter(l => / captain: /.test(l)).length, 1);
+});
+
+check('a direct order keeps the charge, under protest, and the ship stays planted', () => {
+  const t = structuredClone(tuning), rng = makePrng(712); t.explosion.enabled = false;
+  const a = buildShip('A-gunstar', 'EAR', 'gunstar-battlecruiser', t, loadouts, rng);
+  const b = buildShip('B-far', 'KRE', 'destroyer', t, loadouts, rng);
+  a.pos = { q: 0, r: 0 }; a.facing = 0; a.spinal.state = 'charging'; a.spinal.charge = 40;
+  a.damageThisTurn = a.damageLastTurn = Math.round(a.superstructureMax * 0.25);
+  a.captain = { id: 'c3', name: 'Capt. Ibarra', posture: 'cautious' };
+  b.pos = { q: 30, r: 0 }; b.facing = 3; b.mounts = []; b.turnRate = 0;
+  const battle = createBattleFromFleets([[a], [b]], t, rng, { terrain: [], maxTurns: 6 });
+  enableContacts(battle, { profile: SENSING_PROFILE });
+  const order = { plan: [{ turn: 0, forward: 2 }, idle(), idle()], target: 'auto', reserve: 0, insist: true };
+  const p = previewContactOrders(captainObservation(battle, 'A'), 'A-gunstar', order);
+  const d = p.captain.declared.find(x => x.rule === 'holds-charge-under-protest');
+  assert.ok(d, 'the objection must be declared even though it is overruled');
+  assert.match(d.reason, /Capt\. Ibarra holds the charge under protest: 25% hull lost while planted/);
+  assert.ok(p.actions[0].notes.some(n => /plants the ship/.test(n)), 'and the bank still plants the hull');
+  const log = []; stepTurn(battle, { 'A-gunstar': order, 'B-far': hold }, { log: l => log.push(l) });
+  assert.equal(a.spinal.state, 'charging', 'the charge is kept');
+  assert.ok(a.spinal.charge > 0);
+  assert.deepEqual(a.pos, { q: 0, r: 0 }, 'and the ship does not move');
+  assert.ok(log.find(l => /captain: Capt\. Ibarra holds the charge under protest/.test(l)));
+});
+
+check('insist is strict: omit it rather than saying no, and never insist at nobody', () => {
+  const w = world({ captain: { id: 'c1', posture: 'cautious' } });
+  const view = captainObservation(w.battle, 'A');
+  assert.equal(previewContactOrders(view, 'A-own', { ...close, insist: false }).valid, false);
+  assert.equal(previewContactOrders(view, 'A-own', { ...close, insist: 1 }).valid, false);
+  const unofficered = captainObservation(world().battle, 'A');
+  const refused = previewContactOrders(unofficered, 'A-own', insisted);
+  assert.equal(refused.valid, false, 'there is nobody to overrule');
+  assert.match(refused.faults[0].detail, /officered ship/);
+});
+
 // ---------------------------------------------------------------- the boundary
 check('the declaration leaks nothing the plot does not already carry', () => {
   const w = world({ captain: { id: 'c1', name: 'Capt. Renard', posture: 'cautious' }, enemyHull: 0.63 });

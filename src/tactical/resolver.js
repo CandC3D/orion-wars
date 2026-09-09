@@ -785,7 +785,10 @@ function chargeSpinal(ship, enemies, tuning, log, battle = null, order = null) {
   let intent = order?.spinal;
   if (ship.captain && intent !== 'vent') {
     const breakOff = ventsUnderFire(ship, tuning);
-    if (breakOff) { intent = 'vent'; if (log) log(`${ship.id} captain: ${breakOff.reason}`); }
+    // A direct order is obeyed, and the objection goes on the record anyway. The player is never
+    // trapped by their own crew, and the crew are never silently overruled.
+    if (breakOff && order?.insist) { if (log) log(`${ship.id} captain: ${breakOff.protest}`); }
+    else if (breakOff) { intent = 'vent'; if (log) log(`${ship.id} captain: ${breakOff.reason}`); }
   }
   if(order || st.manualControl || intent === 'vent'){
     const note=advanceManualSpinal(ship,w,intent);
@@ -2052,7 +2055,7 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
   // an enemy-occupied suffix keeps real transit legal without charging power
   // or emitting preview points for a step that ultimately cannot be taken.
   const steps = [];
-  let pos = ship.pos, power = ship.power, stop = null, captainStop = null;
+  let pos = ship.pos, power = ship.power, stop = null, captainStop = null, captainProtest = null;
   const foes = living(enemies);
   while (steps.length < forward) {
     const next = add(pos, ship.facing);
@@ -2063,7 +2066,10 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
     // asks for comes free: the move is clamped to the last step he was willing to take.
     if (ship.captain) {
       captainStop = refusesStep(ship, pos, next, foes, tuning);
-      if (captainStop) break;
+      // Insisting does not silence him: it overrides him. The first objection is kept and reported
+      // once, however many further steps he would have objected to.
+      if (captainStop && ship.insistThisTurn) { captainProtest = captainProtest ?? captainStop; captainStop = null; }
+      else if (captainStop) break;
     }
     steps.push({ pos: next, cost });
     pos = next; power -= cost;
@@ -2075,10 +2081,12 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
     if(!inBounds(next,tuning)||blockedHex(next,tuning)){stop='impassable terrain or the map edge';break;}
     if (ship.captain) {
       captainStop = refusesStep(ship, pos, next, foes, tuning);
-      if (captainStop) break;
+      if (captainStop && ship.insistThisTurn) { captainProtest = captainProtest ?? captainStop; captainStop = null; }
+      else if (captainStop) break;
     }
     steps.push({pos:next,cost:0,burst:true});pos=next;
   }
+  if (captainProtest && log) log(`${ship.id} captain: ${captainProtest.protest}`);
   let trimmed = false;
   while (steps.length && enemyAt(steps.at(-1).pos, foes, tuning)) { steps.pop(); trimmed = true; }
   if (trimmed && log) log(`${ship.id} order clamped: will not end its move in an enemy's hex${stop ? ` (${stop} limits transit)` : ""}`);
@@ -2287,6 +2295,9 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     const o = hasOrder(s);
     if (o && Number.isFinite(o.reserve)) s.reserve = Math.round(Math.min(1, Math.max(0, o.reserve)) * s.power);
     s.orderTarget = (o && o.target && o.target !== "auto") ? o.target : null;
+    // A direct order stands for this turn only, and is cleared for every living hull each turn
+    // whether or not one was given, so it can never carry over into a turn nobody asked for it.
+    s.insistThisTurn = !!(o && o.insist);
   }
   for (const s of [...fighting(A), ...fighting(B)]) evade(s, tuning, rng, log, battle);
 

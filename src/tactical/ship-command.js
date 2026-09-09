@@ -99,11 +99,16 @@ export function refusesStep(ship, from, next, enemies, tuning) {
     const now = distance(next, foe.pos);
     if (now >= was) continue;                    // opening or holding the range is always allowed
     if (now >= profile.minRangeHexes) continue;  // still outside the line the captain will not cross
+    const who = name ? name + ' ' : '', grounds = `inside ${profile.minRangeHexes} hexes at ${Math.round(hullFraction(ship) * 100)}% hull`;
     return {
       rule: 'will-not-close',
       enemyId: foe.id ?? null,
       range: now,
-      reason: `${name ? name + ' ' : ''}will not close inside ${profile.minRangeHexes} hexes at ${Math.round(hullFraction(ship) * 100)}% hull`
+      reason: `${who}will not close ${grounds}`,
+      // The admiral may insist, and then the ship closes anyway. It is still worth hearing what the
+      // officer thought of it: an objection on the record is the difference between a crew that
+      // obeys and a crew that agrees, and the campaign layer will want to know which this was.
+      protest: `${who}closes under protest: would not close ${grounds}`
     };
   }
   return null;
@@ -131,10 +136,12 @@ export function ventsUnderFire(ship, tuning) {
   if (!(max > 0)) return null;
   const took = (ship.damageLastTurn ?? 0) / max;
   if (took < threshold) return null;
+  const who = name ? name + ' ' : '', grounds = `${Math.round(took * 100)}% hull lost while planted`;
   return {
     rule: 'breaks-charge',
     took,
-    reason: `${name ? name + ' ' : ''}breaks off the charge: ${Math.round(took * 100)}% hull lost while planted`
+    reason: `${who}breaks off the charge: ${grounds}`,
+    protest: `${who}holds the charge under protest: ${grounds}`
   };
 }
 

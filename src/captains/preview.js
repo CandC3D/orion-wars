@@ -33,15 +33,19 @@ export function previewContactOrders(observation, shipId, order) {
   delete ship.captain;                        // belt and braces: the ceiling pass must never consult him
   const appraised = captain ? observation.contacts.map(c => appraiseContact(c, observation.rules.hullPoints)) : null;
   const declared = [];
+  // A direct order overrules the captain for this turn. His objection is still declared, because
+  // being overruled is exactly the case where the player most wants to have seen it first.
+  const insist = !!accepted.insist;
   let intent = accepted.spinal;
   const breakOff = captain && intent !== 'vent' ? ventsUnderFire(own, tuning) : null;
-  if (breakOff) { intent = 'vent'; declared.push({ round: null, ...breakOff, certain: true }); }
+  if (breakOff && !insist) { intent = 'vent'; declared.push({ round: null, ...breakOff, certain: true, insisted: false }); }
+  else if (breakOff) declared.push({ round: null, ...breakOff, rule: 'holds-charge-under-protest', reason: breakOff.protest, certain: true, insisted: true });
   const bankNote=ship.spinal?advanceManualSpinal(ship,ship.mounts.find(m=>m.kind==='spinal')?.weapon||{},intent):'';
   ship.reserve = Math.round(accepted.reserve * ship.power);
   ship.emergencyUsed = false; ship.warpedThisTurn = false; ship.movedThisTurn = 0;
   // The captain keeps his own cursor through the plan. Once he has held a ship short, every later
   // action starts from where HE will be, not from where the ceiling says the hull could have got to.
-  let shadowShip = captain ? { ...structuredClone(ship), captain } : null;
+  let shadowShip = captain ? { ...structuredClone(ship), captain, insistThisTurn: insist } : null;
   const contacts = observation.contacts.map(c => ({ ...structuredClone(c), destroyed: false, cloaked: false }));
   const actions = [], route = [{ ...ship.pos, facing: ship.facing, round: 0 }];
   let unknownPosition = !!(ship.cloaked || ship.decloaking || ship.squadrons);
@@ -49,7 +53,7 @@ export function previewContactOrders(observation, shipId, order) {
     const entry = accepted.plan[i], round = i + 1, start = { ...ship.pos, facing: ship.facing };
     const notes = [];
     if(bankNote)notes.push(bankNote);
-    if(breakOff)notes.push(`Captain: ${breakOff.reason}.`);
+    if(breakOff)notes.push(`Captain: ${insist ? breakOff.protest : breakOff.reason}.`);
     const kind = entry.scan ? 'scan' : entry.warp ? 'warp' : entry.turn || entry.forward || entry.burst ? 'move' : 'hold';
     if (entry.warp) unknownPosition = true;
     if (unknownPosition) notes.push('Course unresolved: warp, cloak, keel or flight-deck coordination requires execution.');
@@ -71,8 +75,10 @@ export function previewContactOrders(observation, shipId, order) {
           const reason = said.slice(said.indexOf(' captain: ') + 10);
           // Ahead of the ceiling notes, which otherwise read "moves as ordered" directly above an
           // officer saying he will do no such thing. The objection is the first thing to read.
-          notes.unshift(`Captain: ${reason}, ending (${holdAt.q}, ${holdAt.r}).`);
-          declared.push({ round, rule: 'will-not-close', reason, holdAt, hexes, certain: false });
+          // Under a direct order there is no hold hex to name: he goes where he was sent.
+          notes.unshift(insist ? `Captain: ${reason}.` : `Captain: ${reason}, ending (${holdAt.q}, ${holdAt.r}).`);
+          declared.push({ round, rule: insist ? 'closes-under-protest' : 'will-not-close',
+            reason, holdAt, hexes, certain: false, insisted: insist });
         }
       }
     } else if (kind === 'scan') notes.push(`Scan face ${entry.scan}; no movement or mount fire. New contacts cannot be predicted.`);
@@ -92,7 +98,7 @@ export function previewContactOrders(observation, shipId, order) {
   }
   return freezeTree({ valid: true, mode: 'movement-ceiling/1', route, actions,
     adjustments: validated.adjustments.filter(a => a.shipId === shipId),
-    captain: captain ? { ...captain, declared,
+    captain: captain ? { ...captain, insisted: insist, declared,
       basis: 'A refusal to close is judged from the contact report: nominal points for the reported class, and the best condition the sensors have not ruled out. A refit heavier than its class, or damage worse than reported, can change what he decides at execution. Breaking off a charge is read from own state and is certain.' } : null,
     caveat: 'Optimistic movement ceiling, not a promised route: current contacts are stationary; incoming damage, unseen traffic, future contacts and weapon spending can shorten movement. Advanced coordination is left unresolved.' });
 }
