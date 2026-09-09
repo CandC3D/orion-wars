@@ -1,0 +1,86 @@
+{
+  "at": "2026-09-06T08:03:13.794Z",
+  "verifiedBy": "Astra; not an independent Fable acceptance",
+  "baselineFastSuiteExit": 0,
+  "finalFastSuiteExit": 0,
+  "stockPromotionGroups": 8,
+  "stockAmendmentGroups": 7,
+  "rotatedFiringTrials": 36,
+  "destroyerFiringControls": 2,
+  "previousR2PinnedBattleComparisons": 2,
+  "rendered": {
+    "passed": true,
+    "at": "2026-09-06T08:00:36.360Z",
+    "base": "http://127.0.0.1:8847",
+    "checks": [
+      "All 29 rendered stock designs match current approved content and revisions; every schematic glyph and face caption matches the return",
+      "Monitor shows 24 points, 32 magazine, 220 structure and its unchanged 8.75 power-per-hex movement cost",
+      "New quick battles price a monitor plus battleship at 56 and use the promoted live hull and mounts",
+      "Without a local override the scenario editor retains its class-only contract; construction resolves current supplied defaults",
+      "Old local r2 remains unchanged; explicit restore reviews the deltas and appends r3 without deleting history or changing an existing battle"
+    ],
+    "errors": []
+  },
+  "sourceHashes": [
+    {
+      "path": "data/loadouts.json",
+      "sha256": "f6f6fd9df5783f0700ac0b36d95aed96b430fd60a3874a6babd780dc2408cb5a"
+    },
+    {
+      "path": "data/tactical-tuning.json",
+      "sha256": "001bdd92561c58ccef792f012ed9ba40f5500dd8e3f6a915280a6ed9e2f36cb2"
+    },
+    {
+      "path": "src/construction/index.js",
+      "sha256": "d402a39144849d15c4b32393134302a93f58a0894af255199bdb4fa728dd654e"
+    },
+    {
+      "path": "test/stock-promotion.js",
+      "sha256": "936d5414004397d50268b38916503a070dd0a5565cce831315809978a8271bd4"
+    },
+    {
+      "path": "test/stock-amendments.js",
+      "sha256": "b91ab2bcc1311dd0c76841b134b7a9e2bfb8aa02813112c355585f6641f7eac5"
+    },
+    {
+      "path": "test/fixtures/stock-approvals.js",
+      "sha256": "544d5de05b6e539243e5164ae32d157b4acdcd6ff684ec48be976ef17fdf9b23"
+    },
+    {
+      "path": "test/run-tests.js",
+      "sha256": "618ea367de499959b33917133e30e94a0bf5b52cb28dccac70fbfef929a02ef5"
+    },
+    {
+      "path": "docs/drydock/verify-stock-promotion.mjs",
+      "sha256": "70185a4e40fb2cee63b4c8e3766625539fd5e611462feba22520b050c5aff387"
+    },
+    {
+      "path": "docs/drydock/stock-amendments-2026-09-06/approved-designs.json",
+      "sha256": "5f5642e54874f274d98a8a2818bdd3df0b4cc173e003af2c52017ac711ee1db6"
+    }
+  ],
+  "originalExportsVerified": [
+    {
+      "path": "C:/Users/chorr/Downloads/Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs/vra-heavy-cruiser-variant-corrected-r3.drydock.json",
+      "sha256": "ff5ccd782dca82954b822e38c8abc916ca081b947c3692dc58aeaca688ae94dd"
+    },
+    {
+      "path": "C:/Users/chorr/Downloads/Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs/vra-destroyer-variant-corrected-r4.drydock.json",
+      "sha256": "cd5cfc84acdabd4632cbbde269fe77dd871bac227631f41a0d9791b16f0bb636"
+    }
+  ],
+  "captainR2Integrity": {
+    "snapshot": ".tmp-fable-captains-c01-r2-20260906-20Cgr3",
+    "files": 145,
+    "inventorySha256": "41d5337a3067bc9f8e7d278e19e2c0e8a4783ca4b6400af9796e956c943ca7d5",
+    "allFilesMatch": true,
+    "fastLogMatches": true
+  },
+  "notes": [
+    "No balance sweep or outcome-preservation claim for the intentional weapon changes.",
+    "Unused missile-tail cleanup preserves both explicit and legacy mount output.",
+    "Frozen audit sources and evidence were not changed.",
+    "Browser proof used isolated headless Edge, new storage and owned port 8847; server stopped; user port 8642 untouched.",
+    "The append-only local restore fixture expects r4 when saving supplied r3 over existing local r2."
+  ]
+}

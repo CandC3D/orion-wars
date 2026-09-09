@@ -1,0 +1,378 @@
+{
+  "date": "2026-09-06",
+  "authority": "Chris, tactical-design.md section 34a; exact supplied replacement exports. Only these two supplied designs advance to r3.",
+  "designs": [
+    {
+      "key": "VRA/heavy-cruiser",
+      "sourceFile": "C:/Users/chorr/Downloads/Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs/vra-heavy-cruiser-variant-corrected-r3.drydock.json",
+      "sourceSha256": "ff5ccd782dca82954b822e38c8abc916ca081b947c3692dc58aeaca688ae94dd",
+      "bytes": 4179,
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:2731c06a-55ad-48ee-bea6-e4ba8d9933c5",
+          "revision": 3,
+          "name": "VRA heavy cruiser variant - corrected",
+          "notes": "",
+          "faction": "VRA",
+          "className": "heavy-cruiser",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 21,
+            "impulsePower": 6,
+            "magazine": 12,
+            "superstructure": 81,
+            "maxShieldPower": 13,
+            "shieldPointRatio": 0.7,
+            "movementPointRatio": 3.75,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 0.95
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.5,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.5,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.6,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.6,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/destroyer",
+      "sourceFile": "C:/Users/chorr/Downloads/Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs/vra-destroyer-variant-corrected-r4.drydock.json",
+      "sourceSha256": "cd5cfc84acdabd4632cbbde269fe77dd871bac227631f41a0d9791b16f0bb636",
+      "bytes": 2735,
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:233ca4a5-1f08-4320-a958-0c78258ff6b5",
+          "revision": 4,
+          "name": "VRA destroyer variant - corrected",
+          "notes": "",
+          "faction": "VRA",
+          "className": "destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 6,
+            "superstructure": 25,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 1.25,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                6,
+                1,
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.85,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "date": "2026-09-07",
+  "authority": "Chris supplied Gunstar turret 1 face 3 correction; promote r3. All other ship content unchanged.",
+  "designs": [
+    {
+      "key": "EAR/gunstar-battlecruiser",
+      "sourceFile": "C:/Users/chorr/Downloads/Earth Defense Force (EDF) stock ships with corrected firing arcs/ear-gunstar-battlecruiser-variant-r3.drydock.json",
+      "sourceSha256": "82dae73c4491016e3ce0faa4b50de6d206cffc9ed2808df4911b8b655c536379",
+      "bytes": 4998,
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:photonic-cannon",
+            "revision": 1,
+            "name": "photonic cannon",
+            "spec": {
+              "kind": "spinal",
+              "damage": 26,
+              "spreadPer": 8,
+              "maxRange": 26,
+              "firePower": 6,
+              "chargeRequired": 72,
+              "chargeDrawPerTurn": 20,
+              "holdDrawPerTurn": 4,
+              "cooldownTurns": 2,
+              "toHitBonus": 2,
+              "vsLightPenalty": -5,
+              "evasionMultiplier": 2,
+              "capitalPoints": 16,
+              "holdForCapitalTurns": 2,
+              "aimWeight": 9,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 26,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                }
+              ],
+              "bypassShield": true,
+              "battleLinePoints": 32,
+              "vsMediumPenalty": -1,
+              "immobileWhileCharging": true,
+              "chargeStartRangeHexes": 20
+            }
+          }
+        ],
+        "design": {
+          "id": "local:707e391f-e236-4d13-a4f9-538a3606eabf",
+          "revision": 3,
+          "name": "EAR gunstar battlecruiser variant",
+          "notes": "",
+          "faction": "EAR",
+          "className": "gunstar-battlecruiser",
+          "hull": {
+            "points": 16,
+            "cores": 3,
+            "corePower": 19,
+            "impulsePower": 6,
+            "magazine": 12,
+            "superstructure": 53,
+            "maxShieldPower": 15,
+            "shieldPointRatio": 0.3825,
+            "movementPointRatio": 3,
+            "screen": 4,
+            "pointDefence": 1,
+            "sensorRating": 2,
+            "weaponReach": 0.95,
+            "explosionYield": 1.2
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -1,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.95,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 1.15,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 1.15,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:photonic-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

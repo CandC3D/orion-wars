@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "at": "2026-09-06T08:00:36.360Z",
+  "base": "http://127.0.0.1:8847",
+  "checks": [
+    "All 29 rendered stock designs match current approved content and revisions; every schematic glyph and face caption matches the return",
+    "Monitor shows 24 points, 32 magazine, 220 structure and its unchanged 8.75 power-per-hex movement cost",
+    "New quick battles price a monitor plus battleship at 56 and use the promoted live hull and mounts",
+    "Without a local override the scenario editor retains its class-only contract; construction resolves current supplied defaults",
+    "Old local r2 remains unchanged; explicit restore reviews the deltas and appends r3 without deleting history or changing an existing battle"
+  ],
+  "errors": []
+}
