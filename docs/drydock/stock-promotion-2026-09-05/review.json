@@ -1,0 +1,3479 @@
+{
+  "at": "2026-09-06T00:40:06.496Z",
+  "mode": "review-only; no defaults or original exports changed",
+  "baselineHashes": {
+    "data/tactical-tuning.json": "69a9eb75bda9f24abe8ab907b27d438da710a4ff64db4c83f7a4097d41329204",
+    "data/loadouts.json": "e039b7661bd39a89fe83afe607f2f8610b9927263cd0d7006fe2752c014e424f"
+  },
+  "counts": {
+    "files": 29,
+    "expected": 29,
+    "withLayoutChanges": 29,
+    "withOtherChanges": 1
+  },
+  "missing": [],
+  "issues": [],
+  "entries": [
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-battleship-variant-corrected-r3.drydock.json",
+      "sha256": "95a3a180834e86bc923d9b1c78a80628aff58a685c5935978e8585a5891535d9",
+      "bytes": 5755,
+      "key": "EAR/battleship",
+      "profile": "six-face-residual-power-v1",
+      "revision": 3,
+      "designId": "local:981ebda2-1e59-478b-b694-3efd13f9fe4e",
+      "name": "EAR battleship variant",
+      "mountCount": 13,
+      "baselineMountCount": 13,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:battleship",
+          "after": "local:981ebda2-1e59-478b-b694-3efd13f9fe4e"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 3
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR battleship",
+          "after": "EAR battleship variant"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/2",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.95
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/3/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/3/faces/1",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/3/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/3/faces/3",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.1
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "before": 3,
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0.1
+        },
+        {
+          "path": "/design/mounts/5/faces/0",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/5/faces/1",
+          "before": 3,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.1
+        },
+        {
+          "path": "/design/mounts/6/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/6/faces/1",
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/6/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": -0.55
+        },
+        {
+          "path": "/design/mounts/7/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/7/faces/1",
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/7/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": -0.55
+        },
+        {
+          "path": "/design/mounts/8/position/y",
+          "before": -0.23,
+          "after": 1.3
+        },
+        {
+          "path": "/design/mounts/9/position/y",
+          "before": -0.23,
+          "after": 1.3
+        },
+        {
+          "path": "/design/mounts/10/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/10/faces/1",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/10/position/y",
+          "before": -0.45,
+          "after": -0.35
+        },
+        {
+          "path": "/design/mounts/11/faces/0",
+          "before": 1,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/11/faces/1",
+          "before": 2,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/11/position/y",
+          "before": -0.45,
+          "after": -0.35
+        },
+        {
+          "path": "/design/mounts/12/faces/0",
+          "before": 2,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/12/faces/1",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/12/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/12/position/y",
+          "before": -0.67,
+          "after": -0.85
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2 → 1,2,3",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (-0.95, 0.7, 0)",
+        "mount-3: faces 2 → 2,3",
+        "mount-3: position (-0.3, 0.43, 0) → (0.95, 0.7, 0)",
+        "mount-4: faces 2 → 1,3,4,6",
+        "mount-4: position (0.3, 0.43, 0) → (0, 0.1, 0)",
+        "mount-5: faces 2,3 → 1,6",
+        "mount-5: position (-0.3, 0.21, 0) → (-0.3, 0.1, 0)",
+        "mount-6: faces 2,3 → 3,4",
+        "mount-6: position (0.3, 0.21, 0) → (0.3, 0.1, 0)",
+        "mount-7: faces 5 → 4,5,6",
+        "mount-7: position (-0.3, -0.01, 0) → (0.2, -0.55, 0)",
+        "mount-8: faces 5 → 4,5,6",
+        "mount-8: position (0.3, -0.01, 0) → (-0.2, -0.55, 0)",
+        "mount-9: position (-0.3, -0.23, 0) → (-0.3, 1.3, 0)",
+        "mount-10: position (0.3, -0.23, 0) → (0.3, 1.3, 0)",
+        "mount-11: faces 2 → 1,6",
+        "mount-11: position (-0.3, -0.45, 0) → (-0.3, -0.35, 0)",
+        "mount-12: faces 1,2 → 3,4",
+        "mount-12: position (0.3, -0.45, 0) → (0.3, -0.35, 0)",
+        "mount-13: faces 2,3 → 5",
+        "mount-13: position (-0.3, -0.67, 0) → (0, -0.85, 0)",
+        "name: \"EAR battleship\" → \"EAR battleship variant\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-destroyer-corrected-arcs-r4.drydock.json",
+      "sha256": "c9e8ee4906ecfd308673615d2027120c071919cf43cc746f35a6b2d4fb2fa357",
+      "bytes": 2655,
+      "key": "EAR/destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 4,
+      "designId": "local:ff458fb0-6bde-42ff-859e-bdd2ae2110be",
+      "name": "EAR destroyer - fixed arcs",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:destroyer",
+          "after": "local:ff458fb0-6bde-42ff-859e-bdd2ae2110be"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 4
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR destroyer",
+          "after": "EAR destroyer - fixed arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/0",
+          "before": 6,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/0/faces/1",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/0/faces/3",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/0/faces/4",
+          "before": 4
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 3,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "before": 4,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "before": 5,
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/1/faces/3",
+          "before": 6
+        },
+        {
+          "path": "/design/mounts/1/faces/4",
+          "before": 1
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": -0.6
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 1.25
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 6,1,2,3,4 → 1,2,3",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "mount-2: faces 3,4,5,6,1 → 4,5,6",
+        "mount-2: position (0.3, 0.65, 0) → (0, -0.6, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0, 1.25, 0)",
+        "name: \"EAR destroyer\" → \"EAR destroyer - fixed arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-frigate-corrected-arcs-r2.drydock.json",
+      "sha256": "1f5b420e29868ae305583ec495b62d1164ce6c12b7296dd34dbfc145a19981e6",
+      "bytes": 1737,
+      "key": "EAR/frigate",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:99164d86-08c2-455d-a4f8-d9dad619e957",
+      "name": "EAR frigate - fixed arcs",
+      "mountCount": 1,
+      "baselineMountCount": 1,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:frigate",
+          "after": "local:99164d86-08c2-455d-a4f8-d9dad619e957"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR frigate",
+          "after": "EAR frigate - fixed arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "name: \"EAR frigate\" → \"EAR frigate - fixed arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-gunstar-battlecruiser-variant-corrected-r2.drydock.json",
+      "sha256": "bea53df6f5fb9aa49d0dcea85a17b0516111f90dc733a2651c1a458b6820d041",
+      "bytes": 4985,
+      "key": "EAR/gunstar-battlecruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:707e391f-e236-4d13-a4f9-538a3606eabf",
+      "name": "EAR gunstar battlecruiser variant",
+      "mountCount": 7,
+      "baselineMountCount": 7,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:gunstar-battlecruiser",
+          "after": "local:707e391f-e236-4d13-a4f9-538a3606eabf"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR gunstar battlecruiser",
+          "after": "EAR gunstar battlecruiser variant"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -1
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/2/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 1.3
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 1.15
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.65
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 1.15
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 0.35
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "mount-2: faces 2 → 1,2,6",
+        "mount-2: position (0.3, 0.65, 0) → (-1, 0.7, 0)",
+        "mount-3: faces 2,3 → 2,3,4",
+        "mount-3: position (-0.3, 0.43, 0) → (0.95, 0.7, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0, 1.3, 0)",
+        "mount-5: position (-0.3, 0.21, 0) → (-0.65, 1.15, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0.65, 1.15, 0)",
+        "mount-7: position (-0.3, -0.01, 0) → (0, 0.35, 0)",
+        "name: \"EAR gunstar battlecruiser\" → \"EAR gunstar battlecruiser variant\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-heavy-cruiser-variant-corrected-arc-r2.drydock.json",
+      "sha256": "e91f4fa718745a94d19149ae7a25876d40204e21036f92f7b0ff2c7dcea4ea8a",
+      "bytes": 4269,
+      "key": "EAR/heavy-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:8225b468-a1d3-4896-aa38-1f4d6bd49b47",
+      "name": "EAR heavy cruiser variant - corrected arc",
+      "mountCount": 8,
+      "baselineMountCount": 8,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:heavy-cruiser",
+          "after": "local:8225b468-a1d3-4896-aa38-1f4d6bd49b47"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR heavy cruiser",
+          "after": "EAR heavy cruiser variant - corrected arc"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/2",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.95
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/2/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/3/faces/0",
+          "before": 5,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/3/faces/1",
+          "before": 6,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/3/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/3/faces/3",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": -0.1
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/4/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 1.3
+        },
+        {
+          "path": "/design/mounts/6/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/6/faces/1",
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 1.1
+        },
+        {
+          "path": "/design/mounts/7/faces/0",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/7/faces/1",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/7/faces/2",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": 0.65
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": 1.1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2 → 1,2,3",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "mount-2: faces 2 → 1,2,6",
+        "mount-2: position (0.3, 0.65, 0) → (-0.95, 0.7, 0)",
+        "mount-3: faces 2,3 → 2,3,4",
+        "mount-3: position (-0.3, 0.43, 0) → (0.95, 0.7, 0)",
+        "mount-4: faces 5,6 → 1,3,4,6",
+        "mount-4: position (0.3, 0.43, 0) → (0, -0.1, 0)",
+        "mount-5: faces 5 → 4,5,6",
+        "mount-5: position (-0.3, 0.21, 0) → (0, -0.65, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0, 1.3, 0)",
+        "mount-7: faces 2 → 1,2",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.65, 1.1, 0)",
+        "mount-8: faces 1,2,3 → 2,3",
+        "mount-8: position (0.3, -0.01, 0) → (0.65, 1.1, 0)",
+        "name: \"EAR heavy cruiser\" → \"EAR heavy cruiser variant - corrected arc\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-light-cruiser-corrected-arcs-r2.drydock.json",
+      "sha256": "a94daae33b13141e9df15b377e4abc420860b357e70541479e292ba2ef593559",
+      "bytes": 3299,
+      "key": "EAR/light-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:9f20456e-58ee-4317-ae3c-27e63c87bfa0",
+      "name": "EAR light cruiser - corrected arcs",
+      "mountCount": 5,
+      "baselineMountCount": 5,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:light-cruiser",
+          "after": "local:9f20456e-58ee-4317-ae3c-27e63c87bfa0"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR light cruiser",
+          "after": "EAR light cruiser - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/3",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -1
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/2/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 1.3
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 1.3
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3 → 1,2,3,6",
+        "mount-1: position (-0.3, 0.65, 0) → (-1, 0.7, 0)",
+        "mount-2: faces 2,3 → 2,3,4",
+        "mount-2: position (0.3, 0.65, 0) → (1, 0.7, 0)",
+        "mount-3: faces 5,6 → 4,5,6",
+        "mount-3: position (-0.3, 0.43, 0) → (0, -0.65, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (-0.25, 1.3, 0)",
+        "mount-5: position (-0.3, 0.21, 0) → (0.25, 1.3, 0)",
+        "name: \"EAR light cruiser\" → \"EAR light cruiser - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Earth Defense Force (EDF) stock ships with corrected firing arcs\\ear-missile-destroyer-corrected-arcs-r2.drydock.json",
+      "sha256": "16ad8457b4dc04b1f365e52c5565147c05c97003b756a0f9f21fcc572ac11146",
+      "bytes": 2694,
+      "key": "EAR/missile-destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:95ba06bb-5097-4bb6-9949-f3b12a202283",
+      "name": "EAR missile destroyer - fixed arcs",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:ear:missile-destroyer",
+          "after": "local:95ba06bb-5097-4bb6-9949-f3b12a202283"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "EAR missile destroyer",
+          "after": "EAR missile destroyer - fixed arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 1.3
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 1.3
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (-0.25, 1.3, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0.25, 1.3, 0)",
+        "name: \"EAR missile destroyer\" → \"EAR missile destroyer - fixed arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-battleship-corrected-arcs-r2.drydock.json",
+      "sha256": "13b5c17b27fb0b180d94d05e178c61fa06c00b758242972d22fe6929977e9166",
+      "bytes": 6473,
+      "key": "KRE/battleship",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:7b1efa76-a81e-47dc-9b9d-150415d9accd",
+      "name": "KRE battleship  - corrected arcs",
+      "mountCount": 15,
+      "baselineMountCount": 15,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:battleship",
+          "after": "local:7b1efa76-a81e-47dc-9b9d-150415d9accd"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE battleship",
+          "after": "KRE battleship  - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -0.5
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.3
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.75
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0.3
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0.75
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.5
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": -1.1
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": -1.1
+        },
+        {
+          "path": "/design/mounts/8/faces/0",
+          "before": 2,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/8/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/8/position/y",
+          "before": -0.23,
+          "after": -0.8
+        },
+        {
+          "path": "/design/mounts/9/position/x",
+          "before": 0.3,
+          "after": 0.15
+        },
+        {
+          "path": "/design/mounts/9/position/y",
+          "before": -0.23,
+          "after": 1.25
+        },
+        {
+          "path": "/design/mounts/10/position/x",
+          "before": -0.3,
+          "after": -0.15
+        },
+        {
+          "path": "/design/mounts/10/position/y",
+          "before": -0.45,
+          "after": 1.25
+        },
+        {
+          "path": "/design/mounts/11/position/x",
+          "before": 0.3,
+          "after": -0.75
+        },
+        {
+          "path": "/design/mounts/11/position/y",
+          "before": -0.45,
+          "after": -0.1
+        },
+        {
+          "path": "/design/mounts/12/position/x",
+          "before": -0.3,
+          "after": 0.8
+        },
+        {
+          "path": "/design/mounts/12/position/y",
+          "before": -0.67,
+          "after": -0.1
+        },
+        {
+          "path": "/design/mounts/13/position/x",
+          "before": 0.3,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/13/position/y",
+          "before": -0.67,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/14/position/x",
+          "before": -0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/14/position/y",
+          "before": -0.89,
+          "after": 1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (-0.5, 0.2, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (-0.3, 0.75, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.2, 0.35, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0.2, 0.35, 0)",
+        "mount-5: position (-0.3, 0.21, 0) → (0.3, 0.75, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0.5, 0.2, 0)",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.2, -1.1, 0)",
+        "mount-8: position (0.3, -0.01, 0) → (0.2, -1.1, 0)",
+        "mount-9: faces 2 → 5",
+        "mount-9: position (-0.3, -0.23, 0) → (0, -0.8, 0)",
+        "mount-10: position (0.3, -0.23, 0) → (0.15, 1.25, 0)",
+        "mount-11: position (-0.3, -0.45, 0) → (-0.15, 1.25, 0)",
+        "mount-12: position (0.3, -0.45, 0) → (-0.75, -0.1, 0)",
+        "mount-13: position (-0.3, -0.67, 0) → (0.8, -0.1, 0)",
+        "mount-14: position (0.3, -0.67, 0) → (0.2, 1, 0)",
+        "mount-15: position (-0.3, -0.89, 0) → (-0.2, 1, 0)",
+        "name: \"KRE battleship\" → \"KRE battleship  - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-carrier-variant-corrected-arcs-r2.drydock.json",
+      "sha256": "3f0dd14f3ace0e5e55f0c7b17ef0902f8eb8dfe7095c811f9e56f5b7bfc9e277",
+      "bytes": 3171,
+      "key": "KRE/carrier",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:ac7a7233-737b-4d0f-bb94-073d4330b72f",
+      "name": "KRE carrier variant - corrected arcs",
+      "mountCount": 4,
+      "baselineMountCount": 4,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:carrier",
+          "after": "local:ac7a7233-737b-4d0f-bb94-073d4330b72f"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE carrier",
+          "after": "KRE carrier variant - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -1.2
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": -0.6
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 1.2
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": -0.6
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 1.2
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.25
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (-1.2, -0.6, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (1.2, -0.6, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0, 1.2, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0, 0.25, 0)",
+        "name: \"KRE carrier\" → \"KRE carrier variant - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-destroyer-variant-corrected-arcs-r3.drydock.json",
+      "sha256": "747856ef825a25e7507cb1817608706efd600c42d00692e451efe4fa182f5255",
+      "bytes": 2928,
+      "key": "KRE/destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 3,
+      "designId": "local:33cf667b-2c41-4105-94fc-3bab5d45e4a4",
+      "name": "KRE destroyer variant - corrected arcs",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:destroyer",
+          "after": "local:33cf667b-2c41-4105-94fc-3bab5d45e4a4"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 3
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE destroyer",
+          "after": "KRE destroyer variant - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/0",
+          "before": 6,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/0/faces/1",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 2,
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/0/faces/3",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/0/faces/4",
+          "before": 4
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -1.2
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": -0.6
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 3,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/1/faces/3",
+          "before": 6
+        },
+        {
+          "path": "/design/mounts/1/faces/4",
+          "before": 1
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 1.2
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": -0.6
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.7
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 6,1,2,3,4 → 1,2,6",
+        "mount-1: position (-0.3, 0.65, 0) → (-1.2, -0.6, 0)",
+        "mount-2: faces 3,4,5,6,1 → 2,3,4",
+        "mount-2: position (0.3, 0.65, 0) → (1.2, -0.6, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0, 0.7, 0)",
+        "name: \"KRE destroyer\" → \"KRE destroyer variant - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-frigate-variant-corrected-arcs-r2.drydock.json",
+      "sha256": "78225f980f369bf034f1d7b5e3669ff90e5bc5d2420522729848553614337537",
+      "bytes": 1752,
+      "key": "KRE/frigate",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:ec514507-0a5f-4b7b-bd9a-502a38bcbd49",
+      "name": "KRE frigate variant - corrected arcs",
+      "mountCount": 1,
+      "baselineMountCount": 1,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:frigate",
+          "after": "local:ec514507-0a5f-4b7b-bd9a-502a38bcbd49"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE frigate",
+          "after": "KRE frigate variant - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.1, 0)",
+        "name: \"KRE frigate\" → \"KRE frigate variant - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-heavy-cruiser-variant-corrected-arcs-r2.drydock.json",
+      "sha256": "d7958b275e3cdcae8de8132e7ce94a979fb2b270e890c0d840037c9488e08148",
+      "bytes": 4811,
+      "key": "KRE/heavy-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:0cf47a44-9638-4ae0-ae33-40d695f0db3a",
+      "name": "KRE heavy cruiser variant - corrected arcs",
+      "mountCount": 10,
+      "baselineMountCount": 10,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:heavy-cruiser",
+          "after": "local:0cf47a44-9638-4ae0-ae33-40d695f0db3a"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE heavy cruiser",
+          "after": "KRE heavy cruiser variant - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -0.45
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.65
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/4/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/8/position/x",
+          "before": -0.3,
+          "after": 0.65
+        },
+        {
+          "path": "/design/mounts/8/position/y",
+          "before": -0.23,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/9/faces/0",
+          "before": 2,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/9/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/9/position/y",
+          "before": -0.23,
+          "after": -1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (-0.45, 0.35, 0)",
+        "mount-2: faces 2 → 2,3",
+        "mount-3: faces 2 → 1,2",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.3, 0.65, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0.45, 0.35, 0)",
+        "mount-5: faces 5 → 4,5,6",
+        "mount-5: position (-0.3, 0.21, 0) → (0, -0.65, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0.25, 0.95, 0)",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.25, 0.95, 0)",
+        "mount-8: position (0.3, -0.01, 0) → (-0.65, 0, 0)",
+        "mount-9: position (-0.3, -0.23, 0) → (0.65, 0, 0)",
+        "mount-10: faces 2 → 5",
+        "mount-10: position (0.3, -0.23, 0) → (0, -1, 0)",
+        "name: \"KRE heavy cruiser\" → \"KRE heavy cruiser variant - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-light-cruiser-variant-r1.drydock.json",
+      "sha256": "25c39c1e970d15cd9974c998a3dd10434f25f37de01881c6434eccf102e3b8e4",
+      "bytes": 3196,
+      "key": "KRE/light-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 1,
+      "designId": "local:ed78a767-8518-4a46-8fcb-bacf438dd3f4",
+      "name": "KRE light cruiser variant",
+      "mountCount": 4,
+      "baselineMountCount": 4,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:light-cruiser",
+          "after": "local:ed78a767-8518-4a46-8fcb-bacf438dd3f4"
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE light cruiser",
+          "after": "KRE light cruiser variant"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/0",
+          "before": 1,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/0/faces/1",
+          "before": 2,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 3,
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.1
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "before": 3,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.35
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.6
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 5,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "before": 6,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.6
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.9
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3 → 4,5,6",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.1, 0)",
+        "mount-2: faces 2,3 → 1,2",
+        "mount-2: position (0.3, 0.65, 0) → (-0.35, 0.6, 0)",
+        "mount-3: faces 5,6 → 2,3",
+        "mount-3: position (-0.3, 0.43, 0) → (0.35, 0.6, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0, 0.9, 0)",
+        "name: \"KRE light cruiser\" → \"KRE light cruiser variant\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-missile-destroyer-variant-corrected-arcs-r2.drydock.json",
+      "sha256": "61165726044a6808542c9b30bf52178ada866f7b1bb15a574c3275f72b97cf01",
+      "bytes": 2918,
+      "key": "KRE/missile-destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:a14d5fed-8a5c-454b-9b0e-0f86da71b666",
+      "name": "KRE missile destroyer variant - corrected arcs",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:missile-destroyer",
+          "after": "local:a14d5fed-8a5c-454b-9b0e-0f86da71b666"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE missile destroyer",
+          "after": "KRE missile destroyer variant - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/3",
+          "before": 4
+        },
+        {
+          "path": "/design/mounts/0/faces/4",
+          "before": 5
+        },
+        {
+          "path": "/design/mounts/0/faces/5",
+          "before": 6
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.1
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.3
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.6
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.3
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.6
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3,4,5,6 → 1,2,3",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.1, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (-0.3, 0.6, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0.3, 0.6, 0)",
+        "name: \"KRE missile destroyer\" → \"KRE missile destroyer variant - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Krelath Star Navy (KSN) stock ships with corrected firing arcs\\kre-strike-cruiser-variant-corrected-arcs-r2.drydock.json",
+      "sha256": "72c51731db63f9c9219cb3395194a55e1b6acda6eb7b5396aaa6075e8af98a7d",
+      "bytes": 3872,
+      "key": "KRE/strike-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:985cf470-17f8-41a3-b70d-c11fef3da972",
+      "name": "KRE strike cruiser variant - corrected arcs",
+      "mountCount": 5,
+      "baselineMountCount": 5,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:kre:strike-cruiser",
+          "after": "local:985cf470-17f8-41a3-b70d-c11fef3da972"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "KRE strike cruiser",
+          "after": "KRE strike cruiser variant - corrected arcs"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/3/faces/0",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/3/faces/1",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0.3
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3 → 1,2",
+        "mount-4: faces 1,2 → 2",
+        "mount-5: faces 2,3 → 2",
+        "mount-5: position (-0.3, 0.21, 0) → (0, 0.3, 0)",
+        "name: \"KRE strike cruiser\" → \"KRE strike cruiser variant - corrected arcs\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-battleship-variant-corrected-r2.drydock.json",
+      "sha256": "6ed6b1a6c95e786e15432b780bcb20b45ed832e1bac471428c755f243cfb4439",
+      "bytes": 5694,
+      "key": "VRA/battleship",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:98d9326a-9628-42a4-86bb-49c7fb43b697",
+      "name": "VRA battleship variant - corrected",
+      "mountCount": 13,
+      "baselineMountCount": 13,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:battleship",
+          "after": "local:98d9326a-9628-42a4-86bb-49c7fb43b697"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA battleship",
+          "after": "VRA battleship variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "before": 3,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 5,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": -0.45
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/5/faces/0",
+          "before": 5,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/5/faces/1",
+          "before": 6,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/5/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/6/faces/0",
+          "before": 4,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/6/faces/1",
+          "before": 5,
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.4
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": -0.55
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": 0.4
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": -0.55
+        },
+        {
+          "path": "/design/mounts/8/position/x",
+          "before": -0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/8/position/y",
+          "before": -0.23,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/9/position/x",
+          "before": 0.3,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/9/position/y",
+          "before": -0.23,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/10/faces/1",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/10/position/x",
+          "before": -0.3,
+          "after": -0.7
+        },
+        {
+          "path": "/design/mounts/10/position/y",
+          "before": -0.45,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/11/faces/0",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/11/faces/1",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/11/position/x",
+          "before": 0.3,
+          "after": 0.7
+        },
+        {
+          "path": "/design/mounts/11/position/y",
+          "before": -0.45,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/12/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/12/position/y",
+          "before": -0.67,
+          "after": -1.1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (-0.3, 0.7, 0)",
+        "mount-2: faces 1,2 → 2,3",
+        "mount-2: position (0.3, 0.65, 0) → (0.3, 0.7, 0)",
+        "mount-3: faces 2,3 → 1,2",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.3, 0.45, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0.3, 0.45, 0)",
+        "mount-5: faces 5,6 → 1,6",
+        "mount-5: position (-0.3, 0.21, 0) → (-0.45, 0.2, 0)",
+        "mount-6: faces 5,6 → 3,4,6",
+        "mount-6: position (0.3, 0.21, 0) → (0.45, 0.2, 0)",
+        "mount-7: faces 4,5 → 5,6",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.4, -0.55, 0)",
+        "mount-8: position (0.3, -0.01, 0) → (0.4, -0.55, 0)",
+        "mount-9: position (-0.3, -0.23, 0) → (-0.2, 1, 0)",
+        "mount-10: position (0.3, -0.23, 0) → (0.2, 1, 0)",
+        "mount-11: faces 1,2 → 1",
+        "mount-11: position (-0.3, -0.45, 0) → (-0.7, 0, 0)",
+        "mount-12: faces 2,3 → 3",
+        "mount-12: position (0.3, -0.45, 0) → (0.7, 0, 0)",
+        "mount-13: position (-0.3, -0.67, 0) → (0, -1.1, 0)",
+        "name: \"VRA battleship\" → \"VRA battleship variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-destroyer-variant-corrected-r2.drydock.json",
+      "sha256": "3c3e135784d6a279edbaadc870cf76173ceac3fdcdda2da2655b4b677701b478",
+      "bytes": 3036,
+      "key": "VRA/destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:233ca4a5-1f08-4320-a958-0c78258ff6b5",
+      "name": "VRA destroyer variant - corrected",
+      "mountCount": 4,
+      "baselineMountCount": 4,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:destroyer",
+          "after": "local:233ca4a5-1f08-4320-a958-0c78258ff6b5"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA destroyer",
+          "after": "VRA destroyer variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.3
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": -0.75
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.75
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.75
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.3, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (0, -0.75, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.3, 0.75, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0.3, 0.75, 0)",
+        "name: \"VRA destroyer\" → \"VRA destroyer variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-frigate-variant-corrected-r2.drydock.json",
+      "sha256": "11b92b31e74340eb1c3820524f98132bc2c929b0504045199a02022d01f6a306",
+      "bytes": 1765,
+      "key": "VRA/frigate",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:154b52e6-8999-4adf-a203-96c75ddc0f47",
+      "name": "VRA frigate variant - corrected",
+      "mountCount": 1,
+      "baselineMountCount": 1,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:frigate",
+          "after": "local:154b52e6-8999-4adf-a203-96c75ddc0f47"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA frigate",
+          "after": "VRA frigate variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.1, 0)",
+        "name: \"VRA frigate\" → \"VRA frigate variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-heavy-cruiser-variant-corrected-r2.drydock.json",
+      "sha256": "329e23bd51b7d909cbc445b97a4a82043ed0b6eb2f7bfd5319aff48c94d91352",
+      "bytes": 4205,
+      "key": "VRA/heavy-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:2731c06a-55ad-48ee-bea6-e4ba8d9933c5",
+      "name": "VRA heavy cruiser variant - corrected",
+      "mountCount": 8,
+      "baselineMountCount": 8,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:heavy-cruiser",
+          "after": "local:2731c06a-55ad-48ee-bea6-e4ba8d9933c5"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA heavy cruiser",
+          "after": "VRA heavy cruiser variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 5,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": -0.5
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/3/faces/0",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/3/faces/1",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0.5
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 1,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "before": 2,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/4/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": -1
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 1.1
+        },
+        {
+          "path": "/design/mounts/6/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/6/faces/1",
+          "before": 3,
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.6
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/7/faces/0",
+          "before": 5,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/7/faces/1",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": 0.6
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": 0
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-3: faces 5,6 → 1,6",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.5, 0.35, 0)",
+        "mount-4: faces 4,5 → 3,4",
+        "mount-4: position (0.3, 0.43, 0) → (0.5, 0.35, 0)",
+        "mount-5: faces 1,2 → 4,5,6",
+        "mount-5: position (-0.3, 0.21, 0) → (0, -1, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0, 1.1, 0)",
+        "mount-7: faces 2,3 → 1,6",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.6, 0, 0)",
+        "mount-8: faces 5 → 3,4",
+        "mount-8: position (0.3, -0.01, 0) → (0.6, 0, 0)",
+        "name: \"VRA heavy cruiser\" → \"VRA heavy cruiser variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-light-cruiser-variant-corrected-r2.drydock.json",
+      "sha256": "26335af57839496b8ca5c001f41368d615270a7449188000cdffd3151afe481b",
+      "bytes": 3620,
+      "key": "VRA/light-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:b6f39dd0-18e6-44a6-94d1-a57f5169eb97",
+      "name": "VRA light cruiser variant - corrected",
+      "mountCount": 6,
+      "baselineMountCount": 6,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:light-cruiser",
+          "after": "local:b6f39dd0-18e6-44a6-94d1-a57f5169eb97"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA light cruiser",
+          "after": "VRA light cruiser variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -0.45
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/2/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": -0.95
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 5,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/5/faces/0",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/5/faces/1",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.65
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2 → 1,2,6",
+        "mount-1: position (-0.3, 0.65, 0) → (-0.45, 0.35, 0)",
+        "mount-2: faces 2,3 → 2,3,4",
+        "mount-2: position (0.3, 0.65, 0) → (0.45, 0.35, 0)",
+        "mount-3: faces 5,6 → 4,5,6",
+        "mount-3: position (-0.3, 0.43, 0) → (0, -0.95, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0, 1, 0)",
+        "mount-5: faces 5 → 1,6",
+        "mount-5: position (-0.3, 0.21, 0) → (-0.65, 0, 0)",
+        "mount-6: faces 2 → 3,4",
+        "mount-6: position (0.3, 0.21, 0) → (0.65, 0, 0)",
+        "name: \"VRA light cruiser\" → \"VRA light cruiser variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-missile-destroyer-variant-corrected-r3.drydock.json",
+      "sha256": "3e7d2163b6cf98856fe45813d2ef9569dc8c7a6d70bac56cee38cc135ff4672c",
+      "bytes": 2720,
+      "key": "VRA/missile-destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 3,
+      "designId": "local:e4fa31e4-ba45-4d3a-a5d3-20f8e982ad0e",
+      "name": "VRA missile destroyer variant - corrected",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:missile-destroyer",
+          "after": "local:e4fa31e4-ba45-4d3a-a5d3-20f8e982ad0e"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 3
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA missile destroyer",
+          "after": "VRA missile destroyer variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.1
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.8
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.8
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.1, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (-0.25, 0.8, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0.25, 0.8, 0)",
+        "name: \"VRA missile destroyer\" → \"VRA missile destroyer variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Vraygon Topaz Warshard (VTW) stock ships with corrected firing arcs\\vra-monitor-variant-corrected-r2.drydock.json",
+      "sha256": "949ecbeea1ecbc71aeb649d7244a3872b106cdc9acfb6ca5340eb42d4621d420",
+      "bytes": 5435,
+      "key": "VRA/monitor",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:192198d8-2def-4eb2-b82e-5343879f3866",
+      "name": "VRA monitor variant  - corrected",
+      "mountCount": 12,
+      "baselineMountCount": 12,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:vra:monitor",
+          "after": "local:192198d8-2def-4eb2-b82e-5343879f3866"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "VRA monitor",
+          "after": "VRA monitor variant  - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": -0.9
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": -0.3
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0.9
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": -0.3
+        },
+        {
+          "path": "/design/mounts/4/faces/0",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "before": 6,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/4/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/5/faces/0",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/5/faces/1",
+          "before": 5,
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.45
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 0.35
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/8/position/x",
+          "before": -0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/8/position/y",
+          "before": -0.23,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/9/faces/1",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/9/position/x",
+          "before": 0.3,
+          "after": -0.65
+        },
+        {
+          "path": "/design/mounts/9/position/y",
+          "before": -0.23,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/10/faces/0",
+          "before": 2,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/10/faces/1",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/10/position/x",
+          "before": -0.3,
+          "after": 0.65
+        },
+        {
+          "path": "/design/mounts/10/position/y",
+          "before": -0.45,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/11/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/11/position/y",
+          "before": -0.45,
+          "after": -1.1
+        }
+      ],
+      "other": [
+        {
+          "path": "/design/hull/points",
+          "before": 20,
+          "after": 24
+        },
+        {
+          "path": "/design/hull/magazine",
+          "before": 20,
+          "after": 32
+        },
+        {
+          "path": "/design/hull/superstructure",
+          "before": 198,
+          "after": 220
+        }
+      ],
+      "review": [
+        "mount-3: position (-0.3, 0.43, 0) → (-0.9, -0.3, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0.9, -0.3, 0)",
+        "mount-5: faces 5,6 → 4,5,6",
+        "mount-5: position (-0.3, 0.21, 0) → (0, -0.65, 0)",
+        "mount-6: faces 4,5 → 3,4",
+        "mount-6: position (0.3, 0.21, 0) → (0.45, 0.35, 0)",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.45, 0.35, 0)",
+        "mount-8: position (0.3, -0.01, 0) → (-0.25, 0.95, 0)",
+        "mount-9: position (-0.3, -0.23, 0) → (0.25, 0.95, 0)",
+        "mount-10: faces 1,2 → 1",
+        "mount-10: position (0.3, -0.23, 0) → (-0.65, 0, 0)",
+        "mount-11: faces 2,3 → 3",
+        "mount-11: position (-0.3, -0.45, 0) → (0.65, 0, 0)",
+        "mount-12: position (0.3, -0.45, 0) → (0, -1.1, 0)",
+        "Hull points: 20 → 24",
+        "Hull magazine: 20 → 32",
+        "Hull superstructure: 198 → 220",
+        "name: \"VRA monitor\" → \"VRA monitor variant  - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-battleship-variant-corrected-r4.drydock.json",
+      "sha256": "30c230b48990f4b879ca457e60c35d0d9fffcae77641e15446ba4489800b95ca",
+      "bytes": 6854,
+      "key": "ZAN/battleship",
+      "profile": "six-face-residual-power-v1",
+      "revision": 4,
+      "designId": "local:d54e34f8-9020-46fc-88a0-3f2c0847eff8",
+      "name": "ZAN battleship variant - corrected",
+      "mountCount": 15,
+      "baselineMountCount": 15,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:battleship",
+          "after": "local:d54e34f8-9020-46fc-88a0-3f2c0847eff8"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 4
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN battleship",
+          "after": "ZAN battleship variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": -0.4
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.55
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": -0.5
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0.4
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0.55
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.5
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/6/faces/0",
+          "before": 5,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/6/faces/1",
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/6/faces/2",
+          "after": 6
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.75
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/7/faces/0",
+          "before": 5,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/7/faces/1",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/7/faces/2",
+          "after": 4
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": 0.75
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/8/position/x",
+          "before": -0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/8/position/y",
+          "before": -0.23,
+          "after": 0.75
+        },
+        {
+          "path": "/design/mounts/9/position/x",
+          "before": 0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/9/position/y",
+          "before": -0.23,
+          "after": 0.75
+        },
+        {
+          "path": "/design/mounts/10/position/x",
+          "before": -0.3,
+          "after": -0.2
+        },
+        {
+          "path": "/design/mounts/10/position/y",
+          "before": -0.45,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/11/faces/0",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/11/faces/1",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/11/position/x",
+          "before": 0.3,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/11/position/y",
+          "before": -0.45,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/12/faces/1",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/12/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/12/position/y",
+          "before": -0.67,
+          "after": 0.2
+        },
+        {
+          "path": "/design/mounts/13/position/y",
+          "before": -0.67,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/14/position/y",
+          "before": -0.89,
+          "after": 0
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: position (-0.3, 0.65, 0) → (-0.4, 0.55, 0)",
+        "mount-2: position (0.3, 0.65, 0) → (-0.5, 0.25, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.25, 1, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0.25, 1, 0)",
+        "mount-5: position (-0.3, 0.21, 0) → (0.4, 0.55, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0.5, 0.25, 0)",
+        "mount-7: faces 5 → 1,2,6",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.75, 0, 0)",
+        "mount-8: faces 5 → 2,3,4",
+        "mount-8: position (0.3, -0.01, 0) → (0.75, 0, 0)",
+        "mount-9: position (-0.3, -0.23, 0) → (-0.2, 0.75, 0)",
+        "mount-10: position (0.3, -0.23, 0) → (0.25, 0.75, 0)",
+        "mount-11: position (-0.3, -0.45, 0) → (-0.2, 0.45, 0)",
+        "mount-12: faces 1,2 → 2",
+        "mount-12: position (0.3, -0.45, 0) → (0.2, 0.45, 0)",
+        "mount-13: faces 2,3 → 2",
+        "mount-13: position (-0.3, -0.67, 0) → (0, 0.2, 0)",
+        "mount-14: position (0.3, -0.67, 0) → (0.3, 0, 0)",
+        "mount-15: position (-0.3, -0.89, 0) → (-0.3, 0, 0)",
+        "name: \"ZAN battleship\" → \"ZAN battleship variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-corvette-variant-corrected-r2.drydock.json",
+      "sha256": "d8d6e114741f1c8470d67ae91a111196fbe6a0dd99d59c7eae1c66c6416f30c1",
+      "bytes": 1709,
+      "key": "ZAN/corvette",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:15c17445-af9a-4b95-bc40-6ddcc3958b0d",
+      "name": "ZAN corvette variant - corrected",
+      "mountCount": 1,
+      "baselineMountCount": 1,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:corvette",
+          "after": "local:15c17445-af9a-4b95-bc40-6ddcc3958b0d"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN corvette",
+          "after": "ZAN corvette variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/0",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/0/faces/1",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.7
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3 → 2",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.7, 0)",
+        "name: \"ZAN corvette\" → \"ZAN corvette variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-destroyer-variant-corrected-r2.drydock.json",
+      "sha256": "5922651d7e4b415d2cf1d2e3db8b42c9ac5b7b58c2908352b5400152672073f1",
+      "bytes": 2644,
+      "key": "ZAN/destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:6c1a968d-7d0c-4e2e-920b-9284d58b096c",
+      "name": "ZAN destroyer variant - corrected",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:destroyer",
+          "after": "local:6c1a968d-7d0c-4e2e-920b-9284d58b096c"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN destroyer",
+          "after": "ZAN destroyer variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/0",
+          "before": 6,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/0/faces/1",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/0/faces/3",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/0/faces/4",
+          "before": 4
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 3,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/1/faces/1",
+          "before": 4,
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/1/faces/2",
+          "before": 5
+        },
+        {
+          "path": "/design/mounts/1/faces/3",
+          "before": 6
+        },
+        {
+          "path": "/design/mounts/1/faces/4",
+          "before": 1
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.95
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 6,1,2,3,4 → 1,2",
+        "mount-2: faces 3,4,5,6,1 → 2,3",
+        "mount-3: position (-0.3, 0.43, 0) → (0, 0.95, 0)",
+        "name: \"ZAN destroyer\" → \"ZAN destroyer variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-frigate-variant-corrected-r2.drydock.json",
+      "sha256": "a258386effa32c216b9fda3d3e0e9bd4d695d22507dd9d40802b6e846b8de2ec",
+      "bytes": 1709,
+      "key": "ZAN/frigate",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:3832b7d3-4028-470e-be2f-2672bc5cf968",
+      "name": "ZAN frigate variant - corrected",
+      "mountCount": 1,
+      "baselineMountCount": 1,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:frigate",
+          "after": "local:3832b7d3-4028-470e-be2f-2672bc5cf968"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN frigate",
+          "after": "ZAN frigate variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/3",
+          "before": 4
+        },
+        {
+          "path": "/design/mounts/0/faces/4",
+          "before": 5
+        },
+        {
+          "path": "/design/mounts/0/faces/5",
+          "before": 6
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.45
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3,4,5,6 → 1,2,3",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.45, 0)",
+        "name: \"ZAN frigate\" → \"ZAN frigate variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-heavy-cruiser-variant-corrected-r2.drydock.json",
+      "sha256": "57ae15fdfc6aca8019e49a33b87f99cde9ea9abb3282d1965a0435b462279671",
+      "bytes": 4751,
+      "key": "ZAN/heavy-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:b1da7780-127e-4a19-9517-08ab28757401",
+      "name": "ZAN heavy cruiser variant - corrected",
+      "mountCount": 8,
+      "baselineMountCount": 8,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:heavy-cruiser",
+          "after": "local:b1da7780-127e-4a19-9517-08ab28757401"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN heavy cruiser",
+          "after": "ZAN heavy cruiser variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/1/faces/1",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 2,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": -0.95
+        },
+        {
+          "path": "/design/mounts/5/position/x",
+          "before": 0.3,
+          "after": 0.25
+        },
+        {
+          "path": "/design/mounts/5/position/y",
+          "before": 0.21,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/6/position/x",
+          "before": -0.3,
+          "after": -0.25
+        },
+        {
+          "path": "/design/mounts/6/position/y",
+          "before": -0.01,
+          "after": 0.95
+        },
+        {
+          "path": "/design/mounts/7/faces/0",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/7/faces/1",
+          "before": 2
+        },
+        {
+          "path": "/design/mounts/7/faces/2",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/7/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/7/position/y",
+          "before": -0.01,
+          "after": 1.05
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-2: faces 2 → 2,3",
+        "mount-3: faces 2 → 1,2",
+        "mount-3: position (-0.3, 0.43, 0) → (-0.3, 0.45, 0)",
+        "mount-5: position (-0.3, 0.21, 0) → (0, -0.95, 0)",
+        "mount-6: position (0.3, 0.21, 0) → (0.25, 0.95, 0)",
+        "mount-7: position (-0.3, -0.01, 0) → (-0.25, 0.95, 0)",
+        "mount-8: faces 1,2,3 → 2",
+        "mount-8: position (0.3, -0.01, 0) → (0, 1.05, 0)",
+        "name: \"ZAN heavy cruiser\" → \"ZAN heavy cruiser variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-light-cruiser-variant-corrected-r2.drydock.json",
+      "sha256": "ebfb210e5760877d2081f32de1ae81f3d1d8381d60ffcb1bd6217573e93bb0a8",
+      "bytes": 3843,
+      "key": "ZAN/light-cruiser",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:f8f5a943-7f72-425e-a8c5-aa56051454ef",
+      "name": "ZAN light cruiser variant - corrected",
+      "mountCount": 5,
+      "baselineMountCount": 5,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:light-cruiser",
+          "after": "local:f8f5a943-7f72-425e-a8c5-aa56051454ef"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN light cruiser",
+          "after": "ZAN light cruiser variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/2",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/2/faces/0",
+          "before": 5,
+          "after": 1
+        },
+        {
+          "path": "/design/mounts/2/faces/1",
+          "before": 6,
+          "after": 2
+        },
+        {
+          "path": "/design/mounts/2/faces/2",
+          "after": 3
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 0.45
+        },
+        {
+          "path": "/design/mounts/3/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/3/position/y",
+          "before": 0.43,
+          "after": 1.25
+        },
+        {
+          "path": "/design/mounts/4/faces/1",
+          "before": 3
+        },
+        {
+          "path": "/design/mounts/4/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/4/position/y",
+          "before": 0.21,
+          "after": 0.85
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3 → 1,2",
+        "mount-3: faces 5,6 → 1,2,3",
+        "mount-3: position (-0.3, 0.43, 0) → (0, 0.45, 0)",
+        "mount-4: position (0.3, 0.43, 0) → (0, 1.25, 0)",
+        "mount-5: faces 2,3 → 2",
+        "mount-5: position (-0.3, 0.21, 0) → (0, 0.85, 0)",
+        "name: \"ZAN light cruiser\" → \"ZAN light cruiser variant - corrected\""
+      ]
+    },
+    {
+      "source": "C:\\Users\\chorr\\Downloads\\Zandrax Horde Swarmfleet (ZHS) stock ships with corrected firing arcs\\zan-missile-destroyer-variant-corrected-r2.drydock.json",
+      "sha256": "ff49ad563c5a23685b6762e2150ca0be430f3c4dbbfde7eecf4aa46e8d1450c4",
+      "bytes": 3237,
+      "key": "ZAN/missile-destroyer",
+      "profile": "six-face-residual-power-v1",
+      "revision": 2,
+      "designId": "local:4d7fe7d2-be79-4159-b2a3-c6fa94f7dae6",
+      "name": "ZAN missile destroyer variant - corrected",
+      "mountCount": 3,
+      "baselineMountCount": 3,
+      "identity": [
+        {
+          "path": "/design/id",
+          "before": "stock:zan:missile-destroyer",
+          "after": "local:4d7fe7d2-be79-4159-b2a3-c6fa94f7dae6"
+        },
+        {
+          "path": "/design/revision",
+          "before": 1,
+          "after": 2
+        },
+        {
+          "path": "/design/name",
+          "before": "ZAN missile destroyer",
+          "after": "ZAN missile destroyer variant - corrected"
+        }
+      ],
+      "layout": [
+        {
+          "path": "/design/mounts/0/faces/3",
+          "before": 4
+        },
+        {
+          "path": "/design/mounts/0/faces/4",
+          "before": 5
+        },
+        {
+          "path": "/design/mounts/0/faces/5",
+          "before": 6
+        },
+        {
+          "path": "/design/mounts/0/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/0/position/y",
+          "before": 0.65,
+          "after": 0.55
+        },
+        {
+          "path": "/design/mounts/1/faces/0",
+          "before": 2,
+          "after": 5
+        },
+        {
+          "path": "/design/mounts/1/position/x",
+          "before": 0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/1/position/y",
+          "before": 0.65,
+          "after": -1.15
+        },
+        {
+          "path": "/design/mounts/2/position/x",
+          "before": -0.3,
+          "after": 0
+        },
+        {
+          "path": "/design/mounts/2/position/y",
+          "before": 0.43,
+          "after": 1.1
+        }
+      ],
+      "other": [],
+      "review": [
+        "mount-1: faces 1,2,3,4,5,6 → 1,2,3",
+        "mount-1: position (-0.3, 0.65, 0) → (0, 0.55, 0)",
+        "mount-2: faces 2 → 5",
+        "mount-2: position (0.3, 0.65, 0) → (0, -1.15, 0)",
+        "mount-3: position (-0.3, 0.43, 0) → (0, 1.1, 0)",
+        "name: \"ZAN missile destroyer\" → \"ZAN missile destroyer variant - corrected\""
+      ]
+    }
+  ]
+}

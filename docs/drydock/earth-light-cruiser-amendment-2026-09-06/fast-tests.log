@@ -1,0 +1,505 @@
+
+== Strategic campaign ==
+War complete: 48 turns, seed "four-powers-phase-1"
+Contested worlds held: EAR 0, VRA 0, ZAN 0, KRE 0
+Fleets on map: 307; build jobs pending: 1
+  EAR treasury: 13 pts
+  VRA treasury: 14 pts
+  ZAN treasury: 20 pts
+  KRE treasury: 8 pts
+DETERMINISM OK: replay of seed + order log reproduces the war exactly
+SAVE/LOAD OK: mid-war round-trip is lossless and playable
+DETERRENCE OK: no foreign fleets in any home sphere
+
+== Tactical invariants ==
+Tactical invariants passed.
+
+== Captain foundation and measurement controls ==
+ok 1: all real factions/scales are cost-neutral; VRA option A is exactly 52
+ok 2: caller repricing, floors, limits and historical opt-in fail closed
+ok 3: all 29 V1 and V2 hulls expose accurate own weapons, reactors and six shields
+ok 4: hidden worlds serialize identically; no raw battle, pack, objectives or RNG
+ok 5: contacts belong to observer; sensors/damage, scan, loss, destruction and public terrain
+ok 6: real engine scan and evade hooks acquire and revoke an observer lock
+ok 7: empty/partial orders always cover every own living ship with fixed reserve
+ok 8: resource clamp is recorded; structural and hidden-target violations are atomic
+ok 9: strict JSON rejects coercion, getters, cycles, sparse arrays, pollution and byte overflow
+ok 10: resource exhaustion is clamped at real execution, not against stale residual power
+ok 11: null/throw/mutating controllers fault to hold, retaining isolated memory
+ok 12: both observations precede decisions; accepted packets reproduce full state/RNG/events every turn
+ok 13: corrupt packet resimulation fails before changing either side
+ok 14: contact tracking does not alter combat or consume RNG (12 seeded full-state controls)
+Captain foundation: 14 groups passed.
+
+== Captain identity, hull isolation and damaged sensor corrections ==
+ok: duplicate IDs rejected at session entry
+ok: direct packet replay rejects collisions before mutation
+ok: late identity corruption rejected before controller calls
+ok: ship hulls own independent nested data for all 29 legacy and pinned V1/V2 designs
+ok: healthy sensors acquire a real lock and inform automatic gunnery
+ok: disabled sensors cannot reveal a cloaked ship to global gunnery or the preview
+{
+  "source": "C:\\Users\\chorr\\Documents\\triangle_campaign",
+  "mode": "fixed-expectations",
+  "groups": 6,
+  "pass": true,
+  "rows": [
+    {
+      "name": "duplicate IDs rejected at session entry",
+      "rejected": true,
+      "additionalCases": 8
+    },
+    {
+      "name": "direct packet replay rejects collisions before mutation",
+      "rejected": true,
+      "oldFailure": "A movement overwritten by B hold"
+    },
+    {
+      "name": "late identity corruption rejected before controller calls",
+      "rejected": true,
+      "calls": 0
+    },
+    {
+      "name": "ship hulls own independent nested data for all 29 legacy and pinned V1/V2 designs",
+      "cases": 87,
+      "aliased": 0
+    },
+    {
+      "name": "healthy sensors acquire a real lock and inform automatic gunnery",
+      "globalDetected": true,
+      "locked": true,
+      "shots": 8,
+      "scanLogged": true,
+      "previewScans": true
+    },
+    {
+      "name": "disabled sensors cannot reveal a cloaked ship to global gunnery or the preview",
+      "globalDetected": false,
+      "locked": false,
+      "shots": 0,
+      "scanLogged": false,
+      "previewScans": false
+    }
+  ]
+}
+
+== Explicit warp and emergency burst commands ==
+ok: Explicit warp uses the same insertion, heading, cost and reserve-spending rules as automatic warp
+ok: Warp landing: enemy
+ok: Warp landing: moon
+ok: Warp landing: planet
+ok: Warp landing: asteroid
+ok: Warp landing: field
+ok: Warp landing: nebula
+ok: Warp landing: friendly
+ok: Warp target order is respected; a missing target never falls back to another enemy
+ok: Warp refusal: used
+ok: Warp refusal: power
+ok: Warp refusal: range
+ok: Warp refusal: gain
+ok: Warp refusal: near
+ok: Warp refusal: unsupported
+ok: Warp refusal: malformed
+ok: Real shared fleet quota applies to simultaneous ordered jumpers, not one allowance each
+ok: Burst adds chosen free hexes to paid movement, with exactly one stress and penalty debit
+ok: Burst path and zero-cost rule: power
+ok: Burst path and zero-cost rule: moon
+ok: Burst path and zero-cost rule: enemy-suffix
+ok: Burst path and zero-cost rule: paid-then-enemy
+ok: Burst path and zero-cost rule: transit
+ok: Burst path and zero-cost rule: field
+ok: Burst path and zero-cost rule: edge
+ok: Burst is once per turn, resets next turn, and death makes later forecast actions unavailable
+ok: Special actions never fire, including refused and turn-only actions
+ok: Captain validation clamps burst resources and rejects malformed or unsupported specials atomically
+ok: Reviewed special-proof captains produce reproducible packets; default pilot gate stays shut
+{
+  "source": "C:\\Users\\chorr\\Documents\\triangle_campaign\\",
+  "passed": true,
+  "groups": 29,
+  "checks": [
+    "Explicit warp uses the same insertion, heading, cost and reserve-spending rules as automatic warp",
+    "Warp landing: enemy",
+    "Warp landing: moon",
+    "Warp landing: planet",
+    "Warp landing: asteroid",
+    "Warp landing: field",
+    "Warp landing: nebula",
+    "Warp landing: friendly",
+    "Warp target order is respected; a missing target never falls back to another enemy",
+    "Warp refusal: used",
+    "Warp refusal: power",
+    "Warp refusal: range",
+    "Warp refusal: gain",
+    "Warp refusal: near",
+    "Warp refusal: unsupported",
+    "Warp refusal: malformed",
+    "Real shared fleet quota applies to simultaneous ordered jumpers, not one allowance each",
+    "Burst adds chosen free hexes to paid movement, with exactly one stress and penalty debit",
+    "Burst path and zero-cost rule: power",
+    "Burst path and zero-cost rule: moon",
+    "Burst path and zero-cost rule: enemy-suffix",
+    "Burst path and zero-cost rule: paid-then-enemy",
+    "Burst path and zero-cost rule: transit",
+    "Burst path and zero-cost rule: field",
+    "Burst path and zero-cost rule: edge",
+    "Burst is once per turn, resets next turn, and death makes later forecast actions unavailable",
+    "Special actions never fire, including refused and turn-only actions",
+    "Captain validation clamps burst resources and rejects malformed or unsupported specials atomically",
+    "Reviewed special-proof captains produce reproducible packets; default pilot gate stays shut"
+  ]
+}
+
+== Command station contracts ==
+Command station contracts passed: 29 legal hulls; 6012 mount/heading/bearing cases; forecast, damage and RNG isolation.
+
+== Tactical correctness regressions ==
+ok: objective validation shared by editor, scenario builder and direct fleets
+ok: actual endpoint: heading 0, requested
+ok: actual endpoint: heading 0, terrain
+ok: actual endpoint: heading 0, power
+ok: actual endpoint: heading 0, field
+ok: actual endpoint: heading 0, edge
+ok: actual endpoint: heading 0, consecutive
+ok: actual endpoint: heading 0, transit
+ok: actual endpoint: heading 0, friendly
+ok: actual endpoint: heading 0, disabled
+ok: actual endpoint: heading 0, destroyed
+ok: actual endpoint: heading 1, requested
+ok: actual endpoint: heading 1, terrain
+ok: actual endpoint: heading 1, power
+ok: actual endpoint: heading 1, field
+ok: actual endpoint: heading 1, edge
+ok: actual endpoint: heading 1, consecutive
+ok: actual endpoint: heading 1, transit
+ok: actual endpoint: heading 1, friendly
+ok: actual endpoint: heading 1, disabled
+ok: actual endpoint: heading 1, destroyed
+ok: actual endpoint: heading 2, requested
+ok: actual endpoint: heading 2, terrain
+ok: actual endpoint: heading 2, power
+ok: actual endpoint: heading 2, field
+ok: actual endpoint: heading 2, edge
+ok: actual endpoint: heading 2, consecutive
+ok: actual endpoint: heading 2, transit
+ok: actual endpoint: heading 2, friendly
+ok: actual endpoint: heading 2, disabled
+ok: actual endpoint: heading 2, destroyed
+ok: actual endpoint: heading 3, requested
+ok: actual endpoint: heading 3, terrain
+ok: actual endpoint: heading 3, power
+ok: actual endpoint: heading 3, field
+ok: actual endpoint: heading 3, edge
+ok: actual endpoint: heading 3, consecutive
+ok: actual endpoint: heading 3, transit
+ok: actual endpoint: heading 3, friendly
+ok: actual endpoint: heading 3, disabled
+ok: actual endpoint: heading 3, destroyed
+ok: actual endpoint: heading 4, requested
+ok: actual endpoint: heading 4, terrain
+ok: actual endpoint: heading 4, power
+ok: actual endpoint: heading 4, field
+ok: actual endpoint: heading 4, edge
+ok: actual endpoint: heading 4, consecutive
+ok: actual endpoint: heading 4, transit
+ok: actual endpoint: heading 4, friendly
+ok: actual endpoint: heading 4, disabled
+ok: actual endpoint: heading 4, destroyed
+ok: actual endpoint: heading 5, requested
+ok: actual endpoint: heading 5, terrain
+ok: actual endpoint: heading 5, power
+ok: actual endpoint: heading 5, field
+ok: actual endpoint: heading 5, edge
+ok: actual endpoint: heading 5, consecutive
+ok: actual endpoint: heading 5, transit
+ok: actual endpoint: heading 5, friendly
+ok: actual endpoint: heading 5, disabled
+ok: actual endpoint: heading 5, destroyed
+ok: Gunstar charge plant: charging
+ok: Gunstar charge plant: ready
+ok: Gunstar charge plant: cold
+ok: Gunstar charge plant: cooldown
+ok: Gunstar charge plant: reconnected
+ok: Gunstar charge plant: disabled
+ok: strike-craft damage bypass: nebula=false
+ok: strike-craft damage bypass: nebula=true
+ok: detonation damage bypass: nebula=false
+ok: detonation damage bypass: nebula=true
+ok: screened beam events retain intended target and actual victim geometry
+ok: missile impact geometry uses launch origin and pre-refill/pre-movement victim
+ok: fractional Krelath costs refund only discarded endpoint steps
+ok: nonzero spinal range bonus is recorded as actual damage
+ok: viewer faces and legacy replay fallback agree with authoritative faces
+Tactical correctness regressions passed: 76 cases.
+
+== AI movement and warp endpoints ==
+AI endpoint regressions passed: 18 cases, including all headings, transit, warp controls and seeded instrumentation parity.
+
+== AI movement terrain power ==
+AI movement power: 43 passed, 0 failed (all headings, formation/support/travel, orbit, evasion and free bursts).
+
+== Approved tactical geometry ==
+Approved geometry passed: 468 vectors (36 seam / 432 non-seam), 2340 translated cases; rotation/reflection/reversal line checks; 72 engine/forecast fixtures; both recorder rule markers.
+
+== Drydock construction and pinned content ==
+ok: 29 legacy combinations compile to equivalent effective engineering and mounts
+ok: stock normalization and compiler never mutate tuning or loadouts
+ok: all 29 compiled hulls can launch legal trials and finish two engine turns
+ok: two same-class variants, mixed beam types, 9 explicit mounts and disconnected arcs
+ok: designer output, shield limits, movement efficiency and turns reach actual runtime
+ok: custom component power is spent by engine and forecast, not editor-only math
+ok: all 36 heading / face pairs use explicit authored arcs
+ok: component edits, runtime damage and ammo do not change saved designs or old battles
+ok: scenario save and replay pin entire custom content through future catalogue changes
+ok: export/import roundtrip plus removal undo/redo preserve IDs and pinned components
+ok: invalid and hostile packs fail closed at import, editor and simulation boundaries
+ok: stock files still untouched after all construction tests
+Construction checks passed: 12 groups (29 hulls, 36 face cases, 17 hostile/invalid mutations).
+
+== Drydock individual reactors and shield generators ==
+ok: explicit migration preserves all 29 effective stock profiles without modifying V1
+ok: uniform migration preserves complete seeded combat events, logs and frame state on all 29 hulls
+ok: supplied catalogue contains pinned faction-effective reactor and shield templates
+ok: heterogeneous reactors and six real shield generators compile without aggregate fallback
+ok: core damage debits the destroyed reactor, clamps at zero and leaves last-core policy unchanged
+ok: each face spends its actual cost from one pool; round refill respects per-face outages
+ok: zero capacities, fractional capacities and fractional costs are real, not free shields
+ok: live engineering forecast and command readouts use the selected face and actual power
+ok: asymmetric AI reserve uses mean rated face budget and capacity-weighted threat memory
+ok: scenarios, snapshots and both recording paths pin components without shared references
+ok: V1 and V2 library revisions coexist; stock promotion, pinning and undo stay explicit
+ok: invalid engineering is rejected by pack, scenario and runtime boundaries without coercion
+ok: no stock tuning or loadouts changed during component engineering tests
+Component engineering passed: 13 groups, 29 full migration replays, 25 invalid packs.
+
+== Drydock arc labels and physical placement ==
+Drydock presentation passed: 13 named arcs, 6 face names, 1604 symmetric grid checks, independent mirrored placements.
+
+== Drydock stock authoring ==
+Stock authoring passed: explicit promotion, canonical identity, immutable revisions, stock restore, pinned scenarios/runtime/replays, faction isolation, stale/corrupt/quota rejection.
+
+== Chris-approved stock fleet promotion ==
+ok: Every roster entry has exactly one approved return and keeps its canonical number
+ok: All 29 current stock packs equal the latest approved returns, apart from canonical identity and label
+ok: Non-layout changes are limited to the monitor ruling and the September 6 legacy-table amendments
+ok: Headless ships, live battle views and both recorder paths retain all exact installations
+ok: Old pinned stock packs remain exact under new defaults, including the original monitor
+ok: Browser-local stock takes precedence regardless of supplied revision; restore is append-only
+ok: Explicit stock mount errors fail closed; empty batteries and disconnected arcs remain legal
+ok: Construction, recording and validation did not mutate any supplied or historical content
+Stock promotion passed: 8 groups, all 29 returns, 29 default recordings and 29 exact historical pinned comparisons.
+
+== Vraygon approved stock amendments ==
+ok: Only the three approved ships advance revision; all catalogue identities and other 26 packs stay exact
+ok: Heavy cruiser has a dead-astern fifth beam; destroyer keeps exactly one centered tube and six rounds
+ok: Heavy-cruiser fifth beam forecast and actual fire agree on all six bearings under all six headings
+ok: A real destroyer turn launches and spends one round, with the old two-tube fit as positive control
+ok: Trimming only unused missile entries preserves both explicit and historical cyclic mount output
+ok: Both old r2 stock revisions stay pinned through library adoption, restoration and recorded battles
+ok: Verification does not mutate supplied tables or either generation of returned content
+Stock amendments: 7 groups passed; 36 rotated firing trials, one-/two-tube controls and two pinned-history comparisons.
+
+== Earth light-cruiser beam arc amendment ==
+ok: The returned content changes only beam 1: removes face 3, retains faces 1, 2, 6 and exact placement
+ok: All 28 other stock packs, including the Vraygon amendments, stay byte-exact
+ok: Forecast and real beam fire match the three approved faces in all 36 heading/bearing combinations
+ok: The removed forward-starboard face really fired under r2, for all six ship headings
+ok: Pinned r2 designs and recordings survive; adopting r3 is append-only and never automatic
+ok: Validation, forecasts and execution never mutate authored content or stock tables
+Earth light-cruiser amendment: 6 groups passed; 36 rotated firing cases, six historical positive controls, 28 preserved stock packs.
+
+== Drydock variant rename, delete and restore ==
+ok: rename saves a new immutable revision, trims the name, and keeps stable design identity
+ok: blank, excessive, stale and stock renames cannot alter stored data
+ok: deletion atomically archives all revisions and an unsaved V2 draft, not other designs
+ok: new saves preserve the archive, while stale or refreshed deleted identities cannot resurrect
+ok: restoration restores original saved revisions and returns the unsaved draft separately
+ok: never-saved variants can be deleted and recovered without inventing a saved revision
+ok: deletion and rename do not alter pinned scenarios, runtime ships or recordings
+ok: quota failures leave both archive and active library unchanged
+ok: corrupt, conflicting and unsupported archive envelopes fail closed
+ok: stock data unchanged
+Variant library passed: 10 groups.
+
+== Drydock CSV interchange and numerical references ==
+ok: all 29 stock designs and their V2 migrations roundtrip completely and compile identically
+ok: quoted commas/newlines/Unicode/quotes/apostrophes and noncontiguous arcs remain exact
+ok: sorting rows does not change mount, face, range-band or component order
+ok: sorted CSV and reordered JSON reimport keep saved identities and produce no spurious stock changes
+ok: real edits and array ordering still fork; comparator preserves types, missing fields and literal strings
+ok: individual CSV edits affect the authoritative pinned fields and nothing else
+ok: malformed quoting, duplicated/missing rows, wrong shapes and unsafe paths fail closed
+ok: typed cells reject formulas, missing text protection and invalid combat data
+ok: stock numbers are fixed, do not depend on roster order, and require no storage write
+ok: design keys retain numbers across revision/name changes; distinct forks allocate monotonically
+ok: import references preserve free numbers and disclose occupied/reserved/local remapping
+ok: stale, corrupt, duplicate and quota-failing registries are never overwritten
+ok: interchange and numerical registry leave tuning, stock and the underlying pack schema unchanged
+Drydock CSV and numerical references passed: 13 groups.
+
+== Drydock weapon specifications and power relationships ==
+ok: All 29 hulls in both profiles use pinned definitions and exact compiler ranges without mutation
+ok: Missile ammunition is one shared hull magazine, not a magazine for each launcher
+ok: Custom bands, collapsed scaled ranges, zero charging draw and catalogue preview remain explicit
+ok: Unequal generators use independent caps and costs against the same remaining pool
+ok: Dossiers escape names and expose spinal timing without claiming a guaranteed fire turn
+5 specification groups passed.
+
+== Terminal replay frames ==
+Terminal recording passed: R2-style turn-4 impact kill, no extra engine action/RNG/state changes, repeated-step/idempotency, cleanup, 12 headless final-state comparisons.
+
+== Replay integrity, side identity and partial records ==
+ok: Bundled archive gaps are visible without changing any recording
+ok: Explicit side, opening side, engine ID and distinct faction are ordered fallbacks
+ok: Draws, wins and in-progress exports are distinguished
+ok: Missing middle frames and contradictory final counts are also detected
+ok: New headless same-faction frames carry side even for non-engine IDs
+ok: Recording remains combat- and PRNG-neutral; 32 fresh trials have no coverage gaps
+Replay status: 6 groups passed.
+
+== Terrain rules ==
+ok: field between ships blocks fire through
+ok: ship inside a field: fire blocked in and out
+ok: clear space: fire happens
+ok: large asteroid blocks fire through
+ok: large asteroid refuses placement
+ok: asteroid field accepts placement
+round 1: clear 8 hexes for 8.0 power | field 5 hexes for 8.0 power
+ok: asteroid field slows travel
+ok: deterministic with all terrain types
+ok: ship in a nebula cannot be engaged from 6 hexes (visibility 3)
+ok: ship in a nebula can be engaged from 2 hexes (fire not blocked)
+ok: fire from outside cannot cross a nebula (decoheres after the first hex)
+ok: from outside, a target in the first fog hex can be engaged
+ok: from outside, a target in the second fog hex cannot be engaged (the fogged ship may still fire out within visibility)
+internal damage on the Earth frigate in one turn: in nebula 14.0 vs clear 10.0
+ok: shields are useless inside a nebula (more internal damage)
+ok: deterministic with nebula tiles
+
+== Arena DOM and replay smoke ==
+Arena DOM smoke passed: {
+  laser: 2768,
+  blaster: 570,
+  neutronic: 6444,
+  plasma: 3138,
+  intercept: 22194,
+  evade: 4,
+  shieldFlash: 712,
+  warp: 7,
+  trail: 5532,
+  spinalBolt: 48,
+  spinalGlow: 802,
+  strikeImpact: 248,
+  grid: 2260,
+  boundary: 2260,
+  moon: 0,
+  planet: 0
+}
+Render tallies: replay.json {"icon":4518,"sprite":0,"missing":0,"craft":1488,"stacked":161,"spinalCharge":121,"spinalHold":0,"spinalVent":60,"spinalBolt":3,"spinalHit":2,"spinalMiss":0,"strikeRun":104,"strikeImpact":36,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 ear-kre-24.json {"icon":10998,"sprite":0,"missing":0,"craft":3405,"stacked":461,"spinalCharge":301,"spinalHold":0,"spinalVent":180,"spinalBolt":9,"spinalHit":0,"spinalMiss":6,"strikeRun":224,"strikeImpact":80,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 vra-zan-32.json {"icon":4389,"sprite":0,"missing":0,"craft":0,"stacked":397,"spinalCharge":0,"spinalHold":0,"spinalVent":0,"spinalBolt":0,"spinalHit":0,"spinalMiss":0,"strikeRun":0,"strikeImpact":0,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 ear-kre-32.json {"icon":4572,"sprite":0,"missing":0,"craft":2248,"stacked":142,"spinalCharge":180,"spinalHold":0,"spinalVent":120,"spinalBolt":6,"spinalHit":2,"spinalMiss":2,"strikeRun":193,"strikeImpact":60,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 coverage.json {"icon":9144,"sprite":0,"missing":0,"craft":2180,"stacked":278,"spinalCharge":180,"spinalHold":20,"spinalVent":73,"spinalBolt":6,"spinalHit":2,"spinalMiss":2,"strikeRun":218,"strikeImpact":72,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+
+All fast regression tests passed.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/monitor; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/corvette; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/strike-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/strike-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/strike-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.

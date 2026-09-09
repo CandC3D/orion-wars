@@ -1,0 +1,85 @@
+{
+  "at": "2026-09-06T08:44:50.110Z",
+  "source": {
+    "file": "C:/Users/chorr/Downloads/ear-light-cruiser-corrected-arcs-r3.drydock.json",
+    "sha256": "61b893022ef0b2b8a5b17835809779aa21a3180601cc0e287e90608f00f9b5c4",
+    "bytes": 3286
+  },
+  "change": {
+    "ship": "EAR/light-cruiser",
+    "stockRevision": {
+      "before": 2,
+      "after": 3
+    },
+    "mount": 1,
+    "faces": {
+      "before": [
+        1,
+        2,
+        3,
+        6
+      ],
+      "after": [
+        1,
+        2,
+        6
+      ]
+    },
+    "otherStockPacksPreserved": 28
+  },
+  "fastSuite": {
+    "exit": 0,
+    "log": "fast-tests.log",
+    "sha256": "a1dcf5337c104e0d71e9a79eed55b4079e7dbded6f40ad4a7d924b850135efba"
+  },
+  "focused": {
+    "groups": 6,
+    "headingBearingCases": 36,
+    "historicalPositiveControls": 6,
+    "pinnedHistoryPreserved": true
+  },
+  "frozenReview": {
+    "source": "C:\\Users\\chorr\\Documents\\triangle_campaign\\.tmp-fable-special-commands-20260906-BCO4L4\\source",
+    "inventorySha256": "83aca6448aeb78fe4628f40a0ed83746a7d90f75990d41c9b6a98a64a03e99a8",
+    "files": 211,
+    "mismatches": 0,
+    "fastLogUnchanged": true,
+    "liveChangedPaths": [
+      "data/loadouts.json",
+      "test/fixtures/stock-approvals.js",
+      "test/run-tests.js",
+      "test/stock-amendments.js"
+    ]
+  },
+  "currentSource": [
+    {
+      "path": "data/loadouts.json",
+      "sha256": "62b5dd79a47b7d8f2f0e36dd6b8232abf687a268ab436c1dcecfe39b7705f1ed"
+    },
+    {
+      "path": "test/fixtures/stock-approvals.js",
+      "sha256": "19287d41c29ce5ccdd7ea08826a6e3030b496b9fc5b552a46f6c3fcc3cbe4e79"
+    },
+    {
+      "path": "test/run-tests.js",
+      "sha256": "bc83a5fbadd4dedcffee4004fa7a683829ebabf3af3b87f93e92007cdd185e8f"
+    },
+    {
+      "path": "test/stock-amendments.js",
+      "sha256": "927802e145f721ef2e4b331bb49a5ca3ffe8d983642a39fdd98cfb3d4dd804f9"
+    },
+    {
+      "path": "test/stock-earth-light-cruiser.mjs",
+      "sha256": "eb537d2786fe924ea1f6e9f16d59a3b9f12c7b50caea9e7f4511a8c8562dc04e"
+    },
+    {
+      "path": "docs/drydock/verify-stock-promotion.mjs",
+      "sha256": "7ec5e6ec92e6d96a56899a53a3ae3f831ff2c7ceb11b75fdf416cb1a9b3b395e"
+    },
+    {
+      "path": "docs/drydock/earth-light-cruiser-amendment-2026-09-06/approved-designs.json",
+      "sha256": "1621d6da61fe768244f9f1ae7370b456f64a9372dcbab6a5635881c7bfc2ead4"
+    }
+  ],
+  "notes": "Independent acceptance not claimed. No balance sweep or browser-local changes. Browser evidence is separate."
+}
