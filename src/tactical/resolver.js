@@ -903,7 +903,7 @@ function fireSpinal(ship, enemies, friends, tuning, rng, stats, log, onShot, for
   const roll = rng.int(tuning.toHit.die) + 1;
   const aim = roll - nebulaPenalty(ship, target, tuning) + (band.toHitMod ?? 0) + (w.toHitBonus ?? 0)
     + commandBonus(ship, friends, 'commandToHit') + tuning.toHit.crewRatingDefault
-    - evasion - (ship.toHitPenalty ?? 0) + size;
+    - evasion - hullProfileMod(target, tuning) - (ship.toHitPenalty ?? 0) + size;
   const hit = aim >= tuning.toHit.target;
   const geometry = shotGeometry(ship.pos, target, ship.facing);
   let impact;
@@ -1222,6 +1222,23 @@ function scuttleSquadrons(ship, log) {
 // heavies, heavies take roughly the same shooting at lights. Values are d10
 // pips; fractional pips resolve probabilistically through the seeded PRNG, so
 // -0.5 is a true -5%. Beams only - missiles carry no accuracy roll.
+// TARGET PROFILE (ruling 2026-09-08): a small hull is a poor mark for any gun,
+// not merely for a keel gun. The spinal path has always graded its aim by the
+// size of what it is shooting at - "a cruiser is a poor mark and a picket is a
+// joke" - while every turreted beam treated a stationary picket and a stationary
+// battleship as equally easy. Evasion depended only on hexes moved, and
+// classInteraction has a single threshold at 16 points, so between a frigate and
+// a destroyer nothing distinguished them at all.
+//
+// Units are d10 pips, subtracted from the attacker's roll: 1 = -10% to hit.
+// Off by default until adopted, because it changes every battle outcome.
+// Measured motive and costs: docs/frigate-role-2026-09-08.md.
+function hullProfileMod(target, tuning) {
+  const cfg = tuning.toHit.hullProfile;
+  if (!cfg || !cfg.enabled) return 0;
+  return cfg.byClass?.[target.className] ?? 0;
+}
+
 function classInteractionMod(shooter, target, tuning, rng) {
   const cfg = tuning.toHit.classInteraction;
   if (!cfg || !cfg.enabled) return 0;
@@ -1310,7 +1327,7 @@ function fire(ship, enemies, friends, tuning, rng, inFlight, stats, log, onShot,
       }
       const evasion = Math.floor(target.movedThisTurn / tuning.toHit.evasionPerHexesMoved);
       const roll = rng.int(tuning.toHit.die) + 1;
-      const hit = roll - nebulaPenalty(ship, target, tuning) + (band.toHitMod ?? 0) + cmd + classInteractionMod(ship, target, tuning, rng) + tuning.toHit.crewRatingDefault - evasion - (ship.toHitPenalty ?? 0) >= tuning.toHit.target;
+      const hit = roll - nebulaPenalty(ship, target, tuning) + (band.toHitMod ?? 0) + cmd + classInteractionMod(ship, target, tuning, rng) + tuning.toHit.crewRatingDefault - evasion - hullProfileMod(target, tuning) - (ship.toHitPenalty ?? 0) >= tuning.toHit.target;
       const geometry = shotGeometry(ship.pos, target, ship.facing);
       let impact;
       if (hit) {

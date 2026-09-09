@@ -135,7 +135,8 @@
       "beamMounts": 1,
       "missileMounts": 0,
       "magazine": 0,
-      "superstructure": 8,
+      "superstructure": 9.2,
+      "_structureNote": "Raised from 8 on 2026-09-08 (Chris: \"try the frigate only at 1.15\"). A class-level x1.15 applied BEFORE the faction modifier and its rounding, so the stock hulls become EAR 9, VRA 17, ZAN 11, KRE 9. Deliberately not the integer 9, which would round Vraygon to 16 and lose the measured value. Worth 14.4pp -> 12.4pp on the four-power ladder worst-power gap on its own. It does NOT make frigates survive - share destroyed moves 89% -> 88% and mean turn of death 4.09 -> 4.17; survivability is what damage.crippling and withdrawal are for. See docs/frigate-role-2026-09-08.md.",
       "maxShieldPower": 4,
       "_capNote": "Cut from 6, in step with the destroyer. Absorption is capped per facing per ROUND, so what penetrates is (damage - cap) and penetration is super-linear in damage per shot. At a cap of 6 the light hulls sat exactly between the laser cannon's 7 damage and the heavy blaster's 9, so a two-point difference in the gun bought a THREE-fold difference in damage through the shield, and Earth - which fires the lowest-damage beam in the game - could barely scratch anything its own size. Load-bearing: with both light-hull caps back at 6, Zandrax fall to 29% at 32 points. Kept level with the destroyer's cap; cutting the frigate's further leaves frigates unable to beat destroyers in the concentration-of-force table.",
       "shieldPointRatio": 0.8,
@@ -771,6 +772,17 @@
       "heavyThresholdPoints": 16,
       "heavyVsLightEvadeChance": 0.05,
       "_note": "The missile half of the class-interaction ruling: a missile launched by a heavy hull (points >= threshold) at a light hull is evaded outright with this probability, before interception is rolled. Capital-grade missiles cannot track small ships, just as capital guns cannot. One-directional by design - light-launched missiles at big slow targets need no help. Adjustable for balance; beam analogue is toHit.classInteraction."
+    },
+    "hullProfile": {
+      "enabled": false,
+      "byClass": {
+        "corvette": 1,
+        "frigate": 1
+      },
+      "_note": "RULING 2026-09-08 (Chris): a small hull is a poor mark for any gun, and that is part of why a power builds them. Units are d10 pips subtracted from the attacker's beam roll, so 1 = -10% to hit. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time, and break-even sat at 9.3 hulls, so the frigate was a trap purchase in any scenario permitting no heavier ship. The spinal path already grades aim by target size - \"a cruiser is a poor mark and a picket is a joke\" - and this extends that to turreted beams. Off by default until adopted, because it changes every battle outcome in the suite.",
+      "_corvetteNote": "The corvette carries the same pip as the frigate, not a larger one. Zandrax field four corvettes at 4 points where the other three powers field two frigates, so a frigate-only rule dropped Zandrax from 46% to 25% in that cell; a corvette pip of 2 overcorrected them to 67% across the ladder. Equal pips leave the 4-point spread at 23pp against a baseline 29pp.",
+      "_pairingNote": "Do not combine with a frigate pointDefence rise to 2. Each alone lands the ladder worst-power gap at 12.8pp against a baseline 14.4pp; together the frigate becomes the BETTER buy than the destroyer at equal points (66% from 23%), which inverts the trap rather than removing it. Point defence is held in reserve as the escort lever - it is the stronger one for capital survival (72% against 60%) and remains available if the escort role plays thin.",
+      "_screenWarning": "Raising the frigate SCREEN rating is the obvious move and it is wrong: 1 -> 2 measured WORSE for the fleet it escorts (62.0% -> 59.6%, capital survival 60% -> 58%). Screening more often just feeds escorts into fire meant for the capital, and dead escorts screen nothing."
     }
   },
   "screening": {

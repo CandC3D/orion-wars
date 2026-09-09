@@ -28,6 +28,7 @@ const tests = [
   ["AI movement and warp endpoints", "ai-endpoints.js"],
   ["AI movement terrain power", "ai-movement-power.js"],
   ["Approved tactical geometry", "tactical-geometry.js"],
+  ["Frigate target profile and structure amendment", "frigate-profile.mjs"],
   ["Drydock construction and pinned content", "construction.js"],
   ["Drydock individual reactors and shield generators", "construction-systems.js"],
   ["Drydock arc labels and physical placement", "drydock-presentation.js"],
