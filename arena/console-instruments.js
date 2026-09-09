@@ -9,8 +9,24 @@ const BASE_TRACK = "#43535d", ERROR = "#ffafa2", INK = "#e9f4f6", MUTED = "#b3c4
 const VIEW = 300, CX = 150, CY = 150;
 const RING = 118, RING_WIDTH = 12, GAP_DEG = 6;
 const NUMBER_RADIUS = 136;      // clear of the ring (outer edge 124) and of the viewBox
-const MOUNT_SCALE = 42;         // hull-relative +/-1.3 -> +/-55px, inside the 120px hull art
-const MOUNT_LIMIT = 96;         // hard clamp: lamp hit circle (r 14) stays clear of the ring
+// HULL PLAN. The glyph and the mount lamps share one frame, so a turret
+// authored at a ship-local position lands on the same part of the hull in
+// the console as it does in Drydock. Everything below is derived from that
+// frame rather than hard-coded, which is why the art can grow without the
+// turrets sliding off it.
+//
+// The traced class glyphs are generated to a common frame: the ink is 96.3%
+// of the 100-unit viewBox tall and never more than 59% wide. Height is
+// therefore always the limiting dimension under xMidYMid meet, and a box of
+// side S puts INK_FRACTION * S of ship on screen.
+const INK_FRACTION = 0.963;
+// A hull spans about +/-1.3 ship-local units bow to stern - the same extent
+// Drydock's plan uses - so that is what the ink height represents.
+const HULL_EXTENT = 1.3;
+// Furniture inside the ring the art must not sit under: the BOW chevron and
+// its label at the top, and the keel-gun charge bar at the bottom when the
+// hull carries one.
+const PLAN_TOP = 74, PLAN_BOTTOM_KEEL = 202, PLAN_BOTTOM_CLEAR = 236, PLAN_MAX = 176;
 const HIT_R = 14, LAMP_R = 9;
 const num = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 const round2 = value => Math.round(num(value) * 100) / 100;
@@ -88,10 +104,38 @@ function faceGroup(face, { nebula, accent }) {
     + `</g>`;
 }
 
-export function lampLayout(mounts) {
+// The frame the hull art and its turrets share. `unit` is pixels per
+// ship-local unit, so a mount at x = 0.5 sits half a unit to starboard of the
+// keel line on the drawn hull, whatever size the art happens to be.
+export function hullPlan(ship) {
+  const bottom = ship?.spinal ? PLAN_BOTTOM_KEEL : PLAN_BOTTOM_CLEAR;
+  const size = Math.min(PLAN_MAX, (bottom - PLAN_TOP) / INK_FRACTION);
+  const cy = round2((PLAN_TOP + bottom) / 2);
+  return { size: round2(size), cx: CX, cy,
+    unit: round2(size * INK_FRACTION / 2 / HULL_EXTENT),
+    // A lamp is drawn at r 9 with a hit circle of 14; keep the whole hit
+    // circle inside the ring, measured from the RING centre, not the plan.
+    limit: RING - RING_WIDTH / 2 - HIT_R };
+}
+
+export function lampLayout(mounts, plan = hullPlan(null)) {
+  // Anchors are plan-relative; the clamp is ring-relative, because the plan
+  // centre shifts down when no keel bar takes the space beneath the hull.
+  const drop = plan.cy - CY;
+  // Pulling a lamp back towards the hull centre is not a plain scale of its
+  // distance from the RING centre, because the plan sits `drop` px below it and
+  // that offset does not scale. Solve for the factor k that puts the lamp
+  // exactly on the limit circle: |(kx, ky + drop)| = limit.
+  const pullback=(x,y)=>{
+    const a=x*x+y*y;
+    if(!a) return 1;
+    const disc=y*y*drop*drop-a*(drop*drop-plan.limit*plan.limit);
+    if(disc<0) return 0;
+    return Math.max(0,Math.min(1,(-y*drop+Math.sqrt(disc))/a));
+  };
   const anchors=mounts.map(m=>{
-    let x=num(m.position?.x)*MOUNT_SCALE,y=-num(m.position?.y)*MOUNT_SCALE;
-    const k=Math.min(1,MOUNT_LIMIT/(Math.hypot(x,y)||1));
+    const x=num(m.position?.x)*plan.unit,y=-num(m.position?.y)*plan.unit;
+    const k=pullback(x,y);
     return {x:x*k,y:y*k};
   });
   const crowded=anchors.some((a,i)=>anchors.some((b,j)=>j<i&&Math.hypot(a.x-b.x,a.y-b.y)<32));
@@ -101,8 +145,8 @@ export function lampLayout(mounts) {
   let step=32,slots=[];
   do {
     slots=[];
-    for(let x=-MOUNT_LIMIT;x<=MOUNT_LIMIT;x+=step)for(let y=-MOUNT_LIMIT;y<=MOUNT_LIMIT;y+=step)
-      if(Math.hypot(x,y)<=MOUNT_LIMIT)slots.push({x,y});
+    for(let x=-plan.limit;x<=plan.limit;x+=step)for(let y=-plan.limit;y<=plan.limit;y+=step)
+      if(Math.hypot(x,y+drop)<=plan.limit)slots.push({x,y});
     if(slots.length>=mounts.length)break;
     step-=2;
   } while(step>=2);
@@ -112,11 +156,11 @@ export function lampLayout(mounts) {
   });
 }
 
-function lampGroup(mount, index, { selected, ship, placement }) {
+function lampGroup(mount, index, { selected, ship, placement, plan }) {
   const { state, label } = mountState(mount, ship);
   const colour = WEAPON_COLOURS[mount.kind] || WEAPON_COLOURS.beam;
   const {x,y}=placement;
-  const cx = round2(CX + x), cy = round2(CY + y);
+  const cx = round2(plan.cx + x), cy = round2(plan.cy + y);
   const arcs = Array.isArray(mount.arc) ? mount.arc.join(",") : "";
   const title = `${index + 1} · ${mount.displayName || mount.type || mount.id} · faces ${arcs} · ${format(num(mount.maxRange))} hex · ${label}`;
   const glow = state === "ready" ? `<circle cx="${cx}" cy="${cy}" r="12.5" fill="none" stroke="${colour}" stroke-width="2.5" opacity="0.35"/>` : "";
@@ -136,11 +180,12 @@ export function schematicMarkup(ship, { size = 300, selectedMount = null, iconHr
   const accent = nebula ? "#5c6a72" : "var(--accent, #7bc6ec)";
   const faces = shieldFaces(ship || {});
   const mounts = Array.isArray(ship?.mounts) ? ship.mounts : [];
-  const placements=lampLayout(mounts);
-  const leaders=placements.filter(p=>Math.hypot(p.x-p.anchor.x,p.y-p.anchor.y)>1).map(p=>`<path pointer-events="none" d="M${CX+p.anchor.x},${CY+p.anchor.y}L${CX+p.x},${CY+p.y}" stroke="${MUTED}" opacity=".45" fill="none"/>`).join('');
+  const plan = hullPlan(ship);
+  const placements=lampLayout(mounts, plan);
+  const leaders=placements.filter(p=>Math.hypot(p.x-p.anchor.x,p.y-p.anchor.y)>1).map(p=>`<path pointer-events="none" d="M${round2(plan.cx+p.anchor.x)},${round2(plan.cy+p.anchor.y)}L${round2(plan.cx+p.x)},${round2(plan.cy+p.y)}" stroke="${MUTED}" opacity=".45" fill="none"/>`).join('');
   const hull = iconHref
-    ? `<image href="${escapeHTML(iconHref)}" x="90" y="90" width="120" height="120" preserveAspectRatio="xMidYMid meet"/>`
-    : `<path class="hull-outline" d="${[0, 1, 2, 3, 4, 5].map(i => { const p = polar(48, -90 + i * 60); return `${i ? "L" : "M"} ${p.x} ${p.y}`; }).join(" ")} Z" fill="none" stroke="${accent}" stroke-width="3"/>`;
+    ? `<image href="${escapeHTML(iconHref)}" x="${round2(plan.cx - plan.size / 2)}" y="${round2(plan.cy - plan.size / 2)}" width="${plan.size}" height="${plan.size}" preserveAspectRatio="xMidYMid meet"/>`
+    : `<path class="hull-outline" d="${[0, 1, 2, 3, 4, 5].map(i => { const a = (-90 + i * 60) * Math.PI / 180, r = plan.size * 0.4; return `${i ? "L" : "M"} ${round2(plan.cx + Math.cos(a) * r)} ${round2(plan.cy + Math.sin(a) * r)}`; }).join(" ")} Z" fill="none" stroke="${accent}" stroke-width="3"/>`;
   const keel = spinalReading(ship);
   const keelBar = keel ? `<g class="keel-bank" data-keel="${keel.state}">`
     + `<rect x="90" y="206" width="120" height="7" fill="#1a2731" stroke="${BASE_TRACK}" stroke-width="1"/>`
@@ -151,7 +196,7 @@ export function schematicMarkup(ship, { size = 300, selectedMount = null, iconHr
     + hull
     + `<g class="bow-marker"><path d="M 141 53 L 150 44 L 159 53" fill="none" stroke="${MUTED}" stroke-width="2"/>`
     + `<text x="150" y="68" text-anchor="middle" font-size="13" letter-spacing="2" fill="${MUTED}">BOW</text></g>`
-    + leaders + mounts.map((mount, i) => lampGroup(mount, i, { selected: selectedMount != null && mount.id === selectedMount, ship, placement:placements[i] })).join("")
+    + leaders + mounts.map((mount, i) => lampGroup(mount, i, { selected: selectedMount != null && mount.id === selectedMount, ship, placement:placements[i], plan })).join("")
     + keelBar
     + `</svg>`;
 }

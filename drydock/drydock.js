@@ -15,6 +15,21 @@ import { renderSpecificationPanel, weaponDossier } from './specification-panel.j
 const $=s=>document.querySelector(s), svg=$('#schematic');
 let tuning,loadouts,doc,library=[],trash=[],libraryRaw=null,selected=null,tab='hull',pendingImport=null,weaponDraft=null,drag=null,libraryWritable=true,stockUnlocked=false,pendingStock=null,pendingVariant=null;
 let importReview=null;
+// PLAN ART. The placement grid exists so a turret can be put where it
+// actually sits on the ship, which was hard while the plan drew one generic
+// hull for Earth and another for everyone else. Where a traced class glyph
+// exists it is drawn instead, at the same ship-local scale the console uses,
+// so a mount dragged onto the port nacelle here lands on the port nacelle in
+// the console's paper doll. Classes still on placeholder art keep the
+// generic outline rather than a misleading silhouette.
+let planArt=null;
+// The traced glyphs put 96.3% of their viewBox to ink and a hull spans about
+// +/-1.3 ship-local units, which is 95px per unit on this plan.
+const PLAN_INK=0.963, PLAN_EXTENT=1.3, PLAN_UNIT=95;
+const planArtHref=design=>{
+  const entry=planArt?.[`${design.faction}/${design.className}`];
+  return entry&&entry.framed?`../assets/icons/${entry.file}`:null;
+};
 const pack=()=>doc.pack,design=()=>pack().design,mount=()=>design().mounts.find(m=>m.id===selected),stock=()=>isStock(pack()),locked=()=>stock()&&!stockUnlocked;
 const official=(f,c)=>currentStock(f,c,tuning,loadouts,library);
 const systemsPanel=createSystemsPanel({getPack:pack,getLibrary:()=>library,change,locked,getTuning:()=>tuning,getLoadouts:()=>loadouts});
@@ -155,7 +170,12 @@ function draw() {
     const c=pack().systems.find(c=>weaponKey(c)===weaponKey(installation.component));
     return `<div><span>${installation.face} / ${esc(FACE_NAMES[installation.face])}</span><strong data-shield-rating="${installation.face}">${format(c.spec.capacity)} CAP / ${format(c.spec.powerPerDamage)} P</strong></div>`;
   }).join(''):'';
-  if(d.faction==='EAR')markup+='<path d="M282 255 L318 255 L322 367 L278 367 Z M282 303 L220 330 L214 414 L233 414 L243 344 L280 332 M318 303 L380 330 L386 414 L367 414 L357 344 L320 332" fill="var(--panel)" stroke="var(--accent)"/><ellipse cx="300" cy="218" rx="90" ry="58" fill="var(--panel)" stroke="var(--accent)" stroke-width="2"/><ellipse cx="300" cy="218" rx="65" ry="39" fill="none" stroke="var(--edge)"/><path d="M300 168V269 M223 218H377" stroke="var(--edge)"/>';
+  const hullArt=planArtHref(d);
+  if(hullArt){
+    const box=2*PLAN_EXTENT*PLAN_UNIT/PLAN_INK;
+    markup+=`<image href="${esc(hullArt)}" x="${(300-box/2).toFixed(2)}" y="${(285-box/2).toFixed(2)}" width="${box.toFixed(2)}" height="${box.toFixed(2)}" preserveAspectRatio="xMidYMid meet" opacity=".9" pointer-events="none"/>`;
+  }
+  else if(d.faction==='EAR')markup+='<path d="M282 255 L318 255 L322 367 L278 367 Z M282 303 L220 330 L214 414 L233 414 L243 344 L280 332 M318 303 L380 330 L386 414 L367 414 L357 344 L320 332" fill="var(--panel)" stroke="var(--accent)"/><ellipse cx="300" cy="218" rx="90" ry="58" fill="var(--panel)" stroke="var(--accent)" stroke-width="2"/><ellipse cx="300" cy="218" rx="65" ry="39" fill="none" stroke="var(--edge)"/><path d="M300 168V269 M223 218H377" stroke="var(--edge)"/>';
   else markup+='<path d="M300 154 L328 231 L348 269 L416 344 L395 387 L334 333 L320 395 L280 395 L266 333 L205 387 L184 344 L252 269 L272 231 Z" fill="var(--panel)" stroke="var(--accent)" stroke-width="2"/><path d="M300 170V390 M255 275L345 275 M221 342L278 306 M379 342L322 306" fill="none" stroke="var(--edge)"/>';
   const spacing=placement().step*95;
   markup+=`<defs><pattern id="mount-grid" x="300" y="285" width="${spacing}" height="${spacing}" patternUnits="userSpaceOnUse"><path d="M${spacing} 0H0V${spacing}" fill="none" stroke="var(--accent)" stroke-opacity=".22" stroke-width=".45"/></pattern><pattern id="mount-major-grid" x="300" y="285" width="47.5" height="47.5" patternUnits="userSpaceOnUse"><path d="M47.5 0H0V47.5" fill="none" stroke="var(--accent)" stroke-opacity=".4" stroke-width=".6"/></pattern></defs><rect x="110" y="95" width="380" height="380" fill="url(#mount-grid)" pointer-events="none"/><rect x="110" y="95" width="380" height="380" fill="url(#mount-major-grid)" pointer-events="none"/><path id="mount-centerline" d="M300 86V488" stroke="var(--amber)" stroke-dasharray="6 4" stroke-width="1" pointer-events="none"/><text x="307" y="480" fill="var(--amber)" font-size="9">2–5 AXIS / X = 0</text>`;
@@ -358,6 +378,11 @@ async function init() {
   try {
     [tuning,loadouts]=await Promise.all(['tactical-tuning','loadouts'].map(async name=>{const r=await fetch(`../data/${name}.json`,{cache:'no-store'});if(!r.ok)throw new Error('Catalogue fetch failed');return r.json();}));
     $('#contact-face').innerHTML=options([1,2,3,4,5,6].map(f=>[String(f),`${f} / ${FACE_NAMES[f]}`]),'2');
+    // Fire and forget: the plan draws with generic outlines until this lands,
+    // and keeps them for good if it never does.
+    fetch('../assets/icons/manifest.json',{cache:'no-store'})
+      .then(r=>r.ok?r.json():null).then(m=>{if(m?.icons){planArt=m.icons;if(doc)draw();}})
+      .catch(()=>{});
     let storageNotice='';
     try {const saved=readLibrary(localStorage,tuning);library=saved.library;trash=saved.trash;libraryRaw=saved.raw;}
     catch {libraryWritable=false;storageNotice=' Saved library could not be read. It will not be overwritten. Export your work before closing.';}
