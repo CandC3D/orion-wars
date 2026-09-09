@@ -1,0 +1,62 @@
+{
+  "_comment": "Officer registers for the ship-captain layer. Chris's fiction: the naming conventions are his, set out in docs/setting.md under 'Names and titles'. The convention is title plus name; the title comes from rank or caste, the name morphology belongs to the species. Editing any single entry here changes that officer and nothing else - there is no generator, every name is written out in full on purpose so it stays authored rather than assembled.",
+
+  "_titles": "PLACEHOLDER, Fable's draft, not Chris's fiction. docs/setting.md records that the Krelath naval ladder, the Federation title ladder and the Zandrax ranks below Hivelord are all still to be written. Until they are, one title per power stands in. Overwrite the four 'title' fields freely; nothing else depends on their wording.",
+
+  "registers": {
+    "EAR": {
+      "title": "Capt.",
+      "register": "Open the phone book. Real surnames, and deliberately a WORLD phone book rather than an Earth one: Dominion planets carry near-equal standing, so Earth surnames and Dominion registers stand side by side in one navy. This is the register that tells you the Federation is a real polity rather than a sci-fi conceit, and it is the only one of the four drawn from life.",
+      "names": [
+        "Abara", "Acosta", "Adeyemi", "Ahonen", "Almeida", "Andersen", "Balakrishnan",
+        "Barros", "Beaulieu", "Bergström", "Blackwood", "Cadogan", "Callaghan", "Cardoso",
+        "Chaudhry", "Cheng", "Coyle", "Darrow", "Delacroix", "Dimitriou", "Eriksen",
+        "Esposito", "Fairbairn", "Farrer", "Fontaine", "Gallagher", "Gerasimov", "Ghosh",
+        "Halloran", "Hartnell", "Hidalgo", "Ibarra", "Iyer", "Jansen", "Kaminski",
+        "Kealoha", "Keswick", "Khoury", "Kirkbride", "Kovac", "Lindqvist", "Lombardi",
+        "Mahfouz", "Marchetti", "Mbeki", "Mendoza", "Moreau", "Nakagawa", "Nazarian",
+        "Nkemdirim", "Oyelaran", "Pashley", "Petrakis", "Quinlan", "Rasmussen", "Renard",
+        "Ridley", "Rojas", "Sandoval", "Sarkisian", "Sedgwick", "Sharma", "Sinclair",
+        "Sultana", "Tamura", "Thornbury", "Tikkanen", "Toussaint", "Vasquez", "Villanueva",
+        "Wainwright", "Whitlock", "Yamada", "Zabala", "Zheng"
+      ]
+    },
+
+    "KRE": {
+      "title": "Navarch",
+      "register": "Hard consonants, two-part names. Chris's worked examples are Archon Vezder and Supreme Leader Stratan Valdar; neither of those two names appears below, because both belong to named characters. The titles above them are imperial and then revolutionary.",
+      "names": [
+        "Korvan Krast", "Dathek Stavik", "Vrenn Merrek", "Talgar Dornhal", "Bresk Tolvane",
+        "Modrak Grask", "Zathen Bardhel", "Ferrik Vachek", "Draval Zormek", "Kestan Draskal",
+        "Vorkan Hulvar", "Hemek Nadrek", "Sturzan Sarkoth", "Oderik Belzek", "Braxen Ormath",
+        "Ghelan Kadrel", "Tarkoth Yestrin", "Renzik Volgar", "Stratan Rukk", "Petrash Dolvek",
+        "Ulmek Trasker", "Vandel Korrash", "Berrik Malvane", "Ostrek Havel", "Dornic Vashkel",
+        "Kelvar Brannock", "Serrik Duthane", "Marnok Velsk", "Hadrek Ostrom", "Vellan Kroth"
+      ]
+    },
+
+    "VRA": {
+      "title": "Warden",
+      "register": "Chris's examples: Stalactar, Geos, Hydron. Mineral and geological roots with a classical ring, ending in -ar, -os, -on. A silicoid people name themselves for the rock they are, while their SHIPS are named for treasure - Goldspar, Sunthrone, Aurelian. The two registers should stay apart.",
+      "names": [
+        "Stalactar", "Geos", "Hydron", "Basaltar", "Cryos", "Pyron", "Silicar", "Magmos",
+        "Tectar", "Obsidion", "Calcar", "Ferros", "Aragos", "Lithos", "Chalcar", "Gypsar",
+        "Zirkar", "Thermon", "Carbos", "Sulfar", "Anthracar", "Granitar", "Marmaros",
+        "Kaolar", "Dolomar", "Pumicar", "Serpentar", "Micar", "Talcos", "Barytar",
+        "Halitar", "Selenar", "Augitar", "Olivar", "Rutilar", "Ilmenar", "Cinnabar"
+      ]
+    },
+
+    "ZAN": {
+      "title": "Swarmlord",
+      "register": "Caste titles; clicking consonants and apostrophes. Chris's worked example is Hivelord Kzzx'xt, which is a rank above this one - the Zandrax ranks below Hivelord are still to be written, and 'Swarmlord' is standing in for whatever a one-ship commander turns out to be called. The fleet name is already Swarmfleet, so the vocabulary is at least in the right family.",
+      "names": [
+        "Kzzx'xt", "Vrr'kesh", "Tzzk'ral", "Xik'thrass", "Kkth'vor", "Szz'rakh", "Chk'tulan",
+        "Rrk'zeth", "Thx'karr", "Nzz'ghal", "Vkk'thir", "Skra'thex", "Zzt'karn", "Hxx'ruul",
+        "Krr'vazh", "Tss'khar", "Ghz'rakk", "Pkk'thul", "Xzz'meth", "Drr'kaal", "Kss'venth",
+        "Mrr'zakk", "Vzz'tarn", "Chx'rul", "Nkk'thass", "Trr'zeph", "Zkk'moth", "Hrr'valk",
+        "Xtt'karn", "Bzz'rethi"
+      ]
+    }
+  }
+}

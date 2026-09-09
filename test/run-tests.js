@@ -16,6 +16,7 @@ const tests = [
   ["Explicit warp and emergency burst commands", "special-orders.mjs"],
   ["Keel-gun target obedience and whole-point shields", "target-shield-rulings.mjs"],
   ["Player-initiated spinal cycle, vent and restricted movement preview", "manual-spinal.mjs"],
+  ["Ship captain registers and the deterministic draw", "captain-roster.mjs"],
   ["Ship captains: the declared decision rules", "ship-command.mjs"],
   ["Ship captains against the engine", "ship-command-engine.mjs"],
   ["Ship captains declared before commitment", "ship-command-preview.mjs"],

@@ -115,10 +115,14 @@ The convention is **title plus name**. The title comes from rank or caste; the n
 |---|---|---|
 | Krelath | Archon Vezder · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
 | Zandrax | Hivelord Kzzx'xt | Caste titles; clicking consonants, apostrophes |
-| Federation | *open* | Earth surnames **and** Dominion registers side by side in one navy |
-| Vraygon | *open* | *open* |
+| Federation | Capt. Renard · Capt. Yamada · Capt. Adeyemi | **Open the phone book.** Real surnames, and a world phone book rather than an Earth one: Earth surnames and Dominion registers side by side in one navy |
+| Vraygon | Stalactar · Geos · Hydron | Mineral and geological roots with a classical ring, ending in -ar, -os, -on |
 
-Ranks below Hivelord, the Krelath naval ladder and the Federation title ladder are all still to be written.
+The Federation is the only register drawn from life, and that is the point of it. Three of the four powers are named in invented morphologies; the fourth is named out of the directory, which is what makes it read as a real polity rather than a science-fiction conceit. It also carries the Dominion note above without having to state it: a wardroom whose names come from everywhere is a coalition on its face.
+
+The Vraygon name themselves for the rock they are, while their **ships** are named for treasure — Goldspar, Sunthrone, Aurelian. The two registers should stay apart.
+
+Ranks below Hivelord, the Krelath naval ladder and the Federation title ladder are all still to be written. Until they are, `data/captain-names.json` stands one placeholder title per power in their place — Capt., Navarch, Warden, Swarmlord — and says plainly in the file that those four words are not yet fiction.
 
 ---
 
