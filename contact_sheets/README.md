@@ -5,6 +5,7 @@ inlined, so they open from disk with no server and no missing-asset holes.
 
 - `ear-fleet-glyphs.html` — Earth Defence Fleet, 7 classes
 - `kre-fleet-glyphs.html` — Krelath Star Navy, 10 classes (8 hulls + 2 strike craft)
+- `vra-fleet-glyphs.html` — Vraygon Star Realm, 7 classes
 
 Each sheet shows every class at the sizes the game actually draws it: 120px
 inside the console shield ring, 28px and 20px as a map token, and large. It also
