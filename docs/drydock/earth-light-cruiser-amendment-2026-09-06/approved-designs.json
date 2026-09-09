@@ -1,0 +1,183 @@
+{
+  "date": "2026-09-06",
+  "authority": "Chris supplied this replacement on 2026-09-06: Earth light-cruiser beam 1 was too wide. Only EAR/light-cruiser advances from supplied stock r2 to r3.",
+  "designs": [
+    {
+      "key": "EAR/light-cruiser",
+      "sourceFile": "C:/Users/chorr/Downloads/ear-light-cruiser-corrected-arcs-r3.drydock.json",
+      "sourceSha256": "61b893022ef0b2b8a5b17835809779aa21a3180601cc0e287e90608f00f9b5c4",
+      "bytes": 3286,
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:9f20456e-58ee-4317-ae3c-27e63c87bfa0",
+          "revision": 3,
+          "name": "EAR light cruiser - corrected arcs",
+          "notes": "",
+          "faction": "EAR",
+          "className": "light-cruiser",
+          "hull": {
+            "points": 10,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 4,
+            "magazine": 8,
+            "superstructure": 25,
+            "maxShieldPower": 9,
+            "shieldPointRatio": 0.51,
+            "movementPointRatio": 2,
+            "screen": 3,
+            "pointDefence": 2,
+            "sensorRating": 2,
+            "weaponReach": 0.89
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -1,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 1,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
