@@ -6,7 +6,7 @@
    "key": "EAR/frigate",
    "sourceFile": null,
    "sourceSha256": null,
-   "note": "Frigate superstructure 8 -> 9. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 1. No other field of the pack changes, and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
+   "note": "No supplied design file. Frigate superstructure 8 -> 9. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 1. No other field of the pack changes and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
    "suppliedRevision": 3,
    "pack": {
     "format": "orion-drydock",
@@ -47,9 +47,9 @@
      }
     ],
     "design": {
-     "id": "stock:ear:frigate",
+     "id": "local:ear-frigate-structure-2026-09-08",
      "revision": 3,
-     "name": "EAR frigate",
+     "name": "EAR frigate - structure amendment",
      "notes": "",
      "faction": "EAR",
      "className": "frigate",
@@ -101,7 +101,7 @@
    "key": "KRE/frigate",
    "sourceFile": null,
    "sourceSha256": null,
-   "note": "Frigate superstructure 8 -> 9. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 1. No other field of the pack changes, and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
+   "note": "No supplied design file. Frigate superstructure 8 -> 9. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 1. No other field of the pack changes and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
    "suppliedRevision": 3,
    "pack": {
     "format": "orion-drydock",
@@ -142,9 +142,9 @@
      }
     ],
     "design": {
-     "id": "stock:kre:frigate",
+     "id": "local:kre-frigate-structure-2026-09-08",
      "revision": 3,
-     "name": "KRE frigate",
+     "name": "KRE frigate - structure amendment",
      "notes": "",
      "faction": "KRE",
      "className": "frigate",
@@ -196,7 +196,7 @@
    "key": "VRA/frigate",
    "sourceFile": null,
    "sourceSha256": null,
-   "note": "Frigate superstructure 14 -> 17. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 3. No other field of the pack changes, and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
+   "note": "No supplied design file. Frigate superstructure 14 -> 17. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 3. No other field of the pack changes and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
    "suppliedRevision": 3,
    "pack": {
     "format": "orion-drydock",
@@ -237,9 +237,9 @@
      }
     ],
     "design": {
-     "id": "stock:vra:frigate",
+     "id": "local:vra-frigate-structure-2026-09-08",
      "revision": 3,
-     "name": "VRA frigate",
+     "name": "VRA frigate - structure amendment",
      "notes": "",
      "faction": "VRA",
      "className": "frigate",
@@ -291,7 +291,7 @@
    "key": "ZAN/frigate",
    "sourceFile": null,
    "sourceSha256": null,
-   "note": "Frigate superstructure 10 -> 11. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 1. No other field of the pack changes, and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
+   "note": "No supplied design file. Frigate superstructure 10 -> 11. The class envelope rose from 8 to 9.2 - a x1.15 applied before the faction modifier and its rounding - so this power's stock frigate gains 1. No other field of the pack changes and no other class in any roster is touched. Measured motive in docs/frigate-role-2026-09-08.md: at equal points eight frigates lost to four destroyers 77% of the time and break-even sat at 9.3 hulls, so the frigate was a trap purchase wherever no heavier hull was permitted.",
    "suppliedRevision": 3,
    "pack": {
     "format": "orion-drydock",
@@ -332,9 +332,9 @@
      }
     ],
     "design": {
-     "id": "stock:zan:frigate",
+     "id": "local:zan-frigate-structure-2026-09-08",
      "revision": 3,
-     "name": "ZAN frigate",
+     "name": "ZAN frigate - structure amendment",
      "notes": "",
      "faction": "ZAN",
      "className": "frigate",

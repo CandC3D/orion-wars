@@ -34,7 +34,7 @@ check('All 29 current stock packs equal the latest approved returns, apart from 
     assert.deepEqual(identityFree(parsePack(JSON.stringify(p),t)),identityFree(pack),key);
   }
 });
-check('Non-layout changes are limited to the monitor, September 6 legacy tables, approved unused laser metadata and the September 7 arc presets',()=>{
+check('Non-layout changes are limited to the monitor, September 6 legacy tables, approved unused laser metadata, the September 7 arc presets and the September 8 frigate profile and structure',()=>{
   const restored=copy(t),m=restored.hullClasses.monitor,old=beforeT.hullClasses.monitor;
   assert.equal(m.points,24);assert.equal(m.magazine,32);assert.equal(Math.round(m.superstructure*t.factionModifiers.VRA.superstructure),220);
   assert.deepEqual(m.missileArcs,old.missileArcs.slice(0,5));m.missileArcs=old.missileArcs;
@@ -63,6 +63,18 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
     assert.equal(Object.hasOwn(beforeT.arcs,code),false,'preset '+code+' must be new, not a rewrite');
     delete restored.arcs[code];
   }
+  // Target profile added 2026-09-08 (ruling: Chris), disabled by default so no
+  // recorded battle changes, and the frigate structure amendment that ships live
+  // beside it - the only live tuning change of the day, and the reason four
+  // frigate packs advance a revision. Both asserted, then reverted to compare.
+  assert.equal(typeof restored.toHit.hullProfile,'object','hull profile block');
+  assert.equal(restored.toHit.hullProfile.enabled,false,'hull profile must ship disabled');
+  assert.equal(Object.hasOwn(beforeT.toHit,'hullProfile'),false,'hull profile must be new, not a rewrite');
+  delete restored.toHit.hullProfile;
+  assert.equal(restored.hullClasses.frigate.superstructure,9.2);
+  assert.equal(beforeT.hullClasses.frigate.superstructure,8);
+  restored.hullClasses.frigate.superstructure=beforeT.hullClasses.frigate.superstructure;
+  delete restored.hullClasses.frigate._structureNote;
   assert.deepEqual(restored,beforeT);
   const stripped=copy(l);delete stripped._publishedStock;
   assert.equal(stripped.VRA.destroyer.missileMounts,1);stripped.VRA.destroyer.missileMounts=beforeL.VRA.destroyer.missileMounts;

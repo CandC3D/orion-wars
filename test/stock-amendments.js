@@ -20,17 +20,20 @@ previousTuning.hullClasses.monitor.missileArcs.push('a');
 previousLoadouts.VRA.battleship.missileArcs.push('a','pa');
 previousLoadouts.VRA.destroyer.missileMounts=2;
 previousLoadouts.VRA['heavy-cruiser'].beamArcs.pop();
+previousTuning.hullClasses.frigate.superstructure=8;delete previousTuning.hullClasses.frigate._structureNote;
 delete previousLoadouts._publishedStock.revisions;delete previousLoadouts._publishedStock.amended;
 for(const e of originalApproved){const [f,c]=e.key.split('/');previousLoadouts[f][c].mounts=e.pack.design.mounts.map(m=>({type:m.weapon.id.slice(6),faces:copy(m.faces),position:copy(m.position),orientation:m.orientation}));}
 const untouched=JSON.stringify({tuning,loadouts,originalApproved,amendments});
 const identityFree=p=>{const n=copy(p);for(const k of ['id','revision','name','notes'])delete n.design[k];return n;};
 let groups=0;const check=(name,fn)=>{fn();groups++;console.log('ok: '+name);};
 
-check('Only the five approved amended ships advance revision; all catalogue identities and other 24 packs stay exact',()=>{
+check('Only the nine approved amended ships advance revision; all catalogue identities and other 20 packs stay exact',()=>{
   // Includes Chris's September 7 gunstar turret-1 face-3 amendment, and his
   // September 7 Vraygon battleship correction: mount-6 bore on faces 3, 4 and 6,
-  // a disconnected arc with a gap at dead astern, and face 6 was removed.
-  assert.deepEqual(amendments.map(e=>e.key).sort(),['EAR/gunstar-battlecruiser','EAR/light-cruiser','VRA/battleship','VRA/destroyer','VRA/heavy-cruiser']);
+  // a disconnected arc with a gap at dead astern, and face 6 was removed. Also
+  // his September 8 frigate structure amendment: the class envelope rose from 8
+  // to 9.2, which moves one frigate for each of the four powers and nothing else.
+  assert.deepEqual(amendments.map(e=>e.key).sort(),['EAR/frigate','EAR/gunstar-battlecruiser','EAR/light-cruiser','KRE/frigate','VRA/battleship','VRA/destroyer','VRA/frigate','VRA/heavy-cruiser','ZAN/frigate']);
   for(const e of approved){
     const [f,c]=e.key.split('/'),now=stockPack(f,c,tuning,loadouts),old=stockPack(f,c,previousTuning,previousLoadouts);
     assert.ok(STOCK_REFERENCES[now.design.id]);assert.equal(now.design.id,old.design.id);

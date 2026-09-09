@@ -178,17 +178,26 @@ untouched by all of this, necessarily: no power fields a frigate at 18 points.
   moved 3 → 4, exactly the point Earth's frigate gained. Turns, victor, callback
   count and frame count are unchanged.
 
-The governance guards could not be run. `test/fixtures/stock-approvals.js` reads
-four approval files under `docs/drydock/` that are **absent from this branch and
-from its whole history**, so `stock-promotion.js`, `stock-amendments.js` and
-`stock-earth-light-cruiser.mjs` fail on a missing file before reaching any
-assertion. This is a pre-existing condition, not a consequence of this change.
-The new amendment is written in the same shape as the one file that does survive
-and slots into the chain when the others are restored; until then, that only four
-frigate packs move is verified by `test/frigate-profile.mjs` against a locally
-reconstructed before-state rather than against the approval oracle. Every other
-suite passes.
+The governance guards run and pass. They were briefly reported here as blocked
+by missing approval records; that was wrong. The records were committed to
+`master` the same day in `794f474` and `ae3cb49`, and this branch had simply not
+taken them yet - a stale branch, not a missing file. Merging `master` restored
+them, and the guards then found two real faults in the first draft of this
+amendment:
 
+- An approved record must carry an identity distinct from the live stock id.
+  `stock-promotion.js` asserts the two differ, so the comparison is identity-free
+  by construction rather than by coincidence. The first draft reused
+  `stock:ear:frigate`; the amendment now uses `local:ear-frigate-structure-2026-09-08`
+  and its three siblings, matching the September 7 Vraygon record.
+- Every non-layout tuning change must be declared in the promotion guard and
+  reverted before the baseline comparison. Both `toHit.hullProfile` and the
+  frigate structure are now declared there, asserted new and asserted disabled,
+  the same way the crippling and shield-capacitor blocks are.
+
+`stock-amendments.js` now pins nine amended packs rather than five, and its
+reconstructed pre-amendment tuning sets the frigate back to 8 so the historical
+comparison stays honest.
 ## 8. The flavour in this
 
 Per Chris's standing direction that balance findings become content: powers build
