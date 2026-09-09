@@ -10,6 +10,7 @@
 import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLineGroups } from "./hex.js";
 import { buildShip, weaponFor, fullPower, ratedPower, shieldCapacity, shieldCost, startTurn, startRound, spendable, applyDamage } from "./ship.js";
 import { makePrng, seedFromString } from "../prng.js";
+import { refusesStep, ventsUnderFire } from "./ship-command.js";
 import { fleetRuleIssues } from "./fleet-rules.js";
 import { deploymentErrors, terrainFootprint } from "./deployment.js";
 import { specialCapabilities } from "./specials.js";
@@ -777,8 +778,17 @@ function chargeSpinal(ship, enemies, tuning, log, battle = null, order = null) {
   const st = ship.spinal;
   if (!st) return;
   const w = weaponFor(ship, st.type, tuning);
-  if(order || st.manualControl){
-    const note=advanceManualSpinal(ship,w,order?.spinal);
+  // A ship captain may break off rather than be killed sitting still. Opt-in: only a ship carrying a
+  // captain record is reviewed, so every recorded battle without one resolves exactly as before.
+  // Note the deliberate side effect - a captain who takes the cannon in hand keeps it, because
+  // advanceManualSpinal latches manual control. Once an officer has intervened, the bank is his.
+  let intent = order?.spinal;
+  if (ship.captain && intent !== 'vent') {
+    const breakOff = ventsUnderFire(ship, tuning);
+    if (breakOff) { intent = 'vent'; if (log) log(`${ship.id} captain: ${breakOff.reason}`); }
+  }
+  if(order || st.manualControl || intent === 'vent'){
+    const note=advanceManualSpinal(ship,w,intent);
     if(log)log(`${ship.id} ${note}`);
     return;
   }
@@ -2042,13 +2052,19 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
   // an enemy-occupied suffix keeps real transit legal without charging power
   // or emitting preview points for a step that ultimately cannot be taken.
   const steps = [];
-  let pos = ship.pos, power = ship.power, stop = null;
+  let pos = ship.pos, power = ship.power, stop = null, captainStop = null;
   const foes = living(enemies);
   while (steps.length < forward) {
     const next = add(pos, ship.facing);
     const cost = stepCost(ship, next, tuning);
     if (Math.max(0, power - ship.reserve) < cost) { stop = "power exhausted"; break; }
     if (!inBounds(next, tuning)) { stop = "impassable terrain or the map edge"; break; }
+    // The captain's refusal is a stop like any other, which is why the substitute action the ruling
+    // asks for comes free: the move is clamped to the last step he was willing to take.
+    if (ship.captain) {
+      captainStop = refusesStep(ship, pos, next, foes, tuning);
+      if (captainStop) break;
+    }
     steps.push({ pos: next, cost });
     pos = next; power -= cost;
   }
@@ -2057,11 +2073,16 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
   for(let i=0;i<burst;i++){
     const next=add(pos,ship.facing);
     if(!inBounds(next,tuning)||blockedHex(next,tuning)){stop='impassable terrain or the map edge';break;}
+    if (ship.captain) {
+      captainStop = refusesStep(ship, pos, next, foes, tuning);
+      if (captainStop) break;
+    }
     steps.push({pos:next,cost:0,burst:true});pos=next;
   }
   let trimmed = false;
   while (steps.length && enemyAt(steps.at(-1).pos, foes, tuning)) { steps.pop(); trimmed = true; }
   if (trimmed && log) log(`${ship.id} order clamped: will not end its move in an enemy's hex${stop ? ` (${stop} limits transit)` : ""}`);
+  else if (captainStop && log) log(`${ship.id} captain: ${captainStop.reason}; held at ${steps.length} of ${forward+burst} hexes`);
   else if (stop && log) log(`${ship.id} order clamped: ${stop} after ${steps.length} of ${forward+burst} hexes`);
   for (const step of steps) {
     ship.pos = step.pos;
