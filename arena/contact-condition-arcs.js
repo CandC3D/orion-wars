@@ -29,8 +29,60 @@ function arcPath(cx,cy,r,from,to){
   return `M${a.x.toFixed(2)},${a.y.toFixed(2)}A${r.toFixed(2)},${r.toFixed(2)} 0 ${large} 0 ${b.x.toFixed(2)},${b.y.toFixed(2)}`;
 }
 
+// SHAPE OF THE SHIELD RING. Chris, 9 September 2026: the enemy's damage ring reads
+// too much like a shield ring without sharing its purpose. A hexagon separates
+// them by silhouette rather than by colour, and it happens to be the truer
+// drawing: a shield face IS the hex edge an attack crosses, and for a pointy-top
+// cell the six edge midpoints sit at exactly the six direction bearings, so the
+// ring lines up with the ship's own hex instead of floating over it.
+//   'circle'   - the original ring of arcs.
+//   'hex'      - six straight edges, cut at the corners.
+//   'roundhex' - the same six edges, each bowed gently outward.
+export const RING_SHAPES=['circle','hex','roundhex'];
+export const DEFAULT_RING_SHAPE='hex';
+// The hexagon is INSCRIBED in the circle the circle-shape would have drawn: its
+// corners sit on that circle and its flats fall inside it. So switching shapes
+// changes the silhouette and never the footprint, and a hexagon ring cannot
+// crowd a neighbour that a circle ring would have cleared.
+const INRADIUS=Math.cos(Math.PI/6);
+const fix=n=>Number(n).toFixed(2);
+// `half` is the arc half-width the circle would use; the flats carry the same gap
+// across so all three shapes read at one weight.
+function faceEnds(cx,cy,r,dir,half){
+  const centreDeg=bearingOfDirection(dir);
+  const t=Math.tan(half*Math.PI/180)/Math.tan(30*Math.PI/180);
+  const inr=r*INRADIUS;
+  const v0=point(cx,cy,r,centreDeg-30), v1=point(cx,cy,r,centreDeg+30), mid=point(cx,cy,inr,centreDeg);
+  return {a:{x:mid.x+(v0.x-mid.x)*t,y:mid.y+(v0.y-mid.y)*t},
+          b:{x:mid.x+(v1.x-mid.x)*t,y:mid.y+(v1.y-mid.y)*t},
+          // Control point for the bowed variant: pushed a little past the corner
+          // circle so the flat softens without becoming a circle again.
+          c:point(cx,cy,inr+(r-inr)*1.35,centreDeg)};
+}
+function faceSegment(cx,cy,r,dir,shape,half){
+  const centreDeg=bearingOfDirection(dir);
+  if(shape==='circle')return arcPath(cx,cy,r,centreDeg-half,centreDeg+half);
+  const {a,b,c}=faceEnds(cx,cy,r,dir,half);
+  if(shape==='roundhex')return `M${fix(a.x)},${fix(a.y)}Q${fix(c.x)},${fix(c.y)} ${fix(b.x)},${fix(b.y)}`;
+  return `M${fix(a.x)},${fix(a.y)}L${fix(b.x)},${fix(b.y)}`;
+}
+// The lit part of one face, from its start toward its end. A partial quadratic is
+// taken by de Casteljau so the bow keeps its curvature as the fill shortens.
+function facePortion(cx,cy,r,dir,shape,half,ratio){
+  const centreDeg=bearingOfDirection(dir);
+  const k=Math.max(0,Math.min(1,ratio));
+  if(shape==='circle')return arcPath(cx,cy,r,centreDeg-half,centreDeg-half+2*half*k);
+  const {a,b,c}=faceEnds(cx,cy,r,dir,half);
+  if(shape==='roundhex'){
+    const m={x:a.x+(c.x-a.x)*k,y:a.y+(c.y-a.y)*k};
+    const n={x:c.x+(b.x-c.x)*k,y:c.y+(b.y-c.y)*k};
+    return `M${fix(a.x)},${fix(a.y)}Q${fix(m.x)},${fix(m.y)} ${fix(m.x+(n.x-m.x)*k)},${fix(m.y+(n.y-m.y)*k)}`;
+  }
+  return `M${fix(a.x)},${fix(a.y)}L${fix(a.x+(b.x-a.x)*k)},${fix(a.y+(b.y-a.y)*k)}`;
+}
+
 // Six faces of an OWN ship at its marker, each arc filled by remaining/capacity.
-export function shieldArcMarkup(ship,{project,scale,at=null,radius=null,width=null}={}){
+export function shieldArcMarkup(ship,{project,scale,at=null,radius=null,width=null,shape=DEFAULT_RING_SHAPE}={}){
   if(!ship||ship.destroyed||!Array.isArray(ship.shields)||!ship.shields.length)return '';
   const centre=at||project(ship.pos);
   const r=num(radius)||scale*1.15, w=num(width)||Math.max(1.5,scale*.16);
@@ -38,14 +90,13 @@ export function shieldArcMarkup(ship,{project,scale,at=null,radius=null,width=nu
   const faces=shieldFaces(ship);
   const body=faces.map(f=>{
     const dir=(num(ship.facing)+(OFFSET_OF_FACE[f.face]??0))%6;
-    const centreDeg=bearingOfDirection(dir), half=30-GAP_DEG/2;
-    const from=centreDeg-half, to=centreDeg+half;
+    const half=30-GAP_DEG/2, track=faceSegment(centre.x,centre.y,r,dir,shape,half);
     const ratio=f.capacity>0?Math.max(0,Math.min(1,f.remaining/f.capacity)):0;
     const title=`Face ${f.face} · ${FACE_NAMES[f.face]} · ${f.down?'DOWN':`${Math.round(ratio*100)}% · ${f.remaining} of ${f.capacity}`}`;
     return `<g data-shield-face="${f.face}" data-shield-down="${f.down?'true':'false'}"><title>${esc(title)}</title>`
-      +`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${TRACK}" stroke-opacity=".55" stroke-width="${w.toFixed(2)}"/>`
-      +(f.down||ratio<=0?'':`<path d="${arcPath(centre.x,centre.y,r,from,from+(to-from)*ratio)}" fill="none" stroke="${OWN}" stroke-width="${w.toFixed(2)}" stroke-linecap="butt"/>`)
-      +(f.down?`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${DOWN}" stroke-opacity=".85" stroke-width="${w.toFixed(2)}" stroke-dasharray="${Math.max(1,w).toFixed(2)} ${Math.max(1,w*1.6).toFixed(2)}"/>`:'')
+      +`<path d="${track}" fill="none" stroke="${TRACK}" stroke-opacity=".55" stroke-width="${w.toFixed(2)}"/>`
+      +(f.down||ratio<=0?'':`<path d="${facePortion(centre.x,centre.y,r,dir,shape,half,ratio)}" fill="none" stroke="${OWN}" stroke-width="${w.toFixed(2)}" stroke-linecap="butt"/>`)
+      +(f.down?`<path d="${track}" fill="none" stroke="${DOWN}" stroke-opacity=".85" stroke-width="${w.toFixed(2)}" stroke-dasharray="${Math.max(1,w).toFixed(2)} ${Math.max(1,w*1.6).toFixed(2)}"/>`:'')
       +`</g>`;
   }).join('');
   return `<g class="shield-arcs" data-shield-ring="${esc(String(ship.id))}" pointer-events="none" role="img" aria-label="Own shield faces at this heading">${body}</g>`;
@@ -112,7 +163,7 @@ export function readingFaces(reading){
 
 // A CONTACT's shields, drawn only from a scan reading. A stale reading is drawn
 // dashed and dimmed: it is what the sweep saw, not what is there now.
-export function contactShieldArcMarkup(contact,{project,scale,at=null,radius=null,width=null}={}){
+export function contactShieldArcMarkup(contact,{project,scale,at=null,radius=null,width=null,shape=DEFAULT_RING_SHAPE}={}){
   const reading=contact?.shields;const faces=readingFaces(reading);
   if(!faces.length)return '';
   const centre=at||project(contact.pos);
@@ -121,12 +172,12 @@ export function contactShieldArcMarkup(contact,{project,scale,at=null,radius=nul
   const age=reading.stale?` · ${reading.ageTurns} turn(s) old`:' · current';
   const body=faces.map(f=>{
     const dir=(num(contact.facing)+(OFFSET_OF_FACE[f.face]??0))%6;
-    const centreDeg=bearingOfDirection(dir),half=30-GAP_DEG/2,from=centreDeg-half,to=centreDeg+half;
+    const half=30-GAP_DEG/2, track=faceSegment(centre.x,centre.y,r,dir,shape,half);
     const title=`Face ${f.face} · ${FACE_NAMES[f.face]} · ${f.label} · read turn ${reading.takenTurn}${age}`;
     return `<g data-contact-shield-face="${f.face}" data-shield-down="${f.down?'true':'false'}"><title>${esc(title)}</title>`
-      +`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${TRACK}" stroke-opacity=".4" stroke-width="${w.toFixed(2)}"/>`
-      +(f.down||f.ratio<=0?'':`<path d="${arcPath(centre.x,centre.y,r,from,from+(to-from)*f.ratio)}" fill="none" stroke="${SHIELD}" stroke-opacity="${reading.stale?'.45':'.95'}" stroke-width="${w.toFixed(2)}"${reading.stale?` stroke-dasharray="${Math.max(1,w*1.2).toFixed(2)} ${Math.max(1,w).toFixed(2)}"`:''}/>`)
-      +(f.down?`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${DOWN}" stroke-opacity="${reading.stale?'.4':'.8'}" stroke-width="${w.toFixed(2)}" stroke-dasharray="${Math.max(1,w).toFixed(2)} ${Math.max(1,w*1.6).toFixed(2)}"/>`:'')
+      +`<path d="${track}" fill="none" stroke="${TRACK}" stroke-opacity=".4" stroke-width="${w.toFixed(2)}"/>`
+      +(f.down||f.ratio<=0?'':`<path d="${facePortion(centre.x,centre.y,r,dir,shape,half,f.ratio)}" fill="none" stroke="${SHIELD}" stroke-opacity="${reading.stale?'.45':'.95'}" stroke-width="${w.toFixed(2)}"${reading.stale?` stroke-dasharray="${Math.max(1,w*1.2).toFixed(2)} ${Math.max(1,w).toFixed(2)}"`:''}/>`)
+      +(f.down?`<path d="${track}" fill="none" stroke="${DOWN}" stroke-opacity="${reading.stale?'.4':'.8'}" stroke-width="${w.toFixed(2)}" stroke-dasharray="${Math.max(1,w).toFixed(2)} ${Math.max(1,w*1.6).toFixed(2)}"/>`:'')
       +`</g>`;
   }).join('');
   return `<g class="contact-shields" data-contact-shield-ring="${esc(String(contact.id))}" data-shield-stale="${reading.stale?'true':'false'}" pointer-events="none" role="img" aria-label="Scanned shields, ${reading.detail}, read turn ${reading.takenTurn}${reading.stale?', stale':', current'}">${body}</g>`;
