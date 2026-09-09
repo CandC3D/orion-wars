@@ -14,8 +14,14 @@ import {shieldFaces} from './console-instruments.js';
 const TRACK='#43535d', DOWN='#ffafa2', OWN='#7bc6ec', HULL='#efb773', SHIELD='#b5e3a0', GAP_DEG=7;
 const num=n=>Number.isFinite(Number(n))?Number(n):0;
 // Direction 0 is screen right and directions increase counter-clockwise, the
-// same convention the weapon labels use for arc anchors.
+// same convention the weapon labels use for arc anchors. point() negates sin, so
+// the degrees it takes are measured counter-clockwise from screen right even
+// though screen y grows downward - and hex direction d therefore sits at +60d,
+// NOT -60d. Getting that sign wrong mirrors the whole ring about the horizontal
+// and silently swaps the port and starboard faces (playtest bug, 2026-09-09).
 const point=(cx,cy,r,deg)=>({x:cx+Math.cos(deg*Math.PI/180)*r,y:cy-Math.sin(deg*Math.PI/180)*r});
+// Screen bearing of a hex direction, and the single place either ring decides it.
+const bearingOfDirection=dir=>60*dir;
 function arcPath(cx,cy,r,from,to){
   const a=point(cx,cy,r,from),b=point(cx,cy,r,to);
   const large=Math.abs(to-from)>180?1:0;
@@ -32,7 +38,7 @@ export function shieldArcMarkup(ship,{project,scale,at=null,radius=null,width=nu
   const faces=shieldFaces(ship);
   const body=faces.map(f=>{
     const dir=(num(ship.facing)+(OFFSET_OF_FACE[f.face]??0))%6;
-    const centreDeg=-60*dir, half=30-GAP_DEG/2;
+    const centreDeg=bearingOfDirection(dir), half=30-GAP_DEG/2;
     const from=centreDeg-half, to=centreDeg+half;
     const ratio=f.capacity>0?Math.max(0,Math.min(1,f.remaining/f.capacity)):0;
     const title=`Face ${f.face} · ${FACE_NAMES[f.face]} · ${f.down?'DOWN':`${Math.round(ratio*100)}% · ${f.remaining} of ${f.capacity}`}`;
@@ -115,7 +121,7 @@ export function contactShieldArcMarkup(contact,{project,scale,at=null,radius=nul
   const age=reading.stale?` · ${reading.ageTurns} turn(s) old`:' · current';
   const body=faces.map(f=>{
     const dir=(num(contact.facing)+(OFFSET_OF_FACE[f.face]??0))%6;
-    const centreDeg=-60*dir,half=30-GAP_DEG/2,from=centreDeg-half,to=centreDeg+half;
+    const centreDeg=bearingOfDirection(dir),half=30-GAP_DEG/2,from=centreDeg-half,to=centreDeg+half;
     const title=`Face ${f.face} · ${FACE_NAMES[f.face]} · ${f.label} · read turn ${reading.takenTurn}${age}`;
     return `<g data-contact-shield-face="${f.face}" data-shield-down="${f.down?'true':'false'}"><title>${esc(title)}</title>`
       +`<path d="${arcPath(centre.x,centre.y,r,from,to)}" fill="none" stroke="${TRACK}" stroke-opacity=".4" stroke-width="${w.toFixed(2)}"/>`

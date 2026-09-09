@@ -12,6 +12,7 @@ const tests = [
   ["Finite sensing combat integration (host-only proof)", "sensing-combat.mjs"],
   ["Explicit sector scans and information-safe AI scan cadence", "scan-orders.mjs"],
   ["Player contact boundary, event-time projection and movement ceiling", "player-contacts.mjs"],
+  ["Map shield arcs agree with the hex directions they cover", "map-shield-arcs.mjs"],
   ["Main Fleet Command setup, restricted sessions and map labels", "fleet-command.mjs"],
   ["Explicit warp and emergency burst commands", "special-orders.mjs"],
   ["Keel-gun target obedience and whole-point shields", "target-shield-rulings.mjs"],
