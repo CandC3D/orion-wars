@@ -115,8 +115,10 @@ The convention is **title plus name**. The title comes from rank or caste; the n
 |---|---|---|
 | Krelath | Archon Vezder · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
 | Zandrax | Hivelord Kzzx'xt | Caste titles; clicking consonants, apostrophes |
-| Federation | Capt. Renard · Capt. Yamada · Capt. Adeyemi | **Open the phone book.** Real surnames, and a world phone book rather than an Earth one: Earth surnames and Dominion registers side by side in one navy |
+| Federation | Capt. Scott Ridley · Capt. Marvin Kaminski · Capt. Sachiko Yamada | **Open the phone book.** Given name and surname, both real, and a world phone book rather than an Earth one: Earth registers and Dominion registers side by side in one navy |
 | Vraygon | Stalactar · Geos · Hydron | Mineral and geological roots with a classical ring, ending in -ar, -os, -on |
+
+The pairings cross on purpose — Marvin Kaminski, Scott Ridley, Thomas Mbeki, Alice Cheng. A Federation wardroom is generations of a mixed polity rather than a set of national contingents, and the given names are where that shows: a surname says where a family came from, a given name says where it has been since.
 
 The Federation is the only register drawn from life, and that is the point of it. Three of the four powers are named in invented morphologies; the fourth is named out of the directory, which is what makes it read as a real polity rather than a science-fiction conceit. It also carries the Dominion note above without having to state it: a wardroom whose names come from everywhere is a coalition on its face.
 

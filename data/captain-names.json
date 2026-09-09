@@ -6,19 +6,27 @@
   "registers": {
     "EAR": {
       "title": "Capt.",
-      "register": "Open the phone book. Real surnames, and deliberately a WORLD phone book rather than an Earth one: Dominion planets carry near-equal standing, so Earth surnames and Dominion registers stand side by side in one navy. This is the register that tells you the Federation is a real polity rather than a sci-fi conceit, and it is the only one of the four drawn from life.",
+      "register": "Open the phone book. Real given names and real surnames, and deliberately a WORLD phone book rather than an Earth one: Dominion planets carry near-equal standing, so Earth registers and Dominion registers stand side by side in one navy. Note that the pairings cross on purpose - Marvin Kaminski, Scott Ridley, Thomas Mbeki, Alice Cheng. A Federation wardroom is generations of a mixed polity, not a set of national contingents. This is the only one of the four registers drawn from life, and that is what makes the Federation read as a real polity rather than a science-fiction conceit.",
       "names": [
-        "Abara", "Acosta", "Adeyemi", "Ahonen", "Almeida", "Andersen", "Balakrishnan",
-        "Barros", "Beaulieu", "Bergström", "Blackwood", "Cadogan", "Callaghan", "Cardoso",
-        "Chaudhry", "Cheng", "Coyle", "Darrow", "Delacroix", "Dimitriou", "Eriksen",
-        "Esposito", "Fairbairn", "Farrer", "Fontaine", "Gallagher", "Gerasimov", "Ghosh",
-        "Halloran", "Hartnell", "Hidalgo", "Ibarra", "Iyer", "Jansen", "Kaminski",
-        "Kealoha", "Keswick", "Khoury", "Kirkbride", "Kovac", "Lindqvist", "Lombardi",
-        "Mahfouz", "Marchetti", "Mbeki", "Mendoza", "Moreau", "Nakagawa", "Nazarian",
-        "Nkemdirim", "Oyelaran", "Pashley", "Petrakis", "Quinlan", "Rasmussen", "Renard",
-        "Ridley", "Rojas", "Sandoval", "Sarkisian", "Sedgwick", "Sharma", "Sinclair",
-        "Sultana", "Tamura", "Thornbury", "Tikkanen", "Toussaint", "Vasquez", "Villanueva",
-        "Wainwright", "Whitlock", "Yamada", "Zabala", "Zheng"
+        "Daniel Abara", "Rosa Acosta", "Grace Adeyemi", "Peter Ahonen",
+        "Clara Almeida", "Neil Andersen", "Anne Balakrishnan", "Miguel Barros",
+        "Ruth Beaulieu", "Karl Bergstrom", "Eleanor Blackwood", "Owen Cadogan",
+        "Maeve Callaghan", "Victor Cardoso", "Sana Chaudhry", "Alice Cheng",
+        "Frank Coyle", "Helen Darrow", "Simon Delacroix", "Nora Dimitriou",
+        "Paul Eriksen", "Rita Esposito", "Douglas Fairbairn", "Joan Farrer",
+        "Marc Fontaine", "Sean Gallagher", "Lydia Gerasimov", "Arun Ghosh",
+        "Bridget Halloran", "Edith Hartnell", "Ramon Hidalgo", "Teresa Ibarra",
+        "Vikram Iyer", "Erik Jansen", "Marvin Kaminski", "Leilani Kealoha",
+        "Arthur Keswick", "Nadia Khoury", "Margaret Kirkbride", "Stephen Kovac",
+        "Ingrid Lindqvist", "Carlo Lombardi", "Yusuf Mahfouz", "Elena Marchetti",
+        "Thomas Mbeki", "Pilar Mendoza", "Julien Moreau", "Kenji Nakagawa",
+        "Anahit Nazarian", "Chidi Nkemdirim", "Folake Oyelaran", "Gordon Pashley",
+        "Sofia Petrakis", "Dermot Quinlan", "Astrid Rasmussen", "Etienne Renard",
+        "Scott Ridley", "Isabel Rojas", "Hector Sandoval", "Armen Sarkisian",
+        "Harriet Sedgwick", "Priya Sharma", "Alec Sinclair", "Amina Sultana",
+        "Hiroshi Tamura", "Cecil Thornbury", "Mikko Tikkanen", "Marie Toussaint",
+        "Ana Vasquez", "Rafael Villanueva", "Edward Wainwright", "Dorothy Whitlock",
+        "Sachiko Yamada", "Iker Zabala", "Wei Zheng"
       ]
     },
 

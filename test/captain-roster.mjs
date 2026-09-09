@@ -145,7 +145,8 @@ check('the named characters are not dealt out as ship captains', () => {
 check('each register keeps its own morphology', () => {
   assert.ok(registers.ZAN.names.every(n => n.includes("'")), 'Zandrax names click and carry apostrophes');
   assert.ok(registers.KRE.names.every(n => n.split(' ').length === 2), 'Krelath names are two-part');
-  assert.ok(registers.EAR.names.every(n => n.split(' ').length === 1), 'the phone book lists surnames');
+  assert.ok(registers.EAR.names.every(n => n.split(' ').length === 2), 'the phone book lists a given name and a surname');
+  assert.ok(['Scott Ridley', 'Marvin Kaminski'].every(n => registers.EAR.names.includes(n)), 'the two Chris supplied must be in the Federation register');
   assert.ok(['Stalactar', 'Geos', 'Hydron'].every(n => registers.VRA.names.includes(n)), 'the three Chris supplied must be in the Vraygon register');
 });
 
