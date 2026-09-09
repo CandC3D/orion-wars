@@ -238,6 +238,38 @@ for view in wanted_views:
                 poly.material_index = 0 if face_region[poly.index] == want else 1
         scene.render.filepath = os.path.join(OUTDIR, "%s_%s_%s.png" % (SLUG, view, tag))
         bpy.ops.render.render(write_still=True)
+    # Crease pass. The region masks can only put an edge where two MATERIALS
+    # meet, so wherever one part joins another of the same material - a warp pod
+    # meeting the structure it hangs from, the spoke joining a nav ball to its
+    # nacelle - the two merge into a single shape with no line between them.
+    # Freestyle draws the model's own silhouette and fold lines, which is what
+    # makes the result read as a schematic rather than a flat colour map.
+    scene.render.use_freestyle = True
+    scene.render.line_thickness_mode = "ABSOLUTE"
+    scene.render.line_thickness = 1.0
+    view_layer = bpy.context.view_layer
+    view_layer.use_freestyle = True
+    fs = view_layer.freestyle_settings
+    fs.crease_angle = math.radians(134)
+    for old in list(fs.linesets):
+        fs.linesets.remove(old)
+    ls = fs.linesets.new("creases")
+    ls.select_silhouette = True
+    ls.select_border = True
+    ls.select_crease = True
+    ls.select_contour = True
+    ls.select_material_boundary = False      # the region masks already carry those
+    ls.linestyle.color = (1.0, 1.0, 1.0)
+    ls.linestyle.thickness = float(args.get("crease_px", 2.0))
+    mesh.materials.clear()
+    mesh.materials.append(black)             # body black, lines white
+    for poly in mesh.polygons:
+        poly.material_index = 0
+    scene.render.filepath = os.path.join(OUTDIR, "%s_%s_creases.png" % (SLUG, view))
+    bpy.ops.render.render(write_still=True)
+    scene.render.use_freestyle = False
+    view_layer.use_freestyle = False
+
     print("rendered %d masks for view %s" % (len(PALETTE) + 1, view))
     bpy.data.objects.remove(cam, do_unlink=True)
 

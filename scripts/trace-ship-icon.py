@@ -49,7 +49,7 @@ ROLES = {k: {r["key"]: r["role"] for r in v["regions"]} for k, v in _MARKUP.item
 # translucent band over a dark hull is what muted the command spheres to
 # cornflower.
 DETAIL = {
-    "map":     dict(hull_stroke=3.4, edge=0.8, eps=1.1, min_area=0.0012, roles=("hull", "deep", "metal", "trim", "lit")),
+    "map":     dict(hull_stroke=3.4, edge=0.8, eps=1.1, min_area=0.0012, roles=("hull", "deep", "metal", "trim", "lit"), creases=False),
     "console": dict(hull_stroke=2.4, edge=1.0, eps=0.8, min_area=0.0004, roles=("hull", "deep", "metal", "trim", "lit")),
     "full":    dict(hull_stroke=2.0, edge=0.9, eps=0.6, min_area=0.0002, roles=("hull", "deep", "metal", "trim", "lit")),
     "wire":    dict(hull_stroke=1.4, edge=0.8, eps=0.5, min_area=0.0002, roles=("hull", "deep", "metal", "trim", "lit"), wire=True),
@@ -322,11 +322,16 @@ def main():
 
     def trace_view(view):
         got = {}
-        for key in [k for k in ROLE_OF[args.faction] if ROLE_OF[args.faction][k] in spec["roles"]] + ["hull"]:
+        keys = [k for k in ROLE_OF[args.faction] if ROLE_OF[args.faction][k] in spec["roles"]] + ["hull"]
+        if spec.get("creases", True):
+            keys.append("creases")
+        for key in keys:
             path = os.path.join(args.masks, "%s_%s_%s.png" % (args.slug, view, key))
             if not os.path.exists(path):
                 continue
             role = ROLE_OF[args.faction].get(key)
+            if key == "creases":
+                role = "creases"
             grid, w, h = load_mask(path, symmetric=(role != "lit"))
             # Lights and painted marks are SMALL by nature - a nav light is
             # 28 px in a 768px frame - so they need their own floor. A single
@@ -334,17 +339,28 @@ def main():
             # nacelles and the green starboard light entirely.
             if key == "hull":
                 min_frac = 0.0015
+            elif key == "creases":
+                min_frac = 0.000004      # a fold line is a hairline by nature
             elif role in ("lit", "trim"):
                 min_frac = 0.000015
             else:
                 min_frac = spec["min_area"]
-            eps = spec["eps"] * (1.0 if key == "hull" else 0.7)
+            eps = spec["eps"] * (1.0 if key == "hull" else 0.45 if key == "creases" else 0.7)
             contours = trace_contours(grid, w, h, int(w * h * min_frac))
             if contours:
                 holes = find_holes(grid, w, h, max(24, int(w * h * min_frac * 0.35)))
-                groups = assign_holes(contours, holes)
-                got[key] = [" ".join(to_paths(g, w, h, eps)) for g in groups]
-                got[key] = [d for d in got[key] if d]
+                if key == "creases":
+                    # The fold lines are one connected network, so the flood fill
+                    # finds a single blob whose outer boundary is the silhouette.
+                    # Filling that alone paints the whole ship solid: the shape
+                    # of the line work lives entirely in the enclosed areas, so
+                    # the holes are the drawing.
+                    cell_holes = find_holes(grid, w, h, 6)
+                    groups = assign_holes(contours, cell_holes)
+                    got[key] = [d for d in (" ".join(to_paths(g, w, h, eps)) for g in groups) if d]
+                else:
+                    groups = assign_holes(contours, holes)
+                    got[key] = [d for d in (" ".join(to_paths(g, w, h, eps)) for g in groups) if d]
                 anchors.setdefault(view, {})[key] = measure(contours, w, h)
         return got
 
@@ -398,6 +414,10 @@ def main():
                                        % (d, colour, pal["line"], edge))
                         else:
                             out.append('<path d="%s" fill="%s" fill-rule="evenodd"/>' % (d, colour))
+            # Fold lines on top of everything: this is what separates two parts
+            # made of the same material, which no material boundary can.
+            for d in layers.get("creases", []):
+                out.append('<path d="%s" fill="%s" fill-rule="evenodd"/>' % (d, pal["line"]))
         out.append("</g>")
         return chr(10).join(out)
 
