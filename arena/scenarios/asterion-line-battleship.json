@@ -60,7 +60,7 @@
   "tutorial": {
     "title": "Command briefing: The Asterion Line — Battleship",
     "steps": [
-      "Two task forces have met around Asterion. Earth must protect its Federation-class battleship; Krelath must protect its fleet carrier. Destroy the opposing command asset to end the battle. The asteroid screen on Earth's approach blocks fire and slows ships that cross it. Both fleets total 68 stock points: Krelath receives an additional heavy cruiser to compensate for Earth's battleship replacing the gunstar.",
+      "Two task forces have met around Asterion. Earth must protect its Federation-class battleship; Krelath must protect its fleet carrier. Destroy the opposing command asset to end the battle. The asteroid screen on Earth's approach blocks fire and slows ships that cross it. Earth fields 68 stock points to Krelath's 54. Equal points left Krelath winning four battles in five, so the carrier's escort is a heavy cruiser, two light cruisers and a frigate on the northern flank.",
       "Use Formation Control to issue a sensible plan to the whole fleet. Advance & Fire closes for two actions and fires on the third; Hold & Fire keeps every weapon available.",
       "Select a vessel to inspect its six shield faces and colored firing arcs. Then click an enemy ship to make it that vessel’s target. Individual orders override the formation plan.",
       "Movement and weapons spend the same power that shields use to absorb hits. End Turn when the fleet is ready; missiles arrive next turn, and every decision is retained for replay."
@@ -124,9 +124,9 @@
           "facing": 3
         },
         {
-          "className": "heavy-cruiser",
-          "q": 14,
-          "r": 5,
+          "className": "frigate",
+          "q": 13,
+          "r": -6,
           "facing": 3
         }
       ]
