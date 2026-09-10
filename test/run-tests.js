@@ -17,6 +17,7 @@ const tests = [
   ["Keel-gun target obedience and whole-point shields", "target-shield-rulings.mjs"],
   ["Player-initiated spinal cycle, vent and restricted movement preview", "manual-spinal.mjs"],
   ["Ship captain registers and the deterministic draw", "captain-roster.mjs"],
+  ["Vessel registers, deterministic names and explicit PLAY opt-in", "ship-registry.mjs"],
   ["Ship captains: the declared decision rules", "ship-command.mjs"],
   ["Ship captains against the engine", "ship-command-engine.mjs"],
   ["Ship captains declared before commitment", "ship-command-preview.mjs"],

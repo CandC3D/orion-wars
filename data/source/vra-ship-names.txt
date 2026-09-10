@@ -1,0 +1,51 @@
+Vraygon Star Realm Ship Names
+Prefix: TWS (Topaz War Ship)
+Navy: Vraygon Topaz Warshard (VTW)
+Faction: Vraygon Star Realm
+
+FRIGATES
+*Shard Class*
+Shard
+Sliver
+Facet
+Shatter
+
+DESTROYERS
+*Point Class*
+Point
+Angle
+Edge
+Sheen
+
+*Avalanche Class*
+Avalanche
+Rockfall
+Impact
+Crater
+
+LIGHT CRUISERS
+*Feldspar Class*
+Feldspar
+Rutile
+Crocite
+Quartz
+
+HEAVY CRUISERS
+*Crystal Class*
+Diamond
+Emerald
+Ruby
+Sapphire
+
+BATTLESHIPS
+*Cluster Class*
+Cluster
+Aggregate
+Matrix
+Geode
+
+Monitors
+*Bastion Class*
+Bastion
+Citadel
+Fortress

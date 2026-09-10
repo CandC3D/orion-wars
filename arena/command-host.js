@@ -7,9 +7,10 @@ import { bindPlayerSession } from '../src/captains/player-session.js';
 import { jsonCopy, freezeTree } from '../src/captains/json.js';
 import { validateScenario } from './editor-core.js';
 
-export function createCommandSession(input, tuning, loadouts) {
+export function createCommandSession(input, tuning, loadouts, { shipNames = null } = {}) {
   const setup=jsonCopy(input,{bytes:8*1024*1024,depth:40,nodes:200000});
-  if(!setup||Object.keys(setup).sort().join(',')!=='mode,scenario,side'||
+  if(!setup||Object.keys(setup).filter(k=>k!=='nameShips').sort().join(',')!=='mode,scenario,side'||
+    (Object.hasOwn(setup,'nameShips')&&typeof setup.nameShips!=='boolean')||
     !['quick','bundled','authored'].includes(setup.mode)||!['A','B'].includes(setup.side))throw new Error('Invalid command setup');
   const s=setup.scenario;
   if(!s||!Number.isInteger(s.map?.widthHexes)||!Number.isInteger(s.map?.heightHexes)||
@@ -22,7 +23,9 @@ export function createCommandSession(input, tuning, loadouts) {
   const fleetFloorPolicy=setup.mode==='quick'?'strict':'warn';
   const errors=validateScenario(s,local,loadouts,{fleetFloorPolicy});
   if(errors.length)throw new Error(errors.join(' '));
-  const battle=createBattle(s,local,structuredClone(loadouts),String(s.seed??'orion'),{fleetFloorPolicy});
+  if(setup.nameShips&&!shipNames)throw new Error('Vessel name registers unavailable');
+  const battle=createBattle(s,local,structuredClone(loadouts),String(s.seed??'orion'),{
+    fleetFloorPolicy,...(setup.nameShips?{shipNames}:{})});
   enableContacts(battle,{profile:SENSING_PROFILE});
   const session=bindPlayerSession(battle,setup.side);
   const text=(value,max=1500)=>typeof value==='string'?value.slice(0,max):'';

@@ -56,25 +56,43 @@ export function registerSpace(register) {
 // the Federation pools cross to ten thousand officers.
 export function drawCaptain(shipId, seed, faction, registers, { posture = DEFAULT_POSTURE, taken = null } = {}) {
   const register = registers?.[faction];
-  const space = registerSpace(register);
+  const drawn = drawRegisterEntry(registerSpace(register), shipId, seed, { taken });
+  if (!drawn) return null;
+  const { index, round, name: personalName } = drawn;
+  const title = register.title ?? '';
+  return {
+    id: `cap-${faction}-${index}${round ? `-${round + 1}` : ''}`,
+    name: title ? `${title} ${personalName}` : personalName,
+    title, personalName, faction, posture
+  };
+}
+
+// Shared by officers and vessels: one private stream, one forward probe, one ordinal policy.
+// Captains retain their historical ten-pass ceiling. Small vessel registers can ask for more.
+export function drawRegisterEntry(space, shipId, seed, { taken = null, maxRounds = ORDINALS.length } = {}) {
   if (!space) return null;
   const rng = makePrng(seedFromString(`${seed}:${shipId}`));
   const start = rng.int(space.size);
-  for (let round = 0; round < ORDINALS.length; round++) {
+  for (let round = 0; round < maxRounds; round++) {
     for (let step = 0; step < space.size; step++) {
       const index = (start + step) % space.size;
-      const personalName = space.at(index) + ORDINALS[round];
-      if (taken && taken.has(personalName)) continue;
-      taken?.add(personalName);
-      const title = register.title ?? '';
-      return {
-        id: `cap-${faction}-${index}${round ? `-${round + 1}` : ''}`,
-        name: title ? `${title} ${personalName}` : personalName,
-        title, personalName, faction, posture
-      };
+      const name = space.at(index) + ordinalSuffix(round);
+      if (taken && taken.has(name)) continue;
+      taken?.add(name);
+      return { index, round, name };
     }
   }
-  return null;   // ten times round the register: the fleet is larger than the game supports
+  return null;   // the caller's allowed passes through this register are exhausted
+}
+
+function ordinalSuffix(round) {
+  if (round < ORDINALS.length) return ORDINALS[round];
+  let remaining = round + 1, roman = '';
+  for (const [value, digits] of [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],
+    [50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]) {
+    while (remaining >= value) { roman += digits; remaining -= value; }
+  }
+  return ` ${roman}`;
 }
 
 // Officers for a whole fleet. Ships are dealt in id order rather than array order, so the same

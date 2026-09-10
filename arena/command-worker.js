@@ -12,7 +12,13 @@ self.onmessage=async({data:request})=>{
       if(Object.keys(request).sort().join(',')!=='id,setup,type')throw new Error('Invalid request');
       starting=true;
       const [tuning,loadouts]=await data;
-      host=createCommandSession(request.setup,tuning,loadouts);
+      let shipNames=null;
+      if(request.setup?.nameShips===true){
+        const response=await fetch('../data/ship-names.json');
+        if(!response.ok)throw new Error('Vessel name registers unavailable');
+        shipNames=(await response.json()).registers;
+      }
+      host=createCommandSession(request.setup,tuning,loadouts,{shipNames});
       self.postMessage({id,ok:true,value:{frame:host.session.view(),mission:host.mission}});
     }else{
       if(!host||Object.keys(request).sort().join(',')!=='id,orders,type')throw new Error('Invalid request');

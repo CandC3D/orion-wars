@@ -20,6 +20,7 @@ import { SENSING_PROFILE, currentContacts, pruneScanLocks, recordShieldSweep } f
 import { scanCapabilities, scanActionError } from './scans.js';
 import { createMissileFlight, advanceMissileFlights, missileImpactFace, missileGeometry, snapshotMissiles } from './missiles.js';
 import { advanceManualSpinal } from './spinal-control.js';
+import { nameShips } from './ship-registry.js';
 
 // ---------------------------------------------------------------- helpers
 
@@ -2211,6 +2212,8 @@ export function createBattle(scenario, tuning, loadouts, seed, options = {}) {
   });
   battle.scenario = scenario;
   battle.seed = seed;
+  // Explicit register data is the opt-in. No field (even null) is added to unnamed battles.
+  if (options.shipNames) for (const fleet of battle.fleets) nameShips(fleet, seed ?? 'orion', options.shipNames);
   if (built.warnings?.length) battle.warnings = [...built.warnings];
   return battle;
 }

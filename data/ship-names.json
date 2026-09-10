@@ -1,0 +1,309 @@
+{
+  "_comment": "Generated from data/source/*.txt. Regenerate with node scripts/build-ship-names.mjs; edit the source lists, not this JSON. Engine class mappings are explicit in that script and checked against data/tactical-tuning.json rosters. Duplicate names within a class keep their first position. Zandrax has no source register yet and draws no vessel names.",
+  "registers": {
+    "EAR": {
+      "prefix": "EDS",
+      "prefixName": "Earth Defense Ship",
+      "navy": "Earth Defense Fleet (EDF)",
+      "classes": {
+        "frigate": {
+          "sourceClass": "Monoceros",
+          "names": [
+            "Monoceros",
+            "Orion",
+            "Canis Major",
+            "Ophiuchus",
+            "Scorpio",
+            "Gemini",
+            "Aries",
+            "Aquarius",
+            "Pisces",
+            "Sagittarius",
+            "Virgo",
+            "Taurus",
+            "Leo",
+            "Libra",
+            "Capricorn"
+          ]
+        },
+        "destroyer": {
+          "sourceClass": "Victory",
+          "names": [
+            "Victory",
+            "Constitution",
+            "Warrior",
+            "Ark Royal",
+            "Monitor",
+            "Valmy",
+            "Vasa",
+            "Mary Rose",
+            "Santissima Trinidad",
+            "Indefatigable",
+            "Mahmudiye",
+            "Saint-Esprit"
+          ]
+        },
+        "missile-destroyer": {
+          "sourceClass": "Saturn",
+          "names": [
+            "Saturn",
+            "Uranus",
+            "Neptune",
+            "Jupiter",
+            "Mercury",
+            "Venus",
+            "Luna",
+            "Titan",
+            "Pluto",
+            "Rhea",
+            "Charon",
+            "Enceladus",
+            "Europa",
+            "Callisto",
+            "Ganymede"
+          ]
+        },
+        "light-cruiser": {
+          "sourceClass": "Acamar",
+          "names": [
+            "Acamar",
+            "Betelgeuse",
+            "Rigel",
+            "Mizar",
+            "Capella",
+            "Bellatrix",
+            "Alkaid",
+            "Deneb",
+            "Vega",
+            "Sirius",
+            "Procyon",
+            "Polaris"
+          ]
+        },
+        "heavy-cruiser": {
+          "sourceClass": "Yi Sun-sin",
+          "names": [
+            "Yi Sun-sin",
+            "Horatio Nelson",
+            "Chester Nimitz",
+            "Togo Heihachiro",
+            "Francis Drake",
+            "Raymond Spruance",
+            "Andrew Cunningham",
+            "Yamamoto Isoroku",
+            "Michiel de Ruyter",
+            "Zheng He",
+            "Themistocles",
+            "Arleigh Burke",
+            "Thomas Cochrane"
+          ]
+        },
+        "battleship": {
+          "sourceClass": "Federation",
+          "names": [
+            "Federation",
+            "Terra",
+            "Mars",
+            "Proxima",
+            "Horizon",
+            "Terra Nova",
+            "Aurora",
+            "Asgard",
+            "New Eden"
+          ]
+        },
+        "gunstar-battlecruiser": {
+          "sourceClass": "Yamato",
+          "names": [
+            "Yamato",
+            "Arizona",
+            "Agamemnon",
+            "Iowa",
+            "New Jersey",
+            "Missouri",
+            "Musashi",
+            "Bismarck",
+            "Tirpitz",
+            "Vittorio Veneto"
+          ]
+        }
+      }
+    },
+    "KRE": {
+      "prefix": "IKS",
+      "prefixName": "Imperial Krelath Ship",
+      "navy": "Krelath Star Navy (KSN)",
+      "classes": {
+        "frigate": {
+          "sourceClass": "Sparrowhawk",
+          "names": [
+            "Kestrel",
+            "Eagle",
+            "Hawk",
+            "Falcon",
+            "Raven",
+            "Condor",
+            "Brightwing",
+            "Sharpbeak",
+            "Warfeather",
+            "Starwing"
+          ]
+        },
+        "destroyer": {
+          "sourceClass": "Swift",
+          "names": [
+            "Swift",
+            "Valiant",
+            "Hero",
+            "Ranger",
+            "Gladiator",
+            "Glory",
+            "Honor"
+          ]
+        },
+        "missile-destroyer": {
+          "sourceClass": "Ballista",
+          "names": [
+            "Ballista",
+            "Trebuchet",
+            "Catapult",
+            "Archer",
+            "Sharpshooter",
+            "Ranger",
+            "Peltast",
+            "Hoplite"
+          ]
+        },
+        "light-cruiser": {
+          "sourceClass": "Raptor",
+          "names": [
+            "Raptor",
+            "Fang",
+            "Talon",
+            "Ripping Claw",
+            "Bird-of-Prey",
+            "Gryphon",
+            "Roc"
+          ]
+        },
+        "strike-cruiser": {
+          "sourceClass": "Lightning",
+          "names": [
+            "Lightning",
+            "Fireball",
+            "Flame",
+            "Striker",
+            "Invincible",
+            "Indefatigable",
+            "Thunder"
+          ]
+        },
+        "heavy-cruiser": {
+          "sourceClass": "Star Knight",
+          "names": [
+            "Star Knight",
+            "Star Cavalier",
+            "Star Paladin",
+            "Star Champion",
+            "Star Gallant",
+            "Star Templar"
+          ]
+        },
+        "battleship": {
+          "sourceClass": "Star Lord",
+          "names": [
+            "Star Lord",
+            "Star Princess",
+            "Star Queen",
+            "Star Empress",
+            "Star King",
+            "Star Emperor"
+          ]
+        },
+        "carrier": {
+          "sourceClass": "Starblade",
+          "names": [
+            "Starbade",
+            "Fireblade",
+            "Iceblade",
+            "Starsword",
+            "Firesword",
+            "Icesword",
+            "Starwing",
+            "Firewing",
+            "Icewing"
+          ]
+        }
+      }
+    },
+    "VRA": {
+      "prefix": "TWS",
+      "prefixName": "Topaz War Ship",
+      "navy": "Vraygon Topaz Warshard (VTW)",
+      "classes": {
+        "frigate": {
+          "sourceClass": "Shard",
+          "names": [
+            "Shard",
+            "Sliver",
+            "Facet",
+            "Shatter"
+          ]
+        },
+        "destroyer": {
+          "sourceClass": "Point",
+          "names": [
+            "Point",
+            "Angle",
+            "Edge",
+            "Sheen"
+          ]
+        },
+        "missile-destroyer": {
+          "sourceClass": "Avalanche",
+          "names": [
+            "Avalanche",
+            "Rockfall",
+            "Impact",
+            "Crater"
+          ]
+        },
+        "light-cruiser": {
+          "sourceClass": "Feldspar",
+          "names": [
+            "Feldspar",
+            "Rutile",
+            "Crocite",
+            "Quartz"
+          ]
+        },
+        "heavy-cruiser": {
+          "sourceClass": "Crystal",
+          "names": [
+            "Diamond",
+            "Emerald",
+            "Ruby",
+            "Sapphire"
+          ]
+        },
+        "battleship": {
+          "sourceClass": "Cluster",
+          "names": [
+            "Cluster",
+            "Aggregate",
+            "Matrix",
+            "Geode"
+          ]
+        },
+        "monitor": {
+          "sourceClass": "Bastion",
+          "names": [
+            "Bastion",
+            "Citadel",
+            "Fortress"
+          ]
+        }
+      }
+    }
+  }
+}
