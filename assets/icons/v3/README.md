@@ -6,9 +6,11 @@ Generated from the v3 hulls, not drawn by hand. Approved by Chris:
 |---|---|---|
 | Earth Defence Fleet (`ear_`) | 7 | 2026-09-08 |
 | Krelath Star Navy (`kre_`) | 10 (8 hulls + 2 strike craft) | 2026-09-08 |
+| &nbsp;&nbsp;&hookrightarrow; KSN *Intrallus* | 1 (campaign boss) | **awaiting review** |
 | Vraygon Star Realm (`vra_`) | 7 | 2026-09-08 |
 
-24 classes, 48 files. Staged here rather than dropped over `assets/icons/`,
+25 classes, 50 files (24 approved; the Intrallus arrived later and is
+unreviewed). Staged here rather than dropped over `assets/icons/`,
 because the glyphs currently in use are generic placeholders — the same teardrop
 per class at a different scale — and replacing them changes how every ship reads
 on the tactical map. That swap is the integrating session's call, not this
@@ -29,7 +31,9 @@ here can be re-tinted from the page.
 
 Hull keys match `rosters.*` in `data/tactical-tuning.json` with hyphens as
 underscores, so `vra_missile_destroyer_console.svg` is the `missile-destroyer`
-entry for VRA.
+entry for VRA. The one exception is `kre_super_dreadnought_*` — the Supreme
+Leader's flagship *Intrallus* is a campaign opponent, not a class anyone can
+build, so it has no roster entry to match.
 
 ## How the console resolves an icon today
 
@@ -42,7 +46,9 @@ whether the map keeps the same file or takes the `_map` variant.
 
 The manifest's per-class `size` field scales the drawn glyph. These are traced
 to a consistent frame, so relative hull size is **not** baked into the artwork —
-the existing `size` values still do that job.
+the existing `size` values still do that job. That matters most for the
+*Intrallus*: it is 290 units long against the Star Lord's 204 and a destroyer's
+91, and none of that reaches the token unless `size` says so.
 
 ## Faction notes
 
@@ -57,6 +63,14 @@ self-lit; red is **not** — unlike Earth, where red is a running light, Krelath
 red is a painted marking. Ships orient with the warp pods aft; on torpedo
 classes the three red hexagons mark torpedoes, mounted forward on most classes.
 Per-hull yaw corrections are recorded in the markup file.
+
+**The Intrallus** (`kre_super_dreadnought_*`) is the Supreme Leader's flagship,
+a super dreadnought-carrier waiting at the end of the campaign. Same pipeline,
+no special-casing: 478k source triangles down to 57k, region gate clean, all
+seven Krelath regions surviving the trace. It orients like the rest of the
+fleet — warp pods aft, bronze prow forward — and the model's own red markings
+agree, clustering at the prow rather than the pod end. Yaw 180, recorded in the
+markup file with the others.
 
 **Vraygon** — gold and purple. Red, purple, orange and green are self-lit; gold,
 yellow and blue are brushed metal. The gold-and-purple read is intended and
@@ -73,6 +87,9 @@ finished glyphs. Battleship, light cruiser and monitor are yaw-corrected 180°.
   resolving as one blob rather than three. Flagged to Chris, not fixed.
 - **Krelath carrier** elevator hexes are 5.3–5.5 units: legible at 120px, about
   1.5px at map size, where they will not survive.
+- **Intrallus** elevator hexes read cleanly at console size — six of them,
+  hexagonal, not blobs — because the ship is half again the carrier's length.
+  At 28px they go the same way the Bladestar's do.
 - **Krelath fighters** carry 1.2–1.5% line coverage against 3–8% for the rest.
   Those models are simply plainer; not a tracing fault.
 

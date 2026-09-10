@@ -255,7 +255,8 @@
         "krelath_light_cruiser": 180,
         "krelath_bomber": 270,
         "krelath_strike_cruiser": 180,
-        "krelath_interceptor": 180
+        "krelath_interceptor": 180,
+        "krelath_intrallus": 180
       }
     }
   },

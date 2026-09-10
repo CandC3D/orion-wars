@@ -49,6 +49,10 @@ ROSTERS = {"EAR": [
     ("carrier",           "krelath_carrier",            "Krelath KCV-01 _Bladestar_ Class Carrier.glb"),
     ("interceptor",       "krelath_interceptor",        "Krelath Fighter - Interceptor.glb"),
     ("bomber",            "krelath_bomber",             "Krelath Fighter - Bomber.glb"),
+    # Campaign boss. Sits outside the KSN folder and outside rosters.KRE - the
+    # Supreme Leader's flagship is not a class you can build in the drydock.
+    ("super-dreadnought", "krelath_intrallus",
+     r"C:\Users\chorr\Downloads\Supreme Leader's Flagship Intrallus.glb"),
 ], "VRA": [
     ("frigate",           "vraygon_frigate",            "Vraygon VFG-04 _Shard_ Class Frigate.glb"),
     ("destroyer",         "vraygon_destroyer",          "Vraygon DD-03 _Point_ Class Destroyer.glb"),
