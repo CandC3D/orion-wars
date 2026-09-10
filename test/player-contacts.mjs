@@ -34,6 +34,16 @@ check('side frames have no hidden ship or engineering even when hidden worlds di
   equal(a.result,null);equal(Object.keys(a).sort(),['format','maxTurns','observation','phase','result','round','turn']);
   const enemy=world(),frame=P.playerFrame(enemy.battle,'A');
   equal(Object.keys(frame.observation.contacts[0]).sort(),['className','facing','faction','id','observedDamage','observers','pos']);   // unnamed fleet
+  for(const named of [false,true]){
+    const w=world();if(named)w.b.vesselName={full:'ISS Remembered'};
+    w.b.superstructure=1;w.b.power=0;w.t.pointDefence.maxChance=0;w.t.screening.maxChance=0;
+    w.battle.inFlight.push({side:'A',shooterId:w.a.id,shooterPos:{...w.a.pos},targetId:w.b.id,damage:100000,spread:0});
+    E.stepTurn(w.battle);
+    const wreck=P.playerFrame(w.battle,'A').observation.contacts[0];
+    equal(Object.keys(wreck).sort(),['className','destroyed','facing','faction','id','pos',...(named?['vesselName']:[]),'wreckedTurn'].sort());
+    equal(wreck.destroyed,true);equal(wreck.wreckedTurn,1);
+    equal(P.playerFrame(w.battle,'B').observation.own[0].wreckedTurn,1);
+  }
   ok(!('power' in frame.observation.contacts[0]));ok(!('design' in frame.observation.contacts[0]));
 });
 check('event projection omits hidden launch positions, victim faces, flight paths and raw damage',()=>{

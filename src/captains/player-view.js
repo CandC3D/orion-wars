@@ -50,6 +50,13 @@ export function playerShot(event, before, after) {
     if (pos) projected.destination = { q: pos.q, r: pos.r };
   }
   if (recipientOwn && Number.isInteger(event.face)) projected.face = event.face;
+  if (kind === 'missile' && event.outcome === 'intercepted' && Array.isArray(event.defenderIds)) {
+    const reports = [...before.observation.own, ...before.observation.contacts.filter(c => !c.destroyed)];
+    projected.defenders = event.defenderIds.filter(known).flatMap(id => {
+      const hull = reports.find(s => s.id === id);
+      return hull ? [{ shipId: id, name: hull.vesselName?.full || (own.has(id) ? hull.displayName : null) || id }] : [];
+    });
+  }
   // No raw damage value, enemy shield face, victim array, flight ID/course,
   // squadron, weapon definition or unfiltered text is forwarded.
   return freezeTree(projected);

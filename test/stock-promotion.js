@@ -75,6 +75,10 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(beforeT.hullClasses.frigate.superstructure,8);
   restored.hullClasses.frigate.superstructure=beforeT.hullClasses.frigate.superstructure;
   delete restored.hullClasses.frigate._structureNote;
+  // Chris's September 10 playtest ruling: widen the point-defence umbrella only.
+  assert.equal(restored.pointDefence.rangeHexes,4);
+  assert.equal(beforeT.pointDefence.rangeHexes,3);
+  restored.pointDefence.rangeHexes=beforeT.pointDefence.rangeHexes;
   assert.deepEqual(restored,beforeT);
   const stripped=copy(l);delete stripped._publishedStock;
   assert.equal(stripped.VRA.destroyer.missileMounts,1);stripped.VRA.destroyer.missileMounts=beforeL.VRA.destroyer.missileMounts;

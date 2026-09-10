@@ -2,7 +2,7 @@
   "name": "The Asterion Line — Battleship",
   "seed": "asterion-line",
   "featured": true,
-  "maxTurns": 12,
+  "maxTurns": 20,
   "map": {
     "widthHexes": 60,
     "heightHexes": 36
@@ -55,7 +55,7 @@
       "A": "battleship",
       "B": "carrier"
     },
-    "text": "Destroy the enemy command asset while protecting your own. If both survive through turn 12, the fleet with more surviving points wins."
+    "text": "Destroy the enemy command asset while protecting your own. If both survive through turn 20, the fleet with more surviving points wins."
   },
   "tutorial": {
     "title": "Command briefing: The Asterion Line — Battleship",

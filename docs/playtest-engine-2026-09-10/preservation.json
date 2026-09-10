@@ -1,0 +1,2850 @@
+{
+  "baseline": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\.tmp-playtest\\published-head",
+  "pass": true,
+  "battles": 144,
+  "executions": 288,
+  "turns": 1543,
+  "rounds": 4529,
+  "comparison": "Byte comparison of JSON for complete ship/PRNG/missile/lock/shield/stats/result state, per-round states, shots and narrative. Only additive wreckedTurn, wrecks and defenderIds removed.",
+  "cells": [
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "b703734959bb01769a76f3335a2e6e0d0f4ccf965a465ca9076a849cade87b4d",
+        "16fe4a7e0922d1db7c809b538fd890f36353a2e36dad65054b9bfaca720bf2dc",
+        "540ed79da73cc8aeb153058532eb0fbe2b028dd98caea17bb8345c158d15a2c8",
+        "a4979dc43acf1630a38049911b39718f3c6bcd02625ef71e6b65d864d47cb3e3",
+        "7a01987ff5cbcf058dedbbc6e534533e7b07d22f7062e226f26eb92778c94b98",
+        "59295a6c4c24d751b7f54f6b9cacb478571f5a1135294f9db6ce080789fe1eb1",
+        "91fbddde2ce054cd30904b57e59af600d70af1364628c2956d69e13e464d43f8",
+        "161922fa5a52c508d15d9633406e41b900f2cb9399bd9b6da5c9fa118b47467c",
+        "446e5dca59c606045c28520ced1261ad47f53688ed7eea4b3b0b55483000062c",
+        "ec3d03d5708d1e8649f581113e46e91e35c0dc486a9bd99c36566333d74f83eb",
+        "5ca95f2ba43da50865519f5c209ad55f3a27cfc0d227d3f73876aed87631671f",
+        "94ea6848657670f6798579c26f8afb57042708836c73efba5454f1728246080f"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "8aecd058cbfc82ff79aad1025cd6a6844332067148ce82438aeb8cf92897dd49",
+        "0873fcfcbd251a3cfc12e5228b544e4da983e30213831b6e4026203120935dd6",
+        "b338b993be7d99e6e22fb96a8f6631a744402a5ba306a983e089e632bc779e78",
+        "d270818b693f6d689da7cbd314f23844a1753ec57d5fe76bb905a65060379bae",
+        "3f2e26df7aaf7a2f75b735ef6216f3da0cdd8c5b2c8c2b38699348e0b4bf6ea1",
+        "155b3223bef0be3ff832957567c9df608aefa5ab33260e084c2bf2393fa94a1e",
+        "47d43a79dd6cae0d03f9f90535b454c2f3c93f31374f4fba95b6d71a851934bc",
+        "bf01d30c7067aeb8aa0eabf104db2cebf0f647a35350144e96a6d86a212da173",
+        "fb2b4cb1c1d7256aa8d5a2672424ccba33d5be52719b3de0e0d8e803cba4bab5",
+        "c5b718420f20c801227b62a14c3599dc24a74b563031f962dce13302acbcbdd9",
+        "309b3c630a3f0a1da704fff1ac666df5ceb7d13a2dc71bc2b8f3862fb659d91c",
+        "254704ea9a329a24dbb98a804cd0c80612bb5cf9d1e9d660876da6012742774f"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 3,
+      "turns": 8,
+      "digests": [
+        "8de8ba51eea0143adbece8537d8b2fe31ecaf12c5f5b0aaacf434c8127b3ed76",
+        "3308af381b1e18cab96c07a9674fba14f9e64f7027152b6ac55807ece0a9aea1",
+        "6ff0702f42b98edc7a8563535bab8e3a5e3dd18b5e823bc26b02f90f2b4777f9",
+        "60527a4db3c233e1a0ea2bbb32d9e79a6efe1eaa33324342c21b54f853fa88de",
+        "d7252a51a240eb53cced7394d54183da13f8082a0efe487a4f939ac70dd11a87",
+        "e0a45f8bddfc90592dad39985777f9b0496a46d4360a46d8b1a760ff44126929",
+        "61cf2f524e65f25f213e3f11ae6ef8b51b3d54df8576546155926a248fdbe285",
+        "70f513b0d781363788a96830419fc6fc3f40100bfbe1fb86e23cf765eddf1e92"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "8142c68bd7a768114db482f17bb4ec91016144dae0da3a196c30f37fc806dca6",
+        "64ce285d905144e1a2d79f610a73764ab4a265767db44771a37a207ed4ab272d",
+        "97963fd13e3e99acd8cc707dab981506a81fe077799fc0a08ba47b44081071e6",
+        "1cc46e3ef7b1fbed64c328b546e41ef5eda347ebc3f2cedc3979fd221b7d1429",
+        "b272ad5206f7f5c605495ad8b1125c7cad164735efae348438e0a450208254ca",
+        "30aeeb2914530e921f62852aaaef8c6cd7425fde2013420bdc1f4350a453be9b",
+        "40438f8bbe71e2aa6f2f0b84ce0d784d945b837f2353d8dcb46d4de40c8eed73",
+        "54bc95439e8f3c9e51f88951ad75cec06569bce8ed76c6b64dc25e4c481095ad",
+        "b21cb86504b2861c19ba1cb4d6412485da04d036f36ac0eb4584a9e6d138d2eb",
+        "1c2551be5ee7c9abee96a8d970bd00d48d413425d9b0b710b1c4c8b5ea9f97e3",
+        "9e9a7fcf920e2a9256f0f895b9c0e52345a32931456e6d68e2c164c09c6d1087",
+        "f0aa805e58739333ff3d30d653363f6dd32f45fd2e8e64f0cd37c69504194a19"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "6a0c365b9fe6b689a2611b459d740a0301ebc96069cdcf2092797cd493526ddc",
+        "547085d4da2ed35927e48b36031e24c193de10649649641a384c93852676a06f",
+        "11d70d1c3c1e927484e2f6b2d9b22729b0bef85de221836a1f862e2f5727804a",
+        "f76dfd0655302168e60e11410ab7f5069f8365925a6f5d94126c1b7658c02bea",
+        "63cc89864ce19388f6a34d55dc9a4fef335d38468607e979840b741ee76b6ab5",
+        "c93b31aca3eb227cf0e79f6896bc45dbc612b3ae8f203175d5cccb57a32d98e1",
+        "0109f1014bc4dbfee5b56b8a9f7b7054ba0ad573981e5d71124f455471e70dd4",
+        "fd0620304611a2409fccbfaee45170ce50fef9f9031b89bb677277dba897218d",
+        "b8f150c990787b3ba5e5776f5abf3cf7d70973ec1c991ca462713556bd3a6cda",
+        "e6dd5fe95c4727306789621650a5658e544f10a66f4a38966ebd9ffa7f5d2eaa",
+        "5b6b478fbb8f30b387c9d3ab711743c31a2a486d59f85c43535a691a203a61db",
+        "9c9adc8962869d4d4d12ec31ccb3aadef1460bd7d810e102bf38e2250aa47803"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "1dadc530e828152b8e687a6cc8393c3687262893cfbb8ea3b3c7b35431ceac47",
+        "32d1f1159141c11b90865169cbb4b3615231f7642943fbd3e1fbff3fd8234c13",
+        "d4f7ea26a5e484bfb6450a9d5b633da64760203c51aceb98cdc9c25c048ef53d",
+        "7a4ada6051b6b3a5779e6498d8b506d4e42696392377a848aaffade50e6273c7",
+        "3fae2d5165529442627329f80d97060d4f5ff069cf72af5be7ed72cc888bea5d",
+        "633e9ffcfffe58034357eb556b789d00b79081678c4727b2a6ed2e69676fed8b",
+        "2ae4c72f3f7b0f2f96172f0db1c6b1e99816e302b6cccc627391a90572d3638b",
+        "929e72bea331d3c5da07f4f01ff468490999f74425956eef39ba222cd970e55a",
+        "b84206ec9f82e94bb9b6541517337ae1609ac1570db3d8d7327c0200a9449837",
+        "1f63399153902bcfcfc5a830e1b2892901fe190773e7d0c17b01a55c72b7c92e",
+        "9a3edbbb15811a7f2f02450150fa59a9b066f41695c25b3e7fea7aa490b84e59",
+        "a89d1c4671c7e13e508d039aa9cdc72f457350fd3e450efb56745d5f4f19974c"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "ab45423515fd7f3f05251216b6738098657c983fd1dd58b93ebdb6db06304fcc",
+        "0cf3769716b87ea2b4238311386251c64e6e1c99751207dead86b81afaa34f75",
+        "5826b08bbefe955bb3f8f632db89bc7b8fffdc4c539ee267cf58260863b0f442",
+        "57362776d2171403d64083e8340b6d4e0221bfa5ffe3bed447d00bf2abcfbdeb",
+        "3091a988c0959abb22d8fbc3e767ec8b3553e91edfc37881a3cd94609ea1e231",
+        "923c78b52a7ada4b695b273d2007d5aaf382e052a40aa5dfca055e90cee96f5a",
+        "ac528cfb1c5c3e9f1e36f857289edadbc4b5fee12c09c8a1d91c7d95e7aebc4d",
+        "b9c9aafa2b4ea786c67e92976a78a781da86e9f8624460e021bee6b74290e076",
+        "b2115574c1a017f236e250368fb9b62318f71e4b030603063b52793f4a9e02c8",
+        "0c94c54158757fd213970d82d705b8022a55d4d1a08a4f14ced0503181287d0b",
+        "e7fd3d68385e986d43490c3817c09c9852fc067d2cdd2eb914d9aa179ae02a6d",
+        "49144bd50f5f408a8184264c4b30fbc5cbe0a0b173a70457d2e517926e1db1cd"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "5d8f8d62b3967c1aee5ce2a5953566e3608c3e0e6daf1b1edc3d7b9ac68d075e",
+        "ad2df3c542215f70352d765df6120df12a8aed547f3070ec2644546af4daa533",
+        "204c9c4050c4f7d8a5c4c8822d411221e5b568d73791bd87ae6b4f28e91c5f17",
+        "3b2f0910c0b087cc429a3448d9bd80394adc3d81e748759d7b1894d08b975dea",
+        "907cae66a964f6e15d054355a8e025b257d8499b0bb8a89ce056d6ab6c133418",
+        "afc84a9e12e0c90486bf6fcbd931923ba87d91f4ecac9d192eb116bc6fbc3812",
+        "3301a0020eb43c70b0179a621c92cde20d14247be38ebcf72dc59648f5733705",
+        "ddc6fc90cfbc0f933591c7b7a0564cbcdf5c39a82ffd2ec49cd5080c2fce8aae",
+        "3c64ed45bedd91b84a4b3d13675c3b7b71c212d16769b4eda4dd166e70459db0",
+        "36a84ea1a41827d9f0f2e23b35301d836103c6f5568fc628fa2bac56f88d02dc",
+        "d9e5ea5d131f66600b3e4d7824b4a2b5c5ea146cc5b3b3897519754c7eed54de",
+        "6abb9cb2483dc2f67753efecd24751b01012fbe0bdab1b0de3eeb0a0e592ba18"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "f44e270181849f693c4e9ef622e535a7233990ffac2c6dba97c68476e81dc4c6",
+        "418c5d976c2ff0a54b3fe48fae320cb848f814e0ae9bdb1f905dacf8f989133c",
+        "866eab0a984108e8822716bda653e4c5fb92a2b354d184e714d6189d42acd578",
+        "cb53f4c379dcb905e05a89cb2e5177ea4bc35de441f93b122ca2a7ff11753c1e",
+        "31ba3c4a97d17fc205c7b575ae75d00a973eaa6a645edc4190b155310797e556",
+        "c3500cff3bffa6e637340b046a042b61158b7a757e3b6dbd51706e2f714de6d8",
+        "494d95b99e063d1fae814c3d58888d7c6e2dfa08ea5278c1103e623e323ea5a8",
+        "c7b56b2639e643dcb817a6f48de02b5c0deb17d4f4da91948a3a2c2c1f7913dc",
+        "2cf1881c598ddabcdad04fb83569ac7af0dae26ae9bcd58b553ee661772b1ce8",
+        "da85fa95695141a33f7104ed00d6ae227ea49f3ba1262c44d3bb45e190b971f8",
+        "0e1e262342cd3661aef2c48a410bf703b90ed91b4a1b352372308a39debc48b0",
+        "9f0cb2683146a0aa93a5b537c7bed3109b2934cea65653a990ce36afc308bd4b"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "2b0c547085643d7f9e9545b369009c369aaf0eb802efe74f0eb09ac2673b0117",
+        "6fc3cf3928c068c8665459c846ce26c2658165943e19f085b51161d1c21a25c8",
+        "45d21cb231973a647a51253c43629db75e15392a243f3497eca28087da02a7e6",
+        "f0c574d25b2209c5f9c7fce8daa7d1c393cead26b3c9592850166f6a654b5578",
+        "ba969c7705c9c2bfd51a47fec7b98ead129a8365624d9196d3ffc14b7c001e4e",
+        "814ec1d91c4e0fe2b05d7a842277c6f0898bacfb8d2dd381d23a482aa54bcea9",
+        "1af2135d0c80c0d7768faa68e6d9bb9c43afa07de5593fb4f8481b92f1a99bf3",
+        "80cda42b93c4784ea363c3f08d8516084a5f95826e4e7dd98bb3c8c11f8fb8be",
+        "80461153ef115f0f37ae2f612feaa783809574ef89710b565984b4af6e7e12b0",
+        "01838a385553bf583bfa2d5f68d9b3f3ac273b6c7cb5752580898fa33bd0b732",
+        "1594e831c4520824893b89ed4ba281105ddb0091c78272880affb1bd0faaf310",
+        "859140c3cf51f30f38b78e20b222d139d754d477feddeb89658c3168b7cedd25"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 3,
+      "turns": 8,
+      "digests": [
+        "fd84760b57c85042204a718545c1ecedec60d1791dc0fe4b88d97d2ef4e78a81",
+        "dbc925e4ae86fac65c9bc4693a0098c8d1a2fbbe4c532f08629fce6d8f3640f0",
+        "7c658c6c0cc1ab14ebff5735b872fecfadd952b49d734cd5c75c6debeba85891",
+        "88a5a3cb011a0dd15db50c1ac7f1565caf4205d9a2ea7761957d8d996db4086f",
+        "4461a09fbd69086d0a0e77257a0f0b236c60ae909f0876c30bac80f334b06ddd",
+        "5e9c4ea7670bd33bf386bdf548154970c99da0d4ae342efa0be10155c34cda77",
+        "9a61cd848e4d3294008fbb447d5c81d4ad26028dd49da4daded39b726affedfd",
+        "e388f468a9c30626b8c7253f47e5453126e75d617e6b8a4d5753d5387445c8d7"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "20701f26207f28f2cea96584564e7474408afc6711ff7bec260c4768cb2eb780",
+        "d61ad24f8121861a368fc23ac9991d9bebbdb6697bc9f89b9d91cea926e31573",
+        "52585f5f4e297e3f0de069414e41b5fb75a45e485e64602344f76a7664e663b8",
+        "f71f334723539bdbdea1986b939acb1100213c242c44c43f315cc2bd3901d9a5",
+        "3c94d06959fa2729e5dc4a3ffe27dae9aa63c2c3a516797202d7733aecde35b7",
+        "1bd870efaa2ba117fb81725278053444acb66b0143328994b6de7d98612e47eb",
+        "71225a32ca4d4ba91559c99e02f58052935fbccc9e707ec4e3f498f42334386d",
+        "6e81d0d87740a6c784e400bde8948dd9cc217916ed654e27d201a6dc760daf54",
+        "6f61e594f6e1d4168d861cf40a4dba99828420bd671b9cf17eba2f839a58374c",
+        "db4b9dc3ecb7297a1bcd6b6bae0dab0baadb96a20c74be7e30bd00307cb19e6e",
+        "a2daeaa215bfeb094a9dac871657a4a3399b5e341ab511f2631214ca36da8733",
+        "e2d7f5a615bd07af2938c6241730e1794bb0adb9154c34278ba2b1083edbe56e"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "f58428fc94cf9771f58dbb0906eb21529b02aafbef2fb5f8ac3ab63ea75254ae",
+        "995f03a977d28f3b2b79ec1b4a46e761b71831ca573e2fa92af482c34f737dfa",
+        "da356395df1a7a728e79ed0371ec6f81eb8be2309808c4ab039fee2b812a44ef",
+        "edd9821c315e910c5ee925eb1a0a21d919659acc05eb8079afc376b3b2d0fe5e",
+        "e105549758b2416ee57d6b8891a97f535a2bcbba1a1d79877633a0b36d22fb77",
+        "6eef4f70c9520bc687360d72c42cbeeae0dafa9b0c85926284cba82fcc2d40a1",
+        "06a2f84232f4c1fdb0362fb2e1b8924f0439de4c981d507e4dea41320e39f9cd",
+        "172564532454191cd86b022714019af0944ccc60ff4ef4a41f4cd99895f5772f",
+        "2fbe0c6d4c33279bb7c54d71afb8d06188a7db1da10d1f87017a74ea610f2e0b",
+        "f014eed2380800cfd26e31e00c55e609ad7ae05738e49ec37b05ff4d52f7c47f",
+        "8e6e3d15d78dd04897528415d04fd199b9cfdb6b8eac1f607f1c483d401dc0a2",
+        "0f1ef697da4bada9dc53ebb31ff0a8e5de06923087ad2694a75828cfbbe7f31e"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "e1e87c8c35d584421014efaf2ed7f736a41cb1658b974c35392c4acc70fc7cc8",
+        "47f4400e238054bb16b5a74db54560fa80b6d6a3a4aefe72baef9bb45c5df8f0",
+        "75e5d0690e42df6fe9b76e9538ab5774e65069ca9a1bb385b2fd0d9762c27643",
+        "a77f1efccf8d6c0a9b1fa363d1db557b34623621b4b8d935d9ed0197acc1144e",
+        "bd1e15620588f0df31bb4b7c5bd616c01d1c87b72ce44a750189334c2ffe0698",
+        "71129cf848689013fb602355c51562f783c34704e201ac0883325be8ea153506",
+        "9731d758426961cea86772de645f8b6e24e763cdf8aef4fee1ad44225280aaa0",
+        "b5dcd7104513df42ab5ac8c7b449aefbb67c7bffa577265fdf2da21e1c3b308b",
+        "49445f77a12e3e0ceab1452b1315a5afa640132bc846da6235238c5b1ae78e8d",
+        "5c706f71cacc48c1f3535785cad2860bbe7c0a8ef62e28ddd2b747e31fe01426",
+        "79b9e7cec551a2440db29a54f781fec3cc87373be0c954eb5e5f017d12b0beb3",
+        "5ce4618770701824b289e1dccd6af094f2568ef239624ca5060f80c2ce13e7dc"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "fe6362666ae999d209397b59c5c242eeaf0ff4cc38dc07be4d272a23a4accfaa",
+        "b0b790bf24b422f1dcf112ec1a26d0bcfc7bf8a49fc004319a0e755bbcb3bd91",
+        "5e0cdfb08b6127a50030c7021354bd9999abe015767b968f1d60378652ab5208",
+        "75aeb28700cc79cfe2f9db666539eb28c35644dd22060a9655b670d0380bc911",
+        "2693c5fad9cfe65df7965f431e187e8d1bd36bd4c1e3f2770cbb53cac78522d1",
+        "a428d0b1bb122ed7e867d8b08327c68920f50cd929f491a1d46e9024c834dbb2",
+        "3ccb9e5ef78e6982c7f94a356486170cf4567475f3bdcb79aeec26e0f80015c3",
+        "753ddb41348b5fdd28c160f2535f5f6b5c74ee4adfbef4733ee23f04c86c85b5",
+        "96d03f36d596aa2ff9b89112f76b9c36d8d3f41c52bdc1a174836efcbcfc8d13",
+        "dd971619d43e63c75aca9ca2b05fe46008777b4095eaf4d3ea0caa1d4a0ae27e",
+        "6ff877dea9d4db6c498977794d793ef0f3c89dda8f4ff3deb758c3cb2932c7db",
+        "14b8e4452aa2bfae3f36022d0fd2a53b1c98b6331d6e0ed5b89f2ed3016fef6a"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "c0e1156f03c3dca6b74abb9648ee8f140bb2da3e9e961d8ff0c9b422fdf2cf42",
+        "085da2b2f8db0109756ab5d6aa94dafede83521287c89c4a57c550e6191a2d05",
+        "f11908110e1f6437278c25474d3f24acf9bb2654ced965ffd94c640cbb019d39",
+        "b14cc431f1b80ddf615d0d9b617303c6bdbde222f8763da30d8211476ee23f5c",
+        "c721eaff30b39452a4c5f8e74af53193d06ef0c4db08c193c54be9a5334d39ca",
+        "a37da62b5d49de13856fcb7b750e76d78b492acd3b3ee3b55c0d5e832d46fbd2",
+        "805fed8d91edefac14b02cdfcbe1c90b0e997c262298073ca1300e2f964f3e5d",
+        "ae9dad0425db7c1d942f50447fa6cf02cb89bdca3322fece5e057dee87a241fc",
+        "217664f7cc24fd6644a3c95426f1b8772389ce83b161cec27e6d5d0ef06bf3d0",
+        "47e44a99930ceccdd03c2c23c9b3f9dd2a70fd0c37f91384582340178472975e",
+        "e238b5d40eb691b38ed8c7663f609e735c1df3fddac5ceaf9c8cc347ca4b628e",
+        "f8457ab73b043f1af528dbd18e8e11e94036ac2cbfc1f32a03504099b07ff7b0"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "4ae049e37ab9363dbe6db39a835145e6600279c3c40a8108ca998e3c66dffcf2",
+        "e9656477f245b16110a03095affbd2cc8ea8bf53e73230db32434f9c4ec6f0ba",
+        "d66b9259abf5c402082cabe3df537e54457f49ee41678e282909e7ddfe42aa39",
+        "7f66306c38e97e6aabddc1310a797f40a6599ddafae4dc04a3836543ddd10b7e",
+        "8bfced3457033ef0c38129f7f7bdf9c89eda8df16e38a87dc1db242b733734eb",
+        "8d33337a7a1fcbe2319d7eb07d08b1ea797a2ecfe471a764d358309bc9d96570",
+        "ee4479b5278a412b024d660366e8ff2e52460d8e81723e2c67b5f0375b0ba9dc",
+        "8b1aa93d4227132d12133d4606c600c170aceeaa699c5640354c1fc37a0b8c78",
+        "1a010cf623e718f71959a992f8b2ed4bbd994a7cca0d3b74efe2ce008c02deb2",
+        "0c8991da4db34cf8caae286e04af5015d2f52def325747243fc5665fb5efe659",
+        "1af5c30cfa51b80f6d662dd64c5860a9caca2a4bd60adf69c30b9c29ab236d4c",
+        "66f05f513337290c1a3111d1b3648a81ef2bc9ef73387e10e86b2ff709ad56ea"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "29db8f29f51c2f97b08962837c46cd0735e1139a22397cd5cd7738e96a6a3a50",
+        "017d810e38f51eebe2562a5514b9e60cfef57a65bda0fe88ea3dcac8bb060e38",
+        "fd4e0d67f8bf320ff959b41998bc097e69738baa326151fb06c41144c71010d2",
+        "9ddda01bee0eaca241cbd66c188b8830ebd8d431fb34106c53391ac58af328ab",
+        "74b6153174fac030060bca3d89a17e76ef4a0513f13a0279011cc1699de6793e",
+        "aafbbe48e14725606c16d15cbdc285b9568a3b3d5752b44054d9bf2490b92c13",
+        "be59e9312b552570bd2806fafc8c189f274dabcb4e333f1648de3a8b5c058986",
+        "cba44678408255db5c6912650b99b454856abccc90152244b8a5f1179d421f25",
+        "e45e2f28002ae46723531554073d0a655cd7566e542c3ef086d2efe1cd9201b9",
+        "f8016d2b582ce88bd058493356519ff5d9a8d2c0bcd611e57b739dad699aca35",
+        "2290f61df3e4e0d5b24e2a73c973638aea497b8fdf4774a0e7dd5a0116a6ad1a",
+        "3822ee6c9f5735d217677a123efadee8dcda4e0faa7595ba217ce5f00200ec36"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "0fcc612d719b4161f8eda8064fe7cb6112e9a33b4a37775d83ab183698127997",
+        "20fc33881a2a2058e0905b67737ce4d486f662ab3887d237d69a3bc13f8e2973",
+        "962613db6d817f2a3dbc34828fe8d093d70164405f359cb1b5fc30cc5ee712ef",
+        "083b12bece258a068036a84b99f3155dab04c40d0f15c3915edd5806925555c8",
+        "a62a63c85535074b22169361e4889f7b265ea8fe326ab2030ea188446db764be",
+        "a4f632e57036e12e763fb402ea0a4895fe21af47343b1421c28929fc1fc04c92",
+        "60d45fb31862a5b7ddc41cb5af51a93be56b1538d39cfc0ce2feffe127c82938",
+        "38ef17c6916c41bcf8bb49839f05f9e198ce766d5df9cc9ec012043a5750197d",
+        "4b4879a811ff67c4999f8d20bb6ce07338dc3e30236e8831cabf1ca522cabe7b",
+        "3394ac3fb2dcb637918810738263a3a2c705c46611e7bfa715ba0919b7705e71",
+        "6b925eff56c99a0e7eab0559e1a8155b46a3c8825c418790ee4438efae07cec3",
+        "9e770090df55669a8acffa0b66a58a5e890c0d4aab855465132d04d196809403"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "d39ce1a7b1fef970e2cda44ca82cafb3972fb3a1ca0dcd0f337b1af1a000b073",
+        "6a42fd7b7727d53a98459c67da64cecd1de668b86dc4b2addb3d7b425657798e",
+        "a59f476f4f56ba29860bbf5ab397171cfaa4d20d44a1c796b36f79e19d5cffea",
+        "56938ad9ad775d19b14fb6fe9247c0e8bb7e12e49c7fc49821db52cfecf2e138",
+        "a48ec9f07e13f280a680d1ab7ca3255868f61593fa472d09a2057b5122e33e42",
+        "9ca1b526a259f2b49d4ca1c6bed79b5eebdf66acafdc20e3fc8ed22eba77aa29",
+        "8d456e162147955e642975f74d59735725c8b5754783fcbe0c6b5d9747ff56b1",
+        "5a668b16aba516cde385726d4d36056970dbcdff606469b319ad6cbb75fa88e1",
+        "59e56b1323ad24f3207543d95dd19c8743cddeb07b12aa79f286a427aec0d8ba",
+        "d20aad8e2c8b470f7ad4768f475cfeae202e8c24472c692a87cd607fc1c4d720",
+        "188b01bf676d031ad3705822bbe4667fb9dac84f2d81234a7aa66ba2bcdccb30",
+        "c5de12a111bb553050a031628130149818b116c178d79333293e56ad158282c7"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "fcc4d3bfa55d7c54e65bee6593e5fcf1cbeb233aa2aeb854eb962933f3e9850f",
+        "11e052de0fa70edf2f1867005a1c16fa34b0f2f6703cb61c4e9f7c7dda60a16d",
+        "86e93a16477f4b26c949080169ee58c1c736a797819b5df87453d595d25ca822",
+        "40ab239c8bd97362685c7e06e48088dc7f559ad1fdd4378c42a062e8ccdf22a3",
+        "9f28d3839ee9214bf694e5fdc35abaa61c45663c48e3a6e45c13264b2289141e",
+        "25552b477bef7e44a02fd75e0bb9e21341dbec26585fedf4d68512d51bd9be0d",
+        "87a53f538a19f120be5f624ed1cc75335006e84cf6cc3f041b2323ae3a05b0e4",
+        "ff5b27515ffe693e4d56f1f6f633a516d6c52730b3fc9013a06dc4ad0ef6bfde",
+        "87b44252668ff836ce4fe3b653b2233119fecbbfdc02c3b598c8f4b8a0fd88b8",
+        "26e9928066e3880ea729d1a7b7de1e1622dc1395bfcd11f625531acc7f71fa9c",
+        "633c432704902b1287d971f588ee54fbf3f8a992c7ffda3e8777de31b089482a",
+        "820d006d0bc9968873c044cf00cfd11c2b025213cc951123d1d9f173af3806b9"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "1c27137ba3ad392c4f6e1c919b288bce50ba2993c91678e17b2436259507b47d",
+        "8f9cfea48f415723e2f4371614f8a82a3dcedb1393f244c8fd34f21f0aee81a5",
+        "01c66cda60101bdfe6cb346747ef8e25710e81ba20ec445ae41c9d96b7d76869",
+        "077699c53c2f04b295f2726608c9e651e080f334de673794ed062a99379bd64c",
+        "09263fbb02b4436ca0ad08d059f26003654928009726356afee5e39c33fe27e6",
+        "be8e3a6d7c0d1e56761d8981dc1303ca777bdd10811fb94407eab7e0b6e82c41",
+        "973d75738bfd62d22be8a818c314be24fa6c3fc36362327b441b0ff01ff067d6",
+        "887bb00322582cdf7fb9ad4ca2d92eb43711927076eb7a93348c1f5476d5ef62",
+        "0c6b31d319d8e2a38fcb7c36bfbc34f535e2aedd38c09c19e342455e6192e1b4",
+        "8afc72acbc064625d132a8e86624ecdc47a810675180904a7e951ade99371c98",
+        "eae2134e302b75731ef8954abcc748879961cd1c4138746aa26a2448375e4837",
+        "65d7c94a88a6639f074c33df905a6fa2b6e99cd286439253ea3aadd8f0473f0c"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "a66ddd25f0614674a9cd06faa88f23c915d655229fc4bb8793fddf3f8f6ee8b4",
+        "bff6ba2b2519c794176de9c780705a6ca4c71bfcfadd444ac42de9a4e25e3c26",
+        "04b80ac1ac4277af8a5cbbd18667666b136ca0fefa6bf73f646141517b388ff4",
+        "f452a497434a4adc07f21a911c048a1eacda5e65dad0e16cdd0da17fccc22bb9",
+        "e7a0af7c7296cc317a7b927f0cac784c455ba41334dc1698bdb12f6b86d0c55b",
+        "81294460a8c571ed39628a9b0b0c1a0113ed65a19a4cd52732f8776a06cd0e4f",
+        "4eee451916c19e2177ba612a94e174614c618ed87a6edff3c799719a5128e021",
+        "b0a2cf54ced76afda3172c654755557ef17c432a3e97eab7789b9a5f9a971ab1",
+        "3e44925409c0bbbe5783bbcba9601e47cb51e20165a71efe1d187a2ff44afa6d",
+        "d89ca5e388054edf4d50528481589b31e70f6952dc721c7cd3f6f419b9f90bed",
+        "6036e7f07f3daf57dc237e69dfa9d9457de95a1fc679d7011bd48b59b5340669",
+        "d671b3728c671128f5433d599956e421543ca4c554ba230a09eea9a0da8160d8"
+      ]
+    },
+    {
+      "pairing": "EAR-VRA",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "cc9db802a091ca0b9df278d9e960b8cebbf050d26d344be683007c6926613d8c",
+        "0f929716d35f62fee0dd57b78707839408d35c904196990e7979425dc9a35549",
+        "90a7090844b704029d855c8e03a31ae0c6b3c2456fe3e42e7ea1834a38bd9a0f",
+        "c49970aa0f934ebc8a67ad7dd24bb6f608f4fcd3cf3cfce1e1febb423a3525e2",
+        "2f3c8c904ef23882d6e888ebb79afa35ef7ba2466be4ac40b5dd9908a99078ce",
+        "e79ecc0b868f2352e8b5448bcc9231ddcd7d603ad0e0ec4d150ff6a0afc51c59",
+        "d00d47c8596b27448df57df18faabbeab045ebeb0861ad6dd89062df331be948",
+        "5b7b4b0cd71258af8434f373dad57318394975d92b73f2657f8ff2d6f4c6df41",
+        "70a476afefe8c8fa24e736be4404012813de3f4c175050c7e1ab1b3e7880b5e0",
+        "c3b0a44ef4ae3e8929a6b70bf7296181f2bf9d9f1d926442365130238825cd6a",
+        "d4e7f05ced1d64125e8c2412bf24a02c885a750302c1e4159658cd0ea3b6043d",
+        "4e163a5db8243d0cd4a52c2356f3019194accb313295fb9b370133b44f29c9ee"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 1,
+      "turns": 6,
+      "digests": [
+        "36beb01709f0cf7125b67058a9a7d2e36be2b848dc5c4beb4bc20af69f4df686",
+        "03e82ab6c0fd4078b10553547541f18af3f0f95232164be38a2ab442b7ec5b06",
+        "bdc29e30519af803a7c2c9a4c124042703fafe7a2aa5a435acb9b40c8152c3b6",
+        "9b679690a255b493ba9e37698a2598833c53e8302cf66ee5c60ca072afe1fb80",
+        "f13cde84e88ea28f4c9b1ca03d013aea49504578e431d45c87d1ee9756c61c0c",
+        "41e1622060e7a87903cf4df5eeed189ff39fbfc59409d4fcd2dc10d63fffd66d"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "7321cb4a98c654facee25c17f904d1c442a7734f1bc8e123628b6a13e65b86b5",
+        "42e8066dd3e1fe319bb7a94db5381a7aeffe6a0e94f666d8236b7447c6b0b37f",
+        "3cba41c3d701c60695c097ebfc8dc83716e10fc461da90d19c48b1c9a7634224",
+        "e33dd96c108f82adc59ea7ad9dc22139341c3c6cfbb105e94c0deaf78db3d7c5",
+        "fed5722a4db0053d902568cbc6aa2f12ed5143b2facd63de28c11f71f783a2f5",
+        "cd67d4543d60c0b769be23d7365c1c1a6068aef3860f5bc12486ebea96650ce6",
+        "457949d17fab97740eb5863996e60d90febd80206832bad535885b874440b2f9",
+        "94bb55dcb49c485463b2a4ede880cd556569ee129b790030ae532160201abec7",
+        "11700638870514b3e22bed98fee5a3c96988aa18730f3e1a10a35f211ec07144",
+        "6ae406a88075907f2e97f7f6f5c3ca3bee21f0c9e18d020ade7a76ebf01e7356",
+        "7ebd66e8c539d4923c6658b16c52dedfee227aa4905535af59c57260dc9e7f58",
+        "71482af2303955b2752561d380b2b663c6d648a870fecaab14d776205be6ca12"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 3,
+      "turns": 6,
+      "digests": [
+        "aea10740844d4ee35f5ea30c713b43cc684523ac6103c29b6f43b8546d1e52f0",
+        "b7a37afb948bfe1bdb5846f37c2cf891a06a5da6b423914e7c00e32c67a1f608",
+        "df5687193f3f98859baab1d6247fe1f5c7aba565b1428db4469c07d79c2e827f",
+        "85c174dac5dfb89734ea6c59650678d6234079047f056ed9cd6f4f2c603c789b",
+        "1389db3ffbded81e51b7dfca7a30835be4533bab00b982b2be39374f94e68eef",
+        "d089ba41b93c597e803a61d1c2954b4a7fa9d4acc35b10ebe0fff6c4916afca9"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 4,
+      "turns": 7,
+      "digests": [
+        "1ba17ae71ff4f1712d82011b57631e018f9d4581f999d6c2c72e2b7493bf1328",
+        "6dd5f37bd7b611385eeea905955d45489fdbaf635db9eb0ed9c9b726030bbb8b",
+        "ba81ea914d10f5069a67b70da836880419ddf2d515c5ff72ad885c3e8e57108c",
+        "df3b0fa1d875175fabf380722b2ebc89d59a6ce771789a47cb5218bb3f3b17ba",
+        "10b942e3fb31160c2e9f7579c22ba5fa5faaf2c3a677ac7c077ed51bb8e431f5",
+        "880b0a8b3ac756502889bd45d56e60fa12b2adb2275bd62b16e571054f5c7c30",
+        "f85fcee5a166cbe5f8b0c06ecd8a0eb1235e06c8bab81e0d298872458ef4a2cb"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 1,
+      "turns": 11,
+      "digests": [
+        "614ad8bff2aac0d63f3e938c341ab879b6e1696cb95051c1c337b7ce19a85a3d",
+        "bb60401ffbbc4bf5643f1502fd081e2ec7a8306caeea8c8922dc949362c21b4d",
+        "1ca87a22620a4ef94ca0213591a7ff90ae9e3b649e7783b08d7e8b20211d96f0",
+        "a4497a55559f39bedd6fd33d73a10bc6fa92722507bf30255874028be095da5e",
+        "fe0ccbc6704d0527e9418e748b086fec99cc3d2c7f4611224ee04724f5644168",
+        "ba0e34080c406e62ab2764ee7a10e2d7cf469d7ee7c90c3973970d804f5cb23b",
+        "f0b1f77d481e07ffe3f6aca3c0ad3ebb371069cafc535d71b8a8fd6158c19a65",
+        "6d20880ec1062942c9e9cea01986a91c5ddc75c13807551eb22a6c9951c0d07b",
+        "42b9aaa67d5a1b88b18c8c1729e732c8a337c42e990afda5a0c6e09d957e4e2d",
+        "6f3afdd3344e98e913036ae3671bd69d49bbba82757bbf5950333fc63ab49977",
+        "82aac87afef6a889a0cfc8110a57eb6f6078f170f1a776fc918b4c29251ede49"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "764e5aee79331622bcfad2b1abe1712af96340f07ad2686d38a4b46a27a7fbc1",
+        "cfe5e70aba63de694ebbd21d57ea74b93c3fe717d38fac9d76b54eda3a2d4055",
+        "c367311748277695303a4f9b46d023b5354d2088fd614199979af0d4887f6865",
+        "4ba59c4d31faff74d5f8a1aa7baeeaf6f2d2355e3c65835d4e0462c3706f47b5",
+        "a86bb534e272195e2341e189d57e356b8c643af91dcbbfc4017fc3fa88696bd1",
+        "1c260fb39820a8693911ffdb49d741958b97949979e751eefff20407bc41c420",
+        "527e5dce358f35c77a6f0525a0310a5a585eef9832d90dddd33c8ca112068134",
+        "ba1bbe6b06f280df344d233de49bc2288162b2ac1dfc1888c8e493e18cd54972",
+        "e9de84f5e4d7ce7011cbc625fbd0d1b541874112632721d20c6dfe5bfbe3e138",
+        "83b85098cf5529c40b126f6f45694dfb9f05c07022461eebc628e2a01c5e4527",
+        "3578993aec39662813f626645b4b6165c78b0440141e4ff7c2e9c79e01bbf79c",
+        "be4de39a5dbd09531545486385d1a125d96427a009acb50e084c305e97fdc77b"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "ad6f3d4011bc4691f0a3f59d9db0f3b1b9bb6ca4e36678511cc97df8f09ffa6e",
+        "9fdd45a9b0ec1437b486704a376f03865e69729e796b2a0a85fe32be4fdd4a8a",
+        "dafb8e6e08daff52c9a62a59ccf599348bda181c9f0ce0d89c2f6473694a7e71",
+        "4d9aa3677ce13ae3c1f4b88ee9c3ff6b043d88b47f2015b0c1d31269a6f55e3c",
+        "46f6cbe7ca467e74e0e7fbac0b2823ecb1ab3bd5d4cb8e7bc4516aa7c0210f70",
+        "b66d49c1a18ff8904abdcfc1b2fb09841482bd0a41fc47cc87c2d265133f0d72",
+        "c888163004852702a153b5aa5405f41feb0d2ca6990cd982cf474a0aca858f59",
+        "f75746c29825ee4510ab0a9564f6ea03f039016f470beeb328ff50cf314f7536",
+        "6580b08b9c8ea7296add274233127723e82dfa84a21d5cf1a680ee5bb83960b1",
+        "35243446cc36ca5bb10d024c1761a205e2c3c2df64ea3ee15859b0e01af2b461",
+        "0fa94ce968c5be3a96b5a084a6773331a01893f102a411d838245fc98b667065",
+        "b0e3079962c49be960481a23f4d7e185d9f4fe58e4e6e3759a2e90c64b2ab29f"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "d03a216718d5c16f23f6545c1503f846430ff8ac0f29df5d07a5da040a3e6b39",
+        "d3e388bc9a281ace36e279807f4e9e342d4e4c09ce8c76af96e3ad7266a43e87",
+        "098c0d215dc7bbe3781ea93c5e9cfc50d2a96ca09c95b276e7f6ed24d5cc7d3d",
+        "b5f5ba971b02aa6fe334bddf6a642088c9063721b1da12a8c2eeb8eb815a9463",
+        "4f5ba90995103b55241724f17db993be0418f74e8599aab945c9ddb8c3eacd5a",
+        "5028b2b82b3c173bbd9e285fb31e6261cd2dd42c0d85011280fb0c039676c489",
+        "e39b0f0f369dc13292bad8066220290e2565f74c0dbb1622a3b317ee0da38ad9",
+        "d721dac12726dbd08b303c9730a5a7e41c3b8475886c30e0cc4a6c3742cfa713",
+        "38f016c2b292055ef126f81389bf39710c89e959ace7919ec266f76238fc5ce7",
+        "d87a91d8b4964e8a5b10367fa9fde00852b40991f0136f5236b851515644e141",
+        "750bb896fcb14c6a5082ac82f89485deb4ab2f41632d3149096dd0e645204ff3",
+        "d3726c0fa800ca749000c7305cf11706e030ea7c33d04d463d193e98436226d6"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 1,
+      "turns": 6,
+      "digests": [
+        "561d8ef0ca270b7a52e86424c42fce1c6792dd0501b369b101807e23e80aff3d",
+        "4e3006e0da3bd8af4b6ddf6b5d2eb628f30614486693dc91da21f48317d6d4ce",
+        "df30c9fda2dff50fbabd1c498a2e3d73554d8fd5c1ecd35ea08d6d23c0f5b14b",
+        "524dc6a075511fb63c3c29f7bb98990160bf63e09682d3620d1c0ce939c1f646",
+        "c87175104cf33ccfc28fe178c65782274ffe2fc3466f80a4b96b151e1b9e1329",
+        "14e4a562159cdf478f29d57480af17dabeefb5624b0625def8c3084212af0d54"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "d925c5c38fd4814aadc3f10ef7e2d6225a5cc3c14ee2917dc28d4649c08548aa",
+        "b07bc5de1511b436638e95c377407f23442981ae817731976d090e7c92360b64",
+        "a62729e1fd5340618d840ab5fbbfcae150fc52fe9f6aaacfd9ea59fa36b16716",
+        "a84672249a374f80b849ec59aa7eea1dfcc9c493f9edfafcdf1ebe74193eeb33",
+        "50038aef141d33800501a683f35c646dd04d4bf0d35319fadb1fead552bd9f10",
+        "cec466f713fab8542101ffc158eaeeaea39f0f78a5f10fddb4ed410a0481b6b9",
+        "691d135e04fa5ee39e166f228f370f56886797ad96a7a99e2747baf4d1b9b063",
+        "4d02927b49e129c278edb0eb49f8eebdef8f4da35e5dc9e644e03e37d47019ae",
+        "d814feb0f02be2ff820c5bbfa45d3565d661c8fe87d3f335c0293d4c24b3e1f8",
+        "43d5853248526a47e4fa28766b3a8de3b930b8cd6b9fcf57ed89e851cce94d43",
+        "361fd9d2d26d7d2830e3d58adfe1a7bccf76a53c1772b79ced537ebc999df74f",
+        "51a4b5dd818885e2e0eb0bc3c1a99974ccb59372cf820de9df9bdcbfa9d23393"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 3,
+      "turns": 6,
+      "digests": [
+        "7cf074aaa2687852a2a8842b03996024404810d8471716848ac6b8c544372597",
+        "acde312ebce020139f605d131ffad19040fa6138a623de2ec7d9726f77f97b30",
+        "79b81f97ac147218cda321ea764d68c7647300369386a2bafd85bb722f28765f",
+        "156d56082cf36638ebf62094f042f171726066cc84a5417f643e39dca2b906ed",
+        "018b18f003fa80bc17cf15eb13c6d1725a4ba7c4920039b9241908b8b688f12a",
+        "9f0396f88018124400c132c609513303bd08489012151fcbe7b54343f9756e7e"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 4,
+      "turns": 7,
+      "digests": [
+        "8cb4ce7d4bb601810081dec43ed750cfa4f412b1ca32b5478c9d0f2de9fdcc39",
+        "e46f484c2eac6527ad2f3efe99bb678edbc3a1ee1f0ba9e1236487d1cf9da889",
+        "66fca606745bf3388c32395429728e221b1635c09d6a85f9afd0d48ad589f08e",
+        "9aa6673d6965593beca6409b68dc0af15eb2d9c48be08c9bef705464846df41d",
+        "4282ae5496579fb812907fd8eb7fa4cf7d8c05b342084b455160e4a073cf2680",
+        "c4b0fbe2f760aa797789e14c5b5c26937053d62b1d43147f6e4a2cabeed775a9",
+        "6f3da2bc972dcc130adce04e92a3018d5d7c732dc4325fddf7956a60a1b5a177"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 1,
+      "turns": 11,
+      "digests": [
+        "41084391ea7512c65431e2fac7eb43d86b38ed828ef54450027477f3921195aa",
+        "b608cbeac9105666b53191f0de8710b1e30cffb091e37ee115e488dfa52bc3a6",
+        "6dd4f431989d63972aadb1f59382be65d01e8956bb475eeb58d3bdadf359d498",
+        "da031882c0036e61c67a4f6038175056b576548a3a02cfa59af339820f8c850a",
+        "46db9a930414da5048dc368026b5c5434d00f0b95a8990d5213c6e826d33520f",
+        "55f0c1c23747ee3b6798131fcd370a81f2e5c0bbad509a239067f66ae4feac79",
+        "05ddc84131a349c3c69e91980985cbf9b359e5b494bb233924103b248e00766d",
+        "2cce50e47bd144aa689a93038a7b8462cafba6943a376273ae9369d55e61f50d",
+        "7d12b5b54f8211738485ee73d5cbaed04de9c3ae51ee8b4bbeb83607ea77d7a0",
+        "c08e0215f2b638746f47b1c60285e3ae019a12072c1513d4ab12598988cbe797",
+        "a4ffd0aa1cbc803f5abb152c739de558bcbfd935da43985074f0d17b659df3b7"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "2f394a325453b582e464ab032d3e30fb17ce0a63aaafc44b99ba4ca369285e83",
+        "9d3cf143ac60ffc6877bc973faf0c3617c295d259d875aa0a02d633f10fc4452",
+        "aaab0f7104c008d09830fd7e40f8b78b87c322df14d9f40d4a8cf3866530b6b6",
+        "73490dc76ea2e19cb6a7166a42a5e9a17610e170e9fd8d8402c27a2a9edd0e98",
+        "3b1204fdafeb036a71bf575dde414a708fa6e356134be357bff8aff4fd9fa068",
+        "9461314d337812816c1c69c3fd4250ae784db11e7504e05c6cebaac427c6b8f5",
+        "3f028a27ac5b33b18191317a45ef73b4a9ce6a79192e7699cca7d55933371f52",
+        "961dd90d1af1419ad3b4a63089075bb60d98c819aa59c094b8c9b6a3a9a3db5c",
+        "5e38c27a8566ed297752d25b4b138211cde06e08f1ca2636a0128c04927bacc7",
+        "a1130a8ada1cdebb698ff4db926d6ee98699034fe5e1561dd3447a5e27f8f4ae",
+        "bb92bb5d5fb1da3d75711575ef10f11ade49638785530f871880a76e663dbbc1",
+        "aef0a0b366a94245ddfaf5de55f81b099144cefb45ae0ee8349a479d46cc15c2"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "2e38c8621e50a05ba16e2a6406cd7467f7e0817a7d314b46265aa8280d2cf53b",
+        "a6ccec1abe20fc62609fb79522fe92a387aec652c9addae3695fcecb9b176c0c",
+        "0bb5b2f92e93b2566f0c43c59e79131176827838abba6d495f896031d544894d",
+        "49575e336a6165f88bd1d1aff76df00ca7674112f67f1f61aad03d7c97fca57b",
+        "139bac4d0397eb0a86eff2884d13adedc399a594360850c0746633f5fcb88782",
+        "750bc4f2ffe4399f7b6d3d804b5f27ab459bef25c565f4c6e5137873944a1281",
+        "9c89fc15a220012f15304ad673467956edb7d459243298d279b5d45af2a9f510",
+        "67397e4c3ee5e9d837bf91ebe9e98e7335ae3f699bd541f7be04082b939f6666",
+        "2ecd7e4428d58ab0af21d864195bfd49c9544071f3b8e9a98caf177b66de6985",
+        "d2175e30cf538a91090f5880c51b13a3272d319d5088d399ccf142c5edd00fce",
+        "f120a62e7abaf39b98e302cd19e320cfb78fb0043904547c02bee539e950d67e",
+        "0ec69bb60d90e80abf05e3cdef31e03ef635e52afdbb82b72a1b7bc92a7c6ff1"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "80188449dd74b3a654d62c0f08f2bdf892b0829879c61930d762a6c6e8c9c08d",
+        "e0cfd0eac10e2bc2dddeb33c605b523fc044a72b735294d537aecf8ccf5f6231",
+        "5568c7f3ed972d50acb76131a5e85b25822b346526736156be59a1b82e0f2136",
+        "33904b59bfe3cba72db7eed69b44aed6c155aab25d0ab11176580474df85aeed",
+        "a2d9026a37dd61b118ab77cb1dc253d49193f98410e9662c8d1669d8f7918c31",
+        "f51801a96b71565af52fd2bb31faa7254c3c18ea47d63c2db7cd82cb7cd3c411",
+        "afd07ca33413b53a0557ac986858db49bd9cc0239c0b982a57dffc9925c6bd69",
+        "76526710154817e4b976222ac03cae982a847d376c57f49a8906ae0cbccd16b4",
+        "64c75e273595eaa9dfd4f37d9d1a6bd840d8858e193110dcd786270cf9d40e96",
+        "8be3ad19b3b218930412b910ba3e25db26fff8b53eb36462e2d91d57a45f848d",
+        "34955ed4a5604d85e463ad3eb1136942a85f4bd7e880b9bc061682dc9f02a191",
+        "79cdf6b1aeee1238ae517219db6ab88b7dcb73d5541a9e0a016e0be4adbd6222"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 1,
+      "turns": 6,
+      "digests": [
+        "42a522636988654efca5d9f251152d83dfaf98d6f4c5d8811b1862fcb874e159",
+        "f4ef9ee789897280366a67ce3f83b320323061f4810bff6ea5e44a0c921d9c21",
+        "327f49d94245c8651b1730eb5ab13b438623086e602395a806384464fb579a2d",
+        "e99d17daf820ca95ff452a148ea7292d8252a467271bfbde1ae3cbb73f8458e1",
+        "8bac65e2faa6b8c18ba2abb05f843c6a580d59fe399a3612845f13890f0182c5",
+        "9b6699f68e5e461ee3e02d4de8a3b109d3410848fa68e3a33c52aa16ebf587f5"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 2,
+      "turns": 6,
+      "digests": [
+        "932bebb683f4e6e91e4fd6799aa1988d47bcfdb781b5d10642367f309e98c850",
+        "c22693c7275a073a49546484536679c4e5b873d2324c17826bd20ac731fe9b1d",
+        "1589472461ca72eaef86dc88dbd3c25b2db7db083109f770a1c25bca6a094f9e",
+        "6e5b2019529a997d0579b06779d08ad6d82f55c40a5daa29802b7ce08290ad16",
+        "29cc427535feaf3c7593dedc82b637d42d82b9de2c294a6aef71d6e22d7088df",
+        "b8268e991ff92fb3f9ac1725651ea89b00ca72c891f45facfb87cbf48949aed5"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 3,
+      "turns": 6,
+      "digests": [
+        "568dc757e07978844a01c684ecd4e1fc59fb999ab110215704de1d3ef00a72c9",
+        "3d017d83e3d240107aeffd78b0059753515273c8698e222c25d71a87b4e9ac73",
+        "e2def83946c4b667c3a63d94e3fd880ad98f12c42af71dd2571066cddee6f1d3",
+        "cd48a8d8816481d79608f649bb1b7755cb310755c3a5ee2c16b95b5ec6f64192",
+        "33a3d444ba61ec89c0aa8be527b4dd9d6fa65852b33626aebdaf6e505d093b90",
+        "836f00451386ea4115227f67111832bb2222f4c40ee95575d4211a34faab226e"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 4,
+      "turns": 6,
+      "digests": [
+        "9dd3ceb7fb1d8d4a60406a172f95bdd018ec81b905be6d5fe9f655b4cf05f3e6",
+        "75a6a2c7bfeef81b9e212a3c66ca23f2960e556c53c71e3e861d2842dda96cd6",
+        "0405e1de7324bcc30672feba9373ed8f5da1ccba8ba9e216119ca0cbe23538db",
+        "ced7de568230db3d5d2a4e6c4e9872934416994c60d79232ae934cfb66a3d1b5",
+        "d36bbf839c29b2d94cda523fd7f430e43644e20cfdefc65eb5f08ddfe4153ba0",
+        "e3011dd90bb47fbb9771379dca22d47f4b52d4d59bdab6f3006f253cc71e4af5"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 1,
+      "turns": 11,
+      "digests": [
+        "dafb06bfb3b4bfeaec98e5b5625e24cb01ba3c4613222a424ac03592bb3d8ef8",
+        "089ccd113cb8ec2f118cf9266b8e775c8c2b294cae0e95d190dbe3d1092e8373",
+        "18a6cfaf69d71a9a295fb442011f5b8b6b9780a308f859264d3bc241236f3547",
+        "3110d6371b8d5d89924d92aba17c69890d222a18251cccc2aa41f6ff99baf269",
+        "71956fab4fbc176e535f3409c416d2ceee18692b35a994bc2f503a8b22d74bc6",
+        "09a9cf1ee69ad5ec591b9382c690179ab9d9d8d88220bab3104df4611b288566",
+        "4372b77818668441667ae4b0f351e1e52c6b6570fb7b5c28f39cbdbfc2b09690",
+        "f59c8e49c9ded8cac37ee76f58ed768164ba5ea79d18045fe5a7748253483d6d",
+        "c05f58deb51934361d8280191588cfc3d92915220d45e9df0e96b1ff2372bd00",
+        "50e29e5a978034e5132f26d879bc27d522d8520fbc7ce01f7fe6b8290bfd1f01",
+        "e697a7f0ab1967bb07c8d792ff558a3c5bedc882e23bb63c5078e3f2251a9faf"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "9e47cc92b635167d98f36ba97b015906d1c484ae8d767e57ff3ef76e1b47d657",
+        "a7bacb961d72d447f7317898a4baa0f9e7e7db26f59a6829eb4033b3109b6fe0",
+        "abf62aaffce7e9c6f05b287793d523cc44576e45b30ee9a613589869ec658c4c",
+        "0c68dce1793b3f2e7544c0bb4db595643a49beedf56f4e93cca624c5b67be41f",
+        "13169d793f861c67d21177aff078b3202e23c16df8bc796149e90385ceebc19d",
+        "be11d0024487de2491e7e5bd7ecccd124a4c6af89fd9b078d9e55af064d40076",
+        "186d18f03ccedf34caf6d8e63f5186cf6777d26951bb80c409626f9bfe81a3bf",
+        "98f7ea58d86e35cd4e9848b86d1ce97766376bea1f97672131e6d880efc430b6",
+        "afa6e5cffced0012255b6671d32eec8b0338e47ef339400b0f6a82ee340da0cf",
+        "6e7a625313409ad8769d603ad51abce1ff6e8e20289d24d0484ab37d271b9458",
+        "1dba3db9d7cf3a6d9e1a269dc735eb7e2eba81244c0df380ad76f0bd9a1688fc",
+        "d10c9a0df12856c34a6680165ae9ba7bb603d9997c7a50a098d636101377a9aa"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "55768387703f068c7f6b2bf4774de0e13baff5a0417ec11da457db28c4c26783",
+        "f805f77ef1338371fb6baa6f1a73e9a65b4bd9cbb67d0cc5287d50c4644b37c5",
+        "ce407b24679d42c1c01c72d659d28904a175be4d541ae3911b4744c9a7d1c631",
+        "da6e53b387a7cd88a70ca69248bde9de02b8120c066b4602f4a05a17b5124a37",
+        "daff0e71153c52d71b58d36a5929a40687c02825e720c265bb79062a691c63b2",
+        "7c0d30747e8f9c09c0b5218226a813cdce8b9aa8574992d25a441265560f40a1",
+        "21fbb61179eecf01e52aa4f4511667311cbd50c2a999cec41fa4ba568424b6cd",
+        "5f3d5b793d0a5443eeff413cc5f73da24a7eae187c25083326ef8fd95b0f48e9",
+        "f856cd4e3f3ac9c0bcf7f20077cf45c5a714e349260758a1a012b229b7369fa7",
+        "bcbf1112e2881c8c2b3772ce8950945a0c48fbf60e6d2873d4a48d569b7459c0",
+        "3222e196d34c05d020020e449e411d410bc412802ea7f781cf7e9674f059b006",
+        "ea2f88b0fb1f382af0987969f2f26517372d509d702bcba785a76acb86167fe9"
+      ]
+    },
+    {
+      "pairing": "EAR-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "562127e0e69e8e856291908d0f142a20338f6428b8d285b49eb85d7a76ce8e96",
+        "476f98bd2f1163aa663864db3c6687981c93c6166bef8025b48a785c8198968d",
+        "d4fba35ef9cab244de05859cc8e912e33f561480dcd2e2445c53d894097e0566",
+        "3804b2323b5ec081edb0dc6b5dd4f6b51006d9ab148a941fc0f9c2bd6c135cfd",
+        "535c2c02b3f67ac9fe6ee39eecd0da59aa449f75b0b4225eee75425423239d10",
+        "a369bea19e8d15e5154e145d955b2e66f8cecf453f5608e7aa641ab1217ad514",
+        "e74cff7f3d8a81e15f072f26987802b265edbb75e650ba994202776f16f10071",
+        "02eb180829a086db78a8f100c0ebd759c62cf18e61037ff221eeecf4535205a4",
+        "9b7cdafa76683280095cbbab01ec7bc2a4a18c76a05c69ac21a137d17eab9a3e",
+        "e68076cbc7b70ef6bea75e98dd514905845444f2b2eef296d1378b23beef60b2",
+        "19d1562e8f5261fb8ade00b81abf5387163b3cee451de6f4b0992fc3c7e6134d",
+        "1400b3ae96739777a98f6b0ab9bc5889c0da68a0be16e117fa483e6a8718016b"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "8ca0fdaf56942eb5cf28ec6488eca60022e1a0697c769c6245c0549a4b6d074e",
+        "ce54274598e8762c031d23d431c3f3be18711eae678a4ec00b06d0ab843d3a35",
+        "fe622589855a5f73b2b1e7d28ef126893985254c08c8ef3615e741ddca49d044",
+        "a5e2e07c6a572f3e89e1530cb3aca7ea47814153c15c14179a6b158738924dd9",
+        "8d6673a17b64959f696e2d912851d7bab33907c0d1a7b094b270986ee4e6806a",
+        "b15534df6fc79c1cbae726f1b31e982e33466a65c3ddfe125997928ad63d7d8f",
+        "4e96580cadc468a181bdfb7d2c6b75abc769f3a9cd7467ef6dd9c7f371e63368",
+        "2e79a29210a52d5768d821a4585adf83bc613cf66994e7f4312ce5e2be222575",
+        "8c0d7da4e973249c50e9c5fd8e02eaebf39fd4f0a4ffe4a292bc47fc91a05ed2",
+        "06766a0c363291b1cc79b177847d69e2bb99bcbf15f1217efc115363388f87e5",
+        "92d6c88f93239613c1e1d4d48e12eb1364a20215b4f9cdf7d47558fca44d7302",
+        "715540ad0fe6eb4105cc735235edfc95d4194bcdc5bfd40ccfc7276f82088160"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "470a7396e5926b30ca333e97c6c516e13225d13d00042b700df855821c412984",
+        "e730d437097313e657d2c4532ba82e0b83e222f3281caa00031f6e154476385a",
+        "af3fc58e9cb2e3c2a55673f84bb25e0c87827a8915052d429b427f16efda86b9",
+        "69690556df4c5aabd521ab6c6f94adcdf4d443aff4d3b453b6307c8c72fb071b",
+        "25a3b1002b802d48fc15378645664a9cebd9b4a3e68ab000e8e19cd921479dd7",
+        "2d91681134612be6a4ac8c17dddfb98a617d97e9e9adfb99bec6bba1ac24ce74",
+        "7c02957d5ddd876d713fd49a4987d2507fbb5c5dca595beaf69b76e9753b089f"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "c44fb61e38408cd3819fc5e2a7b31fbd693c8fc11f0b93e136e15a35e4ac6416",
+        "e9af47edd71f5e63a64af093313de7e43dc156f5d4733d8dfa6a1c0bf4ec3a5a",
+        "9419c5d64b6d3f8a1c3b2008657ae85b361c300ff708a0da4306d74534599d02",
+        "9c58702eb1b729dca1ecf293142190211f39fc88ac65da130bc222fd3ec3898e",
+        "9823cf3c5fd3bf0df4f78124624b4e638952619280ad8036023c070c3f1fbe71",
+        "00f40f0c56b8b1b1fb114d0ba20f62f29e26168ae9372745ba82afd990ad11ca",
+        "b1c0b90b953b301e726587587f31a917f4cfbfd31bc08c2df06ee3ab2a245968",
+        "f215334af43da55fe66609966f65f8ce594389af12cfbf938e60a1fbe19a7ef5",
+        "8b72a9d5e60b34ed3f79eb1aee144b7f9e93c258f0ed6647ace87163f50ef9ed",
+        "d4a84405e44dfe66c121ef882f69fc7f870e489199c8af2a9480b02b1cdb20ce",
+        "52ec1322c416f8b8eec9ef2f500fe1aed5e60bed0be0a084480ab845740b3b92",
+        "dbbda151883d7eee981d118e43baa50d9440bd34bae85364aa4596ff04faaa88"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "e03da6472c7e41225412ed4ec1e7b2bc4c4d286e2aa2c36d7ac8cbddf85621d4",
+        "8235c7be68dfca8fd2aeae7951ca0eeafd5ffa1a6bf143676097ad50d5bebc51",
+        "308dcd57ab2e3e27f815560b009586d818f23f2c645e82f0f009b813738a8516",
+        "b5dd22b93de6ce7ffcb6c093e765a2eef5a12515726da1b102e4b0aacc6f65ff",
+        "924157cc821ad5109c08c08d0435e4028cbc99530e8a809bb7b31e53c834e7f9",
+        "6ea9ad8b51ea2ae774ca412f8b516acafd57f7d7268ac4a4cbf2fd7f8aea850b",
+        "112f8b9e7fd0fc69cda89bdcb9b12b9647150eed03c2b7a99dbeb7cf6f4b868a",
+        "8ad13ebd0ad6dcbbb22d83168c884cb295bfe1582455e3865f2bbbd742a9a3aa",
+        "4146efda58d263a8d2adebd6e79ed54a18766245cd58d34d27bcea0996e04ffe",
+        "5b3c7dfb620e8c2895b674f852879cf2745d2311677e6909e2e96add4a96179c",
+        "45f8f3c2610e2c2b19d13fa5c0b276f408a92e7d9e99bea8b3677f93bfec6b06",
+        "45493e92858ed912fddd1407f3a264a9c488f875875bfb11660867ebee448b36"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "41eea1cec6a8aa159ec9c2c2cac9a2a1013c1e19c55e6ae0a3b02ad673a78efe",
+        "0262e7ff9ad008946e2a15da62dd8a625452563d53ceb782175d5437f8169e1f",
+        "33e2f45c7a9867a3521ce844befaa24a784557fe6c403ced4eb290167e816f2a",
+        "4d243efba1d13f9ef85de57198dbef74a4159744cc3c6013f71b132145174cc1",
+        "c5099ab5c9723a407ede436e32b41f1ee5079f67d0610bc80201dadd34a61a8a",
+        "372bd5b2dafece912c2852f331eb1599077c7597cdab99dcd7b6ece600ce446b",
+        "51b74e2a2af91e27ff2484268f1462273a8592fdd8a0afdf6a7f4afb92e61fda",
+        "f829ba93cb379c465d6556b7b96302aa05d053b824f671dbc58dae1911c9af11",
+        "f9b951c46fff3566bb9a5076308e72945aef4cbc7f13e4f63fdeb93d5012ad57",
+        "22b4e4a60de7492db003f1f199fcc87a2849d6d7f8839ec0dc0bfe689499c2c9",
+        "f8a6f223bd3e218b67977d0d1f171b3a3c57b61c09f889c6c5c688d38e6416ca",
+        "3293a37dd4ee493e47034c2991e7523569514a0462fc51d722e828cd79918222"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "abe5f84936d4159bd60eeff76569da79d7358c9699493b92dc92bbe166f76d45",
+        "0e3dc2a15267c3cc3ec9d9a6c6eeab288cab0ae2e50ce2bd0ed246f85c4f0eda",
+        "cc2a7f66f7afadb56e95740623aa722392d88ae557d3219b4977538bb0619f8b",
+        "e3bf1c3de2f07546e6124ed9299a9cbc3617607426bf9b22068b828df750fdc7",
+        "a3c2883e87d9c17d4bc5c1d746b4264bf1a825349dfd3c8281b9ca21b907c5ab",
+        "0169af61481e98438284534034ba00549daab2d2d2ab6a68a2f43c6bab8db606",
+        "e22b16f700308d66184c821ccbb9943a05715f0cb40f8ca96faade506e23906b",
+        "7dc93a9cbc462cb13afe2ed11ed08e1ac247bc7a31ee632e8d10673b3c744d45",
+        "2106c83311dab215d965b28f460a6856b0eb875e5909d152dc0e81e6d8d58f34",
+        "3c2194033d3dc4328a4e055f352b26969fec25a390e1b4f4c62bfa17df7dc907",
+        "19fc25578ec11899771c5d75ebc4fbcc2fcdc3bd7c091e1089e1cbc3a353d25a",
+        "5041750014b94f8d00209cf0da6ab9859a9c9ea6f0be293cad0ddd24cb97f901"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "76446bdf591d31c04c6d883be0c3fcd5dfec7f1fb42adfafd71aeafff8e59228",
+        "028e15b42e0f69135accadab5b96af8ff0457ff9a02cb454909dc93a7d47fb35",
+        "edc56a096f2251966b08b584243453235b11b96ab8fe143ab31084bd813d150d",
+        "d4943e45e4837fd589c21e7a19ddd3182b0e4d4716e219092f8bd019ef320d2b",
+        "89927127b014cb0c5853fbf355d4dc658a42cf7b2a5d7421d2075d07872d59f3",
+        "a856b9935120740b50aff94e961eedae087c83664325faf80b75d598afe5205d",
+        "6602a4e9b3d5ec1b596f04298dfb707ac46c7658fa7a28b73e428875943d3605",
+        "96b13532945665686e86142e33f450766706f58e5ad21cf3b28dfc0545b2e88d",
+        "1365cdb624634df63fc571d240a5628a3d2a2fba684b6611b5f6e9b61bc1d064",
+        "2d9efca91d84c49b487952092df3ab5a5b194ee328b9db6939bc1b9bc09991d8",
+        "87f1eefeddc048ccfd652542c775855831a067dc1483757f79adad4cdab968bf",
+        "802177379de77723ae22f6c5a79ea82a694748f239130a91108b03c247a0fea3"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "16376b6eb37609573ee617230cd2e1314b38aa2bce0c6c8278891d08dd41797d",
+        "a335c34ea395e9331a1aa9df1d12229b7d7e26501de573dcd8409a8e1f52c56d",
+        "ddc959fffec925ec4901656332b1edc0a2c9199531b02b872a6b119e4b12281f",
+        "5e7afc9235baee53f4db1a79316e825c4f46898957567a5a68cc1910d7ad8037",
+        "34e5c4215fc031e54c397915e249271ac5c5b168b65c452a9455346a404e6157",
+        "934b904402e1c63389c2f0729debc97696171fe764decc08bfc1446ab99b1fdf",
+        "4363fb7f50508f16a6477c2dfc34eb4362543942b15a352124030d8efd35221e",
+        "fec6f52d1544a29476a6fe3f3edd623842841b1bef797255dafcffd62b97e522",
+        "01af72551d9501823a9a0da25f0eb8d26b26c1eba9d881e6c729de89f94e25e1",
+        "cbaabb4254de506016a3df46108db4521d5b990454c894b31a0750e664bdacbb",
+        "529d7d0105a8a55ffe5af19b36da89400b001de588ea5cb0aa2ac82d430f8fa1",
+        "23248dcd3a22d99d55933f3dbf30e803a9e9661e79bb162c7cf205a4411f1a32"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "83278bad7980d653602e59bd54b751417f245ff20d9507f7f7b2b89b153bc97e",
+        "d37e7dda840f11c285f5c6665c9bccbe7506ab3aea31e982a39657f490d46a78",
+        "4e8ca68deb24fe9008d6a003ea65d19803da048b7405259f7daa192907206830",
+        "0af951759e1741a2ec305873d17f5e334fe1f8103886db55b6afd8c09a5490e8",
+        "5e75b12ea0fee2f3701cc17f68cb25a3a0bbeaa4b471fd24f81c34e71fa631c4",
+        "c2d0b229d6fd17ae712fe51f9231257a9f2fdb0d9251f695b4135002e9ac9b00",
+        "45d3939dd9060cd473a2cae4175b1f2d9b74a0874a45fc76e4ff85c93fb9dee8",
+        "002efd68a01a507658bcec490d5629523451d34b85958c8b7d48a27acd1676be",
+        "81bfbe4cdffda38cb21926e5a29ca7f5efbf00f31885fc3691fdc09b7d4ad629",
+        "400e2acf4085b52bad8c8a54512e9ff69c3536f4954c16e472750d5feb733eb8",
+        "dd8098514c4a67e0c5037637abec1d1f717a7124bf609110fa4fd520dcad688f",
+        "554309676672f0d9ecea83879a511f6a0b9ea8e7c2c5fd106a6d52fd6326f8c6"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "c790f89eb8a3d7adc91195499e3d66edbc13654e96ce21ee97705f622bb29a65",
+        "9ffc9b9eab750cc36b539c6f9618c88366306ec42d3f8ea6b68a3ad85590b063",
+        "c65ed9fda2ae1a208d41aa160af3956a34c468969af0d8ffaac9702c4733325a",
+        "157850cd5f80813f802daada3d879b35743c44aafcbf507924e76b2fa48679d0",
+        "d8794f4dbea4b9a3302149f490e7f34d3a9a3ad6b1e92c11d5c60d0c1941cc54",
+        "4a37b654c60b571e89793b754f793302fa9a5245fa0378f4133c727b4ea5058b",
+        "37cbd3e97e73a175bb79db54befbd87d73106fff92fc086feb46905cc6f103b2"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "b1e97e7ba53e16e1f7d01630106977f1fe0c14f501a8c1da948bef198c3f7454",
+        "9e0f98602a8a20d633135c58a4ecbfec3811d1aadb36ef91021a983ec655f675",
+        "07cc02a28bb4b548ddf1b29b2000453722701acf441fe52db76de0809b223651",
+        "507550526fec7ef75d1b5698ecc33716993cd6ac24351815bc490683da03fef6",
+        "ce9d79715d9912a5a097e522e29d271285388157f95a7f1c6221ab1a79b52a1b",
+        "9a48fb3f40b17acbc18b195a5f072bd859eb7f9acd7d07e4f4aff376d1b3c6e0",
+        "bcf01dd9e126833acddb3a6d160932edf3d1eb88084bf6e5827859cebce32cea",
+        "95a77b00246cfe4bf5d268e3b975d8d19d026cdacae82d70629f5ba8940c47aa",
+        "4319db995135482fff06c5e164dfc12556a2bb37c5c7548c7f3f2e8787a4c5fd",
+        "ea7a4c94402174dab5be795098490a5b9505cb0fe3f13ecdd7566d159fa49436",
+        "491692fd5ecf5555560a089f9736c0b06f53dc472035316de352699b805bcf8e",
+        "9c89f670bd2ede04f0bec9b9ff5e2d0af2f02e38b6451cd91318d5b031f169c9"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "5fe1bdd3a09595e9fd389f7a447696ac77a3003335d65a290005ec406d15cd0c",
+        "9bf5fef2bd52017aa6fadc1e598936ae2d4f484b7f5115aaabc27371093c2be5",
+        "7ea03b170374c97869c51b7cdddca79f9f8918b9f59149f18ed22bfb7ec4d242",
+        "d1efd4e04b10551fa7e3c640473b1fe755f1d95b207da538f45f21cfde5f019a",
+        "6394d486438966a0a9ba3374d0ceac39acd365570857dbbf71a5ddac25aade9e",
+        "b3b0dab6cfa1aea20398dc5ccc919907734744aaba510f3c2c414a18e648c4c1",
+        "65f631cac216edd36deb9bc2de73ed41521de026c70856fed9b9b18684ffd1be",
+        "010756a617255ce3aca84312224ba5614af8c2115d99ccde5a5c861e9530d504",
+        "67906a27f0e649e005bfda7c450a69a655dd6fdb641c6047c7327de2434eef18",
+        "9951cbee7e169e28e2244bb5c65aed1f201246c2b693b8b9c27d6111ea632eeb",
+        "5f15852fb76160b55ee3680e5db41bd2cc5faf74bed40384b96e9d438bb7a98c",
+        "38a2c165bd6d1eaf23b7497e9f98b94e6f2478c69c953e0efda8ab22ca2e4b84"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "92fc9a0974e7399a9d8fa0098afe80ac2a8c548843013c5148e8eb469224b383",
+        "6daa62f7e64dc7a2ef44a023962129ae29dc5b0495f7b1e8f689f7f8c7682adf",
+        "3547a445f3679ed31254f44592c476a6a20185e249eba3a8c4e275ab856a0c17",
+        "bd6d35beb53898302cbfcfd2628b6bb6a32cc05a00ada1c857641f89238c4186",
+        "e9aa848f345b316c3eb8ed51e0d32ff3d74de6404a89ec61337514959f16e7f3",
+        "e5387d6d246136f8c13e1d85feb2ef0b4438733b95c8af9985806e2ac1c08233",
+        "e3f6f1c14135654134639be7846f3a9dbb4710601549d6e2e086b27f696c202a",
+        "792201808f7ee093deb87aa68d3321d7e6941869b82bb38e691c920abe3d6f23",
+        "40bd85640d62491685c76a7c1f6d5cfa049001572be0f3014af485d0ee53909c",
+        "71062b8056ea17bfaf6a36c3f3ad3c264a86ea94dfdbc1b8c57576941fc26f91",
+        "cc356027900dbdc2b46ff4def5e6e5f25a1385d20cff778348b00068d555cce3",
+        "9743edf3ed96cdd34999c79e7b049f7bf678a8f556a2cfc7151b3f818cedfeb9"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "2c41498539304438294abfa17b9c2ecbe162163a14db4336bc47f747fac31678",
+        "b71c007ddced161dff493cd80d03d8cdc7f68d4f3988909e55ca45c9cca550f0",
+        "d753cb209daffa282054a8e2a6146adc5d99d606556e30ad020638f5eb006153",
+        "cc950b8dc56634c89f925e3912e4ae2eae65514bb5463d99d52d00dd497769a3",
+        "9d76bd8d89d3e46394bff83f549154471d0abcedaa13c92d20cf9ecfb287e8a4",
+        "6684ac00714747e196845fb1b83be48d571e31bb085d796102472583732f1a5d",
+        "55a75a31332b408682ab33e24250276f8cb67f737b795117e03bf878e751ec64",
+        "bc4c50e73725e4f9932d29bc2965b4c472842d59c4e4a949995f26e872dd319b",
+        "38821d7b7fe228ea2a2abce5f3505e4c25e18390dfbc642db4d1ad9e1bad3f2b",
+        "5ce9e2b5b8f7cf376625263b70d87b39f6e337f7dd0452afdc1551d3b583e492",
+        "2b2d699e15bd4e0d7025b22d0850597e234f1b72c83b97e9629f0e6e0017387d",
+        "783713040928237a31abcf193d88566683185aa85c32108489f08170bcddc6e6"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "f952df47bf99a21a9506357a69223c998b28aabc31b1b3b4bc2d124b6da90ca2",
+        "9673519840437ee7e9649165f8b424bab97cfc7a815ae617899c22a85c49b8ce",
+        "1aea5bc437eb405613df7614c47e81ae3cb4b25a6d736f6fa5167fbfebe79fbd",
+        "6ee229ef7a0bbe8edda246129cf9793312e50caec6b8058928f11cbfb54f69d4",
+        "fb4216239fc9f0f1e5efbc7010c2aacb04cf83f08d35d3830381d652a89642d6",
+        "5665be9e0e44caa9a432cea13df745b1f2aa53b4bcde3c2923fcc271dfa857f1",
+        "8ce0a083043511f9b8a711459dfd00be260610a7da5c984cea9e3a6a70740c47",
+        "be9d99108b1cf18363251ad891528274cd6ecf9ce060fa4d3c1d77e9319f4675",
+        "91e04be5397cb28b522b04bb6a19550bc27d27a3462794ad70ded22da3349011",
+        "c868bae546931c48ee9edc0ea6d5dd0cecf8690b144862bde95f93864ae45b78",
+        "2951459666741a5ad24cae520357a9355250626ad3b1097df9999f1ce6004918",
+        "1965e98fd25d6e76d61b006a4d55eb4bce48c379bfaecc05201547600fe12431"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "e888b29a43632d4df07e5540387a530de48e11e260959683754da399cbf2d3a6",
+        "0a12d1a2f45498629447fd4cbdbf5b4850a9baedf43cfde17a8c7bddcf7a3daa",
+        "fbd0b01719d0f5d00ec6771197cb0bd7ca4058ad5a2dad35c6b4040d456cdf57",
+        "156b787d3aaccfc0e1be5300f8e41588e18178a638f27c91d9668368aaa464df",
+        "578f57468d28bd7522e70fdb193ce2011044cc02d6be47547c1b652511ddca56",
+        "1bfb61e448e2f0efdf6292913b78d43407e43c47bc2f6ae0bb2c79454d37f0fe",
+        "fe6ecfcc527113c8dd8214f447714a8bdf6d9bc26f5511f5384de1488f69ba9d",
+        "e0f4ef3842492f2e03ac9bc82bd651e3ea20c36d8408c405f9342034b56ff107",
+        "6d21baff97b38421e1ae25c147291fd315c15d1f5bd48e480ba79d2650220353",
+        "338a71dbb4564c4bf5537038a59e2a21d8865502c9498facdada59f96641a77c",
+        "5fb30bca43cbbb300618c96e6c4159182fb58a25bba8f4ace89a5c3d8ba485de",
+        "c8f1ac479e7ca026cb9d7b46153aa33ae5dfcd2470d9686b8e8cdd817c42e322"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 1,
+      "turns": 11,
+      "digests": [
+        "600f6d0f31957ee2e90b0d486350dc88041493e0246f73ee09d2ce643f4fe76c",
+        "c7ca6075c6cf84ddeff8fafe2569af369352611c27ce88c0e1ca9e29a6d43871",
+        "8a96af0f6a2f4f8c4cb8ff1f7e9066cf70bc7d921f3c3f71a3b5839abc0f69d9",
+        "56ba54b9e38ffd4f84aa73891ee2f22ed7a0cdeb39b70775afe214e7816067cc",
+        "69d6a4362d4493d9841d99232cba1ceb6d94f3a62e084b69b5ed5f87bb5d3a70",
+        "7db0ab156a977a42795eac14cb47cd88fbbf199ba48ab9df842f6db75eed25ce",
+        "48e5a9a23bf0ea397f6a38a73586b8d63eb38fe00fd18aad935897349000317a",
+        "fc189c623035132ea360084a60e5461e64b003180c25f5d2d92ba5b74c3e00ce",
+        "121ea84faeaebdbe975f776d59cdcb18d2d36671ae99e2a17667600f8db10172",
+        "c4181855cd5a9393da9f0c8d08b2ad2c811165c55b98934857cf12e28e8917cc",
+        "b04a800ca2a2705e869c8aa4d654f416789ca3476fa4039371e3452f6485888d"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "e58066c77682da97b150f1b00a61f0c88b4e374cec4b28a6524e8d3d0aa2fd2a",
+        "196bd328bbf4dd299d54885e7754c66b2f962069249d4b14ebe65380947ad23d",
+        "1db905055afdff24213cbd53794de6c0390ef71e8edcee6dafb9cdc79e8b7a49",
+        "f40985495cba5fc3a3ac3b1831660a579c18eb1c6df0da84a5e7f16cda04cdea",
+        "533f0556b516488e8dfeb362753231ca8cbfa2459d897b1de1010901fa225089",
+        "40b09542b28ed311b07fbbe86ea025c2113e3001e072f3d113fbec6b580320fa",
+        "9f97fb3be27f65908ec315e7aac789fe370cc94e493aac44d750f4bea120ce7c",
+        "3e589cd321f66abb0287f01609754690cf9d6f8f5427ab9e2df69ac364adab18",
+        "abd6daa6eca57e1e9010a4ceabf61ae4f7862075c3b79c919b6c2d8dd00efb2e",
+        "ce6ae285c3f6739e637d1a3bd8ffffc8698eeca8444a950e459cb8823ebd8e68",
+        "6d348e712e9913932d1e9cc165d11a87b720cfe40206fdf94283fb5216849874",
+        "e85d49683324ed29c0beec5890eac380565da7a8e480871b4929ae501f0b07f8"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 3,
+      "turns": 8,
+      "digests": [
+        "307d6a5aa90ffdb54812471e33ed002d47c4662a123059a93966a058548eda14",
+        "e175fc6dc116eb71d251b6e7ec4abb23936f1a75dc630f5005ba8487d674783a",
+        "1d48cce22135f55de4e6494a2189f6f46ad9f73e291c9391d83c249a179846a0",
+        "b6b850a9fdc9b2afb28b97c833d24c306168f9e22fe9fd1b7c1e2a04324ff855",
+        "778701ad563ffccc8fe822b22ffc3a0a1ef9b664b98b74d6a341c2dcfbf91780",
+        "18393f41924dc509ae3bce6ad3d40e250d548ecae043ba7e9afdc23b9343b934",
+        "0a7c4518ded9b45d0e49d6de98470e173892d30e579ba9362794daf14e8e91e6",
+        "3bf86ee441f6f3542d36d861dfbfd7a391064e45dd5dd320d74da9f0f6fae47f"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 4,
+      "turns": 10,
+      "digests": [
+        "a7de6b9171e46e8b93139cc94177494f94d1e5edda8ad7a2b6f5cbbb397ae1e9",
+        "fdd2a567cf4755c189f98bcdf8248bc959cd2dfa39312a040aaec2d1e091021c",
+        "6cdfd14982a4e1c925011a156049b2d21cf7d31d6da3da61dd3d11ccc2173ec4",
+        "25eff86cb76743d98e2e110677c893e1ee2bd5cca5e54f03697bdbbaf4252ebb",
+        "053dffa8eaf6f89c9af1d67ef36d983cd82ce5805f4cc1c2eee448d788bdad4a",
+        "db069e10b7b4a548dc95abfbb6eddd185e9a6b6abdf402954ce13e74d720b69b",
+        "a21ece7480ba9b7973359e8ee8e37e1d6466898d0703d980978be98b45f7de5c",
+        "7f2cba3c50975296e8da8a34f17db497aa36cc068ec5a0f3bcfb7b636d0b5120",
+        "655fb2486dbef2fedbdd4a51f201a67a27cca7517d4a739f4f0b3feea558914e",
+        "cf906206ea70ee3476291050f79e858bd9890bc36daead8f6aa87dcf350f16b5"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "e665d0c38eed3caf1cf9b948a057c549bfbc6efaa85aead5612b801c8c741b68",
+        "31688cc73115c07b7fdaa0869b2cad00b22c9b4edd2a3c8a3f6bc84deb006cca",
+        "44c8b1dc63cfe4964e008d9d86e9ee4682a0da199638e2b42e10d0af709f1ef4",
+        "6acb6ecb400cc58eddd87fd702017c1ec54766509afcc387bc722081fb502a10",
+        "494c5f4dc6dc54ccf35671bd849269b6a52d37773163fdc9543e6f8874542422",
+        "9a5d3af7c59e372ea29055bdc1470884370dd8c82a9ef38a1bf2e7c78681d72f",
+        "060844819970a3935ddc8a685332a49c09b7e90b18bb6af7698c819452f223d2",
+        "13dc3f328c97ea819d09ce9f3b2267413b76e6c9d609c623a2b2869526ff000a",
+        "59977f604b43c3b33e00e6d12b12e26099434502272c6b99456b0b32c3e6f613",
+        "3e6aefd1b09d717451a040474706b7791cc75eaefa991294be3c12b68b16c951",
+        "974b7c6a7c923acab953fcbb69a28d42f9347da2939f5d04647d339bde65bb95",
+        "205ce8c79ad01869ea040988782d7585dba1f4068b81f5e61611593200612ada"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "119a27e49439908448094e877f111e51218f51438dc1634813771e0e33eda711",
+        "f3087b92d279a4e923db7f3a3a088e75faaeaea3983aee2fa48f2c4fc192674a",
+        "fc059fc4659a7e8cd9447d1e6e6d1ce9d30bba73fcea142c2020fb2717251687",
+        "69d5e48da60ceeb9eb2c3e6a81ea7f4741ca78ddc3d1de225a55c4cd2988c3a2",
+        "18e35054734b5ee650c39ba66454ba692a8fc30f7cad8a36c7d82a8c61f1c2fb",
+        "a079327d64ed658091f7cfb26c614d4b5b3bd31bd8b5d1d3e39dac1a9f28c79d",
+        "f452571dfc667910fb085fd728b9fe3b001903dc271daea8c7c6cdd32aecc418",
+        "3dfd5f89a28f0bc4f5224e179dc9b0e9bd09f4231d68c2128981dc345968f7e2",
+        "cccb111377907d332e4ff8536d7def2f99824196f981029c169b8056ee212e00",
+        "0b6fc891c1217c3e3196957c0e0346a37f8ff4bc0f0e7fd31383df2206457547",
+        "b82a7e4ca9e527775d8a6a927cf0c14f0358ba58f077a0341487539f0d2168fc",
+        "605d8e75cb312459d5fd6eb25d9c6e9d2786b3e7eda6b120c851931d929e37d6"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "63880e067675957d2e0d94e4e7b20b69659038c9b9441ea65ff21417be6e6cc5",
+        "d058bf01122c4826074d8803b14088497b2fdb2a378b47176438f40d22e6a482",
+        "5ced68215fc3da182a1ac1e8e1e5346dc1ace6f06f1a710f9bd7f1f56844b63c",
+        "bb05b61f456c3bdc3ea0f8870b4ecdf7e0a9b030da9afc979d49044b9c2ccede",
+        "04da43cdd2e13631536058e7e47c0ce2311cddb7a858883ee176cefd38f6ae03",
+        "a577e81010ccfecd53ea3b5cda8499017aa753230c85781ed02ac6189ad31818",
+        "10b704d7710716ea753c2fd419bb1a755f401dbbfc450d340d19417df9c2a3e6",
+        "6543a26713042c83ede2e27856718460b739a0dc4e697238ab9573992a462c19",
+        "73e0ad0740550b377e387df633119e5fe0a7fe4c60f4f7edcbfd821a3ea5d578",
+        "950f8c65fec261035ad82d7645476ae6d9b8f95b32afb9b5008b21a2a9516317",
+        "e4aead397b48d4eeaeffabb7ee3dd77cd33a0a708a34759878b98ae4591e7193",
+        "18a7af86a972c7561451d3e108abc363ce0066d1a497a642fa8f69e4eb3b87a5"
+      ]
+    },
+    {
+      "pairing": "EAR-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "cb2c6236139ca196ec588ec01b125a5766ce9c80156ace4c8ffc47683a08a93c",
+        "ea4d0f9e8828506a9c24303d8aafe612e7a6b4dafbb41330de7b80354929bdb1",
+        "812c1749c8b8ca02431a3e6dc76df4819139b7f7af09a445a75f363e1e330ec0",
+        "6c95f8cee830d476df50ed68d4429a88ac18c1bc77f0f0673dcf86e0b6de781b",
+        "e7a7c9e8b76beb9202fabbebe36fb8197b3f58c3334a1e19b0ff5b9ce9906600",
+        "c9a12dcba93249366e85a4d9e7b383f4b1a3a76930b44c98cf47b39f4a36b57b",
+        "89044fcd625138db7bd013902edc87217bfe6a33c2903ac91de4a174fd872a57",
+        "0720204860b9f23fdc97d42e55c1c81350dd94cf6dfa6698ed8e4850cba0a1d0",
+        "018740ce5dd60045628e5f81bc5b459886a3f1c6e54392ac5062b0f134fcd527",
+        "2b2bf01df5032f2db37214be51cdbff4b4c0c8d711e7899efe094c7c5296d44c",
+        "fb1366c793b939820cdb264b78c822aaa170b1766f4a2f0894501da0abd2640c",
+        "b529acd0bfdb0aca4eeccb6fd8ae62695be9d3acbacda477e79a6bc5e80c4d37"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "787b376cce36932b72da9ff20a2f587957d46c3d7f0628b1d0f2c357fd3cee48",
+        "c73e555197826ed6e18f89ddf4c02fdca9964d6bf8803fa58a6463538f68c40f",
+        "5e790b64a58369b5a9250e7a89e97142b0722841412cd783f539b1e25538f041",
+        "3378eaaa4ab4dd0de356b1cb45bcc15e853af4d304feea0a8162d29d7dd591c6",
+        "769f1192c2cd310dee3d9ffb11495044782ed41e49c54f4ad177e8218dbe8a72",
+        "3e278ec6ced8a12f1be9603a1ef9d5ee5193f3e98aefaa5f6a54c9affb239750",
+        "47a2a74314055a3177217c7f9fccb2de0c2294166d3cab22d7f6cee748c580b7",
+        "54826b30bd7cf8dbb21ef7788a7d9e081201110ec94427fc9097af75f49be6ff",
+        "e08923f7cdaf1693dd726b4ccbecb6d32367537f37f0bf0e6c336d2a6042e7a9",
+        "3064198b9cc7648c403954e6a3279dd60f1e258767bb1c8167933674620aa2f0",
+        "b6146716356d530a183ab8f62833fd81879ce94f1cacda5e833932a5f1593b45",
+        "1b856aad2073510274559d9bf72850f869dcfbbf7a57f7573772464ba431d5a2"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "6dca8289ed4fbe36c2c3be3c82180bb4600567972ca350c8e6f13047a678de06",
+        "679c4ea2181ac3fb62fca07fd99dd51e39a808f8cd79736487de6c1ccff2e05d",
+        "c282265c847f3a81121ed8e2bf3e8764ff6fa193a3c031a0826a9c3a828ddff0",
+        "6aceb6b59e4f4d75387195e290825abd9b043a9b6d04eada5e26852917f21392",
+        "04586d50be72b87dfa4d7260b4ef4560e10ba62d62182d6cd2144c61391673d9",
+        "b79f380f3c0ef3f1194b14e1b130c5df34c74d0c3028cb8d5ae1b13da47957e3",
+        "bcf7c00fe17ec2f202e251c8263e13a5d5a650f123429016b099ae4f7d1bb339"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 3,
+      "turns": 9,
+      "digests": [
+        "e5abdd92e0bcde5ea5b3bd9106b527ac025925c1799645522f61617511b9a742",
+        "14755f01084f30a202c597f7b393c730966e80518d67b5231eaeaed6a9b2d8b1",
+        "7e4d37ccc62adbee26edab8562d9c8805bbefe5a79ee95b06f26364ccd84518d",
+        "3e5ff112de7f12462635b0ab4c36589daf271812663e457eac4321eb6b74a343",
+        "0092a2cdd1d108c51a55b1f7c2f05de4114a934d6cc6f12d069a9f1587daa7de",
+        "05eb090699c5e483165fe8608bc57c9a1d3a2508152b8ac14fac370e0f6caa23",
+        "0d116dbdbcfb1aea11240921acb3423c4b25475e1ea980f9c15372c302df8b21",
+        "48c3fba368226a1f67ad38b6d1ff88424a6c1bfb7f2cff9ab1ca45709556ed14",
+        "5a939816c4d6e32ffddb3df70ab61b4a60295e3a9dfe6397a4edaa95c545fa6d"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 4,
+      "turns": 7,
+      "digests": [
+        "8caba25727d9c6d5613fff2c8598ef71f84057d992529f428b98db636e34b8d8",
+        "d55072bcd3db763e9bc2be87c5c13c37775d206faa74dfb65fd8e68320872c70",
+        "59ca784ed3c0c3d1cf48e96d9e4da219d181db4e0581203baca9d3c4bb63b02e",
+        "f59df1f3b043ae0a5855f03d637521eb31ed084d9c29e391f79bcc386ebd7e20",
+        "032cdc4e5f0834e4468652040d01349247696bbe440f340b20a32f02dfcc10ef",
+        "2463c9692c8bc141a3670fedc52074e601046e54c8652a3880f09f876b04d9a0",
+        "ce65376dbccac3141d455d5ec3f6e061827cde22d2bb807b22e325f0d89a3b42"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "205c9281896f7e4448e3589c1dea4ecd387a1ba295a0891a71bfdfeff5eb9e39",
+        "abb9caf99897b7e8a9f1883b72fd4446aa82c1e5a91ac3eb9593d40349458d3f",
+        "fd98e0f150a4764ce209249fa15aee570e757dd212e045a1ad8c066b0ea79a2d",
+        "e43aa0134fc99686d4cc9f395615fce8a4d284c35af406791626e78a24c7362b",
+        "d879d3a36cdf702099477275fee40b2658fb98fea99eb699e0d1cfe31ce0971d",
+        "7ddfbfef8af49ed62b6b357465a7b2155f20ed0163e84630e9ff5b6a1e958fb1",
+        "9b82718a32b2b31375070bd09cbe9038f3b0a5d3057cb3e06dc4ed88843ee4b3",
+        "9d920a7c93d5f4d4718687c394ac7a35e1c9e7fe42db4ec00ee60a63e5fbd698",
+        "867706afebe9f4e2d6abcdba323c502f0b1beeb8466ecf4adfdfb1e8df8d0b08",
+        "082edc43ac54a2c6ab73908981f3bff0de338b0af49edec8d762ff4edac819e5",
+        "8a5fb28174081d4e49b2b2bbe3daef1d26d7cef69a26f019e0fd50a0658220a0",
+        "65f892db4a62b2a14c378c0dd563ad19aff5424d9e980837af01130723877966"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "9d16e1283748865224d7cbe009fcbdbbcfe7538e74ce2e7899b46ceb702ef8c9",
+        "53e1acc5519f0cd30f7ba5e3a98c35398e53ac90542dcf149f429cf260a7a574",
+        "d6505f372651308da5e842f2282bfe645f5ec34e5abd01b7ce9fb4b411d5304f",
+        "5c8b784b36df67b5f51eb0efdc294a413becc17b7cdc5304265764f93fbe49cb",
+        "1cf480dbf363b7e6a593f4f5f03aa5daac241bc89e184ce5de9045f46f1977cf",
+        "8dde24f1480d43145037a60f09d9419dba4a5a6f0dd5003a53e298e4868ef999",
+        "c08b042d4ecfc8795aa57e50a73b7161616889d0fc2ae54a3bd745bb255f53da",
+        "a1afc01c5407dbb93d07fd79552217520f8a1c9d7b27bb8b5186654f4e224adb",
+        "372eadc9916ed8d8abdfb81e8037e66cb0611da3e46feff38ad65001ca802a7e",
+        "6607df423e7fbfba846ea0b984c5b2f52b977e08b7bb5fbb9e468f9242b9d07b",
+        "f6378ca68b630103d3a80c110a0648a31f8aeb93a06782f83a7d3c786f780d47",
+        "8dd120a1a3781b8ca0b1463386cb4f47cbef2e12681a2d10935f0e125f262465"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "05b449cdd3c18470a8c575bb8098ac8e41ebc49778323a60953d854b311a4902",
+        "0f5a4377712168cabc09f7d4cb254fa49ee3aabb5b3488f8a9c9806b19a2fab5",
+        "b52f1a39d2afd46ebfd7a686f95a8d37a25f345b43792de2670439506a8caa42",
+        "edf645c8193a9d6424f055c0538f017bb97a10bf7e0523989be87c840a3aa96d",
+        "e4d33fdaabfcf26382c5b3b5fb508a719cf9db0a3ea5459ac638931881cc81f2",
+        "d5beb37b4d08e2e8acac47de04fbe32eff7c161f4108a063f2278b10f811c672",
+        "d09c92a757695b181b9b538e5b722a39d088cac206df0559d8c2f805a952197d",
+        "a74433ea8f0c8a6cdd02984f35f935e5d2411a8681a7e452a067566d04a14a30",
+        "5c0fdbe5d7365a5acf5dde51cf40289d1746adf5251d6b8ba20a2d3fb0bc771e",
+        "5f8e35fd41f35af66d36cf85db1e1a274c73a43ab5516d6c1d3f751a31f8191c",
+        "1f176591691272b3edb0b38109bb82cfa9a785d3895e1dc72b118c88e2ce2fc4",
+        "224167073729fb31159fd8f61cc735a6a54f3570852ec68b53289a3b3f90ae8d"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "90d09c66d68ca88645f0503676e0d9f09991bb7ee6d7b747ea526c1a12ea9f99",
+        "cc4a9a1202f9390f3d2b512019a594b5e5a910fd26aa8b9781f55c7e6918b579",
+        "858f07641254bb62ee52ebafec37dab6b0ab639c4f00c16becf66320106758d5",
+        "062a3e385375913c684e630c853c0d3161f24bb66303c1185edd8e0e8a2e5370",
+        "a31c6acaf12411c85c7437984113c7b55aaea8d56f82860aefd7db75aa7b394e",
+        "bd5d715871e27d36b77d9e1e405f45b87cb83d301317fa7460f785d4b783d44c",
+        "c63c166857702c0f5cffdb5ba46f8a7a572415a33dbee07395414f7434342022",
+        "ffaa42bcb2b93b26307ec69eacb603c13a685a25a9552fc3b7518b6f02eca1ba",
+        "43c8dd7e4b26ebddd933914a62129bcb9db5b808d489971d1a053b0ee717f088",
+        "7e00a2b5561326d30d102fddcbf996c4d5461e72203b7e2c486b7dd6c0901413",
+        "1b0a00d9095c12e8f613a7684e6ee93e499c9cf800b29f79e7c526e47e15e947",
+        "ae74d80cfa5926a28c5abefb7aeabac73ddee534530848c64395d9892325fcd3"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "35d50f13d2d587d2c96615166a189bac0ed845c07c3ae1a1fe730231dfecefc1",
+        "404c24b4d60057924c81bf446bf4c5e9c8647b13655c6b314f5e33b197f791e6",
+        "f80cf9d2a06a0411fbd5adf5f4e5034f0825856d87cf3731680d2340eeb48a7d",
+        "76af8b4bcf879e20a7fb2204b0010fb2f3cc995f1ee80fe4df6ff8617d524a13",
+        "afa950c050e09d8676012653c82224c2a88f276883268f3ed089ee9d157887c0",
+        "8cbe8dd440f33009864735bc7ab5861b36a163f4fd39b64420c6839083fe776a",
+        "16fe4e181e76512f20241496c3d943e3f5731b3f09e9d457a7f51c267a15596a",
+        "2c1d3b74a314d7222b7706b674feefdaee60a43011be7884beaef4e7ef6fa302",
+        "295126392a005a47ec819d96777cb9c7d4223843155bdee2fd00323a7f0c35c0",
+        "ed2ab1ab6f0555928b2dabdae7b32d2b6667f2dd2a499fa1cf51b84457056c3f",
+        "55c7051c886682bbaebdcbeebcb8ba6b4df0c0ae31c11e1b44a8f8efe4133097",
+        "eb52892558134f3247d2850572d752c2bb6ea15c108c5a37136a5ab33904ef8f"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "d86885c5cc910a747e1f02aa548205b6727b7eaaf28284b7a4ed090d11daf028",
+        "a1061e2903df29f389fd39693b67fc17f6a995570d791b23b282ff18d720c606",
+        "67538ffb875523fcb539019070f4c4ef8eacb3c471d6ff1d16f5daa6016db6ff",
+        "59c426a6852994085159cf2892829ee143b323aaa64306c611a22820da340837",
+        "854e6c9e9115032f28a5ff2ff3e81f7bb774f674d72c5733e62961dbda631b28",
+        "1a2e7f6158c1be68c05b4ad3824b89982c79d118395046e76aa06c191cdaa0b5",
+        "9e431b48d7194e2f7b28c2c0f9bb71d5d9a2e8fc333dcb83f655305e894457fb"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 3,
+      "turns": 9,
+      "digests": [
+        "2f33beb97c1d5c45554fae653ce860b49cee2afacc9604dc7fabcbb38bd1f4bc",
+        "8cd6641100351e34ac2c4c6c2c577ceee97de999c3d4d4e9542cb418e0a1fc29",
+        "cb2feeeeea9af2c58dca533326995f4e1db2fe02cafcdee2b3e370af35dbf09c",
+        "383b999cf4f57345c24b736c337add03cef3e7e74a791c2af2ee85b548a24633",
+        "36bca1326696f98fb98d0e839e241749c7c78e4d00e78ef4318ee8400a28175c",
+        "94459ed56ed8ed26ff9b87d6b0acf93a649c0d29a4ced6e41bc2283c80e67d47",
+        "038f31853d8ce4c218ca52c131e07905644ac7b76b7edc941558327e3a98fe55",
+        "fa2146af2dbcc166a358042ef7997a96b5fdb1b68eae5e89067a10a1d471c70f",
+        "bece76276954b5edb8e802e58f189351d18a199abe28362f82ff35a1c7effbc6"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 4,
+      "turns": 7,
+      "digests": [
+        "bbe0016ff58cb1824b28332b6179be79284f8f1d66909762a3cfe1cf090a11ed",
+        "d610265578f7696106db452ae80b14dda87734313dd20b28c2c05e22d2e25d39",
+        "a60d1300f93e2dac648e739bd394f180587707d88ac39cb0085fcda27c092ce7",
+        "47da734f0b9c441ce1df8690d97c7c1531f4e1f30d523f96972076e1a3c6b6d4",
+        "9f2bb632bb3c2ad3b952d8329a290a33719d7d7a905f84e90888d22d52193726",
+        "59e14a721fb18d5fe98468339addaad9ec8fdda32f7fd01b57a71015b9df4677",
+        "1af2abe28327637baece08436c40bb3a622b57ab4878c2fa7d116e2fad77cc78"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "02b68f96187d8bb8ebc2ec3792a6720dd0becd6ec5123ba8c676e2815d2c66d7",
+        "3f480b23116e2ecba865ced598c2afb94d6cf1d76ab34ba1a2c9fcd7e07c80bd",
+        "2f49e0fa857c6e068b30f373b4cf7fc19911d5ac4138d7c22a95951ecce014c1",
+        "d51eb36a212ee91fbfb4d0f2243039f36e5eeb8b08ba787b6443791640ab38b1",
+        "3b94c8ed31ce18fae71d6396c3933fabd447cee95f9150e3b467bb978409938f",
+        "9041befbed5401f587ad1d2984b12e2a7943e7d55f641eba8190013c25631919",
+        "495b8a2f68bcd32260f381e0e04813c2f154d69842c0903d9e29215736db62a5",
+        "d82ef91c9c34c8f0b265dd45ef12ea407daf5edd5818a756aa1ed2c20b00f231",
+        "240ba5bb9b37331b0bf338503a36fb35256e4a6a417151dcc4fb88fccf7d7d7d",
+        "7ae4710f327924f8148dbfc6a9923771e4ff004ed6ee3a8432505c21a1315f60",
+        "7a8b01769e40b59706f1accf3f976882f175b96c7e3349861185ec68bc95b736",
+        "8e35a99d0c494481931d57b2b90bdf485f7c1bc3da294d56df150bd04a046abe"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "10e3d3854efab31d43d8bfa48a9c9c416f22e8c7efe558b6cb04686192e73d7c",
+        "fbff6e66fae4f10d1aa6f41941c7bd5f15064bac0a8a25b3aa64ec86c1096b89",
+        "1d32d08e9b1c14680bcf35ffb6974229621634cc0c32314e92353313354d9f1e",
+        "33895c6ff0ed9cfb0505286c5cacfe6412f3a65c666a8a654171c83412e88b19",
+        "ad155ad73fef1d429a7171c272f7322edda87e8898d65ddf8aa11b40f7e92b50",
+        "f9649f9d4801dae995a037eeaf14aec9a926b7c612d889cfe834366647833e24",
+        "814d318698368a72380b59a3ffbf442b1bb4ecd1c9a69c7dbfd11f35b4068406",
+        "341778f786ae0bf937e47c38c2cc8fa44be6a7a5419235b60e28cc4633e6dbdd",
+        "dfa9b4a0f65e8f08d07b5d1a4a6f19ad39142da1cbaf8c95665d6c2fcafe60c8",
+        "8c4e11a47e4631ff1283aa843d7b424967775a70a523d43e9245c0da5ddc6ef9",
+        "03eaa2db1f567759968bcba55ee599e16426f1215b39268e4e726c7715600c85",
+        "dbb7eb908a8d11e2e61e7b18918b9e8e2ae4d279043aff27f297e218098f3445"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "2debbdbe5fc8ba90502addb1d13637f5eefe37e43e17d03296942f6ee8d62e8e",
+        "2fc0a69ddabc55c714dc264a995926e1d8e46fd94102e113c250c4463bf6dd29",
+        "c4ae6eb14f6ec008200c25df88168e3c9d5289e68bf29e731916bf64d8fee21c",
+        "48055b4720001982d9f8df25ec263e9eb7ffd5770063eb34911f2c87f44aa000",
+        "8c265b7192345fe806b77744cfe9420b7f348041f3c27a47dfe2f6fcca58b175",
+        "9794a41e99edb8b79b16f780ee46489d4e0525a71e60ce48a25c86ad14bbb59c",
+        "5c03c2cf64aadcac192e31b787b44913254854d57c142a02ec6867e18d065153",
+        "277f16c883da62febd8fec5a7bd9a41fd668cf538d81a401faa69566925175c0",
+        "31d6b37826a8507f88fb17ca866e324c73ee2cf468118eb6b966eb8d046306ef",
+        "04a5409a84f3ed26f644b2a082f1c5355ca9f913c7d7a47eb137586e03e7ce86",
+        "7723ee1289a062d861979b7177e5518a92d8fc887900cd64ad4e0c617a81b8b9",
+        "8758bd17fbd88626d059a7ec6850a0e89ab31a363f6a1ad9fb0f0cfb09f2c90c"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "cd36f01506ac8aabef73bf5e249843e3e2342f8b45519fdcfb4c4cc92bbba00a",
+        "d8b288f72c4bb74dcf236ebf46ae96f83865e250844fb9998fdf95c73134d15c",
+        "0cac10e35bda2648a237eed4dc64fd5b861b973f10982954b47693303a89c9b4",
+        "dbba49a1d341270e6631b2898064bf1483d864ea155aeb320f30bbf9b9f940e6",
+        "a148305c5ebd7bb59b28a1ef5f498643e6a149d352c0f9873581351f1ba00fa5",
+        "b2af55954b4f571384d06a96d2d1f2ae96ad672d04ccb33ae1e53343c8e47672",
+        "fbcc8de659d5f1f05279c675ff4bae73743b4110bd81694215037bdf009d4930",
+        "27eac43f596fc31cfcc37ebb9094baa8260af9597bccbbe0b0c64a8d00c0ef35",
+        "d711e9503068bd7b9b0fe38a701a12766a5cc921b9b10bcc54a7ade021a9426a",
+        "e7d7dd8f52d3d58c1384792115c5f02b779ab2c5c6f56063aa4ec6574efca1c8",
+        "ae35499c2dea946c7892480c6121644f6cfa957b1a084f46bb7c7b0c4017ad91",
+        "cc3b68235248c935274f6cbcc890e74d38097eb1cc19ae00d8a1ee9546e37ada"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "0ddd813f7bc6c115cbb98b3fe87db91991e3a7bef540e89931024ecff5494934",
+        "2b13c8579733b0a2462a6bfc2b5492a8703e4c6a074d80d70509201c66bc7b7b",
+        "f5b3b510a11930ac4ad514e285c2ab7270c9ddcd1a664b57b971cf7669076a26",
+        "d6c2ac6b51bdf30e9e70c20ce0af125f04930a71d74626818ac086a035038131",
+        "9f7dd115e242c6b7f990b93776627d1c53a210ca754724e4ba8236a632b7e3f9",
+        "42dc23f73ca7aa0ab98fb8241456c9e1252f8a5b03d907c31b5aa46f59cb23a6",
+        "c8c980c32383c68e90a8407e6e58189aceb7ff62c408bf366fb2c3a1459c0dd1",
+        "f7031c98ffc06b77300fda12a240610f97e20a8a802005b4029137b0f8424f9c",
+        "11c6f22a416ed5581f9ec0a65ccc7e3569023bfebc7f19fdf506830eda694b0a",
+        "0c76dfdac3b2da3b14361bb7b77322a3bdba3a7088b077b66533a66c9f5eaad1",
+        "77464adaa047e4f3a603dd35f90b0d40bab5a3e78d9466f70c14ebef010b9fcf",
+        "fcb27b6fe34767b131c4fe7e8e17335971b5a8b9020d2a9f2b6ad2ef717563f8"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "0b6f95a88dab186d27cd45c0a42a7611b3397a4b2358735e09c1343268359638",
+        "46cad076f3a237d00e670dd3b190fe4ea6124c74a8ebf0925307549a90b36078",
+        "cf5bc294f258b10d675f442ed548116cf1eb6db5ffccdb390a1af25158405c27",
+        "17e459c30ee68b592470b37f06c401b5431d2eba88a52ffb1df9b8c371c879c9",
+        "97297f7059071c0917cbf19817152e4f3275df34cb6267e6505c4f6b9c0696b2",
+        "f3282ce48aa6f9ceff1989cf2aa1e3e6fb5393658f9dfd83296f77a78b276ad1",
+        "481b7f6dadf860eec61328f69b61e5c71749f2685b37a0eb6d6c8ced6c81e884"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 3,
+      "turns": 9,
+      "digests": [
+        "aa28ff5afcba2480c0cb4a180754df282f72ceb8f22184626c72b9809014e7f7",
+        "8f4abd5781b37377b6aaa14f89897d82058839ce2ce205805974fa6c0f2d1395",
+        "c005c708db12b713fbdb76eed10ded109d8ac5501337c6b93494ec045f5381d5",
+        "c7bfa050bb4be5f4ba0114be253d35c33034931baadbd136fec6bba2da6f2380",
+        "6d4943865b0c5a31454791b455a7f1777d1611d8c4cdfc787521a46ef50bdfb5",
+        "cef96c0c5444e187744611c27a12ea34e485a7b73c22571277b50b1addc10334",
+        "0a6636f652bd89fce4430f9f2150a942f3efcdddd9ea296e886e146048b78699",
+        "83025954e09b659a995fd70687ab0b416fc4918e65e5e0bbf0a8be7e7e192734",
+        "f4bf5dece9cf552966d35f7a2a37cf135148e7cbdd9db0f251a201018d5b85dc"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 4,
+      "turns": 6,
+      "digests": [
+        "f970b522cc0b366b8ba073be1413ec1cb8e8f5b37a9bbb877921454ed702b8e8",
+        "47f6c09bf00b09e836b534816b887247f50aa57444168bc29d35ac011f82c5bf",
+        "98d01f18b04330613303600dc2c7515c15af29aee51504515c98d743674ef5c1",
+        "05b526b92a65f63a3d5472ad76d6b1e4a28f1eeb6fa4c0ea5ab51a52e4eb63fb",
+        "0cdc339bb627f5113a12033563cdb2e43e00abbc5ee7b3679bea7c710723213b",
+        "dc0729f351b85bce263f065ec47bcdd1f4bdcba94a33549dd9e86d087f599357"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "4bb7c9de9c1df6c9fcc8139a0bab63f56849a0db8d12e2fd960e473a911e99dc",
+        "9cf4814f3aa15437c944472b990b97632444d40250421af9f12973ab8c9e9de6",
+        "245f76f8dc604bc62634c998dd8e1d8a732a9013779cd67422fba3b225ece88b",
+        "a011e0f4c393f79d133556433ab598da82875ae938b5280e541ee9d7408edff0",
+        "f208a0b520eea9b0edd453085c5fef6436f428475e1a1b97d318fa11b43fa36f",
+        "423740ba51ec661f6cb5a235f104b4f5ab73a59872f30d18611f23bf906d4644",
+        "10e0dd0c1122d43f735751482b30051d99d88c01c82e628e079acc623111c13b",
+        "6480dcb8336794e37443d9bad5e54fde876853cf3bde979d46a5a1ccdca9eec0",
+        "1b71142b76e81a7672eed56769040253d57fa3374cbd2c68aac1d147f3b4c66a",
+        "ed34b7c5625ac7a7540dea43ee74b6b3fd91ce04fba2fbf19d8ff7da4b66b7cf",
+        "6459353305e58e9f92f761238402b1acbf99bfc0337d7ea6529e6c649df795fc",
+        "07b93db72142310e13425fd3e2387f0ed5ec39f87adf431f5298471d88795d63"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "9b4b0192efd36857e4be37af73acde1cfdefa0d67141f82e87b5f15b1afa0eab",
+        "87315f3fce0c7557ae148b2874a8dbb524c32c7994e487db363975913cd6a156",
+        "a9b34ab98e16d6e3b31e04efc3a45f4ac679173167eca58dc13f0da255438929",
+        "27bf89dad746821f84ed0e7d831985c9e3a1d91bfc280fbd011f9a9e7ac1e586",
+        "3a545ff3da9beb06d245b00724fd9dab834aec8ea2eadecc03437181e6ed9028",
+        "46a4ddbf842360f5e9033e259d8e469d7ad538662d07967aa38a11ecc70cd3d8",
+        "11ed0ccc4ad2850b94590b7291fdd5461314e39fd0b0594128af4ac1ee5d781b",
+        "66020c2ed13ec8edc55a5e9d4d69f542ab8e9ecb23e8837bb755a3bb97c67fc1",
+        "13fbfa9c98b8fa46e3913c1ba4c3bce92b06c63b0e3057b79c3a85199a702bd6",
+        "63d95d5a52440eb5c919a9705546afd9457d95a28ff737631033cd913a72c1b8",
+        "57fbe30d98fd55aa9fa3ff16a9fcc76c3b644dac42553fac05e84db08491bfcc",
+        "a7736492477fd27c34e4e5ec2b70aeec118f642448fdb716ed416d1b78553292"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "3333031878b7f13ca36cab044c81e0793c3c2e190e6279ffefc695149f76dd36",
+        "523d442c60b40e34557a5b65dc3af67b1ad2c81cd038cca6c946677d121f0f7f",
+        "a565c5b5b1ca80234f7d0b44f211d6544a6edd8e2b2bfa4f2a28cbc8788db48e",
+        "616e6e64b098ceaf5d60b4ccbeb2a35fbb5848638a6b7fd7ccd473029e50d1a9",
+        "0225efa1cd75f7ff312392b35b972d165ac925611d237638b0f9b460d33240e9",
+        "4f24e85b25b3e9a0b59844f44dcedae9a8e7a6d8f45fa6195c14d6f8a2726231",
+        "8adc08f020d87e294bcb8fd5c4762fddf9bf7f62a281442b09173b814295485d",
+        "f38efb19b4771eb9ca3d104c750dcbc3f09598cd3beaf109c26067a1ccb8aa33",
+        "2bfb900d0cfff50a58641acc0c0ac074981a806c43f9ff3f22bdfc5a19d26ad6",
+        "607ffec4ac3e9afbaab1c2ef0305a6bda8d7375d9ebcc4576f5657298cfb748d",
+        "6856fabe8239f2a4e619621a46dee54002da82249b57d9a0b7997c2fc923c225",
+        "876cc7948bb34123223df77caa59350fa1c8d879d6d64f97d2a5eca150d0eebf"
+      ]
+    },
+    {
+      "pairing": "VRA-ZAN",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "ca04cd6fbaa9e0acbd9cd8cd0cbb72698467a43631356131aadd6c1848950c11",
+        "7b12d1f8b4ad1d4d3e6e6a3c2a3ed2cc7981f963c8318e2f7a85b3b171ec1985",
+        "5a8c6c3f6023568398278e3d9490b972cf5643dd6b6dc1c7ef4a769bef70d43e",
+        "6cc23238d69566825b06db339f87fa8a0a6ab6e0d6519d257385a19e8f7a5471",
+        "b60c5681cb40d4a2879d56baaed088ca6ca97647c72b2ec6a530efef9a22c402",
+        "0b636b937a9b33bc711e071d1c55bca9c5be993c575abb8cc9d7c51c46d941fe",
+        "082950112e9df9d694b447aff998a824461672cb8cd4a6cd4174092972a10974",
+        "3f121deeb7de9c6d255957b79b4e17c078565ca26cd6d2477aaaf1d408a10766",
+        "45db1c6feca097e2c897eb9b16a86aa62c9cc6250def4238e79421ad16900ab1",
+        "c1090a094906ae76b863e1a881cf7fd64855c4ea31fefa47640ff3c34f73d926",
+        "0a99502d23d7f4e566e9ce9b4a495f6087061c6fa732f2047a1e1ed4a4f417a3",
+        "a16796bff09951f64f97928bdf83c668c6225fbe58ce44ceb3dee07dc4271281"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "b34698eaeb6436ee3cdd4cd62b0f94f41851685ec7559be8c82a5905d0a6285c",
+        "478d580ec290314eed4bd21bfea2f7ba72062d97c8f1b66af954b3f04d157087",
+        "a143a2f3ca4407bb0a06491c197e4879b9fe9bad87d9d67d4b4202cfdaea4987",
+        "abed632ba167ac51b82f4ebe3a67bf2dc73e47996e3a7c52e5a967fd91c6198a",
+        "b41fd68e057680093c66d208d67da3eb61de9872dbd5fa9c9440b2c42a6e50cf",
+        "5fb415d11d6ecf4f059efcd37cce673a1abd84d32f2c724d9e1277de0fbe7527",
+        "8ed9aa35e2f830ec9d7d5bbd78be42a6b17260a473022ee4dd1c087ea4d02b60",
+        "c963713a8b0f4dd7304424d071246876fe08956e30d00678045bac84c08676a5",
+        "d0ee8dac64e551189e74aceb60b4e9f3794e1b59c7933efa67190584753b7197",
+        "acbca9d5f3839cb4dd180d23abb4724dea5c6193481e278e10415b1674e54d13",
+        "e60f68b49b0b47e1ad933550bfc958049111f2228cada06972488a02e4ecd5de",
+        "a4653beeafe7fa540cb89f1ca930b3655fbff624f117ec126c333cca19215463"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "d9d3b7d685d3e17cf37d240610b9478c772244818fd635979ea50f83be585af5",
+        "c1b6ca2280349b008baff7a390297336a29dfe54b573303c49d575d8cbb01338",
+        "11a5dbe5c0b71550562499e61d2e196b6a0eab8c157caaaef9ee6e0df3a985f7",
+        "a24c59d9e93506b1d1e3a60637e1ef253439ff1de09041488713d80feda9fb03",
+        "6eb71909a530dcf92e7564f26772245c12bc7c9b2797f0a13a167303f3aa7d6c",
+        "218e1ef8ae090ae81f0510d5b36565a47f7aac95b71069cc283193077304d5a2",
+        "e1ebdcfaf8e3ae92dd2bd5098e44632a61bcd916c772bac92b5604822fe92f9f",
+        "4d47455ce8e7c94b0691be081c1610ee9c9235c58a137e166f227ac53bd07052",
+        "b3358c69ec87d657cc107d39b37a3f231552649cd3b690df19f5bc031cdccc43",
+        "0f81289a3390a552774d71f999713f77d033ffbe7cd20549b9d6fded1c15d64d",
+        "44944191dfd7da18337fd4107a8e9ab578f3795bb06017414da4e644f9e0f373",
+        "f2f478c01d221ae36bcfc2af8008a312eebea31b8f98e7ce22c4cf6eecde56dd"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "efa1d3102c02797d8f75be0b8bb8cdf6c592f2bb8a2d456c08f6ddae374f0d31",
+        "9f06bd4c750b8930fdc74a90f3a557fce4fb7cd023c2ac2f8a026de4b5b2878f",
+        "e3919c5b873b890c65ea3b24548b9ce6c0a47ee0f7c91095854bc99bd8a0b1cf",
+        "6e242601bb6445722c3e1324cebf81834b7dc94081b5d67fef60318fba18a748",
+        "74f6844b6bc537c0d754700860afda7767bc237410df73a148d7d56fd1e56557",
+        "c15d63e17cd009fc490258d7006ee056543cc895c4473dd796e364ca383ed455",
+        "2ef036a231c080f8511b4da12d969c6cee96017c4943cda72af1d5bb07b9d351",
+        "98cc265294081979b9063e6a732a1c0db3f0a8ca885f5d2881736de11b1010cf",
+        "87e968797539d1ba66444d159723133c21c1d483a2b012708264d49a414feb0c",
+        "a9c6f4fa9c93cc3dd9ceff62d68cbe6a78b138beccdb812c52457505c32f4098",
+        "e5ad6d09ec37e6bf78186e94087511d85474075ecdc6c4254d33bc718750f3cb",
+        "d9bf91173bbe7872a02b135851da56958b30a71e4a67af15b93f22795f7f6463"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 4,
+      "turns": 7,
+      "digests": [
+        "a31bfbb92795a1be3d6ff633a01073f52574d22214d9171e64f3da40c36d3c4a",
+        "7badd5a7d0118fe98f610817df430306ab70ce221c0ff108304bd06151ec28d7",
+        "ce42bace13e3ce6c4312824877ca0b9c12f769babda749aeb85286d97fe32f0b",
+        "a8c975805e4cbe3ae80fd33322ada583354aa08da63b7a9682e01f9d88897e40",
+        "5ef64c5ff8380b8050122135cf46f261cc46ac0fa6e18ade870aac1569c3f957",
+        "257da0e05355a205e32382d7b6ae70eb102caf0b359968ad00e25c7a658c0693",
+        "a4818490f3ea62e2fe4b14abe6dfddbd73c2eaebfbaf3b8f0bcb10b49763600a"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "800abf1f5f8a18983e974b92b9e5a92942852dd9a66866efc940c82c482936e4",
+        "1d7d86a38d5c5a6bd870ec71dbe21e97e1fd702e3fdf25e5010e222770224d51",
+        "11b63f5e5922d9812703a85e573bb5b8922102ce884213fd16515079db1ee5e3",
+        "8a9442c6f8fec16c2976dce624c437998b9f088eb588f3a22548418a23992d24",
+        "68ef2544934709b512f6327240e8402323a30959eb1fe778168ccc1ea399e433",
+        "e39e5006af86b3507fea3a0dfb8270a4ed03eecde4bdb8f0d918f015ff24c490",
+        "0ce503e942ffadf6ca9de5a43dcfbf3d445fcccec4c0cb8f64a4c6c9da7a89a8",
+        "9d19cf27589fc1b54fda2e333936779a39363243d3a617c5ffdfd830d8343923",
+        "1505eb3c25ecad93aded665ebaf631b663f248ad46e4c2d4025c82ffe89ecd43",
+        "669853d6c75d67a013cc071f15b70860632997df5ded089c03a9f09b3392e1e6",
+        "8e5061a2d573a28d37750aafb15eca044d34e4bb6f0e62aee331d3ffaa79361e",
+        "566d20f0b7aefa0a153166af6c7aa64e88c9a4f2e55545e629d0d4646c1822b9"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "dde9b1ae95639708cc8890c75d9136874a3c02c34e8aa44e0b09766c2e730179",
+        "e3f502990a3967e1be35dbb268146b7c5054028b9ee0461e9a35b0f9338c8697",
+        "840f803013d8844340a92abb5857dcf2cfb4859aad196a2d153890e3c2eb746c",
+        "304de8d24f7215f5a9fa490aaea3558c9865167f09e150c6cbb843c8d88a9c58",
+        "82ebd9a72d3c11e6be7da4a63468723a22edd47a91a48dd7fbead6fb47fdf5f8",
+        "90f5686836ea082201fc0fbef6215748d5138dc170cb7464d235351e615c8ebf",
+        "7e5bc616bad0b844d71d6cbe8aabc35f891363dfcdbd617fa1ff73423c8b1e4a",
+        "dfa2e62c4a92e6622195d722f4094980de58ab12564bcf389df74f1b62085a6f",
+        "44651b5e7b0a6abb9bcbae38b6df904ed2de16361516d77bcfd46c701f5eb281",
+        "b93ba05cf9b1e413c14ef4a008120f4c0141a342ae0e5c49f3d0343e2217bdfd",
+        "c7b9b8458bedb11b57c1d3197dd655da9a47423fbb2882e83b71382514d91c26",
+        "e3b5c0a2b899f1200f5d769548d200995cd865c3c5fa80d46066e65672036981"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "4b601d672e0230c60eb3a65914b2a200245ea01b11e26659255d4b7032f21ca7",
+        "0513e4ae4fa6fce5c02198572bc38814b9de07a81c3e5e985b9ca94a6edf7ee2",
+        "e208763ccc60d2ff2f9714993f46a6b9d47e705efc125c3aac6951e274fdd8c4",
+        "79b9e9cfee6b62b3ce398e90eb5d54cceb80b8115898d1e7d59317442b42ab2e",
+        "ed5d2aef745844861fa8cbff5556b3906fc013b9e252fe85417b29370bf8ad39",
+        "e9f27683deaac1341a97a9023ea2307faf6672944775cc5f41e88d5f4cddadda",
+        "68d2ba54bce9e65eb0fe7c3c82bdb61c1d0c1ec08bad797a9317d5c40e266dc8",
+        "3a93b49a216a7ccbd7c46ec4c7f48c90d2219ae07a0b6390c0c80e2abb47363d",
+        "2a653fa3d25b68295280819b14982dda91b2e296e38009e9549a5d919d562e88",
+        "eff116d578e03037eda271d10951794beb8acc8e7b3a10b5913210a1507c885d",
+        "986303a4a7f5dcc8b2d7d88bc75d9b72250680545cd25bd5bab663e00923c3dd",
+        "6904c41866d40c83c9b47be547a3efed4deb8d5deb1f46bbd42adb0f2499e711"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "75c137e265d8e90bc4d487955a8e50796deb455bf7daa2065e3f5f6502a60af4",
+        "53bbf5d8ff625ab0d66eef6844dc66cd3d2fdaf4a056322bfe26b55ca889f8d8",
+        "e6be6996b9a6e77b56fb1116aebf5adb2e61ff3752da8b614df5364718d5e4df",
+        "2bae6a070aed2f8f13fd6025c46dada1f920e780bec3c99cd2972a850b65670c",
+        "81cecfbcd2e39cdb3e90651f0ee9f814342179d9c97071f2ec9e4515946b2e75",
+        "2eaf3a029fd38a8dd33b735e7a6f9ee261888c58cb8e86d0a81797cc3ada9f1f",
+        "41ebdea4a9c764247bf0fd48570718abe6e68630795776418de18bec90f1b038",
+        "2ed98ceaf316cbc94c98c0ea26af5c7e46a7f804b4f8a70fc33cacbbaf665160",
+        "112a4428427dd55add78ffc9e7ab3acbdafc8dae74f619da5693f28ccb906873",
+        "c9a77c415e453878f0b3239dcee72afddb015a8f00fd242ecfc75697bbe6eb45",
+        "b1b53997e8c45b758ae14220608f5d46bae7df6f84f286f3275cf4c52e3556a3",
+        "b0c22395dffc36c2c89a97777b45e957cc6a2c7a2dacc0136a0699d22f97e42e"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "8db5ae886848d34e67f6299a180b03249c8e8493803e0fdea0779723e7764a9a",
+        "6a20eb3cda681e86a8a58bbed36b208c898c6b9e4db800b3df1574cd57b088ac",
+        "13fefe081d0dcbe27a7664376ae353cc3e63e468df61de25f5de5043e6eb927c",
+        "331f09ef53b5c6cf79977fac83db2f1e7ee509e50bffa6ddcd20d54cb6156cba",
+        "62adff400e719651af28573f5c60e21352fd71577aa83e2051123bde5db6175d",
+        "12e946e5929331816d0a537da9ce87391b24e6cd4f61b0e243df3573eaa04cee",
+        "75e9524fdffd316192b4065f2630318b2ef2fd7f20a70755ffb0306c2ebdc64f",
+        "76ff8157d2763266fa3fdcec01bfd44dcf1a14ddd27a364ab1b41296d132b018",
+        "f629fe6da1a800e33c17da56a4b8b5f7ad6948cad067312b41d4b1c34a576a71",
+        "11a977354b7b8fc0d2de4df1573aba0f23c6a2b300e3bef3c770e2bfd8b8457c",
+        "48939233335798b03e9e38bdfaf6d1527171400ff0c74e940bd99e69d4d72acd",
+        "f892dadd905ec77ce4641cefdc14bba628fa5ee6d064c3eb12509e27e23d1a31"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "751dfa27e8f66032f86731070a101052af9375282c8ed667e7ec737eeb808502",
+        "9f7d4650bc47cf442865fdb004c843510938a925bda7770e1582194623718d81",
+        "6bf48766250d093e6ecd108bb4ed7cd7ad00717d2dcfe988b100114ad327265f",
+        "214b4d1547b4acaec7d4b8445edb9f311f2ac1f1a19b2478ebcb39731624afc8",
+        "02bcc65fe4aa6f51bae8861ef0e94109b14722b22936057909e74a5f86be004e",
+        "f00f3811eae86084709e53a98c8dfcee603ec6d3eef9543d970323a4d5297f3c",
+        "629cb9711a8b00f209594343862623e841a2ab96a2b6716dd88330b3a158c568",
+        "06a6d358bd2eed8de8775356fd4ca4d5b77fb0abf74012e199ecfdbab7c04663",
+        "47299faaa884adbb63b9e9bb9186e98209070fa5145b364d0d4b7b747c18c811",
+        "0888f680ae65e95daa83f8e23d0a396b352c5a011e7bb82bfedb0fba8677f2c9",
+        "79b21937a27c02170dabbd72c639b2afe91c6a09a4e5427130165889a0fd47dd",
+        "258d14c4382e5edc6f3e98afe23bc095541253d93e0264b793cc4be54eeb349a"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "80f412628f3e4598c187ac6b4da7d2fe2499bc6deccc45c431ce0b5f1889660a",
+        "8de5362eb03502819a9f21408a848b9c02a0663078575a9b3f71ad98dd7dd7ff",
+        "37c8c3039a1b0f5e0a8ca3539a75decbd76dd9ed5f7637972ce116dff4e41b70",
+        "a3d8e996c08c841d352e1a0ef32c1ae6ca86c280cc12b001d91d5aa696aee77c",
+        "fa5389c6ca64ba9e9c4d585a6cf096704e70166480f4b4d4a6ca17ddf8015825",
+        "34fae875388b4905cbeaef863bcc74e2175f575fbd479ef803307d777515d575",
+        "d7d0b84eb9e36710590af6d1100ceae3c51d4c41543a77f5017f9a12701b31a1",
+        "c62ba96e516ecdb72293bd3988d17d43c80c063bce6e6ce5f425c5fa00f9d7ae",
+        "8e6de4e55f822d1641253ec963ce656ef83819b51fbed8467e8981b72eaf6027",
+        "b2066b198e48b828010d488e50e99f902f45a829e2ffc72a3169abe70d017595",
+        "d533a44a691a60b5e942ccdf5aea5e42f9293d5868dc84a057b9dcc113216ecf",
+        "3181945ffa801e58f67f38ae1a66b1766ca81ae80dae15be9c994f51b7e1da4e"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 4,
+      "turns": 7,
+      "digests": [
+        "a2d439d4e502d5cf04be422e1df130a7af74b4fa28ec2d627a50725a0122436c",
+        "6d683f88f2c0b82066a98435a87c4e2fd38a4748ed547724c9f23ac23661bfe4",
+        "4ae723eaa74230b4fc8d0ce9c273c1cbc1a2d63ef46768260c40729a1c0dd27d",
+        "5a9690b407c12527e18530a778c40c691a2b2f4d914e85f6a32091c4d45e6422",
+        "a5c41733664a9f945385735efce6cb16137a4a290bac428837f8d295ec8b6348",
+        "9bba5ff37cf94b208f4d68814eb4025427cfb042458cd8df43821b1b4f85e273",
+        "357fd8f85c0ad300e0f86e488624564c3d2611118eef7c931b254f8ee2d3baa2"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "3d7d4b615a697b86f6e136f9ee38d40d25032c89d26ab8783391f8106f020880",
+        "e3ce4292907b1fb618631e05b0cfb1ff559b2e8c4228e99c658a5108caf2d8bc",
+        "65c94dae16bdfc953c696512775fae7fb61d315c8b27064a8eab1ab9578301ad",
+        "5028102a732e86dc9a75d9670e84a5043e578f906d613c076de961724c35287b",
+        "880c9a8a1b54766fd79c2fe3918761524fefcef7535c878f7dd83aa5187bdf09",
+        "b480eb8fe942c9c13a0e2d2e315950a9f8c2750376af2b12c83febab15f11c1e",
+        "b840308531e7325fb04550fba6b961a17cdc3039b5716cf12d0ca69dd99aa54c",
+        "96f5c1b91f00f500f99e68926be21866ca1b6416524ca5298df6dacdaa409e91",
+        "564b0db60c2af58e1d631acd286e5454798ee08f30d682fffb0e040510986a6d",
+        "add8c20dfa6bfabc5893caa9b6e468e5a999d2a19cc3b055ae9d476222d90e60",
+        "cac740af1eb7997125c3a4ebd29f744ff899259531869628f6f2870b76085a7b",
+        "52d0ae8f39e006720590e1aaff135a39711c40bbdd633945e340b8673c36724d"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "3757fa48b626031478e83e67be9753d2af3d1372ad67fa2c5af4dc9c4359b28b",
+        "40f8e41c91475da5bd6f1cbd87d9dd907c5a8948815c5f3ce2a72674d7c23f68",
+        "97fcff7944bbb36f3840ef99b3f4c3cf35faf61af0d41dba8b7fe59b838c96ce",
+        "e2121b206520a9603f2fb4d3d6938ba6d03246f65982130f116e0c276a0cd98b",
+        "3bc24b069dcf896c2b1aa20ddede155202c13f67a836e3145ec6fee7f034496b",
+        "06aa164c1ca44e7065ba45332d0f43a8dd29b0622efdee31f627d156a516b594",
+        "814fc525739d163c171ce7405bc904cc0965b8bd2510abe8edd03d21a4795b32",
+        "2a989940b9b40069daabe6cd6e543df73eb5dccad6a7c9af02b7e6be0cfeec6d",
+        "bbb8a915e3a889034e3131ff38e5732289cfe1695f414305a57068eb44d4e551",
+        "e752611d36891c061c74111c8ce5b64a5dace17b37d064f93269c2d3f4133088",
+        "fb8f28f43aef2ae86de050d07c370d6a4551278443305e2d1662b0b2a0badc87",
+        "9dd772ec0719402591d309ff1070c0040e8eaab334192357d970a75a2262263c"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "311c40cf40bb62c7848df1231acadb213bdd657854a32d9c99af73f78f31ee4e",
+        "23b41b673f7320f82b55721db00f32ca8f8a2e178f9edc5612057af6ca4d091f",
+        "1aef2c958986ab8cb237bb72469b9ff38cb73183cfaca18b934048ff0ca8dcb5",
+        "75c178135203bedab5be9dee21b66a0ea1f2aeddc59eb4653bf02888857e1a8d",
+        "8a1e59923aaf2da913b4c32a190227a2dc3258374f51bcee1564cd776d19f905",
+        "c91fdd3b9ee9ac26987e588f218a8fdeeac19faa9660c7ee3bbd27af963eebd2",
+        "181f8ab6b2207a05897c52e92b6133c9efd775995f7389a7d0d445201770ba4d",
+        "b54f5ccbb82a5a483495eb0d2bbd485418c16e2f6f4e5f2b0f7cc4d0aa77e9e0",
+        "52370201e5e4828e9fc070d93ee5b9679ed2021acc75e2cdf4aa0d2dd7e96ac7",
+        "82b4a1d58e4d3d7681909b799b1ba16a24a9d54276631e5c01857442276ac7b8",
+        "81a90f65b0741c128321cf4b458cd3f7907e46c83d670536ba4789a4b567aec0",
+        "d27c3923263ba1e5b6d6e602e6e92f922efce602ac87930d8d18a7d0f14ca1dc"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "468fdf3e23016f8f4da73f08e46611409c0ad8a8a5ffb8a54ff90c25d820d81e",
+        "07739f433995d5e9f319207d480e3ea12a179994ce297dca41b7d08c7982fd50",
+        "dd42d0040288b7ba5f4e253e243eebe84729e8b4d18e8f2a5fa7bb22412e05cb",
+        "5ff8055ee61457d1a821d94ce6f1a7138bc1992c048311e315f4a19bf9c41b8a",
+        "3787790dc83821863764d174c4c3fa1b6282609a1288217270ec0d1a90284fd1",
+        "76fc05021175cbc21823f70c0adf3df20f404c9afef41cccf7a77299d23bad67",
+        "4c871dc2492a095474f70b1c049334d1dd66696912b7d8acc95245cce866cc8a",
+        "92a4ca913053608a6c20457307f6f712df9d7bca06a409180e25e6e185e26c3b",
+        "c89dd4c49e1e361549e64f46d913d54338637c3ba66b01c3dec120cf90820868",
+        "90d1a8f0af12078c53ea6be4ed4dc7b41ede5b03809af6d6c9d21503b5ea5737",
+        "2405f65acce01c6ed0cce91d678bf7599ae2b5e112b9f6c6f28d743a42a9f083",
+        "9e1cd721b34094ca3336551c81b113f17d46dd7d14d6aac4f00e868ec5d4faac"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "d5cb5a3e2edb7435eac60200a11e113eb689aed3149164446f3de3324926cd54",
+        "158e5142cf6d690a642e0cab280dcc760a7f6dd4a62a094974ba325ee4e3cd95",
+        "609dee612c14c48897c33ea7cd4814f992d30b11f5473c257e5e6ba3f46cf06a",
+        "8f6922fc7ffcfe3ca3be292f0bd68e9c682dbc02c27a9f000991069613abf7e3",
+        "471d4056b7f38de08bc78bbe9695472e56a713e86fbd2bb9cd474c597d23c2ca",
+        "9c6e6dc0c09bed4fa1ae95df32cfc95b1e544ccb624cc09d27b1588950e10c7d",
+        "4d85b04b71927bf78527ee1e90effe40eb6b8142ff9275a5e5d3a06d3799c068",
+        "3ef72728cdba66d46d9be364441fb65a0bce7493a5e3c68f33362e776d9f4ec6",
+        "3bb395e2815fb74bd27a87eb841e934540ed78304f5ffaa200ce6086529eef56",
+        "563bef54c53a5b7b7f7999c7cd67d0d7baea3dc5deeff0f9604dea4e2f3c161d",
+        "e73f02dc48fdfc5a0404655a8db66958fe4be514a93dbe92bd9b80292d30487f",
+        "1cbfa749dcc5d166673ac24dadce55c70b6ae38d4aa547e00b7858d9df55290c"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "fde415082e7be164206b78f9e21b3928d6b2d666574b8c88e13d4084f01c0c90",
+        "5fc4b887ffe97f822a65a79e4a81df799ad9435d70e20bebd704f82ee8604f81",
+        "8ea4bc6cc7824a57f0e9004bd342a6988766b5aa23e257c1110d6b850e67e025",
+        "2e6bc11b831367da33461a8a9679c8b7e942a37c0141c7779750a9ba2419570b",
+        "51696e826b5bb55d54142522e94cb36cabdd31205fc85102e853a9e8f08c9695",
+        "e00c06e586b8202ef5499173846043ce1b46b50ad424a51f99778dd61d51991f",
+        "51d661b56169558299e7b0b7e12449120c051d9fc6b7272bcd0bac1b97937d10",
+        "c2b7b90cc845528265296b7b4c1b0aad7769041278407b8aedc5cababb232a0e",
+        "91741a69a4af1e41e0791f8d3e0874a3d116ce867559439307a785e3374a6ac4",
+        "9670de58f025c9655a0a38eadc875f6df8bfbca13b996b0b4afc2bdc25250f4b",
+        "c06eca3f3d62af4ecd05a362121d2424ff6bae0dda845142fd769033998385b6",
+        "010e704316ed734644f14d51b6f6657a4ede5e78dd38560d4fffa69002ea6a72"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "c69c2c7b5da08fc6997609c839c763eae09d014154643fdfbc27723d5047489e",
+        "56adb99243e80756423d9926bd55372949c1bc744159bbb7f503d9293c14b912",
+        "35ff6338fecfe5e024533ab0e9ca4a13d3b39558fed1c8574367c2c626c44a68",
+        "0ebf85198b14e9bbaa6a2dbb9df9bb593360ca8949a6245be4c875ee3a0cde2d",
+        "a681cb3ee853543ca82d8de0fa52c38f9c95cbb2621eea4a18a9a112ce475326",
+        "f38ac526c68b8ec37b8d6a606b4d02ead81249051ca5385d37e696b4af2abcab",
+        "b84b1237a39e89383f491544b0a8fcae4ef6a70cfb5423c792474f43a58f6627",
+        "7c851675ced7798634b5ad96b079e9b878c240b633439a6ff9fddc3f0209f59c",
+        "bb2633148872511f3e3fbfa6f37d017a47e951639b40b9edf3019acdcdbd316f",
+        "b52428b4bf9686ee8a95d9c815a44dfd1f5687d6ad379fcee6087546a60e5d8a",
+        "02323f2087df7b83c7e36e8056322da6c4487d13346ac2d673cca5661547210a",
+        "194596d36459cde6acd46d2294627819b6be6a32c5b8bdc730e828956d1ea5cf"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 4,
+      "turns": 8,
+      "digests": [
+        "a554d06a985b43baeac424d8026cb3080972657a8d2bf1f16c20d6e6316ab1c6",
+        "5cb9015e026588f2750aac96081fb58806174bb16a366ec75efd9ca7f52d4820",
+        "b614559e7e01eb63c535ed1da3a910a0a4d91202ab56c42eb83b5314ea4eb96f",
+        "ce281f2b7010cdb12a64451f0c9eb621972365720cc8db8d68ddbd0b9a01a31d",
+        "b8a1cc8853e1aad556e1adda7b1d3c395ef9fa6d37046c49c72a0b3b5f8816c3",
+        "6f129fdfad9c5bce770287ee9805a5a06b307516b2b476a4638e164a9a087df1",
+        "482ca8629eacceec383c070b6daec9f8e46b9c62a8db5c46c6a2bcb7ddf3ff94",
+        "a4e95592cb75d65edd47b7285a3cc2add867f886a9d95d1498934d3ebda9f98c"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "1d811c35613557051d804fa596249be75e831d7ad0c6c759dc8c882635179b64",
+        "b9eee68624df955e82c6d699609b08b39a2c0ac16ee9d2139911b8479a724afb",
+        "e7228e789738bd6f8d966c96aec55eb0fc246672660c9e32527cf13c473b901b",
+        "87d23369fd9445541d53e908dfbd79f62d77f6e394127b1d7e9f108925959d6e",
+        "a71cf30065e17a546a2d5f41ad13ba79360bfd30cda47cbc1dba1ced742783af",
+        "093967daf2b14af994722370a666e927d6d270d02033fcf0fde77d22e5219af6",
+        "64ee56ea2de2815cbcaad4836d1fd2e565b51e64365cc146a41739ac8a84da08",
+        "bd58ccd8c03d7aa398ab147d3e5dfa6fe6888e87246b14c3368422f4987a6286",
+        "73db1b51bb49b8ac35f4eee5a9ae0a9ac15af49ec82d899385d2c99cf2ae9e16",
+        "d6c6c5a0ce78e1649a0095f57af511949f87336c70c295fd06fab88cf85d480f",
+        "16239080b59bec12c245ee1e3c19c7c88dc1f5a6f320c83b9a2d42a47bf43a0d",
+        "683e97f6358573bfcaa7de83de4b75e326aaa49fddd4d97aa9b6664e5722b034"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "7acb5a075e1892ef4769a6846de26b3cef21235f50ee07b24173a58c6ffd2c12",
+        "46f80a3ac7880f803e5cea631e0b80783fbc6b41cffca1d3ac6e34aac36af01d",
+        "e6c74098d1262f1b39c31d0739bbccfea96de19c96aa8f65b31fddb73a0a377d",
+        "9947e64cc5ba3aa7cdd3cc685467e714361ab4b0e56218d761dc5cd4d29914b8",
+        "5a34be4394381d9d9d4ca13860b171216fcf981985e8c5bf6155c7fab5c8f152",
+        "06041551b26b1ca628e23af8357d64471ea2ec2b6224cebf6d88f145bbdd0359",
+        "673da9e302235b69aed07cfbda8ac23f7fff25d9768157c3bfa3ea270320b50e",
+        "fddcec5048a59e606e250b2fdbfb1277f0aa55c4c4e7d826e54123e09d738f98",
+        "73d1faa849ed35730048c841f5119b2b67972cb1f77e1ad340e264bae122f708",
+        "22f371b1b8576f8d61f587a895764e131e568b680d85e9bbd2eccc135865f82c",
+        "103190942aea76ba47b11e96ca9a8059d4f58e6487fe1c49a9efea9e9626d754",
+        "2e88db47b8074f51376d8053d1b27f68de19e39eb121174c89057c6b1ca304e8"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "c0cf132028e4800d20f86b8f01d475e650b188da6c16fc462e2f73520bc0ffaa",
+        "25c9583bee56b35b372e1e9a5e0489171c879404cac4ee4421f901f6850e60b6",
+        "6e63c927c005c13dc81a0792bfc2b5f6f9a4bac1dd5175fed4e5313dcdb9c0c6",
+        "38e6ee0054dca0d72b5be4ec011fd3000ca583504e81dfd54e1a8c9584cf8f38",
+        "adc146204ce8b9763ed169bbcc71c89207d437cb63e87f34294400202cd38eb3",
+        "1279f5f9e51b9aafa11f801750f8c8e6de67e09864ea530d423862201920fb07",
+        "c2581faef8c15a91718af67759c084e9a50dec9886c58ffa9a805e156c2b81f8",
+        "c04e9c9cb4a42d53ddd83afe589d1a72c6ffd72de8ee6962481650ca3a5fedf5",
+        "d71a5912a91db0087c661d92634895570db573feb94ae02eb74d92457373249f",
+        "abfc332e96926ecd5ef635959e3a39932328a0e4fcf01b8f089c6b874302d7ba",
+        "4c42ff4bf0462c4479082f7737be607e4e311b315e554d8cc0d073cf84a6b702",
+        "29f1cb719e3748d8c15eca7da303d02b53b4e7c5874117cdeb3735b0295761c0"
+      ]
+    },
+    {
+      "pairing": "VRA-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "e12bd7adb1bb181a8b5c41a8a511555dacabf0744f17f290c858afc162ceb24e",
+        "eb3e6fa956f6dd6966531e324931eb8253360ebec8b33234835587ece1846785",
+        "82b41601c01a1f196ce2b6ea224a672a992869bd51686f8f9f0910aa29303f26",
+        "059c716b8579a9577b0d8b000f26101c21eaa37d311b8dc0e9707c717adb411d",
+        "b5ca6998b410d814ae8ae04f13f154bacefa8379a5f73d9b97fd2e75507340f8",
+        "c107c7c84ed03c2bff9807c04db6f0daab1232e0f75fe699f5877caa6950dd8e",
+        "bcab50a962035d8cd16bce52eaf0f7573c80653de2953ae89eaedd567be611ad",
+        "e936674023afaefa70175e46a57fcec2eec8230faeb6bd9c4d404b664f182158",
+        "00fd334e8c1c8bb4485971ea4e4a33ae42373606108fe6b530fe357593eb123f",
+        "d6a61628720e956fbb3bbcfd6b74901ec16c0b93319dcabce3a7f7c46d6fde4e",
+        "ca13a6090978100657c23ef4c768fe4bde3b2698562ea6cff19c005797458ea0",
+        "9c0b7db0bc20aed945cb5f407dc42f7fddc5435bec4c03bb705ecad7bfd3d5a3"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 1,
+      "turns": 10,
+      "digests": [
+        "6a4bd9cdb5f92a87c999cbe40733875587cb86834806169e4b709ad3bc247c5f",
+        "de19a93722d1d60c6578d7cdfa4899f1cdb3dc6bb3145f5ef04ea96f0eebb9d1",
+        "b891f3bd947d79762bb17f734970baf66a88ceb9466e079955ad8b7b32808d71",
+        "cc08c54ed21d1fbd605bbc77cfc721d98d111e21b09a840903b0bcfda9c4e95d",
+        "e59f60b8637c14fd42646dedaa8e0958f935f4333953b41050cc13f05c60d491",
+        "11f9d0c9b26049eed8dbe0a116ec57a83bc609933f26af3bae1ccc708babb4b6",
+        "6a1dbc2ab55d25ce5164b2e3675a32fe395ea1e7ec96e7a0f14a7bf92c65d63d",
+        "56b9a46fce1ec27c86dce8702d0bd5c840d6d9f601448d60034fc9c7c9073642",
+        "aea9cbfd969b24f8f9375a860b411ee178d6e53a4a0bb85439a8643502ed24dc",
+        "695e90b257b16d4d00772ed78fc4d9fda96d4f198722756f9d8ddc291736c86a"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "838ec860c6a60dc209b5ec7c4c228eef0a66a45173cdff5a163b03676c42dcf8",
+        "918877669ed111aa5819eb14a82ae1866939fcbaf7a3201c0b8575337fc69ba5",
+        "4344660e547e3c03f8a67f58a84799ee3491df92b97ab1b61f577c2d250247b6",
+        "dc0633e0ed140899768157fd45164b39af363d0084bb81fa00626f73d5a7bd87",
+        "9bb521477787167b92712bdad4407ae08d213e4deaa033737e08fe3cfd2ea6bf",
+        "d8d22b454915806a4eb5ed06584e9f831f7dd4d38b83051785407253d6f26c79",
+        "698d09c6d588cc8b6db161236730c39151168b2d6fd630fe520cde63644fba27"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 3,
+      "turns": 6,
+      "digests": [
+        "a2bd5143919cfaf1dfa2c61688efe07ca107df8a4d6c57e392fdf6aa827ea90f",
+        "d2df1a60891c7d88b000652ecb4f699f008e61a1fa5e9acc71e8a6ddaf860669",
+        "b6a6d0966c716a29d6dc5857f0916af20fe85a612167657448cf45ce2bc274df",
+        "c577cf1a1998aea782046f36e51fcc4b67a163d1dd7170e0df76e032314034df",
+        "415973b57e95bdbd55ed84abfd9e9d72c95c4e506953776d9f910da4d28db4f4",
+        "59fca3d8bcb26e201217a2f248ac8bd22ba385ea3f6d42f684bbdc60dfef01c9"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": false,
+      "seed": 4,
+      "turns": 9,
+      "digests": [
+        "81ae828bb947597f7baa1aef6c47c6f5e85d696fc1c0b53a3d73f2016e9d1951",
+        "00f0a60a737dfe75497d4b3117823b2db0f7e277ae563c6a086859cde4b4ed74",
+        "088dbe96b137b8414c300d13352a64e07f6b8c72c6c350bb8a6a1db1fe145d04",
+        "8efda5636d2b26ff10a72f86dfd9712ab3a55a93a77e93f4b51d94b3cbea84cd",
+        "fb155453118d84aa8b35d912546eeabebb7b38525cacc391b9af43b90e5e3e17",
+        "c85a2c71e2fb93231961602598189b9223e036ebc049a8ad2d54901c811c28a6",
+        "fff1f649c1ed02bc4faf07716f971d4a9c268765580b91218f658ec6a6c212dd",
+        "5f27d947fcae60c841b458a1218921038c8d062fcb4c45e28ffca432e95e0bdc",
+        "c66e0c9a4cefe8423da2550a70f45799066bc984a7680957a20d5a2f2ff108df"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "7e93b3570316f1c92c114fa867976046b7d21f39cf9f36ca1083bc8fff1faa18",
+        "64b20deed0f4f6e240ef6672a3a51c653e836c33f2dbbe7030d3cebcca0199cf",
+        "ff81b6bddb1881d175aeade51258520942ffa4cf7aae83c3f98493db9333329c",
+        "381f829b9dcb13bd35e20a0170f565d8fbf4ecf26335b9c48aafc2d049bdabc3",
+        "3b5d5eb32920a9b33263a8f3a847e6c139cbb04bba714ee9f551b8530697ca80",
+        "0f2c3ea3ac5d0b90b9de6a45bdd00e67bded64619eca604f6107e175424ba3bb",
+        "e8ec1eabb8c052e91391c3ae480c0159bbee7680f165093f3a743c662db85bc3",
+        "477f8cb65073078db0d3076285af0cc34dadede609690c275099460e98e083a9",
+        "f66f9092c23165f53aa70f4ce4d28a9954327e7afe6c177d4763a99b3ab5da06",
+        "668c1f4534831a85690a6f551787195094b30fd9c8f1a305d9c5f93352cab09e",
+        "2e1d126f352dd162b3e59c911716a4f49dc4cb016dac39ff2d08888026527fba",
+        "03dc5a9895d24de77927f1ee9c8a73537f846fc5c661a0ca9fca4ed332428699"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "454edb6a746832085fd1e9ee7acf59dd0680974296d944397a2d788abe622dec",
+        "8bbc79beba75fb235910ab88b976fd15a876bf1c0f407de996ae2193ee0aea24",
+        "9c68f1b6d25629c0579c0c8f912c8028e160da519a83ebfa376e8a6917bfd108",
+        "d2992364f9b6d66e85df8dcdbf453b3f5f726ae8d8b29f8233f6178db6c552ea",
+        "6d27abb009b80567f6e8370f2d6da4864441b39bd8f36618a87498e0be6da2fa",
+        "31fa2ca90034b8fa6f21ec1991d6750a18d276d003102e724b4d99fafd503b13",
+        "42cd68215cc536377c6db1c4307ba62835340112f4971a81da47df6f6ee4c0d4",
+        "f26ff9a2e986a4f334adbd9f31191fde444c2f62eb5bf98e2ef53b061dd54d12",
+        "2e9f8717af71f6b95cad4d71f6bf71e5297394c13094dd6a2ce35fb5bbcf5f00",
+        "e08d18aac8d13f6a4b857508ef86539026f4418254f2d2bad3dbb2338f53ed8b",
+        "8a3fab0108609bdcadd10bd182885c27f04a9ae4713bb51506e98f0090dd6020",
+        "562dbe458e3ec5d396aec4471edb40150a8b748250027806016a99c87f31fe54"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "2fbb9b223e1ca5848dfd42f6a7e12dd8e959ad18da670512d762e2c76dfdb37d",
+        "d46de863106ccea00310d6f3f17bd87e59640052f00d459bc812b785f75efc75",
+        "7c1156ca90747405729de049aab3f7218f96a9515e697a659a8f5179fc887e9b",
+        "4cbb824d754cdfece9c4bdf411431b73151d31f9bef977d605eac313c46114e8",
+        "6212480421af9e78d7e63e358854b06b53aec6b737986b49f398ce5a5a9200cf",
+        "f6e04f0145ed9c70dbdbdbd863351259465fd163cdddfe8af1962e3c872141e2",
+        "403587854c53295ebc8b43fca71a2b22a7697850d17461b07e6acb6dcfdab296",
+        "99bbaa354a7471672a55c26877f2a3e81506e0fcb6d512b189c3c09e7d8a70f0",
+        "cf0d89ba463435749fdf7050c772f2ac45f846c41ceab950229f3c46d8b12a2d",
+        "16c76c2da5e0f0c9971dbfdbe1535a82cc1f8fb515c0c30fd4356498ab318053",
+        "0c40e1a62fb2e5405c2bde0944ce3c2c6ca4b007fff5e936abdfda7532a5871a",
+        "f2cef187558eda908d1e3c353bdead76066bad91637bd5e0ad6c1cb1cbce4be8"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "legacy",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "d06cd6ce4d0b94dcd586e60c11b36d839084e8b35e591b66e7912aef0a19af44",
+        "2e4cb5fc7aa11fb78f0a1e697882f0934cb94f4783ae888ffec3fb7e29f9fef6",
+        "c3fed1c3fdaa6969e2a73eda27138344f1619eb7a027656b10750f64d18b4a44",
+        "cbdb39b5fac686a92ab0cd7cb62ca56644b790549906c91d8717d6ee89a49fee",
+        "46d583cf166e4b6722faa261aef70b1d43ba0588c5d412370573a3bf852c5289",
+        "f7f96dfc33fa55b550803b34a1fac315fcbdcd392e8bb43b3c63ebee0356da96",
+        "4677075c84777902f9de3dea9b175848b7fa512cb643992ed01c7531cc79e828",
+        "fa8648fff168fb13b001c050d6cb9084ccb5040efdf9d93f873b1f21454d2dff",
+        "2f28c7bb6867c3a026e66dbf5a408c66331fff1b4e699bf3a7001b26e7c2dbc4",
+        "c12c7987bc04367697b43daa91ff5e19ad27caf838f9af9c3ca08cb260dd0b58",
+        "93e6bb768b654f2785545e4e747075b3b9491ad1eb49012307b3f4be92634a6d",
+        "60e5d93e9471be38d0699823da16f44b1568f2fab553d7542942ccf67e4f386a"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 1,
+      "turns": 10,
+      "digests": [
+        "bdf165f483184942239b77573a442c6eb32930be707c373321d949a834802584",
+        "726909f244afec6c849f48925f6f10acde095603ee2d0f00521f6b1b19540b9f",
+        "60539ec6d91b426e4a1f79fc6d761837ffb07e081fa47ff287a54b31b6007f27",
+        "84e67b0174cd52657314dbe610808aa59a8bf5edc6d1bc70fbdac2bd45e4afaa",
+        "c287426a9bf561ec1350c1ca6a5c58b839c159f6f8a101a96120aa051e32ec3f",
+        "244b27985e6d3318ff63af2636cd483486bdced7a8ed60e3cd4adaa9ebefdb02",
+        "1e4b54fc18dbb20a2e5c1b37a6d89ca5857637d862cb6d561643ba50b05d7f53",
+        "b3fee9eb944faf4b1e9771f8d957d40c1e93c4f74d10ba0426f5485f244d6406",
+        "4e3f2815a201fd2dd7c80004f3004b85c88565e8e7153b39e59f21098a81f921",
+        "158bcea4e965230597bb70944c48751f0f10093f1f97112178f8d659b67b28d7"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 2,
+      "turns": 7,
+      "digests": [
+        "022e3ad3464a07c490da53ec4d79bacbb4146a48ae564a5a87d64983ee70a0e9",
+        "a2b4564f06a92095015159070118f60e8acc20ec163098ad2f45c323e128b8f2",
+        "3a892c87300674278a9005969d247a7fe57be2921d3f19cc5fdd18c5a7294b2f",
+        "b860cd033f1b38a8b67b0252842b255f9449b9ed1d6576366efb851bc79f1eb8",
+        "78bf01e580c8498e9b44b381a3113c164439777a150482c0621548e69791d92f",
+        "0bd8c0eb2fbb9fdc0e57a49997e8959a237c192b0239ccf1e8902824e3005e39",
+        "dc1ed02d348b78d0bb08c83608cd0064adac5949117d13b5e4849e09fa94ce2e"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 3,
+      "turns": 6,
+      "digests": [
+        "2dd6ec3735af146bacdab55ee66f67da49796c6bfeea25ee830c981acca3d50e",
+        "61fc4172f6788d8de0e02fec15f48df129ee3bb2f31dbe4639deacc0c295059d",
+        "2191d06af7618860cae37804e222c16f0c417d5c69c7385cd62204994db8a921",
+        "c0a411f17d75f6a70222f3d47944c158181993261e938e522c67ce3e35b5a15f",
+        "605c0cb23c33f88f4a9dc3fcdd8080e6be3b0e947021f5f7fffc65e090b415ed",
+        "b71b25eaa8def84720abded822298452d52ec5298591308f913fb79107d674ac"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": false,
+      "seed": 4,
+      "turns": 9,
+      "digests": [
+        "a0fbf8a932022d2ca1bdb3b33bf06409cf27f7ee5cd7032807089e8e760f6099",
+        "8d9aa025e5bbb52e7033320266b42125f8a2be25a495dcff192a668512c9c400",
+        "d74d75eed5a47edd7f4a09d1f7194933cde05c1be67e7b7cb0b8f00546cb5419",
+        "5fbe43f80398c29e48ef10b98dd624baf22f58aae168e1ebb2fc4b2afb86650d",
+        "e41c88d3c07a5011fdd58ff5162ebb8f7d2b967a5c6788e25505383a882d09cb",
+        "1668f9980d6864fbd8ff2f96e4a618944835c8e22ed41a8be5153d2bf72d2cc6",
+        "2902d0ac0edd7f5dc5fee8fc2823107bd4d8527496d3ae1287f37ee35517cf41",
+        "9c78f7bb4dab4e647adb2ececeb12764bdd89fdaae331512f7020c6d4416f14d",
+        "9d63b9383d1e4b40908ffadf8e3028be7d2c21c60a405631948810df7fdef9c8"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "135fd4d1c13b467548db50b258b3afa2e7102042e244a6c6019b9d7d68759fa6",
+        "06a21ffcd1bde5037b4a819530ccd9f3805ee945ff11741d7184ba0c354408c8",
+        "f0073da2703122468693d171216fdd72b0ec7e5a7b11bc0670b6dad1e7361191",
+        "f16ffde4a3e224799a9544a211ba689c71ebcd3552eb682b2c387e5df7fc46b7",
+        "2f14e1a976547d1f3537fa5de6aaa7e2f017a1164534c795368f64ee5577fbda",
+        "f35f9b046301133944c20c0f0d9f4f5450bcdb728e08bc44b7b0330164b95eb3",
+        "6f0f968a16f70d07414583b0e71a5449da7ca6169e6327c61ee5c637d356fda2",
+        "7983d9b11c4728a45c9ee9343d9161deaef2d2f57987e198846762d4e8ba7061",
+        "bf6ffeaa5722c8f2fa4cbb4266f646796c6d782a384aa9e7b6643ab25f7280be",
+        "315046ff2a534695c97805f72f0f33e061d24eed6db6117631bc232cea0ff87c",
+        "27361f92def6079fd532ed6d558c92898cad2923bff93bb4d7b740f1cafb7115",
+        "699a7966f1c478ece3582b7372869e143d25926a89a23ad7297959363266dd03"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "a5eef50236b1ae07464a1d53c392224e7d81a31c664469e0e9820d780b99ab72",
+        "307c14fee1206246bf15e49089581d8c203e15915c97cca825dd7c37bc8779dc",
+        "7dae25382abd70177e236106fa7455ec2ba0485fbf670cb429caa7d287a3f04b",
+        "9ad5dfbadfdb94196e939aff198081ac96c718b5886f83ce6d3bafdc29b9e93c",
+        "e8138ade8aaf57b464a9e7219ac593f7f6d7e68e603c04d85464ce4440b15ac1",
+        "76f29b807253c3074691959fb0c055ff41afe3beb9f37294da59ff47026c8fec",
+        "2d8f01716e640f7e4e919c4d85711f0d2dbcbb065dceb9289dc1635a11f7fbe3",
+        "945446547654250c27c267e795d6e4ad3bc23ad350b664dee06440532a250f45",
+        "bb63efc6f82713499a5d1164fff594d9a05fae6d431df3c25421e763e4a94f17",
+        "5fff08961a02c817892791e40590bd93b826ba7cb1e490669201eda66c7bf859",
+        "81ff36ceddeb6cfdf84cbc3cdc1d1312d40dde2ba09068919096ca8220921738",
+        "000586aaddbb78974dfa521cb1c7dbb0b1367d937002c5642315673413a2b93d"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "4e27ce7e0e5c141eff702bbf08bb7243575ec4a4ad72cda2f9fe88bbe4a8add7",
+        "f405d38244637e0eb1d6cb55cb6044bfa6ee519a59d627af637935719c2956e6",
+        "a493b2b6396db48270e5e470bcce2f3ad5a5d09ceeee63a09cb55656dd978aab",
+        "5495850b498890c6bcd9fb7de509c2cbb02e3122cbdffbddf866a800094272e9",
+        "8e8182e62af66528df330ead053fbc3f1d9e75886e222cd26e357a26d240780b",
+        "35bdfb905e69832eb5593c56658221ff3c6eb835fb065ff54f19867802246836",
+        "e73ca4e267d9d3083f8fb161ba7b7042f55b0cbec086c51bff2ec9bcf19eebb5",
+        "bbf1582cbfbc3e224aafeef583d71ce6d2cd647acc2032f871cb311ef1a59f66",
+        "d10732738dfb8ae5d4b70528fba4f547fddfcd6bb72a0ca448bc41fc7868c917",
+        "2a796a58eed948430fc04f90d9c2c77d0e30d3180d18126d321919299543ea46",
+        "2314d50f6dc258b3003aee2f3f9b155c46ce265d2585f2ce4c8b95f206b9cee7",
+        "6fc29c18fbd455cf188a268c92f2799cd88cffcdaf536382d97a017c406bb450"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "compatibility",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "748a5892b2d7050efcd44c5887362c71638c8aa19a07dbcec92b859138eddeed",
+        "6ecb8f020cb7bf88be3292a0854a491d482e1e9c55a66670e3fae7513d928278",
+        "5eb42a5ff3b5617179097af719292847c0d832a89a27449b0046b0481e9168fc",
+        "42c1f5a8f48c7deff36305b2d2f1a0516d01e59624fb59eb32e55677b7c8f142",
+        "3a2b5fb6cdf2f54aa1e6942f562109808dcb7253983c2c7994812f6e3dcc6e21",
+        "595a30f1b531013bb9a38b18dd31a9324da6c5fe7a56caa224190a173640081a",
+        "e640198f42352ac11b92bba6ba8221ac8701138ec40b4ce5004742fc6bb90b49",
+        "15649326357d15fd8ea08c3c38c1d563f75a7ca2f16d939a50d42f9f542e743f",
+        "c75b8700242a6687ea85b5c21b738089772baa06867f08f11d49feffe92caca8",
+        "044dca475a99e5e5e5ccde909bfaf03fd49ad6a7c8faae36d3c86e110e3236ce",
+        "ef75a6da8b389e82308cc8fc609524a5dfd07875900f172c85cc5ff5e776920b",
+        "bce7e678270868d0c9bb0b5334e469dc8cac58c8eb2956e4413c7f0324196dfe"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 1,
+      "turns": 8,
+      "digests": [
+        "0af60c57413bcc08cbba6b50d3b249389bf80387f03236403575ed79ae9a49af",
+        "caa174ee74e6502901932d9fcadd48040cff97932eb7e8a1fd15f0a0c11aa723",
+        "e156e60b05042813f9513630a5f062d5f08b5edd60101ee645c00cd53e74e20a",
+        "29efbecbcaa3e28a4c4de4fc6f6b2bbdc437e42e95bea493c43f0fe6f79694a1",
+        "a7586d3b7a55981b43aa8506d97d49733a8a5d04c4441a21777fdeb48938fa62",
+        "a83685f9c8240376a97eb4898e053a0a3b79403e0750065bec8666570a5492ed",
+        "9f75e3937e5badbbd3a35bf94372c01ec9602e2b74621e5332d4d23cbbda0412",
+        "16e7fc21d6974d7bbe4616542750662f6aa454592a9a8c5c3f622193ae417658"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 2,
+      "turns": 9,
+      "digests": [
+        "164589c1f9286ab1788a4fa836b64d3ccc4bb1487715606d8540f973fd2ab326",
+        "3e1628509400bf407bb6da04f8efc75fa794300fb4cb05bceccedfdc72df7dc2",
+        "4896b4fe287eaeed410c4c2abc0f2debc3b1de472f59d08fa613efa08ab7dcaa",
+        "4ced420c55b36bb64fb3542ca27f301d46e3bef7188e8d693a91d0ab5d62ed55",
+        "c9bbb1698b39865d7bd93d2497aa663bc334f9d3544f0a2bd7d6df4bdc9a9664",
+        "55417a5d4277d4d57c310ccaf479e9d61c3ff4f8d30ab25bdbfdeb44f7b75a8c",
+        "9b936087177abc3798d0ba9d54b2ef4408d809f9fea46042cecb2448be3d9fd6",
+        "206cfeab0bb5723f875b54fa1a7d5f5c084f0c3cb94c7d5ed234f6489f371659",
+        "fb51b641dba3d5a2659d5f27eebdca98449cdb492c97639843e1de97cde2f98a"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "0e7341c399b0176c3e4464d7bf6916ab0b7084f7b88d3ecf84b9e6103d81b9da",
+        "8e07d13881e37971c2ac1894328d06857b3f91243a842785268083687a912f9f",
+        "8444bdc90ba0ceba984d02adfc678ab7b0a2ec236dc91935a7c143a1987ad1be",
+        "9d7ac92070ec8244dfb8407a350fa50f0eb3d764cc5929ba7aebe831fef93011",
+        "864d0638031eb29122a7a6960a593d70cdbbd6f1f1a0ecc2f89dfc41570b364f",
+        "485d0e132e926a792ad16ab00dfb87f8329c2759aba7925fab740909f07f2a29",
+        "fbdc2ad0d8522e4de7c5da5a2585d0138d6c9455c1371c7f863f0c87cb93e4aa",
+        "96f766a58d59f6fa59018c1ef2f55d622790da8c6f3179e642b556615ad78a9c",
+        "a263a6d1998c5f22cea318d50d1df2950024a8abab45bb133e2b49683d7ebe38",
+        "40da59cd055a5d0561d64f295a44647b43cbc4d636ab7d2523f41ac39d5e24c2",
+        "37d1e8f41f05146170b2e3861e98390017738802df3e2d9605546f8b7f282d43",
+        "e50e3671af8cebdc0b3eb16653e185c90cfb4a52b9771e8c63d34be215484155"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": false,
+      "seed": 4,
+      "turns": 6,
+      "digests": [
+        "188c04b44723e2be7f1b2dee961f3be4dffe6505001202e9ceb3ad65f3c37051",
+        "a4b9bbfdff9eba0acaae4b1b11c8a0a81d95bf84461d3fa84c6a5722bcbb0733",
+        "86efe1f5a4cfc6d0c0753d1e7a4b6cd1b9c05e0bbda085c8de7c4838a3a86a8a",
+        "9e2bc28097427790707e3bb451c4c003b08a9d773beaad1572a94855d8bc60bf",
+        "677e01b9096cd3ab543d0a7aa2a3c09b0683af3abb03389d4ee6c2bfecaa52e2",
+        "d4589f802144ea591376115beeaf864b9e2f60c12754acb4542f90f24a4998aa"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 1,
+      "turns": 12,
+      "digests": [
+        "47a10e46309878bbc6fb13bbb48840d95b660bb9e9d68d389e47deabb368d5f6",
+        "93b330b76cc7b6139b4b8fe7580cc631aa81d28ac963e2b2d216c125eee38fdd",
+        "d2510753aaba470d0e5a8da29f020bfeb3c6dfcd63fbb236d1d68fbd81431cbb",
+        "bb245d997590b38e7b27c5e4c85b4d3ba64dc94b69aa8dc56432c0d9a65e859a",
+        "35a04e11542346bbcce091e5a1d6cda3caf8b5c1b200bf737fca77b17221d489",
+        "f07faada019131d756575dbf0a03f01a04638f4e569e06bf23e19f04ec3ec717",
+        "6a23852a2e72a142ccb4ef540213d7abc3818d93746e1c7b62c19c43cb0af9d6",
+        "13fa19f0cf21b4da8e383f229ee78396274726c7bf778808008251fc63eeab14",
+        "4f6a31816bf50cdc41515a70f245b3476536cc0bbad41068f193f90f3dd4906d",
+        "039a3f8f218992a11169d6094747d63ca5b9a8cd2879d38b10014a04adc5f5bd",
+        "335179ea65bb00b5a4be637a16cac1df700d5c1a428cde606f67bc0f748f11bf",
+        "6f829253161897cdfdfbd644ce5b2df44ec9d53f765e84e87b01084e19b4e6e9"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 2,
+      "turns": 12,
+      "digests": [
+        "23da2ca0a80b9aabb58380f2c08f57cfa3053f7154f2efde21209c392e63c703",
+        "2a4f0d5f163c5c375256f579866a15cda4ed8bf645130ce597b8a3de126015b9",
+        "3b46f8d89833038452cf13c7c601a5247ddb6f5621d67014f230df43c2994233",
+        "7ba3368ed538043928c5885553a8d49dcbf31b553a77071d46c0e4ee79f03d49",
+        "e7e29d6d9dc272e22bd6532ca16b6857f46c15956299dd93224207b2a0089af0",
+        "a1837628e9cc6b73f565d6fb16684faf44834d7a64175f2675aae893fda9c1e0",
+        "e5962f66e0dcc03180c781c31c0a919c5bdc39674170fafdab014fba24a57309",
+        "52718d0d8393b170219de6a6cb0a8955431502ae2318b6d5a2c99e699a540286",
+        "f975c2b482a4af80126edf158905b49251c60c93617c3fedadad876f7df24415",
+        "b61bc10abb6f93a35f77df92ab327bdf1185f455c123d6fd17da4346db266d79",
+        "73221211fb1ca65785d502d7b484ae3fecbc37affff7f2549519e593fc0e4dde",
+        "2c50fb2b48fe42c66f368ec5666d52e45c413d0626125bd7ff601e7e8bd53bc9"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 3,
+      "turns": 12,
+      "digests": [
+        "5c7fa0ca1a68b41beb5dcc80fda7a4b429be92e83a42847c7a1cba8b88ae86a0",
+        "3952a0e09c41b49321ade4cdfbbf49e03cf7a042b7436b970009d97ef73bbcff",
+        "87502d71ebfa99732ce7e5fc662d8f2bb163e729039392d75f631ef5a5b8c9de",
+        "ace4fd7696d6189dab729d4f0e6de50904393b4e41bb4068f2ccecb959eed643",
+        "89794b622e0ea36ab7ef6ba3ad29ccd8ee9c80bed2371a9d53fc5f889f1176e0",
+        "fdd53467246b86f2eac8275bfaa48f1dc7f744f86caac43fd89da49242c76c4c",
+        "8b63ba1ecce4156a2afed60ac936007ec4bb9137d00b41b97d9db544a125533f",
+        "158527859cfd0478adbd154edc95d15e7fb034da5bbfbceaac12482e45161e68",
+        "3d47e6db3f5b563bf8f6a1c5cc16df42dfecce7c696e2f63bde18d6ed7196ddd",
+        "c6930568f99d3d918ee7c1173d80db49f4ff503dfdd04b7209b5ee7443f4a62b",
+        "c488c8fb0efd05196fe01ab6df885b035b2889dce907bff1e288576222bcb734",
+        "d841eb5b5a26b3df143f9ea1421a45236aa786eec6eac4e44d62827695c12a54"
+      ]
+    },
+    {
+      "pairing": "ZAN-KRE",
+      "profile": "finite",
+      "ordered": true,
+      "seed": 4,
+      "turns": 12,
+      "digests": [
+        "e4c6e1a6f417be161ab2de0de46b98b9bfb8cb7af77a51dfd0dc62a51c6ae5c4",
+        "54e9db775f70f88419c787804571f3da1df3802218c42cec0277c744a6562c9f",
+        "58acba27cf513aa024dbf3e50214726909ffd45f16eef1dad0efd6fc43b660e8",
+        "f30fdb5cddddf93da31f663abccbed3a42485fa07dfe65deea07b0f1f6a753d0",
+        "859e79cbd9f9e92c04fdbf941541a666b01cdccf3a87584519a320a62d0d33e3",
+        "c167a2805c6674a41d51d14901bb2697efd09aaaf671f2589d788d185a541140",
+        "4dd06d6386c5ab28e7ca263036c20cf9be1dab91898221ba530d2b17194129cd",
+        "a664eea2b1325c7697b6c30d8a1c21f3d240c2f22a0e0a7339ec7c0facd326f1",
+        "09cbb8591596aeaecb08f6d669786112ee25fd387e140f188ed3dd46b4a6d302",
+        "65f3fd12c2547a5a4cbce29f7978d0fad719358754ced41da8bbdbd4bcec8080",
+        "67df5cd9a4d0460f5ce43edc7aa9a26ab9bdb7daa397790d2b8f3a17eee195dc",
+        "d0609cd41ec5eaca7b1fba6f9c58b1e991a02191e548ae14f45c3fb69b32ba26"
+      ]
+    }
+  ]
+}

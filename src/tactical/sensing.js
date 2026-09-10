@@ -2,6 +2,7 @@
 // cache, PRNG draw, automatic scan, lock pruning or hidden-state presentation.
 import { distance, hexLineGroups, inArc } from './hex.js';
 import { terrainFootprint, terrainBlocksShips } from './deployment.js';
+import { rememberedWrecks } from './wrecks.js';
 
 export const SENSING_PROFILE = 'finite-contacts/1';
 export const DEFAULT_SENSING_PROFILE = Object.freeze({
@@ -60,6 +61,7 @@ export function createSensingState(battle, profile = DEFAULT_SENSING_PROFILE) {
   // `shields` holds the last sweep reading per target, per observing side.
   // Written only by recordShieldSweep, read only by currentContacts.
   return Object.freeze({ profile: SENSING_PROFILE, sensing: pinned, locks: { A: [], B: [] },
+    wrecks: { A: Object.create(null), B: Object.create(null) },
     shields: { A: Object.create(null), B: Object.create(null) } });
 }
 
@@ -220,7 +222,7 @@ export function observedDamage(target, ability) {
 export function currentContacts(battle, side) {
   const state = stateOf(battle);
   if (!sides.includes(side)) throw new Error('Invalid observing side');
-  const reports = [];
+  const reports = rememberedWrecks(state, side);
   for (const target of battle[side === 'A' ? 'B' : 'A']) {
     if (target.destroyed) continue;
     const observers = target.cloaked

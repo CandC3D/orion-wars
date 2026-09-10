@@ -1,0 +1,74 @@
+{
+  "pass": true,
+  "fastSuites": 47,
+  "baselineSha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+  "finalSha256": "f53db0c8777163365ea5df27872b7af1de6107d76e1e8476fd60f3058d3b635e",
+  "originalOutputPreservedAfterRemovingOnlyNewTestsAndAssertionCounts": true,
+  "stages": [
+    {
+      "stage": "00-baseline-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": null
+    },
+    {
+      "stage": "01-pd-green-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "02-scenarios-green-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "03-turn-after-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "04-torpedoes-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "05-mounts-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "06-wrecks-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "07-destruction-green-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "08-pd-names-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "09-mount-key-fix-fast",
+      "sha256": "8147bd2d433077ec83f52a02a9d023adca58854b3858016550e185a2abb63c45",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "10-extended-fast",
+      "sha256": "8d0e05d60a5b51a4f00d3430225c6e1b6dc1b1b5a99e226ed52532217073fc50",
+      "sameBytesAsPrevious": false
+    },
+    {
+      "stage": "13-wreck-target-guard-fast",
+      "sha256": "8d0e05d60a5b51a4f00d3430225c6e1b6dc1b1b5a99e226ed52532217073fc50",
+      "sameBytesAsPrevious": true
+    },
+    {
+      "stage": "14-final-fast",
+      "sha256": "f53db0c8777163365ea5df27872b7af1de6107d76e1e8476fd60f3058d3b635e",
+      "sameBytesAsPrevious": false
+    }
+  ]
+}

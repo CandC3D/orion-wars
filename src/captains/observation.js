@@ -6,6 +6,7 @@ import { specialCapabilities, SPECIAL_COMMAND_VERSION } from '../tactical/specia
 import { scanCapabilities, SCAN_COMMAND_VERSION, SCAN_MINIMUM_RATING } from '../tactical/scans.js';
 import { SENSING_ORDER_VERSION } from './orders.js';
 import { profilesFrom } from '../tactical/ship-command.js';
+import { MISSILE_FLIGHT_PROFILE, missilePosition } from '../tactical/missiles.js';
 export const OBSERVATION_VERSION = 'captain-observation/2';
 export const SENSING_OBSERVATION_VERSION = 'captain-observation/3';
 const pick = (value, keys) => Object.fromEntries(keys.filter(k => value?.[k] !== undefined).map(k => [k, structuredClone(value[k])]));
@@ -13,7 +14,7 @@ const weaponFields = ['kind','maxPower','powerToArm','damage','spreadPer','fireP
 const band = b => pick(b, ['to','damageBonus','toHitMod','damageMod']);
 function ownShip(s, tuning) {
   return {
-    ...pick(s, ['id','faction','className','displayName','vesselName','points','pos','facing','destroyed','superstructure','superstructureMax',
+    ...pick(s, ['id','faction','className','displayName','vesselName','points','pos','facing','destroyed','wreckedTurn','superstructure','superstructureMax',
       'power','reserve','magazine','movementPointRatio','impulse','movedThisTurn','damageThisTurn','damageLastTurn','hullLostThisTurn','hullLostLastTurn','cloaked','decloaking','emergencyUsed','warpedThisTurn','toHitPenalty','systems']),
     fullPower: fullPower(s), ratedPower: ratedPower(s),
     specials:specialCapabilities(s,tuning),
@@ -36,6 +37,17 @@ function ownShip(s, tuning) {
 // battleView remains exclusively the trusted recording/legacy presentation API.
 export function sideView(battle, side) {
   const contacts = sideContacts(battle, side);
+  const known = new Set(contacts.filter(c => !c.destroyed).map(c => c.id));
+  const own = new Set(battle[side].map(s => s.id));
+  const torpedoes = battle.inFlight
+    .filter(m => m.flight?.profile === MISSILE_FLIGHT_PROFILE && (m.side === side || own.has(m.targetId)))
+    .map(m => ({ id: m.missileId, targetId: m.targetId,
+      direction: m.side === side ? 'outgoing' : 'incoming', arrival: 'before-next-refill',
+      // Own projectiles are telemetry. An enemy course is disclosed only while
+      // its launcher is a current live contact: its midpoint reveals the origin.
+      ...(m.side === side || known.has(m.shooterId) ? {
+        launchPos: { ...m.shooterPos }, pos: missilePosition(m.flight)
+      } : {}) }));
   const finite = battle.contacts.profile === SENSING_PROFILE;
   return freezeTree({
     contract: finite ? SENSING_OBSERVATION_VERSION : OBSERVATION_VERSION,
@@ -72,6 +84,7 @@ export function sideView(battle, side) {
         scan: scanCapabilities(s, battle.tuning) } } : {})
     })).sort((a,b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
     contacts,
+    torpedoes,
     // Do not identify an unseen launcher or forward its location/type/pack key.
     incoming: battle.inFlight.filter(m => battle[side].some(s => s.id === m.targetId)).map(m => ({ targetId: m.targetId, arrival: 'before-next-refill' }))
   });

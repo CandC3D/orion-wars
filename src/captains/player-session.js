@@ -31,6 +31,8 @@ export function bindPlayerSession(battle, side) {
       // Astra pointed that out. The raw narrative log stays unsubscribed because it is omniscient;
       // these are structured records that never name the enemy that provoked them.
       battle.captainLog = [];
+      battle.destructionLog = [];
+      let lossesDrained = 0;
       let drained = 0;
       const captainEvents = () => battle.captainLog.slice(drained)
         .filter(e => e.side === side)
@@ -40,11 +42,15 @@ export function bindPlayerSession(battle, side) {
       const sample = (phase, round, event = null, force = false) => {
         const frame = playerFrame(battle, side, phase, round);
         const fromCaptains = captainEvents(); drained = battle.captainLog.length;
+        const losses = battle.destructionLog.slice(lossesDrained).filter(e => e.side === side)
+          .map(e => ({ kind: 'destruction', shipId: e.shipId, name: e.name, turn: e.turn, own: e.own }));
+        lossesDrained = battle.destructionLog.length;
         // Omit invisible enemy actions and their ordering/count. Public round
         // boundaries remain, but raw callback/initiative indices never escape.
-        if (!force && !event && !fromCaptains.length && JSON.stringify(frame.observation) === JSON.stringify(last.observation)) return frame;
+        if (!force && !event && !fromCaptains.length && !losses.length && JSON.stringify(frame.observation) === JSON.stringify(last.observation)) return frame;
         const events = contactChanges(last, frame); if (event) events.push(event);
         events.push(...fromCaptains);
+        events.push(...losses);
         timeline.push({ frame, events }); last = frame; return frame;
       };
       try {

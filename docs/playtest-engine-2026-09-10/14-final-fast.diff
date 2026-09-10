@@ -1,0 +1,18 @@
+diff --git a/docs/playtest-engine-2026-09-10/13-wreck-target-guard-fast.log b/docs/playtest-engine-2026-09-10/14-final-fast.log
+index 74122c3..db42578 100644
+--- a/docs/playtest-engine-2026-09-10/13-wreck-target-guard-fast.log
++++ b/docs/playtest-engine-2026-09-10/14-final-fast.log
+@@ -755,10 +755,12 @@ ok: Visible losses persist as immutable wrecks, reject targets/appraisal, and re
+ ok: Unseen destruction discloses neither identity, position, wreck nor tape; own loss survives last-observer death
+ ok: Scan-visible cloaked destruction is remembered after lock revocation; mere contact loss is not death
+ ok: Explosion victims and burst-stress deaths use the same observed destruction boundary
++ok: Beam, spinal and strike-craft kills report the same wreck and loss; crippling alone reports neither
+ ok: PD radius four is inclusive; one pooled draw names the living uncloaked defenders and spends no weapons
+ ok: Enemy PD names require current contacts; hidden defenders cannot leak through an outgoing interception
++ok: No cover draws nothing; CAP-only interception draws once and does not invent a PD defender
+ ok: Trusted replay preserves new orders, all combat state, flight state and seeded draws
+-Playtest engine: 16 groups passed.
++Playtest engine: 18 groups passed.
+ 
+ == Command station contracts ==
+ Command station contracts passed: 29 legal hulls; 6012 mount/heading/bearing cases; forecast, damage and RNG isolation.

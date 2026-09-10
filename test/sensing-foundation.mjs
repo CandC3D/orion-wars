@@ -254,6 +254,18 @@ check('hidden-state differential worlds; strict allowlist, frozen queries, deter
   w.b.pos = { q: 6, r: 0 };
   const view = O.sideView(w.battle, 'A');
   equal(Object.keys(view.contacts[0]).sort(), ['className','facing','faction','id','observedDamage','observers','pos']);   // unnamed fleet
+  for (const named of [false,true]) {
+    const wreckWorld=world(),victim=wreckWorld.b,battle=wreckWorld.battle;
+    if(named)victim.vesselName={full:'ISS Remembered'};
+    victim.superstructure=1;victim.power=0;
+    wreckWorld.tuning.pointDefence.maxChance=0;wreckWorld.tuning.screening.maxChance=0;wreckWorld.tuning.explosion.enabled=false;
+    battle.inFlight.push({side:'A',shooterId:wreckWorld.a.id,shooterPos:{...wreckWorld.a.pos},targetId:victim.id,damage:100000,spread:0});
+    E.stepTurn(battle);
+    const wreck=O.sideView(battle,'A').contacts[0];
+    equal(Object.keys(wreck).sort(),['className','destroyed','facing','faction','id','pos',...(named?['vesselName']:[]),'wreckedTurn'].sort());
+    equal(wreck.destroyed,true);equal(wreck.wreckedTurn,1);
+    equal(O.sideView(battle,'B').own[0].wreckedTurn,1);
+  }
   equal(view.contract, O.SENSING_OBSERVATION_VERSION); equal(view.sensing, S.DEFAULT_SENSING_PROFILE);
   equal(view.execution, 'engine-proof');
   equal(snapshot(view).includes('private-pack'), false); equal(snapshot(view).includes('secret-name'), false);

@@ -218,6 +218,7 @@ function observedCeiling(damage) {
 // A contact report as the decision rules read it. Scaled to a nominal 1000 so no integer assumption
 // downstream can round an appraisal onto the wrong side of a threshold.
 export function appraiseContact(contact, hullPoints) {
+  if (contact.destroyed) throw new Error('A wreck cannot be appraised as a combatant');
   const max = 1000;
   return {
     id: contact.id, className: contact.className, faction: contact.faction,

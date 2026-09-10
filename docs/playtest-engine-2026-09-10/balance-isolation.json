@@ -1,0 +1,217 @@
+{
+  "battlesPerPairing": 600,
+  "executions": 7200,
+  "points": 52,
+  "rows": [
+    {
+      "a": "EAR",
+      "b": "VRA",
+      "total": 600,
+      "radius3": {
+        "winsA": 232,
+        "winsB": 367,
+        "draws": 1,
+        "turns": 9144,
+        "percentA": 38.666666666666664,
+        "percentB": 61.16666666666667,
+        "percentDraws": 0.16666666666666669,
+        "avgTurns": 15.24
+      },
+      "radius4": {
+        "winsA": 201,
+        "winsB": 397,
+        "draws": 2,
+        "turns": 9331,
+        "percentA": 33.5,
+        "percentB": 66.16666666666666,
+        "percentDraws": 0.33333333333333337,
+        "avgTurns": 15.551666666666666
+      },
+      "deltaA": -5.166666666666664,
+      "deltaB": 4.999999999999986,
+      "transitions": {
+        "B -> B": 291,
+        "B -> A": 74,
+        "A -> B": 106,
+        "A -> A": 126,
+        "B -> draw": 2,
+        "draw -> A": 1
+      }
+    },
+    {
+      "a": "EAR",
+      "b": "ZAN",
+      "total": 600,
+      "radius3": {
+        "winsA": 240,
+        "winsB": 359,
+        "draws": 1,
+        "turns": 4286,
+        "percentA": 40,
+        "percentB": 59.833333333333336,
+        "percentDraws": 0.16666666666666669,
+        "avgTurns": 7.1433333333333335
+      },
+      "radius4": {
+        "winsA": 157,
+        "winsB": 441,
+        "draws": 2,
+        "turns": 4550,
+        "percentA": 26.166666666666664,
+        "percentB": 73.5,
+        "percentDraws": 0.33333333333333337,
+        "avgTurns": 7.583333333333333
+      },
+      "deltaA": -13.833333333333336,
+      "deltaB": 13.666666666666664,
+      "transitions": {
+        "B -> B": 303,
+        "A -> A": 101,
+        "B -> A": 55,
+        "A -> B": 138,
+        "draw -> A": 1,
+        "A -> draw": 1,
+        "B -> draw": 1
+      }
+    },
+    {
+      "a": "EAR",
+      "b": "KRE",
+      "total": 600,
+      "radius3": {
+        "winsA": 252,
+        "winsB": 341,
+        "draws": 7,
+        "turns": 6958,
+        "percentA": 42,
+        "percentB": 56.833333333333336,
+        "percentDraws": 1.1666666666666667,
+        "avgTurns": 11.596666666666666
+      },
+      "radius4": {
+        "winsA": 275,
+        "winsB": 320,
+        "draws": 5,
+        "turns": 7240,
+        "percentA": 45.83333333333333,
+        "percentB": 53.333333333333336,
+        "percentDraws": 0.8333333333333334,
+        "avgTurns": 12.066666666666666
+      },
+      "deltaA": 3.8333333333333286,
+      "deltaB": -3.5,
+      "transitions": {
+        "B -> A": 91,
+        "A -> B": 69,
+        "B -> B": 247,
+        "A -> A": 182,
+        "draw -> A": 2,
+        "B -> draw": 3,
+        "A -> draw": 1,
+        "draw -> B": 4,
+        "draw -> draw": 1
+      }
+    },
+    {
+      "a": "VRA",
+      "b": "ZAN",
+      "total": 600,
+      "radius3": {
+        "winsA": 222,
+        "winsB": 377,
+        "draws": 1,
+        "turns": 5268,
+        "percentA": 37,
+        "percentB": 62.83333333333333,
+        "percentDraws": 0.16666666666666669,
+        "avgTurns": 8.78
+      },
+      "radius4": {
+        "winsA": 232,
+        "winsB": 368,
+        "draws": 0,
+        "turns": 5514,
+        "percentA": 38.666666666666664,
+        "percentB": 61.33333333333333,
+        "percentDraws": 0,
+        "avgTurns": 9.19
+      },
+      "deltaA": 1.6666666666666643,
+      "deltaB": -1.5,
+      "transitions": {
+        "B -> A": 83,
+        "B -> B": 294,
+        "A -> B": 73,
+        "A -> A": 149,
+        "draw -> B": 1
+      }
+    },
+    {
+      "a": "VRA",
+      "b": "KRE",
+      "total": 600,
+      "radius3": {
+        "winsA": 412,
+        "winsB": 188,
+        "draws": 0,
+        "turns": 10341,
+        "percentA": 68.66666666666667,
+        "percentB": 31.333333333333336,
+        "percentDraws": 0,
+        "avgTurns": 17.235
+      },
+      "radius4": {
+        "winsA": 446,
+        "winsB": 154,
+        "draws": 0,
+        "turns": 10230,
+        "percentA": 74.33333333333333,
+        "percentB": 25.666666666666664,
+        "percentDraws": 0,
+        "avgTurns": 17.05
+      },
+      "deltaA": 5.666666666666657,
+      "deltaB": -5.666666666666671,
+      "transitions": {
+        "A -> A": 351,
+        "B -> B": 93,
+        "B -> A": 95,
+        "A -> B": 61
+      }
+    },
+    {
+      "a": "ZAN",
+      "b": "KRE",
+      "total": 600,
+      "radius3": {
+        "winsA": 431,
+        "winsB": 169,
+        "draws": 0,
+        "turns": 5392,
+        "percentA": 71.83333333333334,
+        "percentB": 28.166666666666668,
+        "percentDraws": 0,
+        "avgTurns": 8.986666666666666
+      },
+      "radius4": {
+        "winsA": 442,
+        "winsB": 157,
+        "draws": 1,
+        "turns": 5458,
+        "percentA": 73.66666666666667,
+        "percentB": 26.166666666666664,
+        "percentDraws": 0.16666666666666669,
+        "avgTurns": 9.096666666666666
+      },
+      "deltaA": 1.8333333333333286,
+      "deltaB": -2.0000000000000036,
+      "transitions": {
+        "A -> A": 390,
+        "B -> A": 52,
+        "B -> B": 117,
+        "A -> B": 40,
+        "A -> draw": 1
+      }
+    }
+  ]
+}

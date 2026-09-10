@@ -2,7 +2,7 @@
  "name": "The Asterion Line",
  "seed": "asterion-line",
  "featured": true,
- "maxTurns": 12,
+ "maxTurns": 20,
  "map": {
   "widthHexes": 60,
   "heightHexes": 36
@@ -55,12 +55,12 @@
    "A": "heavy-cruiser",
    "B": "battleship"
   },
-  "text": "Destroy the enemy flagship while protecting your own. If both survive through turn 12, the fleet with more surviving points wins."
+  "text": "Destroy the enemy flagship while protecting your own. If both survive through turn 20, the fleet with more surviving points wins."
  },
  "tutorial": {
   "title": "Command briefing: The Asterion Line",
   "steps": [
-   "Two task forces have met around Asterion. Earth's flagship is the heavy cruiser; Krelath's is the battleship. Destroy the opposing flagship to end the battle, or hold the field to turn 12 and win on surviving points. The asteroid screen on Earth's approach blocks fire and slows ships that cross it, and the planet at the centre blocks fire through it entirely.",
+   "Two task forces have met around Asterion. Earth's flagship is the heavy cruiser; Krelath's is the battleship. Destroy the opposing flagship to end the battle, or hold the field to turn 20 and win on surviving points. The asteroid screen on Earth's approach blocks fire and slows ships that cross it, and the planet at the centre blocks fire through it entirely.",
    "Earth fields four evenly matched cruisers; Krelath answers with one heavy battleship and three light escorts. Neither side has a spinal cannon or a flight deck here, so every hull fights with beams and tubes alone. Krelath ships can still make a short tactical warp.",
    "Use Formation Control to issue a sensible plan to the whole fleet. Advance & Fire closes for two actions and fires on the third; Hold & Fire keeps every weapon available.",
    "Select a vessel to inspect its six shield faces and its firing arcs. Weapon labels name each mount's coverage, its best range and its maximum reach: a beam is far weaker at the edge of its reach than inside its best band. Click an enemy ship to make it that vessel's target; individual orders override the formation plan.",
