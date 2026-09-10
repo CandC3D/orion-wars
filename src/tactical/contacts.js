@@ -53,6 +53,8 @@ export function sideContacts(battle, side) {
   const locks = battle.contacts.locks[side];
   return enemy.filter(s => !s.destroyed && (!s.cloaked || locks.includes(s.id)))
     .map(s => ({ id: s.id, faction: s.faction, className: s.className,
+      // Same ruling as the finite profile: a name is readable, and discloses nothing tactical.
+      ...(s.vesselName ? { vesselName: structuredClone(s.vesselName) } : {}),
       pos: { q: s.pos.q, r: s.pos.r }, facing: s.facing,
       observedDamage: observedDamage(s, ability) }))
     .sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);

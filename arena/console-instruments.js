@@ -42,6 +42,28 @@ function arcPath(radius, fromDeg, toDeg) {
   const large = Math.abs(toDeg - fromDeg) > 180 ? 1 : 0;
   return `M ${a.x} ${a.y} A ${radius} ${radius} 0 ${large} 1 ${b.x} ${b.y}`;
 }
+// The schematic ring is a HEXAGON, the same decision the map ring took on 9 September and extended
+// here by Chris on the 10th. A shield face is the hex edge an attack crosses, so it is drawn as a
+// flat rather than as an arc standing in for one - and the two readouts of the same six faces now
+// share a silhouette instead of only a numbering.
+//
+// Inscribed in the circle the arcs used, so the ring keeps its footprint: corners on RING, flats
+// inside it. `half` is the arc half-width the circle would have used, carried across so the gaps
+// between faces stay the same width they were.
+const INRADIUS = Math.cos(Math.PI / 6);
+function faceEnds(radius, centreDeg, half) {
+  const t = Math.tan(half * Math.PI / 180) / Math.tan(30 * Math.PI / 180);
+  const mid = polar(radius * INRADIUS, centreDeg);
+  const v0 = polar(radius, centreDeg - 30), v1 = polar(radius, centreDeg + 30);
+  return { a: { x: mid.x + (v0.x - mid.x) * t, y: mid.y + (v0.y - mid.y) * t },
+           b: { x: mid.x + (v1.x - mid.x) * t, y: mid.y + (v1.y - mid.y) * t } };
+}
+function facePath(radius, centreDeg, half, ratio = 1) {
+  const { a, b } = faceEnds(radius, centreDeg, half);
+  const k = Math.max(0, Math.min(1, ratio));
+  const e = { x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k };
+  return `M ${round2(a.x)} ${round2(a.y)} L ${round2(e.x)} ${round2(e.y)}`;
+}
 
 // Own-ship observations carry shields[]; raw engine ships do not. Accept both.
 export function shieldFaces(ship) {
@@ -98,8 +120,8 @@ function faceGroup(face, { nebula, accent }) {
   const title = `Face ${face.face} · ${FACE_NAMES[face.face]} · ${format(face.remaining)} / ${format(face.capacity)} · cost ${format(face.powerPerDamage)} P per damage`;
   return `<g class="face-arc${face.down ? " face-down" : ""}" data-face="${face.face}">`
     + `<title>${escapeHTML(title)}</title>`
-    + `<path d="${arcPath(RING, from, to)}" fill="none" stroke="${BASE_TRACK}" stroke-width="${RING_WIDTH}"/>`
-    + (ratio > 0 && !face.down ? `<path d="${arcPath(RING, from, from + (to - from) * ratio)}" fill="none" stroke="${valueColour}" stroke-width="${RING_WIDTH}"/>` : "")
+    + `<path d="${facePath(RING, centre, half)}" fill="none" stroke="${BASE_TRACK}" stroke-width="${RING_WIDTH}"/>`
+    + (ratio > 0 && !face.down ? `<path d="${facePath(RING, centre, half, ratio)}" fill="none" stroke="${valueColour}" stroke-width="${RING_WIDTH}"/>` : "")
     + `<text x="${at.x}" y="${at.y}" text-anchor="middle" dominant-baseline="middle" font-size="20" font-weight="bold" fill="${nebula ? "#6d7c84" : face.down ? ERROR : INK}">${escapeHTML(label)}</text>`
     + `</g>`;
 }

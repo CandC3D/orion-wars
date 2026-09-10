@@ -78,7 +78,7 @@ check('hidden worlds serialize identically; no raw battle, pack, objectives or R
   assert.equal(canonicalJSON(captainObservation(b,'A')), before);
   enemy.cloaked = false; enemy.superstructure = enemy.superstructureMax;
   const contact = captainObservation(b,'A').contacts[0];
-  assert.deepEqual(Object.keys(contact).sort(), ['className','facing','faction','id','observedDamage','pos']);
+  assert.deepEqual(Object.keys(contact).sort(), ['className','facing','faction','id','observedDamage','pos']);   // unnamed fleet: no vesselName key at all
   assert.equal(captainObservation, sideView);
 });
 check('contacts belong to observer; sensors/damage, scan, loss, destruction and public terrain', () => {

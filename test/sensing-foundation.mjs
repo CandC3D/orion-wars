@@ -253,7 +253,7 @@ check('hidden-state differential worlds; strict allowlist, frozen queries, deter
   for (const mutate of mutations) { mutate(w.b); equal(snapshot(O.sideView(w.battle, 'A')), first); }
   w.b.pos = { q: 6, r: 0 };
   const view = O.sideView(w.battle, 'A');
-  equal(Object.keys(view.contacts[0]).sort(), ['className','facing','faction','id','observedDamage','observers','pos']);
+  equal(Object.keys(view.contacts[0]).sort(), ['className','facing','faction','id','observedDamage','observers','pos']);   // unnamed fleet
   equal(view.contract, O.SENSING_OBSERVATION_VERSION); equal(view.sensing, S.DEFAULT_SENSING_PROFILE);
   equal(view.execution, 'engine-proof');
   equal(snapshot(view).includes('private-pack'), false); equal(snapshot(view).includes('secret-name'), false);

@@ -229,6 +229,11 @@ export function currentContacts(battle, side) {
     if (!observers.length) continue;
     observers.sort((a, b) => compareId(a.observerId, b.observerId));
     reports.push({ id: target.id, faction: target.faction, className: target.className,
+      // RULING (Chris, 10 September 2026): sensors can read the names of opposing ships. A hull
+      // number is painted on the hull, and a sensor good enough to call the class can read it. It
+      // discloses nothing tactical - not damage, not loadout, not a position the report does not
+      // already carry - and it turns an enemy line from four Destroyer 02s into a fleet.
+      ...(target.vesselName ? { vesselName: structuredClone(target.vesselName) } : {}),
       pos: { q: target.pos.q, r: target.pos.r }, facing: target.facing,
       observedDamage: observedDamage(target, Math.max(...observers.map(o => o.rating))),
       ...(shieldReading(battle, side, target.id) ? { shields: shieldReading(battle, side, target.id) } : {}),
