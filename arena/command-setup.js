@@ -68,6 +68,10 @@ export async function installCommandSetup(){
       // a caller, and it decides yes. It was briefly a checkbox on this screen, which was wrong
       // twice over: a vessel name changes nothing, so offering it as a setting implies consequences
       // it does not have, and a form control is the opposite of the instrument direction.
-      return bounded({mode:mode(),side:$('#command-side').value,scenario,nameShips:true});
+      // Crews are drawn at random for each new engagement (Chris, 10 September: "random is my wish");
+      // Restart replays the same setup, so it keeps the same crews. An explicit seed reproduces the
+      // whole engagement, names included.
+      const nameSeed=$('#command-seed').value||[...crypto.getRandomValues(new Uint32Array(2))].map(n=>n.toString(36)).join('-');
+      return bounded({mode:mode(),side:$('#command-side').value,scenario,nameShips:true,nameSeed});
     }};
 }

@@ -2274,7 +2274,10 @@ export function createBattle(scenario, tuning, loadouts, seed, options = {}) {
   battle.scenario = scenario;
   battle.seed = seed;
   // Explicit register data is the opt-in. No field (even null) is added to unnamed battles.
-  if (options.shipNames) for (const fleet of battle.fleets) nameShips(fleet, seed ?? 'orion', options.shipNames);
+  // Names are dealt from their own seed when the caller supplies one (Fleet Command draws a fresh
+  // one per engagement, so crews differ game to game), else from the battle seed. Either way the
+  // registers never touch the battle PRNG: the names change, the fight does not.
+  if (options.shipNames) for (const fleet of battle.fleets) nameShips(fleet, options.nameSeed ?? seed ?? 'orion', options.shipNames);
   if (built.warnings?.length) battle.warnings = [...built.warnings];
   return battle;
 }

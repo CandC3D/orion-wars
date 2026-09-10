@@ -219,6 +219,23 @@ check('PLAY names both commanded sides only on explicit opt-in, including determ
   assert.ok(zan.session.view().observation.own.every(s => !Object.hasOwn(s, 'vesselName')));
 });
 
+check('each engagement draws its own crews from a name seed, and the fight is identical whatever it is', () => {
+  // Chris, 10 September: "random is my wish". Fleet Command passes a fresh nameSeed per engagement.
+  const stripNames = value => JSON.stringify(value, (key, v) => key === 'vesselName' ? undefined : v);
+  const s = scenario('EAR', 'KRE'), names = b => b.fleets.flat().map(x => x.vesselName?.full ?? '').join('|');
+  const seeds = ['alpha', 'bravo', 'charlie', 'delta', 'echo'], battles = seeds.map(nameSeed => battleFor(s, { shipNames: registers, nameSeed }));
+  assert.ok(new Set(battles.map(names)).size >= 4, 'five name seeds should give (nearly) five different crews');
+  assert.equal(names(battleFor(s, { shipNames: registers, nameSeed: 'alpha' })), names(battles[0]), 'the same name seed is the same crew');
+  const bare = battleFor(s);
+  for (const b of battles) { assert.equal(b.rng.state, bare.rng.state); assert.equal(stripNames(fullState(b)), JSON.stringify(fullState(bare))); }
+  const input = { mode: 'bundled', side: 'A', scenario: scenario(), nameShips: true }, options = { shipNames: registers };
+  const crew = seed => createCommandSession({ ...input, nameSeed: seed }, tuning, loadouts, options).session.view().observation.own.map(x => x.vesselName.full).join('|');
+  assert.equal(crew('x1'), crew('x1'), 'Restart replays the setup, so it keeps its crew');
+  assert.ok(['x2', 'x3', 'x4', 'x5'].some(k => crew(k) !== crew('x1')));
+  for (const bad of [{ nameSeed: '' }, { nameSeed: 7 }, { nameSeed: 'x'.repeat(65) }, { nameShips: false, nameSeed: 'x' }])
+    assert.throws(() => createCommandSession({ ...input, ...bad }, tuning, loadouts, options), /Invalid command setup/, JSON.stringify(bad));
+});
+
 check('register metadata and names are plain ASCII, populated and deduplicated within each class', () => {
   assert.doesNotMatch(read('data/ship-names.json'), /[^\x09\x0a\x0d\x20-\x7e]/);
   for (const [faction, r] of Object.entries(registers)) {
