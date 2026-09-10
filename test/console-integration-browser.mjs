@@ -52,7 +52,7 @@ try{
   assert.match(await page.locator('#power-well').textContent(),/cannon 0/);
   assert.match(await page.locator('.lamp-spinal title').textContent(),/COLD/);
   const before=(await frame()).observation.own.find(s=>s.id===gun).pos;
-  await page.locator('[data-assign=move]').click(); // one hex ahead
+  await page.locator('[data-assign=move]').click();await page.locator('[data-helm=forward-inc]').click(); // one hex ahead; Maneuver starts as a turn in place (10 Sept)
   assert.match(await page.locator('#power-well').textContent(),/helm [1-9]/);
   await execute();let own=(await frame()).observation.own.find(s=>s.id===gun);
   assert.deepEqual(own.pos,{q:before.q+1,r:before.r});assert.equal(own.spinal.charge,0);pass('Cold gunstar moves from real helm key; power forecast includes helm');
@@ -63,7 +63,7 @@ try{
   await execute();own=(await frame()).observation.own.find(s=>s.id===gun);
   assert.equal(own.spinal.charge,20);assert.match(await page.locator('#spinal-control').textContent(),/IMMOBILE.*CHARGING/s);
   await fit('1440-charging');pass('Prepare reaches resolver; charging lock and post-bank reserve agree');
-  await page.locator('[data-spinal=vent]').click();await page.locator('[data-assign=move]').click();await page.locator('[data-helm=port]').click();
+  await page.locator('[data-spinal=vent]').click();await page.locator('[data-assign=move]').click();await page.locator('[data-helm=port]').click();await page.locator('[data-helm=forward-inc]').click();
   assert.match(await page.locator('#power-well').textContent(),/cannon 0/);
   const chargedPos=own.pos;await execute();own=(await frame()).observation.own.find(s=>s.id===gun);
   assert.equal(own.spinal.charge,0);assert.equal(own.spinal.cooldown,2);assert.notDeepEqual(own.pos,chargedPos);

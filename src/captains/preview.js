@@ -38,7 +38,7 @@ export function previewContactOrders(observation, shipId, order) {
   // a possibility rather than a fact.
   const captain = own.captain ?? null;
   delete ship.captain;                        // belt and braces: the ceiling pass must never consult him
-  const appraised = captain ? observation.contacts.map(c => appraiseContact(c, observation.rules.hullPoints)) : null;
+  const appraised = captain ? observation.contacts.filter(c => !c.destroyed).map(c => appraiseContact(c, observation.rules.hullPoints)) : null;
   const declared = [];
   // A direct order overrules the captain for this turn. His objection is still declared, because
   // being overruled is exactly the case where the player most wants to have seen it first.
@@ -67,7 +67,7 @@ export function previewContactOrders(observation, shipId, order) {
   // The captain keeps his own cursor through the plan. Once he has held a ship short, every later
   // action starts from where HE will be, not from where the ceiling says the hull could have got to.
   let shadowShip = captain ? { ...structuredClone(ship), captain, insistThisTurn: insist } : null;
-  const contacts = observation.contacts.map(c => ({ ...structuredClone(c), destroyed: false, cloaked: false }));
+  const contacts = observation.contacts.filter(c => !c.destroyed).map(c => ({ ...structuredClone(c), destroyed: false, cloaked: false }));
   const actions = [], route = [{ ...ship.pos, facing: ship.facing, round: 0 }];
   let unknownPosition = !!(ship.cloaked || ship.decloaking || ship.squadrons);
   for (let i = 0; i < accepted.plan.length; i++) {
@@ -113,8 +113,8 @@ export function previewContactOrders(observation, shipId, order) {
     } else if (kind === 'scan') notes.push(`Scan face ${entry.scan}; no movement or mount fire. New contacts cannot be predicted.`);
     else notes.push('Hold & fire: weapon expenditure is not deducted from this movement ceiling.');
     const mounts = own.mounts.map(m => ({ id: m.id,
-      contacts: unknownPosition || kind !== 'hold' || m.inop || ship.destroyed ? [] : contacts.filter(c => !publicWeaponGeometry(ship, m, c, tuning)).map(c => c.id),
-      status: m.inop ? 'Offline' : ship.destroyed ? 'Destroyed' : unknownPosition ? 'Unresolved' : kind !== 'hold' ? 'Action reserved' : 'Geometry only; readiness, spending and contacts may change'
+      contacts: unknownPosition || kind !== 'hold' || m.inop || ship.destroyed || accepted.mountOrders?.[m.id] === 'hold' ? [] : contacts.filter(c => !publicWeaponGeometry(ship, m, c, tuning)).map(c => c.id),
+      status: m.inop ? 'Offline' : ship.destroyed ? 'Destroyed' : accepted.mountOrders?.[m.id] === 'hold' ? 'Holding fire' : unknownPosition ? 'Unresolved' : kind !== 'hold' ? 'Action reserved' : 'Geometry only; readiness, spending and contacts may change'
     }));
     const end = unknownPosition ? null : { ...ship.pos, facing: ship.facing };
     if (end) route.push({ ...end, round, waypoint: true, kind });

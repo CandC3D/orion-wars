@@ -197,6 +197,9 @@ check('Flight is RNG-free, callbacks own their data, previews are read-only and 
   const orders={[a.a.id]:plans.a,[a.b.id]:plans.b};
   stepTurn(a.battle,orders);stepTurn(b.battle,orders,{onShot:e=>{if(e.flight)e.flight.path.length=0;},onRound:(_t,_r,_f,missiles)=>{if(missiles.length)missiles[0].flight.path[0].pos.q=999;}});
   assert.deepEqual(fullState(a.battle),fullState(b.battle));
+  // The new public course is visible for a current launcher contact only.
+  // Hide it before varying its geometry for the information-boundary proof.
+  a.a.cloaked=true;
   const baseline=JSON.stringify(captainObservation(a.battle,'B'));
   a.battle.inFlight[0].flight.position.q+=123;a.battle.inFlight[0].flight.path[0].pos.q+=321;
   assert.equal(JSON.stringify(captainObservation(a.battle,'B')),baseline);

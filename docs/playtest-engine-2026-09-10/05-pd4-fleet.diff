@@ -1,0 +1,86 @@
+diff --git a/docs/playtest-engine-2026-09-10/00-baseline-fleet.log b/docs/playtest-engine-2026-09-10/05-pd4-fleet.log
+index 7209213..8c8cdaf 100644
+--- a/docs/playtest-engine-2026-09-10/00-baseline-fleet.log
++++ b/docs/playtest-engine-2026-09-10/05-pd4-fleet.log
+@@ -3,53 +3,53 @@ Reference fleet (52 pts): 1 CA + 2 CL + 2 DD + 4 FF
+ 
+ Pairing        A wins   B wins   draws   avg turns
+ ----------------------------------------------------
+-EAR v VRA      39%      61%      0%   15.2
+-EAR v ZAN      40%      60%      0%   7.1
+-EAR v KRE      42%      57%      1%   11.6
+-VRA v ZAN      37%      63%      0%   8.8
+-VRA v KRE      69%      31%      0%   17.2
+-ZAN v KRE      72%      28%      0%   9.0
++EAR v VRA      34%      66%      0%   15.6
++EAR v ZAN      26%      74%      0%   7.6
++EAR v KRE      46%      53%      1%   12.1
++VRA v ZAN      39%      61%      0%   9.2
++VRA v KRE      74%      26%      0%   17.1
++ZAN v KRE      74%      26%      0%   9.1
+ 
+ Overall win rate at 52 points
+ ----------------------------------------------------
+-Zandrax Horde         64.8%  ##########################
+-Vraygon Star Realm    55.6%  ######################
+-Earth Federation      40.2%  ################
+-Krelath Empire        38.8%  ################
++Zandrax Horde         69.5%  ############################
++Vraygon Star Realm    59.7%  ########################
++Earth Federation      35.2%  ##############
++Krelath Empire        35.1%  ##############
+ 
+ Balance across scenario size
+ ----------------------------------------------------
+ points      EAR    VRA    ZAN    KRE   spread
+ 4           54%    39%    40%    60%   21pp
+-18          45%    57%    79%    19%   61pp
+-32          58%    34%    41%    64%   29pp
+-52          41%    59%    62%    37%   25pp
+-68          33%    26%    79%    61%   53pp
+-132         55%    20%    73%    52%   52pp
++18          41%    59%    79%    21%   58pp
++32          59%    41%    43%    55%   18pp
++52          37%    62%    68%    33%   36pp
++68          31%    27%    78%    63%   52pp
++132         51%    20%    71%    57%   51pp
+ (100 mirrored pairs per pairing at each size)
+ 
+ Maneuver index — share of hits landing on flank/rear faces
+ ----------------------------------------------------
+ points      EAR    VRA    ZAN    KRE
+ 4            4%    40%    73%    35%
+-18           9%    15%    20%    38%
+-32          22%    24%    23%    21%
+-52          37%    17%    43%    40%
+-68          24%    19%    32%    38%
+-132         20%    21%    26%    34%
++18           8%    16%    20%    38%
++32          23%    24%    25%    21%
++52          39%    18%    43%    40%
++68          25%    20%    33%    38%
++132         20%    22%    26%    35%
+ 
+ Concentration of force — equal points, different shapes
+ ----------------------------------------------------
+ (Earth Federation on both sides, 52 points each)
+ 
+                 1BB+2CL 3CA+2FF 5CL+1FF   13 DD 16FF+5D 1BB+2DD 2CA+2DD    line
+-1BB+2CL            -        12%     15%     31%     51%     55%     18%     19%
+-3CA+2FF             88%    -        28%     70%     82%     70%     12%      8%
+-5CL+1FF             85%     73%    -        76%     23%     61%     13%      8%
+-13 DD               69%     31%     25%    -         3%     28%      7%     15%
+-16FF+5DD            50%     19%     78%     98%    -        35%     20%     47%
+-1BB+2DD+6FF         44%     30%     39%     72%     66%    -        43%     38%
+-2CA+2DD+6FF         82%     89%     87%     94%     80%     57%    -        35%
+-line                82%     93%     92%     85%     53%     62%     64%    -   
++1BB+2CL            -        17%     20%     31%     55%     49%     20%     20%
++3CA+2FF             83%    -        28%     62%     75%     54%      7%      6%
++5CL+1FF             81%     72%    -        73%     18%     64%      5%      6%
++13 DD               70%     38%     27%    -         4%     40%     13%     20%
++16FF+5DD            46%     25%     83%     97%    -        39%     20%     47%
++1BB+2DD+6FF         51%     47%     37%     60%     61%    -        44%     37%
++2CA+2DD+6FF         80%     93%     96%     87%     80%     56%    -        44%
++line                80%     95%     95%     80%     54%     64%     56%    -   
+ 
+ Row beats column, as a percentage. 52 points a side throughout.

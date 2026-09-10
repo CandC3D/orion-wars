@@ -331,7 +331,7 @@ const assert = (condition, message) => { if (!condition) throw new Error(message
       `side ${["A", "B"][index]} must field exactly one ${protectedClass} to protect`);
   });
   const savedFeatured = scenarioForSave(featuredScenario);
-  assert(savedFeatured.maxTurns === 12 && savedFeatured.victory?.type === "flagship"
+  assert(savedFeatured.maxTurns === 20 && savedFeatured.victory?.type === "flagship"
     && savedFeatured.tutorial?.steps?.length === featuredScenario.tutorial.steps.length
     && savedFeatured.tutorial.steps.length > 0,
     "scenario save dropped featured mission metadata");

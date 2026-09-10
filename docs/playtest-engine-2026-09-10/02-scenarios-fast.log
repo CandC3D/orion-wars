@@ -1,0 +1,35 @@
+
+== Strategic campaign ==
+War complete: 48 turns, seed "four-powers-phase-1"
+Contested worlds held: EAR 0, VRA 0, ZAN 0, KRE 0
+Fleets on map: 307; build jobs pending: 1
+  EAR treasury: 13 pts
+  VRA treasury: 14 pts
+  ZAN treasury: 20 pts
+  KRE treasury: 8 pts
+DETERMINISM OK: replay of seed + order log reproduces the war exactly
+SAVE/LOAD OK: mid-war round-trip is lossless and playable
+DETERRENCE OK: no foreign fleets in any home sphere
+
+== Tactical invariants ==
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: scenario maximum turn count did not reach the battle engine
+
+20 !== 12
+
+    at file:///C:/Users/chorr/Documents/ds-work/playtest-engine/test/tactical-invariants.js:105:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 20,
+  expected: 12,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

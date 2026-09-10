@@ -1,0 +1,48 @@
+diff --git a/docs/playtest-engine-2026-09-10/09-mount-key-fix-fast.log b/docs/playtest-engine-2026-09-10/10-extended-fast.log
+index 244e4eb..74122c3 100644
+--- a/docs/playtest-engine-2026-09-10/09-mount-key-fix-fast.log
++++ b/docs/playtest-engine-2026-09-10/10-extended-fast.log
+@@ -100,7 +100,7 @@ ok: legacy profile remains map-wide and executable, unchanged observation versio
+ {
+   "suite": "C1a acquisition foundation",
+   "groups": 13,
+-  "assertions": 3590,
++  "assertions": 3598,
+   "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+   "execution": "Host-only C1b engine proof; default game, human presentation and independent C1 acceptance unchanged"
+ }
+@@ -253,7 +253,7 @@ ok: terminal projection carries verdict without hidden survivor totals, raw scor
+   "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine",
+   "pass": true,
+   "groups": 10,
+-  "assertions": 118,
++  "assertions": 126,
+   "checks": [
+     {
+       "name": "side frames have no hidden ship or engineering even when hidden worlds differ; pure frozen queries"
+@@ -741,6 +741,25 @@ ok: Viewer tracks use recorded vertices, keep partial flights unfinished and pre
+   ]
+ }
+ 
++== September playtest engine orders, torpedoes, wrecks and events ==
++ok: Turn-after is strict and exclusive of scan/warp; invalid packets do not advance or draw
++ok: Turn-after moves on the old heading, rotates on arrival, and agrees with both previews
++ok: Clamps, blocked endpoints, planted keels and bursts retain the end turn
++ok: Mount orders validate contact and mount identities, preserve the packet and reject atomically
++ok: Beams and tubes split targets; held mounts spend no power, rounds or magazine
++ok: An illegal mount target falls back to the ship target, then doctrine; a lost contact is never fired on
++ok: Keel mount assignment overrides ship target and light-target discipline, while hold preserves the bank
++ok: Mount holds expire with the packet; empty and absent mount maps produce identical full state
++ok: Torpedoes expose only the own/visible-launcher course, follow homing, and leave warnings unchanged
++ok: Visible losses persist as immutable wrecks, reject targets/appraisal, and reach the tape by vessel name
++ok: Unseen destruction discloses neither identity, position, wreck nor tape; own loss survives last-observer death
++ok: Scan-visible cloaked destruction is remembered after lock revocation; mere contact loss is not death
++ok: Explosion victims and burst-stress deaths use the same observed destruction boundary
++ok: PD radius four is inclusive; one pooled draw names the living uncloaked defenders and spends no weapons
++ok: Enemy PD names require current contacts; hidden defenders cannot leak through an outgoing interception
++ok: Trusted replay preserves new orders, all combat state, flight state and seeded draws
++Playtest engine: 16 groups passed.
++
+ == Command station contracts ==
+ Command station contracts passed: 29 legal hulls; 6012 mount/heading/bearing cases; forecast, damage and RNG isolation.
+ 

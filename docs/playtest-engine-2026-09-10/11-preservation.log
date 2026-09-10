@@ -1,0 +1,9 @@
+{
+  "baseline": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\.tmp-playtest\\pre-mount",
+  "pass": true,
+  "battles": 144,
+  "executions": 288,
+  "turns": 1543,
+  "rounds": 4529,
+  "comparison": "Byte comparison of JSON for complete ship/PRNG/missile/lock/shield/stats/result state, per-round states, shots and narrative. Only additive wreckedTurn, wrecks and defenderIds removed."
+}

@@ -65,6 +65,9 @@ check('all 29 V1 and V2 hulls expose accurate own weapons, reactors and six shie
       assert.deepEqual(own.cores.map(x => [x.power,x.alive]), live.cores.map(x => [x.power,x.alive]));
       assert.deepEqual(b.A[0], original); assert.equal(b.rng.state, rng);
       assert.ok(Object.isFrozen(own.shields)); assert.notEqual(own.pos, live.pos);
+      const mountOrders=Object.fromEntries(own.mounts.map(m=>[String(m.id),'hold']));
+      assert.equal(validateOrders(view,{[live.id]:{...allHoldOrders(view)[live.id],mountOrders}}).ok,true,
+        `${f}/${c}: numeric legacy and string design mount identities must both validate`);
     }
   }
   assert.equal(hulls,29);
@@ -80,6 +83,19 @@ check('hidden worlds serialize identically; no raw battle, pack, objectives or R
   const contact = captainObservation(b,'A').contacts[0];
   assert.deepEqual(Object.keys(contact).sort(), ['className','facing','faction','id','observedDamage','pos']);   // unnamed fleet: no vesselName key at all
   assert.equal(captainObservation, sideView);
+  // Wrecks have their own exact allowlist; the live report above is unchanged.
+  for (const named of [false,true]) {
+    const w=pair(),victim=w.B[0];
+    if(named)victim.vesselName={full:'ISS Remembered'};
+    victim.superstructure=1;victim.power=0;
+    w.tuning.pointDefence.maxChance=0;w.tuning.screening.maxChance=0;w.tuning.explosion.enabled=false;
+    w.inFlight.push({side:'A',shooterId:w.A[0].id,shooterPos:{...w.A[0].pos},targetId:victim.id,damage:100000,spread:0});
+    stepTurn(w);
+    const wreck=sideView(w,'A').contacts[0];
+    assert.deepEqual(Object.keys(wreck).sort(),['className','destroyed','facing','faction','id','pos',...(named?['vesselName']:[]),'wreckedTurn'].sort());
+    assert.equal(wreck.destroyed,true);assert.equal(wreck.wreckedTurn,1);
+    assert.equal(sideView(w,'B').own[0].wreckedTurn,1);
+  }
 });
 check('contacts belong to observer; sensors/damage, scan, loss, destruction and public terrain', () => {
   const b = pair(); b.A[0].hull = { ...b.A[0].hull, sensorRating: 3 };

@@ -13,6 +13,9 @@ const { reticleMarkup } = await mod('arena/contact-reticle.js');
 const { debrisVariant, debrisMarkup, DEBRIS_VARIANTS } = await mod('arena/contact-debris.js');
 const { readinessChanges } = await mod('arena/weapon-readiness.js');
 const { DIRS } = await mod('src/tactical/hex.js');
+const { torpedoMarkup, torpedoSummary } = await mod('arena/contact-torpedoes.js');
+const { mountAssignment, setMountAssignment, pruneMountOrders, mountSolutions } = await mod('arena/mount-orders-ui.js');
+const { announcement } = await mod('arena/contact-effects.js');
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('ok:', name); };
@@ -120,6 +123,84 @@ check('but a gun that fired last turn and is ready this turn is not', () => {
 check('a destroyed ship reports nothing coming back', () => {
   const after = own({ state: 'ready', charge: 40 }, false); after.own[0].destroyed = true;
   assert.deepEqual(readinessChanges(own({ state: 'charging', charge: 20 }, false), after), []);
+});
+
+// ---------------------------------------------------------------- "torpedoes remain on the map"
+const tView = torpedoes => ({ own: [{ id: 'A-1', pos: { q: 0, r: 0 }, facing: 0, destroyed: false }],
+  contacts: [{ id: 'B-1', pos: { q: 6, r: 0 }, facing: 3, vesselName: { full: 'IKS Honor' } },
+    { id: 'B-2', pos: { q: 9, r: 2 }, facing: 3, destroyed: true, wreckedTurn: 2 }], torpedoes, incoming: torpedoes.filter(t => t.direction === 'incoming') });
+
+check('a torpedo in flight stands where the engine says it is, aimed at its target', () => {
+  const svg = torpedoMarkup(tView([{ id: 'm1', targetId: 'B-1', direction: 'outgoing', arrival: 'before-next-refill', launchPos: { q: 0, r: 0 }, pos: { q: 3, r: 0 } }]), { project, scale: PITCH, icon: 30 });
+  assert.equal((svg.match(/class="torpedo"/g) || []).length, 1);
+  assert.match(svg, /translate\(300\.0 0\.0\) rotate\(0\.0\)/, 'at its fractional hex, pointing along +q at the target');
+  assert.match(svg, /IKS Honor/);
+  assert.ok(!/NaN/.test(svg));
+});
+
+check('an incoming torpedo whose launcher is unseen gets a warning on its target, never a track', () => {
+  const svg = torpedoMarkup(tView([{ id: 'm2', targetId: 'A-1', direction: 'incoming', arrival: 'before-next-refill' },
+    { id: 'm3', targetId: 'A-1', direction: 'incoming', arrival: 'before-next-refill' }]), { project, scale: PITCH, icon: 30 });
+  assert.equal((svg.match(/class="torpedo"/g) || []).length, 0, 'no invented position');
+  assert.equal((svg.match(/class="torpedo-warning"/g) || []).length, 1, 'one warning per threatened hull');
+  assert.match(svg, /2 incoming torpedoes/);
+  assert.match(torpedoSummary(tView([{ id: 'm2', targetId: 'A-1', direction: 'incoming' }])), /1 incoming/);
+});
+
+check('a salvo on one course is drawn once, with its count', () => {
+  const salvo = ['a', 'b', 'c'].map(id => ({ id, targetId: 'B-1', direction: 'outgoing', launchPos: { q: 0, r: 0 }, pos: { q: 2.5, r: 0 } }));
+  const svg = torpedoMarkup(tView(salvo), { project, scale: PITCH, icon: 30 });
+  assert.equal((svg.match(/class="torpedo"/g) || []).length, 1);
+  assert.match(svg, /data-count="3"/); assert.match(svg, /×3/);
+});
+
+// ---------------------------------------------------------------- "per weapon target / hold fire"
+const gun = { id: 'A-1', pos: { q: 0, r: 0 }, facing: 0, destroyed: false, power: 20, reserve: 0,
+  mounts: [{ id: 1, kind: 'beam', type: 'laser', arc: [1, 2, 6], maxRange: 8, bands: [{ to: 8 }], weapon: { maxPower: 5 } },
+    { id: 2, kind: 'beam', type: 'laser', arc: [1, 2, 6], maxRange: 8, bands: [{ to: 8 }], weapon: { maxPower: 5 } }] };
+const fireView = { ...tView([]), terrain: [], map: { widthHexes: 40, heightHexes: 30 }, rules: { terrain: {}, movement: { sameHexNoFire: true } } };
+
+check('an assignment is stored under the mount id, and clearing the last one removes the field', () => {
+  const order = { plan: [], target: 'auto', reserve: .3 };
+  setMountAssignment(order, 1, 'hold'); setMountAssignment(order, 2, 'B-1');
+  assert.deepEqual(order.mountOrders, { 1: 'hold', 2: 'B-1' });
+  assert.equal(mountAssignment(order, 2), 'B-1');
+  setMountAssignment(order, 1, 'auto'); setMountAssignment(order, 2, null);
+  assert.ok(!('mountOrders' in order), 'an empty object would still be sent');
+});
+
+check('an assignment the engine would refuse is pruned before it is sent', () => {
+  const order = { mountOrders: { 1: 'B-2', 2: 'B-gone', 9: 'hold' } };
+  pruneMountOrders(order, gun, fireView);
+  assert.ok(!('mountOrders' in order), 'a wreck, a lost track and an unknown mount are all dropped');
+  const kept = { mountOrders: { 1: 'hold', 2: 'B-1' } };
+  assert.deepEqual(pruneMountOrders(kept, gun, fireView).mountOrders, { 1: 'hold', 2: 'B-1' });
+});
+
+check('each mount reports against ITS target: held, locked on its own, or following the ship', () => {
+  const sol = mountSolutions(gun, { target: 'auto', mountOrders: { 1: 'hold', 2: 'B-1' } }, fireView, 20);
+  assert.equal(sol.get(1).short, 'HOLD FIRE');
+  assert.equal(sol.get(2).short, 'TARGET LOCKED'); assert.equal(sol.get(2).targetName, 'IKS Honor'); assert.equal(sol.get(2).assigned, true);
+  const follow = mountSolutions(gun, { target: 'auto' }, fireView, 20);
+  assert.equal(follow.get(1).state, 'none', 'no priority and no assignment: nothing claimed');
+});
+
+// ---------------------------------------------------------------- the tape
+check('a kill is news on the tape, and so is a loss', () => {
+  const a = announcement({ kind: 'destruction', shipId: 'B-1', name: 'IKS Honor', own: false, turn: 3 }, {});
+  assert.equal(a.title, 'Enemy vessel destroyed'); assert.match(a.detail, /IKS Honor/); assert.equal(a.weight, 'major');
+  assert.equal(announcement({ kind: 'destruction', shipId: 'A-1', name: 'ISS Guardian', own: true }, {}).title, 'Own vessel lost');
+});
+
+check('point defence names the hulls that stopped the torpedo', () => {
+  const a = announcement({ kind: 'missile', outcome: 'intercepted', direction: 'incoming', shooterId: 'B-1', targetId: 'A-1',
+    defenders: [{ shipId: 'A-2', name: 'ISS Guardian' }] }, { label: id => id });
+  assert.match(a.detail, /stopped by ISS Guardian point defence/);
+});
+
+check("a captain's objection reads as his, not as a beam shot from nowhere", () => {
+  const a = announcement({ kind: 'captain', shipId: 'A-1', rule: 'will-not-close', reason: 'Capt. Ridley will not close with a heavier ship', held: 1, of: 3 }, { label: () => 'ISS Resolute' });
+  assert.match(a.title, /held short \(1 of 3 hex\)/); assert.match(a.detail, /Capt\. Ridley/); assert.ok(!/Unknown source/.test(a.detail));
 });
 
 console.log(`\nPlaytest console: ${passed} checks passed.`);

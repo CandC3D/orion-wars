@@ -116,3 +116,4 @@
 .playback-controls { display:inline-flex; gap:6px; margin-left:8px; }
 #playback-pause[aria-pressed=true] { background:var(--accent); color:#06121a; border-color:var(--accent); }
 @media (prefers-reduced-motion: reduce) { #contact-map #fx-live * { animation:none!important; } }
+[data-weapon-label][data-fire-state="hold"] text { fill:#ffafa2; }

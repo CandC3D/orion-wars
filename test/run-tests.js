@@ -31,6 +31,7 @@ const tests = [
   ["Authored scenario warnings and deployment boundaries", "scenario-rulings.mjs"],
   ["Unused laser overcharge metadata removal", "overcharge-cleanup.mjs"],
   ["Timed missile homing and recorded approach geometry", "missile-homing.mjs"],
+  ["September playtest engine orders, torpedoes, wrecks and events", "playtest-engine.mjs"],
   ["Command station contracts", "command-station.js"],
   ["Tactical correctness regressions", "tactical-corrections.js"],
   ["AI movement and warp endpoints", "ai-endpoints.js"],

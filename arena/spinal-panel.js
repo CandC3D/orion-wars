@@ -10,7 +10,8 @@ export function spinalPanel(ship,order,view,enabled){
   const projected=structuredClone(ship);projected.power=ship.fullPower;
   const next=offline?'Weapon unavailable.':advanceManualSpinal(projected,w,order?.spinal);
   const reserve=Math.round(projected.power*(order?.reserve??.3));
-  const contacts=view.contacts.map(c=>({...c,destroyed:false,cloaked:false}));
+  // Live reports only: a wreck carries destroyed:true and must never be rebuilt as a target.
+  const contacts=view.contacts.filter(c=>!c.destroyed).map(c=>({...c,destroyed:false,cloaked:false}));
   const tuning={battle:{terrain:view.terrain,terrainRules:view.rules.terrain,sameHexNoFire:view.rules.movement.sameHexNoFire}};
   const target=contacts.find(c=>c.id===order?.target);
   const legal=m?contacts.filter(c=>!publicWeaponGeometry(ship,m,c,tuning)):[];

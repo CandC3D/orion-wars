@@ -62,7 +62,8 @@ const C = {
 // Pointy-top axial, +x east, y down: direction d points at -d * 60 degrees.
 const OFFSET_OF_FACE = { 2: 0, 1: 1, 6: 2, 5: 3, 4: 4, 3: 5 };
 
-const NO_EFFECT_KINDS = new Set(['contact-acquired', 'contact-lost']);
+// Tape records with no picture of their own: reports, officers' objections, losses, readiness.
+const NO_EFFECT_KINDS = new Set(['contact-acquired', 'contact-lost', 'captain', 'destruction', 'weapon-ready']);
 
 // ---------------------------------------------------------------- helpers
 
@@ -768,6 +769,22 @@ export function announcement(event, options) {
     };
   }
 
+  if (event.kind === 'destruction') {
+    // Chris, 10 September: "enemy destruction is not in the game log". The engine names only what
+    // was being observed when the fatal hit landed; an unseen kill is never reported here.
+    const who = event.name || nameOf(event.shipId, label) || 'Unknown vessel';
+    return event.own
+      ? { title: 'Own vessel lost', detail: who, weight: 'major' }
+      : { title: 'Enemy vessel destroyed', detail: who, weight: 'major' };
+  }
+  if (event.kind === 'captain') {
+    // The reason is already a sentence in the captain's name ("Capt. Ridley will not close ...").
+    const who = nameOf(event.shipId, label) || 'Own vessel';
+    const title = event.insisted ? 'Direct order obeyed under protest'
+      : Number.isFinite(event.held) ? `Captain held short (${event.held} of ${event.of} hex)` : "Captain's decision";
+    return { title, detail: who + ' · ' + (event.reason || event.rule || 'no reason given'), weight: event.insisted ? 'minor' : 'major' };
+  }
+
   const shooter = nameOf(event.shooterId, label) || 'Unknown source';
   const target = nameOf(event.targetId, label) || 'Unknown recipient';
 
@@ -797,7 +814,10 @@ export function announcement(event, options) {
     weight = 'minor';
   }
 
-  const detail = shooter + ' → ' + target + ' · outcome ' + outcome;
+  // Point defence names its batteries (Chris, 10 September), but only hulls this side can see.
+  const guards = outcome === 'intercepted' && Array.isArray(event.defenders) && event.defenders.length
+    ? ' · stopped by ' + event.defenders.map(d => d.name || nameOf(d.shipId, label) || d.shipId).join(', ') + ' point defence' : '';
+  const detail = shooter + ' → ' + target + ' · outcome ' + outcome + guards;
   return { title, detail, weight };
 }
 
