@@ -59,6 +59,10 @@ export function sideView(battle, side) {
         terrainShadow: true, lockOwnership: 'acquiring-observer',
         ai: 'action-3-if-no-legal-shot; known-contact-centroid-sector-else-forward'
       } } : {}),
+      // The umbrella radius is a public rule, like the arcs and the to-hit table: the engine pools
+      // every friendly point-defence hull within it against an incoming round, and a player who
+      // cannot see it cannot position for cover on purpose.
+      pointDefence: pick(battle.tuning.pointDefence, ['rangeHexes','chancePerPoint','maxChance']),
       hullPoints: Object.fromEntries(Object.entries(battle.tuning.hullClasses ?? {}).map(([k, v]) => [k, v.points])),
       captainProfiles: profilesFrom(battle.tuning),
       reserveBasis: 'post-refill-and-automatic-draws', damageDetail: 'sensor-rating-1-condition-2-brackets-3-intervals' },

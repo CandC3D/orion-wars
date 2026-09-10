@@ -172,16 +172,34 @@ check('opted-in names change only vesselName in full recorded states and leave t
   }
 });
 
-check('own observations clone vesselName; enemy contacts do not disclose it', () => {
+check('sensors read an opposing name, and clone it rather than share it', () => {
+  // RULING CHANGE, Chris, 10 September 2026. This check previously asserted the opposite - that a
+  // contact never discloses a vessel name - which was the cautious default and not a decision.
+  // Sensors can read the names of opposing ships: a hull number is painted on the hull, and a
+  // sensor good enough to call the class can read it. It discloses nothing tactical, and it turns
+  // an enemy line from four Destroyer 02s into a fleet.
   const battle = battleFor(scenario(), { shipNames: registers });
   enableContacts(battle, { profile: SENSING_PROFILE });
   const view = sideView(battle, 'A'), own = view.own[0], ship = battle.A.find(s => s.id === own.id);
   assert.deepEqual(own.vesselName, ship.vesselName);
-  assert.notEqual(own.vesselName, ship.vesselName);
+  assert.notEqual(own.vesselName, ship.vesselName, 'own reading is a copy');
   assert.ok(Object.isFrozen(own.vesselName));
-  assert.ok(view.contacts.every(c => !Object.hasOwn(c, 'vesselName')));
+  const named = view.contacts.filter(c => c.vesselName);
+  assert.ok(named.length, 'a named enemy fleet must report its names');
+  for (const c of named) {
+    const target = battle.B.find(s => s.id === c.id);
+    assert.deepEqual(c.vesselName, target.vesselName);
+    assert.notEqual(c.vesselName, target.vesselName, 'and the contact carries a copy, never the ship own object');
+    assert.ok(Object.isFrozen(c.vesselName));
+  }
+  // What a name must NOT drag along with it: the disclosure is the name and nothing else.
+  for (const c of view.contacts)
+    for (const leak of ['points', 'superstructure', 'superstructureMax', 'power', 'mounts', 'captain', 'displayName'])
+      assert.ok(!Object.hasOwn(c, leak), `a contact must not disclose ${leak}`);
   const bare = battleFor(scenario()); enableContacts(bare, { profile: SENSING_PROFILE });
   assert.ok(sideView(bare, 'A').own.every(s => !Object.hasOwn(s, 'vesselName')));
+  assert.ok(sideView(bare, 'A').contacts.every(c => !Object.hasOwn(c, 'vesselName')),
+    'an unnamed fleet still adds no key at all');
 });
 
 check('PLAY names both commanded sides only on explicit opt-in, including deterministic restarts', () => {

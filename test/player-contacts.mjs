@@ -33,7 +33,7 @@ check('side frames have no hidden ship or engineering even when hidden worlds di
   equal(a.observation.contacts,[]);ok(!JSON.stringify(b).includes('PRIVATE'));ok(!JSON.stringify(b).includes('B-other'));
   equal(a.result,null);equal(Object.keys(a).sort(),['format','maxTurns','observation','phase','result','round','turn']);
   const enemy=world(),frame=P.playerFrame(enemy.battle,'A');
-  equal(Object.keys(frame.observation.contacts[0]).sort(),['className','facing','faction','id','observedDamage','observers','pos']);
+  equal(Object.keys(frame.observation.contacts[0]).sort(),['className','facing','faction','id','observedDamage','observers','pos']);   // unnamed fleet
   ok(!('power' in frame.observation.contacts[0]));ok(!('design' in frame.observation.contacts[0]));
 });
 check('event projection omits hidden launch positions, victim faces, flight paths and raw damage',()=>{

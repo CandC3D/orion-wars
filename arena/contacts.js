@@ -10,6 +10,7 @@ import { createPlayback } from './contact-playback.js';
 import { weaponArcMarkup, weaponRangeKey, batteryArcMarkup, batteryRangeKey } from './contact-weapon-arcs.js';
 import { DIRS, distance } from '../src/tactical/hex.js';
 import { movementRange, movementRangeMarkup } from './contact-movement-range.js';
+import { pointDefenceMarkup, pointDefenceUmbrellas, pointDefenceKey } from './contact-point-defence.js';
 import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
@@ -410,6 +411,10 @@ function drawMap() {
   $('#movement-range-caption').textContent=movement?(movement.label||movement.reason):'';
   $('#movement-range-caption').title=movement?.reason||'';
   if(movement)svg+=movementRangeMarkup(own,movement,xy);
+  // Every own umbrella, always - not just the selected hull's. The hulls that carry no point
+  // defence are exactly the ones whose cover the player needs to see.
+  const umbrellas=pointDefenceUmbrellas(view.own,view.rules.pointDefence?.rangeHexes);
+  svg+=pointDefenceMarkup(view.own,{project:xy,rangeHexes:view.rules.pointDefence?.rangeHexes,selectedId:own?.id??null});
   const shownMount=own?.mounts.find(m=>m.id===state.mount);
   $('#range-summary').textContent=(shownMount?`ONE mount ${shownMount.id} · ${shownMount.displayName||shownMount.type.replaceAll('-',' ')} · ${shownMount.kind} · ${shownMount.maxRange} hex · Range bands`:'WHOLE battery · blue beams / amber missiles / violet spinal · Weapons & ranges')+(mapCells.length>6000?' · zoom in for coverage':'');
   if(own&&order&&editable()&&!own.destroyed){
@@ -426,7 +431,7 @@ function drawMap() {
     const budget=Math.max(0,p.pool-p.charge-(p.helm??0)-p.reserve);
     solutions=batterySolutions(own,preferredContact,view,budget);
   }
-  $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own,solutions))+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
+  $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own,solutions))+pointDefenceKey(own,umbrellas)+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
   if(mapCells.length<=6000)svg+=shownMount?weaponArcMarkup(own,shownMount,{project:xy,scale,cells:mapCells}):batteryArcMarkup(own,{project:xy,scale,cells:mapCells});
   if(own&&!own.destroyed){
     const a=xy(own.pos),d=DIRS[own.facing],b=xy({q:own.pos.q+d.q*.85,r:own.pos.r+d.r*.85});
