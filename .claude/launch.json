@@ -4,8 +4,20 @@
     {
       "name": "arena",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["scripts/serve.js"],
+      "runtimeArgs": [
+        "scripts/serve.js"
+      ],
       "port": 8642
+    },
+    {
+      "name": "arena-worktree",
+      "_note": "Port 8642 belongs to the play tree at Documents/triangle_campaign, which is served continuously and must not be taken over. A worktree session previewing its own changes needs its own port, or it will verify against the play tree and see nothing it just changed.",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "-e",
+        "process.env.PORT='8643';await import('./scripts/serve.js');"
+      ],
+      "port": 8643
     }
   ]
 }

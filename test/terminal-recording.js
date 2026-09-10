@@ -19,7 +19,7 @@ while(!b.done) {
 // for the exact historical result and the frame/callback count assertions.
 const exact=createBattle(scenario,t,l,scenario.seed);const exactFrames=[];let exactLast,exactCallbacks=0;
 while(!exact.done){exactLast=stepTurn(exact,frigateOrders(exact.turn),{onRound(){exactCallbacks++;}});exactFrames.push(...exactLast.rounds);}
-assert.equal(exact.result.turns,4);assert.equal(exact.result.victor,'A');assert.equal(exact.A[0].superstructure,3);
+assert.equal(exact.result.turns,4);assert.equal(exact.result.victor,'A');assert.equal(exact.A[0].superstructure,4); // 3 before the 2026-09-08 frigate structure amendment (8 -> 9 for Earth); turns, victor, callback and frame counts are unchanged by it
 assert.equal(exactCallbacks,9);assert.equal(exactFrames.length,10);
 assert.equal(exactLast.rounds.length,1);assert.equal(exactLast.rounds[0].phase,'impacts');assert.equal(exactLast.rounds[0].terminal,true);
 assert.equal(exactLast.rounds[0].turn,4);assert.equal(exactLast.rounds[0].round,1);

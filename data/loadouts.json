@@ -2544,8 +2544,12 @@
       "EAR/light-cruiser": 3,
    "VRA/battleship": 3,
       "VRA/destroyer": 3,
-      "VRA/heavy-cruiser": 3
+      "VRA/heavy-cruiser": 3,
+      "EAR/frigate": 3,
+      "KRE/frigate": 3,
+      "VRA/frigate": 3,
+      "ZAN/frigate": 3
     },
-    "amended": "2026-09-07"
+    "amended": "2026-09-08"
   }
 }

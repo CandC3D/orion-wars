@@ -477,8 +477,15 @@ function drawMap() {
   };
   for(const marker of layout.markers){
     const s=marker.ship,p=marker,isOwn=view.own.some(o=>o.id===s.id),selected=s.id===state.selected;
-    const art=icons[`${s.faction}/${s.className}`]?.file;
-    const symbol=art?`<image href="../assets/icons/${esc(art)}" x="${-icon/2}" y="${-icon/2}" width="${icon}" height="${icon}" transform="translate(${p.x} ${p.y}) rotate(${90-s.facing*60})" opacity="${s.destroyed?.4:1}"/>`:
+    // The map token takes the _map variant where one exists: same silhouette, no
+    // fold lines - invisible at 28px and roughly four times the file. Falls back to
+    // the console art for every class still on a placeholder.
+    const entry=icons[`${s.faction}/${s.className}`],art=entry?.mapFile??entry?.file;
+    // A framed glyph is traced to fill its viewBox, so class scale is not in the
+    // artwork and must be applied here. A placeholder already carries its own
+    // scale - the ladder is the manifest's own size values - so it is drawn as-is.
+    const artIcon=icon*(entry?.framed?(entry.size??1):1);
+    const symbol=art?`<image href="../assets/icons/${esc(art)}" x="${-artIcon/2}" y="${-artIcon/2}" width="${artIcon}" height="${artIcon}" transform="translate(${p.x} ${p.y}) rotate(${90-s.facing*60})" opacity="${s.destroyed?.4:1}"/>`:
       `<path d="M${-icon*.5},${-icon*.35}L${icon*.65},0L${-icon*.5},${icon*.35}L${-icon*.25},0Z" transform="translate(${p.x} ${p.y}) rotate(${-s.facing*60})" fill="${s.destroyed?'#63727a':isOwn?'#83c9e7':'#df9e66'}"/>`;
     const text=layout.labels.find(l=>l.id===s.id),b=text?.box;
     // Leaders and anchors are drawn but never capture pointer input, so a line crossing a neighbour's name cannot steal its click.

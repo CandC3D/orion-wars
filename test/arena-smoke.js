@@ -611,12 +611,21 @@ for (const [path, count] of Object.entries(totals).filter(([path]) => path !== "
   }
   arena.state.camera.zoom = oldZoom;
   const byKey = new Map();
-  for (const [key, entry] of arena.icons) byKey.set(entry.image.key, entry.size);
-  const shipDraws = run.draws.filter((d) => Math.abs(d.box - ICON_SPAN * geo.scale) < 1e-6);
-  assert(shipDraws.length, "no ship icon was drawn at the full hex box");
+  for (const [key, entry] of arena.icons) byKey.set(entry.image.key, entry);
+  // The rule under test is that no hull's artwork reaches past its hex edge.
+  // Two conventions now reach it. A placeholder is drawn in the full hex box
+  // with the class scale inside the artwork, so its ink is box * size. A framed
+  // v3 glyph fills its box and the BOX carries the scale, so its ink is the box.
+  // Both come to the same number; only the bookkeeping differs. The box a hull
+  // should occupy at this camera scale is therefore framed-aware, and matching
+  // it still restricts the check to unshrunk draws at this geo, as before.
+  const boxFor = (entry) => ICON_SPAN * geo.scale * (entry.framed ? (entry.size ?? 1) : 1);
+  const shipDraws = run.draws.filter((d) => byKey.has(d.key) && Math.abs(d.box - boxFor(byKey.get(d.key))) < 1e-6);
+  assert(shipDraws.length, "no ship icon was drawn at its hex box");
   for (const draw of shipDraws) {
-    const size = byKey.get(draw.key) ?? 1;
-    const reach = .5 * Math.hypot(draw.box * size, draw.box * size);
+    const entry = byKey.get(draw.key);
+    const ink = draw.box * (entry.framed ? 1 : (entry.size ?? 1));
+    const reach = .5 * Math.hypot(ink, ink);
     assert(reach <= HEX_INRADIUS * geo.scale + 1e-9,
       `an icon reaches ${reach.toFixed(2)}px from its hex centre, past the ${(HEX_INRADIUS * geo.scale).toFixed(2)}px edge`);
   }

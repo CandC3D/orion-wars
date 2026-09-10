@@ -7,7 +7,7 @@ import {enableContacts} from '../src/tactical/contacts.js';
 import {SENSING_PROFILE} from '../src/tactical/sensing.js';
 import {captainObservation} from '../src/captains/observation.js';
 import {previewContactOrders} from '../src/captains/preview.js';
-import {consolePower,schematicMarkup,headingRoseMarkup,powerBarMarkup,mountState,spinalReading} from '../arena/console-instruments.js';
+import {consolePower,schematicMarkup,headingRoseMarkup,powerBarMarkup,mountState,spinalReading,hullPlan,lampLayout} from '../arena/console-instruments.js';
 import {weaponLabelLayout} from '../arena/console-weapon-labels.js';
 import {intersects} from '../arena/contact-map-layout.js';
 const tuning=JSON.parse(fs.readFileSync('data/tactical-tuning.json')),loadouts=JSON.parse(fs.readFileSync('data/loadouts.json'));
@@ -61,4 +61,32 @@ assert.equal(consolePower({fullPower:20,power:20},order(),{actions:[{powerCeilin
 assert.equal(consolePower({fullPower:20,power:20},order(),{actions:[{powerCeiling:null}]}).helm,null);
 console.log(JSON.stringify({hulls,mounts,closeLamps},null,2));
 assert.deepEqual(closeLamps,[],'Mount hit centres must not cover another lamp centre');
-console.log('PASS owned instruments, power states, action-relative rose, all hulls and lamps');
+
+// HULL PLAN. The art and the turret lamps share one frame, so the numbers
+// below are what keep a mount authored in Drydock on the same part of the
+// hull in the console. The glyphs are generated with their ink at 96.3% of a
+// 100-unit viewBox, so ink height is predictable and everything follows from
+// it. Ring geometry: centre 150,150, radius 118, width 12 - inner edge 112.
+// Furniture: the BOW label ends at y 72, the keel-gun bar runs y 206 to 224.
+for (const [label, ship] of [["no keel gun", {}], ["keel gun", { spinal: { charge: 0 } }]]) {
+  const plan = hullPlan(ship);
+  const ink = plan.size * 0.963, halfInk = ink / 2;
+  assert.ok(plan.size > 120, `${label}: the plan must be larger than the fixed 120 box it replaced, got ${plan.size}`);
+  assert.ok(plan.cy - halfInk >= 72, `${label}: hull art runs under the BOW label`);
+  if (ship.spinal) assert.ok(plan.cy + halfInk <= 206, `${label}: hull art runs under the keel-gun bar`);
+  // Widest traced glyph is 58.5% of its viewBox, so the ink corners are the
+  // extremes; they must stay inside the ring rather than merely the centre.
+  const halfWide = plan.size * 0.585 / 2;
+  const corner = Math.hypot(halfWide, Math.abs(plan.cy - 150) + halfInk);
+  assert.ok(corner <= 112, `${label}: hull art reaches ${corner.toFixed(1)} past the ring at 112`);
+  // A mount at the bow tip lands on the bow, not beyond it.
+  assert.ok(Math.abs(plan.unit * 1.3 - halfInk) < 0.5,
+    `${label}: a mount at the hull extent must land on the hull edge`);
+  // Every lamp, hit circle included, stays inside the ring.
+  const far = lampLayout([{ position: { x: 2, y: 2 } }, { position: { x: -2, y: -2 } }], plan);
+  for (const lamp of far) {
+    const reach = Math.hypot(plan.cx + lamp.x - 150, plan.cy + lamp.y - 150) + 14;
+    assert.ok(reach <= 112 + 1e-9, `${label}: a clamped lamp reaches ${reach.toFixed(1)} past the ring at 112`);
+  }
+}
+console.log('PASS owned instruments, power states, action-relative rose, all hulls, lamps and the shared hull plan');
