@@ -90,9 +90,12 @@ function gunstar({ captain = null, damage = 0 } = {}) {
   const mine = buildShip("A-gunstar-battlecruiser-1", "EAR", "gunstar-battlecruiser", tune, L, rng);
   mine.pos = { q: 0, r: 0 }; mine.facing = 0;
   mine.spinal.state = "charging"; mine.spinal.charge = 40;
-  // startTurn rolls damageThisTurn into damageLastTurn, so set both: whichever side of that the
-  // engine is on when the captain is consulted, the ship has demonstrably just been hurt.
-  mine.damageThisTurn = mine.damageLastTurn = Math.round(mine.superstructureMax * damage);
+  // HULL ACTUALLY LOST, not incoming fire: a shield that held is not a reason to vent (Astra,
+  // 2026-09-09). startTurn rolls the this-turn counter into the last-turn one, so set both -
+  // whichever side of that roll the engine is on, the ship has demonstrably just been holed.
+  // NOTE: setting both is what MASKED the phase bug Astra found. The preview now takes the worse
+  // of the two rather than trusting either, and test/ship-command-preview.mjs pins that.
+  mine.hullLostThisTurn = mine.hullLostLastTurn = Math.round(mine.superstructureMax * damage);
   if (captain) mine.captain = captain;
   const theirs = buildShip("B-carrier-1", "KRE", "carrier", tune, L, rng);
   theirs.pos = { q: 10, r: 0 }; theirs.facing = 3;

@@ -108,7 +108,13 @@ export function refusesStep(ship, from, next, enemies, tuning) {
       // The admiral may insist, and then the ship closes anyway. It is still worth hearing what the
       // officer thought of it: an objection on the record is the difference between a crew that
       // obeys and a crew that agrees, and the campaign layer will want to know which this was.
-      protest: `${who}closes under protest: would not close ${grounds}`
+      protest: `${who}closes under protest: would not close ${grounds}`,
+      // And a third register, for a caller judging from a picture rather than from truth. The
+      // console must never put the flat sentence in front of a player: it reaches its verdict from
+      // contact reports, which can be wrong about the enemy, so what it can honestly report is that
+      // the captain MAY refuse. Reported by Astra 2026-09-09 - a promise the implementation cannot
+      // keep is not made honest by a certainty flag the player never sees.
+      possible: `${who}may refuse to close ${grounds}`
     };
   }
   return null;
@@ -134,14 +140,19 @@ export function ventsUnderFire(ship, tuning) {
   if (!mount || mount.inop) return null;
   const max = ship.superstructureMax ?? 0;
   if (!(max > 0)) return null;
-  const took = (ship.damageLastTurn ?? 0) / max;
+  // Hull actually lost, NOT incoming fire. Reported by Astra 2026-09-09: reading the incoming
+  // counter made a fully healthy hull vent a 40-point charge because one hit was absorbed, and
+  // then report "9% hull lost" on a ship at 53 of 53. The rule is about being killed sitting
+  // still, so a shield that held is not a reason to throw the charge away.
+  const took = (ship.hullLostLastTurn ?? 0) / max;
   if (took < threshold) return null;
   const who = name ? name + ' ' : '', grounds = `${Math.round(took * 100)}% hull lost while planted`;
   return {
     rule: 'breaks-charge',
     took,
     reason: `${who}breaks off the charge: ${grounds}`,
-    protest: `${who}holds the charge under protest: ${grounds}`
+    protest: `${who}holds the charge under protest: ${grounds}`,
+    possible: `${who}may break off the charge: ${grounds}`
   };
 }
 

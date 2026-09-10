@@ -14,7 +14,7 @@ const band = b => pick(b, ['to','damageBonus','toHitMod','damageMod']);
 function ownShip(s, tuning) {
   return {
     ...pick(s, ['id','faction','className','displayName','points','pos','facing','destroyed','superstructure','superstructureMax',
-      'power','reserve','magazine','movementPointRatio','impulse','movedThisTurn','damageThisTurn','damageLastTurn','cloaked','decloaking','emergencyUsed','warpedThisTurn','toHitPenalty','systems']),
+      'power','reserve','magazine','movementPointRatio','impulse','movedThisTurn','damageThisTurn','damageLastTurn','hullLostThisTurn','hullLostLastTurn','cloaked','decloaking','emergencyUsed','warpedThisTurn','toHitPenalty','systems']),
     fullPower: fullPower(s), ratedPower: ratedPower(s),
     specials:specialCapabilities(s,tuning),
     powerPhase: 'residual-before-arriving-missiles', refillIsForecast: true,

@@ -81,6 +81,13 @@ export function buildShip(id, faction, className, tuning, loadouts, rng, designP
     // --- per-turn bookkeeping ---
     movedThisTurn: 0,
     damageThisTurn: 0,
+    // Incoming fire and hull actually lost are DIFFERENT quantities and both are
+    // wanted. damageThisTurn is what the ship had to soak, and reserve doctrine
+    // is set against it. hullLostThisTurn is what got through, and a captain
+    // deciding whether he is being killed sitting still must read that one - a
+    // shield that held means he is not dying, however hard he was hit.
+    hullLostThisTurn: 0,
+    hullLostLastTurn: 0,
     damageLastTurn: 0,
     emergencyUsed: false,
     warpedThisTurn: false,
@@ -158,6 +165,8 @@ export function startTurn(ship, tuning) {
   // to absorb about 10 damage a turn and threw away nine tenths of it.
   ship.damageLastTurn = ship.damageThisTurn ?? 0;
   ship.damageThisTurn = 0;
+  ship.hullLostLastTurn = ship.hullLostThisTurn ?? 0;
+  ship.hullLostThisTurn = 0;
   ship.movedThisTurn = 0;
   ship.emergencyUsed = false;
   ship.warpedThisTurn = false;
@@ -220,6 +229,7 @@ export function applyDamage(ship, shieldNo, amount, tuning, rng, log, spread = 0
   if (remaining <= 0) return { absorbed: amount, internal: 0 };
 
   ship.superstructure -= remaining;
+  ship.hullLostThisTurn = (ship.hullLostThisTurn ?? 0) + remaining;
 
   // ONE damage-location roll per penetrating hit, whatever its size. A stream of
   // small penetrations therefore cripples systems a single heavy blow would not,

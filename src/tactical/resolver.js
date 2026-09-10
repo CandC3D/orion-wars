@@ -2089,8 +2089,12 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
   if (captainProtest && log) log(`${ship.id} captain: ${captainProtest.protest}`);
   let trimmed = false;
   while (steps.length && enemyAt(steps.at(-1).pos, foes, tuning)) { steps.pop(); trimmed = true; }
+  // A refusal is a different KIND of event from a clamp, and must not be swallowed by one.
+  // Reported by Astra 2026-09-09: with a picket in the next hex, occupancy trimming and the
+  // refusal were mutually exclusive, so a ship that stopped because of its captain was recorded
+  // as merely declining to end its move in an enemy's hex. Both are now reported.
+  if (captainStop && log) log(`${ship.id} captain: ${captainStop.reason}; held at ${steps.length} of ${forward+burst} hexes`);
   if (trimmed && log) log(`${ship.id} order clamped: will not end its move in an enemy's hex${stop ? ` (${stop} limits transit)` : ""}`);
-  else if (captainStop && log) log(`${ship.id} captain: ${captainStop.reason}; held at ${steps.length} of ${forward+burst} hexes`);
   else if (stop && log) log(`${ship.id} order clamped: ${stop} after ${steps.length} of ${forward+burst} hexes`);
   for (const step of steps) {
     ship.pos = step.pos;

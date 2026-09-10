@@ -8,7 +8,7 @@ const check = (name, fn) => { fn(); checks++; console.log('ok:', name); };
 const hex = (q, r) => ({ q, r });
 const ship = (over = {}) => ({
   id: 'own-1', points: 8, pos: hex(0, 0), superstructure: 20, superstructureMax: 50,
-  mounts: [{ kind: 'beam' }], damageLastTurn: 0, ...over
+  mounts: [{ kind: 'beam' }], damageLastTurn: 0, hullLostLastTurn: 0, ...over
 });
 const foe = (over = {}) => ({ id: 'foe-1', points: 12, pos: hex(6, 0), superstructure: 50, superstructureMax: 50, ...over });
 
@@ -81,7 +81,7 @@ check('a destroyed enemy is ignored', () => {
 const planted = (over = {}) => ship({
   spinal: { state: 'charging', charge: 40 },
   mounts: [{ kind: 'spinal' }],
-  damageLastTurn: 10,          // 20% of 50
+  hullLostLastTurn: 10,        // 20% of 50, ACTUALLY LOST - absorbed fire does not count
   ...over
 });
 
@@ -97,7 +97,14 @@ check('a cold bank is not planted, so there is nothing to break off', () => {
 });
 
 check('a ship taking light fire holds its charge', () => {
-  assert.equal(ventsUnderFire(planted({ damageLastTurn: 2 }), null), null);
+  assert.equal(ventsUnderFire(planted({ hullLostLastTurn: 2 }), null), null);
+});
+
+check('fire the shields absorbed is not a reason to throw the charge away', () => {
+  // Astra, 2026-09-09: reading the incoming-damage counter made a hull at 53 of 53 vent a
+  // 40-point charge because one hit was fully absorbed, and then report "9% hull lost".
+  // The rule is about being killed sitting still; a shield that held means nobody is dying.
+  assert.equal(ventsUnderFire(planted({ damageLastTurn: 40, hullLostLastTurn: 0 }), null), null);
 });
 
 check('a bold captain rides it out', () => {
@@ -113,7 +120,7 @@ check('a wrecked spinal mount is not a charge to break', () => {
 });
 
 check('a ship with no spinal is unaffected', () => {
-  assert.equal(ventsUnderFire(ship({ damageLastTurn: 30 }), null), null);
+  assert.equal(ventsUnderFire(ship({ hullLostLastTurn: 30 }), null), null);
 });
 
 // ---------------------------------------------------------------- the declaration
