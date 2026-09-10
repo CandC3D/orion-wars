@@ -62,7 +62,12 @@ export async function installCommandSetup(){
       }else{if(!imported)throw new Error('Choose a scenario file or read the editor handoff.');scenario=bounded(imported);}
       if($('#command-seed').value)scenario.seed=$('#command-seed').value;
       if(mode()!=='authored')scenario=pinStockRevisions(scenario,library());
-      return bounded({mode:mode(),side:$('#command-side').value,scenario,
-        ...($('#name-ships').checked?{nameShips:true}:{})});
+      // Vessels are always named. The engine's naming is opt-in and stays that way - it protects
+      // determinism and keeps a name out of the recorded state of battles nobody asked to name -
+      // but that opt-in belongs at the ENGINE boundary, where the caller decides. Fleet Command is
+      // a caller, and it decides yes. It was briefly a checkbox on this screen, which was wrong
+      // twice over: a vessel name changes nothing, so offering it as a setting implies consequences
+      // it does not have, and a form control is the opposite of the instrument direction.
+      return bounded({mode:mode(),side:$('#command-side').value,scenario,nameShips:true});
     }};
 }
