@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(process.argv.includes('--source') ? process.argv[process.argv.indexOf('--source') + 1] : fileURLToPath(new URL('../', import.meta.url)));
 const mod = p => import(pathToFileURL(path.join(root, p)));
-const { drawShipName, drawShipNames, nameShips } = await mod('src/tactical/ship-registry.js');
+const { drawShipName, drawShipNames, normaliseRegisters, nameShips } = await mod('src/tactical/ship-registry.js');
 const { registerSpace, drawCaptain } = await mod('src/tactical/captain-roster.js');
 const { makePrng, seedFromString } = await mod('src/prng.js');
 const { createBattle, createBattleFromFleets, buildScenario, stepTurn } = await mod('src/tactical/resolver.js');
@@ -23,7 +23,8 @@ const { buildShipNames, parseRegister } = await mod('scripts/build-ship-names.mj
 const read = p => fs.readFileSync(path.join(root, p), 'utf8');
 const tuning = JSON.parse(read('data/tactical-tuning.json'));
 const loadouts = JSON.parse(read('data/loadouts.json'));
-const registers = JSON.parse(read('data/ship-names.json')).registers;
+const nameFile = JSON.parse(read('data/ship-names.json'));
+const registers = nameFile.registers;
 const prefixes = { EAR: 'EDS', KRE: 'IKS', VRA: 'TWS' };
 const rosters = Object.entries(tuning.rosters).filter(([, roster]) => Array.isArray(roster));
 const fleet = (faction, className, n, prefix = 'S') => Array.from({ length: n }, (_, i) => ({ id: `${prefix}-${i}`, faction, className }));
@@ -277,5 +278,19 @@ for (const enabled of [false, true]) {
     assert.ok(messages[0].value.frame.observation.own.every(s => Object.hasOwn(s, 'vesselName') === enabled));
   });
 }
+
+
+check('either shape of register file is accepted, and an unusable one is refused', () => {
+  // A shape mismatch used to name NOTHING and say nothing: no error, no names, a silently unnamed
+  // fleet. That is the failure mode that looks exactly like a deploy that never shipped, and it
+  // cost Chris an evening on 10 September 2026.
+  const ships = [{ id: 'A-1', faction: 'EAR', className: 'frigate' }];
+  const whole = drawShipNames(ships, 7, nameFile);
+  const inner = drawShipNames(ships, 7, nameFile.registers);
+  assert.deepEqual(whole, inner, 'the whole file and its registers must draw the same');
+  assert.ok(whole['A-1'].full.startsWith('EDS '));
+  for (const bad of [null, undefined, {}, { registers: {} }, { EAR: {} }, 'nonsense'])
+    assert.throws(() => drawShipNames(ships, 7, bad), /unusable/, `${JSON.stringify(bad)} should be refused`);
+});
 
 console.log(`\nShip registry: ${passed} checks passed.`);

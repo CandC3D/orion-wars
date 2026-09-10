@@ -17,7 +17,20 @@ export function drawShipName(shipId, seed, faction, className, registers, { take
 // Call once per fleet. Dealing in id order makes array order irrelevant; one set per power
 // spans ALL classes, including Krelath's Ranger and Starwing entries in multiple registers.
 // Separate calls let opposing fleets of the same power reuse their navy's names independently.
-export function drawShipNames(ships, seed, registers) {
+// Accept either the whole data/ship-names.json or the registers inside it. Both callers in this
+// repo are correct today, but they disagree about which they hand over, and getting it wrong
+// produced NOTHING - no error, no names, a silently unnamed fleet. That is the failure mode that
+// costs an evening looking at a deploy and concluding it never shipped. Normalise, and refuse
+// loudly when a caller has asked for names and handed over nothing usable.
+export function normaliseRegisters(registers) {
+  const source = registers?.registers ?? registers;
+  if (!source || typeof source !== 'object' || !Object.values(source).some(r => r?.classes))
+    throw new Error('Ship name registers are unusable: expected data/ship-names.json or its registers object');
+  return source;
+}
+
+export function drawShipNames(ships, seed, input) {
+  const registers = normaliseRegisters(input);
   const out = {}, takenByFaction = new Map();
   for (const ship of [...(ships ?? [])].sort((a, b) => compareId(a.id, b.id))) {
     if (!ship?.id || !ship.faction || !ship.className) continue;
