@@ -2,9 +2,11 @@
 //
 //   THE BATTLE PRNG IS UNTOUCHED. If a draw advanced it, every roll after it would move and every
 //   recorded battle and the whole balance corpus would become unreproducible.
-//   A NAME CHANGES NOTHING. Commissioning a fleet assigns identity only; the drawn posture is the
-//   one an unofficered ship already behaves as, so naming is safe to look at before it is safe to
-//   act on.
+//   A NAME CHANGES NOTHING - BUT COMMISSIONING DOES. The drawn NAME moves no threshold, and that
+//   is all the original version of this file tested. Attaching the first captain RECORD arms every
+//   guarded rule on that hull, so a fleet's behaviour changes the moment it is officered. I claimed
+//   the opposite in writing until Astra reproduced it on 2026-09-09; the check below now proves the
+//   real thing, so nobody reads the neutral one as a licence to skip re-measuring balance.
 //
 // Optional --source reproduces the same assertions against a frozen candidate.
 import assert from 'node:assert/strict';
@@ -17,6 +19,10 @@ const mod = p => import(pathToFileURL(path.join(root, p)));
 const { drawCaptain, drawCaptains, commissionCaptains, registerSpace } = await mod('src/tactical/captain-roster.js');
 const { captainOf, DEFAULT_POSTURE } = await mod('src/tactical/ship-command.js');
 const { makePrng } = await mod('src/prng.js');
+const { buildShip } = await mod('src/tactical/ship.js');
+const { createBattleFromFleets, stepTurn } = await mod('src/tactical/resolver.js');
+const tuning = JSON.parse(fs.readFileSync(path.join(root, 'data/tactical-tuning.json'), 'utf8'));
+const loadouts = JSON.parse(fs.readFileSync(path.join(root, 'data/loadouts.json'), 'utf8'));
 const registers = JSON.parse(fs.readFileSync(path.join(root, 'data/captain-names.json'), 'utf8')).registers;
 
 let passed = 0;
@@ -101,11 +107,40 @@ check('two powers in one battle draw from their own registers and do not collide
   }
 });
 
-check('a drawn officer changes no behaviour, because posture is the standing default', () => {
+check('the NAME is neutral: it moves no threshold', () => {
+  // This is all the original version of this check tested, and I read far more into it than it
+  // says. A drawn officer takes the standing posture, so his profile is the default profile - but
+  // a ship with no record at all is not running the rules under a default profile, it is not
+  // running them. See the next check, which is the one that matters.
   const c = drawCaptain('A-1', 7, 'EAR', registers);
   assert.equal(c.posture, DEFAULT_POSTURE);
-  const withRecord = captainOf({ captain: c }, null), without = captainOf({}, null);
-  assert.deepEqual(withRecord.profile, without.profile, 'a name must not move a threshold');
+  assert.deepEqual(captainOf({ captain: c }, null).profile, captainOf({}, null).profile);
+});
+
+check('but COMMISSIONING changes behaviour, and saying otherwise was wrong', () => {
+  // Astra, 2026-09-09. I told Chris more than once that officers could be switched on and read
+  // before any ship behaved differently, and that no re-measurement was needed. That is false.
+  // Attaching the first record arms every guarded rule on that hull: standard posture still holds
+  // a hurt ship outside three hexes. The balance corpus must be re-measured before captains are
+  // switched on, and this check exists so nobody is comforted by the one above again.
+  const t = structuredClone(tuning), L = loadouts;
+  const run = commission => {
+    const tune = structuredClone(t), rng = makePrng(11);
+    tune.toHit.target = -100; tune.explosion.enabled = false;
+    const a = buildShip('A-1', 'EAR', 'light-cruiser', tune, L, rng);
+    const b = buildShip('B-1', 'KRE', 'heavy-cruiser', tune, L, rng);
+    a.pos = { q: 0, r: 0 }; a.facing = 0; a.superstructure = Math.round(a.superstructureMax * 0.3);
+    b.pos = { q: 6, r: 0 }; b.facing = 3; b.mounts = []; b.turnRate = 0;
+    if (commission) commissionCaptains([a], 7, registers);
+    const battle = createBattleFromFleets([[a], [b]], tune, rng, { terrain: [], maxTurns: 4 });
+    const idle = { turn: 0, forward: 0 };
+    stepTurn(battle, { 'A-1': { plan: [{ turn: 0, forward: 4 }, idle, idle], target: 'auto', reserve: 0 },
+      'B-1': { plan: [idle, idle, idle], target: 'auto', reserve: 1 } });
+    return a.movedThisTurn;
+  };
+  const bare = run(false), officered = run(true);
+  assert.equal(bare, 4, 'an unofficered hurt cruiser closes as ordered');
+  assert.ok(officered < bare, `commissioning must be visible in the outcome: ${officered} vs ${bare}`);
 });
 
 check('a posture can be asked for, per fleet or per ship', () => {
