@@ -1,0 +1,1129 @@
+
+== Strategic campaign ==
+War complete: 48 turns, seed "four-powers-phase-1"
+Contested worlds held: EAR 0, VRA 0, ZAN 0, KRE 0
+Fleets on map: 307; build jobs pending: 1
+  EAR treasury: 13 pts
+  VRA treasury: 14 pts
+  ZAN treasury: 20 pts
+  KRE treasury: 8 pts
+DETERMINISM OK: replay of seed + order log reproduces the war exactly
+SAVE/LOAD OK: mid-war round-trip is lossless and playable
+DETERRENCE OK: no foreign fleets in any home sphere
+
+== Tactical invariants ==
+Tactical invariants passed.
+
+== Captain foundation and measurement controls ==
+ok 1: all real factions/scales are cost-neutral; VRA option A is exactly 52
+ok 2: caller repricing, floors, limits and historical opt-in fail closed
+ok 3: all 29 V1 and V2 hulls expose accurate own weapons, reactors and six shields
+ok 4: hidden worlds serialize identically; no raw battle, pack, objectives or RNG
+ok 5: contacts belong to observer; sensors/damage, scan, loss, destruction and public terrain
+ok 6: real engine scan and evade hooks acquire and revoke an observer lock
+ok 7: empty/partial orders always cover every own living ship with fixed reserve
+ok 8: resource clamp is recorded; structural and hidden-target violations are atomic
+ok 9: strict JSON rejects coercion, getters, cycles, sparse arrays, pollution and byte overflow
+ok 10: resource exhaustion is clamped at real execution, not against stale residual power
+ok 11: null/throw/mutating controllers fault to hold, retaining isolated memory
+ok 12: both observations precede decisions; accepted packets reproduce full state/RNG/events every turn
+ok 13: corrupt packet resimulation fails before changing either side
+ok 14: contact tracking does not alter combat or consume RNG (12 seeded full-state controls)
+Captain foundation: 14 groups passed.
+
+== Captain identity, hull isolation and damaged sensor corrections ==
+ok: duplicate IDs rejected at session entry
+ok: direct packet replay rejects collisions before mutation
+ok: late identity corruption rejected before controller calls
+ok: ship hulls own independent nested data for all 29 legacy and pinned V1/V2 designs
+ok: healthy sensors acquire a real lock and inform automatic gunnery
+ok: disabled sensors cannot reveal a cloaked ship to global gunnery or the preview
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine",
+  "mode": "fixed-expectations",
+  "groups": 6,
+  "pass": true,
+  "rows": [
+    {
+      "name": "duplicate IDs rejected at session entry",
+      "rejected": true,
+      "additionalCases": 8
+    },
+    {
+      "name": "direct packet replay rejects collisions before mutation",
+      "rejected": true,
+      "oldFailure": "A movement overwritten by B hold"
+    },
+    {
+      "name": "late identity corruption rejected before controller calls",
+      "rejected": true,
+      "calls": 0
+    },
+    {
+      "name": "ship hulls own independent nested data for all 29 legacy and pinned V1/V2 designs",
+      "cases": 87,
+      "aliased": 0
+    },
+    {
+      "name": "healthy sensors acquire a real lock and inform automatic gunnery",
+      "globalDetected": true,
+      "locked": true,
+      "shots": 8,
+      "scanLogged": true,
+      "previewScans": true
+    },
+    {
+      "name": "disabled sensors cannot reveal a cloaked ship to global gunnery or the preview",
+      "globalDetected": false,
+      "locked": false,
+      "shots": 0,
+      "scanLogged": false,
+      "previewScans": false
+    }
+  ]
+}
+
+== Finite sensing acquisition foundation ==
+ok: approved table, all 29 stock designs, pinned copy and atomic profile validation
+ok: radius equality, just outside, omnidirectional translation/rotation and target heading independence
+ok: disabled and zero sensors cannot originate even same-hex contacts; ownership enforced
+ok: quality is per contact, not side-wide; damage downgrades, multiple observers, detached immutable output
+ok: bodies and all seven planet cells cast shadows; blocking fields include endpoints
+ok: either grazing cell blocks, independent of ray direction, rotation and translation
+ok: nebula first cell and three-hex limits, including intentional inside/outside asymmetry
+ok: scan locks belong to actual acquiring observers; no global detected shortcut or lock transfer
+ok: scan support revokes on range, damage, shadow, removal and uncloaking; reacquisition is explicit
+ok: active command-range/signature rules preserved, but ordinary passive signals ignore signature bonus
+ok: hidden-state differential worlds; strict allowlist, frozen queries, deterministic ordering and no RNG
+ok: restricted target validation and incoming warnings; omniscient preview still blocked
+ok: legacy profile remains map-wide and executable, unchanged observation version and structure
+{
+  "suite": "C1a acquisition foundation",
+  "groups": 13,
+  "assertions": 3598,
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+  "execution": "Host-only C1b engine proof; default game, human presentation and independent C1 acceptance unchanged"
+}
+
+== Finite sensing combat integration (host-only proof) ==
+ok: ordinary weapons require side support, including a blind receiver using another observer
+ok: range is finite and refreshed after real movement; a hidden selected target is not a firing oracle
+ok: shared contact does not waive shooter line of fire or nebula engagement limits
+ok: hidden hulls cannot start scripted keel charging; a supported legal ordered target still overrides doctrine
+ok: warp acquisition uses the same contacts; hidden endpoints remain physical occupancy
+ok: deck launch and raid acquisition ignore unsupported hulls
+ok: a real beam destruction removes the sole observer before subsequent gun decisions
+ok: normal beam damage disables spotting sensors before subsequent gun decisions
+ok: no-contact scripted search depends on public map geometry, not concealed positions
+ok: lock loss along a committed transit remains lost even after returning to range
+ok: free burst steps and a field warp landing revoke the acquiring observer contribution
+ok: missiles already launched still arrive after spotting sensors are lost
+ok: finite observations are simultaneous and accepted packets resimulate state, RNG, shots and contacts
+ok: contact observation callbacks are RNG-neutral and do not alias simulation state
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine",
+  "pass": true,
+  "groups": 14,
+  "assertions": 80,
+  "checks": [
+    {
+      "name": "ordinary weapons require side support, including a blind receiver using another observer"
+    },
+    {
+      "name": "range is finite and refreshed after real movement; a hidden selected target is not a firing oracle"
+    },
+    {
+      "name": "shared contact does not waive shooter line of fire or nebula engagement limits"
+    },
+    {
+      "name": "hidden hulls cannot start scripted keel charging; a supported legal ordered target still overrides doctrine"
+    },
+    {
+      "name": "warp acquisition uses the same contacts; hidden endpoints remain physical occupancy"
+    },
+    {
+      "name": "deck launch and raid acquisition ignore unsupported hulls"
+    },
+    {
+      "name": "a real beam destruction removes the sole observer before subsequent gun decisions"
+    },
+    {
+      "name": "normal beam damage disables spotting sensors before subsequent gun decisions",
+      "seed": 4,
+      "searchCap": 128,
+      "sensorHits": 5
+    },
+    {
+      "name": "no-contact scripted search depends on public map geometry, not concealed positions"
+    },
+    {
+      "name": "lock loss along a committed transit remains lost even after returning to range"
+    },
+    {
+      "name": "free burst steps and a field warp landing revoke the acquiring observer contribution"
+    },
+    {
+      "name": "missiles already launched still arrive after spotting sensors are lost"
+    },
+    {
+      "name": "finite observations are simultaneous and accepted packets resimulate state, RNG, shots and contacts",
+      "turns": 5,
+      "executions": 10
+    },
+    {
+      "name": "contact observation callbacks are RNG-neutral and do not alias simulation state"
+    }
+  ]
+}
+
+== Explicit sector scans and information-safe AI scan cadence ==
+ok: six single-sector actions at all six headings; no implicit omnidirectional scan
+ok: scan uses execution heading, consumes an action even with a legal shot, then enables later fire
+ok: executed scans obey exact range, passive cap, terrain shadow and nebula; power reserve is not a fee
+ok: observation and human plan expose finite Scan availability; legacy shape and warp:false stay strict
+ok: packet structural failures are atomic, face enums are never resource-clamped, valid faces roundtrip
+ok: refused direct and stale scans never fall through to movement, warp, fire or automatic helm
+ok: explicit reacquisition and independent observer ownership survive loss correctly
+ok: normal hostile fire disables the scanner and its later Scan actions refuse
+ok: AI scan cadence is action 3 only, ordered holds never auto-scan, hidden presence is not a trigger
+ok: action-3 firing legality includes magazine, power, offline state, spent mounts, geometry and keel readiness
+ok: AI selects from known reports rather than concealed centroid; a clear observer does not waive gun shadow
+ok: full accepted Scan packets resimulate without controller execution; observer callbacks are inert
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine",
+  "pass": true,
+  "groups": 12,
+  "assertions": 650,
+  "executions": 97,
+  "checks": [
+    {
+      "name": "six single-sector actions at all six headings; no implicit omnidirectional scan"
+    },
+    {
+      "name": "scan uses execution heading, consumes an action even with a legal shot, then enables later fire"
+    },
+    {
+      "name": "executed scans obey exact range, passive cap, terrain shadow and nebula; power reserve is not a fee"
+    },
+    {
+      "name": "observation and human plan expose finite Scan availability; legacy shape and warp:false stay strict"
+    },
+    {
+      "name": "packet structural failures are atomic, face enums are never resource-clamped, valid faces roundtrip"
+    },
+    {
+      "name": "refused direct and stale scans never fall through to movement, warp, fire or automatic helm"
+    },
+    {
+      "name": "explicit reacquisition and independent observer ownership survive loss correctly"
+    },
+    {
+      "name": "normal hostile fire disables the scanner and its later Scan actions refuse",
+      "seed": 1,
+      "searchCap": 128,
+      "sensorHits": 5
+    },
+    {
+      "name": "AI scan cadence is action 3 only, ordered holds never auto-scan, hidden presence is not a trigger"
+    },
+    {
+      "name": "action-3 firing legality includes magazine, power, offline state, spent mounts, geometry and keel readiness"
+    },
+    {
+      "name": "AI selects from known reports rather than concealed centroid; a clear observer does not waive gun shadow"
+    },
+    {
+      "name": "full accepted Scan packets resimulate without controller execution; observer callbacks are inert"
+    }
+  ]
+}
+
+== Player contact boundary, event-time projection and movement ceiling ==
+ok: side frames have no hidden ship or engineering even when hidden worlds differ; pure frozen queries
+ok: event projection omits hidden launch positions, victim faces, flight paths and raw damage
+ok: later contact acquisition never retroactively reveals an earlier shot; lost contacts carry no position
+ok: observation-only preview is invariant under hidden occupancy and engineering mutations
+ok: movement ceiling shares execution arithmetic for turn, terrain, edge, reserve and known endpoint controls
+ok: side-bound host rejects malformed orders atomically, fills own holds and never exposes battle methods
+ok: real Scan acquisition is stored at event time; safe transcript resists later world mutation
+ok: real observer destruction stops endpoint disclosure for the next mounts and reports loss without inferred death
+ok: instrumentation and player projection preserve full state, PRNG and results in finite and compatibility worlds
+ok: terminal projection carries verdict without hidden survivor totals, raw score or pending course
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine",
+  "pass": true,
+  "groups": 10,
+  "assertions": 126,
+  "checks": [
+    {
+      "name": "side frames have no hidden ship or engineering even when hidden worlds differ; pure frozen queries"
+    },
+    {
+      "name": "event projection omits hidden launch positions, victim faces, flight paths and raw damage"
+    },
+    {
+      "name": "later contact acquisition never retroactively reveals an earlier shot; lost contacts carry no position"
+    },
+    {
+      "name": "observation-only preview is invariant under hidden occupancy and engineering mutations"
+    },
+    {
+      "name": "movement ceiling shares execution arithmetic for turn, terrain, edge, reserve and known endpoint controls"
+    },
+    {
+      "name": "side-bound host rejects malformed orders atomically, fills own holds and never exposes battle methods"
+    },
+    {
+      "name": "real Scan acquisition is stored at event time; safe transcript resists later world mutation"
+    },
+    {
+      "name": "real observer destruction stops endpoint disclosure for the next mounts and reports loss without inferred death"
+    },
+    {
+      "name": "instrumentation and player projection preserve full state, PRNG and results in finite and compatibility worlds"
+    },
+    {
+      "name": "terminal projection carries verdict without hidden survivor totals, raw score or pending course"
+    }
+  ]
+}
+
+== Map shield arcs agree with the hex directions they cover ==
+ok: every own shield face is drawn on the bearing of the hex direction it covers
+ok: a scanned contact ring uses the same geometry as the own ring
+ok: the bow face leads the ship, at every heading and in every shape
+ok: the ring winds the same way the hex directions do
+ok: the hexagon lines up with the ship own hex cell
+ok: the bowed variant curves, and the flat one does not
+ok: every shape reports the same faces down, and only the shape changes
+ok: a partly spent face fills from its start, in every shape
+ok: the default shape is one the renderer actually knows
+
+Map shield arcs: 9 checks passed.
+
+== Point defence cover, and the schematic ring ==
+ok: the classes that carry none are the ones the whole feature is for
+ok: only living hulls that carry point defence project an umbrella
+ok: a hull with none is told what covers it, and what does not
+ok: a covering hull does not count itself twice
+ok: the overlay draws one hexagon per covering hull, and marks the selected one
+ok: nothing is drawn when nothing carries it, or the rule is missing
+ok: the key says the thing the player actually wants to know
+ok: the umbrella radius is published to the console as a rule
+ok: the console schematic draws its shield faces as hexagon flats
+
+Point defence cover: 9 checks passed.
+
+== Main Fleet Command setup, restricted sessions and map labels ==
+ok: All seven bundled scenarios launch under finite contacts from either commanded side
+ok: Host does not expose the battle; setup, tuning, library inputs and outputs are isolated
+ok: Quick fleets stay strict; authored floors warn without changing the roster; JSON flags cannot waive quick floors
+ok: Body deployment and impossible objectives remain hard errors; fields and fog are legal
+ok: Pinned custom arcs and positions reach own telemetry unchanged; restart is deterministic and never re-pins
+ok: Side B commands only side B, omitted ships hold, and a foreign order is atomically refused
+ok: Malformed host setup, unsafe JSON, huge boards and unknown policy reject before construction
+ok: Formation planning and camera/layout depend only on own telemetry and current reports
+Fleet Command: 8 groups passed.
+
+== Explicit warp and emergency burst commands ==
+ok: Explicit warp uses the same insertion, heading, cost and reserve-spending rules as automatic warp
+ok: Warp landing: enemy
+ok: Warp landing: moon
+ok: Warp landing: planet
+ok: Warp landing: asteroid
+ok: Warp landing: field
+ok: Warp landing: nebula
+ok: Warp landing: friendly
+ok: Warp target order is respected; a missing target never falls back to another enemy
+ok: Warp refusal: used
+ok: Warp refusal: power
+ok: Warp refusal: range
+ok: Warp refusal: gain
+ok: Warp refusal: near
+ok: Warp refusal: unsupported
+ok: Warp refusal: malformed
+ok: Real shared fleet quota applies to simultaneous ordered jumpers, not one allowance each
+ok: Burst adds chosen free hexes to paid movement, with exactly one stress and penalty debit
+ok: Burst path and zero-cost rule: power
+ok: Burst path and zero-cost rule: moon
+ok: Burst path and zero-cost rule: enemy-suffix
+ok: Burst path and zero-cost rule: paid-then-enemy
+ok: Burst path and zero-cost rule: transit
+ok: Burst path and zero-cost rule: field
+ok: Burst path and zero-cost rule: edge
+ok: Burst is once per turn, resets next turn, and death makes later forecast actions unavailable
+ok: Special actions never fire, including refused and turn-only actions
+ok: Captain validation clamps burst resources and rejects malformed or unsupported specials atomically
+ok: Reviewed special-proof captains produce reproducible packets; default pilot gate stays shut
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+  "passed": true,
+  "groups": 29,
+  "checks": [
+    "Explicit warp uses the same insertion, heading, cost and reserve-spending rules as automatic warp",
+    "Warp landing: enemy",
+    "Warp landing: moon",
+    "Warp landing: planet",
+    "Warp landing: asteroid",
+    "Warp landing: field",
+    "Warp landing: nebula",
+    "Warp landing: friendly",
+    "Warp target order is respected; a missing target never falls back to another enemy",
+    "Warp refusal: used",
+    "Warp refusal: power",
+    "Warp refusal: range",
+    "Warp refusal: gain",
+    "Warp refusal: near",
+    "Warp refusal: unsupported",
+    "Warp refusal: malformed",
+    "Real shared fleet quota applies to simultaneous ordered jumpers, not one allowance each",
+    "Burst adds chosen free hexes to paid movement, with exactly one stress and penalty debit",
+    "Burst path and zero-cost rule: power",
+    "Burst path and zero-cost rule: moon",
+    "Burst path and zero-cost rule: enemy-suffix",
+    "Burst path and zero-cost rule: paid-then-enemy",
+    "Burst path and zero-cost rule: transit",
+    "Burst path and zero-cost rule: field",
+    "Burst path and zero-cost rule: edge",
+    "Burst is once per turn, resets next turn, and death makes later forecast actions unavailable",
+    "Special actions never fire, including refused and turn-only actions",
+    "Captain validation clamps burst resources and rejects malformed or unsupported specials atomically",
+    "Reviewed special-proof captains produce reproducible packets; default pilot gate stays shut"
+  ]
+}
+
+== Keel-gun target obedience and whole-point shields ==
+ok: A legal selected picket overrides the heavier target and the capital-hold preference
+ok: A selected light target fires immediately even when no capital target is available
+ok: Automatic targeting still chooses the heaviest legal hull and holds for capitals as before
+ok: Invalid selected target retains legal doctrine fallback: missing
+ok: Invalid selected target retains legal doctrine fallback: friendly
+ok: Invalid selected target retains legal doctrine fallback: destroyed
+ok: Invalid selected target retains legal doctrine fallback: hidden
+ok: Invalid selected target retains legal doctrine fallback: arc
+ok: Invalid selected target retains legal doctrine fallback: range
+ok: Invalid selected target retains legal doctrine fallback: same-hex
+ok: Invalid selected target retains legal doctrine fallback: body
+ok: Invalid selected target retains legal doctrine fallback: nebula
+ok: An explicit target cannot bypass firing restrictions: charging
+ok: An explicit target cannot bypass firing restrictions: offline
+ok: An explicit target cannot bypass firing restrictions: cooldown
+ok: An explicit target cannot bypass firing restrictions: power
+ok: An explicit target cannot bypass firing restrictions: movement
+ok: Target obedience rotates with the ship and does not change canonical beam arcs
+ok: An omitted target on the following turn clears the previous target preference
+ok: V1: cap and power constrain whole-point absorption across fractional capacities and costs
+ok: V2: cap and power constrain whole-point absorption across fractional capacities and costs
+ok: Sub-point residual caps are not spendable and do not accumulate across hits or round resets
+ok: Down generators and shield bypass never spend power; fractional incoming damage is not rounded away
+ok: Command readouts and engineering forecasts share the absorption rule without rewriting authored values
+ok: An actual beam hit on a fractional shield uses the ruled absorption and preserves pinned recording values
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+  "expectOld": false,
+  "groups": 25,
+  "matrixCases": 1008,
+  "passed": true,
+  "checks": [
+    "A legal selected picket overrides the heavier target and the capital-hold preference",
+    "A selected light target fires immediately even when no capital target is available",
+    "Automatic targeting still chooses the heaviest legal hull and holds for capitals as before",
+    "Invalid selected target retains legal doctrine fallback: missing",
+    "Invalid selected target retains legal doctrine fallback: friendly",
+    "Invalid selected target retains legal doctrine fallback: destroyed",
+    "Invalid selected target retains legal doctrine fallback: hidden",
+    "Invalid selected target retains legal doctrine fallback: arc",
+    "Invalid selected target retains legal doctrine fallback: range",
+    "Invalid selected target retains legal doctrine fallback: same-hex",
+    "Invalid selected target retains legal doctrine fallback: body",
+    "Invalid selected target retains legal doctrine fallback: nebula",
+    "An explicit target cannot bypass firing restrictions: charging",
+    "An explicit target cannot bypass firing restrictions: offline",
+    "An explicit target cannot bypass firing restrictions: cooldown",
+    "An explicit target cannot bypass firing restrictions: power",
+    "An explicit target cannot bypass firing restrictions: movement",
+    "Target obedience rotates with the ship and does not change canonical beam arcs",
+    "An omitted target on the following turn clears the previous target preference",
+    "V1: cap and power constrain whole-point absorption across fractional capacities and costs",
+    "V2: cap and power constrain whole-point absorption across fractional capacities and costs",
+    "Sub-point residual caps are not spendable and do not accumulate across hits or round resets",
+    "Down generators and shield bypass never spend power; fractional incoming damage is not rounded away",
+    "Command readouts and engineering forecasts share the absorption rule without rewriting authored values",
+    "An actual beam hit on a fractional shield uses the ruled absorption and preserves pinned recording values"
+  ]
+}
+
+== Player-initiated spinal cycle, vent and restricted movement preview ==
+PASS cold near enemy stays mobile; preview and execution agree
+PASS explicit charge works without proximity; cold omission does not
+PASS one preparation continues, fires once at readiness, cools without rearming
+PASS charging prevents translation but allows turning; no hold-cold exploit
+PASS abort before action 1 allows turning away from a moon and movement; preview matches
+PASS repeated vent while cooling does not restart cooldown; cold vent has no cost
+PASS ready hold and vent costs, insufficient power, offline bank reset
+PASS strict validator preserves intent and rejects malformed whole decisions; direct refusal atomic
+PASS own-only indicators distinguish cold, active, queued abort and history-safe source values
+9 groups passed
+
+== Ship captain registers and the deterministic draw ==
+ok: every power in the register deals a titled officer
+ok: an unknown power draws nobody rather than inventing one
+ok: the same ship and seed always produce the same officer
+ok: a different seed produces a different wardroom
+ok: the draw never advances the battle generator
+ok: a fleet gets no two officers of the same name
+ok: a register that runs out keeps going with ordinals rather than repeating
+ok: the wardroom does not depend on the order the fleet is listed in
+ok: two powers in one battle draw from their own registers and do not collide
+ok: the NAME is neutral: it moves no threshold
+ok: but COMMISSIONING changes behaviour, and saying otherwise was wrong
+ok: a hull that plants itself gets an officer chosen for nerve
+ok: and an explicit posture still overrides the hull
+ok: a posture can be asked for, per fleet or per ship
+ok: drawing is pure; commissioning is the one line that attaches
+ok: the ids are stable and carry the power, for a campaign layer to inherit
+ok: every register is populated, titled and free of duplicates
+ok: the registers are plain ASCII, as ruled
+ok: the two peoples with family names combine; the two with one name do not
+ok: a combined draw takes each half from its own pool
+ok: the crossing is real: one pool alone does not decide the officer
+ok: a large fleet still fields no two officers of the same name
+ok: the named characters are not dealt out as ship captains
+ok: each register keeps its own morphology
+
+Captain roster: 24 checks passed.
+
+== Vessel registers, deterministic names and explicit PLAY opt-in ==
+ok: EAR: every roster class draws from its own source class with the correct prefix
+ok: VRA: every roster class draws from its own source class with the correct prefix
+ok: ZAN explicitly has no source register: every roster hull remains unnamed
+ok: KRE: every roster class draws from its own source class with the correct prefix
+ok: unknown powers, unmapped classes and absent or empty registers invent no names
+ok: same seed and hull give the same name; changing the seed changes the fleet
+ok: the hull id reaches the private stream and collisions probe forward exactly as captains do
+ok: the draw never advances the battle generator or changes its next value
+ok: every registered fleet has unique names across all classes, including Ranger and Starwing
+ok: small registers overflow with Roman ordinals, including beyond the tenth pass
+ok: each power draws from its own register in a mixed fleet
+ok: drawing is pure; nameShips attaches exactly the draw and preserves Drydock design names
+ok: shipLabel prefers the vessel without a hull number and retains existing unnamed labels
+ok: the default creation path adds no name field and matches fleet construction in fullState
+ok: opted-in names change only vesselName in full recorded states and leave the live PRNG untouched
+ok: sensors read an opposing name, and clone it rather than share it
+ok: PLAY names both commanded sides only on explicit opt-in, including deterministic restarts
+ok: register metadata and names are plain ASCII, populated and deduplicated within each class
+ok: generation reproduces the checked-in JSON and reports the one within-class duplicate
+ok: unrecognised class headings, empty classes and incomplete metadata fail loudly
+ok: a clean source copy rebuilds idempotently from any working directory, with no partial write on error
+ok: PLAY worker does not even load the register by default
+ok: PLAY worker loads and attaches names when requested
+ok: either shape of register file is accepted, and an unusable one is refused
+
+Ship registry: 24 checks passed.
+
+== Ship captains: the declared decision rules ==
+ok: an absent captain record is a standard posture, not an error
+ok: an unknown posture falls back to standard rather than throwing
+ok: tuning overrides a profile field without replacing the profile
+ok: a hurt ship refuses to close inside the line on a heavier intact enemy
+ok: a healthy ship closes without comment
+ok: a bold captain never refuses
+ok: a lighter enemy is not a reason to break off
+ok: an already-mauled enemy is not a reason to break off
+ok: opening the range is always allowed, even inside the line
+ok: manoeuvring at constant range inside the line is allowed
+ok: a destroyed enemy is ignored
+ok: a planted ship under fire breaks off the charge
+ok: a cold bank is not planted, so there is nothing to break off
+ok: a ship taking light fire holds its charge
+ok: fire the shields absorbed is not a reason to throw the charge away
+ok: a bold captain rides it out
+ok: a held ready bank counts as planted
+ok: a wrecked spinal mount is not a charge to break
+ok: a ship with no spinal is unaffected
+ok: the review declares the first refusal along the plan and stops there
+ok: a compliant plan declares nothing at all
+ok: both rules can fire on the same ship
+ok: identical inputs give byte-identical output
+ok: a review does not mutate the ship or the enemies it is given
+
+Ship captains: 24 checks passed.
+
+== Ship captains against the engine ==
+ok: without a captain record the ship closes as ordered, inside the line
+ok: a cautious captain holds outside his line and says so
+ok: a bold captain closes all the way and stays silent
+ok: a healthy ship under the same captain closes as ordered
+ok: an order that stops outside the line is obeyed in full
+ok: the scripted helm closes when nobody is on the bridge
+ok: the scripted helm obeys a captain too, and says so
+ok: and reports per round, not per branch the helm tried
+ok: a healthy unordered ship is not held back
+ok: a planted bank under heavy fire is vented by a captain, and reported
+ok: the same ship without a captain keeps charging into the fire
+ok: light damage is not a reason to throw the charge away
+
+Ship captains against the engine: 12 checks passed.
+
+== Ship captains declared before commitment ==
+ok: an unofficered ship declares nothing, and the forecast is untouched
+ok: a captain who has nothing to say leaves the forecast byte-identical
+ok: a refusal is declared before Execute, naming the officer and the reason
+ok: the declaration is what the engine then does
+ok: the forecast route stays an upper bound, not the shortened one
+ok: after holding short, later actions are judged from where he will be
+ok: a contact the sensors report as wrecked is not something to break off from
+ok: a coarse report is read generously, so the objection is raised rather than sprung
+ok: the appraisal reads the top of the interval and the class ladder
+ok: a planted bank without a captain stays planted, and the forecast says so
+ok: a captain who will vent frees the ship, and the forecast is corrected before Execute
+ok: a scratch is not a reason to throw the charge away, in the forecast or the engine
+ok: a direct order is obeyed, and the objection is still declared first
+ok: the engine obeys the direct order and logs the same protest
+ok: the objection is reported once, not once per refused step
+ok: a direct order keeps the charge, under protest, and the ship stays planted
+ok: insist is strict: omit it rather than saying no, and never insist at nobody
+ok: the bank is judged on the worse of the two turn counters, not on one of them
+ok: a captain-free route that dies cannot bound one that has a captain
+ok: a live range rule says so, because silence from it is not consent
+ok: a refusal reaches the RESTRICTED tape, not only the trusted log
+ok: and it names no enemy, because the rule is judged against ships the side cannot see
+ok: the other side hears nothing of it
+ok: an unofficered ship puts nothing on the tape
+ok: the declaration leaks nothing the plot does not already carry
+ok: the forecast is frozen and repeatable
+
+Captain declarations: 26 checks passed.
+
+== Per-mount fire solution against the preferred contact ==
+PASS a contact dead ahead and in range bears on a forward mount
+PASS a contact outside the arc reports NO ARC, in the engine's own words
+PASS a contact beyond reach reports RANGE
+PASS no preferred target yields no annotation at all
+PASS readiness beats geometry: a spent mount says so before any arc test
+PASS shot cost follows the engine: beam floor 1, tube powerToArm, cannon firePower
+PASS POWER appears only when the plan cannot afford one shot
+PASS the tuning rebuilt for geometry carries only observation-derived fields
+PASS the whole battery resolves, one entry per mount, never throwing
+Fire solution: 9 groups passed.
+
+== Enemy shield disclosure through a sector scan ==
+PASS a reported contact carries no shield reading until something sweeps it
+PASS a sweep of the arc the contact lies in discloses all six facings
+PASS a sweep of the wrong arc reads nothing
+PASS rating 3 gives points, rating 2 gives a band
+PASS the reading is current while planning the next turn, stale after that
+PASS a fresh sweep replaces a stale reading
+PASS the disclosure ladder reports a damaged face honestly
+PASS the reading discloses shields and nothing else
+Shield disclosure: 8 groups passed.
+
+== Terrain shadow for the selected hull ==
+PASS a board with no terrain casts no shadow at all
+PASS a planet casts a shadow, and the shadow lies behind it
+PASS the classification agrees with the engine, cell by cell
+PASS INVARIANT the cheap path depends on: fire-blocked implies sensor-blocked
+PASS a hull inside a nebula is blind almost everywhere
+PASS the cache returns the same verdicts and is keyed to the observing hex
+PASS the markup carries counts and never NaN
+Terrain shadow: 7 groups passed.
+
+== Playback presentation: launch departs, arrival lands ==
+PASS the torpedo never reaches its target during the launch
+PASS the aimed line is still drawn, so the shot has a stated destination
+PASS no arrival ring is drawn at the target by the launch
+PASS a launch with no disclosed destination still only drifts clear
+PASS the arrival is a separate, longer cue
+Playback presentation: 5 groups passed.
+
+== Authored scenario warnings and deployment boundaries ==
+ok: Strict core APIs and fleet builder still reject the floor
+ok: Warn mode retains an authored roster and reports the precise floor
+ok: JSON cannot select the host policy; unknown host modes fail closed
+ok: Warn mode never waives ship limits, faction roster, objective or pinned validation
+ok: Pinned V1 and V2 prices are used without rewriting either pack
+ok: Warnings survive engine, view, live recording and headless recording without aliases
+ok: Save / reload preserves content; policy and warnings are not persisted into scenario JSON
+ok: Valid scenarios produce byte-identical recordings in strict and warn modes (12 paired seeds)
+ok: Explicit, fallback and direct-fleet deployment: moon
+ok: Explicit, fallback and direct-fleet deployment: planet
+ok: Explicit, fallback and direct-fleet deployment: asteroid
+ok: Explicit, fallback and direct-fleet deployment: asteroids
+ok: Explicit, fallback and direct-fleet deployment: nebula
+ok: All seven planet cells reject deployment, not only its centre
+ok: Mixed deployment validates final positions, not overridden provisional ones
+ok: Direct-fleet validation uses the actual terrain source, including an explicit empty override
+ok: Validation neither spends random state nor rewrites authored content or tuning
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+  "mode": "fixed-expectations",
+  "pass": true,
+  "groups": 17,
+  "checks": [
+    "Strict core APIs and fleet builder still reject the floor",
+    "Warn mode retains an authored roster and reports the precise floor",
+    "JSON cannot select the host policy; unknown host modes fail closed",
+    "Warn mode never waives ship limits, faction roster, objective or pinned validation",
+    "Pinned V1 and V2 prices are used without rewriting either pack",
+    "Warnings survive engine, view, live recording and headless recording without aliases",
+    "Save / reload preserves content; policy and warnings are not persisted into scenario JSON",
+    "Valid scenarios produce byte-identical recordings in strict and warn modes (12 paired seeds)",
+    "Explicit, fallback and direct-fleet deployment: moon",
+    "Explicit, fallback and direct-fleet deployment: planet",
+    "Explicit, fallback and direct-fleet deployment: asteroid",
+    "Explicit, fallback and direct-fleet deployment: asteroids",
+    "Explicit, fallback and direct-fleet deployment: nebula",
+    "All seven planet cells reject deployment, not only its centre",
+    "Mixed deployment validates final positions, not overridden provisional ones",
+    "Direct-fleet validation uses the actual terrain source, including an explicit empty override",
+    "Validation neither spends random state nor rewrites authored content or tuning"
+  ]
+}
+
+== Unused laser overcharge metadata removal ==
+ok: Laser catalogue no longer advertises an unimplemented mode
+ok: All 29 stock packs, compiled V1/V2 definitions and built ships are identical
+ok: Authored weapons still reject an overcharge field rather than imply a new capability
+ok: Twelve paired six-turn controls retain full state, PRNG, events, logs and frames
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+  "mode": "cleaned",
+  "passed": true,
+  "groups": 4,
+  "checks": [
+    "Laser catalogue no longer advertises an unimplemented mode",
+    "All 29 stock packs, compiled V1/V2 definitions and built ships are identical",
+    "Authored weapons still reject an overcharge field rather than imply a new capability",
+    "Twelve paired six-turn controls retain full state, PRNG, events, logs and frames"
+  ]
+}
+
+== Timed missile homing and recorded approach geometry ==
+ok: A moving target is struck from the missile approach, not the launch hex; impact is next turn
+ok: Every launch action uses the remaining course samples plus one final impact leg
+ok: Real launches in A1, A2 and A3 arrive at the same next-turn IMPACTS phase, never early
+ok: Both stock missile families use the same timed course, without changing their own arming cost or damage
+ok: Recorded course vertices equal an independently recomputed weighted pursuit of each action-end target
+ok: Exact seam faces survive six rotations, translated launches and rational course positions
+ok: Moving or destroying the launcher after launch cannot change the final approach
+ok: A coincident impact uses the last nonzero approach, with launch heading only for a coincident launch
+ok: Screening uses the actual victim position and heading, preserving the intended target
+ok: Dedicated point defence rolls once at arrival and never consumes an anti-ship beam mount
+ok: Existing evasion and dead-target outcomes retain their priority and next-turn timing
+ok: Homing introduces no post-launch range, cloak, terrain-path or early interception check
+ok: Flight is RNG-free, callbacks own their data, previews are read-only and incoming warnings reveal no course
+ok: Trusted packets resimulate complete flight state, outcomes and PRNG without rerunning the captains
+ok: Interactive frames preserve engine course snapshots; headless records identify the additive flight profile
+ok: A terminal impact records the full course without inventing an extra action; arrival in fog bypasses shields
+ok: Viewer tracks use recorded vertices, keep partial flights unfinished and preserve legacy fallback
+{
+  "source": "C:\\Users\\chorr\\Documents\\ds-work\\playtest-engine\\",
+  "groups": 17,
+  "passed": true,
+  "checks": [
+    "A moving target is struck from the missile approach, not the launch hex; impact is next turn",
+    "Every launch action uses the remaining course samples plus one final impact leg",
+    "Real launches in A1, A2 and A3 arrive at the same next-turn IMPACTS phase, never early",
+    "Both stock missile families use the same timed course, without changing their own arming cost or damage",
+    "Recorded course vertices equal an independently recomputed weighted pursuit of each action-end target",
+    "Exact seam faces survive six rotations, translated launches and rational course positions",
+    "Moving or destroying the launcher after launch cannot change the final approach",
+    "A coincident impact uses the last nonzero approach, with launch heading only for a coincident launch",
+    "Screening uses the actual victim position and heading, preserving the intended target",
+    "Dedicated point defence rolls once at arrival and never consumes an anti-ship beam mount",
+    "Existing evasion and dead-target outcomes retain their priority and next-turn timing",
+    "Homing introduces no post-launch range, cloak, terrain-path or early interception check",
+    "Flight is RNG-free, callbacks own their data, previews are read-only and incoming warnings reveal no course",
+    "Trusted packets resimulate complete flight state, outcomes and PRNG without rerunning the captains",
+    "Interactive frames preserve engine course snapshots; headless records identify the additive flight profile",
+    "A terminal impact records the full course without inventing an extra action; arrival in fog bypasses shields",
+    "Viewer tracks use recorded vertices, keep partial flights unfinished and preserve legacy fallback"
+  ]
+}
+
+== September playtest engine orders, torpedoes, wrecks and events ==
+ok: Turn-after is strict and exclusive of scan/warp; invalid packets do not advance or draw
+ok: Turn-after moves on the old heading, rotates on arrival, and agrees with both previews
+ok: Clamps, blocked endpoints, planted keels and bursts retain the end turn
+ok: Mount orders validate contact and mount identities, preserve the packet and reject atomically
+ok: Beams and tubes split targets; held mounts spend no power, rounds or magazine
+ok: An illegal mount target falls back to the ship target, then doctrine; a lost contact is never fired on
+ok: Keel mount assignment overrides ship target and light-target discipline, while hold preserves the bank
+ok: Mount holds expire with the packet; empty and absent mount maps produce identical full state
+ok: Torpedoes expose only the own/visible-launcher course, follow homing, and leave warnings unchanged
+ok: Visible losses persist as immutable wrecks, reject targets/appraisal, and reach the tape by vessel name
+ok: Unseen destruction discloses neither identity, position, wreck nor tape; own loss survives last-observer death
+ok: Scan-visible cloaked destruction is remembered after lock revocation; mere contact loss is not death
+ok: Explosion victims and burst-stress deaths use the same observed destruction boundary
+ok: Beam, spinal and strike-craft kills report the same wreck and loss; crippling alone reports neither
+ok: PD radius four is inclusive; one pooled draw names the living uncloaked defenders and spends no weapons
+ok: Enemy PD names require current contacts; hidden defenders cannot leak through an outgoing interception
+ok: No cover draws nothing; CAP-only interception draws once and does not invent a PD defender
+ok: Trusted replay preserves new orders, all combat state, flight state and seeded draws
+Playtest engine: 18 groups passed.
+
+== Command station contracts ==
+Command station contracts passed: 29 legal hulls; 6012 mount/heading/bearing cases; forecast, damage and RNG isolation.
+
+== Tactical correctness regressions ==
+ok: objective validation shared by editor, scenario builder and direct fleets
+ok: actual endpoint: heading 0, requested
+ok: actual endpoint: heading 0, terrain
+ok: actual endpoint: heading 0, power
+ok: actual endpoint: heading 0, field
+ok: actual endpoint: heading 0, edge
+ok: actual endpoint: heading 0, consecutive
+ok: actual endpoint: heading 0, transit
+ok: actual endpoint: heading 0, friendly
+ok: actual endpoint: heading 0, disabled
+ok: actual endpoint: heading 0, destroyed
+ok: actual endpoint: heading 1, requested
+ok: actual endpoint: heading 1, terrain
+ok: actual endpoint: heading 1, power
+ok: actual endpoint: heading 1, field
+ok: actual endpoint: heading 1, edge
+ok: actual endpoint: heading 1, consecutive
+ok: actual endpoint: heading 1, transit
+ok: actual endpoint: heading 1, friendly
+ok: actual endpoint: heading 1, disabled
+ok: actual endpoint: heading 1, destroyed
+ok: actual endpoint: heading 2, requested
+ok: actual endpoint: heading 2, terrain
+ok: actual endpoint: heading 2, power
+ok: actual endpoint: heading 2, field
+ok: actual endpoint: heading 2, edge
+ok: actual endpoint: heading 2, consecutive
+ok: actual endpoint: heading 2, transit
+ok: actual endpoint: heading 2, friendly
+ok: actual endpoint: heading 2, disabled
+ok: actual endpoint: heading 2, destroyed
+ok: actual endpoint: heading 3, requested
+ok: actual endpoint: heading 3, terrain
+ok: actual endpoint: heading 3, power
+ok: actual endpoint: heading 3, field
+ok: actual endpoint: heading 3, edge
+ok: actual endpoint: heading 3, consecutive
+ok: actual endpoint: heading 3, transit
+ok: actual endpoint: heading 3, friendly
+ok: actual endpoint: heading 3, disabled
+ok: actual endpoint: heading 3, destroyed
+ok: actual endpoint: heading 4, requested
+ok: actual endpoint: heading 4, terrain
+ok: actual endpoint: heading 4, power
+ok: actual endpoint: heading 4, field
+ok: actual endpoint: heading 4, edge
+ok: actual endpoint: heading 4, consecutive
+ok: actual endpoint: heading 4, transit
+ok: actual endpoint: heading 4, friendly
+ok: actual endpoint: heading 4, disabled
+ok: actual endpoint: heading 4, destroyed
+ok: actual endpoint: heading 5, requested
+ok: actual endpoint: heading 5, terrain
+ok: actual endpoint: heading 5, power
+ok: actual endpoint: heading 5, field
+ok: actual endpoint: heading 5, edge
+ok: actual endpoint: heading 5, consecutive
+ok: actual endpoint: heading 5, transit
+ok: actual endpoint: heading 5, friendly
+ok: actual endpoint: heading 5, disabled
+ok: actual endpoint: heading 5, destroyed
+ok: Gunstar charge plant: charging
+ok: Gunstar charge plant: ready
+ok: Gunstar charge plant: cold
+ok: Gunstar charge plant: cooldown
+ok: Gunstar charge plant: reconnected
+ok: Gunstar charge plant: disabled
+ok: strike-craft damage bypass: nebula=false
+ok: strike-craft damage bypass: nebula=true
+ok: detonation damage bypass: nebula=false
+ok: detonation damage bypass: nebula=true
+ok: screened beam events retain intended target and actual victim geometry
+ok: legacy queued missiles without a flight profile keep launch-origin fallback and pre-refill timing
+ok: fractional Krelath costs refund only discarded endpoint steps
+ok: nonzero spinal range bonus is recorded as actual damage
+ok: viewer faces and legacy replay fallback agree with authoritative faces
+Tactical correctness regressions passed: 76 cases.
+
+== AI movement and warp endpoints ==
+AI endpoint regressions passed: 18 cases, including all headings, transit, warp controls and seeded instrumentation parity.
+
+== AI movement terrain power ==
+AI movement power: 43 passed, 0 failed (all headings, formation/support/travel, orbit, evasion and free bursts).
+
+== Approved tactical geometry ==
+Approved geometry passed: 468 vectors (36 seam / 432 non-seam), 2340 translated cases; rotation/reflection/reversal line checks; 72 engine/forecast fixtures; both recorder rule markers.
+
+== Frigate target profile and structure amendment ==
+ok: Ships disabled: the shipped tuning declares the rule but does not apply it
+ok: Disabled is inert: every battle resolves exactly as it does with no block at all
+ok: Enabled, a frigate is genuinely harder to hit - both fleets frigates, so every shot is at one
+ok: A class outside byClass is untouched - destroyers carry no pip, so nothing changes
+ok: The pip is read per class, not per hull size: an unlisted class stays at zero
+ok: Frigate structure 8 -> 9.2 at the class envelope, rounded per power after the faction modifier
+ok: The structure change moves the four frigate packs and nothing else in any roster
+ok: Each amended frigate pack advances exactly one revision from the published stock
+ok: Verification does not mutate the supplied tables
+Frigate target profile: 9 groups passed; 120 inert-gate comparisons and two hit-rate series.
+
+== Drydock construction and pinned content ==
+ok: 29 legacy combinations compile to equivalent effective engineering and mounts
+ok: stock normalization and compiler never mutate tuning or loadouts
+ok: all 29 compiled hulls can launch legal trials and finish two engine turns
+ok: two same-class variants, mixed beam types, 9 explicit mounts and disconnected arcs
+ok: designer output, shield limits, movement efficiency and turns reach actual runtime
+ok: custom component power is spent by engine and forecast, not editor-only math
+ok: all 36 heading / face pairs use explicit authored arcs
+ok: component edits, runtime damage and ammo do not change saved designs or old battles
+ok: scenario save and replay pin entire custom content through future catalogue changes
+ok: export/import roundtrip plus removal undo/redo preserve IDs and pinned components
+ok: invalid and hostile packs fail closed at import, editor and simulation boundaries
+ok: stock files still untouched after all construction tests
+Construction checks passed: 12 groups (29 hulls, 36 face cases, 17 hostile/invalid mutations).
+
+== Drydock individual reactors and shield generators ==
+ok: explicit migration preserves all 29 effective stock profiles without modifying V1
+ok: uniform migration preserves complete seeded combat events, logs and frame state on all 29 hulls
+ok: supplied catalogue contains pinned faction-effective reactor and shield templates
+ok: heterogeneous reactors and six real shield generators compile without aggregate fallback
+ok: core damage debits the destroyed reactor, clamps at zero and leaves last-core policy unchanged
+ok: each face spends its actual cost from one pool; round refill respects per-face outages
+ok: authored fractional capacities stay pinned but absorb only whole points; fractional power costs remain real
+ok: live engineering forecast and command readouts use the selected face and actual power
+ok: asymmetric AI reserve uses mean rated face budget and capacity-weighted threat memory
+ok: scenarios, snapshots and both recording paths pin components without shared references
+ok: V1 and V2 library revisions coexist; stock promotion, pinning and undo stay explicit
+ok: invalid engineering is rejected by pack, scenario and runtime boundaries without coercion
+ok: no stock tuning or loadouts changed during component engineering tests
+Component engineering passed: 13 groups, 29 full migration replays, 25 invalid packs.
+
+== Drydock arc labels and physical placement ==
+Drydock presentation passed: 18 named arcs, 6 face names, 1604 symmetric grid checks, independent mirrored placements.
+
+== Drydock stock authoring ==
+Stock authoring passed: explicit promotion, canonical identity, immutable revisions, stock restore, pinned scenarios/runtime/replays, faction isolation, stale/corrupt/quota rejection.
+
+== Chris-approved stock fleet promotion ==
+ok: Every roster entry has exactly one approved return and keeps its canonical number
+ok: All 29 current stock packs equal the latest approved returns, apart from canonical identity and label
+ok: Non-layout changes are limited to the monitor, September 6 legacy tables, approved unused laser metadata, the September 7 arc presets and the September 8 frigate profile and structure
+ok: Headless ships, live battle views and both recorder paths retain all exact installations
+ok: Old pinned stock packs remain exact under new defaults, including the original monitor
+ok: Browser-local stock takes precedence regardless of supplied revision; restore is append-only
+ok: Explicit stock mount errors fail closed; empty batteries and disconnected arcs remain legal
+ok: Construction, recording and validation did not mutate any supplied or historical content
+Stock promotion passed: 8 groups, all 29 returns, 29 default recordings and 29 exact historical pinned comparisons.
+
+== Vraygon approved stock amendments ==
+ok: Only the nine approved amended ships advance revision; all catalogue identities and other 20 packs stay exact
+ok: Heavy cruiser has a dead-astern fifth beam; destroyer keeps exactly one centered tube and six rounds
+ok: Heavy-cruiser fifth beam forecast and actual fire agree on all six bearings under all six headings
+ok: A real destroyer turn launches and spends one round, with the old two-tube fit as positive control
+ok: Trimming only unused missile entries preserves mount output, apart from the ruled battleship arc
+ok: Both old r2 stock revisions stay pinned through library adoption, restoration and recorded battles
+ok: Verification does not mutate supplied tables or either generation of returned content
+Stock amendments: 7 groups passed; 36 rotated firing trials, one-/two-tube controls and two pinned-history comparisons.
+
+== Earth light-cruiser beam arc amendment ==
+ok: The returned content changes only beam 1: removes face 3, retains faces 1, 2, 6 and exact placement
+ok: All 28 other stock packs, including the Vraygon amendments, stay byte-exact
+ok: Forecast and real beam fire match the three approved faces in all 36 heading/bearing combinations
+ok: The removed forward-starboard face really fired under r2, for all six ship headings
+ok: Pinned r2 designs and recordings survive; adopting r3 is append-only and never automatic
+ok: Validation, forecasts and execution never mutate authored content or stock tables
+Earth light-cruiser amendment: 6 groups passed; 36 rotated firing cases, six historical positive controls, 28 preserved stock packs.
+
+== Drydock variant rename, delete and restore ==
+ok: rename saves a new immutable revision, trims the name, and keeps stable design identity
+ok: blank, excessive, stale and stock renames cannot alter stored data
+ok: deletion atomically archives all revisions and an unsaved V2 draft, not other designs
+ok: new saves preserve the archive, while stale or refreshed deleted identities cannot resurrect
+ok: restoration restores original saved revisions and returns the unsaved draft separately
+ok: never-saved variants can be deleted and recovered without inventing a saved revision
+ok: deletion and rename do not alter pinned scenarios, runtime ships or recordings
+ok: quota failures leave both archive and active library unchanged
+ok: corrupt, conflicting and unsupported archive envelopes fail closed
+ok: stock data unchanged
+Variant library passed: 10 groups.
+
+== Drydock CSV interchange and numerical references ==
+ok: all 29 stock designs and their V2 migrations roundtrip completely and compile identically
+ok: quoted commas/newlines/Unicode/quotes/apostrophes and noncontiguous arcs remain exact
+ok: sorting rows does not change mount, face, range-band or component order
+ok: sorted CSV and reordered JSON reimport keep saved identities and produce no spurious stock changes
+ok: real edits and array ordering still fork; comparator preserves types, missing fields and literal strings
+ok: individual CSV edits affect the authoritative pinned fields and nothing else
+ok: malformed quoting, duplicated/missing rows, wrong shapes and unsafe paths fail closed
+ok: typed cells reject formulas, missing text protection and invalid combat data
+ok: stock numbers are fixed, do not depend on roster order, and require no storage write
+ok: design keys retain numbers across revision/name changes; distinct forks allocate monotonically
+ok: import references preserve free numbers and disclose occupied/reserved/local remapping
+ok: stale, corrupt, duplicate and quota-failing registries are never overwritten
+ok: interchange and numerical registry leave tuning, stock and the underlying pack schema unchanged
+Drydock CSV and numerical references passed: 13 groups.
+
+== Drydock weapon specifications and power relationships ==
+ok: All 29 hulls in both profiles use pinned definitions and exact compiler ranges without mutation
+ok: Missile ammunition is one shared hull magazine, not a magazine for each launcher
+ok: Custom bands, collapsed scaled ranges, zero charging draw and catalogue preview remain explicit
+ok: Unequal generators use independent caps and costs against the same remaining pool
+ok: Dossiers escape names and expose spinal timing without claiming a guaranteed fire turn
+5 specification groups passed.
+
+== Terminal replay frames ==
+Terminal recording passed: R2-style turn-4 impact kill, no extra engine action/RNG/state changes, repeated-step/idempotency, cleanup, 12 headless final-state comparisons.
+
+== Replay integrity, side identity and partial records ==
+ok: Bundled archive gaps are visible without changing any recording
+ok: Explicit side, opening side, engine ID and distinct faction are ordered fallbacks
+ok: Draws, wins and in-progress exports are distinguished
+ok: Missing middle frames and contradictory final counts are also detected
+ok: New headless same-faction frames carry side even for non-engine IDs
+ok: Recording remains combat- and PRNG-neutral; 32 fresh trials have no coverage gaps
+Replay status: 6 groups passed.
+
+== Terrain rules ==
+ok: field between ships blocks fire through
+ok: ship inside a field: fire blocked in and out
+ok: clear space: fire happens
+ok: large asteroid blocks fire through
+ok: large asteroid refuses placement
+ok: asteroid field accepts placement
+round 1: clear 8 hexes for 8.0 power | field 5 hexes for 8.0 power
+ok: asteroid field slows travel
+ok: deterministic with all terrain types
+ok: ship in a nebula cannot be engaged from 6 hexes (visibility 3)
+ok: ship in a nebula can be engaged from 2 hexes (fire not blocked)
+ok: fire from outside cannot cross a nebula (decoheres after the first hex)
+ok: from outside, a target in the first fog hex can be engaged
+ok: from outside, a target in the second fog hex cannot be engaged (the fogged ship may still fire out within visibility)
+internal damage on the Earth frigate in one turn: in nebula 14.0 vs clear 10.0
+ok: shields are useless inside a nebula (more internal damage)
+ok: deterministic with nebula tiles
+
+== Arena DOM and replay smoke ==
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for VRA/monitor; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for ZAN/corvette; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/battleship; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/strike-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/strike-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/strike-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/heavy-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for EAR/gunstar-battlecruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/light-cruiser; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/destroyer; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/frigate; drawing nothing.
+Battle Arena: no ship art (icon or sprite) for KRE/carrier; drawing nothing.
+Arena DOM smoke passed: {
+  laser: 2768,
+  blaster: 570,
+  neutronic: 6444,
+  plasma: 3138,
+  intercept: 22194,
+  evade: 4,
+  shieldFlash: 712,
+  warp: 7,
+  trail: 5532,
+  spinalBolt: 48,
+  spinalGlow: 802,
+  strikeImpact: 248,
+  grid: 2260,
+  boundary: 2260,
+  moon: 0,
+  planet: 0
+}
+Render tallies: replay.json {"icon":4518,"sprite":0,"missing":0,"craft":1488,"stacked":161,"spinalCharge":121,"spinalHold":0,"spinalVent":60,"spinalBolt":3,"spinalHit":2,"spinalMiss":0,"strikeRun":104,"strikeImpact":36,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 ear-kre-24.json {"icon":10998,"sprite":0,"missing":0,"craft":3405,"stacked":461,"spinalCharge":301,"spinalHold":0,"spinalVent":180,"spinalBolt":9,"spinalHit":0,"spinalMiss":6,"strikeRun":224,"strikeImpact":80,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 vra-zan-32.json {"icon":4389,"sprite":0,"missing":0,"craft":0,"stacked":397,"spinalCharge":0,"spinalHold":0,"spinalVent":0,"spinalBolt":0,"spinalHit":0,"spinalMiss":0,"strikeRun":0,"strikeImpact":0,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 ear-kre-32.json {"icon":4572,"sprite":0,"missing":0,"craft":2248,"stacked":142,"spinalCharge":180,"spinalHold":0,"spinalVent":120,"spinalBolt":6,"spinalHit":2,"spinalMiss":2,"strikeRun":193,"strikeImpact":60,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+                 coverage.json {"icon":9144,"sprite":0,"missing":0,"craft":2180,"stacked":278,"spinalCharge":180,"spinalHold":20,"spinalVent":73,"spinalBolt":6,"spinalHit":2,"spinalMiss":2,"strikeRun":218,"strikeImpact":72,"moon":0,"planet":0,"asteroid":0,"asteroids":0,"nebula":0}
+
+All fast regression tests passed.

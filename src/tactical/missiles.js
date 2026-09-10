@@ -52,8 +52,8 @@ export function missileGeometry(missile) {
     flight:copy({profile:missile.flight.profile,path:missile.flight.path})};
 }
 
-// Omniscient recording data only. Captains still receive the existing incoming
-// warning allowlist, never these coordinates or the launcher's identity.
+// Omniscient recording data only. The side-view torpedo projection applies its
+// own allowlist and visibility gate; never forward these raw records to players.
 export function snapshotMissiles(missiles) {
   return missiles.filter(m=>m.flight?.profile===MISSILE_FLIGHT_PROFILE).map(m=>({
     missileId:m.missileId,shooterId:m.shooterId,targetId:m.targetId,side:m.side,

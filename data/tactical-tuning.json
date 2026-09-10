@@ -793,7 +793,7 @@
   "pointDefence": {
     "chancePerPoint": 0.18,
     "maxChance": 0.7,
-    "rangeHexes": 3
+    "rangeHexes": 4
   },
   "damage": {
     "shieldCapacitor": {

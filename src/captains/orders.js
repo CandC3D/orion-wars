@@ -1,6 +1,7 @@
 import { jsonCopy } from './json.js';
 import { SENSING_PROFILE } from '../tactical/sensing.js';
 import { scanActionError } from '../tactical/scans.js';
+import { mountOrdersError } from '../tactical/mount-orders.js';
 export const ORDER_VERSION = 'captain-orders/2';
 export const SENSING_ORDER_VERSION = 'captain-orders/3';
 export const FALLBACK_RESERVE = 0.30;
@@ -19,7 +20,7 @@ export function validateOrders(observation, input) {
     const packet = jsonCopy(input, { bytes: 262144, depth: 8 });
     if (!object(packet)) throw new Error('Orders must be an object');
     const ships = new Map(observation.own.filter(s => !s.destroyed).map(s => [s.id, s]));
-    const targets = new Set(observation.contacts.map(c => c.id));
+    const targets = new Set(observation.contacts.filter(c => !c.destroyed).map(c => c.id));
     const orders = allHoldOrders(observation), adjustments = [];
     const m = observation.map;
     // Public geometric ceiling only. Affordability is resolved after arriving
@@ -29,7 +30,11 @@ export function validateOrders(observation, input) {
     for (const [id, o] of Object.entries(packet)) {
       const ship = ships.get(id);
       if (!ship) throw new Error('Order does not name an owned living ship');
-      shape(o, ['plan','target','reserve',...['spinal','insist'].filter(k=>Object.hasOwn(o??{},k))], 'ship order');
+      shape(o, ['plan','target','reserve',...['spinal','insist','mountOrders'].filter(k=>Object.hasOwn(o??{},k))], 'ship order');
+      if (Object.hasOwn(o, 'mountOrders')) {
+        const error = mountOrdersError(ship, targets, o.mountOrders);
+        if (error) throw new Error(error);
+      }
       if(Object.hasOwn(o,'spinal')&&(!ship.spinal||!['charge','vent'].includes(o.spinal)))throw new Error('Invalid spinal intent');
       // A direct order: the ship's captain is overruled for this turn and his objection is logged.
       // Strict, like warp - omit it when it is not wanted; insist:false is not a way to say no.
@@ -43,7 +48,8 @@ export function validateOrders(observation, input) {
         return accepted;
       };
       orders[id] = { target: o.target, reserve: clamp(o.reserve, 0, 1, 'reserve'), plan: o.plan.map((p, index) => {
-        if(!object(p)||!Object.hasOwn(p,'turn')||!Object.hasOwn(p,'forward')||Object.keys(p).some(k=>!['turn','forward','warp','burst','scan'].includes(k)))throw new Error('Invalid action shape');
+        if(!object(p)||!Object.hasOwn(p,'turn')||!Object.hasOwn(p,'forward')||Object.keys(p).some(k=>!['turn','forward','turnAfter','warp','burst','scan'].includes(k)))throw new Error('Invalid action shape');
+        if(Object.hasOwn(p,'turnAfter')&&(p.turnAfter!==true||Object.hasOwn(p,'warp')||Object.hasOwn(p,'scan')))throw new Error('Turn-after must be true and requires an ordinary movement action');
         if (!Number.isSafeInteger(p.turn) || !Number.isSafeInteger(p.forward)) throw new Error('Action values must be safe integers');
         if (Object.hasOwn(p, 'scan')) {
           const error = scanActionError(p, ship.sensors?.scan, observation.contactProfile === SENSING_PROFILE);
@@ -54,12 +60,14 @@ export function validateOrders(observation, input) {
         const action={ turn: clamp(p.turn, -ship.turnRate, ship.turnRate, `plan.${index}.turn`),
           forward: clamp(p.forward, 0, cap, `plan.${index}.forward`) };
         if(p.warp===true)action.warp=true;
+        if(p.turnAfter===true)action.turnAfter=true;
         if(Object.hasOwn(p,'scan'))action.scan=p.scan;
         if(Object.hasOwn(p,'burst'))action.burst=clamp(p.burst,0,ship.specials.burst.maxExtraHexes,`plan.${index}.burst`);
         return action;
       }) };
       if(Object.hasOwn(o,'spinal'))orders[id].spinal=o.spinal;
       if(Object.hasOwn(o,'insist'))orders[id].insist=true;
+      if(Object.hasOwn(o,'mountOrders'))orders[id].mountOrders=o.mountOrders;
     }
     for (const id of ships.keys()) if (!Object.hasOwn(packet, id)) adjustments.push({ shipId: id, field: 'omitted-ship', accepted: 'hold-auto-reserve-0.30' });
     return { ok: true, orders, adjustments, faults: [] };

@@ -6,7 +6,7 @@ export function holdCaptain(view, memory) { return { orders: allHoldOrders(view)
 export function approachCaptain(view, memory) {
   const orders = allHoldOrders(view);
   for (const ship of view.own.filter(s => !s.destroyed)) {
-    const target = [...view.contacts].sort((a,b) => distance(ship.pos,a.pos) - distance(ship.pos,b.pos) || (a.id < b.id ? -1 : 1))[0];
+    const target = view.contacts.filter(c => !c.destroyed).sort((a,b) => distance(ship.pos,a.pos) - distance(ship.pos,b.pos) || (a.id < b.id ? -1 : 1))[0];
     if (!target) continue;
     orders[ship.id].target = target.id;
     if (distance(ship.pos, target.pos) <= 6) continue;

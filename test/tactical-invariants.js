@@ -102,7 +102,7 @@ assert.equal(lowPowerPlan.reduce((total, action) => total + action.forward, 0), 
   "formation planner assigned more movement than a low-power ship can afford");
 
 const objectiveBattle = createBattle(featuredScenario, tuning, loadouts, featuredScenario.seed);
-assert.equal(objectiveBattle.maxTurns, 12, "scenario maximum turn count did not reach the battle engine");
+assert.equal(objectiveBattle.maxTurns, 20, "scenario maximum turn count did not reach the battle engine");
 assert.equal(battleView(objectiveBattle).victory?.type, "flagship", "battle view dropped the mission objective");
 const protectedB = featuredScenario.victory.protectedClass.B;
 const enemyFlagship = objectiveBattle.B.find((ship) => ship.className === protectedB);

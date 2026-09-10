@@ -2,6 +2,7 @@
 // This compatibility profile adds no range/terrain fog to uncloaked signals.
 import { SENSING_PROFILE, DEFAULT_SENSING_PROFILE, createSensingState, currentContacts,
   validateSensingProfile, operationalSensorRating, observedDamage, acquireScanLock, revokeTargetLocks } from './sensing.js';
+import { rememberedWrecks } from './wrecks.js';
 export const CONTACT_PROFILE = 'signals-and-scans/1';
 export function enableContacts(battle, { profile, sensing } = {}) {
   if (profile !== undefined && ![CONTACT_PROFILE, SENSING_PROFILE].includes(profile)) throw new Error('Unknown contact profile');
@@ -22,7 +23,8 @@ export function enableContacts(battle, { profile, sensing } = {}) {
     return;
   }
   if (sensing !== undefined) throw new Error('Sensing parameters require the finite profile');
-  battle.contacts = { profile: CONTACT_PROFILE, locks: { A: [], B: [] } };
+  battle.contacts = { profile: CONTACT_PROFILE, locks: { A: [], B: [] },
+    wrecks: { A: Object.create(null), B: Object.create(null) } };
 }
 // Revalidate host-edited hulls/identities before any finite-profile execution.
 // Ordinary battles remain compatible unless the host explicitly enables C1.
@@ -49,13 +51,14 @@ export function sideContacts(battle, side) {
   if (battle.contacts?.profile !== CONTACT_PROFILE) throw new Error('Contact profile not enabled');
   const own = battle[side], enemy = battle[side === 'A' ? 'B' : 'A'];
   const ability = Math.max(0, ...own.map(s => sensorAbility(s, battle.tuning)));
-  if (ability < 1) return [];
+  const wrecks = rememberedWrecks(battle.contacts, side);
+  if (ability < 1) return wrecks.sort((a,b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
   const locks = battle.contacts.locks[side];
   return enemy.filter(s => !s.destroyed && (!s.cloaked || locks.includes(s.id)))
     .map(s => ({ id: s.id, faction: s.faction, className: s.className,
       // Same ruling as the finite profile: a name is readable, and discloses nothing tactical.
       ...(s.vesselName ? { vesselName: structuredClone(s.vesselName) } : {}),
       pos: { q: s.pos.q, r: s.pos.r }, facing: s.facing,
-      observedDamage: observedDamage(s, ability) }))
+      observedDamage: observedDamage(s, ability) })).concat(wrecks)
     .sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
 }
