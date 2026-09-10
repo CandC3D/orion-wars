@@ -82,7 +82,7 @@ Every scene drawable and material explicitly declares `physical` or `energetic`.
 Missing, mixed or unknown classification fails startup. Physical paint and metal are opaque, lit, non-emissive, depth-writing and shadowed.
 The explicit Shard clear-insert variant is also physical: dielectric transmission,
 room-lit, depth-writing, shadow-casting and non-emissive. It uses no alpha blend;
-its thickness and opaque-shadow approximations are documented in SOURCE-GAP.md. Energetic materials are
+its convex optical volume and stochastic transmission-shadow approximations are documented in SOURCE-GAP.md. Energetic materials are
 unlit, additive, non-depth-writing, occluded by physical depth, and cannot add
 lights or shadows. Pipeline fullscreen operations are not scene objects.
 

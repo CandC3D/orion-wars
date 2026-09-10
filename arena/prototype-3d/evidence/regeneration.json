@@ -1,12 +1,19 @@
 {
+  "revision": 7,
   "byteIdentical": true,
   "files": {
     "prepared/monoceros-regions.json": "ac8dd283506a1fde84ff018e982d20cafd65b891fa3e010923a0adff051c6924",
     "prepared/sparrowhawk-regions.json": "058271638ebb11c5cb045bdba4587feb2c5ffa2b8c0297c664cfbecdb39761f6",
     "prepared/shard-regions.json": "6b969bf0edefcdfda49d2d8eaf2897eebf83a6d40d520ee35fdb69b8d689298c",
-    "REGION-TABLES.md": "091684a501c1a7bd1786a951b1c3c9e06c43cc41cbaa222c2d377f53a2931fcb",
-    "FACTION-PALETTES.md": "68ddcae8c95995a9e33536f0ffc97da4ad54c06c8247be9ce5e4f47ac51025d5",
+    "prepared/crystal-regions.json": "12f9a3e0ef5f7267df16f55a667c9e77e111b8716445683749d41c4994ee2b32",
+    "REGION-TABLES.md": "2877ae44261cb6984f636868bdf5e3682a4713a5b4d18a20bcdd7c061a639278",
+    "FACTION-PALETTES.md": "3da83729b9bc8fb1fccb5aa3c65a7c7c149951429666c33b228526f88a15dbdf",
     "LIBRARY-AUDIT.md": "9ff9886ec117380e145a8276c078d78b70238fedac8184ba2eb4cda9445fb1f7",
     "evidence/library-audit.json": "967ef7f3eebe07270b603ea743c6c7387767149b2a2fa777173b619517769aef"
+  },
+  "crystalBlenderRebuild": {
+    "byteIdentical": true,
+    "sha256": "7f50b927e9d8be65bb7e70e3497bf95f4764bcd2869cd58e599a428c213ab6f6",
+    "scope": "GLB bytes; orientation description in preparation metadata deliberately corrected"
   }
 }

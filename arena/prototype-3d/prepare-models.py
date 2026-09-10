@@ -11,6 +11,9 @@ from mathutils.bvhtree import BVHTree
 HERE = Path(__file__).resolve().parent
 faction = sys.argv[sys.argv.index('--')+1] if '--' in sys.argv else 'KRE'
 config = json.loads((HERE/'hull-sources.json').read_text(encoding='utf-8'))[faction]
+if '--comparison' in sys.argv:
+    config = json.loads((HERE/'comparison-source.json').read_text(encoding='utf-8'))
+    faction = config['faction']
 SOURCE = HERE / 'source' / config['source']
 output_name = config['output']
 OUT = HERE / 'prepared'
@@ -127,7 +130,7 @@ report={'source':config['source'],'faction':faction,'sourceSha256':hashlib.sha25
     'sourceComponentCount':len(source_parts),'outputComponentCount':len(output_parts),
     'sourceMaterials':[m.name for m in original.materials], 'authoredColourRegions':True,
     'sourceColourAttribute':'COLOR_0','sourcePalette':palette,'physicalEmission':False,
-    'orientation':'Centred runtime +X longitudinal forward, +Y up; native '+config['nativeBow']+'. Earth/Krelath schematic reference; Shard long pointed end, no inferred systems.',
+    'orientation':config.get('orientationNote', 'Centred runtime +X longitudinal forward, +Y up; native '+config['nativeBow']+'. Earth/Krelath schematic reference; Shard long pointed end, no inferred systems.'),
     'sourceComponents':source_parts,'outputComponents':output_parts}
 (OUT/(output_name+'-preparation.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print('PROTOTYPE_PREPARATION',json.dumps({k:v for k,v in report.items() if not k.endswith('Components')}))

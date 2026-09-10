@@ -1,4 +1,4 @@
-# Source art and material contract - revision 06
+# Source art and material contract - revision 07
 
 The authoritative per-hull classifications and measured triangle areas are in
 [REGION-TABLES.md](REGION-TABLES.md). All 23 current COLOR_0 keys inherit classifications from faction-palettes.json.
@@ -11,7 +11,7 @@ Sparrowhawk and v2 schematic/written conventions. Shard uses the current model
 alone. The surface-area audit confirms steel 43.952%, bronze 13.537%, gold
 53.521%. The old Earth profile wrongly called steel pale paint; neither the
 source nor the derivative had swapped colour regions. Combined Earth blues
-cover 47.679% of the whole source, and 53.84% of the visible planning pixels.
+cover 47.679% of the whole source, and 53.52% of the visible planning pixels after the base rise.
 Repainting blue to force a steel majority in that view would falsify the art.
 
 Chris's later emissive sets are now authority: Earth red/green/white; Krelath
@@ -36,6 +36,7 @@ patches and confirmed energetic face maps. Selectors fail if the source changes.
 | Monoceros | 0.095 | 120,632 / 11,442 | 10,134,364 / 334,512 | 2 / 2 | 0.258724 mm |
 | Sparrowhawk | 0.16 | 83,508 / 13,351 | 7,015,984 / 371,208 | 3 / 3 | 0.037093 mm |
 | Shard | 0.30 | 14,064 / 4,188 | 1,182,644 / 139,164 | 33 / 33 | 0.175217 mm |
+| Crystal (comparison only) | 0.50 | 23,642 / 11,742 | 1,987,232 / 377,776 | 53 / 53 | 0.142754 mm |
 
 Deviation is bidirectional, all vertices to the nearest triangle, not a certified
 continuous Hausdorff bound. Maximum colour-area fraction changes are 0.038605,
@@ -49,7 +50,7 @@ palettes, region areas and component bounds accompany each derivative in
 ## Shared metal finish and the faction extensions
 
 Silver/steel, bronze and gold use the same fine-flake binder finish. Their hues
-come from their own source colours. Metalness is 0.52, body roughness 0.67,
+come from their own source colours. Metalness is 0.58, body roughness 0.62,
 burnished edge roughness 0.53. The sampled flake field has 0.12 mm pitch;
 its colour and micro-normal variation is filtered away below a pixel, retaining
 the rough average reflection. There are no self-lit glitter points, chrome
@@ -117,29 +118,63 @@ Each energy object is a separate unlit, additive, depth-occluded drawable with
 no shadow or room light. Source colours, including all nine designated regions,
 remain physical non-emissive coatings. Lost contacts disappear without breakage.
 
-## Optional clear Shard insert
+## Optional clear parts and stand study
 
-The default green fixture remains paint. The explicit ?insert=clear variant
-replaces only the actual 24 green triangles with a separate physical material.
-No geometry is enlarged, moved, newly labelled or given a muzzle. No paint
-shader, lining, drybrush or wear is applied to the clear component.
+Shard retains both treatments but no longer carries the decision. Crystal's
+90 mm comparison preserves eight connected green patches (1.091% of source
+surface). The current 377,776-byte derivative retains all 53 components; Blender
+validation removes 40 duplicate/degenerate faces after reduction. No green
+region is enlarged or relocated, and pale cyan is ordinary paint.
 
-MeshPhysicalMaterial supplies room-lit Fresnel/specular and screen-space
-transmission: roughness 0.13, IOR 1.57, transmission 0.96. Green attenuation
-uses the source linear tuple at 2.5 mm attenuation distance. Per-vertex depth
-to the authored mating plane varies from a 0.02 mm numerical floor to 1.751 mm.
-This is a thin-volume approximation; it is not a closed-volume ray tracer.
-Shadowing remains the opaque silhouette approximation. There is no fabricated
-sprue nub or mould line. The part occupies 4.831 x 1.751 x 4.260 mm and 23
-planning pixels, so compare the matched detail frames as well as the board.
+The common moulded-plastic material uses transmission 1, roughness 0.095 and
+IOR 1.57. Each green patch gets a closed convex optical volume from its own
+vertices; only the actual source-derived triangles are visible. Per-fragment
+refraction measures the exit distance through that volume. Green attenuation
+uses the source tuple over 2.5 mm. This replaces the one-plane Shard approximation.
+The clear post measures ray exit from its finite tapered cone; its dimensions
+come from SIZES, with slightly cool, nearly colourless attenuation over 30 mm.
+Neither uses paint shader marks, wear, emission or invented sprue geometry.
 
-This optional transmission pass has a separate comparison budget: 110,000
-submitted triangles, 110 draws, 96 MiB estimated render targets. Default painted
-limits remain 70,000 / 90 / 64 MiB. Half-resolution transmission needs an extra
-opaque pass and up to about 30 MiB at the pixel cap (including mipmaps and MSAA).
-Three retains that allocation after toggling the variant off until page reload;
-the estimate reports it. This experiment does not pass the old default budget
-and is not a recommendation to deploy transmission across fleets.
+The physical tabletop is captured once at 128 cube resolution and rough-filtered
+for room reflections. It introduces no new scene object or light. Diffuse fill
+continues to use the existing hemisphere. Captured reflection intensity goes
+zero with the room lights in the physical-blackout test. Steel has a darker
+film value, greater fine-flake value range and stronger real burnished edges;
+metal BRDF parameters remain common to steel, bronze and gold.
+
+Clear objects cast a stochastic neutral transmission shadow, 0.10 coverage for
+posts and 0.24 for green parts. The hidden painted green triangles are also
+removed from the opaque shadow pass. In RGB-packed depth Three ignores ordinary
+opacity, so the coverage uniform is explicitly applied before alpha hashing.
+This is not a caustics or multiple-internal-reflection simulation. Refraction
+is screen-space and convex volumes may span concave voids within a source patch.
+
+The new material-study.html uses full-resolution transmission for the deciding
+captures, bounded to 90,000 submitted triangles / 110 draws, 2.07M pixels and
+160 MiB of estimated offscreen targets (80.97 MiB at the captured size, excluding
+driver overhead and the default drawing buffer). This is an isolated
+comparison, not a full-board test. The ordinary board keeps its existing 70,000 /
+90 / 64 MiB default and separate 110,000 / 110 / 96 MiB clear-Shard budget.
+The retained transmission allocation persists until reload.
+
+## Cast stand geometry
+
+Chris's specified FASA profile is authoritative: the original bevelled skirt
+remains and six shallow planar faces rise to a central apex. The chosen skirt
+is 25 mm across flats and 3 mm high; the pyramid adds 2 mm. Exposed post length
+is a separate 30 mm, tapering from 3.0 to 2.4 mm. The board always uses black,
+opaque posts. Clear posts exist only in the explicit side-by-side study.
+
+The previous cylinder was buried 0.5 mm into the flat base and stopped 0.5 mm
+short of the hull, making its exposed length 29.5 mm despite a 30 mm geometry
+parameter. The new instance endpoints meet the measured apex and ray-seated
+underside; the exposure and both end gaps are tested independently.
+
+The repository contains FASA mechanics notes, but I did not find the original
+base photographs or dimensional drawing here. FASA's [spring 1986 catalogue](https://tardiscaptain.com/wp-content/uploads/2021/04/FASA-Spring-1986-Catalog.pdf)
+describes clear plastic stands; it supplies no verified dimensions for this
+implementation. The dimensions above are explicitly prototype choices following
+Chris's profile, not claimed measurements of an original part.
 
 ## Rebuild
 
@@ -150,6 +185,8 @@ foreach ($faction in @('EAR','KRE','VRA')) {
   & 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --python arena/prototype-3d/prepare-models.py -- $faction
   node arena/prototype-3d/inspect-regions.mjs $faction
 }
+& 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --python arena/prototype-3d/prepare-models.py -- VRA --comparison
+node arena/prototype-3d/inspect-regions.mjs VRA --comparison
 node arena/prototype-3d/write-region-table.mjs
 node arena/prototype-3d/test.mjs
 ```

@@ -6,7 +6,8 @@ export const SIZES = Object.freeze({
   mugBody: [80, 95, 80], mugWithHandle: [112, 95, 80],
   d6: 16, d20VertexDiameter: 20, rulebook: [216, 28, 279],
   notebook: [216, 6, 279], pencilLength: 190, pencilDiameter: 7,
-  baseAcrossFlats: 25, baseHeight: 3, postHeight: 30, postDiameter: 2,
+  baseAcrossFlats: 25, baseHeight: 3, basePyramidRise: 2,
+  postHeight: 30, postBottomDiameter: 3, postTopDiameter: 2.4,
   miniatures: { EAR: 55, KRE: 65, VRA: 45 }
 });
 export const BOARD = Object.freeze({width:mm(SIZES.board[0]),depth:mm(SIZES.board[2]),top:mm(SIZES.board[1])});

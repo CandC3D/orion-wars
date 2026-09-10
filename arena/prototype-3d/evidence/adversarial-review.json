@@ -1,87 +1,131 @@
 {
-  "revision": 6,
+  "revision": 7,
   "status": "passed-self-review",
   "reviewer": "Astra",
   "reviewedImagesDirectly": true,
-  "reviewMethod": "Opened all 22 distinct images covering 25 final captures: native planning and crops first, then all hull detail views and matched variant pairs. Three duplicate pairs verified by SHA256. Source schematics previously viewed and unchanged. Code/geometry support visual judgement, not a substitute.",
+  "reviewMethod": "Directly opened the named captured images at native planning scale, then detail and matched material views. The complete capture set is hashed separately; not every distinct frame is claimed as directly inspected in this final pass. Geometry and pixels support, but do not determine, material scores.",
+  "reviewedFrameNames": [
+    "planning.png",
+    "beam.png",
+    "monoceros-planning.png",
+    "sparrowhawk-planning.png",
+    "shard-planning.png",
+    "monoceros-side.png",
+    "monoceros-detail.png",
+    "monoceros-bow.png",
+    "sparrowhawk-detail.png",
+    "sparrowhawk-side.png",
+    "shard-side.png",
+    "crystal-paint-detail.png",
+    "crystal-clear-detail.png",
+    "crystal-paint-plan.png",
+    "crystal-clear-plan.png",
+    "crystal-paint-side.png",
+    "crystal-clear-side.png",
+    "posts-side.png",
+    "posts-plan.png"
+  ],
   "scores": [
     {
-      "criterion": "Brief and scope",
+      "criterion": "Brief and ownership",
       "weight": 10,
-      "score": 100
+      "score": 98,
+      "finding": "Final implementation is confined to the prototype; furniture, sources, identifiers and shared runtime unchanged. Deduct 2 for a briefly misplaced placeholder file, disclosed below."
     },
     {
-      "criterion": "Generated art and faction contracts",
-      "weight": 25,
-      "score": 97
-    },
-    {
-      "criterion": "Period metals",
-      "weight": 25,
-      "score": 90
-    },
-    {
-      "criterion": "Paint, clear plastic and registers",
+      "criterion": "Authored geometry and palettes",
       "weight": 15,
-      "score": 94
+      "score": 97,
+      "finding": "All four prepared hulls retain their own regions; Crystal retains 53 components and its eight green patches. No enlarged/relocated part or invented weapon assignment. Deduct 3 for the measured reductions' small surface deviations."
     },
     {
-      "criterion": "Scale",
+      "criterion": "FASA base and post geometry",
+      "weight": 15,
+      "score": 95,
+      "finding": "Retained bevelled skirt, six shallow roof facets and central apex; gentle taper and seated endpoints. Deduct 5 because exact original FASA dimensions have not been verified; the chosen dimensions are explicit."
+    },
+    {
+      "criterion": "Steel reads as metal at planning height",
+      "weight": 20,
+      "score": 91,
+      "finding": "The native collars and rails now have darker bodies, dark joints and brighter burnished edges; they read as dull metal rather than white trim. Deduct 5 for the warm key's pewter tint and 4 because flake itself remains unresolved at ordinary planning size."
+    },
+    {
+      "criterion": "Period finish on all hulls",
       "weight": 10,
-      "score": 98
+      "score": 93,
+      "finding": "Rough steel, bronze and gold; matte body paint, real-edge brushwork and no mirror images. Deduct 4 for regular stroke breakup in macros and 3 for subdued fine-flake cues on small surfaces."
     },
     {
-      "criterion": "Unaided reading",
-      "weight": 15,
-      "score": 92
+      "criterion": "Decidable clear-material experiment",
+      "weight": 20,
+      "score": 92,
+      "finding": "Matched Crystal detail/side/plan pairs and actual-size black/clear posts make the choice visible. Deduct 4 for convex-volume and single-screen-space-ray optics, 3 for coloured backing/reflections obscuring green identity, 1 for approximate shadow coverage."
+    },
+    {
+      "criterion": "Scale, registers and readable play elements",
+      "weight": 10,
+      "score": 98,
+      "finding": "Measured skirt, pyramid, taper, exposure and mount gaps; no physical emission or planning energy; existing camera floors retained. Deduct 2 for provisional miniature/class-study sizes."
     }
   ],
-  "weightedScore": 94.45,
-  "metalScores": {
-    "EAR": 90,
-    "KRE": 91,
-    "VRA": 92
+  "weightedScore": 94.3,
+  "separateGates": {
+    "steelAtPlanning": 91,
+    "earthMetalDetail": 92,
+    "krelathBronze": 93,
+    "vraygonGold": 93,
+    "crystalClearComparison": 92,
+    "clearPostComparison": 93
   },
-  "optionalClearComparison": 90,
+  "supersedes": "Revision 06 Earth-metal and Shard-comparison scores withdrawn; fresh assessment against Fable visual findings.",
   "inScopeUnscored": [],
   "outsideScopeUnscored": [
     "full-board reading and performance",
     "base identification decision",
     "cross-class size ladder",
+    "original FASA dimensions",
     "destruction",
     "planet and nebula samples",
     "peak driver memory",
-    "integrated GPU and interactive variant performance",
+    "integrated GPU behaviour",
     "permanent intake",
-    "larger-hull visual finishes",
-    "unavailable Krelath library files"
+    "unavailable Krelath hulls"
   ],
   "frameSha256": {
-    "anonymous.png": "f09e28ad34724a54ef049b15fbe4968712eef81e76e8a8d1817768fa67095d19",
-    "beam.png": "e076fb5d01752b4535505fff48f4ee96a14c50e7ebf8371ff1c60fac2836ce3e",
-    "monoceros-bow.png": "a59c5d12bcb8838739935e3a96d6b5cd8c45bda40669421c646b0c2c9b67aaa8",
-    "monoceros-detail.png": "74e06aaf90736b6890bf4f69a5dd1610afbee644fba75b512b56abd871fc876a",
-    "monoceros-planning.png": "552e61981e578ebfa86359aa8358c532498a8e13ba4c2b0ca57a40dd4539d53c",
-    "monoceros-side.png": "e0a1fab52806752dd2250edd3f51e0f8d547685bcf5795e6a908cd9f592c53bd",
-    "monoceros-stern.png": "f1881b1cf29e2df15aab5a97a991879ae8e33da0f404d887f3acf264de254e18",
-    "planning-clear.png": "215355227e08c097fa52263c6d2350ac0c4f760044b0e771989d656d2bb49795",
-    "planning-paint.png": "5fbc8396c9c0d9e474e26593917e2dc4d952cfee0bd69a5e7b8111a195a8ac6a",
-    "planning.png": "5fbc8396c9c0d9e474e26593917e2dc4d952cfee0bd69a5e7b8111a195a8ac6a",
-    "shard-bow.png": "555661046f6144d7eb32169ba27288122937112a6eea75633889d62bd494076e",
-    "shard-detail.png": "f6db8812a075cdbdb0e17d52349d9e0cf36394baa6d6a840d54ddb3d76176ac3",
-    "shard-plan-clear.png": "73bf7d3db3e44c345349b9e34a3b3edf090114b2a6bc66c9c356c22134ccd63d",
-    "shard-plan-paint.png": "f6db8812a075cdbdb0e17d52349d9e0cf36394baa6d6a840d54ddb3d76176ac3",
-    "shard-planning.png": "86c3e9564472169989a47d33386dc7a51eb6509477c382cb194e4a0e76963648",
-    "shard-side-clear.png": "1f5eae06efa9e03271018daff1ae735aad095b16941feed4fea38f956a002002",
-    "shard-side-paint.png": "5b9795d093c337023fe55c0d24c16c97971714b4eecfdad399a909ee31d23df8",
-    "shard-side.png": "5b9795d093c337023fe55c0d24c16c97971714b4eecfdad399a909ee31d23df8",
-    "shard-stern.png": "185194ea1b7e8832be2d431099e5ec4c6ad1a970c7652086027b260d0ad9fe9c",
-    "shield.png": "58c107ba78ddf429e153957ee19ff956230ebe7532a8c274bfa7e90dbb81617d",
-    "sparrowhawk-bow.png": "b6d584c1406b7f25f619f2e78c12ca1083a7407c4440a98fad182e976e8814e9",
-    "sparrowhawk-detail.png": "943169fd15dd2ee20842246c736bfb2fd26aaf06301f61d4bacbb004f2acfbfb",
-    "sparrowhawk-planning.png": "a62e99dc81b34c5008119df74646a7c065ebf1ca61b885e81dbb1d9067704e15",
-    "sparrowhawk-side.png": "4217603dfe625dbc08ccb728cce659035ba98ad9658a18106bf4e889b114c739",
-    "sparrowhawk-stern.png": "8596e71ce6de01e36fa372a2f2ba5ddfd4d5d8f5e712296a8a0f6007d7d1ae63"
+    "anonymous.png": "fda9c3fac3747716913f7c889b527e324b531c25b699311dcf0e60b84f3822f5",
+    "beam.png": "451334ece279ae7492fa0e02356281f663d5b864d8ee7ede0e2db6ba0604152d",
+    "crystal-clear-detail.png": "7e4f38650db8b7b6d54776192b49a4cd84f1fcb5612c496da67930057db6b643",
+    "crystal-clear-plan.png": "e1a78af16fb3bfd6a50ddeb5234f15f98036ef50f9556e637b71c7dfd386819c",
+    "crystal-clear-side.png": "14996562ea142a16a721944bce4299f770c5f51b555bc4aa2cb0b344e742077d",
+    "crystal-paint-detail.png": "c38c1c5245b6147d382d7d53de0464876e8c91249d9f2fccd871c0ddb6dc193c",
+    "crystal-paint-plan.png": "3b19bcd11edc8814b5a2eb587f44ed4db6be6116cd53caee42b357f6791f1e73",
+    "crystal-paint-side.png": "91d81a1ce57e688fe3fcae5341dd218a09f2d6332c7144516d10e6c31fcea8cf",
+    "monoceros-bow.png": "9368eb9f427576ee9600bfcab41b3f3e9b618b569251158ed8381f6b4a0755b2",
+    "monoceros-detail.png": "24306025add1b8c1c70e3b3a19ec7108df37d981ea31087d0464c09facd4a978",
+    "monoceros-planning.png": "eb8fddc883b53f805d3173d20f6dbf37066450a8848d8041c013daad34e3f74f",
+    "monoceros-side.png": "15d8ec1b4f91ef1359b8a4073ae150c26747df763a885d49345d4b84d12d937e",
+    "monoceros-stern.png": "76bc074b35fec16db5b08edc5024ece59d0e4bb1cd7e981da8ba95abe192cf3a",
+    "planning-clear.png": "7a4e4cdb1eba32d2675de0977d6daa33a4be251f8e05294836442b7b541f3fb7",
+    "planning-paint.png": "7c4a9d21970ff1ef72ac1fa022d66336a375947dbdd2c1c41d0685b9bc6342b6",
+    "planning.png": "7c4a9d21970ff1ef72ac1fa022d66336a375947dbdd2c1c41d0685b9bc6342b6",
+    "posts-plan.png": "0ab987e635f4d1687df143a7290deef7d7ac8b1f31aae6108c3e9e079937fb70",
+    "posts-side.png": "b5504c1ecae8d7c37095f81fbbb7a8fd2abe23e7ede9b771e5ced22db56e9d2b",
+    "shard-bow.png": "2e06723dc0b47fe22f37633d7ade88fbccc8231ea8004f8223d79f5270ca4b95",
+    "shard-detail.png": "1410756cd06299f6052c2d039d936072b4e8f796f588e48f16a013a281413381",
+    "shard-plan-clear.png": "986abc7012c6293648c649bbbc2bac934391542fe1fe730d4b0b3dc1266cc221",
+    "shard-plan-paint.png": "1410756cd06299f6052c2d039d936072b4e8f796f588e48f16a013a281413381",
+    "shard-planning.png": "942f24a6e08face8fe79354fca4fbae0ca26985f10aeee65c2e9e4499d10ee13",
+    "shard-side-clear.png": "43c50c9cfac2e5479f7145cb837caad3a1b16d9c83b964144a60baf2ef72fa02",
+    "shard-side-paint.png": "2b4401604902ccdf878cf31aececea42d46e37be207682f3cc38ff58422def04",
+    "shard-side.png": "2b4401604902ccdf878cf31aececea42d46e37be207682f3cc38ff58422def04",
+    "shard-stern.png": "b5a2890f1c409231fa51c9a49dadcd31e7ed39749145338e26fb17c8464272b1",
+    "shield.png": "ab1f22b1653d468034d15e20b012c926c730c6eb04eb5317e0f9d3b57d394667",
+    "sparrowhawk-bow.png": "17ff5243b9e2a6b1e28236f966e1e32a4883330304af50c21548fb2cb17f2e4a",
+    "sparrowhawk-detail.png": "ffb8492ef7f00c45891bca91f67a34d069f8a074cf027c08e015284d31ce7cb1",
+    "sparrowhawk-planning.png": "14cf99e726a2e9f4dafd4820d9ecaf752ad60e92dd69b020b50ff6f902e7c9a8",
+    "sparrowhawk-side.png": "9de809316326c975a4843304e56dd513b96355c1dca2c5800c7ecefdbd84bf59",
+    "sparrowhawk-stern.png": "1075a993e3d5e91a4724da6f917e9e0180d2edb2781cb21cdb0d670d264cc538"
   },
   "duplicateFrames": [
     [
@@ -97,59 +141,86 @@
       "shard-side.png"
     ]
   ],
-  "fileSha256": {
-    "RUBRIC.md": "54a43fecb15c4bba0a2a1df8018f21029ae0c265240694369fe5a141987a2a08",
-    "REVIEW.md": "1ef44695df54f6378992970c236202bd72bb7e29f535b4be580667b4e43aaeb9",
-    "README.md": "522b494277bac9bca73290cf8c92b8e320024fae0796850f89914fb03230d99e",
-    "REGION-TABLES.md": "091684a501c1a7bd1786a951b1c3c9e06c43cc41cbaa222c2d377f53a2931fcb",
-    "SOURCE-GAP.md": "09558f19427bff74bef552c10f80284654caa554c92c197339ac8386fa71d863",
-    "PROJECTION.md": "5b485310285eb314a95e2be389fa6c50c34fc97a299230b9b75fe8f1e6e80210",
-    "SCALE.md": "0b21d761da45aa8b12e4992785c11a4b0fba3dc6897fd49dc97863678ff28750",
-    "variants.html": "3cc891c73eaad272af5dad9946bd4bf811dfbf51fbe9a1cf04761d0961914bee",
-    "hull-art.js": "2bfe721edb5f8a746a3b4beac1c4c1d312865b5c3d1bf75cdc08d591f64ec5de",
-    "hull-paint.js": "db5865d7a0e9a5e63f5837dfa8d03db8f8d29fde5902f9aa4550f114ca5e87c3",
-    "clear-insert.js": "98052f31f1a68b3b824612f09e16938185a366f8a81bea9d4ff837601e5d4383",
-    "contract.js": "f354e86dd0ddb18ad021a6fa9044f05fab037fca25aff879c60edc4d92279c7c",
-    "renderer.js": "75294a13e7a197a4fc1b4b035af2959b4964d94faca82433e9e1b91bdde6cc67",
-    "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
-    "inspect-regions.mjs": "db224f3838daf2d6c8f585b8fecf8d97f268769a73c2faac0fe0a42b26206b37",
-    "write-region-table.mjs": "40ed85f7c001e9059540716729b58a7f3484dcce9cd7669e519cd60db6309393",
-    "test.mjs": "ad13ea1f1795e6ab520fbbfd05383adffb572f478b69a3ab03e357eaa25d85e8",
-    "review.mjs": "7707fd2ee8f48898bcdc213c525fbb012ab49addb0ae5c892e4e584360c2617a",
-    "evidence/review.json": "798464f78f71dbd9d07996eb61789bf168662563974ab3f13c045790d77e7899",
-    "prepared/monoceros-regions.json": "ac8dd283506a1fde84ff018e982d20cafd65b891fa3e010923a0adff051c6924",
-    "prepared/sparrowhawk-regions.json": "058271638ebb11c5cb045bdba4587feb2c5ffa2b8c0297c664cfbecdb39761f6",
-    "prepared/shard-regions.json": "6b969bf0edefcdfda49d2d8eaf2897eebf83a6d40d520ee35fdb69b8d689298c",
-    "faction-palettes.json": "600fd0c0b4ed37799331ac8b3c491bde0ee52ea40c2528f58d30faab4e01ae9d",
-    "faction-palettes.js": "5c11521721e189ee6d9c30f6d2d026b79e7ddfc925e5708a86f052d6ad402599",
-    "FACTION-PALETTES.md": "68ddcae8c95995a9e33536f0ffc97da4ad54c06c8247be9ce5e4f47ac51025d5",
+  "artifactSha256": {
+    "FACTION-PALETTES.md": "3da83729b9bc8fb1fccb5aa3c65a7c7c149951429666c33b228526f88a15dbdf",
+    "IDENTIFICATION.md": "711bfe88bd6a30fdf139d1461ffe39fa763e8fd02be378cde855ed45a2d6dc91",
     "LIBRARY-AUDIT.md": "9ff9886ec117380e145a8276c078d78b70238fedac8184ba2eb4cda9445fb1f7",
+    "PROJECTION.md": "66535817043462bf973119bbdf3454bed481b32fa4a669b922d6d48d037b9018",
+    "README.md": "1270dc7bca26505df5a7fd15e0e81e353776ab329f7760595259032f12b1a408",
+    "REGION-TABLES.md": "2877ae44261cb6984f636868bdf5e3682a4713a5b4d18a20bcdd7c061a639278",
+    "REVIEW.md": "afbab990f93a1d39db427de6824d12b438e2374f0e18e2b97db38eaf418a5ed5",
+    "RUBRIC.md": "68b37d2439560d4b9dcebe36a9ec010d76587aa633e8eaf4e6e032f22bef2c76",
+    "SCALE.md": "f1c3d07c8511093c748e10dd4bdf38785867bfc3d2c507d473995cf127aa5c07",
+    "SOURCE-GAP.md": "208f0f1fb79341c26bc49d71e2635ccf6af1dbdaa563f4a7388386e0509ff739",
+    "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
+    "assets.json": "1ca3219ef9806d1de9b5c467522497cbbc4fedca5980933031e2cf4f12832bee",
     "audit-library.mjs": "123985012bbda01bd4c9528182ffd7410a7826f0527ab15dcccf4a81d545e653",
-    "hull-sources.json": "0a75dba779f205b455a2a5da546ea78d731a51a5d79e2e701387a6e1896c6400",
-    "prepare-models.py": "417efe16dc21025fa9f82a3598121cd357023100fc777ef860174daedee672b3",
+    "clear-insert.js": "7ab521aaf8964751178a84683c137cbf255dbf56c001ad92bf1b836770472f5e",
+    "comparison-source.json": "44141b511e05e86b8bc617837e7c857269b395a919f0c80085fc6c2a0c24e3db",
+    "contract.js": "599a7de5799279a1a4f1605d0bee4cc9082120d324031b8d451856fa9e1ac878",
+    "evidence/fast-suite.log": "07169d84ed77ce2fe66f6aaa1bc0810414cdb6c93dc9c56b1438aeb4bb9fc375",
     "evidence/library-audit.json": "967ef7f3eebe07270b603ea743c6c7387767149b2a2fa777173b619517769aef",
-    "evidence/regeneration.json": "c00c77f5cb9a544efc5035af3be882385ff349b1a165035689a5bdec6703c8dd",
-    "evidence/prototype-tests.log": "7ac2a9f54d65e44cd057aad7898a39eaeb20c2992c4857767607b23408dcb119",
-    "evidence/fast-suite.log": "1399884b512b5e1c97ca0b46cbd92bf065a0b0683fbe775b0b70211e7ea289dd"
+    "evidence/material-study-run.log": "8d7641492812917479581a2856d354a8ff258c2d3092b06df5924d4515ef33e9",
+    "evidence/material-study.json": "db215a31db81719b19366651615e34e7f44f3b60788f6d35508986d80825edae",
+    "evidence/prototype-tests.log": "1fcf6ded8151055c444fe628655ea19fe7035b65caf3e5098118ad23d1738e20",
+    "evidence/regeneration.json": "64d24afa023688e72d68001d0e112084c5242c0c1d019f4c9dae0750a3d840aa",
+    "evidence/review-run.log": "1693beae22ebe779d1814f9b8ea3eaa0f355e744789eed50452bf1e85b7ec6c1",
+    "evidence/review.json": "1e6a5d63670d5970810e6beb0868e435fd2cb81b2c61ceeb0271f912961d6268",
+    "faction-palettes.js": "5c11521721e189ee6d9c30f6d2d026b79e7ddfc925e5708a86f052d6ad402599",
+    "faction-palettes.json": "600fd0c0b4ed37799331ac8b3c491bde0ee52ea40c2528f58d30faab4e01ae9d",
+    "fixture.js": "a7ff6f801aa1944fc5db4bcfd905fcf0e4dd864443a7204f5b1ab15f349562bc",
+    "glb-data.mjs": "25a56d651d177386aef62e28bdb344a551d232ac3b3f2f055497fba83316a6d6",
+    "hull-art.js": "7da664f1c23a6f5361e357f8981311db8ef0688dcee436a91b3e0bdfabb768f6",
+    "hull-paint.js": "e20c3f629e9dd2674f4542bccf975473a7098b92bcf3ebfda7ed47127bceb74e",
+    "hull-sources.json": "0a75dba779f205b455a2a5da546ea78d731a51a5d79e2e701387a6e1896c6400",
+    "index.html": "a0fa0d679783e58de5fac784ff2ea7e7614caa981f61aa0ca4df941c884b7388",
+    "inspect-regions.mjs": "5da46df8cbe4c90639332dbfb8aab9a0ea11be4a6591ea18fda077f9a80ced5c",
+    "material-study.html": "c834f088bf84444d9927dc3ec2e3160ce0be540c629c341be2fe19770fe8de3e",
+    "material-study.js": "4a679bdc797010b175bb07cf7b7fc0c0eada1e31283eb52908d750655f05aff4",
+    "materials.js": "b4c821e3edff5274fdf9d06c5f95adb18252d3e9cd2ed7b3d2789e518862e65b",
+    "moulded-plastic.js": "4489ec423b454926fbabc43be66c87a880deab949f0e065ced006960c6587bad",
+    "prepare-models.py": "f9eaa762e95b73becc1ec96ce54a606ceefeba72c9c14862964cbc83253f6da1",
+    "prepared/crystal-preparation.json": "025c197612269fd5c7f57310c7a550bc13b06ed99c93c181e66e3510b1d305f2",
+    "prepared/crystal-regions.json": "12f9a3e0ef5f7267df16f55a667c9e77e111b8716445683749d41c4994ee2b32",
+    "prepared/monoceros-preparation.json": "6a691de27e18d4107bba07d9c9368d6d7ed1f158e9a11aa2a2ddcd8e31cabc64",
+    "prepared/monoceros-regions.json": "ac8dd283506a1fde84ff018e982d20cafd65b891fa3e010923a0adff051c6924",
+    "prepared/shard-preparation.json": "781e7e5b71c82024afb0534cb1d23f53cded907e928d093013eeea4f522da651",
+    "prepared/shard-regions.json": "6b969bf0edefcdfda49d2d8eaf2897eebf83a6d40d520ee35fdb69b8d689298c",
+    "prepared/sparrowhawk-preparation.json": "c425435b2b4a89a92c556be72f94987d1e39b0536724f49abbf084ad3dab6301",
+    "prepared/sparrowhawk-regions.json": "058271638ebb11c5cb045bdba4587feb2c5ffa2b8c0297c664cfbecdb39761f6",
+    "prototype.css": "35c7e33bdf778eb09c01aa83d9d4deb4380f21bbe94da83246caaed2dae67b7e",
+    "renderer.js": "23ff44b0a234c6b0f512d9d51fece8ec0241a6d73665b1384606739f970e476e",
+    "review-study.mjs": "4423d434550682fdba7cf40383d8ea142ef8d9bca73f2d35887aff85bbf59bd6",
+    "review.mjs": "acf664abbef6d8364ccd798261e4c11de164c61f4cd2aed5370a6f8c0123df41",
+    "room-reflections.js": "84c92f32457b9ab3fbce98d5e69f3babaf748f8e7f34734b006b958972fac5a7",
+    "scale.js": "026cfa47f3f8e2f6d3f7605157474bae4d940e79974b9511731b0d900a434cb2",
+    "stands.js": "3d9fa79fa5e4bc1614070f68957e504a2f1d9f0ef13d9b5b926130068435e871",
+    "table.js": "e5ef8574018555efa88af1840c768d0388a90ba0ff35e925388d482c923493e2",
+    "test.mjs": "549a469d572da7d6c875e642021a66cc88d98a542dc826653cd492238506086b",
+    "variants.html": "c12637ee0e5f30df37bf40e7481dbaccc4267483ad351c5343487a6f30deff7a",
+    "write-region-table.mjs": "141ddcf8538c583f00d5d5d86197e1bac7fe50eebb43a3c35ad042f8d4ba30bb"
   },
   "sourceAndMeshHashes": {
-    "EAR": {
+    "monoceros": {
       "sourceSha256": "515a39878bb19c274f82312c40f2b913fef4d05e3cf54cc4983fe470fb303701",
       "preparedSha256": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce"
     },
-    "KRE": {
+    "sparrowhawk": {
       "sourceSha256": "8cf11f930ff0d8a096e8d1d1b70ae31b50018fdda47024a11520e48d757ea964",
       "preparedSha256": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a"
     },
-    "VRA": {
+    "shard": {
       "sourceSha256": "e03dd65ed06a80f4db0900dda89e8a304bf6ce165d3f1f00874afb8acfd5a33f",
       "preparedSha256": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3"
+    },
+    "crystal": {
+      "sourceSha256": "89daa406de61fb037fbf4639c3716032792763b8490189e24c6cfafd87e3b282",
+      "preparedSha256": "7f50b927e9d8be65bb7e70e3497bf95f4764bcd2869cd58e599a428c213ab6f6"
     }
   },
   "protectedFileSha256": {
     "table.js": "e5ef8574018555efa88af1840c768d0388a90ba0ff35e925388d482c923493e2",
     "materials.js": "b4c821e3edff5274fdf9d06c5f95adb18252d3e9cd2ed7b3d2789e518862e65b",
-    "scale.js": "eb8edf350ce4db2a26f3fb39b907239c5019ba5a016b723975d40b1254bb530c",
     "fixture.js": "a7ff6f801aa1944fc5db4bcfd905fcf0e4dd864443a7204f5b1ab15f349562bc",
     "prototype.css": "35c7e33bdf778eb09c01aa83d9d4deb4380f21bbe94da83246caaed2dae67b7e",
     "IDENTIFICATION.md": "711bfe88bd6a30fdf139d1461ffe39fa763e8fd02be378cde855ed45a2d6dc91",
@@ -157,27 +228,33 @@
     "prepared/monoceros.glb": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
     "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
     "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3",
-    "renderer.js": "75294a13e7a197a4fc1b4b035af2959b4964d94faca82433e9e1b91bdde6cc67",
     "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
-    "clear-insert.js": "98052f31f1a68b3b824612f09e16938185a366f8a81bea9d4ff837601e5d4383"
+    "prepared/monoceros-preparation.json": "6a691de27e18d4107bba07d9c9368d6d7ed1f158e9a11aa2a2ddcd8e31cabc64",
+    "prepared/sparrowhawk-preparation.json": "c425435b2b4a89a92c556be72f94987d1e39b0536724f49abbf084ad3dab6301",
+    "prepared/shard-preparation.json": "781e7e5b71c82024afb0534cb1d23f53cded907e928d093013eeea4f522da651"
   },
   "checks": {
-    "prototypeChecksPassed": 28,
-    "fastSuite": "passed, process exit 0",
+    "prototypeChecksPassed": 29,
+    "fastSuite": "All fast regression tests passed; process exit 0",
     "browserErrors": [],
+    "studyBrowserErrors": [],
     "regionBuildByteIdentical": true,
+    "crystalGLBRebuildByteIdentical": true,
     "libraryAuditFiles": 20,
     "libraryAuditDistinctFiles": 18,
-    "sourceAndPreparedMeshesUnchanged": true,
+    "allAuditedSourcesStillMatchHashes": true,
+    "threeFrigateMeshesUnchanged": true,
     "preparationValidation": [
       "EAR",
       "KRE",
-      "VRA"
+      "VRA",
+      "VRA Crystal comparison"
     ],
-    "scopeOnlyPrototype": true,
+    "survivingImplementationOnlyPrototype": true,
     "protectedFilesUnchanged": true,
-    "head": "29c322ecf56f175b759fdb68561097d6407f5e5c",
+    "head": "38f8d0b4f3038ccf034de58f9a2883ddf6c1b586",
     "branch": "work/presentation-3d",
-    "committed": false
+    "committed": false,
+    "scopeSlip": "A placeholder review-study.tmp was briefly created at the worktree root and immediately deleted. No existing outside file was modified."
   }
 }

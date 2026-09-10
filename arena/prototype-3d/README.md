@@ -1,25 +1,38 @@
-﻿# Three frigates: steel, bronze and gold - revision 06
+# Cast stands, steel and clear kit parts — revision 07
 
-The current Monoceros, Sparrowhawk and Shard now treat their substantial metal
-regions as silver/steel, bronze and gold. They share a rough metallic-flake
-finish, washed recesses and burnished edges; body paints remain matte. All
-source colours remain room-lit and non-emissive. Planning draws no energy.
+The three-frigate board now has black FASA-profile bases: the retained bevelled
+skirt with six shallow facets rising to a central apex. Black posts taper gently
+from 3.0 to 2.4 mm and remain uniformly **30 mm exposed above the apex**. The
+2 mm pyramid rise and 3 mm skirt are measured separately in [SCALE.md](SCALE.md).
+The old 0.5 mm mounting error is fixed; both post endpoints are now seated.
 
-The [faction contracts](FACTION-PALETTES.md) now govern every prepared hull;
-[the staged audit](LIBRARY-AUDIT.md) covers all 20 files / 18 distinct contents
-available here. Only two Krelath hulls are staged; the missing library is not
-claimed as inspected. Alternate Earth steel, dead-flat Krelath deck and painted
-Vraygon cyan are encoded without adding geometry to the frigates.
+Earth steel has a darker metallic body, more visible real-edge burnish and rough
+reflections captured from the existing lit tabletop. The source's blue regions
+stay blue. Steel, bronze and gold share the rough fine-flake finish; none is a
+mirror. Furniture, source art, identifiers and shared runtime are untouched.
 
-The corrected [per-hull region tables](REGION-TABLES.md) include all 23 colours,
-source/reduced surface areas, material classifications and open questions.
-[The contract](SOURCE-GAP.md) records the inert energy attachment maps and the
-optional clear-green Shard insert. [Scale measurements](SCALE.md) are republished;
-all dimensions and furniture remain unchanged.
+Start with [native planning](evidence/planning.png), the native
+[Earth crop](evidence/monoceros-planning.png), and the
+[Earth side view](evidence/monoceros-side.png). [Resolution](evidence/beam.png)
+continues to use the existing playback clock and separate energetic register.
 
-Start with [native planning](evidence/planning.png) and [resolution](evidence/beam.png).
-Native, unscaled hull crops: [Monoceros](evidence/monoceros-planning.png),
-[Sparrowhawk](evidence/sparrowhawk-planning.png), [Shard](evidence/shard-planning.png).
+The [matched material comparisons](variants.html) now use the **Crystal heavy
+cruiser**, with detail, side and plan pairs and a black/clear post study.
+[Open the interactive study](material-study.html) to switch the same camera
+between treatments. The 90 mm comparison hull stays off the three-frigate board;
+its source green regions are neither enlarged nor relocated. Pale cyan is paint.
+Shard retains its optional variant but no longer carries the material decision.
+
+Clear parts transmit with geometry-derived depth and cast a weaker, approximate
+transmission shadow. They emit nothing and have no paint marks. I prefer clear
+for the stand's float illusion; on Crystal, paint still identifies green more
+strongly while clear reads as a separate kit part in detail. Chris decides.
+**Every post on the board remains black and opaque.**
+
+The [pre-build rubric](RUBRIC.md) and [fresh adversarial review](REVIEW.md) score
+94.30/100, with every criterion at least 90. Independent gates: steel at planning
+91, Crystal comparison 92, clear-post comparison 93. I can see and directly
+inspected the captured images. These are self-review scores, not Chris's approval.
 
 | Hull | Plan detail | Side | Stern | Bow |
 |---|---|---|---|---|
@@ -27,49 +40,32 @@ Native, unscaled hull crops: [Monoceros](evidence/monoceros-planning.png),
 | Sparrowhawk | [Plan](evidence/sparrowhawk-detail.png) | [Side](evidence/sparrowhawk-side.png) | [Stern](evidence/sparrowhawk-stern.png) | [Bow](evidence/sparrowhawk-bow.png) |
 | Shard | [Plan](evidence/shard-detail.png) | [Side](evidence/shard-side.png) | [Stern](evidence/shard-stern.png) | [Bow](evidence/shard-bow.png) |
 
-[Paint / clear comparison](variants.html) provides matched cameras and links to
-both live variants. Painted green remains the default. Clear green has no paint
-marks and transmits through a measured thin volume; its shadow is approximate.
-I prefer the painted part at planning distance, and the clear insert in detail.
-Chris's choice remains open, as does [base identification](IDENTIFICATION.md).
+The [region tables](REGION-TABLES.md) include the comparison hull. The
+[faction contracts](FACTION-PALETTES.md), [20-file source audit](LIBRARY-AUDIT.md)
+and [source/material contract](SOURCE-GAP.md) document the source boundaries,
+preparation, inert energy attachments, clear optics and limitations.
 
-[Pre-build rubric](RUBRIC.md) and [adversarial review](REVIEW.md): 94.45/100
-weighted, each criterion >=90. Metal scores: Earth 90, Krelath 91, Vraygon 92;
-optional insert comparison 90. These are fresh self-review scores, not Chris's
-approval. I directly viewed the 22 distinct images covering all 25 final captures.
-Frame/file hashes and scope
-checks are attached in evidence/adversarial-review.json.
+## Budgets and validation
 
-## Correction and uncertainty
-
-Earth's steel mask was intact but wrongly classified as pale paint. It is
-43.952% of the entire surface; the two blue regions together are 47.679%.
-The planning camera sees 38.77% steel and 53.84% blue, so no source colours were
-swapped to force a steel majority on screen. The steel now has the metallic finish.
-Earth's 2.177% gold sensor dish is now confirmed metal. Its entire source and
-reduced gold region is confined to the dish; out-of-bounds gold fails preparation.
-Shard's 27.175% yellow is confirmed paint by Chris's later faction
-set. Its purple/lavender/red are designated energy-capable, with no guessed
-weapon or engine functions. Krelath's green distinction and small dome remain
-unnamed. All designations are inert until an explicitly supported animation.
-
-## Budgets and run
-
-| Measurement | Painted default | Optional clear experiment |
+| View | Largest captured submission | Limit |
 |---|---|---|
-| Largest captured planning submission | 69,736 triangles / 73 draws | 104,649 / 110 |
-| Submission caps | 70,000 / 90 | 110,000 / 110 |
-| Material textures | 17.31 MiB / 24 cap | Same; transmission is a render target |
-| Target estimate cap | 64 MiB | 96 MiB; half-resolution MSAA transmission adds up to about 30 MiB |
-| Lighting | One warm shadow key, existing fill | Same lights; no emissive material |
-| Shadow / buffer | 2048 square; <=2,073,600 pixels | Same; clear insert casts an opaque approximate shadow |
-| Camera | Y >=24 units, downward pitch >=32 degrees | Same floors, including comparison cameras |
+| Painted three-frigate board | 69,832 triangles / 73 draws | 70,000 / 90 |
+| Optional clear Shard on that board | 104,793 / 110 | 110,000 / 110 |
+| Isolated Crystal comparison | 41,642 / 55 | 90,000 / 110 |
+| Isolated post pair | 7,144 / 47 | 90,000 / 110 |
 
-The clear pass exceeds the painted budget. It is an experiment, not a fleet-wide
-performance claim. Its target allocation remains until reload after switching
-back to paint. Peak driver memory, integrated-GPU behaviour and full-board costs
-are unmeasured. The ordinary three-hull Edge/RTX 5060 Ti probe averaged 0.42 ms,
-p95 0.50 ms for JS submission plus gl.finish at 1920 x 1080; this is not a full-board test.
+Main material textures use 18.81 MiB of the 24 MiB budget, including the captured
+room. Main offscreen-target limits remain 64 MiB painted / 96 MiB optional clear.
+The separate deciding study uses full-resolution transmission, estimated at
+80.97 MiB for its targets at the captured size, with a 160 MiB limit and 2.07M
+pixel cap. The estimate excludes driver overhead and the default browser drawing
+buffer. Transmission allocation persists until reload. Peak driver memory,
+integrated-GPU behaviour and full-board performance remain unmeasured.
+
+29 prototype checks, the unchanged fast suite, and both browser workflows pass.
+Checks include the six roof facets, actual scale measurements, both mounting
+gaps, authored palette/geometry, optical depth, transmitting shadow, no physical
+emission, independent energy, camera floors, pause/skip and SVG fallback.
 
 From this worktree:
 
@@ -78,9 +74,9 @@ $env:PORT = '18873'
 node scripts/serve.js
 ```
 
-Open `http://127.0.0.1:18873/arena/prototype-3d/index.html` (painted default),
-`index.html?insert=clear` (optional insert), or `variants.html` (paired captures).
-Pinned local Three.js r180/WebGL2 is unchanged; SVG remains the fallback.
+Open `http://127.0.0.1:18873/arena/prototype-3d/index.html` for the board,
+`material-study.html` for live comparisons, or `variants.html` for matched frames.
+The board's `?insert=clear` option affects Shard's green fixture only.
 
 ```powershell
 node arena/prototype-3d/test.mjs
@@ -88,15 +84,13 @@ node test/run-tests.js
 $env:PLAYWRIGHT_MODULE = 'file:///path/to/playwright/index.mjs'
 $env:PROTOTYPE_BROWSER = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
 node arena/prototype-3d/review.mjs
+node arena/prototype-3d/review-study.mjs
 ```
 
-28 prototype checks, the unchanged fast suite and browser checks pass. Browser
-checks cover every material mask, missing classifications, inert designated
-faces, physical/energy separation, floors, pause/skip, fallback and both variant
-URLs. Rebuild commands are in SOURCE-GAP.md. The three derivative GLBs rebuilt byte-identically during preparation verification;
-all source files remain untouched.
+Rebuild commands are in SOURCE-GAP.md. The Crystal derivative rebuilt
+byte-identically; the three frigate meshes and all supplied GLBs remain unchanged.
 
-All implementation remains under arena/prototype-3d/, on work/presentation-3d,
-base HEAD 29c322e. No branch or commit was created. Furniture, black stands,
-identifier choice, shared runtime and other sessions' files remain unchanged.
-Stopped before destruction, planet/nebula samples and the full-board test.
+Work remains uncommitted on work/presentation-3d, base HEAD 38f8d0b. No branch
+was created. All surviving implementation changes are inside the prototype;
+the review discloses one immediately removed misplaced placeholder. Stopped
+before destruction, planets/nebulae, identification decisions and full-board work.

@@ -1,4 +1,4 @@
-# Measured scale - revision 06 (all dimensions unchanged)
+# Measured scale - revision 07 (skirt, pyramid and post measured separately)
 
 **1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.
 
@@ -17,11 +17,13 @@ The browser measures the built geometry before its tabletop rotation. The printe
 | D6 | local X / Y / Z extents | 1.6 x 1.6 x 1.6 | 16 x 16 x 16 | 16 x 16 x 16 |
 | Spiral notebook body | local X / Y / Z extents | 21.6 x 0.6 x 27.9 | 216 x 6 x 279 | 216 x 6 x 279 |
 | Pencil | local X / Y / Z extents | 0.606 x 19 x 0.7 | 6.062 x 190 x 7 | 6.062 x 190 x 7 |
-| Black hex base | across flats / height | 2.5 x 0.3 | 25 x 3 | 25 x 3 |
-| Black post | diameter / exposed length | 0.2 x 3 | 2 x 30 | 2 x 30 |
+| Black base skirt | across flats / bevelled skirt height | 2.5 x 0.3 | 25 x 3 | 25 x 3 |
+| Black base pyramid | rise above skirt / total apex height | 0.2 x 0.5 | 2 x 5 | 2 x 5 |
+| Black tapered post | bottom diameter / top diameter / exposed length | 0.3 x 0.24 x 3 | 3 x 2.4 x 30 | 3 x 2.4 x 30 |
 | EAR frigate | length; width/height in asset metrics | 5.5 | 55 | 55 |
 | KRE frigate | length; width/height in asset metrics | 6.5 | 65 | 65 |
 | VRA frigate | length; width/height in asset metrics | 4.5 | 45 | 45 |
+| Crystal material study only | length; provisional comparison size | 9 | 90 | 90 |
 
 Current source geometry changes hull height/width; these are measured bounds at the unchanged lengths:
 
@@ -37,7 +39,7 @@ All three samples remain frigates: Vraygon 45 mm, Earth 55 mm, Sparrowhawk 65 mm
 
 The notebook row measures its 216 x 279 mm body; the wire loop adds 1.95 mm beyond its left edge and reaches 7.45 mm above the table. The pencil has a 7 mm hexagonal section across corners (6.062 mm across flats), including a real sharpened tip within the 190 mm total. The mug-body reference excludes its handle; the full width is reported separately.
 
-The card is 2 mm thick. Printed faces are 0.05 mm above their substrate to prevent depth interference; this is a render separation, not extra card thickness. Posts meet the actual ray-intersected underside of each hull; their exposed length is uniformly 30 mm. Their contact coordinates are included in evidence/review.json.
+The card is 2 mm thick. Printed faces are 0.05 mm above their substrate to prevent depth interference; this is a render separation, not extra card thickness. Posts meet the actual ray-intersected underside of each hull; their exposed length is uniformly 30 mm. Their contact coordinates and measured end gaps are included in evidence/review.json. The 3 mm bevelled skirt is retained; a new 2 mm pyramid rise puts the apex 5 mm above the card. The post adds 30 mm above that apex, with 3.0 mm bottom / 2.4 mm top diameter. These are chosen prototype dimensions, not verified measurements of an original FASA part. The previous post was buried 0.5 mm in the base, leaving 29.5 mm exposed, and its top was 0.5 mm short of the hull; the new endpoints are seated explicitly.
 
 Before correction, using the old 1.65-unit hex radius as 32 mm across flats implied 11.197 mm/unit: the mug was only 17.58 mm high x 18.81 mm wide, the D6 8.73 mm, D20 15.67 mm, rulebook about 48.15 x 69.42 mm, notebook 48.15 x 44.79 mm, and pencil 39.19 mm long. Equal 3.8-unit hulls all implied 42.55 mm. Those relative scales were wrong.
 

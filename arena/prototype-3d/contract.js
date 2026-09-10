@@ -1,4 +1,5 @@
 import {artProfile} from './hull-art.js';
+import {factionRegion,validateFactionPalette} from './faction-palettes.js';
 // Pure, presentation-only contracts. No simulation imports or state access.
 import { SIZES, mm } from './scale.js';
 export const FORMAT = 'tabletop-projection/1';
@@ -56,8 +57,9 @@ export function validateAssets(manifest) {
   return manifest;
 }
 
-export function validateRegionMap(map, faction=map?.faction) {
-  const profile=artProfile(faction);
+export function validateRegionMap(map, faction=map?.faction, profile=artProfile(faction)) {
+  validateFactionPalette(faction,profile.palette.map(p=>p.key));
+  for(const r of profile.palette){const canonical=factionRegion(faction,r.key);if(r.classification!==canonical.classification||r.metal!==canonical.metal||JSON.stringify(r.variant)!==JSON.stringify(canonical.variant))fail('hull profile cannot override faction material classification');}
   if(map?.faction!==faction)fail('region map belongs to a different hull');
   if(map?.format!=='tabletop-colour-regions/3'||map.palette?.length!==profile.palette.length||!map.patches?.length)fail('missing authored region map');
   if(map.palette.map(p=>p.key).sort().join(',')!==profile.palette.map(p=>p.key).sort().join(','))fail('palette does not belong to this hull');

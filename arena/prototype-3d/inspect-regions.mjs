@@ -1,11 +1,12 @@
 import fs from 'node:fs';
 import {readGLB,colourKey} from './glb-data.mjs';
 import {artProfile} from './hull-art.js';
-import {validateFactionPalette} from './faction-palettes.js';
+import {validateFactionPalette,factionRegion} from './faction-palettes.js';
 const here=new URL('./',import.meta.url);
 const configs=JSON.parse(fs.readFileSync(new URL('./hull-sources.json',here)));
-const faction=process.argv[2]??'KRE',config=configs[faction];
-const profile=artProfile(faction);
+const comparison=process.argv.includes('--comparison');
+const faction=process.argv[2]??'KRE',config=comparison?JSON.parse(fs.readFileSync(new URL('./comparison-source.json',here))):configs[faction];
+const profile=comparison?{palette:Object.keys(config.colours).map(k=>factionRegion(faction,k)),confirmedEffects:[]}:artProfile(faction);
 const source=readGLB(new URL('./source/'+config.source,here));
 const sp=source.json.meshes[0].primitives[0],sc=source.attribute(sp.attributes.COLOR_0);
 const palette=[];

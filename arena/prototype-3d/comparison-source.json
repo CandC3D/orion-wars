@@ -1,0 +1,21 @@
+{
+  "name": "Crystal",
+  "faction": "VRA",
+  "source": "vtw/Vraygon VCA-02 _Crystal_ Heavy Cruiser.glb",
+  "output": "crystal",
+  "lengthMm": 90,
+  "ratio": 0.5,
+  "nativeBow": "+X",
+  "colours": {
+    "75cedb": 1605,
+    "7e3f98": 7788,
+    "ffdd1a": 8304,
+    "f5831f": 3660,
+    "e1ad34": 33072,
+    "46b749": 879,
+    "d3bfe5": 15450,
+    "e91d2d": 168
+  },
+  "purpose": "Isolated material comparison only. 90 mm is a provisional physical study size, not a class ladder.",
+  "orientationNote": "Centred runtime +X long axis, +Y up. Crystal comparison heading follows the pointed end of its current model; no functional anatomy or weapon mount is inferred."
+}

@@ -1,4 +1,4 @@
-# Faction palette contracts - revision 06
+# Faction palette contracts - revision 07
 
 Generated from faction-palettes.json. A known colour can be absent from a hull; its absence never creates geometry. Preparation also checks the exact authored per-hull palette/counts. An unknown colour or mismatched substance fails as an export/contract fault.
 
@@ -52,8 +52,8 @@ Generated from faction-palettes.json. A known colour can be absent from a hull; 
 - 75cedb occurs on Cluster, Crystal, Feldspar, Bastion and combined fleet; absent on Shard, Point and Avalanche.
 - 46b749 is the only region eligible for moulded clear plastic.
 
-All metals use the same rough fine-flake finish (metalness 0.52, roughness 0.67, burnished edge roughness 0.53). Primary steel retains its cooler source tuple; the alternate alloy is lower in value and slightly warmer. No extra alloy region is invented on Monoceros.
+All metals use the same rough fine-flake finish (metalness 0.58, roughness 0.62, burnished edge roughness 0.53). Steel now uses a darker film value, stronger burnish and rough reflected room light to distinguish it from white paint. Primary steel retains its cooler source tuple; the alternate alloy is lower in value and slightly warmer. No extra alloy region is invented on Monoceros.
 
 Zandrax: green/magenta energy-designated; dark grey/lead metal. Recorded for future intake, without invented RGB keys.
 
-Validation coverage: see LIBRARY-AUDIT.md. Only the three frigates have been visually reviewed as board pieces; the other colours have data/material-contract checks, not a claim of full visual hull review.
+Validation coverage: see LIBRARY-AUDIT.md. The three frigates are reviewed as board pieces; Crystal has a separate material comparison; the other colours have data/material-contract checks, not a claim of full visual hull review.

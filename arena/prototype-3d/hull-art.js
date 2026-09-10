@@ -2,7 +2,7 @@
 // Substance is faction-wide; anatomy and feature locations remain hull-specific.
 import {factionRegion,validateFactionPalette} from './faction-palettes.js';
 const region=(f,key,role)=>Object.freeze({...factionRegion(f,key),role});
-export const METAL_FINISH=Object.freeze({metalness:.52,roughness:.67,edgeRoughness:.53,flakePitchMm:.12});
+export const METAL_FINISH=Object.freeze({metalness:.58,roughness:.62,edgeRoughness:.53,flakePitchMm:.12});
 export const ART_PROFILES=Object.freeze({
  EAR:Object.freeze({name:'Monoceros',palette:[
   region('EAR','bfc7cc','silver / steel hull'),

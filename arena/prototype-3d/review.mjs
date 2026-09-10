@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:http';
 import assert from 'node:assert/strict';
+import {readGLB} from './glb-data.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..');
 const out=path.join(here,'evidence');await fs.mkdir(out,{recursive:true});
@@ -31,6 +32,7 @@ try{
     if(kind==='planning'){
       assert.equal(result.captures.planning.visibleEnergyObjects,0,'static pieces came to life without playback');
       assert.equal(result.captures.planning.clearVariant,false,'clear experiment replaced the painted default');
+      for(const m of result.captures.planning.mounting){assert.ok(Math.abs(m.exposedMm-30)<.001);assert.ok(Math.abs(m.baseGapMm)<.001&&m.hullGapMm<.001,'Unseated post: '+m.id);assert.equal(m.opaque,true);}
       const stage=await page.locator('.stage').boundingBox();
       for(const [faction,name] of [['EAR','monoceros'],['KRE','sparrowhawk'],['VRA','shard']]){
         const b=result.captures.planning.hullScreenBounds[faction+'-FF-1'];
@@ -79,6 +81,14 @@ try{
     [box,plane,folded,fold].forEach(g=>g.dispose());return result;
   });
   assert.deepEqual(result.checks.geometricPaint,{cubeConvex:12,cubeConcave:0,flatPlaneCreases:0,foldConcave:1,missingColourRejected:true,unknownColourRejected:true});
+  result.checks.standGeometry=await page.evaluate(async()=>{
+    const {baseGeometry,postGeometry,standScaleRows}=await import('./stands.js'),{validateScaleRows}=await import('./scale.js');
+    const base=baseGeometry(),post=postGeometry(),p=base.attributes.position;let roofFaces=0;
+    for(let i=0;i<p.count;i+=3)if([0,1,2].some(j=>Math.abs(p.getY(i+j)-.5)<1e-6))roofFaces++;
+    const rows=standScaleRows(base,post);validateScaleRows(rows);post.scale(1,1.01,1);let driftRejected=false;try{validateScaleRows(standScaleRows(base,post));}catch{driftRejected=true;}
+    base.dispose();post.dispose();return {roofFaces,driftRejected,rows};
+  });
+  assert.equal(result.checks.standGeometry.roofFaces,6);assert.equal(result.checks.standGeometry.driftRejected,true);
   result.checks.allMaterialRegions=await page.evaluate(async()=>{
     const T=await import('three'),{ART_PROFILES}=await import('./hull-art.js'),{preparePaintGeometry,candidatePaint}=await import('./hull-paint.js');
     let regions=0,metal=0,energyPaint=0,clearEligible=0;
@@ -147,9 +157,12 @@ try{
   assert.equal((await page.evaluate(()=>window.tabletopPrototype.inspect())).camera.blur,0);result.checks.reducedMotion=true;
   const gl=await page.evaluate(()=>{const g=document.querySelector('canvas').getContext('webgl2');const e=g.getExtension('WEBGL_debug_renderer_info');return{vendor:g.getParameter(e?e.UNMASKED_VENDOR_WEBGL:g.VENDOR),renderer:g.getParameter(e?e.UNMASKED_RENDERER_WEBGL:g.RENDERER)};});
   result.gpu=gl;result.errors=errors;
-  const dimensions=result.captures.planning.scaleMeasurements;
+  const studyGLB=readGLB(path.join(here,'prepared/crystal.glb')),studyPrimitive=studyGLB.json.meshes[0].primitives[0],studyPositions=studyGLB.attribute(studyPrimitive.attributes.POSITION);
+  const studyLength=Math.max(...studyPositions.map(p=>p[0]))-Math.min(...studyPositions.map(p=>p[0]));assert.ok(Math.abs(studyLength-9)<1e-5);
+  result.comparisonMeasurement={object:'Crystal material study only',basis:'length; provisional comparison size',sceneUnits:[studyLength],actualMm:[studyLength*10],referenceMm:[90]};
+  const dimensions=[...result.captures.planning.scaleMeasurements,result.comparisonMeasurement];
   const f=n=>Number(n.toFixed(3));
-  const scaleText=['# Measured scale - revision 06 (all dimensions unchanged)','',
+  const scaleText=['# Measured scale - revision 07 (skirt, pyramid and post measured separately)','',
     '**1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.',
     '', 'The browser measures the built geometry before its tabletop rotation. The printed hex uses the same 32 mm across-flats geometry as the presentation coordinates. Rows fail at a 0.06 mm discrepancy. The D20 uses opposite vertices (20 mm), not opposite faces.',
     '', '| Object | Measurement | Scene units | Implied actual mm | Reference / chosen mm |',
@@ -161,7 +174,7 @@ try{
     '', 'References: mug, dice, rulebook, notebook, pencil, hex and frigate range are the sizes supplied by Fable and Chris. Table (1000 x 700 mm), 480 x 320 mm study board, box lid, 25 mm base and 30 mm post are prototype choices. Book thickness is 28 mm within the supplied 25-30 mm range.',
     '', 'All three samples remain frigates: Vraygon 45 mm, Earth 55 mm, Sparrowhawk 65 mm. This demonstrates size variation within the requested 40-75 mm range, not a validated destroyer/battleship scale ladder. Swift is not loaded.',
     '', 'The notebook row measures its 216 x 279 mm body; the wire loop adds 1.95 mm beyond its left edge and reaches 7.45 mm above the table. The pencil has a 7 mm hexagonal section across corners (6.062 mm across flats), including a real sharpened tip within the 190 mm total. The mug-body reference excludes its handle; the full width is reported separately.',
-    '', 'The card is 2 mm thick. Printed faces are 0.05 mm above their substrate to prevent depth interference; this is a render separation, not extra card thickness. Posts meet the actual ray-intersected underside of each hull; their exposed length is uniformly 30 mm. Their contact coordinates are included in evidence/review.json.',
+    '', 'The card is 2 mm thick. Printed faces are 0.05 mm above their substrate to prevent depth interference; this is a render separation, not extra card thickness. Posts meet the actual ray-intersected underside of each hull; their exposed length is uniformly 30 mm. Their contact coordinates and measured end gaps are included in evidence/review.json. The 3 mm bevelled skirt is retained; a new 2 mm pyramid rise puts the apex 5 mm above the card. The post adds 30 mm above that apex, with 3.0 mm bottom / 2.4 mm top diameter. These are chosen prototype dimensions, not verified measurements of an original FASA part. The previous post was buried 0.5 mm in the base, leaving 29.5 mm exposed, and its top was 0.5 mm short of the hull; the new endpoints are seated explicitly.',
     '', 'Before correction, using the old 1.65-unit hex radius as 32 mm across flats implied 11.197 mm/unit: the mug was only 17.58 mm high x 18.81 mm wide, the D6 8.73 mm, D20 15.67 mm, rulebook about 48.15 x 69.42 mm, notebook 48.15 x 44.79 mm, and pencil 39.19 mm long. Equal 3.8-unit hulls all implied 42.55 mm. Those relative scales were wrong.',
     '', 'This table is regenerated by review.mjs; exact floating-point measurements and all hull length / height / width bounds are in evidence/review.json.', ''].join('\n');
   await fs.writeFile(path.join(here,'SCALE.md'),scaleText);

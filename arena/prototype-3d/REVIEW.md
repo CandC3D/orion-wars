@@ -1,148 +1,138 @@
-# Adversarial review - revision 06
+# Adversarial review — revision 07
 
-**Self-review: 94.45/100 weighted; every criterion passes its separate 90 gate.**
-These scores replace revision 05 and include a fresh assessment of Earth's
-confirmed gold dish and the faction contracts. They are my assessment for Chris to inspect,
-not a claim of his approval.
+**Self-review: 94.30/100. Every criterion clears its independent 90 gate.**
+The earlier Earth-metal and Shard-comparison scores are withdrawn. This review
+starts from Fable's findings; the geometry count never stands in for visual
+material quality. Chris has not approved this revision.
 
-I can see captured images. I opened the 22 distinct images covering all 25 final
-captures (three pairs are byte-identical), starting with the
-ordinary planning frame and native crops, then resolution and each hull's
-plan/side/stern/bow detail views. I also opened the Monoceros v3 and Sparrowhawk
-v2 source schematics. Shard uses its geometry/COLOR_0 and Chris's material sets;
-there is no invented schematic. No in-scope visual criterion is unscored.
+I can see the captures. I inspected native planning and hull crops first, then
+metal detail views, the larger Crystal pairs and both post views. The deciding
+clear comparison is now Crystal, including close material views; Shard's old
+pair is not used to pass that criterion. Reviewed images are named in the
+evidence artifact, alongside hashes of the complete capture set.
 
-## Rubric, evidence and deductions
-
-The revision 06 [rubric](RUBRIC.md) was written before implementation. A failed
-criterion cannot be rescued by the weighted average.
-
-| Criterion | Weight | Score /100 | Adversarial finding / deduction |
+| Pre-build rubric criterion | Weight | Score /100 | Finding and deductions |
 |---|---:|---:|---|
-| Brief and scope | 10% | 100 | Three current local frigates; furniture, black bases, identifier choice, sources and shared runtime unchanged. Only prototype implementation files changed. The clear comparison is explicit and retains paint as default. |
-| Generated art and faction contracts | 25% | 97 | All 23 regional areas and four metal masks checked against source geometry and the faction contracts. All source and reduced Earth gold is confined to the dish. No swapped blue/steel faces. Every staged GLB passes the allowed palette; unavailable Krelath hulls are excluded explicitly. Deduct 3 for the existing reduction's small surface deviations (Shard area drift up to 0.629 percentage points). No uncertain function becomes a socket. |
-| Period metallic finish | 25% | 90 | Lowest of Earth 90, Krelath 91, Vraygon 92, assessed separately below. No averaging across hulls. |
-| Body paint, period and registers | 15% | 94 | Real recesses remain black-lined and raised edges readable at planning distance; body paint absorbs broad highlights. All source colours go dark without room light. Deduct 4 for still regular, algorithmic stroke breakup visible in macros, 2 for the clear insert's thin-volume/opaque-shadow approximation. |
-| Scale coherence | 10% | 98 | All measured dimensions unchanged, including 55/65/45 mm lengths and 30 mm black posts. Deduct 2 for the provisional frigate size choices; no cross-class evidence claimed. |
-| Unaided play-element reading | 15% | 92 | Distinct metal-and-paint miniatures and physical supports read at allowed heights. Deduct 5 because metal character is weaker at the small planning size than in detail, 3 because tiny fixture detail cannot be read there. Full-board identification is outside this score. |
+| Brief and ownership | 10% | 98 | Final implementation is confined to the prototype; furniture, sources, identifiers and shared runtime unchanged. Deduct 2 for a briefly misplaced placeholder file, disclosed below. |
+| Authored geometry and palettes | 15% | 97 | All four prepared hulls retain their own regions; Crystal retains 53 components and its eight green patches. No enlarged/relocated part or invented weapon assignment. Deduct 3 for the measured reductions' small surface deviations. |
+| FASA base and post geometry | 15% | 95 | Retained bevelled skirt, six shallow roof facets and central apex; gentle taper and seated endpoints. Deduct 5 because exact original FASA dimensions have not been verified; the chosen dimensions are explicit. |
+| Steel reads as metal at planning height | 20% | 91 | The native collars and rails now have darker bodies, dark joints and brighter burnished edges; they read as dull metal rather than white trim. Deduct 5 for the warm key's pewter tint and 4 because flake itself remains unresolved at ordinary planning size. |
+| Period finish on all hulls | 10% | 93 | Rough steel, bronze and gold; matte body paint, real-edge brushwork and no mirror images. Deduct 4 for regular stroke breakup in macros and 3 for subdued fine-flake cues on small surfaces. |
+| Decidable clear-material experiment | 20% | 92 | Matched Crystal detail/side/plan pairs and actual-size black/clear posts make the choice visible. Deduct 4 for convex-volume and single-screen-space-ray optics, 3 for coloured backing/reflections obscuring green identity, 1 for approximate shadow coverage. |
+| Scale, registers and readable play elements | 10% | 98 | Measured skirt, pyramid, taper, exposure and mount gaps; no physical emission or planning energy; existing camera floors retained. Deduct 2 for provisional miniature/class-study sizes. |
 
-## Metals, individually
+Separate gates: **steel at planning 91; Earth metal in detail 92; Krelath
+bronze 93; Vraygon gold 93; Crystal clear comparison 92; clear-post comparison
+93.** None is rescued by the weighted score. No in-scope visual criterion is
+unscored.
 
-| Hull | Score /100 | What I could see / deduction |
-|---|---:|---|
-| Monoceros / steel and gold | 90 | A dull grey metal structure with bright collars/rails, darker inked joints and blue panelling; the lower sensor dish now has a subdued gold return. Fine grain is present in detail, without chrome. Deduct 6 because the warm room still pulls steel towards beige pewter in some views, 4 because at planning size several collars read primarily as a light value and the small dish's metal finish is unresolved. |
-| Sparrowhawk / bronze | 91 | Bronze housings retain the actual boundaries and dark recesses; body greens stay matte. The close views show binder grain and a soft metallic return. Deduct 5 because the broad oval housing reads quite subdued head-on, 4 because the fine flake itself is unresolved at planning distance. |
-| Shard / gold | 92 | Warm dull gold covers the majority of the hull, with dark structural recesses and brighter real edges. Yellow painted facets have a different, flatter return. Deduct 4 because neighbouring yellow and gold remain close in value under this key, 4 because grain and finish distinction diminish at planning size. |
+## The mounting geometry
 
-Metalness 0.52 / roughness 0.67 and 0.12 mm filtered flake pitch are common to all
-three; edge roughness is 0.53. None uses a different finish to manufacture faction
-identity. Matte body roughness remains 0.98. Ink, drybrush and picked widths are
-0.25 / 0.38 / 0.12 mm. These measurements support the visual review; they do not
-supply its score.
+The base remains 25 mm across flats. Its original 3 mm bevelled skirt is intact;
+the top now rises another 2 mm through six planar faces to the apex. Above that
+apex is 30 mm of exposed post, tapering from 3.0 to 2.4 mm diameter. Geometry
+measurements and a deliberate post-stretch failure test prevent the scale table
+from simply repeating constants.
 
-## The Earth inversion
+The old cylinder was buried 0.5 mm in the flat base and ended 0.5 mm below the
+declared hull attachment. Its actual exposure was 29.5 mm despite the 30 mm
+geometry parameter. Both new endpoints are seated explicitly. The three
+measured exposures are 30 mm; maximum end gap is under 0.000002 mm (floating
+point error). Skirt, pyramid rise and exposed post are separate SCALE.md rows.
 
-Source steel is 43.952%; bright/deep blues together are 47.679%. The derivative
-keeps those areas within 0.039 percentage points. The native planning ID pass
-sees 808 steel pixels (38.77%) and 1,122 blue pixels (53.84%). That is the actual
-camera-visible geometry, not a material mask swap. The previous error was in
-hull-art.js calling steel pale paint. The new mask is tested in the actual
-browser geometry. Forcing a majority of visible pixels to steel would require
-changing Chris's blue regions or the already-approved camera.
+Chris's FASA profile governs the shape. I found the mechanics notes but no
+original base photograph or dimensioned drawing in this worktree. The
+[1986 FASA catalogue](https://tardiscaptain.com/wp-content/uploads/2021/04/FASA-Spring-1986-Catalog.pdf)
+describes clear plastic stands; the dimensions above are chosen prototype
+dimensions, not purported measurements from that catalogue.
 
-Earth gold is 2.177% of source surface. All 12,480 source corners / 4,160
-triangles sit at the sensor dish, with one connected reduced patch of 467
-triangles. Both source and derivative bounds are checked before accepting this
-classification; no gold occurs elsewhere. The orange dorsal housing remains
-weapons-warning paint, despite its warm appearance under this light.
+## Steel and the room
 
-## Faction palette coverage
+The previous pale response survived correct region assignment. The new steel
+film is darker and has stronger burnish on measured convex edges, with fine
+value variation filtered below a pixel. All metals now share metalness 0.58,
+roughness 0.62, edge roughness 0.53 and 0.12 mm flake pitch. Steel has its own
+film value; its bright return no longer depends on a pale base colour alone.
 
-The [contract](FACTION-PALETTES.md) validates allowed keys during preparation,
-region generation and runtime. It does not require every hull to contain every
-optional colour. Unknown keys fail as export faults; per-hull fingerprints still
-catch unexpected changes. Source files remain untouched.
+A 128-pixel cube capture of the already-lit physical tabletop supplies rough
+room reflections to the hull and clear materials. It adds no furniture or light.
+The existing hemisphere still supplies diffuse fill. Captured reflections are
+disabled with the room lights in the blackout test. No sharp room image appears
+on the metal, and the grey surfaces retain texture and dark joints in detail.
 
-The [local audit](LIBRARY-AUDIT.md) covers 20 files / 18 distinct contents,
-including combined fleet files. Only Sparrowhawk and Swift are staged for
-Krelath. Carrier, flagship and fighter exceptions are encoded from Chris's
-rulings; their absent models are not claimed as audited. Zandrax is recorded by
-colour names only, without invented hex keys.
+The blues remain saturated and visually prominent. They have not been altered
+to manufacture a steel majority. Source steel remains 43.952% of total surface;
+the new mounting position gives 39.48% of native visible pixels to steel and
+53.52% to both blues. Fable's outward-facing surface measurement and this
+camera's pixel coverage measure different things; neither is a material score.
 
-Alternate Earth steel keeps its darker source value with a slightly warmer tint
-and the same metal finish. No second grey is added to Monoceros. The Krelath
-flight deck forces roughness 1 and zero specular return, including grazing
-angles. Vraygon cyan remains ordinary paint; only green permits clear styrene.
-These absent-from-board extensions have contract/geometry/shader checks, not a
-visual score for larger hulls. I have not assigned an anatomical role to the
-alternate Earth alloy from numeric bounds alone.
+## The larger comparison and the post decision
 
-## Optional clear insert: 90/100
+Crystal is a separate, provisional 90 mm study asset. Its local derivative is
+377,776 bytes / 11,742 triangles, from 1,987,232 bytes / 23,642 triangles. All
+53 components remain. Maximum measured vertex-to-surface deviation in either
+direction is 0.142754 mm, not a certified continuous Hausdorff bound. The green
+region is 1.091% of source area across eight patches. No specific system anatomy
+is invented, and pale cyan stays paint.
 
-The [matched comparison](variants.html) retains both versions. The clear insert
-has no lining, chalk, chips or paint shader; the smooth green surface transmits
-and changes density across its measured depth. Its actual gold backing affects
-the transmitted colour. I prefer paint for planning readability, clear for the
-close-up impression of a separate kit part. Chris decides; the default is paint.
+The [comparison page](variants.html) puts the matched material details first,
+then whole-hull context and the black/clear post pair. The live material study
+keeps the same cameras when switching variants. Neither source geometry nor
+the green fixture scale changes. The deciding close view supplies 10,610 clear
+pixels, with a measured median optical path of 1.333 mm. That supports a visual
+comparison; the old tiny Shard pair did not.
 
-Deduct 4 for the thin-volume approximation rather than a closed solid; 2 for its
-opaque shadow; 2 because its gold backing pushes the green towards olive; 2 for
-limited planning legibility. The part is 4.831 x 1.751 x 4.260 mm, 24 exact source
-triangles and only 23 planning pixels. Both detail pairs are legible at their
-native size, so no larger hull, enlargement or relocated fixture was needed.
-This is a detail-view comparison, not evidence that clear parts improve Fleet
-Command identification. Camera positions/lenses are asserted identical in each
-pair, and all obey the height/pitch floors.
+Clear parts use glossy dielectric transmission, IOR 1.57 and roughness 0.095,
+without paint marks. Green absorbs with depth over 2.5 mm; the post is nearly
+colourless, slightly cool styrene. Each green patch uses its own convex optical
+volume; the post measures ray exit from its finite cone. Optical caps do not add
+visible triangles. The post test measures a 2.196 mm median ray path. Distorted
+board print remains visible through the post; it has a small surface glint and
+a much weaker shadow than its black neighbour.
 
-Transmission costs an additional pass: planning paint is 69,736 submitted
-triangles / 73 draws; clear is 104,649 / 110. The old painted budget still applies
-to paint. The explicit experimental budget is 110,000 / 110 with 96 MiB estimated
-target storage, compared with 64 MiB for paint. Half-resolution MSAA transmission
-can add about 30 MiB at the pixel cap, and Three retains that allocation until
-reload. Peak driver memory and variant animation performance are not measured.
+The shadow test measures 17 changed shadow pixels for the transmitting post,
+versus 194 when forced opaque. Coverage is an approximation of transmitted key
+light, not a simulation of caustics or coloured refraction in shadows. The
+painted green geometry is also masked out of the opaque shadow pass when clear
+is enabled. No self-emission is used to make plastic readable.
 
-## Validation
+My preference is **clear for the stand's float illusion**. On Crystal I prefer
+the clear kit-part impression in detail, while paint identifies the green more
+clearly. The gold caps/backing and the dark board remain visible influences on
+the clear material. Chris decides adoption. Every post on the three-frigate
+board remains black and opaque; only the isolated post study draws clear posts.
 
-- 28 prototype checks passed, including every hull's material/emissive set,
-  rejecting missing classifications and invented activation/faces, intact source
-  hashes, all derivatives/components, shared-hex layout and existing clock.
-- The unchanged fast regression suite passed. No shared fixture or test changed.
-- All 23 runtime region masks checked: 4 metals, 9 emissive-designated physical
-  coatings, 1 permitted clear variant. Cross-faction semantics are rejected.
-- Region maps and both published palette/region tables rebuild byte-identically.
-- All staged source palettes pass; all three preparation validators pass. The
-  three prepared GLBs also rebuilt byte-identically to base HEAD 29c322e.
-- Room lights off: 0 nonzero physical pixels for paint and clear. Separate demo
-  energy remains independent (1,309 nonzero pixels in the beam check).
-- Planning draws 0 energy objects. The explicit clear URL works; default is paint.
-- Turning demo energy off/on leaves physical hash 85fb4ed9 and shadow hash
-  2eca1c08 identical. Behind-board energy has 0 samples; the front probe draws.
-- Planning brush ablation changes 715 Earth, 648 Krelath and 505 Vraygon pixels
-  by more than 0.025 in a linear channel. This confirms contribution at native
-  resolution, not visual quality by itself.
-- Camera floors, pause/skip, reduced motion, material/scene classification,
-  depth occlusion and SVG fallback pass. Browser page/console errors: 0.
-- Edge 152 / RTX 5060 Ti, 1920 x 1080, 10 warmup + 60 samples: ordinary three-hull
-  submission plus gl.finish mean 0.42 ms, p95 0.50 ms. No full-board claim.
+## Validation and budgets
 
-## Unscored, unresolved and ownership
+- 29 prototype checks and the unchanged fast suite pass (exit 0).
+- Both browser workflows pass, with no page or shader errors. All 23 board
+  region masks and the additional eight-colour Crystal contract pass.
+- Six roof facets, actual geometry dimensions, post-stretch rejection and both
+  mounting endpoints are verified. All visible review cameras obey the floors.
+- Paint, green clear parts and clear posts output zero physical pixels with
+  room illumination removed. Planning has zero energy objects. Energy on/off
+  leaves the physical and shadow buffers byte-identical.
+- The existing clock's pause, skip and reduced-motion behaviour, safe event
+  projection, depth occlusion and SVG fallback still pass.
+- Main planning submits 69,832 triangles / 73 draws, under 70,000 / 90. Hull
+  material textures including the captured room use 18.81 MiB, under 24 MiB.
+- The retained clear-Shard board submits 104,793 / 110, within its separate
+  110,000 / 110 limit. It is not the deciding plastic study.
+- Crystal's largest capture submits 41,642 / 55; the post pair 7,144 / 47.
+  The separate study caps are 90,000 / 110, 2.07M pixels and 160 MiB estimated
+  offscreen targets. Full-resolution transmission estimates 80.97 MiB at the
+  captured size. The estimate excludes driver overhead and the browser's
+  default drawing buffer; allocation persists after switching back to paint.
+- The three-hull Edge/RTX 5060 Ti probe is approximately 0.35 ms mean / 0.50 ms
+  p95 for submission plus gl.finish, 60 warm samples at 1920 x 1080. This says
+  nothing about full-board or integrated-GPU performance.
 
-Unscored: full-board readability/performance, replacement identifier choice,
-cross-class scale ladder, destruction, planets/nebulae, peak driver memory,
-integrated-GPU/interactive variant performance, larger-hull visual finishes and
-permanent asset intake. Unavailable Krelath library files are not audited.
-No in-scope criterion is left unscored.
+Unscored outside this slice: full-board performance/readability, identifier
+choice, class scale ladder, original-part dimensional calibration, destruction,
+planet/nebula samples, permanent intake, unavailable hulls, peak driver memory
+and integrated-GPU behaviour. No such work was added to meet a score.
 
-Unresolved fiction/functions: the meaning of Krelath's two painted greens;
-the smaller yellow dome's function; individual
-Shard system functions. Shard yellow is now conclusively paint, and its
-lavender/purple/red are energy-designated. Earth dish gold is confirmed metal;
-all 23 current material classifications are resolved. Nothing is inferred from a shared hex.
-
-Implementation stays in arena/prototype-3d/. Source GLBs and prepared meshes are
-unchanged; no commit/branch, shared runtime, furniture, identifier decision,
-other-session file or PLAY change. Existing exporter/root and roster/filename
-handover items remain campaign-map's responsibility. Stop for frame review.
-
-All 25 final frame hashes, relevant file hashes, source/prepared hashes and scope
-checks are recorded in evidence/adversarial-review.json.
+Boundary slip: I briefly created a placeholder `review-study.tmp` at the worktree
+root and removed it immediately. No existing file outside the prototype was
+modified. All surviving implementation changes are under arena/prototype-3d/;
+furniture and sources remain untouched. No branch or commit was created.

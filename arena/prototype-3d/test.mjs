@@ -62,6 +62,22 @@ for(const [faction,config] of Object.entries(sourceConfigs))check(faction+' curr
   if(faction==='EAR'){assert.equal(map.features.exhaust.region,'e91d2d');assert.equal(map.features.exhaust.faces.length,12);assert.equal(map.features.beamEmitter.faces.length,179);}
   if(faction==='VRA'){assert.deepEqual(map.features,{});assert.equal(asset.sockets.weapon,undefined);}
 });
+check('Crystal comparison is a reduced current hull with exact palette, retained components and no invented anatomy',()=>{
+  const config=JSON.parse(fs.readFileSync(new URL('./comparison-source.json',import.meta.url))),prep=JSON.parse(fs.readFileSync(new URL('./prepared/crystal-preparation.json',import.meta.url)));
+  for(const [file,hash] of [['source/'+config.source,prep.sourceSha256],['prepared/crystal.glb',prep.outputSha256]])assert.equal(createHash('sha256').update(fs.readFileSync(new URL('./'+file,import.meta.url))).digest('hex'),hash);
+  assert.equal(prep.sourceTriangles,23642);assert.equal(prep.outputTriangles,11742);assert.equal(prep.sourceComponentCount,53);assert.equal(prep.outputComponentCount,53);
+  assert.ok(prep.maximumVertexToSurfaceErrorMm<.15);assert.ok(prep.outputBytes<400000);assert.equal(prep.miniatureLengthMm,90);
+  const map=JSON.parse(fs.readFileSync(new URL('./prepared/crystal-regions.json',import.meta.url))),palette=Object.keys(config.colours).map(k=>factionRegion('VRA',k));
+  validateRegionMap(map,'VRA',{palette,confirmedEffects:[]});assert.deepEqual(map.features,{});
+  const wrongProfile={palette:structuredClone(palette),confirmedEffects:[]};wrongProfile.palette[0].classification='metal';assert.throws(()=>validateRegionMap(map,'VRA',wrongProfile),/cannot override faction/);
+  const derived=readGLB(new URL('./prepared/crystal.glb',import.meta.url)),dp=derived.json.meshes[0].primitives[0],positions=derived.attribute(dp.attributes.POSITION);assert.ok(Math.abs(Math.max(...positions.map(p=>p[0]))-Math.min(...positions.map(p=>p[0]))-9)<1e-5);assert.equal(map.patches.filter(p=>p.region==='46b749').length,8);
+  assert.equal(map.palette.find(p=>p.key==='75cedb').classification,'paint');assert.equal(map.energyAttachments['46b749'].designated,false);
+  assert.ok(Math.abs(map.sourceCoverage['46b749']-.010906055827283948)<1e-10);
+  const raw=readGLB(new URL('./source/'+config.source,import.meta.url)),p=raw.json.meshes[0].primitives[0],counts={};
+  for(const c of raw.attribute(p.attributes.COLOR_0)){const key=colourKey(c);counts[key]=(counts[key]??0)+1;}
+  assert.deepEqual(counts,config.colours);
+});
+
 check('shared hex values retain different per-hull interpretations',()=>{
   const green=f=>artProfile(f).palette.find(p=>p.key==='46b749');
   assert.match(green('KRE').role,/hull green/);assert.match(green('EAR').role,/nav fitting/);assert.match(green('VRA').role,/no inferred function/);
@@ -111,7 +127,7 @@ check('every energy attachment is inert, exact and rejects missing classificatio
     assert.ok(Math.abs(Object.values(map.sourceCoverage).reduce((a,b)=>a+b,0)-1)<1e-10);
   }
 });
-check('the clear experiment is restricted to Shard green and cannot become energy',()=>{
+check('clear ship parts are restricted to authored Vraygon green and cannot become energy',()=>{
   const p=artProfile('VRA').palette.find(r=>r.key==='46b749');assert.equal(p.classification,'paint');assert.equal(p.variant.classification,'moulded transparent');
   assert.equal(artProfile('KRE').palette.find(r=>r.key===p.key).variant,undefined);
   assert.equal(artProfile('EAR').palette.find(r=>r.key===p.key).variant,undefined);
@@ -124,7 +140,7 @@ check('physical scale rejects errors and preserves the requested reference sizes
   assert.deepEqual(SIZES.rulebook,[216,28,279]);assert.deepEqual(SIZES.notebook,[216,6,279]);
   assert.equal(SIZES.pencilLength,190);assert.equal(Math.sqrt(3)*BUDGETS.hexRadius*10,32);
   const rows=JSON.parse(fs.readFileSync(new URL('./evidence/review.json',import.meta.url))).captures.planning.scaleMeasurements;
-  validateScaleRows(rows);assert.deepEqual(rows.map(r=>r.object),['Tabletop','Board card','Printed hex','Hardback rulebook','Box lid','Mug body','Mug including handle','D20','D6','Spiral notebook body','Pencil','Black hex base','Black post','EAR frigate','KRE frigate','VRA frigate']);
+  validateScaleRows(rows);assert.deepEqual(rows.map(r=>r.object),['Tabletop','Board card','Printed hex','Hardback rulebook','Box lid','Mug body','Mug including handle','D20','D6','Spiral notebook body','Pencil','Black base skirt','Black base pyramid','Black tapered post','EAR frigate','KRE frigate','VRA frigate']);
   assert.throws(()=>validateScaleRows([{object:'bad mug',actualMm:[18],referenceMm:[95]}]),/Scale mismatch/);
   for(const a of manifest.assets)assert.equal(a.length*10,SIZES.miniatures[a.faction]);
 });

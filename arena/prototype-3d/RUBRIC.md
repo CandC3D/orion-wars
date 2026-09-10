@@ -1,21 +1,27 @@
-﻿# Review gate - revision 06, written before implementation
+# Review gate - revision 07, written before implementation
 
-Every criterion and each hull's metal assessment must reach 90/100 independently.
-Scores are reassessed against the final captured frames. I must actually open the
-images; code measurements cannot replace visual judgement. No averaging away a
-failed criterion. The painted/clear comparison also has its own 90 gate.
+Every criterion must reach 90/100 independently. The previous Earth-metal and
+Shard-comparison scores are withdrawn by the visual findings; neither carries
+forward. Open the final images, beginning at native planning height. Geometry
+and buffer measurements support visual judgement but cannot replace it.
 
-| Criterion | Weight | Required evidence and adversarial failure modes |
+| Criterion | Weight | Evidence and failure conditions |
 |---|---:|---|
-| Brief and scope | 10% | Three-frigate board retained, source files untouched, no furniture, base ID decision, shared runtime, asset intake, branch or commit. Larger comparison only if necessary for legibility. |
-| Generated art and faction contracts | 25% | Faction-local allowed palettes and classifications, enforced in preparation and runtime. Every available staged hull audited; omissions reported honestly. Verify ALL Monoceros gold geometry is on the sensor dish before reclassification. No synthetic alternate-grey frigate region or invented functional anatomy. |
-| Period metals | 25% | Steel and gold on Earth, bronze on Krelath, gold on Vraygon: same rough fine-flake finish, dark real recesses and burnished edges, never chrome. Alternate Earth steel has a distinct hue/value contract with no phantom frigate geometry. Score hulls independently at planning and detail distances. |
-| Paint, clear plastic and registers | 15% | Faction emissive designations remain inert, physical paint emits zero. Krelath deck matte with no sheen; Vraygon cyan ordinary paint, green alone optionally clear. Clear part has transmission/depth, moulded gloss, no brush marks, matched cameras and honest optical limitations. |
-| Scale | 10% | 10 mm/unit and published measured table; frigates 55/65/45 mm, black posts 30 mm, furniture untouched. No claim for an untested class ladder. |
-| Unaided reading | 15% | Native planning first; metals, paint and miniature supports read without captions or low angles. Compare paint and clear at the same camera. If the Shard comparison is not legible in the actual detail frames, use an available larger hull without enlarging its green fixture. |
+| Brief and ownership | 10% | Only prototype implementation; unchanged furniture and sources; no identifier, shared-runtime changes, branch or commit. Three-frigate board retained; larger hull and clear posts appear only in explicit comparison studies. |
+| Authored geometry and palettes | 15% | Exact source regions, validated faction palettes and decimation; no invented/enlarged crystal, displaced colour or labelled unknown anatomy. Larger hull's fixture map is derived from its own geometry. |
+| FASA base and post geometry | 15% | Existing bevelled skirt retained; six shallow planar facets meet at a central apex. Slightly wider tapering cast-style post, black by default. Independently measured skirt, pyramid rise, exposed post length and top/bottom diameter; all ship attachments seated. Chosen dimensions distinguished from verified original measurements. |
+| Steel reads as metal at planning height | 20% | Separately assess Monoceros from native planning crop, then detail and alternate views. Grey paint or white trim is failure. Steel needs legible dark wash, varied rough return and bright burnished real edges without chrome, arbitrary recolouring or changing source blue areas. |
+| Period finish on all hulls | 10% | Matte paint, rough fine-flake steel/bronze/gold, dark recesses and actual raised edges. Bronze and gold must retain their quality. No modern smooth plastic body finish or mirror metal. |
+| Decidable clear-material experiment | 20% | Larger Vraygon hull in matched paint/clear cameras, plus matched black/clear post study. Surface transmission and depth density must be visible at useful size; no paint marks on clear parts. Clear comparison explicitly separate from the black-post board. Optical/shadow approximations and cost reported. |
+| Scale, registers and readable play elements | 10% | 10 mm/unit, uniform 30 mm exposed posts, published measurements, camera floors unchanged. Planning energy remains zero; physical materials emit nothing. Miniatures and supports readable without captions or forbidden angles. |
 
-Review deductions and hashes accompany final passing frames. In-scope visual
-criteria cannot be left unscored. Unscored outside this slice: full-board reading
-and performance, base-ID choice, cross-class scale ladder, destruction, planets,
-nebulae, permanent intake and peak driver memory. Unavailable library hulls are
-reported as unavailable, never counted as validated.
+Score steel, bronze, gold, the larger crystal comparison and post comparison
+separately as well; none may hide below 90 inside an average. An unsuccessful
+experiment is reported with its score and blocker, not delivered as passing.
+No base identifier or clear-post adoption is decided here. Clear-post suitability
+for the whole fleet remains Chris's decision; this is a controlled material study,
+not the full-board test.
+
+Unscored outside this slice: destruction, planets/nebulae, full-board performance
+and readability, cross-class scale ladder, permanent intake, unavailable hulls,
+peak driver memory and integrated-GPU behaviour.

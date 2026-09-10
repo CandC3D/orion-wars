@@ -7,6 +7,9 @@ import { SIZES, mm, validateScaleRows } from './scale.js';
 import { preparePaintGeometry, candidatePaint, patchGeometry } from './hull-paint.js';
 import { artProfile } from './hull-art.js';
 import { clearInsert } from './clear-insert.js';
+import {BASE_APEX,baseGeometry,postGeometry,standScaleRows} from './stands.js';
+import {tabletopReflections} from './room-reflections.js';
+import {maskInsertShadow} from './moulded-plastic.js';
 
 const vertex = 'varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
 function normalizeHull(gltf, asset, regions) {
@@ -60,6 +63,7 @@ export async function createTabletop(canvas, manifest, initial) {
   key.shadow.mapSize.set(BUDGETS.shadowSize,BUDGETS.shadowSize);key.shadow.normalBias=.025;key.shadow.bias=-.00025;key.shadow.radius=2;
   scene.add(key);scene.add(new THREE.HemisphereLight('#d5deeb','#75614b',1.30));
   buildTable(scene);
+  const reflection=tabletopReflections(renderer,scene);
   const camera=new THREE.PerspectiveCamera(32,1,1,250);
   const targetOptions={type:THREE.HalfFloatType,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter};
   const physical=new THREE.WebGLRenderTarget(1,1,targetOptions);
@@ -118,16 +122,16 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     return {asset,regions,...normalizeHull(gltf,asset,regions)};
   }));
   const catalogue=new Map(loaded.map(a=>[a.asset.key,a]));
+  for(const a of loaded)for(const o of a.group.children){o.material.envMap=reflection.texture;o.material.envMapIntensity=.6;maskInsertShadow(o);}
   const shard=loaded.find(a=>a.asset.faction==='VRA'),insert=clearInsert(shard.group.children[0].geometry,shard.regions);
   shard.group.add(insert);
+  insert.material.envMap=reflection.texture;insert.material.envMapIntensity=.6;
   const baseMaterial=physicalMaterial('painted black hex bases',{color:'#151513',roughness:.86});
-  const bases=new THREE.InstancedMesh(new THREE.CylinderGeometry(mm(SIZES.baseAcrossFlats)/Math.sqrt(3)-.055,mm(SIZES.baseAcrossFlats)/Math.sqrt(3),mm(SIZES.baseHeight),6),baseMaterial,initial.units.length);
+  const bases=new THREE.InstancedMesh(baseGeometry(),baseMaterial,initial.units.length);
   bases.name='bases / instanced';bases.userData.register='physical';bases.castShadow=bases.receiveShadow=true;scene.add(bases);
-  const posts=new THREE.InstancedMesh(new THREE.CylinderGeometry(.1,.1,BUDGETS.postHeight,12),physicalMaterial('painted black flight posts',{color:'#151513',roughness:.86,metalness:0}),initial.units.length);
+  const posts=new THREE.InstancedMesh(postGeometry(),physicalMaterial('painted black flight posts',{color:'#151513',roughness:.86,metalness:0}),initial.units.length);
   posts.name='posts / instanced and uniform';posts.userData.register='physical';posts.castShadow=posts.receiveShadow=true;scene.add(posts);
-  const radius=bases.geometry.parameters.radiusBottom;
-  scene.userData.scaleRows.push({object:'Black hex base',basis:'across flats / height',sceneUnits:[radius*Math.sqrt(3),bases.geometry.parameters.height],actualMm:[radius*Math.sqrt(3)*10,bases.geometry.parameters.height*10],referenceMm:[25,3]},
-    {object:'Black post',basis:'diameter / exposed length',sceneUnits:[posts.geometry.parameters.radiusTop*2,posts.geometry.parameters.height],actualMm:[posts.geometry.parameters.radiusTop*20,posts.geometry.parameters.height*10],referenceMm:[2,30]});
+  scene.userData.scaleRows.push(...standScaleRows(bases.geometry,posts.geometry));
   for(const a of loaded)scene.userData.scaleRows.push({object:a.asset.faction+' frigate',basis:'length; width/height in asset metrics',sceneUnits:[a.size.x],actualMm:[a.size.x*10],referenceMm:[SIZES.miniatures[a.asset.faction]]});
   validateScaleRows(scene.userData.scaleRows);
   const units=new Map(),glows=[],regionGlows=[],dummy=new THREE.Object3D();
@@ -158,13 +162,13 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     next.units.forEach((u,i)=>{
       const entry=units.get(u.id);if(!entry)throw new Error('New hull requires an explicitly loaded asset');
       const p=layout[u.id],angle=u.facing*Math.PI/3;
-      entry.unit=u;entry.model.position.set(p.x,BOARD.top+mm(SIZES.baseHeight)+BUDGETS.postHeight,p.z);entry.model.rotation.y=angle;
-      entry.model.position.y-=entry.asset.asset.stand.attachment[1];
-      const attachment=new THREE.Vector3(entry.asset.asset.stand.attachment[0],0,entry.asset.asset.stand.attachment[2]).applyAxisAngle(new THREE.Vector3(0,1,0),angle);
+      entry.unit=u;entry.model.position.set(p.x,BOARD.top+BASE_APEX+BUDGETS.postHeight,p.z);entry.model.rotation.y=angle;
+      entry.model.position.y-=entry.asset.attachment.y;
+      const attachment=new THREE.Vector3(entry.asset.attachment.x,0,entry.asset.attachment.z).applyAxisAngle(new THREE.Vector3(0,1,0),angle);
       entry.model.position.x-=attachment.x;entry.model.position.z-=attachment.z;
       entry.model.updateMatrixWorld(true);
-      dummy.position.set(p.x,BOARD.top+mm(SIZES.baseHeight)/2,p.z);dummy.rotation.set(0,angle,0);dummy.scale.set(p.baseScale,1,p.baseScale);dummy.updateMatrix();bases.setMatrixAt(i,dummy.matrix);
-      dummy.position.y=BOARD.top+.25+BUDGETS.postHeight/2;dummy.scale.set(1,1,1);dummy.updateMatrix();posts.setMatrixAt(i,dummy.matrix);
+      dummy.position.set(p.x,BOARD.top,p.z);dummy.rotation.set(0,angle,0);dummy.scale.set(p.baseScale,1,p.baseScale);dummy.updateMatrix();bases.setMatrixAt(i,dummy.matrix);
+      dummy.position.y=BOARD.top+BASE_APEX+BUDGETS.postHeight/2;dummy.scale.set(1,1,1);dummy.updateMatrix();posts.setMatrixAt(i,dummy.matrix);
       if(p.baseScale<1){entry.anchor.visible=entry.tether.visible=true;entry.anchor.position.set(p.anchor.x,BOARD.top+.01,p.anchor.z);
         const dx=p.x-p.anchor.x,dz=p.z-p.anchor.z;entry.tether.position.set((p.x+p.anchor.x)/2,BOARD.top+.015,(p.z+p.anchor.z)/2);entry.tether.rotation.y=-Math.atan2(dz,dx);entry.tether.scale.x=Math.hypot(dx,dz);}
       for(const e of entry.engines)e.mesh.position.copy(entry.model.localToWorld(e.socket.clone()));
@@ -225,7 +229,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   applyProjection(initial);setCamera(0);resize();render();
   if(lastStats.triangles>BUDGETS.maxTriangles||lastStats.drawCalls>BUDGETS.maxDrawCalls)throw new Error(`Slice budget exceeded: ${lastStats.triangles} triangles / ${lastStats.drawCalls} draws`);
   const textureSet=new Set();
-  scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){for(const value of Object.values(m))if(value?.isTexture)textureSet.add(value);if(m.userData.paintEdges)textureSet.add(m.userData.paintEdges);}});
+  scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){for(const value of Object.values(m))if(value?.isTexture)textureSet.add(value);if(m.userData.paintEdges)textureSet.add(m.userData.paintEdges);if(m.userData.opticalPlanes)textureSet.add(m.userData.opticalPlanes);}});
   const textureMiB=[...textureSet].reduce((n,t)=>n+(t.userData.byteLength??t.image.width*t.image.height*4*(t.generateMipmaps?4/3:1)),0)/1048576;
   if(textureMiB>BUDGETS.materialTextureMiB)throw new Error('Material texture budget exceeded: '+textureMiB+' MiB');
   const api={ applyProjection,setCamera,setEffect,clearEffect,resize,render,
@@ -246,7 +250,8 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
       return [id,{x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)}];
     })),assets:loaded.map(a=>({key:a.asset.key,paint:a.asset.paint,triangles:a.triangles,paintEvidence:a.group.children[0].geometry.userData.paint??null,
       sizeMm:a.size.toArray().map(n=>n*10),standAttachment:a.attachment.toArray(),sockets:Object.fromEntries(Object.entries(a.sockets).map(([k,v])=>[k,Array.isArray(v)?v.map(p=>p.toArray()):v?.toArray()??null]))})),
-      energyRegionGeometry:regionGlows.map(p=>({id:p.id,kind:p.kind,triangles:p.mesh.geometry.attributes.position.count/3})),materialTextureMiB:textureMiB,scaleMeasurements:scene.userData.scaleRows, postHeights:manifest.assets.map(a=>a.stand.height),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
+      energyRegionGeometry:regionGlows.map(p=>({id:p.id,kind:p.kind,triangles:p.mesh.geometry.attributes.position.count/3})),materialTextureMiB:textureMiB,scaleMeasurements:scene.userData.scaleRows, postHeights:manifest.assets.map(a=>a.stand.height),
+      mounting:[...units].map(([id,u],i)=>{const m=new THREE.Matrix4();posts.getMatrixAt(i,m);const bottom=new THREE.Vector3(0,-BUDGETS.postHeight/2,0).applyMatrix4(m),top=new THREE.Vector3(0,BUDGETS.postHeight/2,0).applyMatrix4(m),attachment=u.model.localToWorld(u.asset.attachment.clone());return {id,exposedMm:top.distanceTo(bottom)*10,baseGapMm:(bottom.y-BOARD.top-BASE_APEX)*10,hullGapMm:attachment.distanceTo(top)*10,opaque:posts.material.transmission===undefined&&posts.material.transparent===false};}),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
     brushEvidence(){
       // Each ablation changes one hull's albedo brush marks at the planning camera.
       // Count visible native-resolution pixels; this supports, not replaces, review.
@@ -287,11 +292,13 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     },
     lightsOffEvidence(){
       const lights=scene.children.filter(o=>o.isLight).map(o=>[o,o.intensity]),background=scene.background;
+      const environments=[];scene.traverse(o=>{if(o.isMesh&&o.material.envMap){environments.push([o.material,o.material.envMapIntensity]);o.material.envMapIntensity=0;}});
       for(const [light] of lights)light.intensity=0;scene.background=new THREE.Color(0);render();
       const pixels=new Uint16Array(physical.width*physical.height*4),glow=new Uint16Array(energy.width*energy.height*4);
       renderer.readRenderTargetPixels(physical,0,0,physical.width,physical.height,pixels);renderer.readRenderTargetPixels(energy,0,0,energy.width,energy.height,glow);
       const count=a=>{let n=0;for(let i=0;i<a.length;i+=4)if(a[i]||a[i+1]||a[i+2])n++;return n;};
       const result={physicalNonzeroPixels:count(pixels),energeticNonzeroPixels:count(glow)};
+      for(const [m,intensity] of environments)m.envMapIntensity=intensity;
       for(const [light,intensity] of lights)light.intensity=intensity;scene.background=background;render();return result;
     },
     // Read-only regression evidence from this isolated scene, never game state.
@@ -305,7 +312,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
       energyScene.remove(probe);probe.geometry.dispose();for(const [o,visible] of saved)o.visible=visible;render();
       return {behindSamples:behind.filter(v=>v!==0).length,frontSamples:front.filter(v=>v!==0).length};
     },
-    dispose:()=>{physical.dispose();energy.dispose();blurH.dispose();blurV.dispose();renderer.dispose();}
+    dispose:()=>{reflection.dispose();physical.dispose();energy.dispose();blurH.dispose();blurV.dispose();renderer.dispose();}
   };
   return api;
 }

@@ -7,8 +7,8 @@
   "captures": {
     "planning": {
       "drawCalls": 73,
-      "triangles": 69736,
-      "textures": 20,
+      "triangles": 69832,
+      "textures": 21,
       "geometries": 31,
       "width": 1514,
       "height": 750,
@@ -37,22 +37,22 @@
       "visibleEnergyObjects": 0,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 605.1459055981883,
-          "y": 294.8239631312812,
-          "width": 96.96718255385986,
-          "height": 70.09674930810246
+          "x": 604.8576224432867,
+          "y": 292.5240503023865,
+          "width": 97.15543654477904,
+          "height": 70.24543388656468
         },
         "KRE-FF-1": {
-          "x": 803.4680070498764,
-          "y": 316.7101960352695,
-          "width": 114.01490247746949,
-          "height": 78.69580058959298
+          "x": 803.5558751271225,
+          "y": 314.458071976596,
+          "width": 114.22814567456624,
+          "height": 78.79206519036006
         },
         "VRA-FF-1": {
-          "x": 684.940486024331,
-          "y": 231.45541941252225,
-          "width": 69.10236108620074,
-          "height": 80.73464011133944
+          "x": 684.8081330240019,
+          "y": 229.1632786467177,
+          "width": 69.22955708583765,
+          "height": 80.83056797014669
         }
       },
       "assets": [
@@ -218,7 +218,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 17.312500000000004,
+      "materialTextureMiB": 18.812988281250004,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -418,15 +418,15 @@
           ]
         },
         {
-          "object": "Black hex base",
-          "basis": "across flats / height",
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
           "sceneUnits": [
             2.5,
-            0.3
+            0.30000001192092896
           ],
           "actualMm": [
             25,
-            3
+            3.0000001192092896
           ],
           "referenceMm": [
             25,
@@ -434,18 +434,37 @@
           ]
         },
         {
-          "object": "Black post",
-          "basis": "diameter / exposed length",
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
           "sceneUnits": [
-            0.2,
-            3
+            0.19999998807907104,
+            0.5
           ],
           "actualMm": [
-            2,
-            30
+            1.9999998807907104,
+            5
           ],
           "referenceMm": [
             2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
             30
           ]
         },
@@ -494,13 +513,36 @@
         3,
         3
       ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "beam": {
       "drawCalls": 68,
-      "triangles": 69110,
-      "textures": 20,
+      "triangles": 69206,
+      "textures": 21,
       "geometries": 36,
       "width": 1514,
       "height": 750,
@@ -529,22 +571,22 @@
       "visibleEnergyObjects": 5,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 507.36097211329184,
-          "y": 260.7493001295715,
-          "width": 163.15854809443476,
-          "height": 115.50572058172048
+          "x": 506.5065977428056,
+          "y": 256.3766430982675,
+          "width": 163.73864280300057,
+          "height": 115.8820104285166
         },
         "KRE-FF-1": {
-          "x": 833.4219260456535,
-          "y": 299.7602142572334,
-          "width": 190.12899463445183,
-          "height": 123.1068927551849
+          "x": 833.6864794369723,
+          "y": 295.5030645254375,
+          "width": 190.83846550277792,
+          "height": 123.23524719186355
         },
         "VRA-FF-1": {
-          "x": 644.9801999080702,
-          "y": 188.9565968487014,
-          "width": 110.8805248691715,
-          "height": 112.84401867447627
+          "x": 644.6242063955292,
+          "y": 184.86219482775337,
+          "width": 111.23325711545215,
+          "height": 112.93828621138059
         }
       },
       "assets": [
@@ -710,7 +752,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 17.312500000000004,
+      "materialTextureMiB": 18.812988281250004,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -910,15 +952,15 @@
           ]
         },
         {
-          "object": "Black hex base",
-          "basis": "across flats / height",
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
           "sceneUnits": [
             2.5,
-            0.3
+            0.30000001192092896
           ],
           "actualMm": [
             25,
-            3
+            3.0000001192092896
           ],
           "referenceMm": [
             25,
@@ -926,18 +968,37 @@
           ]
         },
         {
-          "object": "Black post",
-          "basis": "diameter / exposed length",
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
           "sceneUnits": [
-            0.2,
-            3
+            0.19999998807907104,
+            0.5
           ],
           "actualMm": [
-            2,
-            30
+            1.9999998807907104,
+            5
           ],
           "referenceMm": [
             2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
             30
           ]
         },
@@ -986,13 +1047,36 @@
         3,
         3
       ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "shield": {
       "drawCalls": 66,
-      "triangles": 69262,
-      "textures": 20,
+      "triangles": 69358,
+      "textures": 21,
       "geometries": 37,
       "width": 1514,
       "height": 750,
@@ -1021,22 +1105,22 @@
       "visibleEnergyObjects": 3,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 507.36097211329184,
-          "y": 260.7493001295715,
-          "width": 163.15854809443476,
-          "height": 115.50572058172048
+          "x": 506.5065977428056,
+          "y": 256.3766430982675,
+          "width": 163.73864280300057,
+          "height": 115.8820104285166
         },
         "KRE-FF-1": {
-          "x": 833.4219260456535,
-          "y": 299.7602142572334,
-          "width": 190.12899463445183,
-          "height": 123.1068927551849
+          "x": 833.6864794369723,
+          "y": 295.5030645254375,
+          "width": 190.83846550277792,
+          "height": 123.23524719186355
         },
         "VRA-FF-1": {
-          "x": 644.9801999080702,
-          "y": 188.9565968487014,
-          "width": 110.8805248691715,
-          "height": 112.84401867447627
+          "x": 644.6242063955292,
+          "y": 184.86219482775337,
+          "width": 111.23325711545215,
+          "height": 112.93828621138059
         }
       },
       "assets": [
@@ -1202,7 +1286,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 17.312500000000004,
+      "materialTextureMiB": 18.812988281250004,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -1402,15 +1486,15 @@
           ]
         },
         {
-          "object": "Black hex base",
-          "basis": "across flats / height",
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
           "sceneUnits": [
             2.5,
-            0.3
+            0.30000001192092896
           ],
           "actualMm": [
             25,
-            3
+            3.0000001192092896
           ],
           "referenceMm": [
             25,
@@ -1418,18 +1502,37 @@
           ]
         },
         {
-          "object": "Black post",
-          "basis": "diameter / exposed length",
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
           "sceneUnits": [
-            0.2,
-            3
+            0.19999998807907104,
+            0.5
           ],
           "actualMm": [
-            2,
-            30
+            1.9999998807907104,
+            5
           ],
           "referenceMm": [
             2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
             30
           ]
         },
@@ -1478,13 +1581,36 @@
         3,
         3
       ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "anonymous": {
       "drawCalls": 66,
-      "triangles": 68736,
-      "textures": 20,
+      "triangles": 68832,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -1513,22 +1639,22 @@
       "visibleEnergyObjects": 3,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 507.36097211329184,
-          "y": 260.7493001295715,
-          "width": 163.15854809443476,
-          "height": 115.50572058172048
+          "x": 506.5065977428056,
+          "y": 256.3766430982675,
+          "width": 163.73864280300057,
+          "height": 115.8820104285166
         },
         "KRE-FF-1": {
-          "x": 833.4219260456535,
-          "y": 299.7602142572334,
-          "width": 190.12899463445183,
-          "height": 123.1068927551849
+          "x": 833.6864794369723,
+          "y": 295.5030645254375,
+          "width": 190.83846550277792,
+          "height": 123.23524719186355
         },
         "VRA-FF-1": {
-          "x": 644.9801999080702,
-          "y": 188.9565968487014,
-          "width": 110.8805248691715,
-          "height": 112.84401867447627
+          "x": 644.6242063955292,
+          "y": 184.86219482775337,
+          "width": 111.23325711545215,
+          "height": 112.93828621138059
         }
       },
       "assets": [
@@ -1694,7 +1820,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 17.312500000000004,
+      "materialTextureMiB": 18.812988281250004,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -1894,15 +2020,15 @@
           ]
         },
         {
-          "object": "Black hex base",
-          "basis": "across flats / height",
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
           "sceneUnits": [
             2.5,
-            0.3
+            0.30000001192092896
           ],
           "actualMm": [
             25,
-            3
+            3.0000001192092896
           ],
           "referenceMm": [
             25,
@@ -1910,18 +2036,37 @@
           ]
         },
         {
-          "object": "Black post",
-          "basis": "diameter / exposed length",
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
           "sceneUnits": [
-            0.2,
-            3
+            0.19999998807907104,
+            0.5
           ],
           "actualMm": [
-            2,
-            30
+            1.9999998807907104,
+            5
           ],
           "referenceMm": [
             2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
             30
           ]
         },
@@ -1970,6 +2115,29 @@
         3,
         3
       ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
       "shadowLights": 1,
       "energyLights": 0
     }
@@ -1977,60 +2145,60 @@
   "checks": {
     "planningBrush": {
       "EAR": {
-        "pixelsChangedAbove025": 715,
-        "maxLinearChannelDifference": 0.515380859375
+        "pixelsChangedAbove025": 1114,
+        "maxLinearChannelDifference": 0.5467529296875
       },
       "KRE": {
-        "pixelsChangedAbove025": 648,
-        "maxLinearChannelDifference": 0.48724365234375
+        "pixelsChangedAbove025": 636,
+        "maxLinearChannelDifference": 0.467529296875
       },
       "VRA": {
-        "pixelsChangedAbove025": 505,
-        "maxLinearChannelDifference": 0.677001953125
+        "pixelsChangedAbove025": 498,
+        "maxLinearChannelDifference": 0.579833984375
       }
     },
     "visibleRegions": {
       "EAR": {
-        "totalPixels": 2084,
+        "totalPixels": 2100,
         "regions": {
           "bfc7cc": {
-            "pixels": 808,
-            "visibleFraction": 0.3877159309021113,
+            "pixels": 829,
+            "visibleFraction": 0.39476190476190476,
             "classification": "metal"
           },
           "009fd7": {
-            "pixels": 603,
-            "visibleFraction": 0.28934740882917465,
+            "pixels": 605,
+            "visibleFraction": 0.28809523809523807,
             "classification": "paint"
           },
           "e91d2d": {
-            "pixels": 59,
-            "visibleFraction": 0.02831094049904031,
+            "pixels": 58,
+            "visibleFraction": 0.02761904761904762,
             "classification": "emissive-designated"
           },
           "0076a9": {
             "pixels": 519,
-            "visibleFraction": 0.24904030710172745,
+            "visibleFraction": 0.24714285714285714,
             "classification": "paint"
           },
           "f5831f": {
-            "pixels": 37,
-            "visibleFraction": 0.017754318618042227,
+            "pixels": 36,
+            "visibleFraction": 0.017142857142857144,
             "classification": "paint"
           },
           "e1ad34": {
-            "pixels": 14,
-            "visibleFraction": 0.0067178502879078695,
+            "pixels": 15,
+            "visibleFraction": 0.007142857142857143,
             "classification": "metal"
           },
           "fafafa": {
-            "pixels": 4,
-            "visibleFraction": 0.0019193857965451055,
+            "pixels": 3,
+            "visibleFraction": 0.0014285714285714286,
             "classification": "emissive-designated"
           },
           "61676a": {
-            "pixels": 40,
-            "visibleFraction": 0.019193857965451054,
+            "pixels": 35,
+            "visibleFraction": 0.016666666666666666,
             "classification": "paint"
           },
           "46b749": {
@@ -2041,76 +2209,76 @@
         }
       },
       "KRE": {
-        "totalPixels": 3213,
+        "totalPixels": 3230,
         "regions": {
           "126936": {
-            "pixels": 1870,
-            "visibleFraction": 0.582010582010582,
+            "pixels": 1881,
+            "visibleFraction": 0.5823529411764706,
             "classification": "paint"
           },
           "46b749": {
-            "pixels": 670,
-            "visibleFraction": 0.2085278555866791,
+            "pixels": 677,
+            "visibleFraction": 0.20959752321981423,
             "classification": "paint"
           },
           "a97b50": {
-            "pixels": 599,
-            "visibleFraction": 0.1864301276065982,
+            "pixels": 603,
+            "visibleFraction": 0.186687306501548,
             "classification": "metal"
           },
           "f5831f": {
-            "pixels": 49,
-            "visibleFraction": 0.015250544662309368,
+            "pixels": 46,
+            "visibleFraction": 0.014241486068111455,
             "classification": "emissive-designated"
           },
           "fafafa": {
-            "pixels": 7,
-            "visibleFraction": 0.002178649237472767,
+            "pixels": 4,
+            "visibleFraction": 0.001238390092879257,
             "classification": "emissive-designated"
           },
           "ffdd1a": {
-            "pixels": 14,
-            "visibleFraction": 0.004357298474945534,
+            "pixels": 12,
+            "visibleFraction": 0.0037151702786377707,
             "classification": "emissive-designated"
           },
           "e91d2d": {
-            "pixels": 4,
-            "visibleFraction": 0.0012449424214130097,
+            "pixels": 7,
+            "visibleFraction": 0.0021671826625387,
             "classification": "paint"
           }
         }
       },
       "VRA": {
-        "totalPixels": 1128,
+        "totalPixels": 1132,
         "regions": {
           "d3bfe5": {
-            "pixels": 54,
-            "visibleFraction": 0.047872340425531915,
+            "pixels": 56,
+            "visibleFraction": 0.04946996466431095,
             "classification": "emissive-designated"
           },
           "e1ad34": {
-            "pixels": 623,
-            "visibleFraction": 0.5523049645390071,
+            "pixels": 622,
+            "visibleFraction": 0.549469964664311,
             "classification": "metal"
           },
           "7e3f98": {
-            "pixels": 26,
-            "visibleFraction": 0.02304964539007092,
+            "pixels": 24,
+            "visibleFraction": 0.02120141342756184,
             "classification": "emissive-designated"
           },
           "ffdd1a": {
-            "pixels": 397,
-            "visibleFraction": 0.3519503546099291,
+            "pixels": 400,
+            "visibleFraction": 0.35335689045936397,
             "classification": "paint"
           },
           "f5831f": {
-            "pixels": 5,
-            "visibleFraction": 0.004432624113475178,
+            "pixels": 8,
+            "visibleFraction": 0.007067137809187279,
             "classification": "paint"
           },
           "46b749": {
-            "pixels": 23,
-            "visibleFraction": 0.020390070921985817,
+            "pixels": 22,
+            "visibleFraction": 0.019434628975265017,
             "classification": "paint"
           },
           "e91d2d": {
@@ -2123,13 +2291,13 @@
     },
     "lightsOff": {
       "physicalNonzeroPixels": 0,
-      "energeticNonzeroPixels": 1309
+      "energeticNonzeroPixels": 1318
     },
     "physicalIsolation": {
-      "physicalBefore": "85fb4ed9",
-      "physicalAfter": "85fb4ed9",
-      "shadowBefore": "2eca1c08",
-      "shadowAfter": "2eca1c08",
+      "physicalBefore": "f675427b",
+      "physicalAfter": "f675427b",
+      "shadowBefore": "7c5232e0",
+      "shadowAfter": "7c5232e0",
       "identical": true
     },
     "occlusion": {
@@ -2149,6 +2317,63 @@
       "foldConcave": 1,
       "missingColourRejected": true,
       "unknownColourRejected": true
+    },
+    "standGeometry": {
+      "roofFaces": 6,
+      "driftRejected": true,
+      "rows": [
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        }
+      ]
     },
     "allMaterialRegions": {
       "regions": 23,
@@ -2207,8 +2432,8 @@
   "detailCameras": {
     "EAR-plan": {
       "drawCalls": 11,
-      "triangles": 15890,
-      "textures": 20,
+      "triangles": 15938,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2221,7 +2446,7 @@
           12
         ],
         "fov": 14,
-        "pitch": 63.29675468323603
+        "pitch": 63.10262459133324
       },
       "camera": {
         "x": 8,
@@ -2235,8 +2460,8 @@
     },
     "EAR-side": {
       "drawCalls": 15,
-      "triangles": 15928,
-      "textures": 20,
+      "triangles": 15976,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2249,7 +2474,7 @@
           30
         ],
         "fov": 14,
-        "pitch": 35.83462592575072
+        "pitch": 35.58499527428525
       },
       "camera": {
         "x": 8,
@@ -2263,8 +2488,8 @@
     },
     "EAR-stern": {
       "drawCalls": 19,
-      "triangles": 33037,
-      "textures": 20,
+      "triangles": 33085,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2277,7 +2502,7 @@
           0
         ],
         "fov": 14,
-        "pitch": 35.18504393691801
+        "pitch": 34.93737697842133
       },
       "camera": {
         "x": 8,
@@ -2291,8 +2516,8 @@
     },
     "EAR-bow": {
       "drawCalls": 19,
-      "triangles": 15966,
-      "textures": 20,
+      "triangles": 16014,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2305,7 +2530,7 @@
           0
         ],
         "fov": 14,
-        "pitch": 35.18504393691801
+        "pitch": 34.93737697842133
       },
       "camera": {
         "x": 8,
@@ -2319,8 +2544,8 @@
     },
     "KRE-plan": {
       "drawCalls": 11,
-      "triangles": 17361,
-      "textures": 20,
+      "triangles": 17409,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2333,7 +2558,7 @@
           -12
         ],
         "fov": 14,
-        "pitch": 63.569911137659524
+        "pitch": 63.379457020724715
       },
       "camera": {
         "x": 8,
@@ -2347,8 +2572,8 @@
     },
     "KRE-side": {
       "drawCalls": 15,
-      "triangles": 21575,
-      "textures": 20,
+      "triangles": 21623,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2361,7 +2586,7 @@
           -30
         ],
         "fov": 14,
-        "pitch": 36.18891578233605
+        "pitch": 35.94151602392092
       },
       "camera": {
         "x": 8,
@@ -2375,8 +2600,8 @@
     },
     "KRE-stern": {
       "drawCalls": 20,
-      "triangles": 33055,
-      "textures": 20,
+      "triangles": 33103,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2389,7 +2614,7 @@
           3.796405077356795e-15
         ],
         "fov": 14,
-        "pitch": 35.5366305423807
+        "pitch": 35.29110809283415
       },
       "camera": {
         "x": 8,
@@ -2403,8 +2628,8 @@
     },
     "KRE-bow": {
       "drawCalls": 16,
-      "triangles": 21599,
-      "textures": 20,
+      "triangles": 21647,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2417,7 +2642,7 @@
           -3.796405077356795e-15
         ],
         "fov": 14,
-        "pitch": 35.5366305423807
+        "pitch": 35.29110809283414
       },
       "camera": {
         "x": 8,
@@ -2431,8 +2656,8 @@
     },
     "VRA-plan": {
       "drawCalls": 11,
-      "triangles": 29229,
-      "textures": 20,
+      "triangles": 29277,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2445,7 +2670,7 @@
           0.4574374157795944
         ],
         "fov": 14,
-        "pitch": 63.128640126165855
+        "pitch": 62.932234750914276
       },
       "camera": {
         "x": 8,
@@ -2459,8 +2684,8 @@
     },
     "VRA-side": {
       "drawCalls": 12,
-      "triangles": 29241,
-      "textures": 20,
+      "triangles": 29289,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2473,7 +2698,7 @@
           12.921539030917353
         ],
         "fov": 14,
-        "pitch": 35.618345009093744
+        "pitch": 35.367357275804544
       },
       "camera": {
         "x": 8,
@@ -2487,8 +2712,8 @@
     },
     "VRA-stern": {
       "drawCalls": 16,
-      "triangles": 33011,
-      "textures": 20,
+      "triangles": 33059,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2501,7 +2726,7 @@
           -32.38935010153801
         ],
         "fov": 14,
-        "pitch": 34.97046155545318
+        "pitch": 34.72149065933324
       },
       "camera": {
         "x": 8,
@@ -2515,8 +2740,8 @@
     },
     "VRA-bow": {
       "drawCalls": 17,
-      "triangles": 29291,
-      "textures": 20,
+      "triangles": 29339,
+      "textures": 21,
       "geometries": 38,
       "width": 1514,
       "height": 750,
@@ -2529,7 +2754,7 @@
           21.30422493309719
         ],
         "fov": 14,
-        "pitch": 34.97046155545319
+        "pitch": 34.72149065933326
       },
       "camera": {
         "x": 8,
@@ -2551,12 +2776,26 @@
         1.7513450980186462,
         4.260232150554657
       ],
-      "minThicknessMm": 0.020000000949949026,
-      "maxThicknessMm": 1.7513450980186462,
-      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
       "drawCalls": 46,
-      "submittedTriangles": 64094,
+      "submittedTriangles": 64190,
       "estimatedTargetMiB": 41.989532470703125,
       "actualCamera": {
         "position": [
@@ -2565,7 +2804,7 @@
           0.4574374157795944
         ],
         "fov": 14,
-        "pitch": 63.128640126165855
+        "pitch": 62.932234750914276
       }
     },
     "shard-plan-clear": {
@@ -2576,12 +2815,26 @@
         1.7513450980186462,
         4.260232150554657
       ],
-      "minThicknessMm": 0.020000000949949026,
-      "maxThicknessMm": 1.7513450980186462,
-      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
       "drawCalls": 56,
-      "submittedTriangles": 93365,
+      "submittedTriangles": 93509,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2590,7 +2843,7 @@
           0.4574374157795944
         ],
         "fov": 14,
-        "pitch": 63.128640126165855
+        "pitch": 62.932234750914276
       }
     },
     "shard-side-paint": {
@@ -2601,12 +2854,26 @@
         1.7513450980186462,
         4.260232150554657
       ],
-      "minThicknessMm": 0.020000000949949026,
-      "maxThicknessMm": 1.7513450980186462,
-      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
       "drawCalls": 46,
-      "submittedTriangles": 64094,
+      "submittedTriangles": 64190,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2615,7 +2882,7 @@
           12.921539030917353
         ],
         "fov": 14,
-        "pitch": 35.618345009093744
+        "pitch": 35.367357275804544
       }
     },
     "shard-side-clear": {
@@ -2626,12 +2893,26 @@
         1.7513450980186462,
         4.260232150554657
       ],
-      "minThicknessMm": 0.020000000949949026,
-      "maxThicknessMm": 1.7513450980186462,
-      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
       "drawCalls": 56,
-      "submittedTriangles": 93365,
+      "submittedTriangles": 93509,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2640,7 +2921,7 @@
           12.921539030917353
         ],
         "fov": 14,
-        "pitch": 35.618345009093744
+        "pitch": 35.367357275804544
       }
     },
     "planning-paint": {
@@ -2651,12 +2932,26 @@
         1.7513450980186462,
         4.260232150554657
       ],
-      "minThicknessMm": 0.020000000949949026,
-      "maxThicknessMm": 1.7513450980186462,
-      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
       "drawCalls": 73,
-      "submittedTriangles": 69736,
+      "submittedTriangles": 69832,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2676,12 +2971,26 @@
         1.7513450980186462,
         4.260232150554657
       ],
-      "minThicknessMm": 0.020000000949949026,
-      "maxThicknessMm": 1.7513450980186462,
-      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
       "drawCalls": 110,
-      "submittedTriangles": 104649,
+      "submittedTriangles": 104793,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2699,13 +3008,26 @@
     "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)"
   },
   "errors": [],
+  "comparisonMeasurement": {
+    "object": "Crystal material study only",
+    "basis": "length; provisional comparison size",
+    "sceneUnits": [
+      8.999999046325684
+    ],
+    "actualMm": [
+      89.99999046325684
+    ],
+    "referenceMm": [
+      90
+    ]
+  },
   "timing": {
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 0.4216666668653488,
+    "meanMs": 0.3483333336810271,
     "p95Ms": 0.5,
-    "maxMs": 0.6000000089406967,
+    "maxMs": 0.699999988079071,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }
