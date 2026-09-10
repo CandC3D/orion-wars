@@ -12,6 +12,9 @@ import { DIRS, distance } from '../src/tactical/hex.js';
 import { movementRange, movementRangeMarkup } from './contact-movement-range.js';
 import { pointDefenceMarkup, pointDefenceUmbrellas, pointDefenceKey } from './contact-point-defence.js';
 import { rotationMarkup } from './contact-rotation.js';
+import { reticleMarkup } from './contact-reticle.js';
+import { readinessChanges } from './weapon-readiness.js';
+import { debrisMarkup } from './contact-debris.js';
 import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
@@ -147,9 +150,9 @@ function render() {
   if(frame.result)status(frame.result.victor===view.side?'Battle concluded · YOUR SIDE WINS':frame.result.victor?'Battle concluded · OPPOSING SIDE WINS':'Battle concluded · DRAW');
   const entries=state.tape.slice(0,state.index+1).flatMap((item,index)=>item.events.map(event=>({index,event,frame:item.frame})));
   $('#events').innerHTML=entries.slice(consoleMode?-3:-100).map(({event:e,frame:f})=>{
-    const text=e.kind==='contact-acquired'?`Contact acquired: ${nameOf(f,e.contactId)}`:e.kind==='contact-lost'?`Contact lost: ${nameOf(f,e.contactId)}; current position unknown`:
+    const text=e.kind==='weapon-ready'?`${nameOf(f,e.shipId)} · ${e.weapon} ${e.detail}`:e.kind==='contact-acquired'?`Contact acquired: ${nameOf(f,e.contactId)}`:e.kind==='contact-lost'?`Contact lost: ${nameOf(f,e.contactId)}; current position unknown`:
       (()=>{const a=announcement(e,{label:id=>nameOf(f,id)});return `${a.title} · ${a.detail}`;})();
-    const weight=['contact-acquired','contact-lost'].includes(e.kind)?'minor':announcement(e,{label:id=>nameOf(f,id)}).weight;
+    const weight=e.kind==='weapon-ready'?'ready':['contact-acquired','contact-lost'].includes(e.kind)?'minor':announcement(e,{label:id=>nameOf(f,id)}).weight;
     return `<li data-weight="${weight}">T${f.turn}${f.round?' / A'+f.round:''} · ${esc(text)}</li>`;
   }).join('')||'<li>No side-visible combat events recorded.</li>';
   if(consoleMode){
@@ -187,7 +190,11 @@ function renderConsole(s){
   const cores=s.cores||[],alive=cores.filter(c=>c.alive).length,offline=s.mounts.filter(m=>m.inop).length,down=s.shields.filter(f=>f.down).length;
   const bank=s.spinal?`<div><span>Cannon</span><b>${s.destroyed?'—':s.spinal.state==='ready'?'READY':s.spinal.state==='cooldown'?'VENT '+s.spinal.cooldown:s.spinal.charge>0?'CHG '+format(s.spinal.charge):'COLD'}</b></div>`:'';
   const deck=s.squadrons?`<div><span>Deck</span><b>${s.squadrons.map(q=>format(q.strength)+'/'+format(q.max)).join(' ')}</b></div>`:'';
-  $('#condition-readouts').innerHTML=`<div><span>Hull</span><b>${format(s.superstructure)}<small>/${format(s.superstructureMax)}</small></b></div><div><span>Power</span><b>${format(s.power)}<small>/${format(s.ratedPower)}</small></b></div><div><span>Cores</span><b>${alive}<small>/${cores.length}</small></b></div><div><span>Magazine</span><b>${format(s.magazine)}</b></div><div><span>Sensors</span><b>${s.sensors.operationalRating}<small> ${s.sensors.passiveRadiusHexes}h</small></b></div><div><span>Shields</span><b>${down?down+' DOWN':inFog?'BYPASSED':'UP'}</b></div>${bank}${deck}${offline?`<div><span>Mounts</span><b>${offline} OFF</b></div>`:''}${Object.keys(s.systems||{}).length?`<div><span>Hits</span><b>${Object.entries(s.systems).map(([k,v])=>k+' '+v).join(' ')}</b></div>`:''}`;
+  // Hull alarms at half and at a quarter (Chris, 10 September 2026). A glyph, a colour and a word, so
+  // the state reads without relying on colour alone.
+  const hullFrac=Number(s.superstructureMax)>0?Number(s.superstructure)/Number(s.superstructureMax):1;
+  const hullAlarm=s.destroyed?null:hullFrac<.25?{cls:'hull-critical',tag:'▲▲ CRITICAL'}:hullFrac<.5?{cls:'hull-damaged',tag:'▲ DAMAGED'}:null;
+  $('#condition-readouts').innerHTML=`<div class="${hullAlarm?hullAlarm.cls:''}" ${hullAlarm?`role="alert" aria-label="Hull ${hullAlarm.tag.replace(/▲/g,'').trim().toLowerCase()}: ${format(s.superstructure)} of ${format(s.superstructureMax)}"`:''}><span>Hull${hullAlarm?` <em class="hull-alarm">${hullAlarm.tag}</em>`:''}</span><b>${format(s.superstructure)}<small>/${format(s.superstructureMax)}</small></b></div><div><span>Power</span><b>${format(s.power)}<small>/${format(s.ratedPower)}</small></b></div><div><span>Cores</span><b>${alive}<small>/${cores.length}</small></b></div><div><span>Magazine</span><b>${format(s.magazine)}</b></div><div><span>Sensors</span><b>${s.sensors.operationalRating}<small> ${s.sensors.passiveRadiusHexes}h</small></b></div><div><span>Shields</span><b>${down?down+' DOWN':inFog?'BYPASSED':'UP'}</b></div>${bank}${deck}${offline?`<div><span>Mounts</span><b>${offline} OFF</b></div>`:''}${Object.keys(s.systems||{}).length?`<div><span>Hits</span><b>${Object.entries(s.systems).map(([k,v])=>k+' '+v).join(' ')}</b></div>`:''}`;
   if(s.destroyed)$('#condition-readouts').innerHTML='<strong>VESSEL DESTROYED</strong><span>All systems unavailable</span>';
 }
 function renderVessel() {
@@ -499,13 +506,14 @@ function drawMap() {
     // artwork and must be applied here. A placeholder already carries its own
     // scale - the ladder is the manifest's own size values - so it is drawn as-is.
     const artIcon=icon*(entry?.framed?(entry.size??1):1);
-    const symbol=art?`<image href="../assets/icons/${esc(art)}" x="${-artIcon/2}" y="${-artIcon/2}" width="${artIcon}" height="${artIcon}" transform="translate(${p.x} ${p.y}) rotate(${90-s.facing*60})" opacity="${s.destroyed?.4:1}"/>`:
+    // A destroyed hull leaves debris where it died, standing in for its living icon (Chris, 10 Sept).
+    const symbol=s.destroyed?debrisMarkup(s,p,icon):art?`<image href="../assets/icons/${esc(art)}" x="${-artIcon/2}" y="${-artIcon/2}" width="${artIcon}" height="${artIcon}" transform="translate(${p.x} ${p.y}) rotate(${90-s.facing*60})" opacity="${s.destroyed?.4:1}"/>`:
       `<path d="M${-icon*.5},${-icon*.35}L${icon*.65},0L${-icon*.5},${icon*.35}L${-icon*.25},0Z" transform="translate(${p.x} ${p.y}) rotate(${-s.facing*60})" fill="${s.destroyed?'#63727a':isOwn?'#83c9e7':'#df9e66'}"/>`;
     const text=layout.labels.find(l=>l.id===s.id),b=text?.box;
     // Leaders and anchors are drawn but never capture pointer input, so a line crossing a neighbour's name cannot steal its click.
     const displacedLeader=marker.displaced?`<path class="leader" d="M${marker.anchor.x},${marker.anchor.y}L${p.x},${p.y}" stroke="#8ec6dc" stroke-dasharray="3 3"/>`:'';
     const labelLeader=text&&text.leader?`<path class="leader" d="M${p.x},${p.y}L${b.x+b.w/2},${b.y+b.h/2}" stroke="#496376" stroke-width="1"/>`:'';
-    svg+=`<g data-ship="${esc(s.id)}" data-own="${isOwn}" data-labelled="${!!text}" data-marker-x="${p.x.toFixed(1)}" data-marker-y="${p.y.toFixed(1)}" role="button" tabindex="0" aria-label="${esc(shipLabel(s))}${s.destroyed?' (lost)':''}"><title>${esc(shipLabel(s))} · ${isOwn?'friendly':damageText(s)} · hex ${s.pos.q}, ${s.pos.r}</title>${displacedLeader}<circle class="leader" data-hex-anchor="true" cx="${marker.anchor.x}" cy="${marker.anchor.y}" r="${Math.max(1.5,scale*.08)}" fill="#8ec6dc" fill-opacity="${marker.displaced?1:.55}"/>${selected?`<circle class="leader" cx="${p.x}" cy="${p.y}" r="${icon*.65}" fill="none" stroke="#efb773"/>`:''}${symbol}${labelLeader}${text?tag(text,'ship',selected?'#efb773':'#dfeaf1'):''}${text&&isOwn&&!s.destroyed?hullBar(text,s):''}</g>`;
+    svg+=`<g data-ship="${esc(s.id)}" data-selected="${selected}" data-own="${isOwn}" data-labelled="${!!text}" data-marker-x="${p.x.toFixed(1)}" data-marker-y="${p.y.toFixed(1)}" role="button" tabindex="0" aria-label="${esc(shipLabel(s))}${s.destroyed?' (lost)':''}"><title>${esc(shipLabel(s))} · ${isOwn?'friendly':damageText(s)} · hex ${s.pos.q}, ${s.pos.r}</title>${displacedLeader}<circle class="leader" data-hex-anchor="true" cx="${marker.anchor.x}" cy="${marker.anchor.y}" r="${Math.max(1.5,scale*.08)}" fill="#8ec6dc" fill-opacity="${marker.displaced?1:.55}"/>${reticleMarkup(marker.anchor,scale)}${symbol}${labelLeader}${text?tag(text,'ship',selected?'#efb773':'#dfeaf1'):''}${text&&isOwn&&!s.destroyed?hullBar(text,s):''}</g>`;
   }
   for(const entry of layout.course){const b=entry.box;svg+=`<path d="M${entry.anchor.x},${entry.anchor.y}L${b.x+b.w/2},${b.y+b.h/2}" stroke="#efb773"/>${tag({...entry,primary:true},'course','#efb773')}`;}
   map.innerHTML=svg;
@@ -543,7 +551,12 @@ async function execute() {
   try{
     const result=await request('orders',{orders:structuredClone(state.orders)});if(token!==generation)return;
     if(!result.ok){status('Invalid orders. No turn advanced.');return;}
+    const before=state.tape[state.tape.length-1]?.frame?.observation;
     const first=state.tape.length;for(const item of result.timeline)state.tape.push(item);
+    // Weapons coming back online are news only across a turn boundary, so they are read from the
+    // last planning picture against the new one and attached to the turn's final entry.
+    const ready=readinessChanges(before,state.tape[state.tape.length-1]?.frame?.observation);
+    if(ready.length)state.tape[state.tape.length-1].events.push(...ready);
     $('#playback-pause').disabled=false;$('#playback-skip').disabled=false;$('#playback-pause').setAttribute('aria-pressed','false');$('#playback-pause').textContent='Pause';
     const geometry=()=>{const v=state.current.observation,w=900,h=520,scale=Math.min(w/(v.map.widthHexes+8),h/(v.map.heightHexes+6))*state.zoom,clientWidth=Math.max(240,$('#contact-map').clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));const baseIcon=font*1.7;return {project:p=>({x:w/2+((p.q-state.center.q)+(p.r-state.center.r)/2)*scale,y:h/2+(p.r-state.center.r)*scale*.866}),scale,icon:Math.max(baseIcon,Math.min(scale*1.5,baseIcon*3)),font};};
     const slideTo=async (index,clock)=>{

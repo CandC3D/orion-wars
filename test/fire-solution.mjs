@@ -29,8 +29,8 @@ check('a contact dead ahead and in range bears on a forward mount',()=>{
   const forward=own.mounts.find(m=>m.kind==='beam'&&m.arc.includes(2));
   assert.ok(forward,'a forward-bearing beam');
   const f=fireSolution(own,forward,contact,view,999);
-  assert.equal(f.state,'bears');assert.equal(f.short,'BEARS');
-  assert.match(f.full,/not a firing solution/);
+  assert.equal(f.state,'bears');assert.equal(f.short,'TARGET LOCKED');assert.equal(f.locked,true);assert.equal(f.target,contact.id);assert.match(f.full,/current position/);
+  assert.match(f.full,/not a guaranteed hit/);
 });
 
 check('a contact outside the arc reports NO ARC, in the engine\'s own words',()=>{

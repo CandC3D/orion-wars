@@ -23,7 +23,15 @@
 #contact-map image { -webkit-user-drag:none; }
 #contact-map [data-ship] { cursor:pointer; }
 #contact-map.is-panning,#contact-map.is-panning * { cursor:grabbing; }
-#contact-map [data-ship]:focus-visible { outline:2px solid var(--signal); outline-offset:3px; }
+/* Selection and keyboard focus share one mark: a hex-cornered reticle on the ship's own hex, which
+   replaces the browser's rectangular focus outline rather than merely hiding it (Chris, 10 Sept). */
+#contact-map [data-ship]:focus,#contact-map [data-ship]:focus-visible { outline:none; }
+#contact-map [data-ship] .reticle { display:none; }
+#contact-map [data-ship][data-selected="true"] .reticle,
+#contact-map [data-ship]:focus-visible .reticle { display:inline; animation:reticle-hold 2.4s ease-in-out infinite; }
+#contact-map [data-ship]:focus-visible:not([data-selected="true"]) .reticle { stroke:var(--signal,#7bc6ec); }
+@keyframes reticle-hold { 0%,100% { stroke-opacity:1; } 50% { stroke-opacity:.45; } }
+@media (prefers-reduced-motion: reduce) { #contact-map [data-ship] .reticle { animation:none !important; } }
 .map-tools,.order-top,.tape-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
 .map-tools label { flex:1; max-width:190px; }
 .map-tools input { width:100%; }
