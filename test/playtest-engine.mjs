@@ -251,8 +251,9 @@ check('Beam, spinal and strike-craft kills report the same wreck and loss; cripp
   queue(w,w.b,w.a,100000);const second=session.step({[w.a.id]:order()});
   assert.equal(w.b.wreckedTurn,2);assert.equal(second.timeline.flatMap(t=>t.events).filter(e=>e.kind==='destruction').length,1);
 });
-check('PD radius four is inclusive; one pooled draw names the living uncloaked defenders and spends no weapons',()=>{
-  const w=world(),escort=addShip(w,'A','A-escort',{q:4,r:0}),far=addShip(w,'A','A-far',{q:5,r:0});
+// The radius is read from tuning: it was 4 for the playtest of 10 September and returned to 3 the same day.
+check('PD radius is inclusive; one pooled draw names the living uncloaked defenders and spends no weapons',()=>{
+  const w=world(),R=w.t.pointDefence.rangeHexes,escort=addShip(w,'A','A-escort',{q:R,r:0}),far=addShip(w,'A','A-far',{q:R+1,r:0});
   const cloaked=addShip(w,'A','A-cloaked',{q:1,r:0}),dead=addShip(w,'A','A-dead',{q:1,r:1});
   w.a.hull.pointDefence=0;cloaked.cloaked=true;dead.destroyed=true;
   escort.hull.pointDefence=far.hull.pointDefence=cloaked.hull.pointDefence=dead.hull.pointDefence=1;

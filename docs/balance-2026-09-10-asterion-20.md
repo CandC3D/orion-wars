@@ -8,6 +8,20 @@ Harness: `node scripts/scenario-balance.mjs <scenario.json> --battles N [--max-t
 It runs the scenario AI-vs-AI through the engine's own scenario path, seeds `${seed}/${i}`, so the
 same arguments always print the same numbers. 5000 battles per row. Earth is side A.
 
+## Point defence returns to 3 hexes
+
+Later the same day Chris reverted the radius: "let's go back to 3 - a worthy experiment we may revisit
+in some other form someday." Radius 4 cost Earth 13.8 points against the Zandrax in the fleet corpus
+(83 fewer wins in 600) and 5.2 against the Vraygon; Earth's doctrine is torpedo weight of fire, and a
+wider enemy umbrella intercepts more of it. The live figures for both scenarios, 20 turns, PD 3,
+5000 battles:
+
+- The Asterion Line: **Earth 53.3%**, Krelath 45.0%, draw 1.7%, median 9 turns.
+- The Asterion Line - Battleship (rebalanced below): **Earth 55.1%**, Krelath 44.1%, draw 0.8%,
+  median 14 turns, 70.4% flagship kills.
+
+The tables below were measured while the radius was 4; the PD-3 rows are included where they were run.
+
 ## The Asterion Line (the tutorial): no change needed
 
 | Turns | PD | Earth | Krelath | Draw | Median turns | Flagship kill | On points |
