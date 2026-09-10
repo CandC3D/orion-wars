@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { assertRegister, BUDGETS } from './contract.js';
 import { BOARD } from './scale.js';
+import {printBoardBrand} from './brand/board-print.js';
 
 export function physicalMaterial(name, options = {}) {
   const m = new THREE.MeshStandardMaterial({ roughness: 0.82, metalness: 0, ...options,
@@ -43,7 +44,10 @@ export function canvasTexture(width, height, draw) {
 }
 
 export function boardTexture() {
-  return canvasTexture(1152, 768, (c,w,h) => {
+  // Rasterise the original vector cuts directly at 4/3 the previous resolution.
+  // Keep print geometry in its original coordinates and stay inside 24 MiB.
+  return canvasTexture(1536, 1024, (c) => {
+    c.scale(4/3,4/3);const w=1152,h=768;
     c.fillStyle='#d9cdae';c.fillRect(0,0,w,h);
     c.fillStyle='#253b45';c.fillRect(28,86,w-56,h-126);
     // Two spot inks, stippled tints and a deliberately displaced registration impression.
@@ -59,8 +63,7 @@ export function boardTexture() {
       outline(1.5,.7,'#8d754a');outline(0,0,'#718586');
       c.fillStyle='#8c9d98';c.font='12px monospace';c.fillText(`${q+8}${String(r+6).padStart(2,'0')}`,x-10,y+hex*sy*.70);
     }
-    c.fillStyle='#293b41';c.font='bold 37px Georgia';c.fillText('DISTANT SECTORS',48,53);
-    c.font='15px monospace';c.textAlign='right';c.fillText('THE ACHERNAR CAMPAIGN   /   SECTOR SHEET 01',w-48,49);c.textAlign='left';
+    printBoardBrand(c);
     c.fillStyle='#b49b68';c.font='15px monospace';c.fillText('ACHERNAR APPROACH     •     TACTICAL HEXES',56,122);
     c.fillStyle='#293b41';c.font='12px monospace';c.fillText('PRINTED SECTOR BOARD  •  1987     /     FOLD FLAT BEFORE PLAY',45,h-16);
     // A folded card has a worn light edge and a darker trough, not a mountainous bump map.

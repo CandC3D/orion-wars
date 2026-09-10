@@ -1,0 +1,103 @@
+{
+  "browser": "152.0.4191.66",
+  "viewport": {
+    "width": 1600,
+    "height": 1080
+  },
+  "captures": {
+    "planning": {
+      "camera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      },
+      "drawCalls": 79,
+      "triangles": 69904,
+      "materialTextureMiB": 23.76219177246094
+    },
+    "beam": {
+      "camera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
+      "drawCalls": 74,
+      "triangles": 69278,
+      "materialTextureMiB": 23.76219177246094
+    }
+  },
+  "sourceHashes": {
+    "distant-sectors-wordmark.svg": "9627480d1e07a0ffc11c0444684a47654cf264f6d201cea9d92ba92484fd7c6c",
+    "the-achernar-campaign-subtitle.svg": "7847602694e5f67b63ca912603e109817fec5e0ec2726988dc7294e2e9874a5c"
+  },
+  "art": {
+    "results": {
+      "wordmark": {
+        "paths": 14,
+        "groups": [
+          "DISTANT",
+          "SECTORS",
+          "registered-mark"
+        ],
+        "alphaDifferenceFraction": 0,
+        "solidMismatchPixels": 0,
+        "maxAlphaDifference": 0
+      },
+      "subtitle": {
+        "paths": 19,
+        "groups": [
+          "word-The",
+          "word-Achernar",
+          "word-Campaign"
+        ],
+        "alphaDifferenceFraction": 0,
+        "solidMismatchPixels": 0,
+        "maxAlphaDifference": 0
+      }
+    },
+    "dimensions": {
+      "width": 1536,
+      "height": 1024,
+      "boardMipMiB": 8
+    },
+    "layout": {
+      "ink": "#293b41",
+      "registrationInk": "#8d754a",
+      "registration": [
+        1.5,
+        0.7
+      ],
+      "wordmark": {
+        "x": 48,
+        "y": 9,
+        "width": 302
+      },
+      "subtitle": {
+        "x": 580,
+        "y": 12,
+        "width": 524
+      },
+      "component": {
+        "x": 1104,
+        "y": 67
+      }
+    }
+  },
+  "errors": [],
+  "implementationHashes": {
+    "materials.js": "4fdef67b09d8932504dc25d72d85b3b60cddf38f65a272bafce6f60ba9836eb8",
+    "renderer.js": "ae3ab66825e7fa1dacd5fee55f1cf1573a207871d50d6228d31817fdee8b25b3",
+    "contract.js": "9dac011dc9f09858dcaf91011628d4a3f52c5f9e721d5edc4795a4869eeebbd6",
+    "brand/board-print.js": "368f5247b9e4d6eda6af95794b6aa83d618309e7b1b1a677a6036de556ce2d44",
+    "brand/board-marks.js": "764a0f9bde42919067fa997e7f9b96d98c63a9074e1549451a74c766d541b64b",
+    "brand/build-board-marks.mjs": "07757826994c7b442b8d370292f7708c601d2731ae93a8ca9e5327891ae71190"
+  }
+}

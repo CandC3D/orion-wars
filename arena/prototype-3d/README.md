@@ -1,4 +1,18 @@
-# Complete ship library — revision 09
+# Printed board lettering — revision 10
+
+The supplied Distant Sectors wordmark and The Achernar Campaign subtitle now
+print in dark spot ink on the board's cream header, left and right respectively.
+SECTOR SHEET 01 remains plain set type. The original cream vectors are unchanged.
+See the [branding review and rubric](BRAND-REVIEW.md),
+[current planning frame](evidence/brand/planning.png) and
+[current resolution frame](evidence/brand/resolution.png).
+
+Direct visual self-review: **95.6/100**, with every scored criterion at least 90.
+Resolution depth-of-field still softens the header. Board texture resolution is
+1536 × 1024; scene material textures remain below the unchanged 24 MiB cap at
+23.76 MiB. Existing ship/contact-sheet evidence below belongs to its prior review.
+
+## Complete ship library — revision 09
 
 **26 individual models, three inspection sheets:**
 [Earth](fleet-sheets/earth.html) · [Krelath](fleet-sheets/krelath.html) ·

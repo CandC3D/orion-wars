@@ -1,0 +1,3047 @@
+{
+  "browser": "152.0.4191.66",
+  "viewport": {
+    "width": 1600,
+    "height": 1080
+  },
+  "captures": {
+    "planning": {
+      "drawCalls": 79,
+      "triangles": 69904,
+      "textures": 24,
+      "geometries": 34,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null,
+      "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 0,
+      "hullScreenBounds": {
+        "EAR-FF-1": {
+          "x": 604.8576224432867,
+          "y": 292.5240503023865,
+          "width": 97.15543654477904,
+          "height": 70.24543388656468
+        },
+        "KRE-FF-1": {
+          "x": 803.5558751271225,
+          "y": 314.458071976596,
+          "width": 114.22814567456624,
+          "height": 78.79206519036006
+        },
+        "VRA-FF-1": {
+          "x": 684.8081330240019,
+          "y": 229.1632786467177,
+          "width": 69.22955708583765,
+          "height": 80.83056797014669
+        }
+      },
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "painted-1987",
+          "triangles": 11442,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "bfc7cc": 5524,
+              "009fd7": 1768,
+              "e91d2d": 940,
+              "0076a9": 1751,
+              "f5831f": 656,
+              "e1ad34": 467,
+              "fafafa": 161,
+              "61676a": 128,
+              "46b749": 47
+            },
+            "concaveEdges": 2273,
+            "raisedEdges": 1504,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            55,
+            33.48095417022705,
+            20.12415885925293
+          ],
+          "standAttachment": [
+            0,
+            -0.644022217051722,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              1.9164347581863403,
+              0.9299750030040741,
+              0.00014339759945869446
+            ],
+            "impact": [
+              1.4,
+              0.7511842301873684,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "painted-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              0.3819553107023239,
+              0.7450703911781311,
+              -0.00016960501670837402
+            ],
+            "impact": [
+              1.2,
+              0.4635994528838545,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "painted-1987",
+          "triangles": 4188,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "d3bfe5": 1766,
+              "e1ad34": 1334,
+              "7e3f98": 446,
+              "ffdd1a": 387,
+              "f5831f": 223,
+              "46b749": 24,
+              "e91d2d": 8
+            },
+            "concaveEdges": 1362,
+            "raisedEdges": 2459,
+            "unmatchedEdges": 72,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            45,
+            21.621512267694236,
+            16.340897139878045
+          ],
+          "standAttachment": [
+            0,
+            -0.8173753035288018,
+            0
+          ],
+          "sockets": {
+            "weapon": null,
+            "impact": [
+              0,
+              0.42527761098997563,
+              0
+            ],
+            "engines": []
+          }
+        }
+      ],
+      "energyRegionGeometry": [
+        {
+          "id": "EAR-FF-1",
+          "kind": "exhaust",
+          "triangles": 12
+        },
+        {
+          "id": "EAR-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 179
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 23.76219177246094,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
+      "postHeights": [
+        3,
+        3,
+        3
+      ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    },
+    "beam": {
+      "drawCalls": 74,
+      "triangles": 69278,
+      "textures": 24,
+      "geometries": 39,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": "beam",
+      "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 5,
+      "hullScreenBounds": {
+        "EAR-FF-1": {
+          "x": 506.5065977428056,
+          "y": 256.3766430982675,
+          "width": 163.73864280300057,
+          "height": 115.8820104285166
+        },
+        "KRE-FF-1": {
+          "x": 833.6864794369723,
+          "y": 295.5030645254375,
+          "width": 190.83846550277792,
+          "height": 123.23524719186355
+        },
+        "VRA-FF-1": {
+          "x": 644.6242063955292,
+          "y": 184.86219482775337,
+          "width": 111.23325711545215,
+          "height": 112.93828621138059
+        }
+      },
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "painted-1987",
+          "triangles": 11442,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "bfc7cc": 5524,
+              "009fd7": 1768,
+              "e91d2d": 940,
+              "0076a9": 1751,
+              "f5831f": 656,
+              "e1ad34": 467,
+              "fafafa": 161,
+              "61676a": 128,
+              "46b749": 47
+            },
+            "concaveEdges": 2273,
+            "raisedEdges": 1504,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            55,
+            33.48095417022705,
+            20.12415885925293
+          ],
+          "standAttachment": [
+            0,
+            -0.644022217051722,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              1.9164347581863403,
+              0.9299750030040741,
+              0.00014339759945869446
+            ],
+            "impact": [
+              1.4,
+              0.7511842301873684,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "painted-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              0.3819553107023239,
+              0.7450703911781311,
+              -0.00016960501670837402
+            ],
+            "impact": [
+              1.2,
+              0.4635994528838545,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "painted-1987",
+          "triangles": 4188,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "d3bfe5": 1766,
+              "e1ad34": 1334,
+              "7e3f98": 446,
+              "ffdd1a": 387,
+              "f5831f": 223,
+              "46b749": 24,
+              "e91d2d": 8
+            },
+            "concaveEdges": 1362,
+            "raisedEdges": 2459,
+            "unmatchedEdges": 72,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            45,
+            21.621512267694236,
+            16.340897139878045
+          ],
+          "standAttachment": [
+            0,
+            -0.8173753035288018,
+            0
+          ],
+          "sockets": {
+            "weapon": null,
+            "impact": [
+              0,
+              0.42527761098997563,
+              0
+            ],
+            "engines": []
+          }
+        }
+      ],
+      "energyRegionGeometry": [
+        {
+          "id": "EAR-FF-1",
+          "kind": "exhaust",
+          "triangles": 12
+        },
+        {
+          "id": "EAR-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 179
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 23.76219177246094,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
+      "postHeights": [
+        3,
+        3,
+        3
+      ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    },
+    "shield": {
+      "drawCalls": 72,
+      "triangles": 69430,
+      "textures": 24,
+      "geometries": 40,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": "shield-flare",
+      "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 3,
+      "hullScreenBounds": {
+        "EAR-FF-1": {
+          "x": 506.5065977428056,
+          "y": 256.3766430982675,
+          "width": 163.73864280300057,
+          "height": 115.8820104285166
+        },
+        "KRE-FF-1": {
+          "x": 833.6864794369723,
+          "y": 295.5030645254375,
+          "width": 190.83846550277792,
+          "height": 123.23524719186355
+        },
+        "VRA-FF-1": {
+          "x": 644.6242063955292,
+          "y": 184.86219482775337,
+          "width": 111.23325711545215,
+          "height": 112.93828621138059
+        }
+      },
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "painted-1987",
+          "triangles": 11442,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "bfc7cc": 5524,
+              "009fd7": 1768,
+              "e91d2d": 940,
+              "0076a9": 1751,
+              "f5831f": 656,
+              "e1ad34": 467,
+              "fafafa": 161,
+              "61676a": 128,
+              "46b749": 47
+            },
+            "concaveEdges": 2273,
+            "raisedEdges": 1504,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            55,
+            33.48095417022705,
+            20.12415885925293
+          ],
+          "standAttachment": [
+            0,
+            -0.644022217051722,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              1.9164347581863403,
+              0.9299750030040741,
+              0.00014339759945869446
+            ],
+            "impact": [
+              1.4,
+              0.7511842301873684,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "painted-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              0.3819553107023239,
+              0.7450703911781311,
+              -0.00016960501670837402
+            ],
+            "impact": [
+              1.2,
+              0.4635994528838545,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "painted-1987",
+          "triangles": 4188,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "d3bfe5": 1766,
+              "e1ad34": 1334,
+              "7e3f98": 446,
+              "ffdd1a": 387,
+              "f5831f": 223,
+              "46b749": 24,
+              "e91d2d": 8
+            },
+            "concaveEdges": 1362,
+            "raisedEdges": 2459,
+            "unmatchedEdges": 72,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            45,
+            21.621512267694236,
+            16.340897139878045
+          ],
+          "standAttachment": [
+            0,
+            -0.8173753035288018,
+            0
+          ],
+          "sockets": {
+            "weapon": null,
+            "impact": [
+              0,
+              0.42527761098997563,
+              0
+            ],
+            "engines": []
+          }
+        }
+      ],
+      "energyRegionGeometry": [
+        {
+          "id": "EAR-FF-1",
+          "kind": "exhaust",
+          "triangles": 12
+        },
+        {
+          "id": "EAR-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 179
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 23.76219177246094,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
+      "postHeights": [
+        3,
+        3,
+        3
+      ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    },
+    "anonymous": {
+      "drawCalls": 72,
+      "triangles": 68904,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": "anonymous",
+      "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 3,
+      "hullScreenBounds": {
+        "EAR-FF-1": {
+          "x": 506.5065977428056,
+          "y": 256.3766430982675,
+          "width": 163.73864280300057,
+          "height": 115.8820104285166
+        },
+        "KRE-FF-1": {
+          "x": 833.6864794369723,
+          "y": 295.5030645254375,
+          "width": 190.83846550277792,
+          "height": 123.23524719186355
+        },
+        "VRA-FF-1": {
+          "x": 644.6242063955292,
+          "y": 184.86219482775337,
+          "width": 111.23325711545215,
+          "height": 112.93828621138059
+        }
+      },
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "painted-1987",
+          "triangles": 11442,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "bfc7cc": 5524,
+              "009fd7": 1768,
+              "e91d2d": 940,
+              "0076a9": 1751,
+              "f5831f": 656,
+              "e1ad34": 467,
+              "fafafa": 161,
+              "61676a": 128,
+              "46b749": 47
+            },
+            "concaveEdges": 2273,
+            "raisedEdges": 1504,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            55,
+            33.48095417022705,
+            20.12415885925293
+          ],
+          "standAttachment": [
+            0,
+            -0.644022217051722,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              1.9164347581863403,
+              0.9299750030040741,
+              0.00014339759945869446
+            ],
+            "impact": [
+              1.4,
+              0.7511842301873684,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "painted-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
+          "sockets": {
+            "weapon": [
+              0.3819553107023239,
+              0.7450703911781311,
+              -0.00016960501670837402
+            ],
+            "impact": [
+              1.2,
+              0.4635994528838545,
+              0
+            ],
+            "engines": []
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "painted-1987",
+          "triangles": 4188,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "d3bfe5": 1766,
+              "e1ad34": 1334,
+              "7e3f98": 446,
+              "ffdd1a": 387,
+              "f5831f": 223,
+              "46b749": 24,
+              "e91d2d": 8
+            },
+            "concaveEdges": 1362,
+            "raisedEdges": 2459,
+            "unmatchedEdges": 72,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "inkWidthMm": 0.25,
+            "edgeWidthMm": 0.38,
+            "pickedWidthMm": 0.12
+          },
+          "sizeMm": [
+            45,
+            21.621512267694236,
+            16.340897139878045
+          ],
+          "standAttachment": [
+            0,
+            -0.8173753035288018,
+            0
+          ],
+          "sockets": {
+            "weapon": null,
+            "impact": [
+              0,
+              0.42527761098997563,
+              0
+            ],
+            "engines": []
+          }
+        }
+      ],
+      "energyRegionGeometry": [
+        {
+          "id": "EAR-FF-1",
+          "kind": "exhaust",
+          "triangles": 12
+        },
+        {
+          "id": "EAR-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 179
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 23.76219177246094,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
+      "postHeights": [
+        3,
+        3,
+        3
+      ],
+      "mounting": [
+        {
+          "id": "EAR-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "KRE-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000010662402959679543,
+          "opaque": true
+        },
+        {
+          "id": "VRA-FF-1",
+          "exposedMm": 30,
+          "baseGapMm": 4.768371586472142e-7,
+          "hullGapMm": 0.0000012018146296694265,
+          "opaque": true
+        }
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    }
+  },
+  "checks": {
+    "explicitBoardCodes": [
+      {
+        "id": "EAR-FF-1",
+        "code": "EFG-03"
+      },
+      {
+        "id": "KRE-FF-1",
+        "code": "KFG-01"
+      },
+      {
+        "id": "VRA-FF-1",
+        "code": "VFG-04"
+      }
+    ],
+    "planningBrush": {
+      "EAR": {
+        "pixelsChangedAbove025": 1114,
+        "maxLinearChannelDifference": 0.5467529296875
+      },
+      "KRE": {
+        "pixelsChangedAbove025": 636,
+        "maxLinearChannelDifference": 0.467529296875
+      },
+      "VRA": {
+        "pixelsChangedAbove025": 498,
+        "maxLinearChannelDifference": 0.579833984375
+      }
+    },
+    "visibleRegions": {
+      "EAR": {
+        "totalPixels": 2100,
+        "regions": {
+          "bfc7cc": {
+            "pixels": 829,
+            "visibleFraction": 0.39476190476190476,
+            "classification": "metal"
+          },
+          "009fd7": {
+            "pixels": 605,
+            "visibleFraction": 0.28809523809523807,
+            "classification": "paint"
+          },
+          "e91d2d": {
+            "pixels": 58,
+            "visibleFraction": 0.02761904761904762,
+            "classification": "emissive-designated"
+          },
+          "0076a9": {
+            "pixels": 519,
+            "visibleFraction": 0.24714285714285714,
+            "classification": "paint"
+          },
+          "f5831f": {
+            "pixels": 36,
+            "visibleFraction": 0.017142857142857144,
+            "classification": "paint"
+          },
+          "e1ad34": {
+            "pixels": 15,
+            "visibleFraction": 0.007142857142857143,
+            "classification": "metal"
+          },
+          "fafafa": {
+            "pixels": 3,
+            "visibleFraction": 0.0014285714285714286,
+            "classification": "emissive-designated"
+          },
+          "61676a": {
+            "pixels": 35,
+            "visibleFraction": 0.016666666666666666,
+            "classification": "paint"
+          },
+          "46b749": {
+            "pixels": 0,
+            "visibleFraction": 0,
+            "classification": "emissive-designated"
+          }
+        }
+      },
+      "KRE": {
+        "totalPixels": 3230,
+        "regions": {
+          "126936": {
+            "pixels": 1881,
+            "visibleFraction": 0.5823529411764706,
+            "classification": "paint"
+          },
+          "46b749": {
+            "pixels": 677,
+            "visibleFraction": 0.20959752321981423,
+            "classification": "paint"
+          },
+          "a97b50": {
+            "pixels": 603,
+            "visibleFraction": 0.186687306501548,
+            "classification": "metal"
+          },
+          "f5831f": {
+            "pixels": 46,
+            "visibleFraction": 0.014241486068111455,
+            "classification": "emissive-designated"
+          },
+          "fafafa": {
+            "pixels": 4,
+            "visibleFraction": 0.001238390092879257,
+            "classification": "emissive-designated"
+          },
+          "ffdd1a": {
+            "pixels": 12,
+            "visibleFraction": 0.0037151702786377707,
+            "classification": "emissive-designated"
+          },
+          "e91d2d": {
+            "pixels": 7,
+            "visibleFraction": 0.0021671826625387,
+            "classification": "paint"
+          }
+        }
+      },
+      "VRA": {
+        "totalPixels": 1132,
+        "regions": {
+          "d3bfe5": {
+            "pixels": 56,
+            "visibleFraction": 0.04946996466431095,
+            "classification": "emissive-designated"
+          },
+          "e1ad34": {
+            "pixels": 622,
+            "visibleFraction": 0.549469964664311,
+            "classification": "metal"
+          },
+          "7e3f98": {
+            "pixels": 24,
+            "visibleFraction": 0.02120141342756184,
+            "classification": "emissive-designated"
+          },
+          "ffdd1a": {
+            "pixels": 400,
+            "visibleFraction": 0.35335689045936397,
+            "classification": "paint"
+          },
+          "f5831f": {
+            "pixels": 8,
+            "visibleFraction": 0.007067137809187279,
+            "classification": "paint"
+          },
+          "46b749": {
+            "pixels": 22,
+            "visibleFraction": 0.019434628975265017,
+            "classification": "paint"
+          },
+          "e91d2d": {
+            "pixels": 0,
+            "visibleFraction": 0,
+            "classification": "emissive-designated"
+          }
+        }
+      }
+    },
+    "lightsOff": {
+      "physicalNonzeroPixels": 0,
+      "energeticNonzeroPixels": 1318
+    },
+    "physicalIsolation": {
+      "physicalBefore": "cbe7fa5d",
+      "physicalAfter": "cbe7fa5d",
+      "shadowBefore": "7c5232e0",
+      "shadowAfter": "7c5232e0",
+      "identical": true
+    },
+    "occlusion": {
+      "behindSamples": 0,
+      "frontSamples": 424
+    },
+    "classification": {
+      "missingObject": true,
+      "missingMaterial": true,
+      "emission": true,
+      "energyLight": true
+    },
+    "geometricPaint": {
+      "cubeConvex": 12,
+      "cubeConcave": 0,
+      "flatPlaneCreases": 0,
+      "foldConcave": 1,
+      "missingColourRejected": true,
+      "unknownColourRejected": true
+    },
+    "standGeometry": {
+      "roofFaces": 6,
+      "driftRejected": true,
+      "rows": [
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Black tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.24000000263607074,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.4000000263607073,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        }
+      ]
+    },
+    "allMaterialRegions": {
+      "regions": 23,
+      "metal": 4,
+      "energyPaint": 9,
+      "clearEligible": 1
+    },
+    "factionExtensions": {
+      "EAR/a7adb1": {
+        "metal": 1,
+        "flat": 0,
+        "clear": 0,
+        "tint": [
+          1.0399999618530273,
+          1,
+          0.9399999976158142
+        ],
+        "flatSpecularSuppressed": true,
+        "flatRoughnessOne": true
+      },
+      "KRE/c8e4bd": {
+        "metal": 0,
+        "flat": 1,
+        "clear": 0,
+        "tint": [
+          1,
+          1,
+          1
+        ],
+        "flatSpecularSuppressed": true,
+        "flatRoughnessOne": true
+      },
+      "VRA/75cedb": {
+        "metal": 0,
+        "flat": 0,
+        "clear": 0,
+        "tint": [
+          1,
+          1,
+          1
+        ],
+        "flatSpecularSuppressed": true,
+        "flatRoughnessOne": true
+      }
+    },
+    "clearLightsOff": {
+      "physicalNonzeroPixels": 0,
+      "energeticNonzeroPixels": 0
+    },
+    "pause": true,
+    "skip": true,
+    "reducedMotion": true,
+    "clearVariantURL": true,
+    "svgFallback": true
+  },
+  "detailCameras": {
+    "EAR-plan": {
+      "drawCalls": 13,
+      "triangles": 15962,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -6.4,
+          28,
+          12
+        ],
+        "fov": 14,
+        "pitch": 63.10262459133324
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "EAR-side": {
+      "drawCalls": 17,
+      "triangles": 16000,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -2.4000000000000004,
+          26,
+          30
+        ],
+        "fov": 14,
+        "pitch": 35.58499527428525
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "EAR-stern": {
+      "drawCalls": 22,
+      "triangles": 33121,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -37.4,
+          26,
+          0
+        ],
+        "fov": 14,
+        "pitch": 34.93737697842133
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "EAR-bow": {
+      "drawCalls": 21,
+      "triangles": 16038,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          24.6,
+          26,
+          0
+        ],
+        "fov": 14,
+        "pitch": 34.93737697842133
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "KRE-plan": {
+      "drawCalls": 12,
+      "triangles": 17421,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          6.400000000000002,
+          28,
+          -12
+        ],
+        "fov": 14,
+        "pitch": 63.379457020724715
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "KRE-side": {
+      "drawCalls": 16,
+      "triangles": 21635,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          2.400000000000004,
+          26,
+          -30
+        ],
+        "fov": 14,
+        "pitch": 35.94151602392092
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "KRE-stern": {
+      "drawCalls": 23,
+      "triangles": 33139,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          37.4,
+          26,
+          3.796405077356795e-15
+        ],
+        "fov": 14,
+        "pitch": 35.29110809283415
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "KRE-bow": {
+      "drawCalls": 17,
+      "triangles": 21659,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -24.6,
+          26,
+          -3.796405077356795e-15
+        ],
+        "fov": 14,
+        "pitch": 35.29110809283414
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "VRA-plan": {
+      "drawCalls": 12,
+      "triangles": 29289,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -13.592304845413263,
+          28,
+          0.4574374157795944
+        ],
+        "fov": 14,
+        "pitch": 62.932234750914276
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "VRA-side": {
+      "drawCalls": 14,
+      "triangles": 29313,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -27.180762113533156,
+          26,
+          12.921539030917353
+        ],
+        "fov": 14,
+        "pitch": 35.367357275804544
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "VRA-stern": {
+      "drawCalls": 19,
+      "triangles": 33095,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          -18.700000000000003,
+          26,
+          -32.38935010153801
+        ],
+        "fov": 14,
+        "pitch": 34.72149065933324
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    },
+    "VRA-bow": {
+      "drawCalls": 19,
+      "triangles": 29363,
+      "textures": 24,
+      "geometries": 41,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 48,
+      "actualCamera": {
+        "position": [
+          12.300000000000004,
+          26,
+          21.30422493309719
+        ],
+        "fov": 14,
+        "pitch": 34.72149065933326
+      },
+      "camera": {
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null
+    }
+  },
+  "clearVariant": {
+    "shard-plan-paint": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
+      "enabled": false,
+      "drawCalls": 50,
+      "submittedTriangles": 64238,
+      "estimatedTargetMiB": 41.989532470703125,
+      "actualCamera": {
+        "position": [
+          -13.592304845413263,
+          28,
+          0.4574374157795944
+        ],
+        "fov": 14,
+        "pitch": 62.932234750914276
+      }
+    },
+    "shard-plan-clear": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
+      "enabled": true,
+      "drawCalls": 61,
+      "submittedTriangles": 93569,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          -13.592304845413263,
+          28,
+          0.4574374157795944
+        ],
+        "fov": 14,
+        "pitch": 62.932234750914276
+      }
+    },
+    "shard-side-paint": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
+      "enabled": false,
+      "drawCalls": 51,
+      "submittedTriangles": 64250,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          -27.180762113533156,
+          26,
+          12.921539030917353
+        ],
+        "fov": 14,
+        "pitch": 35.367357275804544
+      }
+    },
+    "shard-side-clear": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
+      "enabled": true,
+      "drawCalls": 63,
+      "submittedTriangles": 93593,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          -27.180762113533156,
+          26,
+          12.921539030917353
+        ],
+        "fov": 14,
+        "pitch": 35.367357275804544
+      }
+    },
+    "planning-paint": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
+      "enabled": false,
+      "drawCalls": 79,
+      "submittedTriangles": 69904,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      }
+    },
+    "planning-clear": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "patches": [
+        {
+          "triangles": 24,
+          "min": [
+            1.150097370147705,
+            0.40975314378738403,
+            -0.21296362578868866
+          ],
+          "max": [
+            1.6332085132598877,
+            0.584887683391571,
+            0.21305964887142181
+          ],
+          "opticalPlanes": 32
+        }
+      ],
+      "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
+      "enabled": true,
+      "drawCalls": 119,
+      "submittedTriangles": 104901,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      }
+    }
+  },
+  "gpu": {
+    "vendor": "Google Inc. (NVIDIA)",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "errors": [],
+  "comparisonMeasurement": {
+    "object": "Crystal material study only",
+    "basis": "length; provisional comparison size",
+    "sceneUnits": [
+      8.999999046325684
+    ],
+    "actualMm": [
+      89.99999046325684
+    ],
+    "referenceMm": [
+      90
+    ]
+  },
+  "timing": {
+    "samples": 60,
+    "width": 1920,
+    "height": 1080,
+    "meanMs": 0.6066666665176551,
+    "p95Ms": 0.7999999970197678,
+    "maxMs": 1,
+    "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
+  }
+}
