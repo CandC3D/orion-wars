@@ -144,7 +144,9 @@ Settled by Chris after Astra's read of the codebase. Each is written into the se
 | Hull-to-hull fire against the information boundary | **The boundary wins.** Anonymous effects for unknown endpoints; models break only on confirmed kills. |
 | Period | **Circa 1987**, for every physical object in the scene. |
 | Base identification (10 Sep) | **Black bases, small printed class code on the rim.** Faction carried by the hull's metal and palette. |
-| Base and post shape (10 Sep) | **FASA base:** bevelled skirt, low hexagonal pyramid top. Slightly tapering post; clear if the material passes. |
+| Base and post shape (10 Sep) | **Approved for all ships:** FASA base with bevelled skirt and low hexagonal pyramid top; slightly tapering **transparent** post. |
+| Rim code placement (10 Sep) | **On skirt faces 2, 4 and 6 only** — forward, rear-right, rear-left in the rules' clockwise numbering from front-left. Faces 1, 3 and 5 blank. The base turns with the ship. |
+| Vraygon weapons (10 Sep) | **Transparent moulded plastic approved** for the green crystal weapon components. |
 
 Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
 
