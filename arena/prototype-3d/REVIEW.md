@@ -1,11 +1,12 @@
-﻿# Adversarial review - revision 05
+# Adversarial review - revision 06
 
-**Self-review: 93.95/100 weighted; every criterion passes its separate 90 gate.**
-These scores replace revision 04. That art score was invalidated by the wrong
-Earth material classification. They are my assessment for Chris to inspect,
+**Self-review: 94.45/100 weighted; every criterion passes its separate 90 gate.**
+These scores replace revision 05 and include a fresh assessment of Earth's
+confirmed gold dish and the faction contracts. They are my assessment for Chris to inspect,
 not a claim of his approval.
 
-I can see captured images. I opened all 25 final captures, starting with the
+I can see captured images. I opened the 22 distinct images covering all 25 final
+captures (three pairs are byte-identical), starting with the
 ordinary planning frame and native crops, then resolution and each hull's
 plan/side/stern/bow detail views. I also opened the Monoceros v3 and Sparrowhawk
 v2 source schematics. Shard uses its geometry/COLOR_0 and Chris's material sets;
@@ -13,14 +14,13 @@ there is no invented schematic. No in-scope visual criterion is unscored.
 
 ## Rubric, evidence and deductions
 
-The [rubric](RUBRIC.md) was written before implementation, then extended before
-building the clear variant when the newer mailbox ruling was found. A failed
+The revision 06 [rubric](RUBRIC.md) was written before implementation. A failed
 criterion cannot be rescued by the weighted average.
 
 | Criterion | Weight | Score /100 | Adversarial finding / deduction |
 |---|---:|---:|---|
 | Brief and scope | 10% | 100 | Three current local frigates; furniture, black bases, identifier choice, sources and shared runtime unchanged. Only prototype implementation files changed. The clear comparison is explicit and retains paint as default. |
-| Generated art and classification | 25% | 95 | Steel/bronze/gold masks and all 23 regional areas re-derived and checked. No swapped blue/steel faces. All faction emissive sets are separate. Deduct 3 for the existing reduction's small surface deviations (Shard area drift up to 0.629 percentage points), 2 for the provisional Earth dish substance. No uncertain function becomes a socket. |
+| Generated art and faction contracts | 25% | 97 | All 23 regional areas and four metal masks checked against source geometry and the faction contracts. All source and reduced Earth gold is confined to the dish. No swapped blue/steel faces. Every staged GLB passes the allowed palette; unavailable Krelath hulls are excluded explicitly. Deduct 3 for the existing reduction's small surface deviations (Shard area drift up to 0.629 percentage points). No uncertain function becomes a socket. |
 | Period metallic finish | 25% | 90 | Lowest of Earth 90, Krelath 91, Vraygon 92, assessed separately below. No averaging across hulls. |
 | Body paint, period and registers | 15% | 94 | Real recesses remain black-lined and raised edges readable at planning distance; body paint absorbs broad highlights. All source colours go dark without room light. Deduct 4 for still regular, algorithmic stroke breakup visible in macros, 2 for the clear insert's thin-volume/opaque-shadow approximation. |
 | Scale coherence | 10% | 98 | All measured dimensions unchanged, including 55/65/45 mm lengths and 30 mm black posts. Deduct 2 for the provisional frigate size choices; no cross-class evidence claimed. |
@@ -30,7 +30,7 @@ criterion cannot be rescued by the weighted average.
 
 | Hull | Score /100 | What I could see / deduction |
 |---|---:|---|
-| Monoceros / steel | 90 | A dull grey metal structure with bright collars/rails, darker inked joints and blue panelling. Fine grain is present in detail and the return stays broad and rough, without chrome. Deduct 6 because the warm room still pulls steel towards a beige pewter in some views, 4 because at planning size several collars read primarily as a light value. |
+| Monoceros / steel and gold | 90 | A dull grey metal structure with bright collars/rails, darker inked joints and blue panelling; the lower sensor dish now has a subdued gold return. Fine grain is present in detail, without chrome. Deduct 6 because the warm room still pulls steel towards beige pewter in some views, 4 because at planning size several collars read primarily as a light value and the small dish's metal finish is unresolved. |
 | Sparrowhawk / bronze | 91 | Bronze housings retain the actual boundaries and dark recesses; body greens stay matte. The close views show binder grain and a soft metallic return. Deduct 5 because the broad oval housing reads quite subdued head-on, 4 because the fine flake itself is unresolved at planning distance. |
 | Shard / gold | 92 | Warm dull gold covers the majority of the hull, with dark structural recesses and brighter real edges. Yellow painted facets have a different, flatter return. Deduct 4 because neighbouring yellow and gold remain close in value under this key, 4 because grain and finish distinction diminish at planning size. |
 
@@ -49,6 +49,33 @@ camera-visible geometry, not a material mask swap. The previous error was in
 hull-art.js calling steel pale paint. The new mask is tested in the actual
 browser geometry. Forcing a majority of visible pixels to steel would require
 changing Chris's blue regions or the already-approved camera.
+
+Earth gold is 2.177% of source surface. All 12,480 source corners / 4,160
+triangles sit at the sensor dish, with one connected reduced patch of 467
+triangles. Both source and derivative bounds are checked before accepting this
+classification; no gold occurs elsewhere. The orange dorsal housing remains
+weapons-warning paint, despite its warm appearance under this light.
+
+## Faction palette coverage
+
+The [contract](FACTION-PALETTES.md) validates allowed keys during preparation,
+region generation and runtime. It does not require every hull to contain every
+optional colour. Unknown keys fail as export faults; per-hull fingerprints still
+catch unexpected changes. Source files remain untouched.
+
+The [local audit](LIBRARY-AUDIT.md) covers 20 files / 18 distinct contents,
+including combined fleet files. Only Sparrowhawk and Swift are staged for
+Krelath. Carrier, flagship and fighter exceptions are encoded from Chris's
+rulings; their absent models are not claimed as audited. Zandrax is recorded by
+colour names only, without invented hex keys.
+
+Alternate Earth steel keeps its darker source value with a slightly warmer tint
+and the same metal finish. No second grey is added to Monoceros. The Krelath
+flight deck forces roughness 1 and zero specular return, including grazing
+angles. Vraygon cyan remains ordinary paint; only green permits clear styrene.
+These absent-from-board extensions have contract/geometry/shader checks, not a
+visual score for larger hulls. I have not assigned an anatomical role to the
+alternate Earth alloy from numeric bounds alone.
 
 ## Optional clear insert: 90/100
 
@@ -76,37 +103,41 @@ reload. Peak driver memory and variant animation performance are not measured.
 
 ## Validation
 
-- 26 prototype checks passed, including every hull's material/emissive set,
+- 28 prototype checks passed, including every hull's material/emissive set,
   rejecting missing classifications and invented activation/faces, intact source
   hashes, all derivatives/components, shared-hex layout and existing clock.
 - The unchanged fast regression suite passed. No shared fixture or test changed.
-- All 23 runtime region masks checked: 3 metals, 9 emissive-designated physical
+- All 23 runtime region masks checked: 4 metals, 9 emissive-designated physical
   coatings, 1 permitted clear variant. Cross-faction semantics are rejected.
-- Region maps and the published table rebuild byte-identically.
+- Region maps and both published palette/region tables rebuild byte-identically.
+- All staged source palettes pass; all three preparation validators pass. The
+  three prepared GLBs also rebuilt byte-identically to base HEAD 29c322e.
 - Room lights off: 0 nonzero physical pixels for paint and clear. Separate demo
   energy remains independent (1,309 nonzero pixels in the beam check).
 - Planning draws 0 energy objects. The explicit clear URL works; default is paint.
-- Turning demo energy off/on leaves physical hash 8627b27 and shadow hash
+- Turning demo energy off/on leaves physical hash 85fb4ed9 and shadow hash
   2eca1c08 identical. Behind-board energy has 0 samples; the front probe draws.
-- Planning brush ablation changes 721 Earth, 648 Krelath and 505 Vraygon pixels
+- Planning brush ablation changes 715 Earth, 648 Krelath and 505 Vraygon pixels
   by more than 0.025 in a linear channel. This confirms contribution at native
   resolution, not visual quality by itself.
 - Camera floors, pause/skip, reduced motion, material/scene classification,
   depth occlusion and SVG fallback pass. Browser page/console errors: 0.
 - Edge 152 / RTX 5060 Ti, 1920 x 1080, 10 warmup + 60 samples: ordinary three-hull
-  submission plus gl.finish mean 0.49 ms, p95 0.70 ms. No full-board claim.
+  submission plus gl.finish mean 0.42 ms, p95 0.50 ms. No full-board claim.
 
 ## Unscored, unresolved and ownership
 
 Unscored: full-board readability/performance, replacement identifier choice,
 cross-class scale ladder, destruction, planets/nebulae, peak driver memory,
-integrated-GPU/interactive variant performance and permanent asset intake.
+integrated-GPU/interactive variant performance, larger-hull visual finishes and
+permanent asset intake. Unavailable Krelath library files are not audited.
 No in-scope criterion is left unscored.
 
-Unresolved fiction/materials: Earth dish brass versus paint; the meaning of
-Krelath's two painted greens; the smaller yellow dome's function; individual
+Unresolved fiction/functions: the meaning of Krelath's two painted greens;
+the smaller yellow dome's function; individual
 Shard system functions. Shard yellow is now conclusively paint, and its
-lavender/purple/red are energy-designated. Nothing is inferred from a shared hex.
+lavender/purple/red are energy-designated. Earth dish gold is confirmed metal;
+all 23 current material classifications are resolved. Nothing is inferred from a shared hex.
 
 Implementation stays in arena/prototype-3d/. Source GLBs and prepared meshes are
 unchanged; no commit/branch, shared runtime, furniture, identifier decision,

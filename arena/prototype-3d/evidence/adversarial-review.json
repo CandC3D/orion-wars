@@ -1,9 +1,9 @@
 {
-  "revision": 5,
+  "revision": 6,
   "status": "passed-self-review",
   "reviewer": "Astra",
   "reviewedImagesDirectly": true,
-  "reviewMethod": "Native planning and crops first, then resolution, all hull detail views and identical-camera variant pairs. Code/geometry support visual judgement, not a substitute.",
+  "reviewMethod": "Opened all 22 distinct images covering 25 final captures: native planning and crops first, then all hull detail views and matched variant pairs. Three duplicate pairs verified by SHA256. Source schematics previously viewed and unchanged. Code/geometry support visual judgement, not a substitute.",
   "scores": [
     {
       "criterion": "Brief and scope",
@@ -11,17 +11,17 @@
       "score": 100
     },
     {
-      "criterion": "Generated art and classification",
+      "criterion": "Generated art and faction contracts",
       "weight": 25,
-      "score": 95
+      "score": 97
     },
     {
-      "criterion": "Period metallic finish",
+      "criterion": "Period metals",
       "weight": 25,
       "score": 90
     },
     {
-      "criterion": "Body paint, period and registers",
+      "criterion": "Paint, clear plastic and registers",
       "weight": 15,
       "score": 94
     },
@@ -31,12 +31,12 @@
       "score": 98
     },
     {
-      "criterion": "Unaided play-element reading",
+      "criterion": "Unaided reading",
       "weight": 15,
       "score": 92
     }
   ],
-  "weightedScore": 93.94999999999999,
+  "weightedScore": 94.45,
   "metalScores": {
     "EAR": 90,
     "KRE": 91,
@@ -52,58 +52,85 @@
     "planet and nebula samples",
     "peak driver memory",
     "integrated GPU and interactive variant performance",
-    "permanent intake"
+    "permanent intake",
+    "larger-hull visual finishes",
+    "unavailable Krelath library files"
   ],
   "frameSha256": {
-    "anonymous.png": "592fd11398c9a9781a28af8f2d34efca33b0e4bfb437e87119219102ede68d53",
-    "beam.png": "0a525ba8601f85a90970b751913310bdeeb286932cb247f20aece4e583bdf5ba",
-    "monoceros-bow.png": "11ffa33789b0c35524460f68b8c8895566c2aad3fd35e471857ebfb8b12f99e6",
-    "monoceros-detail.png": "b2d529bdf67e27f2814d3e5e488d90d09f6539452e884aaedc4a375efa5eaf47",
-    "monoceros-planning.png": "a604aec7777feedbea7757dbfe09b24bf0719643d368bfbfa1d85e1f2c7b128a",
-    "monoceros-side.png": "25a04ad52f13fb566b174101afd492268f4504f207af83c77e1b04f2d55aea06",
+    "anonymous.png": "f09e28ad34724a54ef049b15fbe4968712eef81e76e8a8d1817768fa67095d19",
+    "beam.png": "e076fb5d01752b4535505fff48f4ee96a14c50e7ebf8371ff1c60fac2836ce3e",
+    "monoceros-bow.png": "a59c5d12bcb8838739935e3a96d6b5cd8c45bda40669421c646b0c2c9b67aaa8",
+    "monoceros-detail.png": "74e06aaf90736b6890bf4f69a5dd1610afbee644fba75b512b56abd871fc876a",
+    "monoceros-planning.png": "552e61981e578ebfa86359aa8358c532498a8e13ba4c2b0ca57a40dd4539d53c",
+    "monoceros-side.png": "e0a1fab52806752dd2250edd3f51e0f8d547685bcf5795e6a908cd9f592c53bd",
     "monoceros-stern.png": "f1881b1cf29e2df15aab5a97a991879ae8e33da0f404d887f3acf264de254e18",
-    "planning-clear.png": "5f80813f2b4a790a67e1dd7fc1c930eaf1f8120876cb1a06090eab12de65ae46",
-    "planning-paint.png": "505917058ab0af8c91d53fededffebefecb369352957d741cc7a42c65e4a1eaa",
-    "planning.png": "505917058ab0af8c91d53fededffebefecb369352957d741cc7a42c65e4a1eaa",
-    "shard-bow.png": "a727ec8a98cb535f360b7af5d5fc4767692162feb3a73bc9714e4b5d27d74c38",
+    "planning-clear.png": "215355227e08c097fa52263c6d2350ac0c4f760044b0e771989d656d2bb49795",
+    "planning-paint.png": "5fbc8396c9c0d9e474e26593917e2dc4d952cfee0bd69a5e7b8111a195a8ac6a",
+    "planning.png": "5fbc8396c9c0d9e474e26593917e2dc4d952cfee0bd69a5e7b8111a195a8ac6a",
+    "shard-bow.png": "555661046f6144d7eb32169ba27288122937112a6eea75633889d62bd494076e",
     "shard-detail.png": "f6db8812a075cdbdb0e17d52349d9e0cf36394baa6d6a840d54ddb3d76176ac3",
     "shard-plan-clear.png": "73bf7d3db3e44c345349b9e34a3b3edf090114b2a6bc66c9c356c22134ccd63d",
     "shard-plan-paint.png": "f6db8812a075cdbdb0e17d52349d9e0cf36394baa6d6a840d54ddb3d76176ac3",
     "shard-planning.png": "86c3e9564472169989a47d33386dc7a51eb6509477c382cb194e4a0e76963648",
-    "shard-side-clear.png": "50d5f5b37fe63d1b9dc4c154eb208b3b38903221a5a9129a25e4feec49adce56",
-    "shard-side-paint.png": "ac01a02f8ee0c75f9d8c0eb2ecb3acb7258236f8830828adac484c5c0a4a1b31",
-    "shard-side.png": "ac01a02f8ee0c75f9d8c0eb2ecb3acb7258236f8830828adac484c5c0a4a1b31",
-    "shard-stern.png": "931a99926aea351d90dfa707b82ac5eedbb05f6cf94cce8b97a1d8e85c476730",
-    "shield.png": "d9be9a386a85335e00c0437f0f7914355ae7bd0bab78d7bc52cea2b3963800c6",
+    "shard-side-clear.png": "1f5eae06efa9e03271018daff1ae735aad095b16941feed4fea38f956a002002",
+    "shard-side-paint.png": "5b9795d093c337023fe55c0d24c16c97971714b4eecfdad399a909ee31d23df8",
+    "shard-side.png": "5b9795d093c337023fe55c0d24c16c97971714b4eecfdad399a909ee31d23df8",
+    "shard-stern.png": "185194ea1b7e8832be2d431099e5ec4c6ad1a970c7652086027b260d0ad9fe9c",
+    "shield.png": "58c107ba78ddf429e153957ee19ff956230ebe7532a8c274bfa7e90dbb81617d",
     "sparrowhawk-bow.png": "b6d584c1406b7f25f619f2e78c12ca1083a7407c4440a98fad182e976e8814e9",
-    "sparrowhawk-detail.png": "d43985abd39be1726176020e42d32e14863f1aeb3da0763b814b6988c3efe446",
+    "sparrowhawk-detail.png": "943169fd15dd2ee20842246c736bfb2fd26aaf06301f61d4bacbb004f2acfbfb",
     "sparrowhawk-planning.png": "a62e99dc81b34c5008119df74646a7c065ebf1ca61b885e81dbb1d9067704e15",
     "sparrowhawk-side.png": "4217603dfe625dbc08ccb728cce659035ba98ad9658a18106bf4e889b114c739",
-    "sparrowhawk-stern.png": "9ab38191d74dccaacfb90bb97cb97986b352b06e43fa7c3dcb19f0989c657553"
+    "sparrowhawk-stern.png": "8596e71ce6de01e36fa372a2f2ba5ddfd4d5d8f5e712296a8a0f6007d7d1ae63"
   },
+  "duplicateFrames": [
+    [
+      "planning-paint.png",
+      "planning.png"
+    ],
+    [
+      "shard-detail.png",
+      "shard-plan-paint.png"
+    ],
+    [
+      "shard-side-paint.png",
+      "shard-side.png"
+    ]
+  ],
   "fileSha256": {
-    "RUBRIC.md": "ccb0485c985cc688302ee47a74ef8ab255739cc4d2e51a421a1efee7e71a0310",
-    "REVIEW.md": "91cd4ec8194f51d71b4f37f77d8d72a005b86c9c82368f90e3e18e2d5cb299bd",
-    "README.md": "a7ed36c77813af4f283aecc8bc8b8d08033dde6dd1a163991a267bb8c1f09de4",
-    "REGION-TABLES.md": "497baf32047cea4a31e2b6f79d390deef835673cb8c081ab7cbd49a65cc87689",
-    "SOURCE-GAP.md": "c6535f65e892b34c2017fccf77c17025dcb68b71d5d2c8c91ff06c4dd4217add",
-    "PROJECTION.md": "c1319930a320d0ee5573c370fb853b673a9556958269663e8d31a36eb6b97997",
-    "SCALE.md": "9a307f41c89b22198b22c0b48a4cbca2acb7d4c06f7b11477d7b7c70f798db17",
+    "RUBRIC.md": "54a43fecb15c4bba0a2a1df8018f21029ae0c265240694369fe5a141987a2a08",
+    "REVIEW.md": "1ef44695df54f6378992970c236202bd72bb7e29f535b4be580667b4e43aaeb9",
+    "README.md": "522b494277bac9bca73290cf8c92b8e320024fae0796850f89914fb03230d99e",
+    "REGION-TABLES.md": "091684a501c1a7bd1786a951b1c3c9e06c43cc41cbaa222c2d377f53a2931fcb",
+    "SOURCE-GAP.md": "09558f19427bff74bef552c10f80284654caa554c92c197339ac8386fa71d863",
+    "PROJECTION.md": "5b485310285eb314a95e2be389fa6c50c34fc97a299230b9b75fe8f1e6e80210",
+    "SCALE.md": "0b21d761da45aa8b12e4992785c11a4b0fba3dc6897fd49dc97863678ff28750",
     "variants.html": "3cc891c73eaad272af5dad9946bd4bf811dfbf51fbe9a1cf04761d0961914bee",
-    "hull-art.js": "bdbd0ff06d958c32f35cdec5095ade0d8723bc6f169bc410c6185a1a5fb5f962",
-    "hull-paint.js": "829cc8a7a2b34fbfc1cb9ac15ecafbdc127bb5ffb373931fd1083300d84e94fd",
+    "hull-art.js": "2bfe721edb5f8a746a3b4beac1c4c1d312865b5c3d1bf75cdc08d591f64ec5de",
+    "hull-paint.js": "db5865d7a0e9a5e63f5837dfa8d03db8f8d29fde5902f9aa4550f114ca5e87c3",
     "clear-insert.js": "98052f31f1a68b3b824612f09e16938185a366f8a81bea9d4ff837601e5d4383",
     "contract.js": "f354e86dd0ddb18ad021a6fa9044f05fab037fca25aff879c60edc4d92279c7c",
     "renderer.js": "75294a13e7a197a4fc1b4b035af2959b4964d94faca82433e9e1b91bdde6cc67",
     "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
-    "inspect-regions.mjs": "bac9cd8f983bab3ff47c9ba1fe76cf889125cc330391e55ae977656001bcdf36",
-    "write-region-table.mjs": "1d9fb834b7fa15cedfd5b89558dcfad1299d0a52f664fcbaeec9b044f3ab6bc4",
-    "test.mjs": "607a92be26cabb131a2ec69d9ece71a7deca8e9efd843a217f397e7993badcc6",
-    "review.mjs": "e053c3b40e5e96a3d7ca82f441c511d7c3b1af227d4a9c651ac84997ae069871",
-    "evidence/review.json": "44c5b8f0a35587573da3aeca1d9cc1d58ac74f6b76d4d1f14c0be2f2919c7df0",
-    "prepared/monoceros-regions.json": "5875a23ef3fece3ea2f2e827472be76a3cb6d1c10293c6ff5d4891744514f03f",
+    "inspect-regions.mjs": "db224f3838daf2d6c8f585b8fecf8d97f268769a73c2faac0fe0a42b26206b37",
+    "write-region-table.mjs": "40ed85f7c001e9059540716729b58a7f3484dcce9cd7669e519cd60db6309393",
+    "test.mjs": "ad13ea1f1795e6ab520fbbfd05383adffb572f478b69a3ab03e357eaa25d85e8",
+    "review.mjs": "7707fd2ee8f48898bcdc213c525fbb012ab49addb0ae5c892e4e584360c2617a",
+    "evidence/review.json": "798464f78f71dbd9d07996eb61789bf168662563974ab3f13c045790d77e7899",
+    "prepared/monoceros-regions.json": "ac8dd283506a1fde84ff018e982d20cafd65b891fa3e010923a0adff051c6924",
     "prepared/sparrowhawk-regions.json": "058271638ebb11c5cb045bdba4587feb2c5ffa2b8c0297c664cfbecdb39761f6",
-    "prepared/shard-regions.json": "6b969bf0edefcdfda49d2d8eaf2897eebf83a6d40d520ee35fdb69b8d689298c"
+    "prepared/shard-regions.json": "6b969bf0edefcdfda49d2d8eaf2897eebf83a6d40d520ee35fdb69b8d689298c",
+    "faction-palettes.json": "600fd0c0b4ed37799331ac8b3c491bde0ee52ea40c2528f58d30faab4e01ae9d",
+    "faction-palettes.js": "5c11521721e189ee6d9c30f6d2d026b79e7ddfc925e5708a86f052d6ad402599",
+    "FACTION-PALETTES.md": "68ddcae8c95995a9e33536f0ffc97da4ad54c06c8247be9ce5e4f47ac51025d5",
+    "LIBRARY-AUDIT.md": "9ff9886ec117380e145a8276c078d78b70238fedac8184ba2eb4cda9445fb1f7",
+    "audit-library.mjs": "123985012bbda01bd4c9528182ffd7410a7826f0527ab15dcccf4a81d545e653",
+    "hull-sources.json": "0a75dba779f205b455a2a5da546ea78d731a51a5d79e2e701387a6e1896c6400",
+    "prepare-models.py": "417efe16dc21025fa9f82a3598121cd357023100fc777ef860174daedee672b3",
+    "evidence/library-audit.json": "967ef7f3eebe07270b603ea743c6c7387767149b2a2fa777173b619517769aef",
+    "evidence/regeneration.json": "c00c77f5cb9a544efc5035af3be882385ff349b1a165035689a5bdec6703c8dd",
+    "evidence/prototype-tests.log": "7ac2a9f54d65e44cd057aad7898a39eaeb20c2992c4857767607b23408dcb119",
+    "evidence/fast-suite.log": "1399884b512b5e1c97ca0b46cbd92bf065a0b0683fbe775b0b70211e7ea289dd"
   },
   "sourceAndMeshHashes": {
     "EAR": {
@@ -127,20 +154,29 @@
     "prototype.css": "35c7e33bdf778eb09c01aa83d9d4deb4380f21bbe94da83246caaed2dae67b7e",
     "IDENTIFICATION.md": "711bfe88bd6a30fdf139d1461ffe39fa763e8fd02be378cde855ed45a2d6dc91",
     "assets.json": "1ca3219ef9806d1de9b5c467522497cbbc4fedca5980933031e2cf4f12832bee",
-    "hull-sources.json": "2581bdd7f9b68421db4959a75323d2d71df0a02e298872ce5b6241538eda8139",
-    "prepare-models.py": "181176501fe82e356facee9282e5a37860f3d4195895377a0489082b0f2ff968",
     "prepared/monoceros.glb": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
     "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
-    "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3"
+    "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3",
+    "renderer.js": "75294a13e7a197a4fc1b4b035af2959b4964d94faca82433e9e1b91bdde6cc67",
+    "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
+    "clear-insert.js": "98052f31f1a68b3b824612f09e16938185a366f8a81bea9d4ff837601e5d4383"
   },
   "checks": {
-    "prototypeChecksPassed": 26,
-    "fastSuite": "passed",
+    "prototypeChecksPassed": 28,
+    "fastSuite": "passed, process exit 0",
     "browserErrors": [],
     "regionBuildByteIdentical": true,
+    "libraryAuditFiles": 20,
+    "libraryAuditDistinctFiles": 18,
+    "sourceAndPreparedMeshesUnchanged": true,
+    "preparationValidation": [
+      "EAR",
+      "KRE",
+      "VRA"
+    ],
     "scopeOnlyPrototype": true,
     "protectedFilesUnchanged": true,
-    "head": "6ce25f1d5712f6e17ddbee9683f00f4e8ca09171",
+    "head": "29c322ecf56f175b759fdb68561097d6407f5e5c",
     "branch": "work/presentation-3d",
     "committed": false
   }

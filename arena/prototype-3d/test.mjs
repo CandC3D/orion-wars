@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { validateScaleRows, SIZES, mm } from './scale.js';
 import { artProfile, METAL_FINISH } from './hull-art.js';
+import {FACTION_PALETTES,factionRegion,validateFactionPalette} from './faction-palettes.js';
 import { readGLB, colourKey } from './glb-data.mjs';
 import { BUDGETS, FORMAT, validateAssets, validateRegionMap, validateProjection, projectContactFrame, displayLayout, hexWorld, cameraPose } from './contract.js';
 import { planning, exchange, shield, anonymous } from './fixture.js';
@@ -68,13 +69,36 @@ check('shared hex values retain different per-hull interpretations',()=>{
   assert.equal(artProfile('EAR').palette.length,9);assert.throws(()=>artProfile('ZAN'),/Missing hull-specific/);
 });
 check('Chris\'s material and emissive rulings apply per hull, including the large metal regions',()=>{
-  const expected={EAR:{metal:['bfc7cc'],energy:['e91d2d','fafafa','46b749']},KRE:{metal:['a97b50'],energy:['f5831f','ffdd1a','fafafa']},VRA:{metal:['e1ad34'],energy:['7e3f98','d3bfe5','e91d2d']}};
+  const expected={EAR:{metal:['bfc7cc','e1ad34'],energy:['e91d2d','fafafa','46b749']},KRE:{metal:['a97b50'],energy:['f5831f','ffdd1a','fafafa']},VRA:{metal:['e1ad34'],energy:['7e3f98','d3bfe5','e91d2d']}};
   for(const [f,p] of Object.entries(expected)){
     assert.deepEqual(artProfile(f).palette.filter(r=>r.classification==='metal').map(r=>r.key).sort(),p.metal.sort());
     assert.deepEqual(artProfile(f).palette.filter(r=>r.classification==='emissive-designated').map(r=>r.key).sort(),p.energy.sort());
   }
-  const earthGold=artProfile('EAR').palette.find(r=>r.key==='e1ad34');assert.equal(earthGold.classification,'paint');assert.match(earthGold.uncertainty,/do not establish/);
+  const earthGold=artProfile('EAR').palette.find(r=>r.key==='e1ad34');assert.equal(earthGold.classification,'metal');assert.equal(earthGold.metal,'gold');assert.equal(earthGold.uncertainty,undefined);
   assert.ok(METAL_FINISH.metalness>=.3&&METAL_FINISH.metalness<=.6);assert.ok(METAL_FINISH.roughness>=.6);assert.ok(METAL_FINISH.edgeRoughness>=.5);
+});
+check('faction palette contracts reject foreign colours and preserve the classified extensions',()=>{
+  for(const [faction,p] of Object.entries(FACTION_PALETTES.factions))validateFactionPalette(faction,Object.keys(p.regions));
+  assert.throws(()=>validateFactionPalette('EAR',['c8e4bd']),/export fault/);
+  assert.throws(()=>validateFactionPalette('VRA',['a97b50']),/export fault/);
+  assert.throws(()=>validateFactionPalette('KRE',['75cedb']),/export fault/);
+  assert.throws(()=>validateFactionPalette('EAR',[]),/Missing/);
+  assert.throws(()=>validateFactionPalette('EAR',['bfc7cc'],{expectedKeys:['bfc7cc','e1ad34']}),/Changed per-hull/);
+  assert.equal(factionRegion('EAR','a7adb1').metal,'alternate-steel');
+  assert.notDeepEqual(factionRegion('EAR','a7adb1').finishTint,[1,1,1]);
+  assert.equal(factionRegion('KRE','c8e4bd').finish,'dead-flat');
+  assert.equal(factionRegion('VRA','75cedb').classification,'paint');assert.equal(factionRegion('VRA','75cedb').variant,undefined);
+  for(const [faction,p] of Object.entries(FACTION_PALETTES.factions))for(const [key,r] of Object.entries(p.regions))if(r.variant){assert.equal(faction,'VRA');assert.equal(key,'46b749');}
+  assert.ok(!artProfile('EAR').palette.some(p=>p.key==='a7adb1'),'No synthetic alternate-grey frigate region');
+});
+check('Monoceros gold occupies only the authored sensor-dish region',()=>{
+  const config=sourceConfigs.EAR,b=config.materialBounds.e1ad34,source=readGLB(new URL('./source/'+config.source,import.meta.url));
+  const p=source.json.meshes[0].primitives[0],c=source.attribute(p.attributes.COLOR_0),pos=source.attribute(p.attributes.POSITION);
+  const inside=(v,min,max)=>v.every((n,k)=>n>=min[k]&&n<=max[k]);let count=0;
+  for(let i=0;i<c.length;i++)if(colourKey(c[i])==='e1ad34'){assert.ok(inside(pos[i],b.sourceMin,b.sourceMax));count++;}
+  assert.equal(count,12480);assert.equal(inside([0,0,0],b.sourceMin,b.sourceMax),false);
+  const map=JSON.parse(fs.readFileSync(new URL('./prepared/monoceros-regions.json',import.meta.url))),gold=map.patches.filter(p=>p.region==='e1ad34');
+  assert.equal(gold.length,1);assert.equal(gold[0].triangles,467);assert.ok(inside(gold[0].min,b.preparedMin,b.preparedMax));assert.ok(inside(gold[0].max,b.preparedMin,b.preparedMax));
 });
 check('every energy attachment is inert, exact and rejects missing classification or invented activation',()=>{
   for(const a of manifest.assets){

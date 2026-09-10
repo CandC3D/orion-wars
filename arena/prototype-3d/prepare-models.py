@@ -18,6 +18,7 @@ OUT.mkdir(exist_ok=True)
 raw = SOURCE.read_bytes()
 json_length = struct.unpack_from('<I', raw, 12)[0]
 gltf = json.loads(raw[20:20+json_length])
+assert len(gltf['meshes']) == 1 and len(gltf['meshes'][0]['primitives']) == 1, 'Preparation expects one primitive: inspect the complete changed export'
 primitive = gltf['meshes'][0]['primitives'][0]
 accessor = gltf['accessors'][primitive['attributes']['COLOR_0']]
 view = gltf['bufferViews'][accessor['bufferView']]
@@ -29,7 +30,25 @@ for i in range(accessor['count']):
     key = ''.join(f'{round(v*255):02x}' for v in rgb)
     entry = palette.setdefault(key, {'linearRGB':rgb, 'sourceVertices':0})
     entry['sourceVertices'] += 1
+faction_contract = json.loads((HERE/'faction-palettes.json').read_text(encoding='utf-8'))['factions'][faction]['regions']
+unknown = sorted(set(palette)-set(faction_contract))
+assert not unknown, f'Faction palette export fault for {faction}: {unknown}'
 assert {k:v['sourceVertices'] for k,v in palette.items()} == config['colours'], 'Changed source palette/counts: re-inspect art before preparing'
+if faction == 'EAR' and 'e1ad34' in palette:
+    assert 'e1ad34' in config.get('materialBounds', {}), 'Earth gold needs an authored sensor-dish location check before preparation'
+for colour, bounds in config.get('materialBounds', {}).items():
+    pa = gltf['accessors'][primitive['attributes']['POSITION']]
+    pv = gltf['bufferViews'][pa['bufferView']]
+    assert pa['componentType'] == 5126 and pa['type'] == 'VEC3' and pa['count'] == accessor['count']
+    po = 28 + json_length + pv.get('byteOffset', 0) + pa.get('byteOffset', 0)
+    for i in range(accessor['count']):
+        rgb = struct.unpack_from('<3f', raw, offset+i*view.get('byteStride', 12))
+        if ''.join(f'{round(v*255):02x}' for v in rgb) != colour: continue
+        point = struct.unpack_from('<3f', raw, po+i*pv.get('byteStride', 12))
+        assert all(bounds['sourceMin'][k] <= point[k] <= bounds['sourceMax'][k] for k in range(3)), f'{colour} outside authored {bounds["role"]}: report source disagreement'
+if '--validate-only' in sys.argv:
+    print('PALETTE_VALIDATED', faction, sorted(palette))
+    sys.exit(0)
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False)
 bpy.ops.import_scene.gltf(filepath=str(SOURCE))

@@ -1,8 +1,8 @@
-# Per-hull regions - revision 05
+# Per-hull regions - revision 06
 
-Generated from the source triangle areas and the explicit hull profiles by `node arena/prototype-3d/write-region-table.mjs`. Keys identify raw linear COLOR_0 tuples. Percentages are whole surfaces, including hidden faces, not corner counts or projected screen coverage. All default materials emit zero light. Emissive-designated means bright physical paint plus an inert attachment map.
+Generated with `node arena/prototype-3d/write-region-table.mjs`. Keys are raw linear COLOR_0 tuples. Percentages measure source triangle surface area, including hidden faces, not corner counts or screen coverage. Emissive-designated regions are non-emissive physical paint with an inert energy attachment map.
 
-Authority: Chris through Fable, mailbox 20260910T105112Z (metals) and 20260910T105522Z (faction emissive sets and optional clear insert).
+Chris's faction-wide material rulings are encoded in faction-palettes.json; per-hull anatomy remains in hull-art.js.
 
 ## EAR / Monoceros
 
@@ -13,7 +13,7 @@ Authority: Chris through Fable, mailbox 20260910T105112Z (metals) and 20260910T1
 | #e91d2d | 2.553 | 2.551 | emissive-designated | red across multiple parts; nav, collector, muzzle and outlet; not a global function |
 | #0076a9 | 19.302 | 19.286 | paint | deep blue panelling |
 | #f5831f | 1.556 | 1.562 | paint | orange weapons-warning paint at the actual laser housing |
-| #e1ad34 | 2.177 | 2.173 | paint | gold-coloured lower dish; brass versus paint unresolved |
+| #e1ad34 | 2.177 | 2.173 | metal | metallic gold confined to the sensor dish |
 | #fafafa | 0.304 | 0.291 | emissive-designated | white windows and fittings; individual functions not all assigned |
 | #61676a | 1.766 | 1.767 | paint | dark grey aft nacelle outlet surround |
 | #46b749 | 0.013 | 0.013 | emissive-designated | small starboard nav fitting; 3888 source corners |
@@ -42,13 +42,12 @@ Authority: Chris through Fable, mailbox 20260910T105112Z (metals) and 20260910T1
 | #46b749 | 0.850 | 0.857 | paint / optional moulded transparent | green fixtures; no inferred function from geometry alone |
 | #e91d2d | 0.011 | 0.009 | emissive-designated | small red fixture; no inferred system |
 
-## Decisions and remaining questions
+## Resolved and remaining distinctions
 
-- Earth steel is 43.952% of the source; combined blue panels are 47.679%. No colour keys were swapped. The error was calling steel pale paint. The native planning-camera ID pass sees 38.77% steel and 53.84% blue; the camera cannot expose all hull surfaces at once. Silver now has the same rough flake finish as bronze and gold. Blue faces remain blue.
-- Earth #e1ad34 is provisionally gold-coloured paint. Geometry establishes a lower dish, not its substance. Brass versus paint is explicitly unresolved; no cross-faction inference from Vraygon gold is used.
-- Shard yellow #ffdd1a is 27.175% of source area. It covers large authored facets as well as smaller fittings. Chris's later faction set explicitly makes it paint, not an emissive. Confidence in that classification is high; system functions are still unassigned.
-- Vraygon lavender/purple/red are emissive-designated by Chris. Their exact faces are available to a future effects layer; no weapon or engine socket is invented from that designation.
-- Krelath's two greens are both paint, definitively outside its emissive set. Their fictional distinction remains unanswered. The small yellow dorsal dome is designated energy-capable, but has no system name, second weapon mount or animation.
-- Shard green is paint by default and optional moulded transparent green styrene in the comparison. It is not energy-capable. Chris identifies grown-crystal weapon components, but this does not supply a firing point or mount count.
-- All 23 regions have an explicit rendering classification. The only unresolved physical substance is the Earth gold dish. Unassigned functions are recorded separately from material classification.
-- Zandrax is recorded for future intake only: green/magenta designated energy, dark grey/lead metal. No Zandrax profile or hull is fabricated for this slice.
+- Monoceros steel is 43.952% of source area; its two blue panels together are 47.679%. No colour keys were swapped. The planning camera sees 38.77% steel and 53.84% blue. The source, not a desired screen majority, governs placement.
+- Monoceros gold is confirmed metal, confined to the sensor dish: all 12,480 source corners / 4,160 source triangles are within the authored dish bounds. The derivative has one connected gold patch / 467 triangles, entirely at the dish. The preparation and region generator fail if gold appears elsewhere.
+- Alternate steel #a7adb1 is absent from Monoceros, as supplied. No region is synthesised. The faction contract gives it a darker, slightly warmer alloy response with the same rough metal-flake finish. It is not drawn on the three-frigate board.
+- Shard yellow #ffdd1a is 27.175% and definitively paint. Lavender, purple and red are energy-designated by faction, but no system socket is inferred. Pale cyan on larger hulls is ordinary paint.
+- Krelath's two greens are both painted hull. Their fictional distinction and the smaller dorsal dome's function remain unassigned. Pale green flight-deck paint on larger Krelath hulls is dead-flat, with no specular return.
+- Shard green remains paint by default and optional clear green styrene in the comparison. Green alone is eligible for this variant across Vraygon. A colour does not supply a mount count or firing point.
+- All 23 current regions now have confirmed material classifications. Unassigned functions are separate from material classification. Zandrax remains a future colour-name contract, with no fabricated source keys or hull.

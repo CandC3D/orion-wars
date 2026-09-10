@@ -1,9 +1,15 @@
-﻿# Three frigates: steel, bronze and gold - revision 05
+﻿# Three frigates: steel, bronze and gold - revision 06
 
 The current Monoceros, Sparrowhawk and Shard now treat their substantial metal
 regions as silver/steel, bronze and gold. They share a rough metallic-flake
 finish, washed recesses and burnished edges; body paints remain matte. All
 source colours remain room-lit and non-emissive. Planning draws no energy.
+
+The [faction contracts](FACTION-PALETTES.md) now govern every prepared hull;
+[the staged audit](LIBRARY-AUDIT.md) covers all 20 files / 18 distinct contents
+available here. Only two Krelath hulls are staged; the missing library is not
+claimed as inspected. Alternate Earth steel, dead-flat Krelath deck and painted
+Vraygon cyan are encoded without adding geometry to the frigates.
 
 The corrected [per-hull region tables](REGION-TABLES.md) include all 23 colours,
 source/reduced surface areas, material classifications and open questions.
@@ -27,10 +33,11 @@ marks and transmits through a measured thin volume; its shadow is approximate.
 I prefer the painted part at planning distance, and the clear insert in detail.
 Chris's choice remains open, as does [base identification](IDENTIFICATION.md).
 
-[Pre-build rubric](RUBRIC.md) and [adversarial review](REVIEW.md): 93.95/100
+[Pre-build rubric](RUBRIC.md) and [adversarial review](REVIEW.md): 94.45/100
 weighted, each criterion >=90. Metal scores: Earth 90, Krelath 91, Vraygon 92;
 optional insert comparison 90. These are fresh self-review scores, not Chris's
-approval. I directly viewed all 25 final captures. Frame/file hashes and scope
+approval. I directly viewed the 22 distinct images covering all 25 final captures.
+Frame/file hashes and scope
 checks are attached in evidence/adversarial-review.json.
 
 ## Correction and uncertainty
@@ -39,8 +46,9 @@ Earth's steel mask was intact but wrongly classified as pale paint. It is
 43.952% of the entire surface; the two blue regions together are 47.679%.
 The planning camera sees 38.77% steel and 53.84% blue, so no source colours were
 swapped to force a steel majority on screen. The steel now has the metallic finish.
-Earth's 2.177% gold-coloured dish remains provisionally paint; brass versus paint
-is unresolved. Shard's 27.175% yellow is confirmed paint by Chris's later faction
+Earth's 2.177% gold sensor dish is now confirmed metal. Its entire source and
+reduced gold region is confined to the dish; out-of-bounds gold fails preparation.
+Shard's 27.175% yellow is confirmed paint by Chris's later faction
 set. Its purple/lavender/red are designated energy-capable, with no guessed
 weapon or engine functions. Krelath's green distinction and small dome remain
 unnamed. All designations are inert until an explicitly supported animation.
@@ -60,8 +68,8 @@ unnamed. All designations are inert until an explicitly supported animation.
 The clear pass exceeds the painted budget. It is an experiment, not a fleet-wide
 performance claim. Its target allocation remains until reload after switching
 back to paint. Peak driver memory, integrated-GPU behaviour and full-board costs
-are unmeasured. The ordinary three-hull Edge/RTX 5060 Ti probe averaged 0.49 ms,
-p95 0.70 ms for JS submission plus gl.finish at 1920 x 1080; this is not a full-board test.
+are unmeasured. The ordinary three-hull Edge/RTX 5060 Ti probe averaged 0.42 ms,
+p95 0.50 ms for JS submission plus gl.finish at 1920 x 1080; this is not a full-board test.
 
 From this worktree:
 
@@ -82,13 +90,13 @@ $env:PROTOTYPE_BROWSER = 'C:/Program Files (x86)/Microsoft/Edge/Application/msed
 node arena/prototype-3d/review.mjs
 ```
 
-26 prototype checks, the unchanged fast suite and browser checks pass. Browser
+28 prototype checks, the unchanged fast suite and browser checks pass. Browser
 checks cover every material mask, missing classifications, inert designated
 faces, physical/energy separation, floors, pause/skip, fallback and both variant
-URLs. Rebuild commands are in SOURCE-GAP.md. The existing derivatives and all
-source GLBs are unchanged this round; only their region contracts were regenerated.
+URLs. Rebuild commands are in SOURCE-GAP.md. The three derivative GLBs rebuilt byte-identically during preparation verification;
+all source files remain untouched.
 
 All implementation remains under arena/prototype-3d/, on work/presentation-3d,
-base HEAD 6ce25f1. No branch or commit was created. Furniture, black stands,
+base HEAD 29c322e. No branch or commit was created. Furniture, black stands,
 identifier choice, shared runtime and other sessions' files remain unchanged.
 Stopped before destruction, planet/nebula samples and the full-board test.

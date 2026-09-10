@@ -1,36 +1,36 @@
 ﻿// Keys identify LINEAR COLOR_0 tuples, not sRGB swatches. Meanings belong to hulls.
-// Chris's faction sets: mailbox 20260910T105522Z; metal ruling 105112Z.
-const region=(key,classification,role,extra={})=>Object.freeze({key,classification,role,...extra,
-  metallicPaint:classification==='metal',rgb:[0,2,4].map(i=>parseInt(key.slice(i,i+2),16)/255)});
+// Substance is faction-wide; anatomy and feature locations remain hull-specific.
+import {factionRegion,validateFactionPalette} from './faction-palettes.js';
+const region=(f,key,role)=>Object.freeze({...factionRegion(f,key),role});
 export const METAL_FINISH=Object.freeze({metalness:.52,roughness:.67,edgeRoughness:.53,flakePitchMm:.12});
 export const ART_PROFILES=Object.freeze({
  EAR:Object.freeze({name:'Monoceros',palette:[
-  region('bfc7cc','metal','silver / steel hull', {metal:'steel'}),
-  region('009fd7','paint','bright blue panelling'),
-  region('e91d2d','emissive-designated','red across multiple parts; nav, collector, muzzle and outlet; not a global function'),
-  region('0076a9','paint','deep blue panelling'),
-  region('f5831f','paint','orange weapons-warning paint at the actual laser housing'),
-  region('e1ad34','paint','gold-coloured lower dish; brass versus paint unresolved', {uncertainty:'Colour and geometry do not establish metallic substance; retained as paint pending Chris.'}),
-  region('fafafa','emissive-designated','white windows and fittings; individual functions not all assigned'),
-  region('61676a','paint','dark grey aft nacelle outlet surround'),
-  region('46b749','emissive-designated','small starboard nav fitting; 3888 source corners')
+  region('EAR','bfc7cc','silver / steel hull'),
+  region('EAR','009fd7','bright blue panelling'),
+  region('EAR','e91d2d','red across multiple parts; nav, collector, muzzle and outlet; not a global function'),
+  region('EAR','0076a9','deep blue panelling'),
+  region('EAR','f5831f','orange weapons-warning paint at the actual laser housing'),
+  region('EAR','e1ad34','metallic gold confined to the sensor dish'),
+  region('EAR','fafafa','white windows and fittings; individual functions not all assigned'),
+  region('EAR','61676a','dark grey aft nacelle outlet surround'),
+  region('EAR','46b749','small starboard nav fitting; 3888 source corners')
  ],confirmedEffects:['beamEmitter','exhaust']}),
  KRE:Object.freeze({name:'Sparrowhawk',palette:[
-  region('126936','paint','painted hull green A'),region('46b749','paint','painted hull green B; meaning of distinction unresolved'),
-  region('a97b50','metal','metallic bronze hull', {metal:'bronze'}),
-  region('f5831f','emissive-designated','orange collector, vertical exhaust and horizontal radiators'),
-  region('fafafa','emissive-designated','white windows'),
-  region('ffdd1a','emissive-designated','yellow including both domes; only larger dome is a confirmed weapon'),
-  region('e91d2d','paint','red warning rings')
+  region('KRE','126936','painted hull green A'),region('KRE','46b749','painted hull green B; meaning of distinction unresolved'),
+  region('KRE','a97b50','metallic bronze hull'),
+  region('KRE','f5831f','orange collector, vertical exhaust and horizontal radiators'),
+  region('KRE','fafafa','white windows'),
+  region('KRE','ffdd1a','yellow including both domes; only larger dome is a confirmed weapon'),
+  region('KRE','e91d2d','red warning rings')
  ],confirmedEffects:['beamEmitter','exhaust']}),
  VRA:Object.freeze({name:'Shard',palette:[
-  region('d3bfe5','emissive-designated','lavender; individual system functions unassigned'),
-  region('e1ad34','metal','actual metallic gold hull', {metal:'gold'}),
-  region('7e3f98','emissive-designated','purple; individual system functions unassigned'),
-  region('ffdd1a','paint','yellow hull surfaces; explicitly not in Vraygon emissive set'),
-  region('f5831f','paint','orange paint; no inferred system'),
-  region('46b749','paint','green fixtures; no inferred function from geometry alone', {variant:{classification:'moulded transparent',material:'green styrene',fiction:'grown crystal weapon components; no specific mount assignment'}}),
-  region('e91d2d','emissive-designated','small red fixture; no inferred system')
+  region('VRA','d3bfe5','lavender; individual system functions unassigned'),
+  region('VRA','e1ad34','actual metallic gold hull'),
+  region('VRA','7e3f98','purple; individual system functions unassigned'),
+  region('VRA','ffdd1a','yellow hull surfaces; explicitly not in Vraygon emissive set'),
+  region('VRA','f5831f','orange paint; no inferred system'),
+  region('VRA','46b749','green fixtures; no inferred function from geometry alone'),
+  region('VRA','e91d2d','small red fixture; no inferred system')
  ],confirmedEffects:[]})
 });
-export function artProfile(faction){const profile=ART_PROFILES[faction];if(!profile)throw Error('Missing hull-specific art profile: '+faction);return profile;}
+export function artProfile(faction){const profile=ART_PROFILES[faction];if(!profile)throw Error('Missing hull-specific art profile: '+faction);validateFactionPalette(faction,profile.palette.map(p=>p.key));return profile;}

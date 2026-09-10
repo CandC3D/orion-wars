@@ -1,0 +1,48 @@
+{
+  "format": "tabletop-faction-palettes/1",
+  "authority": "Chris through Fable, 10 September 2026: faction-wide material and emissive sets; three classified extensions",
+  "factions": {
+    "EAR": {
+      "regions": {
+        "bfc7cc": {"classification":"metal","metal":"steel","role":"primary steel / silver"},
+        "a7adb1": {"classification":"metal","metal":"alternate-steel","role":"alternate steel-family alloy","finishTint":[1.04,1,0.94]},
+        "e1ad34": {"classification":"metal","metal":"gold","role":"sensor-dish gold"},
+        "009fd7": {"classification":"paint","role":"bright blue panelling"},
+        "0076a9": {"classification":"paint","role":"deep blue panelling"},
+        "61676a": {"classification":"paint","role":"dark grey paint"},
+        "f5831f": {"classification":"paint","role":"orange weapons warning"},
+        "e91d2d": {"classification":"emissive-designated","role":"red; function depends on actual feature"},
+        "46b749": {"classification":"emissive-designated","role":"green; function depends on actual feature"},
+        "fafafa": {"classification":"emissive-designated","role":"white; function depends on actual feature"}
+      },
+      "knownVariations": ["Monoceros lacks a7adb1; do not synthesize it. Other supplied Earth hulls include it.","Gold is confined to the sensor dish; verify spatially per prepared hull."]
+    },
+    "KRE": {
+      "regions": {
+        "126936": {"classification":"paint","role":"dark green hull"},
+        "46b749": {"classification":"paint","role":"bright green hull; distinction in fiction unassigned"},
+        "a97b50": {"classification":"metal","metal":"bronze","role":"bronze"},
+        "e91d2d": {"classification":"paint","role":"red weapons warning"},
+        "f5831f": {"classification":"emissive-designated","role":"orange; function depends on actual feature"},
+        "ffdd1a": {"classification":"emissive-designated","role":"yellow; function depends on actual feature"},
+        "fafafa": {"classification":"emissive-designated","role":"white; function depends on actual feature"},
+        "c8e4bd": {"classification":"paint","role":"flight deck","finish":"dead-flat"}
+      },
+      "knownVariations": ["c8e4bd occurs on carrier, Supreme Leader flagship and combined fleet.","Both fighters lack fafafa."]
+    },
+    "VRA": {
+      "regions": {
+        "e1ad34": {"classification":"metal","metal":"gold","role":"gold"},
+        "ffdd1a": {"classification":"paint","role":"yellow paint"},
+        "46b749": {"classification":"paint","role":"grown-crystal components; optional supplied clear kit parts","variant":{"classification":"moulded transparent","material":"green styrene","fiction":"grown crystal weapon components; no specific mount assignment"}},
+        "7e3f98": {"classification":"emissive-designated","role":"purple; function unassigned"},
+        "d3bfe5": {"classification":"emissive-designated","role":"lavender; function unassigned"},
+        "e91d2d": {"classification":"emissive-designated","role":"red; function unassigned"},
+        "f5831f": {"classification":"paint","role":"orange paint"},
+        "75cedb": {"classification":"paint","role":"pale cyan painted part; not a clear crystal"}
+      },
+      "knownVariations": ["75cedb occurs on Cluster, Crystal, Feldspar, Bastion and combined fleet; absent on Shard, Point and Avalanche.","46b749 is the only region eligible for moulded clear plastic."]
+    }
+  },
+  "future": {"ZAN":{"emissiveColourNames":["green","magenta"],"metal":"dark grey / lead","status":"recorded only; no source palette keys or hull staged"}}
+}

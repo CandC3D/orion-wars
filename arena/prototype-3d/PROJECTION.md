@@ -100,3 +100,8 @@ The per-hull region contract is tabletop-colour-regions/3. Every region has a
 material classification and an inert energyAttachments entry. Designation stores
 exact faces but activates nothing. Only confirmed semantic subsets supply the
 existing resolution demo; planning draws zero energy objects. See REGION-TABLES.md.
+
+The faction-wide allowed palettes live in faction-palettes.json. Material and
+energy designations never transfer between factions. Every prepared hull must
+pass this contract; absent optional colours do not create geometry. Green alone
+can be clear plastic on Vraygon, and remains outside its energy designation.

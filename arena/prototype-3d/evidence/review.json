@@ -1977,7 +1977,7 @@
   "checks": {
     "planningBrush": {
       "EAR": {
-        "pixelsChangedAbove025": 721,
+        "pixelsChangedAbove025": 715,
         "maxLinearChannelDifference": 0.515380859375
       },
       "KRE": {
@@ -2021,7 +2021,7 @@
           "e1ad34": {
             "pixels": 14,
             "visibleFraction": 0.0067178502879078695,
-            "classification": "paint"
+            "classification": "metal"
           },
           "fafafa": {
             "pixels": 4,
@@ -2126,8 +2126,8 @@
       "energeticNonzeroPixels": 1309
     },
     "physicalIsolation": {
-      "physicalBefore": "8627b27",
-      "physicalAfter": "8627b27",
+      "physicalBefore": "85fb4ed9",
+      "physicalAfter": "85fb4ed9",
       "shadowBefore": "2eca1c08",
       "shadowAfter": "2eca1c08",
       "identical": true
@@ -2152,9 +2152,47 @@
     },
     "allMaterialRegions": {
       "regions": 23,
-      "metal": 3,
+      "metal": 4,
       "energyPaint": 9,
       "clearEligible": 1
+    },
+    "factionExtensions": {
+      "EAR/a7adb1": {
+        "metal": 1,
+        "flat": 0,
+        "clear": 0,
+        "tint": [
+          1.0399999618530273,
+          1,
+          0.9399999976158142
+        ],
+        "flatSpecularSuppressed": true,
+        "flatRoughnessOne": true
+      },
+      "KRE/c8e4bd": {
+        "metal": 0,
+        "flat": 1,
+        "clear": 0,
+        "tint": [
+          1,
+          1,
+          1
+        ],
+        "flatSpecularSuppressed": true,
+        "flatRoughnessOne": true
+      },
+      "VRA/75cedb": {
+        "metal": 0,
+        "flat": 0,
+        "clear": 0,
+        "tint": [
+          1,
+          1,
+          1
+        ],
+        "flatSpecularSuppressed": true,
+        "flatRoughnessOne": true
+      }
     },
     "clearLightsOff": {
       "physicalNonzeroPixels": 0,
@@ -2665,9 +2703,9 @@
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 0.49166666716337204,
-    "p95Ms": 0.7000000029802322,
-    "maxMs": 0.7999999970197678,
+    "meanMs": 0.4216666668653488,
+    "p95Ms": 0.5,
+    "maxMs": 0.6000000089406967,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }

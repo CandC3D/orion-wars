@@ -16,6 +16,32 @@
       "fafafa": 6618,
       "61676a": 3999,
       "46b749": 3888
+    },
+    "materialBounds": {
+      "e1ad34": {
+        "role": "sensor dish only",
+        "sourceMin": [
+          29.7,
+          -5.44,
+          49.99
+        ],
+        "sourceMax": [
+          34.2,
+          5.63,
+          61.06
+        ],
+        "preparedMin": [
+          1.96,
+          -1.68,
+          -0.33
+        ],
+        "preparedMax": [
+          2.24,
+          -1.01,
+          0.33
+        ],
+        "reference": "source/edf/monoceros-class-frigate-schematic-v3.png"
+      }
     }
   },
   "KRE": {

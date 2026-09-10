@@ -93,7 +93,24 @@ try{
     }
     return {regions,metal,energyPaint,clearEligible};
   });
-  assert.deepEqual(result.checks.allMaterialRegions,{regions:23,metal:3,energyPaint:9,clearEligible:1});
+  assert.deepEqual(result.checks.allMaterialRegions,{regions:23,metal:4,energyPaint:9,clearEligible:1});
+  result.checks.factionExtensions=await page.evaluate(async()=>{
+    const T=await import('three'),{factionRegion}=await import('./faction-palettes.js'),{preparePaintGeometry,candidatePaint}=await import('./hull-paint.js');
+    const checks={};
+    for(const [f,k] of [['EAR','a7adb1'],['KRE','c8e4bd'],['VRA','75cedb']]){
+      const r=factionRegion(f,k),g=new T.PlaneGeometry();g.setAttribute('color',new T.Float32BufferAttribute(Array.from({length:g.attributes.position.count},()=>r.rgb).flat(),3));
+      const p=preparePaintGeometry(g,f,[r]),m=candidatePaint(f,p);
+      const shader={uniforms:{},vertexShader:T.ShaderLib.standard.vertexShader,fragmentShader:T.ShaderLib.standard.fragmentShader};m.onBeforeCompile(shader);
+      checks[f+'/'+k]={metal:p.attributes.paintMetallic.getX(0),flat:p.attributes.paintFlat.getX(0),clear:p.attributes.paintClear.getX(0),tint:[0,1,2].map(i=>p.attributes.paintTint.array[i]),flatSpecularSuppressed:shader.fragmentShader.includes('*(1.-vPaintFlat)')&&shader.fragmentShader.includes('material.specularF90*=1.-vPaintFlat'),flatRoughnessOne:shader.fragmentShader.includes('roughnessFactor=mix(roughnessFactor,1.,vPaintFlat)')};
+      p.userData.paintEdges.dispose();p.dispose();g.dispose();m.dispose();
+    }
+    return checks;
+  });
+  assert.equal(result.checks.factionExtensions['EAR/a7adb1'].metal,1);
+  assert.ok(result.checks.factionExtensions['EAR/a7adb1'].tint[0]>1&&result.checks.factionExtensions['EAR/a7adb1'].tint[2]<1);
+  assert.equal(result.checks.factionExtensions['KRE/c8e4bd'].flat,1);
+  assert.ok(result.checks.factionExtensions['KRE/c8e4bd'].flatSpecularSuppressed&&result.checks.factionExtensions['KRE/c8e4bd'].flatRoughnessOne);
+  assert.equal(result.checks.factionExtensions['VRA/75cedb'].clear,0);assert.equal(result.checks.factionExtensions['VRA/75cedb'].metal,0);
   for(const detail of Object.values(result.detailCameras)){assert.ok(detail.actualCamera.position[1]>=24);assert.ok(detail.actualCamera.pitch>=32);}
 
   result.clearVariant={};
@@ -132,7 +149,7 @@ try{
   result.gpu=gl;result.errors=errors;
   const dimensions=result.captures.planning.scaleMeasurements;
   const f=n=>Number(n.toFixed(3));
-  const scaleText=['# Measured scale - revision 05 (all dimensions unchanged)','',
+  const scaleText=['# Measured scale - revision 06 (all dimensions unchanged)','',
     '**1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.',
     '', 'The browser measures the built geometry before its tabletop rotation. The printed hex uses the same 32 mm across-flats geometry as the presentation coordinates. Rows fail at a 0.06 mm discrepancy. The D20 uses opposite vertices (20 mm), not opposite faces.',
     '', '| Object | Measurement | Scene units | Implied actual mm | Reference / chosen mm |',

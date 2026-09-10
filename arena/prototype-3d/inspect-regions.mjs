@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import {readGLB,colourKey} from './glb-data.mjs';
 import {artProfile} from './hull-art.js';
+import {validateFactionPalette} from './faction-palettes.js';
 const here=new URL('./',import.meta.url);
 const configs=JSON.parse(fs.readFileSync(new URL('./hull-sources.json',here)));
 const faction=process.argv[2]??'KRE',config=configs[faction];
@@ -9,6 +10,9 @@ const source=readGLB(new URL('./source/'+config.source,here));
 const sp=source.json.meshes[0].primitives[0],sc=source.attribute(sp.attributes.COLOR_0);
 const palette=[];
 for(const c of sc){const key=colourKey(c);let p=palette.find(p=>p.key===key);if(!p){p={key,rgb:c.slice(0,3),sourceVertices:0};palette.push(p);}p.sourceVertices++;}
+validateFactionPalette(faction,palette.map(p=>p.key),{expectedKeys:Object.keys(config.colours),context:config.source});
+const sourcePositions=source.attribute(sp.attributes.POSITION);
+for(const [key,b] of Object.entries(config.materialBounds??{}))for(let i=0;i<sc.length;i++)if(colourKey(sc[i])===key&&sourcePositions[i].some((v,k)=>v<b.sourceMin[k]||v>b.sourceMax[k]))throw Error(key+' outside '+b.role+'; report source disagreement');
 const glb=readGLB(new URL('./prepared/'+config.output+'.glb',here)),p=glb.json.meshes[0].primitives[0];
 const positions=glb.attribute(p.attributes.POSITION),colours=glb.attribute(p.attributes.COLOR_0),indices=glb.attribute(p.indices).flat();
 const nearest=c=>palette.reduce((best,p,i)=>{const d=p.rgb.reduce((n,x,k)=>n+(x-c[k])**2,0);return d<best.d?{i,d}:best;},{d:Infinity}).i;
@@ -23,6 +27,7 @@ for(let i=0;i<faces.length;i++){if(seen.has(i))continue;const todo=[i],ids=[];se
  const pts=ids.flatMap(n=>faces[n].ids.map(id=>positions[id]));patches.push({region:palette[faces[i].region].key,triangles:ids.length,min:[0,1,2].map(k=>Math.min(...pts.map(p=>p[k]))),max:[0,1,2].map(k=>Math.max(...pts.map(p=>p[k]))),faces:ids});
 }
 patches.sort((a,b)=>a.region.localeCompare(b.region)||b.triangles-a.triangles);
+for(const [key,b] of Object.entries(config.materialBounds??{}))for(const p of patches.filter(p=>p.region===key))if(p.min.some((v,k)=>v<b.preparedMin[k])||p.max.some((v,k)=>v>b.preparedMax[k]))throw Error(key+' outside prepared '+b.role);
 // The v2 plate identifies a vertical orange stern exhaust and the larger yellow
 // dorsal dome. Each selector must match one actual connected source-colour patch.
 const select=(label,predicate)=>{const found=patches.filter(predicate);if(found.length!==1)throw Error('Re-author semantic region: '+label);return {...found[0],register:'energetic',anatomy:label};};

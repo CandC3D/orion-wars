@@ -1,4 +1,4 @@
-# Measured scale - revision 05 (all dimensions unchanged)
+# Measured scale - revision 06 (all dimensions unchanged)
 
 **1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.
 

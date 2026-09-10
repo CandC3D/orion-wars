@@ -1,8 +1,9 @@
-# Source art and material contract - revision 05
+# Source art and material contract - revision 06
 
 The authoritative per-hull classifications and measured triangle areas are in
-[REGION-TABLES.md](REGION-TABLES.md). All 23 COLOR_0 keys have explicit entries
-in hull-art.js. Linear tuples are preserved; they are never decoded again as
+[REGION-TABLES.md](REGION-TABLES.md). All 23 current COLOR_0 keys inherit classifications from faction-palettes.json.
+Per-hull anatomical meanings remain in hull-art.js. Unknown faction colours fail
+in preparation, region generation and runtime painting. Linear tuples are preserved; they are never decoded again as
 sRGB or interpreted through a global colour-to-function map.
 
 Earth uses the current Monoceros v3 and its schematic. Krelath uses the approved
@@ -15,9 +16,10 @@ Repainting blue to force a steel majority in that view would falsify the art.
 
 Chris's later emissive sets are now authority: Earth red/green/white; Krelath
 orange/yellow/white; Vraygon purple/lavender/red. Shard yellow is explicitly
-paint. Earth gold on the lower dish remains provisionally paint because colour
-and geometry do not determine whether it is brass. The uncertainty is data,
-not a hidden default. Krelath's green distinction and smaller dome's function
+paint. Earth gold is now confirmed metal and is confined to the sensor dish. All
+12,480 source corners fall within its authored bounds, and all 467 reduced gold
+triangles form one connected dish patch. Preparation and region generation reject
+gold outside those bounds. The primary steel and gold share one metal finish. Krelath's green distinction and smaller dome's function
 remain unnamed. No Shard weapon or exhaust socket has been inferred.
 
 ## Prototype-local preparation
@@ -44,7 +46,7 @@ palettes, region areas and component bounds accompany each derivative in
 `<hull>-preparation.json` and `<hull>-regions.json`.
 
 
-## Shared metal finish, three metals
+## Shared metal finish and the faction extensions
 
 Silver/steel, bronze and gold use the same fine-flake binder finish. Their hues
 come from their own source colours. Metalness is 0.52, body roughness 0.67,
@@ -67,6 +69,26 @@ edges are not seams. Float textures store nearest actual crease segments per
 face so strokes continue across tessellation. They occupy 5.31 MiB, within the
 unchanged 24 MiB material-texture cap. See REVIEW.md for planning evidence;
 shader numbers alone do not establish visual success.
+
+## Faction-wide validation
+
+The JSON palette contract includes Earth alternate steel a7adb1, Krelath
+flight-deck c8e4bd, and Vraygon cyan 75cedb. The alternate alloy is darker and
+slightly warmer (source tuple with linear tint 1.04 / 1.00 / 0.94), using the same
+flake and roughness settings. Monoceros lacks this region; none is synthesised.
+Deck paint has roughness 1, zero metalness and zero F0/F90 specular return,
+including at grazing angles and over ink. Cyan is ordinary paint, never a clear
+variant. Green 46b749 alone is eligible for Vraygon clear styrene.
+
+The full staged audit covers 20 files / 18 distinct contents: 9 Earth, 2 Krelath,
+9 Vraygon. Two root copies duplicate library hulls. Every primitive and colour
+passes. Larger Krelath hulls/fighters are absent from this worktree, so their
+exceptions are encoded from Chris but not counted as inspected. See
+LIBRARY-AUDIT.md and FACTION-PALETTES.md. This is not full visual intake.
+
+Preparation has a --validate-only option which exits before import, reduction
+or export. Normal preparation also runs the same mandatory validation. Exact
+per-hull counts/palettes remain an additional guard against changed exports.
 
 ## Inert region map and explicit animation
 

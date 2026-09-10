@@ -77,10 +77,10 @@
       ],
       "sourceVertices": 12480,
       "register": "physical",
-      "classification": "paint",
-      "role": "gold-coloured lower dish; brass versus paint unresolved",
+      "classification": "metal",
+      "role": "metallic gold confined to the sensor dish",
       "physicalEmission": 0,
-      "uncertainty": "Colour and geometry do not establish metallic substance; retained as paint pending Chris."
+      "metal": "gold"
     },
     {
       "key": "fafafa",
@@ -14144,7 +14144,7 @@
       "faces": [],
       "features": [],
       "evidence": "Outside this hull's emissive set",
-      "functions": "gold-coloured lower dish; brass versus paint unresolved"
+      "functions": "metallic gold confined to the sensor dish"
     },
     "fafafa": {
       "designated": true,
