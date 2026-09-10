@@ -48,6 +48,20 @@ export const DEFAULT_PROFILES = {
 
 export const DEFAULT_POSTURE = 'standard';
 
+// Except on a hull that plants itself. A spinal bank makes the ship immobile while it charges, so
+// its whole function is to stand still and be shot at - and a captain who breaks off the charge
+// takes away the only thing it does. Measured on 2026-09-09: standard officers throughout cost the
+// Federation eight points against the Krelath and moved nothing else in the corpus, and a bold
+// gunstar captain restored it exactly. See docs/balance-2026-09-09-captains.md.
+//
+// Chris's ruling, and the reference is his: like Okita. The Federation gives these ships to officers
+// chosen for nerve. It is the same source Supreme Leader Stratan Valdar is drawn from, so the two
+// flagship commanders of the campaign come from opposite sides of one story.
+export const SPINAL_POSTURE = 'bold';
+export const carriesSpinal = ship =>
+  !!ship?.spinal || (Array.isArray(ship?.mounts) && ship.mounts.some(m => m?.kind === 'spinal'));
+export const defaultPostureFor = ship => carriesSpinal(ship) ? SPINAL_POSTURE : DEFAULT_POSTURE;
+
 // tuning.captainProfiles may override any field of any profile. Missing tuning is not an error: the
 // module is usable standalone, which is what makes it unit-testable without a battle.
 export function profilesFrom(tuning) {

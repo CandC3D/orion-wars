@@ -101,7 +101,41 @@ against the Krelath where the bank would otherwise have time to fill.
 A bold captain never breaks off a charge, so the gunstar plants and stays planted. That single
 change restores the entire corpus — not approximately, exactly.
 
-## Recommendation
+## Ruled, and verified — Chris, 9 September 2026
+
+**Spinal hulls get a bold captain by default.** `defaultPostureFor` in `src/tactical/ship-command.js`
+gives any hull carrying a spinal bank the bold posture unless a caller says otherwise, so a plain
+`commissionCaptains(fleet, seed, registers)` does the right thing without every caller remembering.
+The officer is **Captain Hikaru Kobayashi**, modelled on Okita but not imported as him — the same
+relation Valdar has to Desslar. See `docs/setting.md`.
+
+Re-measured with the ruling in force, 300 mirrored pairs, every fleet fully officered:
+
+| pairing | unofficered | officered under the ruling |
+|---|---|---|
+| EAR v VRA | 38% / 62% · 15.1 | 38% / 62% · 15.1 |
+| EAR v ZAN | 39% / 61% · 7.0 | 38% / 62% · 7.0 |
+| EAR v KRE | 46% / 54% · 11.6 | **46% / 54% · 11.6** |
+| VRA v ZAN | 39% / 61% · 8.8 | 39% / 61% · 8.8 |
+| VRA v KRE | 69% / 31% · 17.3 | 69% / 31% · 17.3 |
+| ZAN v KRE | 73% / 28% · 8.8 | 73% / 27% · 8.8 |
+
+Overall at 52 points: Zandrax 65.0 → 65.3, Vraygon 56.3 → 56.4, Earth 40.8 → 40.5, Krelath
+37.5 → 37.4. The standings hold their order and every figure is inside the noise of a
+300-pair sample. **A fully officered corpus now costs essentially nothing.**
+
+### One harness bug worth recording
+
+The first run of this verification appeared to show the ruling doing nothing at all — EAR v KRE
+stayed at 38 / 61. The ruling was fine; the instrument was not. `--captains` was passing an
+explicit `"standard"` to every ship, and an explicit posture overrides the hull-aware default, so
+the sweep was commissioning gunstar captains as ordinary officers and measuring the wrong fleet.
+The flag now passes nothing unless `--posture` is given.
+
+It is the same shape as the defect Astra found in the vent rule: a fixture that supplied a value
+"to be careful" was the thing concealing the behaviour under test.
+
+## The reasoning behind the ruling
 
 **Give spinal hulls a bold captain by default**, and let the other hulls take the standing
 posture. It restores the measured balance exactly, it needs no threshold tuning, and it is a
@@ -113,9 +147,8 @@ stands".
 The alternative — raising `ventUnderFireDamage` for spinal hulls — reaches the same balance
 through a tuning constant and earns no flavour. I would not.
 
-Either way this is Chris's call, because it decides what a Federation captain *is*, and the
-mechanism to express it already exists: `commissionCaptains` takes a `postureFor` callback, so
-it is one predicate and no engine change.
+It was Chris's call because it decides what a Federation captain *is*, and he took it the same
+day, with a name attached.
 
 ## Two things this measurement does not cover
 

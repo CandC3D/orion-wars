@@ -17,7 +17,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const root = path.resolve(process.argv.includes('--source') ? process.argv[process.argv.indexOf('--source') + 1] : fileURLToPath(new URL('../', import.meta.url)));
 const mod = p => import(pathToFileURL(path.join(root, p)));
 const { drawCaptain, drawCaptains, commissionCaptains, registerSpace } = await mod('src/tactical/captain-roster.js');
-const { captainOf, DEFAULT_POSTURE } = await mod('src/tactical/ship-command.js');
+const { captainOf, DEFAULT_POSTURE, SPINAL_POSTURE, defaultPostureFor } = await mod('src/tactical/ship-command.js');
 const { makePrng } = await mod('src/prng.js');
 const { buildShip } = await mod('src/tactical/ship.js');
 const { createBattleFromFleets, stepTurn } = await mod('src/tactical/resolver.js');
@@ -143,6 +143,31 @@ check('but COMMISSIONING changes behaviour, and saying otherwise was wrong', () 
   assert.ok(officered < bare, `commissioning must be visible in the outcome: ${officered} vs ${bare}`);
 });
 
+check('a hull that plants itself gets an officer chosen for nerve', () => {
+  // Chris's ruling, 9 September 2026, and the reference is his: like Okita. A spinal bank makes the
+  // ship immobile while it charges, so its whole function is to stand still and be shot at, and a
+  // captain who breaks off the charge takes away the only thing it does. Measured: standard
+  // officers throughout cost the Federation eight points against the Krelath and moved nothing
+  // else in the corpus; bold on this hull alone restored it exactly.
+  const spinal = { id: 'A-gunstar-1', faction: 'EAR', spinal: { state: 'charging', charge: 0 } };
+  const byMount = { id: 'A-gunstar-2', faction: 'EAR', mounts: [{ kind: 'beam' }, { kind: 'spinal' }] };
+  const ordinary = { id: 'A-cl-1', faction: 'EAR', mounts: [{ kind: 'beam' }] };
+  assert.equal(defaultPostureFor(spinal), SPINAL_POSTURE);
+  assert.equal(defaultPostureFor(byMount), SPINAL_POSTURE, 'a spinal mount counts even without the bank record');
+  assert.equal(defaultPostureFor(ordinary), DEFAULT_POSTURE);
+  const drawn = drawCaptains([spinal, ordinary], 7, registers);
+  assert.equal(drawn['A-gunstar-1'].posture, SPINAL_POSTURE);
+  assert.equal(drawn['A-cl-1'].posture, DEFAULT_POSTURE);
+});
+
+check('and an explicit posture still overrides the hull', () => {
+  // The default is what happens when nobody says otherwise. A caller who names a posture, or hands
+  // in a per-ship predicate, is not second-guessed - a scenario may want a nervous gunstar captain.
+  const spinal = { id: 'A-gunstar-1', faction: 'EAR', spinal: { state: 'charging', charge: 0 } };
+  assert.equal(drawCaptains([spinal], 7, registers, { posture: 'cautious' })['A-gunstar-1'].posture, 'cautious');
+  assert.equal(drawCaptains([spinal], 7, registers, { postureFor: () => 'standard' })['A-gunstar-1'].posture, 'standard');
+});
+
 check('a posture can be asked for, per fleet or per ship', () => {
   assert.equal(drawCaptain('A-1', 7, 'EAR', registers, { posture: 'bold' }).posture, 'bold');
   const drawn = drawCaptains(fleet('EAR', 4), 7, registers, { postureFor: s => s.id === 'S-2' ? 'cautious' : 'bold' });
@@ -236,6 +261,11 @@ check('a large fleet still fields no two officers of the same name', () => {
 check('the named characters are not dealt out as ship captains', () => {
   // Archon Zeltus and Supreme Leader Stratan Valdar are people, not a name pool. The Valdar Cannon
   // is theirs too, and there is only ever one.
+  // The Federation has one too, since 9 September 2026: Captain Hikaru Kobayashi of the gunstar,
+  // modelled on Okita. A frigate captain dealt his name would put a named character on a picket.
+  const federation = [...registers.EAR.given, ...registers.EAR.family].join(' ');
+  assert.ok(!/Hikaru/.test(federation), 'Hikaru belongs to the gunstar captain');
+  assert.ok(!/Kobayashi/.test(federation), 'Kobayashi belongs to the gunstar captain');
   const krelath = [...registers.KRE.given, ...registers.KRE.family].join(' ');
   assert.ok(!/\bValdar\b/.test(krelath), 'Valdar belongs to the Supreme Leader');
   assert.ok(!/\bZeltus\b/.test(krelath), 'Zeltus belongs to the deposed Archon');

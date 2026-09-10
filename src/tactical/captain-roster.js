@@ -20,7 +20,7 @@
 // commissioning a fleet is a BALANCE CHANGE and the corpus must be re-measured against it. See the
 // check "but COMMISSIONING changes behaviour" in test/captain-roster.mjs.
 import { makePrng, seedFromString } from '../prng.js';
-import { DEFAULT_POSTURE } from './ship-command.js';
+import { DEFAULT_POSTURE, defaultPostureFor } from './ship-command.js';
 
 const ORDINALS = ['', ' II', ' III', ' IV', ' V', ' VI', ' VII', ' VIII', ' IX', ' X'];
 const compareId = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
@@ -83,14 +83,16 @@ export function drawCaptain(shipId, seed, faction, registers, { posture = DEFAUL
 // Returns a plain { shipId: captain } map and mutates nothing. The caller decides whether to attach
 // it, which is what keeps this opt-in: a battle whose ships are never given records resolves
 // exactly as it did before any of this existed.
-export function drawCaptains(ships, seed, registers, { posture = DEFAULT_POSTURE, postureFor = null } = {}) {
+// `posture` defaults to null rather than to standard so that "the caller said nothing" can be told
+// apart from "the caller said standard": only the first takes the hull-aware default below.
+export function drawCaptains(ships, seed, registers, { posture = null, postureFor = null } = {}) {
   const out = {};
   const takenByFaction = new Map();
   for (const ship of [...(ships ?? [])].sort((a, b) => compareId(a.id, b.id))) {
     if (!ship?.id || !ship.faction) continue;
     if (!takenByFaction.has(ship.faction)) takenByFaction.set(ship.faction, new Set());
     const captain = drawCaptain(ship.id, seed, ship.faction, registers, {
-      posture: postureFor?.(ship) ?? posture, taken: takenByFaction.get(ship.faction)
+      posture: postureFor?.(ship) ?? posture ?? defaultPostureFor(ship), taken: takenByFaction.get(ship.faction)
     });
     if (captain) out[ship.id] = captain;
   }

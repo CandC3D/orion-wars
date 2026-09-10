@@ -43,7 +43,10 @@ const BATTLES = numArg("--battles", 150);
 // which is the only honest way to see what commissioning costs each power.
 const REGISTERS = readJson(join(root, "data", "captain-names.json")).registers;
 const CAPTAINS = args.includes("--captains");
-const POSTURE = args.indexOf("--posture") >= 0 ? args[args.indexOf("--posture") + 1] : "standard";
+// null, NOT "standard": an explicit posture overrides the hull-aware default, so passing one here
+// would silently commission gunstar captains as ordinary officers and measure the wrong fleet.
+// It did exactly that on the first run of this flag.
+const POSTURE = args.indexOf("--posture") >= 0 ? args[args.indexOf("--posture") + 1] : null;
 // ONE POWER only, which is what separates "captains change the game" from "captains cost THIS
 // power". Side is useless for that: the sweep mirrors every pairing, so a faction sits on side A in
 // one battle and side B in the next.
@@ -51,7 +54,7 @@ const CAPTAINS_FACTION = args.indexOf("--captains-faction") >= 0 ? args[args.ind
 function commission(fleet, faction, seed) {
   if (!CAPTAINS && CAPTAINS_FACTION !== faction) return;
   // Seeded from the battle seed, so a replay of this sweep deals the same wardroom.
-  commissionCaptains(fleet, seedFromString(seed), REGISTERS, { posture: POSTURE });
+  commissionCaptains(fleet, seedFromString(seed), REGISTERS, POSTURE ? { posture: POSTURE } : {});
 }
 
 function fight(fa, fb, compA, compB, seed, useSixth = true) {

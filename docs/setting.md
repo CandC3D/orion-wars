@@ -52,6 +52,16 @@ Mechanically this is the second spinal hull in the game: the Earth gunstar is cu
 
 **Parked — not to be designed yet.** One practical note for whenever it is: a unique boss hull must stay out of `rosters` in `data/tactical-tuning.json`, which is the single source of truth for what each power may field. If it lands there it appears in quick build and in the balance sweep, and it will wreck both.
 
+## Captain Hikaru Kobayashi, and the ships that stand
+
+The Federation's gunstar captain. **Modelled on Okita, not imported as him** — the same relation Supreme Leader Stratan Valdar has to Leader Desslar, and from the same source, so the two flagship commanders of the campaign are drawn from opposite sides of one story. Valdar is the antagonist who is always already prepared. Kobayashi is the commander who does not flinch and does not break off.
+
+Chris's ruling and Chris's name, 9 September 2026. Like Valdar, he is a person rather than a name pool: neither *Hikaru* nor *Kobayashi* appears in the Federation registers, and `test/captain-roster.mjs` holds both out so no frigate captain is ever dealt his name.
+
+It came out of a measurement rather than a mood. The ship-captain layer lets an officer vent a charging spinal bank rather than be killed sitting still, which is right for almost any hull and wrong for this one: a gunstar that throws away its charge has given up the only thing it does. Measured across the four-power corpus, ordinary officers throughout cost the Federation eight points against the Krelath and moved nothing else at all; a bold captain on the gunstar alone restored every number exactly. See `docs/balance-2026-09-09-captains.md`.
+
+So the Federation gives its spinal hulls to officers chosen for nerve, and the game does not have to say so — it is in the default posture, and a player who reads the bridge crew will notice that this one ship's captain is not like the others.
+
 ## The Vraygon
 
 Silicoid lifeforms from a Venus-like hellworld, pressing claims on areas of Achernar the Krelath want for themselves.
@@ -102,7 +112,7 @@ The last entries sit inside playable time rather than behind it. Chris wants a K
 None of this was planned into the tuning. It was produced by measurement, and it agrees anyway.
 
 - **Federation ships are science ships that fight.** Sensor ratings and the Scan action (rating 2+, one action, no extra power) sit on hulls that also carry the cheapest shield absorption in the game, bought by handing a third of the power pool to the capacitor every turn.
-- **They stand.** The Gunstar has nothing astern, so the engine refuses it a fighting withdrawal. The tuning note says it "does what a Federation line ship is for: it stands."
+- **They stand.** The Gunstar has nothing astern, so the engine refuses it a fighting withdrawal. The tuning note says it "does what a Federation line ship is for: it stands." It also has the only spinal cannon in the fleet, which makes it immobile while the bank charges — so standing is not a temperament the hull is given, it is a fact about the hull.
 - **The Vraygon have no blind side.** Measured, they keep about ninety per cent of their battery astern and are the only power that can genuinely fight a withdrawal — which is a creature of rock, armoured in every direction.
 - **The Krelath stood where others ran.** In the same measurement a Krelath battleship of identical arcs fired 48% of its battery, against 27–30% for hulls that turned away.
 - **The Zandrax swarm wins by numbers and specialisation**, and beats the Federation's heaviest hull outright at 32 points. The design note on that reads: "the swarm beating this hull is the game working."
@@ -115,7 +125,7 @@ The convention is **title plus name**. The title comes from rank or caste; the n
 |---|---|---|
 | Krelath | Archon Zeltus · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
 | Zandrax | Hivelord Kzzx'xt | Caste titles; clicking consonants, apostrophes |
-| Federation | Capt. Scott Ridley · Capt. Marvin Kaminski · Capt. Sachiko Yamada | **Open the phone book.** Given name and surname, both real, and a world phone book rather than an Earth one: Earth registers and Dominion registers side by side in one navy |
+| Federation | Capt. Hikaru Kobayashi · Capt. Scott Ridley · Capt. Marvin Kaminski | **Open the phone book.** Given name and surname, both real, and a world phone book rather than an Earth one: Earth registers and Dominion registers side by side in one navy |
 | Vraygon | Stalactar · Geos · Hydron | Mineral and geological roots with a classical ring, ending in -ar, -os, -on |
 
 The pairings cross on purpose — Marvin Kaminski, Scott Ridley, Thomas Mbeki, Alice Cheng. A Federation wardroom is generations of a mixed polity rather than a set of national contingents, and the given names are where that shows: a surname says where a family came from, a given name says where it has been since.
