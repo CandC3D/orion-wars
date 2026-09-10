@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { validateScaleRows, SIZES, mm } from './scale.js';
-import { artProfile } from './hull-art.js';
+import { artProfile, METAL_FINISH } from './hull-art.js';
 import { readGLB, colourKey } from './glb-data.mjs';
 import { BUDGETS, FORMAT, validateAssets, validateRegionMap, validateProjection, projectContactFrame, displayLayout, hexWorld, cameraPose } from './contract.js';
 import { planning, exchange, shield, anonymous } from './fixture.js';
@@ -66,6 +66,34 @@ check('shared hex values retain different per-hull interpretations',()=>{
   assert.match(green('KRE').role,/hull green/);assert.match(green('EAR').role,/nav fitting/);assert.match(green('VRA').role,/no inferred function/);
   assert.match(artProfile('EAR').palette.find(p=>p.key==='e91d2d').role,/multiple parts/);
   assert.equal(artProfile('EAR').palette.length,9);assert.throws(()=>artProfile('ZAN'),/Missing hull-specific/);
+});
+check('Chris\'s material and emissive rulings apply per hull, including the large metal regions',()=>{
+  const expected={EAR:{metal:['bfc7cc'],energy:['e91d2d','fafafa','46b749']},KRE:{metal:['a97b50'],energy:['f5831f','ffdd1a','fafafa']},VRA:{metal:['e1ad34'],energy:['7e3f98','d3bfe5','e91d2d']}};
+  for(const [f,p] of Object.entries(expected)){
+    assert.deepEqual(artProfile(f).palette.filter(r=>r.classification==='metal').map(r=>r.key).sort(),p.metal.sort());
+    assert.deepEqual(artProfile(f).palette.filter(r=>r.classification==='emissive-designated').map(r=>r.key).sort(),p.energy.sort());
+  }
+  const earthGold=artProfile('EAR').palette.find(r=>r.key==='e1ad34');assert.equal(earthGold.classification,'paint');assert.match(earthGold.uncertainty,/do not establish/);
+  assert.ok(METAL_FINISH.metalness>=.3&&METAL_FINISH.metalness<=.6);assert.ok(METAL_FINISH.roughness>=.6);assert.ok(METAL_FINISH.edgeRoughness>=.5);
+});
+check('every energy attachment is inert, exact and rejects missing classification or invented activation',()=>{
+  for(const a of manifest.assets){
+    const map=validateRegionMap(JSON.parse(fs.readFileSync(new URL(a.regionMap,import.meta.url))));
+    const bad=structuredClone(map);delete bad.palette[0].classification;assert.throws(()=>validateRegionMap(bad),/classification/);
+    const swapped=structuredClone(map);swapped.palette.find(p=>p.classification==='metal').classification='paint';assert.throws(()=>validateRegionMap(swapped),/classification/);
+    const active=structuredClone(map);Object.values(active.energyAttachments)[0].enabledByDefault=true;assert.throws(()=>validateRegionMap(active),/activate/);
+    const absent=structuredClone(map);delete absent.energyAttachments[absent.palette[0].key];assert.throws(()=>validateRegionMap(absent),/every region/);
+    const fakeFace=structuredClone(map);Object.values(fakeFace.energyAttachments).find(e=>e.designated).faces.push(999999);assert.throws(()=>validateRegionMap(fakeFace),/exact region faces/);
+    assert.ok(Math.abs(Object.values(map.sourceCoverage).reduce((a,b)=>a+b,0)-1)<1e-10);
+  }
+});
+check('the clear experiment is restricted to Shard green and cannot become energy',()=>{
+  const p=artProfile('VRA').palette.find(r=>r.key==='46b749');assert.equal(p.classification,'paint');assert.equal(p.variant.classification,'moulded transparent');
+  assert.equal(artProfile('KRE').palette.find(r=>r.key===p.key).variant,undefined);
+  assert.equal(artProfile('EAR').palette.find(r=>r.key===p.key).variant,undefined);
+  const map=JSON.parse(fs.readFileSync(new URL('./prepared/shard-regions.json',import.meta.url)));
+  assert.equal(map.energyAttachments[p.key].designated,false);assert.deepEqual(map.energyAttachments[p.key].faces,[]);
+  assert.ok(Math.abs(map.sourceCoverage.ffdd1a-.2717547926559144)<1e-10);
 });
 check('physical scale rejects errors and preserves the requested reference sizes',()=>{
   assert.equal(mm(95),9.5);assert.equal(SIZES.mugBody[1],95);assert.equal(SIZES.d6,16);

@@ -1,8 +1,10 @@
 import fs from 'node:fs';
 import {readGLB,colourKey} from './glb-data.mjs';
+import {artProfile} from './hull-art.js';
 const here=new URL('./',import.meta.url);
 const configs=JSON.parse(fs.readFileSync(new URL('./hull-sources.json',here)));
 const faction=process.argv[2]??'KRE',config=configs[faction];
+const profile=artProfile(faction);
 const source=readGLB(new URL('./source/'+config.source,here));
 const sp=source.json.meshes[0].primitives[0],sc=source.attribute(sp.attributes.COLOR_0);
 const palette=[];
@@ -42,7 +44,19 @@ function coverage(glb){
   const total=areas.reduce((a,b)=>a+b,0);return Object.fromEntries(palette.map((p,i)=>[p.key,areas[i]/total]));
 }
 const sourceCoverage=coverage(source),derivativeCoverage=coverage(glb);
-for(const p of palette)p.register='physical';
+const energyAttachments={};
+for(const p of palette){
+ const meaning=profile.palette.find(r=>r.key===p.key);
+ if(!meaning)throw Error('Unclassified source region '+faction+'/'+p.key);
+ Object.assign(p,{register:'physical',classification:meaning.classification,role:meaning.role,physicalEmission:0,
+   ...(meaning.metal?{metal:meaning.metal}:{}),...(meaning.uncertainty?{uncertainty:meaning.uncertainty}:{}),...(meaning.variant?{variant:meaning.variant}:{})});
+ const designated=meaning.classification==='emissive-designated';
+ energyAttachments[p.key]={designated,enabledByDefault:false,register:'energetic',
+   faces:designated?faces.flatMap((f,i)=>palette[f.region].key===p.key?[i]:[]):[],
+   features:Object.keys(features).filter(k=>features[k].region===p.key),
+   evidence:designated?'Chris faction emissive set, mailbox 20260910T105522Z':'Outside this hull\'s emissive set',
+   functions:meaning.role};
+}
 for(const p of patches)p.register='physical';
-fs.writeFileSync(new URL('./prepared/'+config.output+'-regions.json',here),JSON.stringify({format:'tabletop-colour-regions/2',faction,palette,patches,features,sourceCoverage,derivativeCoverage},null,2)+'\n');
+fs.writeFileSync(new URL('./prepared/'+config.output+'-regions.json',here),JSON.stringify({format:'tabletop-colour-regions/3',faction,palette,patches,energyAttachments,features,sourceCoverage,derivativeCoverage},null,2)+'\n');
 console.log(JSON.stringify({faction,output:config.output,patches:patches.length,regionAreaError:Math.max(...palette.map(p=>Math.abs(sourceCoverage[p.key]-derivativeCoverage[p.key])))}));

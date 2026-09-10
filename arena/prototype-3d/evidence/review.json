@@ -6,14 +6,14 @@
   },
   "captures": {
     "planning": {
-      "drawCalls": 75,
-      "triangles": 69766,
+      "drawCalls": 73,
+      "triangles": 69736,
       "textures": 20,
-      "geometries": 33,
+      "geometries": 31,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           8,
@@ -33,6 +33,8 @@
       },
       "activeEffect": null,
       "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 0,
       "hullScreenBounds": {
         "EAR-FF-1": {
           "x": 605.1459055981883,
@@ -503,7 +505,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           5,
@@ -523,6 +525,8 @@
       },
       "activeEffect": "beam",
       "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 5,
       "hullScreenBounds": {
         "EAR-FF-1": {
           "x": 507.36097211329184,
@@ -993,7 +997,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           5,
@@ -1013,6 +1017,8 @@
       },
       "activeEffect": "shield-flare",
       "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 3,
       "hullScreenBounds": {
         "EAR-FF-1": {
           "x": 507.36097211329184,
@@ -1483,7 +1489,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           5,
@@ -1503,6 +1509,8 @@
       },
       "activeEffect": "anonymous",
       "threeRevision": "180",
+      "clearVariant": false,
+      "visibleEnergyObjects": 3,
       "hullScreenBounds": {
         "EAR-FF-1": {
           "x": 507.36097211329184,
@@ -1969,16 +1977,148 @@
   "checks": {
     "planningBrush": {
       "EAR": {
-        "pixelsChangedAbove025": 823,
-        "maxLinearChannelDifference": 0.50164794921875
+        "pixelsChangedAbove025": 721,
+        "maxLinearChannelDifference": 0.515380859375
       },
       "KRE": {
-        "pixelsChangedAbove025": 680,
-        "maxLinearChannelDifference": 0.434326171875
+        "pixelsChangedAbove025": 648,
+        "maxLinearChannelDifference": 0.48724365234375
       },
       "VRA": {
-        "pixelsChangedAbove025": 589,
-        "maxLinearChannelDifference": 0.5560302734375
+        "pixelsChangedAbove025": 505,
+        "maxLinearChannelDifference": 0.677001953125
+      }
+    },
+    "visibleRegions": {
+      "EAR": {
+        "totalPixels": 2084,
+        "regions": {
+          "bfc7cc": {
+            "pixels": 808,
+            "visibleFraction": 0.3877159309021113,
+            "classification": "metal"
+          },
+          "009fd7": {
+            "pixels": 603,
+            "visibleFraction": 0.28934740882917465,
+            "classification": "paint"
+          },
+          "e91d2d": {
+            "pixels": 59,
+            "visibleFraction": 0.02831094049904031,
+            "classification": "emissive-designated"
+          },
+          "0076a9": {
+            "pixels": 519,
+            "visibleFraction": 0.24904030710172745,
+            "classification": "paint"
+          },
+          "f5831f": {
+            "pixels": 37,
+            "visibleFraction": 0.017754318618042227,
+            "classification": "paint"
+          },
+          "e1ad34": {
+            "pixels": 14,
+            "visibleFraction": 0.0067178502879078695,
+            "classification": "paint"
+          },
+          "fafafa": {
+            "pixels": 4,
+            "visibleFraction": 0.0019193857965451055,
+            "classification": "emissive-designated"
+          },
+          "61676a": {
+            "pixels": 40,
+            "visibleFraction": 0.019193857965451054,
+            "classification": "paint"
+          },
+          "46b749": {
+            "pixels": 0,
+            "visibleFraction": 0,
+            "classification": "emissive-designated"
+          }
+        }
+      },
+      "KRE": {
+        "totalPixels": 3213,
+        "regions": {
+          "126936": {
+            "pixels": 1870,
+            "visibleFraction": 0.582010582010582,
+            "classification": "paint"
+          },
+          "46b749": {
+            "pixels": 670,
+            "visibleFraction": 0.2085278555866791,
+            "classification": "paint"
+          },
+          "a97b50": {
+            "pixels": 599,
+            "visibleFraction": 0.1864301276065982,
+            "classification": "metal"
+          },
+          "f5831f": {
+            "pixels": 49,
+            "visibleFraction": 0.015250544662309368,
+            "classification": "emissive-designated"
+          },
+          "fafafa": {
+            "pixels": 7,
+            "visibleFraction": 0.002178649237472767,
+            "classification": "emissive-designated"
+          },
+          "ffdd1a": {
+            "pixels": 14,
+            "visibleFraction": 0.004357298474945534,
+            "classification": "emissive-designated"
+          },
+          "e91d2d": {
+            "pixels": 4,
+            "visibleFraction": 0.0012449424214130097,
+            "classification": "paint"
+          }
+        }
+      },
+      "VRA": {
+        "totalPixels": 1128,
+        "regions": {
+          "d3bfe5": {
+            "pixels": 54,
+            "visibleFraction": 0.047872340425531915,
+            "classification": "emissive-designated"
+          },
+          "e1ad34": {
+            "pixels": 623,
+            "visibleFraction": 0.5523049645390071,
+            "classification": "metal"
+          },
+          "7e3f98": {
+            "pixels": 26,
+            "visibleFraction": 0.02304964539007092,
+            "classification": "emissive-designated"
+          },
+          "ffdd1a": {
+            "pixels": 397,
+            "visibleFraction": 0.3519503546099291,
+            "classification": "paint"
+          },
+          "f5831f": {
+            "pixels": 5,
+            "visibleFraction": 0.004432624113475178,
+            "classification": "paint"
+          },
+          "46b749": {
+            "pixels": 23,
+            "visibleFraction": 0.020390070921985817,
+            "classification": "paint"
+          },
+          "e91d2d": {
+            "pixels": 0,
+            "visibleFraction": 0,
+            "classification": "emissive-designated"
+          }
+        }
       }
     },
     "lightsOff": {
@@ -1986,8 +2126,8 @@
       "energeticNonzeroPixels": 1309
     },
     "physicalIsolation": {
-      "physicalBefore": "672010a4",
-      "physicalAfter": "672010a4",
+      "physicalBefore": "8627b27",
+      "physicalAfter": "8627b27",
       "shadowBefore": "2eca1c08",
       "shadowAfter": "2eca1c08",
       "identical": true
@@ -2010,9 +2150,20 @@
       "missingColourRejected": true,
       "unknownColourRejected": true
     },
+    "allMaterialRegions": {
+      "regions": 23,
+      "metal": 3,
+      "energyPaint": 9,
+      "clearEligible": 1
+    },
+    "clearLightsOff": {
+      "physicalNonzeroPixels": 0,
+      "energeticNonzeroPixels": 0
+    },
     "pause": true,
     "skip": true,
     "reducedMotion": true,
+    "clearVariantURL": true,
     "svgFallback": true
   },
   "detailCameras": {
@@ -2024,7 +2175,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -6.4,
@@ -2052,7 +2203,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -2.4000000000000004,
@@ -2080,7 +2231,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -37.4,
@@ -2108,7 +2259,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           24.6,
@@ -2136,7 +2287,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           6.400000000000002,
@@ -2164,7 +2315,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           2.400000000000004,
@@ -2192,7 +2343,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           37.4,
@@ -2220,7 +2371,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -24.6,
@@ -2248,7 +2399,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -13.592304845413263,
@@ -2276,7 +2427,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -27.180762113533156,
@@ -2304,7 +2455,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           -18.700000000000003,
@@ -2332,7 +2483,7 @@
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 44,
+      "drawables": 45,
       "actualCamera": {
         "position": [
           12.300000000000004,
@@ -2353,6 +2504,158 @@
       "activeEffect": null
     }
   },
+  "clearVariant": {
+    "shard-plan-paint": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "minThicknessMm": 0.020000000949949026,
+      "maxThicknessMm": 1.7513450980186462,
+      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "enabled": false,
+      "drawCalls": 46,
+      "submittedTriangles": 64094,
+      "estimatedTargetMiB": 41.989532470703125,
+      "actualCamera": {
+        "position": [
+          -13.592304845413263,
+          28,
+          0.4574374157795944
+        ],
+        "fov": 14,
+        "pitch": 63.128640126165855
+      }
+    },
+    "shard-plan-clear": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "minThicknessMm": 0.020000000949949026,
+      "maxThicknessMm": 1.7513450980186462,
+      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "enabled": true,
+      "drawCalls": 56,
+      "submittedTriangles": 93365,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          -13.592304845413263,
+          28,
+          0.4574374157795944
+        ],
+        "fov": 14,
+        "pitch": 63.128640126165855
+      }
+    },
+    "shard-side-paint": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "minThicknessMm": 0.020000000949949026,
+      "maxThicknessMm": 1.7513450980186462,
+      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "enabled": false,
+      "drawCalls": 46,
+      "submittedTriangles": 64094,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          -27.180762113533156,
+          26,
+          12.921539030917353
+        ],
+        "fov": 14,
+        "pitch": 35.618345009093744
+      }
+    },
+    "shard-side-clear": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "minThicknessMm": 0.020000000949949026,
+      "maxThicknessMm": 1.7513450980186462,
+      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "enabled": true,
+      "drawCalls": 56,
+      "submittedTriangles": 93365,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          -27.180762113533156,
+          26,
+          12.921539030917353
+        ],
+        "fov": 14,
+        "pitch": 35.618345009093744
+      }
+    },
+    "planning-paint": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "minThicknessMm": 0.020000000949949026,
+      "maxThicknessMm": 1.7513450980186462,
+      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "enabled": false,
+      "drawCalls": 73,
+      "submittedTriangles": 69736,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      }
+    },
+    "planning-clear": {
+      "sourceRegion": "46b749",
+      "triangles": 24,
+      "sizeMm": [
+        4.831111431121826,
+        1.7513450980186462,
+        4.260232150554657
+      ],
+      "minThicknessMm": 0.020000000949949026,
+      "maxThicknessMm": 1.7513450980186462,
+      "approximation": "depth to authored mating plane; opaque shadow; no closed-volume multiple scattering",
+      "enabled": true,
+      "drawCalls": 110,
+      "submittedTriangles": 104649,
+      "estimatedTargetMiB": 58.23299026489258,
+      "actualCamera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      }
+    }
+  },
   "gpu": {
     "vendor": "Google Inc. (NVIDIA)",
     "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)"
@@ -2362,9 +2665,9 @@
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 0.48166666651765505,
+    "meanMs": 0.49166666716337204,
     "p95Ms": 0.7000000029802322,
-    "maxMs": 0.7000000029802322,
+    "maxMs": 0.7999999970197678,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }

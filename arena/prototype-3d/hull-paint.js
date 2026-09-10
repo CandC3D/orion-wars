@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {physicalMaterial} from './materials.js';
 
-import {artProfile} from './hull-art.js';
+import {artProfile,METAL_FINISH} from './hull-art.js';
 
 export function regionOf(c, faction) {
   const PALETTE=artProfile(faction).palette;
@@ -19,7 +19,7 @@ export function preparePaintGeometry(original, faction) {
   const geometry=original.index?original.toNonIndexed():original.clone();
   const pos=geometry.attributes.position,col=geometry.attributes.color,n=pos.count;
   const faces=[],edges=new Map(),counts=Array(PALETTE.length).fill(0);
-  const metal=new Float32Array(n);
+  const metal=new Float32Array(n),regionIds=new Float32Array(n),clear=new Float32Array(n);
   const point=i=>new THREE.Vector3().fromBufferAttribute(pos,i);
   const key=v=>v.toArray().map(n=>Math.round(n*1e5)).join(',');
   for(let i=0;i<n;i+=3){
@@ -30,6 +30,7 @@ export function preparePaintGeometry(original, faction) {
     const face={p,normal,region,ink:[0,0,0],raised:[0,0,0],height:[]};faces.push(face);
     for(let j=0;j<3;j++){
       col.setXYZ(i+j,...PALETTE[region].rgb);metal[i+j]=PALETTE[region].metallicPaint?1:0;
+      regionIds[i+j]=region+1;clear[i+j]=PALETTE[region].variant?1:0;
       const a=p[(j+1)%3],b=p[(j+2)%3],e=[key(a),key(b)].sort().join('|');
       face.height[j]=cross.length()/a.distanceTo(b);
       if(!edges.has(e))edges.set(e,[]);edges.get(e).push({face,opposite:j});
@@ -47,6 +48,8 @@ export function preparePaintGeometry(original, faction) {
     if(signed>0)concave++;else convex++;
   }
   geometry.setAttribute('paintMetallic',new THREE.BufferAttribute(metal,1));
+  geometry.setAttribute('paintRegionId',new THREE.BufferAttribute(regionIds,1));
+  geometry.setAttribute('paintClear',new THREE.BufferAttribute(clear,1));
   // Neighbouring triangles must see the same crease. A wider brush cannot stop
   // at a tessellation boundary. Store the nearest actual segments per face in a
   // float data texture; these are geometric distances, not a painted panel atlas.
@@ -87,15 +90,18 @@ export function preparePaintGeometry(original, faction) {
 export function candidatePaint(faction,geometry) {
   const profile=artProfile(faction);
   const mat=physicalMaterial(profile.name+' / matte painted white metal',{color:'#ffffff',vertexColors:true,roughness:.98,metalness:0});
-  const brush={value:1};mat.userData.brush=brush;mat.userData.paintEdges=geometry.userData.paintEdges;
+  const brush={value:1},audit={value:0},clearVariant={value:0};
+  Object.assign(mat.userData,{brush,audit,clearVariant,metalFinish:METAL_FINISH,paintEdges:geometry.userData.paintEdges});
   mat.onBeforeCompile=shader=>{
     shader.uniforms.paintEdges={value:geometry.userData.paintEdges};shader.uniforms.paintEdgeSize={value:new THREE.Vector2(geometry.userData.paintEdges.image.width,geometry.userData.paintEdges.image.height)};shader.uniforms.brushStrength=brush;
-    shader.vertexShader=`attribute float paintFaceIndex,paintMetallic;
-varying vec3 vPaintPosition;varying float vPaintMetallic,vPaintFaceIndex;
+    shader.uniforms.regionAudit=audit;shader.uniforms.clearVariant=clearVariant;
+    shader.vertexShader=`attribute float paintFaceIndex,paintMetallic,paintRegionId,paintClear;
+varying vec3 vPaintPosition;varying float vPaintMetallic,vPaintFaceIndex,vPaintRegionId,vPaintClear;
 `+shader.vertexShader;
     shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
-vPaintMetallic=paintMetallic;vPaintPosition=position;vPaintFaceIndex=paintFaceIndex;`);
-    shader.fragmentShader=`varying vec3 vPaintPosition;varying float vPaintMetallic,vPaintFaceIndex;
+vPaintMetallic=paintMetallic;vPaintPosition=position;vPaintFaceIndex=paintFaceIndex;vPaintRegionId=paintRegionId;vPaintClear=paintClear;`);
+    shader.fragmentShader=`varying vec3 vPaintPosition;varying float vPaintMetallic,vPaintFaceIndex,vPaintRegionId,vPaintClear;
+uniform float regionAudit,clearVariant;
 uniform sampler2D paintEdges;uniform vec2 paintEdgeSize;uniform float brushStrength;
 float paintGrain(vec3 p){return fract(sin(dot(p,vec3(12.9898,78.233,41.117)))*43758.5453);}
 float paintNoise(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
@@ -104,6 +110,7 @@ vec3 edgePoint(float index){return texture2D(paintEdges,(vec2(mod(index,paintEdg
 float segmentDistance(float index){vec3 a=edgePoint(index),b=edgePoint(index+1.),v=b-a;return length(vPaintPosition-a-v*clamp(dot(vPaintPosition-a,v)/dot(v,v),0.,1.))*10.;}
 `+shader.fragmentShader;
     shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+if(clearVariant*vPaintClear>.5)discard;
 // All mark positions come from measured concave/convex mesh edges.
 // Segment distance keeps widths physical; no arbitrary panel grid or trim bands.
 float edgeIndex=floor(vPaintFaceIndex+.5)*12.;
@@ -124,10 +131,16 @@ float picked=(1.-smoothstep(.12-edgeAA,.12+edgeAA,edge))*mix(.64,step(.36,grain)
 float coverage=paintNoise(vPaintPosition*11.);
 float coverageResolved=1.-smoothstep(.5,1.5,max(length(dFdx(vPaintPosition*7.)),length(dFdy(vPaintPosition*7.))));
 dry*=1.-ink*.8;picked*=1.-ink*.8;
-vec3 coat=diffuseColor.rgb*(.625+mix(.02,coverage*.04,coverageResolved));
+// Fine flakes are spatially anchored in the binder and filtered below a pixel.
+// They modulate the physical key response; no sparkle emits its own light.
+vec3 flakePosition=vPaintPosition*(10./${METAL_FINISH.flakePitchMm});
+float flakeResolved=1.-smoothstep(.6,2.0,max(length(dFdx(flakePosition)),length(dFdy(flakePosition))));
+float flake=paintNoise(flakePosition);
+float metalFilm=.72+mix(0.,(flake-.5)*.14,flakeResolved);
+vec3 coat=diffuseColor.rgb*mix(.625+mix(.02,coverage*.04,coverageResolved),metalFilm,vPaintMetallic);
 coat=mix(coat,vec3(.006,.008,.006),ink*.91);
 vec3 chalk=mix(diffuseColor.rgb,vec3(.86,.83,.69),.30);
-coat=mix(coat,chalk,dry*.55);
+coat=mix(coat,chalk,dry*mix(.55,.20,vPaintMetallic));
 coat=mix(coat,mix(vec3(.78,.80,.72),diffuseColor.rgb*.9+vec3(.14),vPaintMetallic),picked*.32);
 // Wear is restricted to actual convex corner intersections, never free-floating
 // spots on flat plating. Sparse chipped tips expose bright alloy under the paint.
@@ -136,18 +149,24 @@ vec3 d0=normalize(edgePoint(edgeIndex+7.)-edgePoint(edgeIndex+6.)),d1=normalize(
 float corner=max(corners.x*corners.y*step(abs(dot(d0,d1)),.85),max(corners.y*corners.z*step(abs(dot(d1,d2)),.85),corners.x*corners.z*step(abs(dot(d0,d2)),.85)));
 float chip=corner*step(.96,paintGrain(floor(vPaintPosition*13.)));
 coat=mix(coat,vec3(.62,.64,.62),chip*.85);
-diffuseColor.rgb=mix(diffuseColor.rgb*.645,coat,brushStrength);
+diffuseColor.rgb=mix(diffuseColor.rgb*mix(.645,.72,vPaintMetallic),coat,brushStrength);
 `);
     shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>',`#include <roughnessmap_fragment>
-roughnessFactor=mix(.98,.82,vPaintMetallic);roughnessFactor=mix(roughnessFactor,.34,ink*.8);roughnessFactor=mix(roughnessFactor,.96,dry*.6);roughnessFactor=mix(roughnessFactor,.58,max(chip,picked*vPaintMetallic*.6));`);
+roughnessFactor=mix(.98,${METAL_FINISH.roughness}+(flake-.5)*.12*flakeResolved,vPaintMetallic);roughnessFactor=mix(roughnessFactor,.34,ink*.8);roughnessFactor=mix(roughnessFactor,.96,dry*.6*(1.-vPaintMetallic));roughnessFactor=mix(roughnessFactor,${METAL_FINISH.edgeRoughness},max(chip,picked*vPaintMetallic*.8));`);
     shader.fragmentShader=shader.fragmentShader.replace('#include <metalnessmap_fragment>',`#include <metalnessmap_fragment>
-metalnessFactor=max(vPaintMetallic*(.18+picked*.16),chip*.5);`);
+metalnessFactor=max(vPaintMetallic*(${METAL_FINISH.metalness}+picked*.10)*(1.-ink*.7),chip*.5);`);
+    shader.fragmentShader=shader.fragmentShader.replace('#include <normal_fragment_maps>',`#include <normal_fragment_maps>
+// Microscopic flake normals, averaged away at play distance. No broad polish.
+vec3 flakeNormal=vec3(flake-.5,paintGrain(floor(flakePosition)+17.)-.5,paintGrain(floor(flakePosition)+41.)-.5);
+normal=normalize(normal+flakeNormal*.065*flakeResolved*vPaintMetallic*(1.-ink));`);
     shader.fragmentShader=shader.fragmentShader.replace('#include <lights_physical_fragment>',`#include <lights_physical_fragment>
 // Flat paint absorbs the room key: suppress the dielectric broad specular lobe.
 // The small ink pools and dull metallic paint retain their own local return.
 material.specularColor*=mix(.035,1.,max(vPaintMetallic,max(ink*.75,chip)));`);
+    shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>',`#include <opaque_fragment>
+if(regionAudit>.5)gl_FragColor=vec4(vPaintRegionId/32.,.9375,.0625,1.);`);
   };
-  mat.customProgramCacheKey=()=> 'per-hull-matte-continuous-crease-brush-v3';
+  mat.customProgramCacheKey=()=> 'per-hull-metal-flake-v5';
   return mat;
 }
 

@@ -79,8 +79,10 @@ animation clock is permitted. Pause freezes all animation; skip settles to the
 next planning frame; cancellation clears the effect and restores planning.
 
 Every scene drawable and material explicitly declares `physical` or `energetic`.
-Missing, mixed or unknown classification fails startup. Physical materials are
-opaque, lit, non-emissive, depth-writing and shadowed. Energetic materials are
+Missing, mixed or unknown classification fails startup. Physical paint and metal are opaque, lit, non-emissive, depth-writing and shadowed.
+The explicit Shard clear-insert variant is also physical: dielectric transmission,
+room-lit, depth-writing, shadow-casting and non-emissive. It uses no alpha blend;
+its thickness and opaque-shadow approximations are documented in SOURCE-GAP.md. Energetic materials are
 unlit, additive, non-depth-writing, occluded by physical depth, and cannot add
 lights or shadows. Pipeline fullscreen operations are not scene objects.
 
@@ -93,3 +95,8 @@ are provisional measurement gates; no nebula or planet is built in this slice.
 WebGL2 or asset/classification failure shows a clear diagnostic and the existing
 SVG Fleet Command link. It does not silently replace a missing hull with a
 different class. The SVG client itself is unchanged.
+
+The per-hull region contract is tabletop-colour-regions/3. Every region has a
+material classification and an inert energyAttachments entry. Designation stores
+exact faces but activates nothing. Only confirmed semantic subsets supply the
+existing resolution demo; planning draws zero energy objects. See REGION-TABLES.md.

@@ -29,6 +29,8 @@ try{
     result.captures[kind]=await page.evaluate(k=>window.tabletopPrototype.capturePose(k,.48),kind);
     await page.locator('.frame').screenshot({path:path.join(out,kind+'.png')});
     if(kind==='planning'){
+      assert.equal(result.captures.planning.visibleEnergyObjects,0,'static pieces came to life without playback');
+      assert.equal(result.captures.planning.clearVariant,false,'clear experiment replaced the painted default');
       const stage=await page.locator('.stage').boundingBox();
       for(const [faction,name] of [['EAR','monoceros'],['KRE','sparrowhawk'],['VRA','shard']]){
         const b=result.captures.planning.hullScreenBounds[faction+'-FF-1'];
@@ -37,6 +39,7 @@ try{
     }
   }
   result.checks.planningBrush=await page.evaluate(()=>window.tabletopPrototype.brushEvidence());
+  result.checks.visibleRegions=await page.evaluate(()=>window.tabletopPrototype.regionEvidence());
   for(const [faction,r] of Object.entries(result.checks.planningBrush))assert.ok(r.pixelsChangedAbove025>30,'Brushwork invisible at planning size: '+faction);
   result.detailCameras={};
   for(const [faction,name] of [['EAR','monoceros'],['KRE','sparrowhawk'],['VRA','shard']])for(const angle of ['plan','side','stern','bow']){
@@ -76,7 +79,42 @@ try{
     [box,plane,folded,fold].forEach(g=>g.dispose());return result;
   });
   assert.deepEqual(result.checks.geometricPaint,{cubeConvex:12,cubeConcave:0,flatPlaneCreases:0,foldConcave:1,missingColourRejected:true,unknownColourRejected:true});
+  result.checks.allMaterialRegions=await page.evaluate(async()=>{
+    const T=await import('three'),{ART_PROFILES}=await import('./hull-art.js'),{preparePaintGeometry,candidatePaint}=await import('./hull-paint.js');
+    let regions=0,metal=0,energyPaint=0,clearEligible=0;
+    for(const [faction,profile] of Object.entries(ART_PROFILES))for(const p of profile.palette){
+      const g=new T.PlaneGeometry(),rgb=Array.from({length:g.attributes.position.count},()=>p.rgb).flat();g.setAttribute('color',new T.Float32BufferAttribute(rgb,3));
+      const prepared=preparePaintGeometry(g,faction),m=candidatePaint(faction,prepared);
+      if([...prepared.attributes.paintMetallic.array].some(v=>v!==(p.classification==='metal'?1:0)))throw Error('Wrong runtime metal region '+faction+'/'+p.key);
+      if([...prepared.attributes.paintClear.array].some(v=>v!==(p.variant?1:0)))throw Error('Wrong clear region');
+      if(m.emissive.getHex()||m.emissiveIntensity||m.transparent)throw Error('Source region emits or alpha blends');
+      regions++;if(p.classification==='metal')metal++;if(p.classification==='emissive-designated')energyPaint++;if(p.variant)clearEligible++;
+      prepared.userData.paintEdges.dispose();prepared.dispose();g.dispose();m.dispose();
+    }
+    return {regions,metal,energyPaint,clearEligible};
+  });
+  assert.deepEqual(result.checks.allMaterialRegions,{regions:23,metal:3,energyPaint:9,clearEligible:1});
   for(const detail of Object.values(result.detailCameras)){assert.ok(detail.actualCamera.position[1]>=24);assert.ok(detail.actualCamera.pitch>=32);}
+
+  result.clearVariant={};
+  for(const angle of ['plan','side'])for(const enabled of [false,true]){
+    await page.evaluate(([angle,enabled])=>{window.tabletopPrototype.capturePose('planning');window.tabletopPrototype.setClearVariant(enabled);window.tabletopPrototype.captureDetail(angle,'VRA');},[angle,enabled]);
+    const name='shard-'+angle+'-'+(enabled?'clear':'paint');
+    await page.locator('.stage').screenshot({path:path.join(out,name+'.png')});
+    result.clearVariant[name]=await page.evaluate(e=>window.tabletopPrototype.setClearVariant(e),enabled);
+  }
+  result.checks.clearLightsOff=await page.evaluate(()=>window.tabletopPrototype.lightsOffEvidence());
+  assert.equal(result.checks.clearLightsOff.physicalNonzeroPixels,0);
+  await page.evaluate(()=>window.tabletopPrototype.setClearVariant(false));
+  for(const angle of ['plan','side']){
+    const a=result.clearVariant['shard-'+angle+'-paint'],b=result.clearVariant['shard-'+angle+'-clear'];
+    assert.deepEqual(a.actualCamera,b.actualCamera);assert.equal(b.triangles,24);
+  }
+  for(const enabled of [false,true]){
+    result.clearVariant['planning-'+(enabled?'clear':'paint')]=await page.evaluate(e=>{window.tabletopPrototype.capturePose('planning');return window.tabletopPrototype.setClearVariant(e);},enabled);
+    await page.locator('.frame').screenshot({path:path.join(out,'planning-'+(enabled?'clear':'paint')+'.png')});
+  }
+  await page.evaluate(()=>window.tabletopPrototype.setClearVariant(false));
 
   await page.evaluate(()=>window.tabletopPrototype.capturePose('planning'));
   await page.click('#exchange');
@@ -94,7 +132,7 @@ try{
   result.gpu=gl;result.errors=errors;
   const dimensions=result.captures.planning.scaleMeasurements;
   const f=n=>Number(n.toFixed(3));
-  const scaleText=['# Measured scale - revision 04 (current frigates; furniture dimensions unchanged)','',
+  const scaleText=['# Measured scale - revision 05 (all dimensions unchanged)','',
     '**1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.',
     '', 'The browser measures the built geometry before its tabletop rotation. The printed hex uses the same 32 mm across-flats geometry as the presentation coordinates. Rows fail at a 0.06 mm discrepancy. The D20 uses opposite vertices (20 mm), not opposite faces.',
     '', '| Object | Measurement | Scene units | Implied actual mm | Reference / chosen mm |',
@@ -122,6 +160,12 @@ try{
     return {samples:samples.length,width:size.width,height:size.height,meanMs:samples.reduce((n,x)=>n+x,0)/samples.length,p95Ms:samples[Math.ceil(samples.length*.95)-1],maxMs:samples.at(-1),method:'JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim'};
   });
   assert.deepEqual(errors,[]);
+  const clearPage=await browser.newPage({viewport:{width:1600,height:1080}});
+  await clearPage.goto(origin+'/arena/prototype-3d/index.html?insert=clear');
+  await clearPage.waitForFunction(()=>window.tabletopPrototype?.ready);
+  assert.equal(await clearPage.evaluate(()=>window.tabletopPrototype.inspect().clearVariant),true);
+  assert.equal(await clearPage.evaluate(()=>window.tabletopPrototype.inspect().visibleEnergyObjects),0);
+  await clearPage.close();result.checks.clearVariantURL=true;
   const fallback=await browser.newPage({viewport:{width:1000,height:800}});
   await fallback.addInitScript(()=>{const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl2'?null:original.call(this,type,...args);};});
   await fallback.goto(origin+'/arena/prototype-3d/index.html');

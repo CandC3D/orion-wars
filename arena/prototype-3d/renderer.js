@@ -5,6 +5,8 @@ import { physicalMaterial, physicalMesh, validateScene } from './materials.js';
 import { BOARD, buildTable } from './table.js';
 import { SIZES, mm, validateScaleRows } from './scale.js';
 import { preparePaintGeometry, candidatePaint, patchGeometry } from './hull-paint.js';
+import { artProfile } from './hull-art.js';
+import { clearInsert } from './clear-insert.js';
 
 const vertex = 'varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
 function normalizeHull(gltf, asset, regions) {
@@ -46,7 +48,9 @@ export async function createTabletop(canvas, manifest, initial) {
   const context=canvas.getContext('webgl2',{antialias:true,alpha:false,preserveDrawingBuffer:true});
   if(!context)throw new Error('WebGL2 is unavailable. Open the SVG Fleet Command fallback.');
   const renderer=new THREE.WebGLRenderer({canvas,context,antialias:true});
+  let transmissionAllocated=false;
   renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer.transmissionResolutionScale=.5; // Optional insert only; no transmission pass in the painted default.
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.info.autoReset=false;
   const scene=new THREE.Scene();scene.background=new THREE.Color('#6f5a42');
@@ -114,6 +118,8 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     return {asset,regions,...normalizeHull(gltf,asset,regions)};
   }));
   const catalogue=new Map(loaded.map(a=>[a.asset.key,a]));
+  const shard=loaded.find(a=>a.asset.faction==='VRA'),insert=clearInsert(shard.group.children[0].geometry,shard.regions);
+  shard.group.add(insert);
   const baseMaterial=physicalMaterial('painted black hex bases',{color:'#151513',roughness:.86});
   const bases=new THREE.InstancedMesh(new THREE.CylinderGeometry(mm(SIZES.baseAcrossFlats)/Math.sqrt(3)-.055,mm(SIZES.baseAcrossFlats)/Math.sqrt(3),mm(SIZES.baseHeight),6),baseMaterial,initial.units.length);
   bases.name='bases / instanced';bases.userData.register='physical';bases.castShadow=bases.receiveShadow=true;scene.add(bases);
@@ -147,7 +153,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   function applyProjection(next) {
     validateProjection(next);if(!Object.isFrozen(next))throw new Error('Renderer requires a frozen projection');
     packet=next;layout=displayLayout(next.units);const present=new Set(next.units.map(u=>u.id));
-    for(const [id,u] of units){u.model.visible=present.has(id);u.tether.visible=u.anchor.visible=false;for(const e of u.engines)e.mesh.visible=present.has(id);for(const p of u.patches)p.mesh.visible=present.has(id)&&p.kind==='exhaust';}
+    for(const [id,u] of units){u.model.visible=present.has(id);u.tether.visible=u.anchor.visible=false;for(const e of u.engines)e.mesh.visible=present.has(id)&&next.phase==='resolution';for(const p of u.patches)p.mesh.visible=present.has(id)&&next.phase==='resolution'&&p.kind==='exhaust';}
     bases.count=posts.count=next.units.length;
     next.units.forEach((u,i)=>{
       const entry=units.get(u.id);if(!entry)throw new Error('New hull requires an explicitly loaded asset');
@@ -212,7 +218,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     renderer.setRenderTarget(blurV);blurMaterial.uniforms.image.value=blurH.texture;blurMaterial.uniforms.stepSize.value.set(0,2/blurH.height);screen(blurMaterial);
     renderer.setRenderTarget(null);screen(composite);
     lastStats={drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,geometries:renderer.info.memory.geometries,
-      width:physical.width,height:physical.height,estimatedTargetMiB:(physical.width*physical.height*24+BUDGETS.shadowSize**2*4)/1048576,
+      width:physical.width,height:physical.height,estimatedTargetMiB:(physical.width*physical.height*(24+(transmissionAllocated?15:0))+BUDGETS.shadowSize**2*4)/1048576,
       drawables:validateScene(scene)+validateScene(energyScene),actualCamera:{position:camera.position.toArray(),fov:camera.fov,pitch:Math.asin(-camera.getWorldDirection(new THREE.Vector3()).y)*180/Math.PI},camera:cameraPose(pose),activeEffect:currentEffect?.kind??null};
     return lastStats;
   }
@@ -233,7 +239,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
       const direction=camera.getWorldDirection(new THREE.Vector3());if(camera.position.y<BUDGETS.cameraFloor||Math.asin(-direction.y)*180/Math.PI<BUDGETS.pitchFloor)throw new Error('Review camera crossed a floor');
       return render();
     },
-    inspect:()=>({...lastStats,threeRevision:THREE.REVISION,hullScreenBounds:Object.fromEntries([...units].map(([id,u])=>{
+    inspect:()=>({...lastStats,threeRevision:THREE.REVISION,clearVariant:insert.visible,visibleEnergyObjects:energyScene.children.filter(o=>o.isMesh&&o.visible).length,hullScreenBounds:Object.fromEntries([...units].map(([id,u])=>{
       const b=new THREE.Box3().setFromObject(u.model),points=[];
       for(const x of [b.min.x,b.max.x])for(const y of [b.min.y,b.max.y])for(const z of [b.min.z,b.max.z])points.push(new THREE.Vector3(x,y,z).project(camera));
       const xs=points.map(p=>(p.x+1)*.5*physical.width),ys=points.map(p=>(1-p.y)*.5*physical.height);
@@ -246,14 +252,38 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
       // Count visible native-resolution pixels; this supports, not replaces, review.
       setCamera(0);clearEffect();render();const baseline=api.physicalPixels(),result={};
       for(const a of loaded){
-        for(const o of a.group.children)o.material.userData.brush.value=0;
+        for(const o of a.group.children)if(o.material.userData.brush)o.material.userData.brush.value=0;
         render();const without=api.physicalPixels();let changed=0,maxDifference=0;
         for(let i=0;i<baseline.length;i+=4){let delta=0;for(let j=0;j<3;j++)delta=Math.max(delta,Math.abs(THREE.DataUtils.fromHalfFloat(baseline[i+j])-THREE.DataUtils.fromHalfFloat(without[i+j])));
           if(delta>.025)changed++;maxDifference=Math.max(maxDifference,delta);}
         result[a.asset.faction]={pixelsChangedAbove025:changed,maxLinearChannelDifference:maxDifference};
-        for(const o of a.group.children)o.material.userData.brush.value=1;
+        for(const o of a.group.children)if(o.material.userData.brush)o.material.userData.brush.value=1;
       }
       render();return result;
+    },
+    regionEvidence(){
+      setCamera(0);clearEffect();const result={};
+      for(const a of loaded){
+        for(const o of a.group.children)if(o.material.userData.audit)o.material.userData.audit.value=1;
+        render();const pixels=api.physicalPixels(),palette=artProfile(a.asset.faction).palette,counts=Array(palette.length).fill(0);
+        for(let i=0;i<pixels.length;i+=4){
+          const g=THREE.DataUtils.fromHalfFloat(pixels[i+1]),b=THREE.DataUtils.fromHalfFloat(pixels[i+2]);
+          if(g!==.9375||b!==.0625)continue;
+          const id=Math.round(THREE.DataUtils.fromHalfFloat(pixels[i])*32)-1;if(id>=0&&id<counts.length)counts[id]++;
+        }
+        const total=counts.reduce((a,b)=>a+b,0);
+        result[a.asset.faction]={totalPixels:total,regions:Object.fromEntries(palette.map((p,i)=>[p.key,{pixels:counts[i],visibleFraction:counts[i]/total,classification:p.classification}]))};
+        for(const o of a.group.children)if(o.material.userData.audit)o.material.userData.audit.value=0;
+      }
+      render();return result;
+    },
+    setClearVariant(enabled){
+      if(typeof enabled!=='boolean')throw Error('Clear variant requires explicit boolean');
+      if(enabled)transmissionAllocated=true;
+      insert.visible=enabled;shard.group.children[0].material.userData.clearVariant.value=enabled?1:0;
+      renderer.shadowMap.needsUpdate=true;render();
+      if(enabled&&(lastStats.triangles>BUDGETS.clearVariantTriangles||lastStats.drawCalls>BUDGETS.clearVariantDrawCalls||lastStats.estimatedTargetMiB>BUDGETS.clearVariantTargetMiB))throw Error('Clear comparison exceeds its separate budget');
+      return {...insert.userData.evidence,enabled,drawCalls:lastStats.drawCalls,submittedTriangles:lastStats.triangles,estimatedTargetMiB:lastStats.estimatedTargetMiB,actualCamera:lastStats.actualCamera};
     },
     lightsOffEvidence(){
       const lights=scene.children.filter(o=>o.isLight).map(o=>[o,o.intensity]),background=scene.background;

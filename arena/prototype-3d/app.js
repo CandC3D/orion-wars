@@ -24,7 +24,7 @@ async function play(){
         if(start!==target){await hold(reduced()||playback.skipping?0:BUDGETS.cameraMoveMs,p=>{setCamera(start+(target-start)*p);draw();});}
         if(alive()){setCamera(target);draw();}
       },
-      onEvent(e){$('#caption').textContent=e.kind==='shield-flare'?'Authored own-shield confirmation — not inferred from “resolved”.':'Both event endpoints are disclosed. Sockets are cosmetic hull attachments.';},
+      onEvent(e){$('#caption').textContent=e.kind==='shield-flare'?'Authored own-shield confirmation — not inferred from “resolved”.':'Both event endpoints are disclosed. The beam starts on the confirmed source muzzle.';},
       durationFor:e=>e.kind==='beam'?BUDGETS.beamMs:BUDGETS.shieldMs,
       onTick(e,p){view.setEffect(e,p);draw();},onEventEnd(){view.clearEffect();draw();}
     });
@@ -38,18 +38,18 @@ try{
   const response=await fetch('./assets.json');if(!response.ok)throw new Error('Prototype asset manifest unavailable');
   const {createTabletop}=await import('./renderer.js');
   view=await createTabletop($('#tabletop'),await response.json(),planning);
-  $('#fallback').hidden=true;planningState();buttons(false);status('Planning holds still.');
+  $('#fallback').hidden=true;view.setClearVariant(new URLSearchParams(location.search).get('insert')==='clear');planningState();buttons(false);status('Planning holds still.');
   new ResizeObserver(()=>{view.resize();draw();}).observe($('#tabletop'));
   // Deterministic review hooks for this isolated fixture. Nothing here reads or accepts battle state.
   window.tabletopPrototype=Object.freeze({
-    ready:true,brushEvidence:()=>view.brushEvidence(),captureDetail:(angle,faction)=>view.captureDetail(angle,faction),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
+    ready:true,setClearVariant(enabled){const result=view.setClearVariant(enabled);stats();return result;},regionEvidence:()=>view.regionEvidence(),brushEvidence:()=>view.brushEvidence(),captureDetail:(angle,faction)=>view.captureDetail(angle,faction),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
     pause:()=>playback.pause(),resume:()=>playback.resume(),skip:()=>playback.skip(),
     cancel:()=>{playback.cancel();planningState();},
     get paused(){return playback.paused;},get running(){return playback.running;},
     capturePose(kind='planning',phase=.5){playback.cancel();const f=kind==='beam'?exchange:kind==='shield'?shield:kind==='anonymous'?anonymous:planning;
       view.applyProjection(f);setCamera(kind==='planning'?0:1);view.setEffect(f.events[0],phase);
       $('#phase').textContent=kind==='planning'?'Planning / deep focus':'Resolution / tabletop macro';
-      $('#caption').textContent=kind==='beam'?'Both endpoints disclosed. Cosmetic hull sockets, above the board.':kind==='shield'?'Authored own-shield confirmation; not inferred from resolved.':kind==='anonymous'?'Origin unresolved. A neutral radial cue makes no bearing or shooter claim.':'Monoceros / Sparrowhawk / Shard - three painted white-metal frigates.';
+      $('#caption').textContent=kind==='beam'?'Both endpoints disclosed. Confirmed source muzzle, above the board.':kind==='shield'?'Authored own-shield confirmation; not inferred from resolved.':kind==='anonymous'?'Origin unresolved. A neutral radial cue makes no bearing or shooter claim.':'Monoceros / Sparrowhawk / Shard - three painted white-metal frigates.';
       draw();return view.inspect();},
     depthEvidence:()=>view.depthEvidence(),
     renderForReview:()=>view.render(),

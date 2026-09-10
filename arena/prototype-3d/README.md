@@ -1,114 +1,94 @@
-﻿# Three frigates, painted white metal - revision 04
+﻿# Three frigates: steel, bronze and gold - revision 05
 
-Monoceros, Sparrowhawk and Shard now use current source hulls and the same
-period paint treatment. Each keeps its own COLOR_0 palette and interpretation.
-Bodies are matte; ink follows real recesses, chalk follows real raised edges,
-and dull metallic paint replaces broad chrome reflections. Furniture is unchanged.
+The current Monoceros, Sparrowhawk and Shard now treat their substantial metal
+regions as silver/steel, bronze and gold. They share a rough metallic-flake
+finish, washed recesses and burnished edges; body paints remain matte. All
+source colours remain room-lit and non-emissive. Planning draws no energy.
 
-The final self-review scores 94.30 weighted; every criterion and every hull
-material assessment clears 90. The review attaches deductions and all 19
-visually inspected images.
+The corrected [per-hull region tables](REGION-TABLES.md) include all 23 colours,
+source/reduced surface areas, material classifications and open questions.
+[The contract](SOURCE-GAP.md) records the inert energy attachment maps and the
+optional clear-green Shard insert. [Scale measurements](SCALE.md) are republished;
+all dimensions and furniture remain unchanged.
 
-Start with the [ordinary planning frame](evidence/planning.png), at its native
-size, then [resolution](evidence/beam.png). These are the gameplay distances
-used to tune the paint. Native planning crops, without enlargement:
-[Monoceros](evidence/monoceros-planning.png),
+Start with [native planning](evidence/planning.png) and [resolution](evidence/beam.png).
+Native, unscaled hull crops: [Monoceros](evidence/monoceros-planning.png),
 [Sparrowhawk](evidence/sparrowhawk-planning.png), [Shard](evidence/shard-planning.png).
 
-| Hull | Plan close-up | Side | Stern | Bow |
+| Hull | Plan detail | Side | Stern | Bow |
 |---|---|---|---|---|
 | Monoceros | [Plan](evidence/monoceros-detail.png) | [Side](evidence/monoceros-side.png) | [Stern](evidence/monoceros-stern.png) | [Bow](evidence/monoceros-bow.png) |
 | Sparrowhawk | [Plan](evidence/sparrowhawk-detail.png) | [Side](evidence/sparrowhawk-side.png) | [Stern](evidence/sparrowhawk-stern.png) | [Bow](evidence/sparrowhawk-bow.png) |
 | Shard | [Plan](evidence/shard-detail.png) | [Side](evidence/shard-side.png) | [Stern](evidence/shard-stern.png) | [Bow](evidence/shard-bow.png) |
 
-The close-up hooks obey the same height/pitch floors; they are review cameras,
-not new game controls. [Rubric](RUBRIC.md), [scored adversarial review](REVIEW.md),
-[measured scale](SCALE.md), [source/material contract](SOURCE-GAP.md),
-[projection contract](PROJECTION.md), and the unchanged
-[identification proposal](IDENTIFICATION.md) accompany the frame.
+[Paint / clear comparison](variants.html) provides matched cameras and links to
+both live variants. Painted green remains the default. Clear green has no paint
+marks and transmits through a measured thin volume; its shadow is approximate.
+I prefer the painted part at planning distance, and the clear insert in detail.
+Chris's choice remains open, as does [base identification](IDENTIFICATION.md).
 
-## Source preparation and budgets
+[Pre-build rubric](RUBRIC.md) and [adversarial review](REVIEW.md): 93.95/100
+weighted, each criterion >=90. Metal scores: Earth 90, Krelath 91, Vraygon 92;
+optional insert comparison 90. These are fresh self-review scores, not Chris's
+approval. I directly viewed all 25 final captures. Frame/file hashes and scope
+checks are attached in evidence/adversarial-review.json.
 
-| Hull | Source triangles / bytes | Local triangles / bytes | Length |
-|---|---:|---:|---:|
-| Monoceros v3 | 120,632 / 10,134,364 | 11,442 / 334,512 | 55 mm |
-| Sparrowhawk | 83,508 / 7,015,984 | 13,351 / 371,208 | 65 mm |
-| Shard v3 | 14,064 / 1,182,644 | 4,188 / 139,164 | 45 mm |
+## Correction and uncertainty
 
-The page loads only these local derivatives. No deprecated repo hull or raw
-source GLB is loaded by the page. All supplied sources remain unchanged and
-ignored. Preparation retains all welded connected components and all 9/7/7
-colour regions. Shard's reduction creates 20 duplicate faces; validation removes
-them locally before final measurement/export. No connected feature disappears.
+Earth's steel mask was intact but wrongly classified as pale paint. It is
+43.952% of the entire surface; the two blue regions together are 47.679%.
+The planning camera sees 38.77% steel and 53.84% blue, so no source colours were
+swapped to force a steel majority on screen. The steel now has the metallic finish.
+Earth's 2.177% gold-coloured dish remains provisionally paint; brass versus paint
+is unresolved. Shard's 27.175% yellow is confirmed paint by Chris's later faction
+set. Its purple/lavender/red are designated energy-capable, with no guessed
+weapon or engine functions. Krelath's green distinction and small dome remain
+unnamed. All designations are inert until an explicitly supported animation.
 
-| Budget | Current observation / cap |
-|---|---|
-| Ordinary frame submissions | 68,736-69,766 triangles / 66-75 calls; caps 70,000 / 90 |
-| Material textures | 17.31 MiB including 5.31 MiB of generated float crease data; cap 24 MiB |
-| Targets | Estimated <=64 MiB; excludes canvas/driver storage |
-| Lighting | One warm shadow key plus existing soft fill; energy adds no lights |
-| Shadows | One 2048 x 2048 map, physical objects only |
-| Camera | Planning (8,63,54), 32-degree lens; resolution (5,28,30), 40-degree lens |
-| Floors / clock | Y >=24 units, downward angle >=32 degrees; 900 ms on the existing playback clock |
-| Effects | One transient; beam 850 ms, shield 650 ms; bloom half-resolution, gain 0.18 |
-| Focus / buffer | Resolution blur <=3 px; <=2,073,600 pixels, DPR <=1.5 |
+## Budgets and run
 
-Crease data stores actual line segments, not invented panel artwork or a normal
-map. Using neighbouring segments prevents wide brush marks from stopping at a
-triangle boundary. Paint widths are 0.25 mm ink, 0.38 mm drybrush, 0.12 mm picked
-edge. Body roughness is 0.98 with strongly suppressed broad specular return;
-metallic paint is roughness 0.82 / metalness 0.18, with small local edge returns.
+| Measurement | Painted default | Optional clear experiment |
+|---|---|---|
+| Largest captured planning submission | 69,736 triangles / 73 draws | 104,649 / 110 |
+| Submission caps | 70,000 / 90 | 110,000 / 110 |
+| Material textures | 17.31 MiB / 24 cap | Same; transmission is a render target |
+| Target estimate cap | 64 MiB | 96 MiB; half-resolution MSAA transmission adds up to about 30 MiB |
+| Lighting | One warm shadow key, existing fill | Same lights; no emissive material |
+| Shadow / buffer | 2048 square; <=2,073,600 pixels | Same; clear insert casts an opaque approximate shadow |
+| Camera | Y >=24 units, downward pitch >=32 degrees | Same floors, including comparison cameras |
 
-All bright paint is physical and emits nothing. Separate energy copies the
-confirmed exhaust and weapon patches on Earth and Krelath. Shard has no inferred
-weapon or exhaust assignment. Sparrowhawk's second green and smaller dome stay
-unanswered. No replacement base identifier is implemented.
+The clear pass exceeds the painted budget. It is an experiment, not a fleet-wide
+performance claim. Its target allocation remains until reload after switching
+back to paint. Peak driver memory, integrated-GPU behaviour and full-board costs
+are unmeasured. The ordinary three-hull Edge/RTX 5060 Ti probe averaged 0.49 ms,
+p95 0.70 ms for JS submission plus gl.finish at 1920 x 1080; this is not a full-board test.
 
-## Run and verify
-
-Serve this worktree independently of PLAY, for example:
+From this worktree:
 
 ```powershell
 $env:PORT = '18873'
 node scripts/serve.js
 ```
 
-Open `http://127.0.0.1:18873/arena/prototype-3d/index.html`. The pinned local
-Three.js r180 build needs no CDN or install. WebGL2 failure offers the unchanged
-SVG Fleet Command fallback.
+Open `http://127.0.0.1:18873/arena/prototype-3d/index.html` (painted default),
+`index.html?insert=clear` (optional insert), or `variants.html` (paired captures).
+Pinned local Three.js r180/WebGL2 is unchanged; SVG remains the fallback.
 
 ```powershell
 node arena/prototype-3d/test.mjs
 node test/run-tests.js
-```
-
-**23 prototype checks and 38 unchanged fast-suite groups pass.** Browser checks
-also pass: source classifications, real crease masks, planning-distance brush
-visibility, lights-off physical/energy separation, physical/shadow invariance,
-depth occlusion, floors, pause/skip/reduced motion and SVG fallback. No console
-or page errors. No shared tests or fixtures were changed.
-
-To regenerate the 19 captured images, scale table and measured browser evidence:
-
-```powershell
 $env:PLAYWRIGHT_MODULE = 'file:///path/to/playwright/index.mjs'
 $env:PROTOTYPE_BROWSER = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'
 node arena/prototype-3d/review.mjs
 ```
 
-The review server uses an ephemeral loopback port and closes with its browser.
-The warm RTX 5060 Ti / Edge 152 probe at 1920 x 1080 averages 0.48 ms, p95
-0.70 ms for submission plus gl.finish. It is a three-hull probe, not a target
-hardware or full-board result. See the source contract for asset rebuild commands.
+26 prototype checks, the unchanged fast suite and browser checks pass. Browser
+checks cover every material mask, missing classifications, inert designated
+faces, physical/energy separation, floors, pause/skip, fallback and both variant
+URLs. Rebuild commands are in SOURCE-GAP.md. The existing derivatives and all
+source GLBs are unchanged this round; only their region contracts were regenerated.
 
-All implementation remains under `arena/prototype-3d/`, on
-`work/presentation-3d`, HEAD `2a1184f`. No commit or branch was created. Furniture,
-base identification, the shared runtime, PLAY and other sessions' files are
-unchanged. Campaign-map owns permanent intake and the exporter/roster gaps;
-map owns integration/picking, console owns live controls.
-
-Stop here for frame review. Destruction, planet/nebula samples and the full-board
-test remain deferred. The cross-class size ladder, identification readability,
-interactive/integrated-GPU timings and peak decoded-image/driver memory remain
-unscored. The existing nebula proposal remains a <=0.06 additive contribution,
-<=15% coverage and <=0.012 mean, with no sample built.
+All implementation remains under arena/prototype-3d/, on work/presentation-3d,
+base HEAD 6ce25f1. No branch or commit was created. Furniture, black stands,
+identifier choice, shared runtime and other sessions' files remain unchanged.
+Stopped before destruction, planet/nebula samples and the full-board test.

@@ -1,214 +1,147 @@
 {
+  "revision": 5,
   "status": "passed-self-review",
-  "revision": 4,
   "reviewer": "Astra",
-  "reviewedAtUtc": "2026-09-10T10:39:19.381Z",
-  "approvalByChris": false,
-  "canSeeCapturedFrames": true,
-  "visualEvidence": "Native planning frame and unscaled hull crops first, resolution frames second, then all twelve close-up views; 19 images directly viewed.",
-  "rubricWrittenBeforeBuild": "RUBRIC.md",
-  "rubricSavedAtUtc": "2026-09-10T10:07:25.414Z",
-  "rubricSha256": "f13e62b24873b4c542c697538f236b3e6b7763188e529df658d16edd6307dfc5",
-  "report": "REVIEW.md",
-  "minimumPerCriterion": 90,
-  "weightedTotal": 94.3,
-  "criteria": [
+  "reviewedImagesDirectly": true,
+  "reviewMethod": "Native planning and crops first, then resolution, all hull detail views and identical-camera variant pairs. Code/geometry support visual judgement, not a substitute.",
+  "scores": [
     {
-      "name": "Brief and scope fidelity",
-      "weight": 15,
-      "score": 100,
-      "deductions": []
-    },
-    {
-      "name": "Fidelity to generated art",
-      "weight": 25,
-      "score": 94,
-      "deductions": [
-        {
-          "points": 3,
-          "reason": "Earth/Shard source approximation up to 0.259/0.175 mm in vertex-to-surface measurement."
-        },
-        {
-          "points": 3,
-          "reason": "Fine fixtures and reduced contours need close inspection; not a continuous surface certificate."
-        }
-      ]
-    },
-    {
-      "name": "Painted metal rather than rendered plastic",
-      "weight": 25,
-      "score": 91,
-      "method": "Lowest individual hull-material score, not their average",
-      "individualAssessments": [
-        {
-          "name": "Monoceros",
-          "weight": null,
-          "score": 92,
-          "deductions": [
-            {
-              "points": 4,
-              "reason": "Collar-edge strokes remain regular."
-            },
-            {
-              "points": 2,
-              "reason": "Very small chips are not individually resolved in the ordinary frame."
-            },
-            {
-              "points": 2,
-              "reason": "Pale paint is cleaner than a specific aged miniature."
-            }
-          ]
-        },
-        {
-          "name": "Sparrowhawk",
-          "weight": null,
-          "score": 93,
-          "deductions": [
-            {
-              "points": 4,
-              "reason": "Dull bronze can read close to brown in the top view."
-            },
-            {
-              "points": 3,
-              "reason": "Long highlighted edges are more uniform than individual brushwork."
-            }
-          ]
-        },
-        {
-          "name": "Shard",
-          "weight": null,
-          "score": 91,
-          "deductions": [
-            {
-              "points": 4,
-              "reason": "Gold/yellow dominates the small planning silhouette."
-            },
-            {
-              "points": 3,
-              "reason": "Edge work is comparatively heavy on the compact hull."
-            },
-            {
-              "points": 2,
-              "reason": "Fine coverage is procedurally regular."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Period technique and register fidelity",
+      "criterion": "Brief and scope",
       "weight": 10,
-      "score": 95,
-      "deductions": [
-        {
-          "points": 3,
-          "reason": "Computed brush deposits remain more regular than a particular painter."
-        },
-        {
-          "points": 2,
-          "reason": "No independently authored mould seam or flash pass."
-        }
-      ]
+      "score": 100
     },
     {
-      "name": "Scale coherence",
-      "weight": 10,
-      "score": 96,
-      "deductions": [
-        {
-          "points": 2,
-          "reason": "D20 opposite-vertex convention remains provisional."
-        },
-        {
-          "points": 2,
-          "reason": "Table/board/base production dimensions are prototype choices."
-        }
-      ]
+      "criterion": "Generated art and classification",
+      "weight": 25,
+      "score": 95
     },
     {
-      "name": "Unaided play-element reading",
+      "criterion": "Period metallic finish",
+      "weight": 25,
+      "score": 90
+    },
+    {
+      "criterion": "Body paint, period and registers",
       "weight": 15,
-      "score": 93,
-      "deductions": [
-        {
-          "points": 4,
-          "reason": "Small Shard violet/fixture work loses separation at planning distance."
-        },
-        {
-          "points": 3,
-          "reason": "Individual wear flecks are subordinate to larger lining/highlight patterns."
-        }
-      ]
+      "score": 94
+    },
+    {
+      "criterion": "Scale",
+      "weight": 10,
+      "score": 98
+    },
+    {
+      "criterion": "Unaided play-element reading",
+      "weight": 15,
+      "score": 92
     }
   ],
-  "unscoredCriteriaWithinSlice": [],
-  "outsideSliceUnscored": [
-    "Replacement identification and full-board readability",
-    "Full-board performance",
-    "Cross-class scale ladder",
-    "Destruction",
-    "Planet and nebula samples",
-    "Interactive and integrated-GPU timing",
-    "Peak decoded-image and driver memory"
+  "weightedScore": 93.94999999999999,
+  "metalScores": {
+    "EAR": 90,
+    "KRE": 91,
+    "VRA": 92
+  },
+  "optionalClearComparison": 90,
+  "inScopeUnscored": [],
+  "outsideScopeUnscored": [
+    "full-board reading and performance",
+    "base identification decision",
+    "cross-class size ladder",
+    "destruction",
+    "planet and nebula samples",
+    "peak driver memory",
+    "integrated GPU and interactive variant performance",
+    "permanent intake"
   ],
-  "unresolvedFiction": [
-    "Sparrowhawk second green retains painted-hull treatment without a meaning.",
-    "Smaller Krelath dome has no function, second mount or glow.",
-    "Shard colours are painted faithfully with no invented anatomy or weapon/exhaust assignment."
-  ],
-  "validation": {
-    "prototypeChecks": 23,
-    "unchangedFastSuiteGroups": 38,
-    "browserEvidence": "evidence/review.json"
+  "frameSha256": {
+    "anonymous.png": "592fd11398c9a9781a28af8f2d34efca33b0e4bfb437e87119219102ede68d53",
+    "beam.png": "0a525ba8601f85a90970b751913310bdeeb286932cb247f20aece4e583bdf5ba",
+    "monoceros-bow.png": "11ffa33789b0c35524460f68b8c8895566c2aad3fd35e471857ebfb8b12f99e6",
+    "monoceros-detail.png": "b2d529bdf67e27f2814d3e5e488d90d09f6539452e884aaedc4a375efa5eaf47",
+    "monoceros-planning.png": "a604aec7777feedbea7757dbfe09b24bf0719643d368bfbfa1d85e1f2c7b128a",
+    "monoceros-side.png": "25a04ad52f13fb566b174101afd492268f4504f207af83c77e1b04f2d55aea06",
+    "monoceros-stern.png": "f1881b1cf29e2df15aab5a97a991879ae8e33da0f404d887f3acf264de254e18",
+    "planning-clear.png": "5f80813f2b4a790a67e1dd7fc1c930eaf1f8120876cb1a06090eab12de65ae46",
+    "planning-paint.png": "505917058ab0af8c91d53fededffebefecb369352957d741cc7a42c65e4a1eaa",
+    "planning.png": "505917058ab0af8c91d53fededffebefecb369352957d741cc7a42c65e4a1eaa",
+    "shard-bow.png": "a727ec8a98cb535f360b7af5d5fc4767692162feb3a73bc9714e4b5d27d74c38",
+    "shard-detail.png": "f6db8812a075cdbdb0e17d52349d9e0cf36394baa6d6a840d54ddb3d76176ac3",
+    "shard-plan-clear.png": "73bf7d3db3e44c345349b9e34a3b3edf090114b2a6bc66c9c356c22134ccd63d",
+    "shard-plan-paint.png": "f6db8812a075cdbdb0e17d52349d9e0cf36394baa6d6a840d54ddb3d76176ac3",
+    "shard-planning.png": "86c3e9564472169989a47d33386dc7a51eb6509477c382cb194e4a0e76963648",
+    "shard-side-clear.png": "50d5f5b37fe63d1b9dc4c154eb208b3b38903221a5a9129a25e4feec49adce56",
+    "shard-side-paint.png": "ac01a02f8ee0c75f9d8c0eb2ecb3acb7258236f8830828adac484c5c0a4a1b31",
+    "shard-side.png": "ac01a02f8ee0c75f9d8c0eb2ecb3acb7258236f8830828adac484c5c0a4a1b31",
+    "shard-stern.png": "931a99926aea351d90dfa707b82ac5eedbb05f6cf94cce8b97a1d8e85c476730",
+    "shield.png": "d9be9a386a85335e00c0437f0f7914355ae7bd0bab78d7bc52cea2b3963800c6",
+    "sparrowhawk-bow.png": "b6d584c1406b7f25f619f2e78c12ca1083a7407c4440a98fad182e976e8814e9",
+    "sparrowhawk-detail.png": "d43985abd39be1726176020e42d32e14863f1aeb3da0763b814b6988c3efe446",
+    "sparrowhawk-planning.png": "a62e99dc81b34c5008119df74646a7c065ebf1ca61b885e81dbb1d9067704e15",
+    "sparrowhawk-side.png": "4217603dfe625dbc08ccb728cce659035ba98ad9658a18106bf4e889b114c739",
+    "sparrowhawk-stern.png": "9ab38191d74dccaacfb90bb97cb97986b352b06e43fa7c3dcb19f0989c657553"
   },
-  "capturedFrameSha256": {
-    "planning.png": "b97d4554373ca27904a63dc07c169ecdf8f9dccbbef29263ea8744100a807183",
-    "beam.png": "a1e413bd098e67c7d294a9bccb6c1db4f859a41e3dd80c48508006ec3181505e",
-    "shield.png": "6419b6d218105df27cd779de38b751c9c21bc9061dcf7ffc0f6ea7d4c8e74a31",
-    "anonymous.png": "92df87f06ad39a8723e1b25b0e36aa9bd7fb05c5e952c1bbb59c0dd591bc47eb",
-    "monoceros-planning.png": "a5dfe6a2375dadcd5ffe151e589b450ebde079b836f30119734b23fd46d437f8",
-    "monoceros-detail.png": "0d1a7be6f4b25289a8c5a82edac770cb8b6c6ee0cd66e02fda4fe53ea431c6f8",
-    "monoceros-side.png": "1e61f174cdb20eabacecbbeeb63dcd20221c6308492b9a5b25f0d6e64f80725e",
-    "monoceros-stern.png": "02b724128d0dc1ae9359dd011aec425ee910bbd3d825e9610b6a95cbd8a1bce2",
-    "monoceros-bow.png": "289a644d6ba1671603937448b70d5060a5459c33c1ab88b50852c9d83f052867",
-    "sparrowhawk-planning.png": "5fd2f8e582034012c98ad189eac31ecd641396a76c711b862d8e78f6eb6473e7",
-    "sparrowhawk-detail.png": "dc282ba417d27520ca960a6132fdb49177a59c2fb6401ef33224b8402467fecc",
-    "sparrowhawk-side.png": "d568e8b354fe0b9652888593af6f7fc11b16c18051f2cdd106b07e8424a2f419",
-    "sparrowhawk-stern.png": "27c464fc068c3285ece797de57adfbdd520312885677c2a4d3b9188cb6cefdbf",
-    "sparrowhawk-bow.png": "6dfc099b9e4e07b58644c2ca6c0010208d6d006bf938d3f7e2f44a82f909c249",
-    "shard-planning.png": "c59aff18fa243deb9ef1b5509728d1151142a325b03484e30df683cd6e6455f0",
-    "shard-detail.png": "516dde0f63bf6070a04c9dfb9bfc4819108e35ef1e32942fb8e1d1feb1f8b208",
-    "shard-side.png": "c5a8f75778d81594c5da8ab4f913a4ca735fffe512eff47b79e3a8fcc283e27e",
-    "shard-stern.png": "b933a51875f9094c278fa17d68f16aee800433f2a5862d39ae45de45f493b940",
-    "shard-bow.png": "04e0e667e83669fdedb27fee8bc1bbffb721a22a8315d16bdd9a96814fd41866"
+  "fileSha256": {
+    "RUBRIC.md": "ccb0485c985cc688302ee47a74ef8ab255739cc4d2e51a421a1efee7e71a0310",
+    "REVIEW.md": "91cd4ec8194f51d71b4f37f77d8d72a005b86c9c82368f90e3e18e2d5cb299bd",
+    "README.md": "a7ed36c77813af4f283aecc8bc8b8d08033dde6dd1a163991a267bb8c1f09de4",
+    "REGION-TABLES.md": "497baf32047cea4a31e2b6f79d390deef835673cb8c081ab7cbd49a65cc87689",
+    "SOURCE-GAP.md": "c6535f65e892b34c2017fccf77c17025dcb68b71d5d2c8c91ff06c4dd4217add",
+    "PROJECTION.md": "c1319930a320d0ee5573c370fb853b673a9556958269663e8d31a36eb6b97997",
+    "SCALE.md": "9a307f41c89b22198b22c0b48a4cbca2acb7d4c06f7b11477d7b7c70f798db17",
+    "variants.html": "3cc891c73eaad272af5dad9946bd4bf811dfbf51fbe9a1cf04761d0961914bee",
+    "hull-art.js": "bdbd0ff06d958c32f35cdec5095ade0d8723bc6f169bc410c6185a1a5fb5f962",
+    "hull-paint.js": "829cc8a7a2b34fbfc1cb9ac15ecafbdc127bb5ffb373931fd1083300d84e94fd",
+    "clear-insert.js": "98052f31f1a68b3b824612f09e16938185a366f8a81bea9d4ff837601e5d4383",
+    "contract.js": "f354e86dd0ddb18ad021a6fa9044f05fab037fca25aff879c60edc4d92279c7c",
+    "renderer.js": "75294a13e7a197a4fc1b4b035af2959b4964d94faca82433e9e1b91bdde6cc67",
+    "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
+    "inspect-regions.mjs": "bac9cd8f983bab3ff47c9ba1fe76cf889125cc330391e55ae977656001bcdf36",
+    "write-region-table.mjs": "1d9fb834b7fa15cedfd5b89558dcfad1299d0a52f664fcbaeec9b044f3ab6bc4",
+    "test.mjs": "607a92be26cabb131a2ec69d9ece71a7deca8e9efd843a217f397e7993badcc6",
+    "review.mjs": "e053c3b40e5e96a3d7ca82f441c511d7c3b1af227d4a9c651ac84997ae069871",
+    "evidence/review.json": "44c5b8f0a35587573da3aeca1d9cc1d58ac74f6b76d4d1f14c0be2f2919c7df0",
+    "prepared/monoceros-regions.json": "5875a23ef3fece3ea2f2e827472be76a3cb6d1c10293c6ff5d4891744514f03f",
+    "prepared/sparrowhawk-regions.json": "058271638ebb11c5cb045bdba4587feb2c5ffa2b8c0297c664cfbecdb39761f6",
+    "prepared/shard-regions.json": "6b969bf0edefcdfda49d2d8eaf2897eebf83a6d40d520ee35fdb69b8d689298c"
   },
-  "evidenceSha256": {
-    "evidence/review.json": "e4062f045584f547810c318f2ff1a638d3b71ad253bd893df7a358318c400e95",
-    "assets.json": "1ca3219ef9806d1de9b5c467522497cbbc4fedca5980933031e2cf4f12832bee",
-    "hull-art.js": "723562c04b3ce96a93dde682657fbab2aaee08a38a9eedb05977754487f57d1b",
-    "hull-sources.json": "2581bdd7f9b68421db4959a75323d2d71df0a02e298872ce5b6241538eda8139",
-    "hull-paint.js": "06a4c9b005dda25e292b08cbf58c422dbfd47cfbf7ce347a6202f79741eb9453",
-    "renderer.js": "98a213b08c6cfa2bf03ac1eaf3eb25656695c8a99734843497c323f1b628ba3a",
-    "contract.js": "2bf9d96ead125d0e89aa3995a2e31f04154644a1cc62d84753c7dc6654364646",
-    "prepare-models.py": "181176501fe82e356facee9282e5a37860f3d4195895377a0489082b0f2ff968",
-    "inspect-regions.mjs": "f19c331c8579db00945a1aa2d9574f6b7e6702cff6419405460915db932764a0",
-    "SCALE.md": "5a07d37897c42e87f3c018c5a99e6b7679fe9b140ac781f69748afa987aaaf60",
-    "prepared/monoceros.glb": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
-    "prepared/monoceros-preparation.json": "6a691de27e18d4107bba07d9c9368d6d7ed1f158e9a11aa2a2ddcd8e31cabc64",
-    "prepared/monoceros-regions.json": "757bfcb90336981f0d33486eecf6d16f397dac09aebe6aabbb05476e6a2d3399",
-    "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
-    "prepared/sparrowhawk-preparation.json": "c425435b2b4a89a92c556be72f94987d1e39b0536724f49abbf084ad3dab6301",
-    "prepared/sparrowhawk-regions.json": "a333cc812287aa6ab728cf971d1c5f173ac43f76f0d9f8b8b7d232810a410df9",
-    "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3",
-    "prepared/shard-preparation.json": "781e7e5b71c82024afb0534cb1d23f53cded907e928d093013eeea4f522da651",
-    "prepared/shard-regions.json": "116d47ce75e925f9b1a982a2cc38b50a9eb9ffd92ad5cca9f1a887695b04b7a2"
+  "sourceAndMeshHashes": {
+    "EAR": {
+      "sourceSha256": "515a39878bb19c274f82312c40f2b913fef4d05e3cf54cc4983fe470fb303701",
+      "preparedSha256": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce"
+    },
+    "KRE": {
+      "sourceSha256": "8cf11f930ff0d8a096e8d1d1b70ae31b50018fdda47024a11520e48d757ea964",
+      "preparedSha256": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a"
+    },
+    "VRA": {
+      "sourceSha256": "e03dd65ed06a80f4db0900dda89e8a304bf6ce165d3f1f00874afb8acfd5a33f",
+      "preparedSha256": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3"
+    }
   },
-  "unchangedPrototypeFiles": {
+  "protectedFileSha256": {
     "table.js": "e5ef8574018555efa88af1840c768d0388a90ba0ff35e925388d482c923493e2",
     "materials.js": "b4c821e3edff5274fdf9d06c5f95adb18252d3e9cd2ed7b3d2789e518862e65b",
     "scale.js": "eb8edf350ce4db2a26f3fb39b907239c5019ba5a016b723975d40b1254bb530c",
     "fixture.js": "a7ff6f801aa1944fc5db4bcfd905fcf0e4dd864443a7204f5b1ab15f349562bc",
     "prototype.css": "35c7e33bdf778eb09c01aa83d9d4deb4380f21bbe94da83246caaed2dae67b7e",
-    "IDENTIFICATION.md": "711bfe88bd6a30fdf139d1461ffe39fa763e8fd02be378cde855ed45a2d6dc91"
+    "IDENTIFICATION.md": "711bfe88bd6a30fdf139d1461ffe39fa763e8fd02be378cde855ed45a2d6dc91",
+    "assets.json": "1ca3219ef9806d1de9b5c467522497cbbc4fedca5980933031e2cf4f12832bee",
+    "hull-sources.json": "2581bdd7f9b68421db4959a75323d2d71df0a02e298872ce5b6241538eda8139",
+    "prepare-models.py": "181176501fe82e356facee9282e5a37860f3d4195895377a0489082b0f2ff968",
+    "prepared/monoceros.glb": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
+    "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
+    "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3"
+  },
+  "checks": {
+    "prototypeChecksPassed": 26,
+    "fastSuite": "passed",
+    "browserErrors": [],
+    "regionBuildByteIdentical": true,
+    "scopeOnlyPrototype": true,
+    "protectedFilesUnchanged": true,
+    "head": "6ce25f1d5712f6e17ddbee9683f00f4e8ca09171",
+    "branch": "work/presentation-3d",
+    "committed": false
   }
 }

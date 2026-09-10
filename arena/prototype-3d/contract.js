@@ -6,6 +6,7 @@ export const BUDGETS = Object.freeze({
   pixelRatio: 1.5, maxPixels: 2073600, shadowSize: 2048, shadowLights: 1,
   maxTriangles: 70000, maxDrawCalls: 90, materialTextureMiB: 24, renderTargetMiB: 64,
   activeEffects: 1, beamLayers: 2, bloomScale: 0.5, bloomGain: 0.18,
+  clearVariantTriangles: 110000, clearVariantDrawCalls: 110, clearVariantTargetMiB: 96,
   cameraFloor: 24, pitchFloor: 32, postHeight: mm(SIZES.postHeight), hexRadius: mm(SIZES.hexAcrossFlats) / Math.sqrt(3),
   cameraMoveMs: 900, beamMs: 850, shieldMs: 650, focusBlurPixels: 3,
   nebulaPeak: 0.06, nebulaBoardCoverage: 0.15, nebulaMean: 0.012
@@ -58,15 +59,28 @@ export function validateAssets(manifest) {
 export function validateRegionMap(map, faction=map?.faction) {
   const profile=artProfile(faction);
   if(map?.faction!==faction)fail('region map belongs to a different hull');
-  if(map?.format!=='tabletop-colour-regions/2'||map.palette?.length!==profile.palette.length||!map.patches?.length)fail('missing authored region map');
+  if(map?.format!=='tabletop-colour-regions/3'||map.palette?.length!==profile.palette.length||!map.patches?.length)fail('missing authored region map');
   if(map.palette.map(p=>p.key).sort().join(',')!==profile.palette.map(p=>p.key).sort().join(','))fail('palette does not belong to this hull');
+  if(Object.keys(map.features??{}).sort().join(',')!==[...profile.confirmedEffects].sort().join(','))fail('only this hull\'s confirmed features may animate');
   for(const p of [...map.palette,...map.patches]){
     assertRegister(p.register,'paint region');if(p.register!=='physical')fail('source colours are physical paint');
   }
-  if(Object.keys(map.features??{}).sort().join(',')!==[...profile.confirmedEffects].sort().join(','))fail('only this hull\'s confirmed features may animate');
+  if(Object.keys(map.energyAttachments??{}).sort().join(',')!==profile.palette.map(p=>p.key).sort().join(','))fail('every region requires an energy attachment entry');
+  for(const p of map.palette){
+    const expected=profile.palette.find(r=>r.key===p.key),e=map.energyAttachments[p.key];
+    if(!['metal','paint','emissive-designated'].includes(p.classification)||p.classification!==expected.classification)fail('missing or wrong per-hull material classification');
+    if(p.metal!==expected.metal||p.physicalEmission!==0)fail('physical substance or emission disagrees with hull contract');
+    if(JSON.stringify(p.variant)!==JSON.stringify(expected.variant))fail('unapproved physical material variant');
+    if(e.register!=='energetic'||e.enabledByDefault!==false||e.designated!==(p.classification==='emissive-designated'))fail('energy designation must not activate a region');
+    const expectedFaces=e.designated?map.patches.filter(r=>r.region===p.key).flatMap(r=>r.faces).sort((a,b)=>a-b):[];
+    if(!Array.isArray(e.faces)||e.faces.join(',')!==expectedFaces.join(','))fail('energy attachment must match exact region faces');
+    if(e.features?.slice().sort().join(',')!==Object.keys(map.features??{}).filter(k=>map.features[k].region===p.key).sort().join(','))fail('energy features disagree with region map');
+  }
   for(const p of Object.values(map.features)){
     assertRegister(p.register,'separate glow region');if(p.register!=='energetic')fail('glow needs a separate energetic object');
     if(!p.faces?.length||p.faces.some(i=>!Number.isInteger(i)||i<0))fail('glow requires exact authored faces');
+    const attachment=map.energyAttachments[p.region];
+    if(!attachment?.designated||p.faces.some(i=>!attachment.faces.includes(i)))fail('feature must belong to its designated energy region');
     if(p===map.features.beamEmitter&&(!Array.isArray(p.socket)||p.socket.length!==3||!p.socket.every(Number.isFinite)))fail('confirmed emitter requires a surface socket');
   }
   return map;
