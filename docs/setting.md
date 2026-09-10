@@ -14,7 +14,7 @@ Everything here except the campaign present is **backstory**. The game opens in 
 >
 > Unfortunately, the galaxy is not an idyllic place. Humanity is not alone in the universe, and while Man has made friends he has also found enemies amongst the stars. The Federation fought two wars valiantly against invaders. Its ships, while equipped with laboratories and powerful scientific instruments, are also heavily armed.
 >
-> A hushed but turbulent peace fell the defeat of the Krelath Empire in the Second Orion Arm War and the defeat of its leader, Archon Vezder. Empire now seeks out new resources in its quest to avenge itself on the Federation for its defeat.
+> A hushed but turbulent peace fell the defeat of the Krelath Empire in the Second Orion Arm War and the defeat of its leader, Archon Zeltus. Empire now seeks out new resources in its quest to avenge itself on the Federation for its defeat.
 >
 > Those resources are needed more than ever. The Vraygon, a species of silicoid lifeforms from a Venus-like hellworld, have recently been pressing claims to areas of the Achernar Sector that the Krelath hope to take for themselves.
 >
@@ -38,7 +38,7 @@ It also gives the Federation something none of the other three powers can offer 
 
 Defeated in the Second Orion Arm War, the Krelath Empire was not dismembered. Democracy was imposed on it by the peace terms. It is revanchist, and its restorationists want their Archon back.
 
-They will not get him. The Krelath are preparing for their final thrust-upon-them democratic election, which will place their fate in the hands of **Supreme Leader Stratan Valdar**. Valdar then has the former Archon Vezder assassinated, so that he cannot come back. The restoration is the ladder he climbs and the first thing he kicks away.
+They will not get him. The Krelath are preparing for their final thrust-upon-them democratic election, which will place their fate in the hands of **Supreme Leader Stratan Valdar**. Valdar then has the former Archon Zeltus assassinated, so that he cannot come back. The restoration is the ladder he climbs and the first thing he kicks away.
 
 Valdar is one of the few characters Chris is consciously importing: modelled on Leader Desslar, but grimmer and more relentlessly competent — an antagonist who is prepared for what you are about to do.
 
@@ -51,6 +51,33 @@ Mechanically this is the second spinal hull in the game: the Earth gunstar is cu
 **There is only ever one.** Not for technical reasons: who could be trusted with a second, other than the Supreme Leader? The scarcity is his paranoia, and it means the ship is a named vessel rather than a class, and that losing it ends it. Chris conceives it as the campaign's boss.
 
 **Parked — not to be designed yet.** One practical note for whenever it is: a unique boss hull must stay out of `rosters` in `data/tactical-tuning.json`, which is the single source of truth for what each power may field. If it lands there it appears in quick build and in the balance sweep, and it will wreck both.
+
+### The Intrallus
+
+Modelled 9 September 2026 — the first of the boss to exist as anything but a note. Chris's Yamato reference for it is the **Deusura III**, a specialised member of the **Galvades**-class astro carrier, and that is the shape it takes here too: not a superweapon from nowhere but a production hull taken off the line and rebuilt for one man.
+
+- **The bronze tube is the Valdar Cannon**, and it fixes the ship's bow: the muzzle leads.
+- **Twin flight decks** run most of the hull's length — launch forward, recover through ports on the port and starboard flanks.
+- **The bridge pod is suspended on an actual bridge**, which is the one place the design is wry rather than grim.
+- **Four ring pylons** give it a head-on silhouette no other hull has, which is the test a boss must pass at icon size on a hex map.
+
+**Why a carrier is the right hull for this weapon, and it is not a coincidence.** A spinal bank plants the ship: immobile while it charges, which is why the Earth gunstar is given captains chosen for nerve. A carrier is the one hull type that loses nothing by standing still — it would rather be stationary while it cycles craft. The two systems are complementary rather than in tension, and the Empire choosing a carrier to carry the Cannon reads as competence rather than convenience.
+
+It also means **the boss contests its own counter-play.** The note above promises the player a planted capital ship as a target for strike craft. The Intrallus answers that with strike craft of its own, so reaching the planted hull is the fight rather than the reward for noticing it.
+
+**Unique ship, production class.** This is what reconciles "there is only ever one" with the Deusura pattern, where there were several, each grander than the last. The Galvades class is not unique; the Intrallus is. Valdar can commission another hull. What he cannot replace is what is installed in it and whose name is on it — so beating the Intrallus is a victory that does not end the war, which is the more interesting of the two campaigns available.
+
+**One thing the fiction will eventually hand the tactical layer.** Chris calls the Cannon world-ending. A weapon at that scale cannot translate into hex combat as simply a large damage number, and the honest answer may be that its tactical effect and its strategic effect are different things. Parked with the rest of it.
+
+## Captain Hikaru Kobayashi, and the ships that stand
+
+The Federation's gunstar captain. **Modelled on Okita, not imported as him** — the same relation Supreme Leader Stratan Valdar has to Leader Desslar, and from the same source, so the two flagship commanders of the campaign are drawn from opposite sides of one story. Valdar is the antagonist who is always already prepared. Kobayashi is the commander who does not flinch and does not break off.
+
+Chris's ruling and Chris's name, 9 September 2026. Like Valdar, he is a person rather than a name pool: neither *Hikaru* nor *Kobayashi* appears in the Federation registers, and `test/captain-roster.mjs` holds both out so no frigate captain is ever dealt his name.
+
+It came out of a measurement rather than a mood. The ship-captain layer lets an officer vent a charging spinal bank rather than be killed sitting still, which is right for almost any hull and wrong for this one: a gunstar that throws away its charge has given up the only thing it does. Measured across the four-power corpus, ordinary officers throughout cost the Federation eight points against the Krelath and moved nothing else at all; a bold captain on the gunstar alone restored every number exactly. See `docs/balance-2026-09-09-captains.md`.
+
+So the Federation gives its spinal hulls to officers chosen for nerve, and the game does not have to say so — it is in the default posture, and a player who reads the bridge crew will notice that this one ship's captain is not like the others.
 
 ## The Vraygon
 
@@ -84,13 +111,13 @@ Dates are drafted to the register and are expected to change. 2201 is the 1926 b
 |---|---|
 | c. 2090s | Humanity reaches the stars. The Earth Federation is founded from Earth, its colonies and its Dominion worlds. |
 | 2161–2164 | **First Orion Arm War.** The invader is not yet named. |
-| 2189–2193 | **Second Orion Arm War.** The Krelath Empire is defeated; Archon Vezder is deposed. |
+| 2189–2193 | **Second Orion Arm War.** The Krelath Empire is defeated; Archon Zeltus is deposed. |
 | 2194 | Peace terms. Democracy is imposed on the Krelath. |
 | 2197 | Armaments agreement limiting fleet tonnage between the powers. *(Proposed — see design notes.)* |
 | 2198 | The Vraygon begin pressing claims in the Achernar Sector. |
 | 2200 | The accord confirming the peace. The Zandrax Horde appears in Achernar. |
 | **2201** | **The campaign opens.** Dominion equality is formally declared. Four powers contest the sector. |
-| 2202 | The Krelath hold their final election. Stratan Valdar becomes Supreme Leader. Archon Vezder is assassinated. |
+| 2202 | The Krelath hold their final election. Stratan Valdar becomes Supreme Leader. Archon Zeltus is assassinated. |
 | 2202+ | The Krelath reveal a flagship carrying the **Valdar Cannon**. |
 
 The last entries sit inside playable time rather than behind it. Chris wants a Krelath-versus-Krelath battle or mini-campaign built around Valdar's rise.
@@ -102,7 +129,7 @@ The last entries sit inside playable time rather than behind it. Chris wants a K
 None of this was planned into the tuning. It was produced by measurement, and it agrees anyway.
 
 - **Federation ships are science ships that fight.** Sensor ratings and the Scan action (rating 2+, one action, no extra power) sit on hulls that also carry the cheapest shield absorption in the game, bought by handing a third of the power pool to the capacitor every turn.
-- **They stand.** The Gunstar has nothing astern, so the engine refuses it a fighting withdrawal. The tuning note says it "does what a Federation line ship is for: it stands."
+- **They stand.** The Gunstar has nothing astern, so the engine refuses it a fighting withdrawal. The tuning note says it "does what a Federation line ship is for: it stands." It also has the only spinal cannon in the fleet, which makes it immobile while the bank charges — so standing is not a temperament the hull is given, it is a fact about the hull.
 - **The Vraygon have no blind side.** Measured, they keep about ninety per cent of their battery astern and are the only power that can genuinely fight a withdrawal — which is a creature of rock, armoured in every direction.
 - **The Krelath stood where others ran.** In the same measurement a Krelath battleship of identical arcs fired 48% of its battery, against 27–30% for hulls that turned away.
 - **The Zandrax swarm wins by numbers and specialisation**, and beats the Federation's heaviest hull outright at 32 points. The design note on that reads: "the swarm beating this hull is the game working."
@@ -113,12 +140,18 @@ The convention is **title plus name**. The title comes from rank or caste; the n
 
 | Power | Worked examples | Register |
 |---|---|---|
-| Krelath | Archon Vezder · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
+| Krelath | Archon Zeltus · Supreme Leader Stratan Valdar | Hard consonants, two-part names, imperial and then revolutionary titles |
 | Zandrax | Hivelord Kzzx'xt | Caste titles; clicking consonants, apostrophes |
-| Federation | *open* | Earth surnames **and** Dominion registers side by side in one navy |
-| Vraygon | *open* | *open* |
+| Federation | Capt. Hikaru Kobayashi · Capt. Scott Ridley · Capt. Marvin Kaminski | **Open the phone book.** Given name and surname, both real, and a world phone book rather than an Earth one: Earth registers and Dominion registers side by side in one navy |
+| Vraygon | Stalactar · Geos · Hydron | Mineral and geological roots with a classical ring, ending in -ar, -os, -on |
 
-Ranks below Hivelord, the Krelath naval ladder and the Federation title ladder are all still to be written.
+The pairings cross on purpose — Marvin Kaminski, Scott Ridley, Thomas Mbeki, Alice Cheng. A Federation wardroom is generations of a mixed polity rather than a set of national contingents, and the given names are where that shows: a surname says where a family came from, a given name says where it has been since.
+
+The Federation is the only register drawn from life, and that is the point of it. Three of the four powers are named in invented morphologies; the fourth is named out of the directory, which is what makes it read as a real polity rather than a science-fiction conceit. It also carries the Dominion note above without having to state it: a wardroom whose names come from everywhere is a coalition on its face.
+
+The Vraygon name themselves for the rock they are, while their **ships** are named for treasure — Goldspar, Sunthrone, Aurelian. The two registers should stay apart.
+
+Ranks below Hivelord, the Krelath naval ladder and the Federation title ladder are all still to be written. Until they are, `data/captain-names.json` stands one placeholder title per power in their place — Capt., Navarch, Warden, Swarmlord — and says plainly in the file that those four words are not yet fiction.
 
 ---
 

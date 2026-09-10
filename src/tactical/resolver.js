@@ -10,6 +10,7 @@
 import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLineGroups } from "./hex.js";
 import { buildShip, weaponFor, fullPower, ratedPower, shieldCapacity, shieldCost, startTurn, startRound, spendable, applyDamage } from "./ship.js";
 import { makePrng, seedFromString } from "../prng.js";
+import { refusesStep, ventsUnderFire } from "./ship-command.js";
 import { fleetRuleIssues } from "./fleet-rules.js";
 import { deploymentErrors, terrainFootprint } from "./deployment.js";
 import { specialCapabilities } from "./specials.js";
@@ -19,6 +20,7 @@ import { SENSING_PROFILE, currentContacts, pruneScanLocks, recordShieldSweep } f
 import { scanCapabilities, scanActionError } from './scans.js';
 import { createMissileFlight, advanceMissileFlights, missileImpactFace, missileGeometry, snapshotMissiles } from './missiles.js';
 import { advanceManualSpinal } from './spinal-control.js';
+import { nameShips } from './ship-registry.js';
 
 // ---------------------------------------------------------------- helpers
 
@@ -777,8 +779,25 @@ function chargeSpinal(ship, enemies, tuning, log, battle = null, order = null) {
   const st = ship.spinal;
   if (!st) return;
   const w = weaponFor(ship, st.type, tuning);
-  if(order || st.manualControl){
-    const note=advanceManualSpinal(ship,w,order?.spinal);
+  // A ship captain may break off rather than be killed sitting still. Opt-in: only a ship carrying a
+  // captain record is reviewed, so every recorded battle without one resolves exactly as before.
+  // Note the deliberate side effect - a captain who takes the cannon in hand keeps it, because
+  // advanceManualSpinal latches manual control. Once an officer has intervened, the bank is his.
+  let intent = order?.spinal;
+  if (ship.captain && intent !== 'vent') {
+    const breakOff = ventsUnderFire(ship, tuning);
+    // A direct order is obeyed, and the objection goes on the record anyway. The player is never
+    // trapped by their own crew, and the crew are never silently overruled.
+    if (breakOff && order?.insist) {
+      if (log) log(`${ship.id} captain: ${breakOff.protest}`);
+      recordCaptain(battle, ship, 'holds-charge-under-protest', breakOff.protest, { insisted: true });
+    } else if (breakOff) {
+      intent = 'vent'; if (log) log(`${ship.id} captain: ${breakOff.reason}`);
+      recordCaptain(battle, ship, breakOff.rule, breakOff.reason, { insisted: false });
+    }
+  }
+  if(order || st.manualControl || intent === 'vent'){
+    const note=advanceManualSpinal(ship,w,intent);
     if(log)log(`${ship.id} ${note}`);
     return;
   }
@@ -1434,11 +1453,22 @@ function move(ship, enemies, friends, tuning, log = null, battle = null) {
   // Charge burst stress only after endpoint trimming: zero retained free steps
   // consume no stress, accuracy penalty or per-turn burst allowance.
   const steps = [];
+  let helmRefusal = null;
   const step = (next, cost, free = false, counter = null) => {
     // All helm branches must afford the actual destination's terrain cost,
     // not just the ordinary hex cost used by their coarse movement gates.
     // Emergency bursts deliberately waive power, never terrain legality.
     if (!free && spendable(ship) < cost) return false;
+    // AND THE CAPTAIN. Every helm branch - formation, travel, orbit, evasion, free burst -
+    // commits through this one closure, so he is consulted here and nowhere else. Reported by
+    // Astra 2026-09-09: he was being asked only about ORDERED moves, which left Chris's ruling
+    // that both sides use one captain layer unsatisfied for every unordered ship, including the
+    // whole AI side. A refusal reads as a step the helm cannot take, which the branches already
+    // handle, so the substitute action comes free here exactly as it does for an ordered move.
+    if (ship.captain && !ship.insistThisTurn) {
+      const refusal = refusesStep(ship, ship.pos, next, living(enemies), tuning);
+      if (refusal) { helmRefusal = helmRefusal ?? refusal; return false; }
+    }
     steps.push({ pos: ship.pos, power: ship.power, lastStepCost: ship.lastStepCost,
       movedThisTurn: ship.movedThisTurn, counter, free,
       ...(finiteSensing(battle) ? { contactLocks: structuredClone(battle.contacts.locks) } : {}) });
@@ -1451,6 +1481,13 @@ function move(ship, enemies, friends, tuning, log = null, battle = null) {
     return true;
   };
   moveHelm(ship, enemies, friends, tuning, step, battle);
+  // Once per ROUND, however many branches he turned down in it - the same cadence an ordered move
+  // reports at, since that is called once per action. Only ever for a ship that has an officer, so
+  // a battle without captains produces not one extra line.
+  if (helmRefusal) {
+    if (log) log(`${ship.id} captain: ${helmRefusal.reason}`);
+    recordCaptain(battle, ship, helmRefusal.rule, helmRefusal.reason, { insisted: false, unordered: true });
+  }
   let trimmed = false;
   while (!ship.destroyed && steps.length && enemyAt(ship.pos, enemies, tuning)) {
     const { counter, free, contactLocks, ...before } = steps.pop();
@@ -2017,6 +2054,21 @@ function inContact(A, B, tuning) {
 // clamped by the rules the AI lives under - turnRatePerRound, power at the
 // hex's step cost, the map edge, terrain, the same-hex rule - and every clamp
 // is logged so the player learns the rule. Returns the number of hexes moved.
+// A captain's deviation, recorded as DATA and not only as a line of prose.
+//
+// The trusted narrative log is omniscient, which is why the player session deliberately does not
+// subscribe to it. Without a structured channel the consequence was that clause 2 of the ruling -
+// reported after execution - held only for a trusted caller, and a player watching his own ship
+// stop short was told nothing at all (Astra, 2026-09-09).
+//
+// Deliberately NOT carried: which enemy provoked it. The rule is evaluated against every living
+// enemy, including ones the observing side cannot see, so naming one would disclose it. The reason
+// text names a range and the ship's own hull and no one else.
+function recordCaptain(battle, ship, rule, reason, extra = {}) {
+  if (!battle) return;
+  (battle.captainLog ??= []).push({ shipId: ship.id, side: ship.side, rule, reason, turn: battle.turn, ...extra });
+}
+
 function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = null) {
   const M = tuning.movement ?? {};
   const turnRate = ship.turnRate ?? (M.turnRatePerRound ?? {})[ship.className] ?? 2;
@@ -2042,13 +2094,22 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
   // an enemy-occupied suffix keeps real transit legal without charging power
   // or emitting preview points for a step that ultimately cannot be taken.
   const steps = [];
-  let pos = ship.pos, power = ship.power, stop = null;
+  let pos = ship.pos, power = ship.power, stop = null, captainStop = null, captainProtest = null;
   const foes = living(enemies);
   while (steps.length < forward) {
     const next = add(pos, ship.facing);
     const cost = stepCost(ship, next, tuning);
     if (Math.max(0, power - ship.reserve) < cost) { stop = "power exhausted"; break; }
     if (!inBounds(next, tuning)) { stop = "impassable terrain or the map edge"; break; }
+    // The captain's refusal is a stop like any other, which is why the substitute action the ruling
+    // asks for comes free: the move is clamped to the last step he was willing to take.
+    if (ship.captain) {
+      captainStop = refusesStep(ship, pos, next, foes, tuning);
+      // Insisting does not silence him: it overrides him. The first objection is kept and reported
+      // once, however many further steps he would have objected to.
+      if (captainStop && ship.insistThisTurn) { captainProtest = captainProtest ?? captainStop; captainStop = null; }
+      else if (captainStop) break;
+    }
     steps.push({ pos: next, cost });
     pos = next; power -= cost;
   }
@@ -2057,10 +2118,27 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
   for(let i=0;i<burst;i++){
     const next=add(pos,ship.facing);
     if(!inBounds(next,tuning)||blockedHex(next,tuning)){stop='impassable terrain or the map edge';break;}
+    if (ship.captain) {
+      captainStop = refusesStep(ship, pos, next, foes, tuning);
+      if (captainStop && ship.insistThisTurn) { captainProtest = captainProtest ?? captainStop; captainStop = null; }
+      else if (captainStop) break;
+    }
     steps.push({pos:next,cost:0,burst:true});pos=next;
+  }
+  if (captainProtest) {
+    if (log) log(`${ship.id} captain: ${captainProtest.protest}`);
+    recordCaptain(battle, ship, 'closes-under-protest', captainProtest.protest, { insisted: true });
   }
   let trimmed = false;
   while (steps.length && enemyAt(steps.at(-1).pos, foes, tuning)) { steps.pop(); trimmed = true; }
+  // A refusal is a different KIND of event from a clamp, and must not be swallowed by one.
+  // Reported by Astra 2026-09-09: with a picket in the next hex, occupancy trimming and the
+  // refusal were mutually exclusive, so a ship that stopped because of its captain was recorded
+  // as merely declining to end its move in an enemy's hex. Both are now reported.
+  if (captainStop) {
+    if (log) log(`${ship.id} captain: ${captainStop.reason}; held at ${steps.length} of ${forward+burst} hexes`);
+    recordCaptain(battle, ship, captainStop.rule, captainStop.reason, { held: steps.length, of: forward + burst, insisted: false });
+  }
   if (trimmed && log) log(`${ship.id} order clamped: will not end its move in an enemy's hex${stop ? ` (${stop} limits transit)` : ""}`);
   else if (stop && log) log(`${ship.id} order clamped: ${stop} after ${steps.length} of ${forward+burst} hexes`);
   for (const step of steps) {
@@ -2134,6 +2212,8 @@ export function createBattle(scenario, tuning, loadouts, seed, options = {}) {
   });
   battle.scenario = scenario;
   battle.seed = seed;
+  // Explicit register data is the opt-in. No field (even null) is added to unnamed battles.
+  if (options.shipNames) for (const fleet of battle.fleets) nameShips(fleet, seed ?? 'orion', options.shipNames);
   if (built.warnings?.length) battle.warnings = [...built.warnings];
   return battle;
 }
@@ -2266,6 +2346,12 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     const o = hasOrder(s);
     if (o && Number.isFinite(o.reserve)) s.reserve = Math.round(Math.min(1, Math.max(0, o.reserve)) * s.power);
     s.orderTarget = (o && o.target && o.target !== "auto") ? o.target : null;
+    // A direct order stands for this turn only. Cleared rather than set false, because fullState()
+    // serialises every ship field: writing the flag unconditionally put `insistThisTurn: false`
+    // into the recorded state of battles that have no officers at all. Behaviour was unaffected -
+    // the suite is byte-identical either way - but "a battle without captains is untouched" should
+    // be true of the record and not only of the outcome.
+    if (o && o.insist) s.insistThisTurn = true; else delete s.insistThisTurn;
   }
   for (const s of [...fighting(A), ...fighting(B)]) evade(s, tuning, rng, log, battle);
 

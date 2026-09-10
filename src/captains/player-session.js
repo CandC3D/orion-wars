@@ -26,12 +26,25 @@ export function bindPlayerSession(battle, side) {
       if (!accepted.ok) return freezeTree({ ok: false, faults: [{ code: 'invalid-orders', detail: 'Invalid orders; no turn advanced.' }], frame: initial });
       resolving = true;
       const timeline = []; let last = initial, beforeShot = null;
+      // A captain's deviation is the player's OWN officer explaining his own ship, so it belongs in
+      // the restricted tape - clause 2 of the ruling, which held only for a trusted caller until
+      // Astra pointed that out. The raw narrative log stays unsubscribed because it is omniscient;
+      // these are structured records that never name the enemy that provoked them.
+      battle.captainLog = [];
+      let drained = 0;
+      const captainEvents = () => battle.captainLog.slice(drained)
+        .filter(e => e.side === side)
+        .map(e => ({ kind: 'captain', shipId: e.shipId, rule: e.rule, reason: e.reason,
+          ...(e.insisted ? { insisted: true } : {}), ...(e.unordered ? { unordered: true } : {}),
+          ...(Number.isFinite(e.held) ? { held: e.held, of: e.of } : {}) }));
       const sample = (phase, round, event = null, force = false) => {
         const frame = playerFrame(battle, side, phase, round);
+        const fromCaptains = captainEvents(); drained = battle.captainLog.length;
         // Omit invisible enemy actions and their ordering/count. Public round
         // boundaries remain, but raw callback/initiative indices never escape.
-        if (!force && !event && JSON.stringify(frame.observation) === JSON.stringify(last.observation)) return frame;
+        if (!force && !event && !fromCaptains.length && JSON.stringify(frame.observation) === JSON.stringify(last.observation)) return frame;
         const events = contactChanges(last, frame); if (event) events.push(event);
+        events.push(...fromCaptains);
         timeline.push({ frame, events }); last = frame; return frame;
       };
       try {

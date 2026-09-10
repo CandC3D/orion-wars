@@ -5,6 +5,7 @@ import { freezeTree } from './json.js';
 import { specialCapabilities, SPECIAL_COMMAND_VERSION } from '../tactical/specials.js';
 import { scanCapabilities, SCAN_COMMAND_VERSION, SCAN_MINIMUM_RATING } from '../tactical/scans.js';
 import { SENSING_ORDER_VERSION } from './orders.js';
+import { profilesFrom } from '../tactical/ship-command.js';
 export const OBSERVATION_VERSION = 'captain-observation/2';
 export const SENSING_OBSERVATION_VERSION = 'captain-observation/3';
 const pick = (value, keys) => Object.fromEntries(keys.filter(k => value?.[k] !== undefined).map(k => [k, structuredClone(value[k])]));
@@ -12,8 +13,8 @@ const weaponFields = ['kind','maxPower','powerToArm','damage','spreadPer','fireP
 const band = b => pick(b, ['to','damageBonus','toHitMod','damageMod']);
 function ownShip(s, tuning) {
   return {
-    ...pick(s, ['id','faction','className','displayName','points','pos','facing','destroyed','superstructure','superstructureMax',
-      'power','reserve','magazine','movementPointRatio','impulse','movedThisTurn','damageThisTurn','damageLastTurn','cloaked','decloaking','emergencyUsed','warpedThisTurn','toHitPenalty','systems']),
+    ...pick(s, ['id','faction','className','displayName','vesselName','points','pos','facing','destroyed','superstructure','superstructureMax',
+      'power','reserve','magazine','movementPointRatio','impulse','movedThisTurn','damageThisTurn','damageLastTurn','hullLostThisTurn','hullLostLastTurn','cloaked','decloaking','emergencyUsed','warpedThisTurn','toHitPenalty','systems']),
     fullPower: fullPower(s), ratedPower: ratedPower(s),
     specials:specialCapabilities(s,tuning),
     powerPhase: 'residual-before-arriving-missiles', refillIsForecast: true,
@@ -26,6 +27,7 @@ function ownShip(s, tuning) {
     mounts: s.mounts.map(m => ({ ...pick(m, ['id','type','kind','arcName','arc','maxRange','inop','firedThisTurn','position','orientation','displayName']),
       bands: m.bands.map(band), weapon: pick(weaponFor(s, m.type, tuning), weaponFields),
       cadence: { maxShotsPerTurn: 1, ammunitionPerShot: m.kind === 'missile' ? 1 : 0, magazineRefill: 'none-in-battle' } })),
+    captain: s.captain ? pick(s.captain, ['id','name','posture']) : null,
     spinal: s.spinal ? pick(s.spinal, ['type','state','charge','cooldown','readyTurns','shots']) : null,
     squadrons: s.squadrons ? s.squadrons.map(q => pick(q, ['id','type','strength','max','launched','stance'])) : null
   };
@@ -57,6 +59,8 @@ export function sideView(battle, side) {
         terrainShadow: true, lockOwnership: 'acquiring-observer',
         ai: 'action-3-if-no-legal-shot; known-contact-centroid-sector-else-forward'
       } } : {}),
+      hullPoints: Object.fromEntries(Object.entries(battle.tuning.hullClasses ?? {}).map(([k, v]) => [k, v.points])),
+      captainProfiles: profilesFrom(battle.tuning),
       reserveBasis: 'post-refill-and-automatic-draws', damageDetail: 'sensor-rating-1-condition-2-brackets-3-intervals' },
     own: battle[side].map(s => ({ ...ownShip(s, battle.tuning),
       ...(finite ? { sensors: { operationalRating: operationalSensorRating(s, battle.tuning),

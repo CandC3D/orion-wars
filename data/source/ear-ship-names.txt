@@ -1,0 +1,110 @@
+Earth Federation Ship Names
+Prefix: EDS (Earth Defense Ship)
+Navy: Earth Defense Fleet (EDF)
+Faction: Earth Federation
+
+FRIGATES
+*Monoceros Class*
+Monoceros
+Orion
+Canis Major
+Ophiuchus
+Scorpio
+Gemini
+Aries
+Aquarius
+Pisces
+Sagittarius
+Virgo
+Taurus
+Leo
+Libra
+Capricorn
+
+DESTROYERS
+*Victory Class*
+Victory
+Constitution
+Warrior
+Ark Royal
+Monitor
+Valmy
+Vasa
+Mary Rose
+Santissima Trinidad
+Indefatigable
+Mahmudiye
+Saint-Esprit
+
+*Saturn Class*
+Saturn
+Uranus
+Neptune
+Jupiter
+Mercury
+Venus
+Luna
+Titan
+Pluto
+Rhea
+Charon
+Enceladus
+Europa
+Callisto
+Ganymede
+
+LIGHT CRUISERS
+*Acamar Class*
+Acamar
+Betelgeuse
+Rigel
+Mizar
+Capella
+Bellatrix
+Alkaid
+Deneb
+Vega
+Sirius
+Procyon
+Polaris
+
+HEAVY CRUISERS
+*Yi Sun-sin Class*
+Yi Sun-sin
+Horatio Nelson
+Chester Nimitz
+Togo Heihachiro
+Francis Drake
+Raymond Spruance
+Andrew Cunningham
+Yamamoto Isoroku
+Michiel de Ruyter
+Zheng He
+Themistocles
+Arleigh Burke
+Thomas Cochrane
+
+BATTLESHIPS
+*Federation Class*
+Federation
+Terra
+Mars
+Proxima
+Horizon
+Terra Nova
+Aurora
+Asgard
+New Eden
+
+GUNSTAR BATTLECRUISERS
+*Yamato Class*
+Yamato
+Arizona
+Agamemnon
+Iowa
+New Jersey
+Missouri
+Musashi
+Bismarck
+Tirpitz
+Vittorio Veneto

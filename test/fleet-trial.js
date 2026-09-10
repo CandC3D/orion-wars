@@ -13,6 +13,7 @@ import { dirname, join } from "node:path";
 import { makePrng, seedFromString } from "../src/prng.js";
 import { runBattle, buildFleet, deployFleets } from "../src/tactical/resolver.js";
 import { SCALES, STANDARD, compFor as comp6 } from "./comp.js";
+import { commissionCaptains } from "../src/tactical/captain-roster.js";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, ""));
@@ -36,11 +37,31 @@ const numArg = (flag, dflt) => {
   return i >= 0 ? Number(args[i + 1]) : dflt;
 };
 const BATTLES = numArg("--battles", 150);
+// --captains commissions BOTH fleets before deployment, at one posture. Officers are opt-in in the
+// engine, so without this flag the sweep measures exactly what it measured before them and every
+// recorded number stays comparable. With it, the same seeds are replayed with a bridge crew aboard,
+// which is the only honest way to see what commissioning costs each power.
+const REGISTERS = readJson(join(root, "data", "captain-names.json")).registers;
+const CAPTAINS = args.includes("--captains");
+// null, NOT "standard": an explicit posture overrides the hull-aware default, so passing one here
+// would silently commission gunstar captains as ordinary officers and measure the wrong fleet.
+// It did exactly that on the first run of this flag.
+const POSTURE = args.indexOf("--posture") >= 0 ? args[args.indexOf("--posture") + 1] : null;
+// ONE POWER only, which is what separates "captains change the game" from "captains cost THIS
+// power". Side is useless for that: the sweep mirrors every pairing, so a faction sits on side A in
+// one battle and side B in the next.
+const CAPTAINS_FACTION = args.indexOf("--captains-faction") >= 0 ? args[args.indexOf("--captains-faction") + 1] : null;
+function commission(fleet, faction, seed) {
+  if (!CAPTAINS && CAPTAINS_FACTION !== faction) return;
+  // Seeded from the battle seed, so a replay of this sweep deals the same wardroom.
+  commissionCaptains(fleet, seedFromString(seed), REGISTERS, POSTURE ? { posture: POSTURE } : {});
+}
 
 function fight(fa, fb, compA, compB, seed, useSixth = true) {
   const rng = makePrng(seedFromString(seed));
   const A = buildFleet(fa, useSixth ? compFor(fa, compA) : compA, TUNING, LOADOUTS, rng, "A");
   const B = buildFleet(fb, useSixth ? compFor(fb, compB) : compB, TUNING, LOADOUTS, rng, "B");
+  commission(A, fa, seed + ":A"); commission(B, fb, seed + ":B");
   deployFleets(A, B, TUNING);
   return runBattle([A, B], TUNING, rng, {});
 }

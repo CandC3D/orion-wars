@@ -62,6 +62,7 @@ export async function installCommandSetup(){
       }else{if(!imported)throw new Error('Choose a scenario file or read the editor handoff.');scenario=bounded(imported);}
       if($('#command-seed').value)scenario.seed=$('#command-seed').value;
       if(mode()!=='authored')scenario=pinStockRevisions(scenario,library());
-      return bounded({mode:mode(),side:$('#command-side').value,scenario});
+      return bounded({mode:mode(),side:$('#command-side').value,scenario,
+        ...($('#name-ships').checked?{nameShips:true}:{})});
     }};
 }

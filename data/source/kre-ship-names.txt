@@ -1,0 +1,88 @@
+Krelath Empire Ship Names
+Prefix: IKS (Imperial Krelath Ship)
+Navy: Krelath Star Navy (KSN)
+Faction: Krelath Empire
+
+FRIGATES
+*Sparrowhawk Class*
+Kestrel
+Eagle
+Hawk
+Falcon
+Raven
+Condor
+Brightwing
+Sharpbeak
+Warfeather
+Starwing
+
+DESTROYERS
+*Swift Class*
+Swift
+Valiant
+Hero
+Ranger
+Gladiator
+Hero
+Glory
+Honor
+
+*Ballista Class*
+Ballista
+Trebuchet
+Catapult
+Archer
+Sharpshooter
+Ranger
+Peltast
+Hoplite
+
+LIGHT CRUISERS
+*Raptor Class*
+Raptor
+Fang
+Talon
+Ripping Claw
+Bird-of-Prey
+Gryphon
+Roc
+
+STRIKE CRUISERS
+*Lightning* Class
+Lightning
+Fireball
+Flame
+Striker
+Invincible
+Indefatigable
+Thunder
+
+HEAVY CRUISERS
+*Star Knight Class*
+Star Knight
+Star Cavalier
+Star Paladin
+Star Champion
+Star Gallant
+Star Templar
+
+BATTLESHIPS
+*Star Lord Class*
+Star Lord
+Star Princess
+Star Queen
+Star Empress
+Star King
+Star Emperor
+
+CARRIERS
+*Bladestar Class*
+Starblade
+Fireblade
+Iceblade
+Starsword
+Firesword
+Icesword
+Starwing
+Firewing
+Icewing

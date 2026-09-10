@@ -10,6 +10,7 @@ export const HEADINGS = ["E", "NE", "NW", "W", "SW", "SE"];
 export const format = value => Number.isFinite(value) ? Number(value.toFixed(4)).toLocaleString("en-US", { maximumFractionDigits:4 }) : "—";
 export const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 export function shipLabel(ship) {
+  if (ship.vesselName?.full) return ship.vesselName.full;
   if (ship.displayName) return `${ship.displayName} ${/-(\d+)$/.exec(ship.id)?.[1]?.padStart(2, '0') || ''}`.trim();
   const name = ship.className === "gunstar-battlecruiser" ? "Gunstar" : ship.className.replaceAll("-", " ");
   const number = /-(\d+)$/.exec(ship.id)?.[1];

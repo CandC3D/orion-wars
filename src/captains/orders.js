@@ -29,8 +29,11 @@ export function validateOrders(observation, input) {
     for (const [id, o] of Object.entries(packet)) {
       const ship = ships.get(id);
       if (!ship) throw new Error('Order does not name an owned living ship');
-      shape(o, Object.hasOwn(o??{},'spinal')?['plan','target','reserve','spinal']:['plan','target','reserve'], 'ship order');
+      shape(o, ['plan','target','reserve',...['spinal','insist'].filter(k=>Object.hasOwn(o??{},k))], 'ship order');
       if(Object.hasOwn(o,'spinal')&&(!ship.spinal||!['charge','vent'].includes(o.spinal)))throw new Error('Invalid spinal intent');
+      // A direct order: the ship's captain is overruled for this turn and his objection is logged.
+      // Strict, like warp - omit it when it is not wanted; insist:false is not a way to say no.
+      if(Object.hasOwn(o,'insist')&&(o.insist!==true||!ship.captain))throw new Error('Insist requires an officered ship and must be omitted rather than set false');
       if (!Array.isArray(o.plan) || o.plan.length !== observation.roundsPerTurn) throw new Error('Wrong action count');
       if (!Number.isFinite(o.reserve)) throw new Error('Reserve must be finite');
       if (typeof o.target !== 'string' || (o.target !== 'auto' && !targets.has(o.target))) throw new Error('Target is not a current contact');
@@ -56,6 +59,7 @@ export function validateOrders(observation, input) {
         return action;
       }) };
       if(Object.hasOwn(o,'spinal'))orders[id].spinal=o.spinal;
+      if(Object.hasOwn(o,'insist'))orders[id].insist=true;
     }
     for (const id of ships.keys()) if (!Object.hasOwn(packet, id)) adjustments.push({ shipId: id, field: 'omitted-ship', accepted: 'hold-auto-reserve-0.30' });
     return { ok: true, orders, adjustments, faults: [] };
