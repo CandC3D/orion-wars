@@ -1,4 +1,4 @@
-# Measured scale - revision 03 (dimensions unchanged)
+# Measured scale - revision 04 (current frigates; furniture dimensions unchanged)
 
 **1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.
 
@@ -22,6 +22,14 @@ The browser measures the built geometry before its tabletop rotation. The printe
 | EAR frigate | length; width/height in asset metrics | 5.5 | 55 | 55 |
 | KRE frigate | length; width/height in asset metrics | 6.5 | 65 | 65 |
 | VRA frigate | length; width/height in asset metrics | 4.5 | 45 | 45 |
+
+Current source geometry changes hull height/width; these are measured bounds at the unchanged lengths:
+
+| Current hull | Length mm | Height mm | Width mm |
+|---|---:|---:|---:|
+| EAR/frigate | 55 | 33.481 | 20.124 |
+| KRE/frigate | 65 | 17.827 | 39.583 |
+| VRA/frigate | 45 | 21.622 | 16.341 |
 
 References: mug, dice, rulebook, notebook, pencil, hex and frigate range are the sizes supplied by Fable and Chris. Table (1000 x 700 mm), 480 x 320 mm study board, box lid, 25 mm base and 30 mm post are prototype choices. Book thickness is 28 mm within the supplied 25-30 mm range.
 

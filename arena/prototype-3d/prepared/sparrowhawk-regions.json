@@ -1,5 +1,6 @@
 {
-  "format": "tabletop-colour-regions/1",
+  "format": "tabletop-colour-regions/2",
+  "faction": "KRE",
   "palette": [
     {
       "key": "126936",
@@ -14463,7 +14464,8 @@
         10196
       ],
       "register": "energetic",
-      "anatomy": "vertical stern exhaust"
+      "anatomy": "vertical stern exhaust",
+      "colour": "#f5831f"
     },
     "beamEmitter": {
       "region": "ffdd1a",
@@ -14793,7 +14795,13 @@
         5156
       ],
       "register": "energetic",
-      "anatomy": "larger dorsal emitter"
+      "anatomy": "larger dorsal emitter",
+      "socket": [
+        0.3819553107023239,
+        0.7450703911781311,
+        -0.00016960501670837402
+      ],
+      "colour": "#ffdd1a"
     }
   },
   "sourceCoverage": {

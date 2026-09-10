@@ -7,7 +7,7 @@ import { SIZES, mm, validateScaleRows } from './scale.js';
 import { preparePaintGeometry, candidatePaint, patchGeometry } from './hull-paint.js';
 
 const vertex = 'varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
-function normalizeHull(gltf, asset) {
+function normalizeHull(gltf, asset, regions) {
   const group=new THREE.Group();gltf.scene.updateMatrixWorld(true);
   gltf.scene.traverse(o=>{
     if(!o.isMesh)return;
@@ -20,10 +20,10 @@ function normalizeHull(gltf, asset) {
   });
   const box=new THREE.Box3().setFromObject(group),size=box.getSize(new THREE.Vector3()),centre=box.getCenter(new THREE.Vector3()),scale=asset.length/size.x;
   for(const o of group.children)o.geometry.translate(-centre.x,-centre.y,-centre.z).scale(scale,scale,scale);
-  if(asset.paint==='candidate-1987')for(const o of group.children){
-    const original=o.geometry;o.geometry=preparePaintGeometry(original);original.dispose();
+  if(asset.paint==='painted-1987')for(const o of group.children){
+    const original=o.geometry;o.geometry=preparePaintGeometry(original,asset.faction);original.dispose();
     if(Object.values(o.geometry.userData.paint.paletteTriangles).some(n=>n===0))throw new Error('A source paint region disappeared from the candidate');
-    o.material.dispose();o.material=candidatePaint();
+    o.material.dispose();o.material=candidatePaint(asset.faction,o.geometry);
   }
   group.updateMatrixWorld(true);
   const seat=(seed,kind)=>{
@@ -37,7 +37,7 @@ function normalizeHull(gltf, asset) {
   const underside=new THREE.Raycaster(new THREE.Vector3(asset.stand.attachment[0],-asset.length,asset.stand.attachment[2]),new THREE.Vector3(0,1,0),0,asset.length*2).intersectObjects(group.children,false)[0];
   if(!underside)throw new Error('Stand misses the actual underside of '+asset.key);
   if(underside.point.distanceTo(new THREE.Vector3(...asset.stand.attachment))>.003)throw new Error('Authored stand attachment is no longer seated on '+asset.key);
-  return {group,size:size.multiplyScalar(scale),attachment:underside.point.clone(),sockets:{weapon:seat(asset.sockets.weapon,'weapon'),impact:seat(asset.sockets.impact,'impact'),engines:asset.sockets.engines.map(p=>seat(p,'engine'))},
+  return {group,size:size.multiplyScalar(scale),attachment:underside.point.clone(),sockets:{weapon:regions.features.beamEmitter?new THREE.Vector3(...regions.features.beamEmitter.socket):null,impact:seat(asset.sockets.impact,'impact'),engines:asset.sockets.engines.map(p=>seat(p,'engine'))},
     triangles:group.children.reduce((n,m)=>n+(m.geometry.index?.count??m.geometry.attributes.position.count)/3,0)};
 }
 
@@ -109,9 +109,9 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   for(const o of [beamCore,beamHalo,flare,anonymous])o.visible=false;
 
   const loaded=await Promise.all(manifest.assets.map(async asset=>{
-    const result={asset,...normalizeHull(await new GLTFLoader().loadAsync(asset.url),asset)};
-    if(asset.regionMap){const response=await fetch(asset.regionMap);if(!response.ok)throw new Error('Missing authored region map');result.regions=validateRegionMap(await response.json());}
-    return result;
+    const [gltf,response]=await Promise.all([new GLTFLoader().loadAsync(asset.url),fetch(asset.regionMap)]);
+    if(!response.ok)throw new Error('Missing authored region map');const regions=validateRegionMap(await response.json(),asset.faction);
+    return {asset,regions,...normalizeHull(gltf,asset,regions)};
   }));
   const catalogue=new Map(loaded.map(a=>[a.asset.key,a]));
   const baseMaterial=physicalMaterial('painted black hex bases',{color:'#151513',roughness:.86});
@@ -125,8 +125,6 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   for(const a of loaded)scene.userData.scaleRows.push({object:a.asset.faction+' frigate',basis:'length; width/height in asset metrics',sceneUnits:[a.size.x],actualMm:[a.size.x*10],referenceMm:[SIZES.miniatures[a.asset.faction]]});
   validateScaleRows(scene.userData.scaleRows);
   const units=new Map(),glows=[],regionGlows=[],dummy=new THREE.Object3D();
-  const exhaustMaterial=energyMaterial('Sparrowhawk exhaust / separate imagined energy','#f5831f',1,.16);
-  const emitterMaterial=energyMaterial('Sparrowhawk larger dome / separate imagined energy','#ffdd1a',1,.25);
   for(const u of initial.units){
     const asset=catalogue.get(`${u.faction}/${u.className}`);if(!asset)throw new Error(`No classified asset for ${u.faction}/${u.className}`);
     const model=asset.group;scene.add(model);
@@ -140,7 +138,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
       if(g.boundingBox.min.distanceTo(expectedMin)>.003||g.boundingBox.max.distanceTo(expectedMax)>.003)throw new Error('Stale semantic face map: '+kind);
       const position=g.attributes.position,normal=g.attributes.normal;
       for(let i=0;i<position.count;i++)position.setXYZ(i,position.getX(i)+normal.getX(i)*.003,position.getY(i)+normal.getY(i)*.003,position.getZ(i)+normal.getZ(i)*.003);
-      const mesh=energyMesh(u.id+' / exact '+kind+' colour patch',g,kind==='exhaust'?exhaustMaterial:emitterMaterial);mesh.matrixAutoUpdate=false;
+      const mesh=energyMesh(u.id+' / exact '+kind+' colour patch',g,energyMaterial(u.id+' / confirmed '+kind,feature.colour,1,kind==='exhaust'?.16:.25));mesh.matrixAutoUpdate=false;
       patches.push({kind,mesh});regionGlows.push({id:u.id,kind,mesh});
     }
     units.set(u.id,{model,tether,anchor,engines,patches,asset,unit:u});
@@ -177,6 +175,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   }
   const endpoint=(e,kind)=>{
     const u=units.get(e.id);if(!u||!u.model.visible)throw new Error('Effect endpoint is not visible');
+    if(!u.asset.sockets[kind])throw new Error('No confirmed '+kind+' attachment for '+u.asset.asset.key);
     const p=hexWorld(e.hex),l=layout[e.id],point=u.model.localToWorld(u.asset.sockets[kind].clone());
     // If event-time coordinates differ, only explicitly supplied coordinates move the effect.
     point.x+=p.x-l.anchor.x;point.z+=p.z-l.anchor.z;
@@ -188,7 +187,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     clearEffect();if(!event||progress>=1)return;currentEffect=event;
     const pulse=Math.sin(Math.PI*Math.max(.015,progress));
     if(event.kind==='beam'){
-      for(const p of regionGlows)if(p.kind==='beamEmitter'&&p.id===event.source.id){p.mesh.visible=true;emitterMaterial.uniforms.strength.value=.25*pulse;}
+      for(const p of regionGlows)if(p.kind==='beamEmitter'&&p.id===event.source.id){p.mesh.visible=true;p.mesh.material.uniforms.strength.value=.25*pulse;}
       const from=endpoint(event.source,'weapon'),to=endpoint(event.destination,'impact'),delta=to.clone().sub(from);
       for(const mesh of [beamCore,beamHalo]){mesh.visible=true;mesh.position.copy(from).add(to).multiplyScalar(.5);mesh.scale.y=delta.length();mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.clone().normalize());}
       coreMaterial.uniforms.strength.value=.82*pulse;haloMaterial.uniforms.strength.value=.21*pulse;
@@ -220,21 +219,42 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   applyProjection(initial);setCamera(0);resize();render();
   if(lastStats.triangles>BUDGETS.maxTriangles||lastStats.drawCalls>BUDGETS.maxDrawCalls)throw new Error(`Slice budget exceeded: ${lastStats.triangles} triangles / ${lastStats.drawCalls} draws`);
   const textureSet=new Set();
-  scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material])for(const value of Object.values(m))if(value?.isTexture)textureSet.add(value);});
-  const textureMiB=[...textureSet].reduce((n,t)=>n+t.image.width*t.image.height*4*(t.generateMipmaps?4/3:1),0)/1048576;
+  scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){for(const value of Object.values(m))if(value?.isTexture)textureSet.add(value);if(m.userData.paintEdges)textureSet.add(m.userData.paintEdges);}});
+  const textureMiB=[...textureSet].reduce((n,t)=>n+(t.userData.byteLength??t.image.width*t.image.height*4*(t.generateMipmaps?4/3:1)),0)/1048576;
   if(textureMiB>BUDGETS.materialTextureMiB)throw new Error('Material texture budget exceeded: '+textureMiB+' MiB');
   const api={ applyProjection,setCamera,setEffect,clearEffect,resize,render,
-    captureDetail(angle='plan'){
-      clearEffect();const hull=units.get('KRE-FF-1'),x=hull.model.position.x;
-      const positions={plan:[x,28,12],side:[x+4,25,30],stern:[x+31,25,0],bow:[x-31,25,0]};
-      if(!positions[angle])throw new Error('Unknown review angle');camera.position.set(...positions[angle]);camera.fov=14;
+    captureDetail(angle='plan',faction='KRE'){
+      clearEffect();const hull=units.get(faction+'-FF-1');
+      const positions={plan:[0,28,12],side:[4,26,30],stern:[-31,26,0],bow:[31,26,0]};
+      if(!positions[angle])throw new Error('Unknown review angle');
+      const offset=new THREE.Vector3(...positions[angle]).applyAxisAngle(new THREE.Vector3(0,1,0),hull.model.rotation.y);
+      camera.position.set(hull.model.position.x+offset.x,positions[angle][1],hull.model.position.z+offset.z);camera.fov=14;
       camera.lookAt(hull.model.position);camera.updateProjectionMatrix();camera.updateMatrixWorld();composite.uniforms.blur.value=0;
       const direction=camera.getWorldDirection(new THREE.Vector3());if(camera.position.y<BUDGETS.cameraFloor||Math.asin(-direction.y)*180/Math.PI<BUDGETS.pitchFloor)throw new Error('Review camera crossed a floor');
       return render();
     },
-    inspect:()=>({...lastStats,threeRevision:THREE.REVISION,assets:loaded.map(a=>({key:a.asset.key,paint:a.asset.paint,triangles:a.triangles,paintEvidence:a.group.children[0].geometry.userData.paint??null,
-      sizeMm:a.size.toArray().map(n=>n*10),standAttachment:a.attachment.toArray(),sockets:Object.fromEntries(Object.entries(a.sockets).map(([k,v])=>[k,Array.isArray(v)?v.map(p=>p.toArray()):v.toArray()]))})),
+    inspect:()=>({...lastStats,threeRevision:THREE.REVISION,hullScreenBounds:Object.fromEntries([...units].map(([id,u])=>{
+      const b=new THREE.Box3().setFromObject(u.model),points=[];
+      for(const x of [b.min.x,b.max.x])for(const y of [b.min.y,b.max.y])for(const z of [b.min.z,b.max.z])points.push(new THREE.Vector3(x,y,z).project(camera));
+      const xs=points.map(p=>(p.x+1)*.5*physical.width),ys=points.map(p=>(1-p.y)*.5*physical.height);
+      return [id,{x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)}];
+    })),assets:loaded.map(a=>({key:a.asset.key,paint:a.asset.paint,triangles:a.triangles,paintEvidence:a.group.children[0].geometry.userData.paint??null,
+      sizeMm:a.size.toArray().map(n=>n*10),standAttachment:a.attachment.toArray(),sockets:Object.fromEntries(Object.entries(a.sockets).map(([k,v])=>[k,Array.isArray(v)?v.map(p=>p.toArray()):v?.toArray()??null]))})),
       energyRegionGeometry:regionGlows.map(p=>({id:p.id,kind:p.kind,triangles:p.mesh.geometry.attributes.position.count/3})),materialTextureMiB:textureMiB,scaleMeasurements:scene.userData.scaleRows, postHeights:manifest.assets.map(a=>a.stand.height),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
+    brushEvidence(){
+      // Each ablation changes one hull's albedo brush marks at the planning camera.
+      // Count visible native-resolution pixels; this supports, not replaces, review.
+      setCamera(0);clearEffect();render();const baseline=api.physicalPixels(),result={};
+      for(const a of loaded){
+        for(const o of a.group.children)o.material.userData.brush.value=0;
+        render();const without=api.physicalPixels();let changed=0,maxDifference=0;
+        for(let i=0;i<baseline.length;i+=4){let delta=0;for(let j=0;j<3;j++)delta=Math.max(delta,Math.abs(THREE.DataUtils.fromHalfFloat(baseline[i+j])-THREE.DataUtils.fromHalfFloat(without[i+j])));
+          if(delta>.025)changed++;maxDifference=Math.max(maxDifference,delta);}
+        result[a.asset.faction]={pixelsChangedAbove025:changed,maxLinearChannelDifference:maxDifference};
+        for(const o of a.group.children)o.material.userData.brush.value=1;
+      }
+      render();return result;
+    },
     lightsOffEvidence(){
       const lights=scene.children.filter(o=>o.isLight).map(o=>[o,o.intensity]),background=scene.background;
       for(const [light] of lights)light.intensity=0;scene.background=new THREE.Color(0);render();

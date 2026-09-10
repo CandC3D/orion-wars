@@ -36,10 +36,11 @@ Incoming missile impacts always suppress the launcher, even if a source was
 accidentally supplied. A previously seen launcher is not evidence of the launch
 position. Unknown shooters do not acquire a faction-coloured effect.
 
-The safe stream has no exact firing mount id. The prototype's manifest sockets
+The safe stream has no exact firing mount id. The prototype's source-region sockets
 are authored **cosmetic hull attachments**: a visible weapon housing and hull
-surface, not a claim about which simulated mount fired. They are seated against
-the loaded geometry by a local raycast. If a socket cannot be seated, fail the
+surface, not a claim about which simulated mount fired. Weapon points come from
+confirmed source face maps; impact/stand points are seated by local raycast.
+If a point or face map cannot be seated, fail the
 asset gate. Never use a nozzle as a weapon socket. Adding real mount selection
 to projected shots is a separate contact-owner decision.
 
@@ -50,7 +51,10 @@ The current Krelath GLB supplies its regions through `COLOR_0`. Orange, yellow
 and white remain non-emissive physical paint. A separate energetic mesh copies
 the exact confirmed exhaust faces; another copies the larger emitter's faces
 only during its shot. The smaller dome retains its paint with no assigned
-function or energetic activation. See `SOURCE-GAP.md` for the corrected contract.
+function or energetic activation. Monoceros has separately confirmed aft-outlet
+and forward laser-muzzle maps, without treating its whole red region as either
+function. Shard is faithfully painted from its model, with no inferred weapon or
+exhaust assignment. See `SOURCE-GAP.md` for the per-hull source/paint contract.
 
 `resolved` is not proof of a hit, damage, a shield strike or destruction.
 The isolated fixture may carry `shield-flare` only as an explicitly authored

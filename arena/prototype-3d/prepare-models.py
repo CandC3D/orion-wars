@@ -1,15 +1,18 @@
 """Prototype-only preparation. Run with Blender --background --python this-file.
 
-Never overwrites the supplied source or the shared asset library. The seven
+Never overwrites supplied sources or the shared asset library. Per-hull
 authored regions live in COLOR_0, not in the single material. Preserve them.
 """
-import bpy, bmesh, json, hashlib, math, struct
+import bpy, bmesh, json, hashlib, math, struct, sys
 from pathlib import Path
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 
 HERE = Path(__file__).resolve().parent
-SOURCE = HERE / 'source' / 'Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb'
+faction = sys.argv[sys.argv.index('--')+1] if '--' in sys.argv else 'KRE'
+config = json.loads((HERE/'hull-sources.json').read_text(encoding='utf-8'))[faction]
+SOURCE = HERE / 'source' / config['source']
+output_name = config['output']
 OUT = HERE / 'prepared'
 OUT.mkdir(exist_ok=True)
 raw = SOURCE.read_bytes()
@@ -26,7 +29,7 @@ for i in range(accessor['count']):
     key = ''.join(f'{round(v*255):02x}' for v in rgb)
     entry = palette.setdefault(key, {'linearRGB':rgb, 'sourceVertices':0})
     entry['sourceVertices'] += 1
-assert len(palette) == 7, 'Changed source palette: re-inspect art before preparing'
+assert {k:v['sourceVertices'] for k,v in palette.items()} == config['colours'], 'Changed source palette/counts: re-inspect art before preparing'
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False)
 bpy.ops.import_scene.gltf(filepath=str(SOURCE))
@@ -47,17 +50,22 @@ source_vertices = [v.co.copy() for v in original.vertices]
 source_faces = [tuple(p.vertices) for p in original.polygons]
 source_bvh = BVHTree.FromPolygons(source_vertices, source_faces)
 modifier = obj.modifiers.new('Prototype reduction; source untouched', 'DECIMATE')
-modifier.ratio = 0.16
+modifier.ratio = config['ratio']
 modifier.use_collapse_triangulate = True
 bpy.ops.object.modifier_apply(modifier=modifier.name)
 mesh.update()
-# Source uses native Y length, bow -Y, Z up. Blender restores that convention on import.
+validation_before = [len(mesh.vertices),len(mesh.edges),len(mesh.polygons)]
+validation_corrected = mesh.validate(verbose=True)
+mesh.update()
+validation_after = [len(mesh.vertices),len(mesh.edges),len(mesh.polygons)]
+# Axis conventions are declared per source: Krelath -Y, Earth/Shard +X; Z up.
 # Export a centred, bow +X, Y-up GLB for runtime with no inferred orientation.
 mins = [min(v.co[i] for v in mesh.vertices) for i in range(3)]
 maxs = [max(v.co[i] for v in mesh.vertices) for i in range(3)]
-length = maxs[1]-mins[1]
+long_axis = 1 if config['nativeBow']=='-Y' else 0
+length = maxs[long_axis]-mins[long_axis]
 centre = Vector([(a+b)/2 for a,b in zip(mins,maxs)])
-scale = 6.5 / length  # 1 scene unit = 10 mm; 65 mm miniature
+scale = config['lengthMm'] / 10 / length  # 1 scene unit = 10 mm
 derived_bvh = BVHTree.FromPolygons([v.co.copy() for v in mesh.vertices], [tuple(p.vertices) for p in mesh.polygons])
 forward = [derived_bvh.find_nearest(v)[3] for v in source_vertices]
 backward = [source_bvh.find_nearest(v.co)[3] for v in mesh.vertices]
@@ -83,23 +91,24 @@ source_parts=components(original); output_parts=components(mesh)
 assert len(source_parts)==len(output_parts), 'A connected feature disappeared during reduction'
 for v in mesh.vertices:
     p=(v.co-centre)*scale
-    v.co=(-p.y,p.x,p.z) # Blender Z up; exporter turns into X, Z, -Y (runtime Y up)
+    v.co=(-p.y,p.x,p.z) if config['nativeBow']=='-Y' else p # Blender Z up; exporter turns into X, Z, -Y (runtime Y up)
 for p in mesh.polygons: p.use_smooth=True
 mesh.update()
-obj.name='Sparrowhawk current hull - authored COLOR_0 regions'
+obj.name=config['name']+' current hull - authored COLOR_0 regions'
 # Keep COLOR_0 and the source material. Runtime paint uses those region colours;
 # any energetic overlay remains a separate classified drawable.
-bpy.ops.export_scene.gltf(filepath=str(OUT/'sparrowhawk.glb'),export_format='GLB',use_selection=True,export_yup=True,export_normals=True,export_materials='EXPORT')
-report={'source':SOURCE.name,'sourceSha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
-    'sourceBytes':SOURCE.stat().st_size,'output':'sparrowhawk.glb','outputBytes':(OUT/'sparrowhawk.glb').stat().st_size,
-    'outputSha256':hashlib.sha256((OUT/'sparrowhawk.glb').read_bytes()).hexdigest(),
-    'sourceTriangles':original_triangles,'outputTriangles':len(mesh.polygons),'ratio':0.16,
-    'miniatureLengthMm':65,'mmPerUnit':10,'maximumVertexToSurfaceErrorMm':max_error_mm,
+bpy.ops.export_scene.gltf(filepath=str(OUT/(output_name+'.glb')),export_format='GLB',use_selection=True,export_yup=True,export_normals=True,export_materials='EXPORT')
+report={'source':config['source'],'faction':faction,'sourceSha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+    'sourceBytes':SOURCE.stat().st_size,'output':output_name+'.glb','outputBytes':(OUT/(output_name+'.glb')).stat().st_size,
+    'outputSha256':hashlib.sha256((OUT/(output_name+'.glb')).read_bytes()).hexdigest(),
+    'validation':{'corrected':validation_corrected,'beforeVerticesEdgesFaces':validation_before,'afterVerticesEdgesFaces':validation_after},
+    'sourceTriangles':original_triangles,'outputTriangles':len(mesh.polygons),'ratio':config['ratio'],
+    'miniatureLengthMm':config['lengthMm'],'mmPerUnit':10,'maximumVertexToSurfaceErrorMm':max_error_mm,
     'errorMethod':'Both directions, all vertices to closest triangle; not a certified surface Hausdorff bound',
     'sourceComponentCount':len(source_parts),'outputComponentCount':len(output_parts),
     'sourceMaterials':[m.name for m in original.materials], 'authoredColourRegions':True,
     'sourceColourAttribute':'COLOR_0','sourcePalette':palette,'physicalEmission':False,
-    'orientation':'Centred; runtime +X bow, +Y up. Native bow -Y confirmed by supplied schematic provenance.',
+    'orientation':'Centred runtime +X longitudinal forward, +Y up; native '+config['nativeBow']+'. Earth/Krelath schematic reference; Shard long pointed end, no inferred systems.',
     'sourceComponents':source_parts,'outputComponents':output_parts}
-(OUT/'preparation.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+(OUT/(output_name+'-preparation.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
 print('PROTOTYPE_PREPARATION',json.dumps({k:v for k,v in report.items() if not k.endswith('Components')}))

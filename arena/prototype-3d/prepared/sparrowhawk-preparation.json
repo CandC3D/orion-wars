@@ -1,10 +1,24 @@
 {
   "source": "Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb",
+  "faction": "KRE",
   "sourceSha256": "8cf11f930ff0d8a096e8d1d1b70ae31b50018fdda47024a11520e48d757ea964",
   "sourceBytes": 7015984,
   "output": "sparrowhawk.glb",
   "outputBytes": 371208,
   "outputSha256": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
+  "validation": {
+    "corrected": false,
+    "beforeVerticesEdgesFaces": [
+      6687,
+      20032,
+      13351
+    ],
+    "afterVerticesEdgesFaces": [
+      6687,
+      20032,
+      13351
+    ]
+  },
   "sourceTriangles": 83508,
   "outputTriangles": 13351,
   "ratio": 0.16,
@@ -78,7 +92,7 @@
     }
   },
   "physicalEmission": false,
-  "orientation": "Centred; runtime +X bow, +Y up. Native bow -Y confirmed by supplied schematic provenance.",
+  "orientation": "Centred runtime +X longitudinal forward, +Y up; native -Y. Earth/Krelath schematic reference; Shard long pointed end, no inferred systems.",
   "sourceComponents": [
     {
       "vertices": 40438,

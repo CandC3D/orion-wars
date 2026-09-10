@@ -1,0 +1,55 @@
+{
+  "EAR": {
+    "name": "Monoceros",
+    "source": "edf/Earth Monoceros Class Frigate v3 Series.glb",
+    "output": "monoceros",
+    "lengthMm": 55,
+    "ratio": 0.095,
+    "nativeBow": "+X",
+    "colours": {
+      "bfc7cc": 151419,
+      "009fd7": 60171,
+      "e91d2d": 55653,
+      "0076a9": 54504,
+      "f5831f": 13164,
+      "e1ad34": 12480,
+      "fafafa": 6618,
+      "61676a": 3999,
+      "46b749": 3888
+    }
+  },
+  "KRE": {
+    "name": "Sparrowhawk",
+    "source": "Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb",
+    "output": "sparrowhawk",
+    "lengthMm": 65,
+    "ratio": 0.16,
+    "nativeBow": "-Y",
+    "colours": {
+      "126936": 101052,
+      "46b749": 55350,
+      "a97b50": 58557,
+      "f5831f": 17751,
+      "fafafa": 264,
+      "ffdd1a": 15549,
+      "e91d2d": 2001
+    }
+  },
+  "VRA": {
+    "name": "Shard",
+    "source": "vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb",
+    "output": "shard",
+    "lengthMm": 45,
+    "ratio": 0.3,
+    "nativeBow": "+X",
+    "colours": {
+      "d3bfe5": 15750,
+      "e1ad34": 14073,
+      "7e3f98": 7893,
+      "ffdd1a": 2454,
+      "f5831f": 1782,
+      "46b749": 156,
+      "e91d2d": 84
+    }
+  }
+}

@@ -28,11 +28,20 @@ try{
   for(const kind of ['planning','beam','shield','anonymous']){
     result.captures[kind]=await page.evaluate(k=>window.tabletopPrototype.capturePose(k,.48),kind);
     await page.locator('.frame').screenshot({path:path.join(out,kind+'.png')});
+    if(kind==='planning'){
+      const stage=await page.locator('.stage').boundingBox();
+      for(const [faction,name] of [['EAR','monoceros'],['KRE','sparrowhawk'],['VRA','shard']]){
+        const b=result.captures.planning.hullScreenBounds[faction+'-FF-1'];
+        await page.screenshot({path:path.join(out,name+'-planning.png'),clip:{x:Math.floor(stage.x+b.x-10),y:Math.floor(stage.y+b.y-10),width:Math.ceil(b.width+20),height:Math.ceil(b.height+20)}});
+      }
+    }
   }
+  result.checks.planningBrush=await page.evaluate(()=>window.tabletopPrototype.brushEvidence());
+  for(const [faction,r] of Object.entries(result.checks.planningBrush))assert.ok(r.pixelsChangedAbove025>30,'Brushwork invisible at planning size: '+faction);
   result.detailCameras={};
-  for(const angle of ['plan','side','stern','bow']){
-    result.detailCameras[angle]=await page.evaluate(a=>window.tabletopPrototype.captureDetail(a),angle);
-    await page.locator('.stage').screenshot({path:path.join(out,angle==='plan'?'sparrowhawk-detail.png':'sparrowhawk-'+angle+'.png')});
+  for(const [faction,name] of [['EAR','monoceros'],['KRE','sparrowhawk'],['VRA','shard']])for(const angle of ['plan','side','stern','bow']){
+    result.detailCameras[faction+'-'+angle]=await page.evaluate(([a,f])=>window.tabletopPrototype.captureDetail(a,f),[angle,faction]);
+    await page.locator('.stage').screenshot({path:path.join(out,name+'-'+(angle==='plan'?'detail':angle)+'.png')});
   }
   await page.evaluate(()=>window.tabletopPrototype.capturePose('anonymous',.48));
   await page.evaluate(()=>window.tabletopPrototype.capturePose('beam',.48));
@@ -58,11 +67,11 @@ try{
   result.checks.geometricPaint=await page.evaluate(async()=>{
     const T=await import('three'),{preparePaintGeometry,regionOf}=await import('./hull-paint.js');
     const colour=g=>{const a=[];for(let i=0;i<g.attributes.position.count;i++)a.push(18/255,105/255,54/255);g.setAttribute('color',new T.Float32BufferAttribute(a,3));return g;};
-    const box=preparePaintGeometry(colour(new T.BoxGeometry())),plane=preparePaintGeometry(colour(new T.PlaneGeometry()));
+    const box=preparePaintGeometry(colour(new T.BoxGeometry()),'KRE'),plane=preparePaintGeometry(colour(new T.PlaneGeometry()),'KRE');
     const fold=new T.BufferGeometry();fold.setAttribute('position',new T.Float32BufferAttribute([0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,-1,0],3));fold.computeVertexNormals();
-    const folded=preparePaintGeometry(colour(fold));let missing=false,unknown=false;
-    try{preparePaintGeometry(new T.BoxGeometry());}catch{missing=true;}
-    try{regionOf([.8,.05,.9]);}catch{unknown=true;}
+    const folded=preparePaintGeometry(colour(fold),'KRE');let missing=false,unknown=false;
+    try{preparePaintGeometry(new T.BoxGeometry(),'KRE');}catch{missing=true;}
+    try{regionOf([.8,.05,.9],'KRE');}catch{unknown=true;}
     const result={cubeConvex:box.userData.paint.raisedEdges,cubeConcave:box.userData.paint.concaveEdges,flatPlaneCreases:plane.userData.paint.raisedEdges+plane.userData.paint.concaveEdges,foldConcave:folded.userData.paint.concaveEdges,missingColourRejected:missing,unknownColourRejected:unknown};
     [box,plane,folded,fold].forEach(g=>g.dispose());return result;
   });
@@ -85,12 +94,15 @@ try{
   result.gpu=gl;result.errors=errors;
   const dimensions=result.captures.planning.scaleMeasurements;
   const f=n=>Number(n.toFixed(3));
-  const scaleText=['# Measured scale - revision 03 (dimensions unchanged)','',
+  const scaleText=['# Measured scale - revision 04 (current frigates; furniture dimensions unchanged)','',
     '**1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.',
     '', 'The browser measures the built geometry before its tabletop rotation. The printed hex uses the same 32 mm across-flats geometry as the presentation coordinates. Rows fail at a 0.06 mm discrepancy. The D20 uses opposite vertices (20 mm), not opposite faces.',
     '', '| Object | Measurement | Scene units | Implied actual mm | Reference / chosen mm |',
     '|---|---|---:|---:|---:|',
     ...dimensions.map(r=>'| '+[r.object,r.basis,r.sceneUnits.map(f).join(' x '),r.actualMm.map(f).join(' x '),r.referenceMm.map(f).join(' x ')].join(' | ')+' |'),
+    '', 'Current source geometry changes hull height/width; these are measured bounds at the unchanged lengths:',
+    '', '| Current hull | Length mm | Height mm | Width mm |', '|---|---:|---:|---:|',
+    ...result.captures.planning.assets.map(a=>'| '+a.key+' | '+a.sizeMm.map(f).join(' | ')+' |'),
     '', 'References: mug, dice, rulebook, notebook, pencil, hex and frigate range are the sizes supplied by Fable and Chris. Table (1000 x 700 mm), 480 x 320 mm study board, box lid, 25 mm base and 30 mm post are prototype choices. Book thickness is 28 mm within the supplied 25-30 mm range.',
     '', 'All three samples remain frigates: Vraygon 45 mm, Earth 55 mm, Sparrowhawk 65 mm. This demonstrates size variation within the requested 40-75 mm range, not a validated destroyer/battleship scale ladder. Swift is not loaded.',
     '', 'The notebook row measures its 216 x 279 mm body; the wire loop adds 1.95 mm beyond its left edge and reaches 7.45 mm above the table. The pencil has a 7 mm hexagonal section across corners (6.062 mm across flats), including a real sharpened tip within the 190 mm total. The mug-body reference excludes its handle; the full width is reported separately.',

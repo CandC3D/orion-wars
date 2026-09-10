@@ -1,11 +1,13 @@
 import fs from 'node:fs';
 import {readGLB,colourKey} from './glb-data.mjs';
 const here=new URL('./',import.meta.url);
-const source=readGLB(new URL('./source/Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb',here));
+const configs=JSON.parse(fs.readFileSync(new URL('./hull-sources.json',here)));
+const faction=process.argv[2]??'KRE',config=configs[faction];
+const source=readGLB(new URL('./source/'+config.source,here));
 const sp=source.json.meshes[0].primitives[0],sc=source.attribute(sp.attributes.COLOR_0);
 const palette=[];
 for(const c of sc){const key=colourKey(c);let p=palette.find(p=>p.key===key);if(!p){p={key,rgb:c.slice(0,3),sourceVertices:0};palette.push(p);}p.sourceVertices++;}
-const glb=readGLB(new URL('./prepared/sparrowhawk.glb',here)),p=glb.json.meshes[0].primitives[0];
+const glb=readGLB(new URL('./prepared/'+config.output+'.glb',here)),p=glb.json.meshes[0].primitives[0];
 const positions=glb.attribute(p.attributes.POSITION),colours=glb.attribute(p.attributes.COLOR_0),indices=glb.attribute(p.indices).flat();
 const nearest=c=>palette.reduce((best,p,i)=>{const d=p.rgb.reduce((n,x,k)=>n+(x-c[k])**2,0);return d<best.d?{i,d}:best;},{d:Infinity}).i;
 const key=v=>v.map(n=>Math.round(n*1e6)).join(','),edges=new Map(),faces=[];
@@ -22,12 +24,17 @@ patches.sort((a,b)=>a.region.localeCompare(b.region)||b.triangles-a.triangles);
 // The v2 plate identifies a vertical orange stern exhaust and the larger yellow
 // dorsal dome. Each selector must match one actual connected source-colour patch.
 const select=(label,predicate)=>{const found=patches.filter(predicate);if(found.length!==1)throw Error('Re-author semantic region: '+label);return {...found[0],register:'energetic',anatomy:label};};
-const features={
+const features=faction==='KRE'?{
   exhaust:select('vertical stern exhaust',p=>p.region==='f5831f'&&p.max[0]<-2.9&&p.min[1]>.1),
   beamEmitter:select('larger dorsal emitter',p=>p.region==='ffdd1a'&&p.min[0]>.2&&p.min[1]>.6)
-};
+}:faction==='EAR'?{
+  exhaust:select('red insert in the aft nacelle outlet',p=>p.region==='e91d2d'&&p.max[0]<-2.7&&p.min[1]>1),
+  beamEmitter:select('forward laser muzzle inside the orange warning housing',p=>p.region==='e91d2d'&&p.min[0]>1.89&&p.max[0]<1.90&&p.min[1]>.85&&p.max[1]<1.01)
+}:{};
+if(features.beamEmitter){const e=features.beamEmitter;e.socket=e.min.map((n,k)=>(n+e.max[k])/2);e.socket[faction==='KRE'?1:0]=e.max[faction==='KRE'?1:0]+.018;}
+for(const f of Object.values(features))f.colour='#'+f.region;
 function coverage(glb){
-  const primitive=glb.json.meshes[0].primitives[0],p=glb.attribute(primitive.attributes.POSITION),c=glb.attribute(primitive.attributes.COLOR_0),ids=glb.attribute(primitive.indices).flat(),areas=Array(7).fill(0);
+  const primitive=glb.json.meshes[0].primitives[0],p=glb.attribute(primitive.attributes.POSITION),c=glb.attribute(primitive.attributes.COLOR_0),ids=glb.attribute(primitive.indices).flat(),areas=Array(palette.length).fill(0);
   for(let i=0;i<ids.length;i+=3){const [a,b,d]=ids.slice(i,i+3).map(i=>p[i]),u=b.map((v,k)=>v-a[k]),v=d.map((v,k)=>v-a[k]);
     const area=Math.hypot(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])/2;
     areas[nearest(c[ids[i]])]+=area;
@@ -37,5 +44,5 @@ function coverage(glb){
 const sourceCoverage=coverage(source),derivativeCoverage=coverage(glb);
 for(const p of palette)p.register='physical';
 for(const p of patches)p.register='physical';
-fs.writeFileSync(new URL('./prepared/regions.json',here),JSON.stringify({format:'tabletop-colour-regions/1',palette,patches,features,sourceCoverage,derivativeCoverage},null,2)+'\n');
-console.log(JSON.stringify({palette,patches:patches.map(({faces,...p})=>p)},null,2));
+fs.writeFileSync(new URL('./prepared/'+config.output+'-regions.json',here),JSON.stringify({format:'tabletop-colour-regions/2',faction,palette,patches,features,sourceCoverage,derivativeCoverage},null,2)+'\n');
+console.log(JSON.stringify({faction,output:config.output,patches:patches.length,regionAreaError:Math.max(...palette.map(p=>Math.abs(sourceCoverage[p.key]-derivativeCoverage[p.key])))}));

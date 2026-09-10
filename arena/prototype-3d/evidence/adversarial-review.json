@@ -1,125 +1,214 @@
 {
   "status": "passed-self-review",
-  "revision": 3,
-  "reviewedAtUtc": "2026-09-10T05:09:27Z",
+  "revision": 4,
   "reviewer": "Astra",
+  "reviewedAtUtc": "2026-09-10T10:39:19.381Z",
   "approvalByChris": false,
   "canSeeCapturedFrames": true,
-  "visualEvidence": "All eight final captures directly opened in the image viewer; source GLB colours, schematic and written conventions inspected.",
+  "visualEvidence": "Native planning frame and unscaled hull crops first, resolution frames second, then all twelve close-up views; 19 images directly viewed.",
   "rubricWrittenBeforeBuild": "RUBRIC.md",
-  "rubricSha256": "ce6f07088f49fe9e2467f05571816c8208ccccb6bd79271945055119a7b5f209",
+  "rubricSavedAtUtc": "2026-09-10T10:07:25.414Z",
+  "rubricSha256": "f13e62b24873b4c542c697538f236b3e6b7763188e529df658d16edd6307dfc5",
   "report": "REVIEW.md",
   "minimumPerCriterion": 90,
-  "weightedTotal": 95.3,
+  "weightedTotal": 94.3,
   "criteria": [
     {
       "name": "Brief and scope fidelity",
-      "weight": 20,
+      "weight": 15,
       "score": 100,
       "deductions": []
     },
     {
       "name": "Fidelity to generated art",
       "weight": 25,
-      "score": 95,
+      "score": 94,
       "deductions": [
         {
-          "points": 2,
-          "reason": "Small decimation approximation; vertex-to-triangle measurement is not a certified continuous bound."
+          "points": 3,
+          "reason": "Earth/Shard source approximation up to 0.259/0.175 mm in vertex-to-surface measurement."
         },
         {
           "points": 3,
-          "reason": "Fine window shapes and door separation are less distinct in the ordinary view and need close inspection."
+          "reason": "Fine fixtures and reduced contours need close inspection; not a continuous surface certificate."
         }
       ]
     },
     {
-      "name": "Period materials and painting",
-      "weight": 20,
-      "score": 92,
+      "name": "Painted metal rather than rendered plastic",
+      "weight": 25,
+      "score": 91,
+      "method": "Lowest individual hull-material score, not their average",
+      "individualAssessments": [
+        {
+          "name": "Monoceros",
+          "weight": null,
+          "score": 92,
+          "deductions": [
+            {
+              "points": 4,
+              "reason": "Collar-edge strokes remain regular."
+            },
+            {
+              "points": 2,
+              "reason": "Very small chips are not individually resolved in the ordinary frame."
+            },
+            {
+              "points": 2,
+              "reason": "Pale paint is cleaner than a specific aged miniature."
+            }
+          ]
+        },
+        {
+          "name": "Sparrowhawk",
+          "weight": null,
+          "score": 93,
+          "deductions": [
+            {
+              "points": 4,
+              "reason": "Dull bronze can read close to brown in the top view."
+            },
+            {
+              "points": 3,
+              "reason": "Long highlighted edges are more uniform than individual brushwork."
+            }
+          ]
+        },
+        {
+          "name": "Shard",
+          "weight": null,
+          "score": 91,
+          "deductions": [
+            {
+              "points": 4,
+              "reason": "Gold/yellow dominates the small planning silhouette."
+            },
+            {
+              "points": 3,
+              "reason": "Edge work is comparatively heavy on the compact hull."
+            },
+            {
+              "points": 2,
+              "reason": "Fine coverage is procedurally regular."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Period technique and register fidelity",
+      "weight": 10,
+      "score": 95,
       "deductions": [
         {
-          "points": 4,
-          "reason": "Edge stroke widths remain more regular than individual handwork."
+          "points": 3,
+          "reason": "Computed brush deposits remain more regular than a particular painter."
         },
         {
           "points": 2,
-          "reason": "Bronze highlight is simplified; individual paint flakes are not resolved."
-        },
-        {
-          "points": 2,
-          "reason": "Box-cover art and wood grain are visibly stylised."
+          "reason": "No independently authored mould seam or flash pass."
         }
       ]
     },
     {
       "name": "Scale coherence",
-      "weight": 20,
+      "weight": 10,
       "score": 96,
       "deductions": [
         {
           "points": 2,
-          "reason": "D20 opposite-vertex sizing convention has not been confirmed against the intended physical die."
+          "reason": "D20 opposite-vertex convention remains provisional."
         },
         {
           "points": 2,
-          "reason": "Table, board and base dimensions are prototype choices, not approved production dimensions."
+          "reason": "Table/board/base production dimensions are prototype choices."
         }
       ]
     },
     {
-      "name": "Unaided tabletop reading",
+      "name": "Unaided play-element reading",
       "weight": 15,
       "score": 93,
       "deductions": [
         {
           "points": 4,
-          "reason": "Fine window and ring paint diminishes at ordinary planning scale."
+          "reason": "Small Shard violet/fixture work loses separation at planning distance."
         },
         {
           "points": 3,
-          "reason": "Simplified props and focus blur still disclose an illustrative prototype."
+          "reason": "Individual wear flecks are subordinate to larger lining/highlight patterns."
         }
       ]
     }
   ],
   "unscoredCriteriaWithinSlice": [],
   "outsideSliceUnscored": [
-    "Replacement identification scheme and full-board readability",
+    "Replacement identification and full-board readability",
     "Full-board performance",
-    "Cross-class miniature scale ladder",
+    "Cross-class scale ladder",
     "Destruction",
     "Planet and nebula samples",
-    "Interactive target-machine and integrated-GPU performance",
+    "Interactive and integrated-GPU timing",
     "Peak decoded-image and driver memory"
   ],
   "unresolvedFiction": [
-    "Two authored greens preserved with identical painted-hull material treatment; their distinction is not inferred.",
-    "Smaller dome preserved with source paint and ring; no label, weapon mount or glow assigned."
+    "Sparrowhawk second green retains painted-hull treatment without a meaning.",
+    "Smaller Krelath dome has no function, second mount or glow.",
+    "Shard colours are painted faithfully with no invented anatomy or weapon/exhaust assignment."
   ],
-  "previousBlockerCorrection": "The source and prior derivative already contained seven COLOR_0 regions. The earlier claim that the reference was missing was an inspection error.",
   "validation": {
-    "prototypeChecks": 20,
+    "prototypeChecks": 23,
     "unchangedFastSuiteGroups": 38,
     "browserEvidence": "evidence/review.json"
   },
   "capturedFrameSha256": {
-    "planning.png": "3b2578ca9f1561f79ebe44e3cc5d2a78c686529e896a7e2c8fd4f9a9bb42df85",
-    "beam.png": "8462255d9a7f6966cda52d624af910a6f8b05057bd38a0a22b3a3c5be26818c4",
-    "shield.png": "86a8db179a3a20de6dbbd19fc3bc1cc7ffe8575505d9fc042f39252414d3b1ad",
-    "anonymous.png": "ebced5f4b73aa81bc3a6568c0fe98a54ea16a40f7ab1d79af2c51e4dc32eaade",
-    "sparrowhawk-detail.png": "a55ae6b6eae15d170c4dc8a655a8e45acfdbd0ee310bdd37a9885dc01a3658d4",
-    "sparrowhawk-side.png": "60d5f31a631664bba9dd80d95c2c7684955979852978778017d1b75764998396",
-    "sparrowhawk-stern.png": "40724de8a92e90f721600383460b947aab840830f05cf9bb1c3d56d0d6272dc2",
-    "sparrowhawk-bow.png": "981b19c6278eb8523c6cc7a220c46dc1ba2bf4c79507381aefd050b1f07c090e"
+    "planning.png": "b97d4554373ca27904a63dc07c169ecdf8f9dccbbef29263ea8744100a807183",
+    "beam.png": "a1e413bd098e67c7d294a9bccb6c1db4f859a41e3dd80c48508006ec3181505e",
+    "shield.png": "6419b6d218105df27cd779de38b751c9c21bc9061dcf7ffc0f6ea7d4c8e74a31",
+    "anonymous.png": "92df87f06ad39a8723e1b25b0e36aa9bd7fb05c5e952c1bbb59c0dd591bc47eb",
+    "monoceros-planning.png": "a5dfe6a2375dadcd5ffe151e589b450ebde079b836f30119734b23fd46d437f8",
+    "monoceros-detail.png": "0d1a7be6f4b25289a8c5a82edac770cb8b6c6ee0cd66e02fda4fe53ea431c6f8",
+    "monoceros-side.png": "1e61f174cdb20eabacecbbeeb63dcd20221c6308492b9a5b25f0d6e64f80725e",
+    "monoceros-stern.png": "02b724128d0dc1ae9359dd011aec425ee910bbd3d825e9610b6a95cbd8a1bce2",
+    "monoceros-bow.png": "289a644d6ba1671603937448b70d5060a5459c33c1ab88b50852c9d83f052867",
+    "sparrowhawk-planning.png": "5fd2f8e582034012c98ad189eac31ecd641396a76c711b862d8e78f6eb6473e7",
+    "sparrowhawk-detail.png": "dc282ba417d27520ca960a6132fdb49177a59c2fb6401ef33224b8402467fecc",
+    "sparrowhawk-side.png": "d568e8b354fe0b9652888593af6f7fc11b16c18051f2cdd106b07e8424a2f419",
+    "sparrowhawk-stern.png": "27c464fc068c3285ece797de57adfbdd520312885677c2a4d3b9188cb6cefdbf",
+    "sparrowhawk-bow.png": "6dfc099b9e4e07b58644c2ca6c0010208d6d006bf938d3f7e2f44a82f909c249",
+    "shard-planning.png": "c59aff18fa243deb9ef1b5509728d1151142a325b03484e30df683cd6e6455f0",
+    "shard-detail.png": "516dde0f63bf6070a04c9dfb9bfc4819108e35ef1e32942fb8e1d1feb1f8b208",
+    "shard-side.png": "c5a8f75778d81594c5da8ab4f913a4ca735fffe512eff47b79e3a8fcc283e27e",
+    "shard-stern.png": "b933a51875f9094c278fa17d68f16aee800433f2a5862d39ae45de45f493b940",
+    "shard-bow.png": "04e0e667e83669fdedb27fee8bc1bbffb721a22a8315d16bdd9a96814fd41866"
   },
   "evidenceSha256": {
-    "evidence/review.json": "ef8daecdfff1f208860a36a8eb3fa90961c8fc2fb25597a55d55aeda41177d16",
+    "evidence/review.json": "e4062f045584f547810c318f2ff1a638d3b71ad253bd893df7a358318c400e95",
+    "assets.json": "1ca3219ef9806d1de9b5c467522497cbbc4fedca5980933031e2cf4f12832bee",
+    "hull-art.js": "723562c04b3ce96a93dde682657fbab2aaee08a38a9eedb05977754487f57d1b",
+    "hull-sources.json": "2581bdd7f9b68421db4959a75323d2d71df0a02e298872ce5b6241538eda8139",
+    "hull-paint.js": "06a4c9b005dda25e292b08cbf58c422dbfd47cfbf7ce347a6202f79741eb9453",
+    "renderer.js": "98a213b08c6cfa2bf03ac1eaf3eb25656695c8a99734843497c323f1b628ba3a",
+    "contract.js": "2bf9d96ead125d0e89aa3995a2e31f04154644a1cc62d84753c7dc6654364646",
+    "prepare-models.py": "181176501fe82e356facee9282e5a37860f3d4195895377a0489082b0f2ff968",
+    "inspect-regions.mjs": "f19c331c8579db00945a1aa2d9574f6b7e6702cff6419405460915db932764a0",
+    "SCALE.md": "5a07d37897c42e87f3c018c5a99e6b7679fe9b140ac781f69748afa987aaaf60",
+    "prepared/monoceros.glb": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
+    "prepared/monoceros-preparation.json": "6a691de27e18d4107bba07d9c9368d6d7ed1f158e9a11aa2a2ddcd8e31cabc64",
+    "prepared/monoceros-regions.json": "757bfcb90336981f0d33486eecf6d16f397dac09aebe6aabbb05476e6a2d3399",
     "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
-    "prepared/regions.json": "87bd91893ad037e030740907c178d6ebd5f3ec9a229a1d4ec50a8ade9f64751e",
-    "prepared/preparation.json": "f3f20f7c70aa07ed7cc6c0b2a2c45bd2217d0ee8e14e6a037bfa47e88b153e89",
-    "hull-paint.js": "dd7df11eedcbd85d734887520f58c45a01112ed89701b5974019b36591b8b90c",
-    "renderer.js": "cdfacb525594c06b639cf80764c1e90b177ed856553b8bcb8f247ed72d4b5639",
-    "SCALE.md": "2ae69fa07a70b34a0c3be036aded4970a87a87057d0b241c644224c23772adf0"
+    "prepared/sparrowhawk-preparation.json": "c425435b2b4a89a92c556be72f94987d1e39b0536724f49abbf084ad3dab6301",
+    "prepared/sparrowhawk-regions.json": "a333cc812287aa6ab728cf971d1c5f173ac43f76f0d9f8b8b7d232810a410df9",
+    "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3",
+    "prepared/shard-preparation.json": "781e7e5b71c82024afb0534cb1d23f53cded907e928d093013eeea4f522da651",
+    "prepared/shard-regions.json": "116d47ce75e925f9b1a982a2cc38b50a9eb9ffd92ad5cca9f1a887695b04b7a2"
+  },
+  "unchangedPrototypeFiles": {
+    "table.js": "e5ef8574018555efa88af1840c768d0388a90ba0ff35e925388d482c923493e2",
+    "materials.js": "b4c821e3edff5274fdf9d06c5f95adb18252d3e9cd2ed7b3d2789e518862e65b",
+    "scale.js": "eb8edf350ce4db2a26f3fb39b907239c5019ba5a016b723975d40b1254bb530c",
+    "fixture.js": "a7ff6f801aa1944fc5db4bcfd905fcf0e4dd864443a7204f5b1ab15f349562bc",
+    "prototype.css": "35c7e33bdf778eb09c01aa83d9d4deb4380f21bbe94da83246caaed2dae67b7e",
+    "IDENTIFICATION.md": "711bfe88bd6a30fdf139d1461ffe39fa763e8fd02be378cde855ed45a2d6dc91"
   }
 }

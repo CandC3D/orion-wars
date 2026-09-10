@@ -1,117 +1,151 @@
-﻿# Source colour contract - correction and implementation
+﻿# Source art and paint contract - revision 04
 
-My earlier claim that the supplied GLB lacked colour regions was wrong. I
-inspected materials, images and textures but missed the primitive's `COLOR_0`
-attribute. The derivative had already preserved it. This note replaces the
-incorrect blocker explanation; no new colour source was required.
+Each hull owns its palette and meanings. `hull-art.js` contains three separate
+profiles; `hull-sources.json` records the exact source filenames, colour counts,
+lengths and preparation ratios. A shared hex value is never a shared function.
+The earlier missing-colour blocker was an inspection error: the art was already
+in COLOR_0, including in the previous Sparrowhawk derivative.
 
-The original Sparrowhawk has POSITION and COLOR_0, with 250,524 colour vertices
-and seven distinct values. Every triangle has one colour. The new references
-`source/krelath-schematic-style.md` and
-`source/sparrowhawk-class-frigate-schematic-v2.provenance.md`, together with the
-v2 plate, identify how those colours relate to the physical features.
+## Authority and interpretation
 
-| Source key | Source vertices | Tabletop treatment |
+- Earth: `source/edf/Earth Monoceros Class Frigate v3 Series.glb`, the paired
+  `monoceros-class-frigate-schematic-v3.png`, its provenance and the supplied
+  Earth conventions. Native +X is forward, Z is up. The raised nacelle, its
+  side radiators, forward collector, command pod, laser housing, lower dish,
+  habitation ring and rear flight-deck doors follow the schematic.
+- Krelath: `source/Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb`, Sparrowhawk v2
+  schematic/provenance and Krelath conventions. Native -Y is forward, Z is up.
+  Chris has approved its colour placement; this revision changes the paint
+  response and brush treatment, not its source geometry or colours.
+- Vraygon: `source/vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb` is the reference.
+  No schematic is required or invented. Native +X is the long pointed end and
+  becomes presentation-forward; Z is up. Panel forms, hexagonal fittings and
+  every coloured face come from the model. No weapon, nav, bridge, engine or
+  other system designation is assigned from appearance alone.
+
+Earth's style document specifies schematic display colours, not replacement
+model colours. Its cyan linework is not applied as a hull palette. Orange
+weapons warnings and port-red/starboard-green navigation are the conventions
+recorded in Fable's current instruction.
+
+| Monoceros key | Source corners | Interpretation used |
 |---|---:|---|
-| #126936 | 101,052 | Painted hull green A |
-| #46b749 | 55,350 | Painted hull green B; distinction from A unresolved |
-| #a97b50 | 58,557 | Metallic bronze paint, on the actual bronze faces |
-| #f5831f | 17,751 | Orange paint: collector, exhaust and radiators |
-| #ffdd1a | 15,549 | Yellow paint, including both actual domes |
-| #e91d2d | 2,001 | Red warning paint on its actual rings |
-| #fafafa | 264 | White paint, including the bridge and habitation windows |
+| bfc7cc | 151,419 | Pale hull paint |
+| 009fd7 | 60,171 | Bright blue paint; no whole-region system name |
+| e91d2d | 55,653 | Multiple red parts, including collector, radiator/strut details, muzzle, aft outlet and a small port fitting; not one nav/warning mask |
+| 0076a9 | 54,504 | Deep blue paint; no whole-region system name |
+| f5831f | 13,164 | Actual orange laser warning housing |
+| e1ad34 | 12,480 | Gold paint on the actual lower dish |
+| fafafa | 6,618 | Actual white windows/fittings |
+| 61676a | 3,999 | Dark grey aft nacelle outlet housing |
+| 46b749 | 3,888 | Small starboard nav fitting, matching the Dome Light fingerprint |
 
-The keys label the source tuples; the GLB values are linear RGB and are used as
-linear vertex colours. They are not decoded a second time as sRGB hex strings.
-The table is not a promise of those exact screen pixels under a warm room key.
-Both greens receive the same painted, non-metallic treatment. No functional
-meaning, rank or material distinction is invented for the brighter green.
+| Shard key | Source corners | Interpretation used |
+|---|---:|---|
+| d3bfe5 | 15,750 | Pale violet paint |
+| e1ad34 | 14,073 | Dull gold-coloured paint |
+| 7e3f98 | 7,893 | Purple paint |
+| ffdd1a | 2,454 | Yellow paint |
+| f5831f | 1,782 | Orange paint |
+| 46b749 | 156 | Green fittings; function unassigned |
+| e91d2d | 84 | Red fitting; function unassigned |
 
-## Preparation and fidelity
+No Shard colour is promoted to a system name. Treating the gold as dull metallic
+pigment is a paint choice, not a claim about the material or function of the
+fictional ship. Small green/red fittings remain their actual sizes and places.
 
-`prepare-models.py` welds coincident vertices at 1e-7 of source extent, applies
-Blender collapse decimation at 0.16, retains all connected components, centres
-and orients bow +X / Y up, and makes the miniature 65 mm long. It preserves
-COLOR_0. It adds no topology or decoration, and writes only under `prepared/`.
+Sparrowhawk retains green A #126936 (101,052), green B #46b749 (55,350), bronze
+#a97b50 (58,557), orange #f5831f (17,751), yellow #ffdd1a (15,549), red #e91d2d
+(2,001) and white #fafafa (264). Both greens use identical hull-paint material
+parameters. Their distinction remains unresolved. The smaller dome retains its
+source paint and ring, with no label, second mount or glow.
 
-| Measure | Original | Local derivative |
-|---|---:|---:|
-| Bytes | 7,015,984 | 371,208 |
-| Triangles | 83,508 | 13,351 |
-| Connected components after welding | 3 | 3 |
-| Authored colour regions | 7 | 7 |
+These keys label the GLB's linear RGB tuples. They are not sRGB strings to be
+decoded again, nor promises of exact screen pixels under a warm key. All source
+triangles have a single palette region. Slight Blender colour quantisation is
+re-anchored to that hull's exact source palette; unknown colours fail.
 
-Maximum measured bidirectional vertex-to-nearest-triangle error is 0.037093 mm
-at miniature scale. This is not a certified full-surface Hausdorff bound.
-Blender's colour storage round trip perturbs three palette values slightly;
-runtime restores only that small quantisation error to the exact source tuples.
-Unknown colours and triangles mixing region IDs fail validation.
+## Prototype-local preparation
 
-`inspect-regions.mjs` reads the source and derivative attributes, finds connected
-colour patches, and writes `prepared/regions.json`. The largest change in any
-region's fraction of total surface area is 0.00019017 (0.019017 percentage
-points). Source and derivative area fractions are recorded there; geometry and
-source hashes are in `prepared/preparation.json`.
+`prepare-models.py -- EAR|KRE|VRA` welds coincident vertices at 1e-7 of source
+extent, collapses the mesh using the declared ratio, validates the result,
+centres/orients it and normalises to the declared physical length. It retains
+all connected components and COLOR_0. Inputs are read only; outputs stay in
+`prepared/`. `inspect-regions.mjs EAR|KRE|VRA` builds the per-hull connected colour
+patches and confirmed energetic face maps. Selectors fail if the source changes.
 
-## Period painting from real features
+| Hull | Ratio | Triangles before / after | Bytes before / after | Components | Max measured deviation |
+|---|---:|---:|---:|---:|---:|
+| Monoceros | 0.095 | 120,632 / 11,442 | 10,134,364 / 334,512 | 2 / 2 | 0.258724 mm |
+| Sparrowhawk | 0.16 | 83,508 / 13,351 | 7,015,984 / 371,208 | 3 / 3 | 0.037093 mm |
+| Shard | 0.30 | 14,064 / 4,188 | 1,182,644 / 139,164 | 33 / 33 | 0.175217 mm |
 
-`hull-paint.js` uses the original colour regions as flat block coats. Bronze
-receives a controlled metallic return; the greens and bright paints do not.
-It measures adjacent triangle normals and shared geometric edges. Concave breaks
-receive dark undercoat/ink; convex breaks receive chalky drybrush and narrower
-picked edge strokes. The 24-degree threshold excludes ordinary smooth-surface
-triangulation. Unmatched edges are left alone rather than declared seams.
+Deviation is bidirectional, all vertices to the nearest triangle, not a certified
+continuous Hausdorff bound. Maximum colour-area fraction changes are 0.038605,
+0.019017 and 0.628739 percentage points respectively. Shard's decimator creates
+20 duplicate faces; explicit mesh validation removes them before measurement
+and export. No connected part is removed. Source and derivative hashes, full
+palettes, region areas and component bounds accompany each derivative in
+`<hull>-preparation.json` and `<hull>-regions.json`.
 
-The current derivative supplies 1,450 concave and 978 raised crease edges.
-Ink width is 0.14 mm, drybrush width 0.22 mm, and the narrower picked line is
-0.065 mm. Broken chalk deposits have a 0.2 mm scale; pixel-footprint filtering
-averages their coverage when minified. Paint remains flat away from those
-features. Ink pooling lowers roughness locally; chalk stays rough. There are
-no new panel grids, arbitrary trim bands, normal/displacement maps, zenithal
-pass, weathering powders or added greebles. Room lighting creates the ordinary
-shading gradients; the block coats do not contain them.
+## One period brush treatment
 
-These are authored-region and measured-geometry masks, not a generic hull shader.
-The red rings remain at both source domes; the smaller dome receives no label,
-second tactical mount or glow. All bronze is confined to the bronze colour mask.
-The orange forward collector, vertical stern exhaust, horizontal radiators,
-lower flight-deck doors and white window groups keep their source locations.
+All three use the same material procedure, with metallic-pigment eligibility
+specified separately in each hull profile. No rule infers a function from hex.
 
-## Two objects, two registers
+- Matte opaque block coats: body roughness 0.98 and 3.5% of the ordinary
+  dielectric specular colour. The existing room lighting still shades forms;
+  no zenithal or directional gradient is painted into the coat.
+- Slight nondirectional coverage variation (linear coat multiplier 0.625-0.665),
+  filtered at small sizes. No invented panel grid, photographic bump map or
+  sculpted detail is added.
+- Actual concave creases receive 0.25 mm black undercoat/ink lining. Ink can
+  pool locally at lower roughness. It does not turn the whole paint film glossy.
+- Actual raised edges receive 0.38 mm broken chalk work and a narrower 0.12 mm
+  picked stroke. Their physical coverage is filtered at the pixel footprint.
+  Recess ink suppresses overlying drybrush so fine fittings retain separation.
+- Bronze/gold paint uses roughness 0.82 and metalness 0.18; only small picked
+  edges return more light. It is not a polished or chrome surface.
+- Sparse exposed-corner chips occur only where two actual convex crease
+  directions meet. They expose bright alloy; no random flat-panel damage is
+  invented. No casting seam or flash is fabricated at an assumed mould split.
 
-All seven colours belong to the physical hull: opaque MeshStandardMaterial,
-room-lit, shadowed, depth-writing, emissive zero. Even the bright orange, yellow
-and white paint emits nothing.
+Creases require a 24-degree normal break. Smooth triangulation is excluded;
+unmatched edges are not declared seams. Generated float textures contain the
+nearest real crease segments for each face. The brush therefore crosses triangle
+boundaries continuously, rather than revealing tessellation as jagged paint.
+These textures contain geometry coordinates, not authored panel images, and
+consume 5.31 MiB within the 24 MiB material budget.
 
-The separate energetic scene copies only two confirmed connected patches:
+## Physical paint and separate energy
 
-- Stern exhaust: the vertical orange patch, 18 triangles; restrained continuous
-  energy at that exact surface.
-- Larger dorsal beam emitter: the yellow dome patch, 312 triangles; energy only
-  during its disclosed shot. The beam starts at the actual larger dome.
+All 23 palette entries across the three profiles are physical: room-lit, opaque,
+shadowed, depth-writing and non-emissive, including every bright/nav colour.
 
-Copies receive a 0.03 mm outward offset to prevent coincident-depth interference.
-They are unlit/additive, cast no shadow and add no lights. No energetic copy is
-made for the smaller dome, collector, radiators or windows in this slice. Their
-physical bright paint is still present. The region map classifies physical
-pigments and energetic copies separately, and runtime rejects missing or mixed
-classification and stale face maps.
+| Hull | Separate energetic geometry | Evidence |
+|---|---|---|
+| Monoceros | Red aft nacelle insert, 12 faces; red forward laser muzzle, 179 faces | Model positions and matched side/plan/end schematic; orange housing remains physical warning paint |
+| Sparrowhawk | Vertical orange stern exhaust, 18 faces; larger yellow dorsal emitter, 312 faces | v2 schematic and written anatomy |
+| Shard | None assigned | Geometry/colour are sufficient for painting, but no function is invented to place a weapon or exhaust effect |
 
-A lights-off browser check produces zero non-black pixels in the entire
-physical pass while the energetic pass remains visible. Effects on/off also
-leave physical and shadow buffers identical. These test the register split
-through actual rendered buffers, including the bright paint.
+Each energetic copy has its own classification, material and exact face map,
+with a 0.03 mm outward depth offset. It adds no room light or shadow. Emitter
+energy activates only for a disclosed shot; the fixture still fires Sparrowhawk
+at Monoceros. Neither nav paint nor the smaller Krelath dome is activated.
+Missing/mixed classifications, cross-hull maps and stale feature bounds fail.
 
 ## Rebuild
 
-From this worktree, using Blender 5.2 and Node:
+From this worktree with Blender 5.2 and Node:
 
 ```powershell
-& 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --python arena/prototype-3d/prepare-models.py
-node arena/prototype-3d/inspect-regions.mjs
+foreach ($faction in @('EAR','KRE','VRA')) {
+  & 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' --background --python arena/prototype-3d/prepare-models.py -- $faction
+  node arena/prototype-3d/inspect-regions.mjs $faction
+}
 node arena/prototype-3d/test.mjs
 ```
 
-The supplied source files remain gitignored and unchanged. The page loads the
-371 KB derivative, never the 7 MB raw source or the deprecated game Krelath hull.
-Permanent intake and exporter changes remain with campaign-map.
+Blender's optional extension-cache write is denied by the sandbox; preparation
+succeeds without it. Source libraries remain ignored working copies, not
+permanent asset intake. That ownership remains campaign-map's.
