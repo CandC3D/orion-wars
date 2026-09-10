@@ -146,6 +146,16 @@ body[data-command] .contact-footer>#incoming { flex:1; min-width:0; overflow:hid
 /* Playtest 10 September 2026: turn before/after, per-weapon targeting, wrecks. */
 .target-well .hold-key[aria-pressed=true] { background:#ffafa2; border-color:#ffafa2; color:#1a0b08; }
 .contact-report.wreck-report { border-left-color:#6f7a80; opacity:.75; }
-.helm-well .helm-turn-end { display:flex; align-items:center; gap:6px; min-width:0; }
-.helm-well .helm-turn-end output { flex:1 1 auto; min-width:0; }
-.helm-well .helm-row .turn-after-key { min-width:0; min-height:26px; padding:2px 6px; font-size:10px; white-space:nowrap; }
+/* The maneuver sequence instrument: two pictogram keys beside the heading rose (10 Sept 2026). */
+.rose-well .rose-deck { display:flex; align-items:center; justify-content:center; gap:8px; }
+.rose-well .sequence-keys { display:flex; flex-direction:column; gap:4px; }
+.command-console .sequence-key { flex-direction:column; gap:1px; min-height:0; padding:3px 6px; font-size:9px; letter-spacing:1px; }
+.command-console .sequence-key .sequence-glyph { display:block; width:44px; height:26px; }
+.command-console .sequence-key:disabled { opacity:.45; }
+/* Each helm readout sits under its row label, so the row holds controls only. */
+.helm-well .helm-row { grid-template-columns:66px auto 58px auto; }
+.helm-well .helm-row>span { line-height:1.15; }
+.helm-well .helm-row>span output { display:block; color:var(--accent); font-size:11px; letter-spacing:.3px; text-transform:none; white-space:nowrap; }
+.rose-well .rose-deck #heading-rose { flex:0 1 auto; min-width:0; display:flex; justify-content:center; }
+.rose-well .rose-deck #heading-rose svg { max-width:100%; height:auto; aspect-ratio:1; }
+.rose-well .sequence-keys { flex:none; }

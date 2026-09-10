@@ -18,6 +18,7 @@ import { debrisMarkup } from './contact-debris.js';
 import { torpedoMarkup, torpedoSummary } from './contact-torpedoes.js';
 import { HOLD, mountAssignment, setMountAssignment, pruneMountOrders, mountSolutions } from './mount-orders-ui.js';
 import { spinalPanel } from './spinal-panel.js';
+import { sequenceKeysMarkup } from './console-sequence.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
 import { shadowMarkup, shadowCache } from './terrain-shadow.js';
@@ -56,6 +57,7 @@ const liveContacts = view => (view?.contacts??[]).filter(c=>!c.destroyed);
 const editable = () => sessionReady && !state.busy && state.index===state.tape.length-1 && !state.latest?.result;
 const editableOrder = (ship=currentShip()) => editable() && ship && !ship.destroyed ? state.orders[ship.id] : null;
 const idle = () => ({turn:0,forward:0});
+const helmWords=t=>t>0?`Port ${t}`:t<0?`Stbd ${-t}`:'Ahead';
 const turnWords=(t,long=false)=>t>0?`Port ${t} face${t===1?'':'s'}`:t<0?`Starboard ${-t} face${t===-1?'':'s'}`:long?'Straight ahead':'Ahead';
 // A Maneuver starts as a turn in place with nothing set yet (Chris, 10 September), which is the same
 // numbers as Hold & fire - so the choice itself is remembered here, on the action object, where the
@@ -292,7 +294,7 @@ function renderOrders() {
   const i=state.action,p=order.plan[i],kind=planKind(p),f=forecast.actions?.[i];
   const attr=field=>`data-round="${i}" data-field="${field}" ${enabled?'':'disabled'}`;
   const helm=(name,label,title)=>`<button type="button" data-helm="${name}" title="${title}" ${enabled?'':'disabled'}>${label}</button>`;
-  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm</span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}<span class="helm-turn-end"><output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(turnWords(p.turn,true))}</output><button type="button" class="console-key turn-after-key" data-turn-order="${p.turnAfter?'before':'after'}" aria-pressed="${!!p.turnAfter}" ${enabled?'':'disabled'} title="${p.turnAfter?'Turning AFTER the move: runs along the current heading, then turns in the end hex. Press to turn first.':'Turning BEFORE the move: turns in the start hex, then runs along the new heading. Press to turn after the move instead.'}">${p.turnAfter?'Turn after move':'Turn before move'}</button></span></div><div class="helm-row"><span>Distance</span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)} hex</output></div>${s.specials.burst?`<div class="helm-row"><span>Free burst</span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes} burst</output></div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
+  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm<output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(helmWords(p.turn))}</output></span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}</div><div class="helm-row"><span>Distance<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)}</output></span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}</div>${s.specials.burst?`<div class="helm-row"><span>Burst<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes}</output></span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}</div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
   program.querySelector('[data-field=kind]').value=kind;
   if(consoleMode){
     const kindSel=program.querySelector('[data-field=kind]');
@@ -326,14 +328,6 @@ function renderOrders() {
     if(next===Number(input.value)&&Number.isFinite(input.valueAsNumber)){orderFeedback(`Action ${i+1}: ${field==='turn'?'turn':field} is already at its limit (${input.min} to ${input.max}).`);return;}
     input.value=String(next);if(apply(input))renderOrders(); // rerender keeps the same action; focus returns to the button
   });
-  // Turn before or after the linear move (Chris, 10 September 2026). Strict in the engine: only an
-  // ordinary maneuver may carry it, and it is present-and-true or absent - never false.
-  program.querySelectorAll('[data-turn-order]').forEach(b=>b.onclick=()=>{
-    const o=editableOrder(s);if(!o||!flushPending())return;
-    const a=o.plan[i];if(planKind(a)==='scan'||planKind(a)==='warp')return;
-    if(b.dataset.turnOrder==='after')a.turnAfter=true;else delete a.turnAfter;
-    renderOrders();drawMap();$('#action-program .turn-after-key')?.focus({preventScroll:true});
-  });
   renderPlanSummary(order,forecast);
   if(restore?.field)program.querySelector(`[data-field="${restore.field}"]`)?.focus({preventScroll:true});
   else if(restore?.helm)program.querySelector(`[data-helm="${restore.helm}"]`)?.focus({preventScroll:true});
@@ -352,6 +346,14 @@ function renderConsoleOrders(s,order,forecast,enabled){
   const startFacing=f?.start?.facing??s.facing;
   $('#heading-rose').innerHTML=headingRoseMarkup({facing:s.facing,startFacing,plannedFacing:planned,turnRate:s.turnRate,size:150});
   $('#heading-rose').querySelectorAll('[data-heading-dir]').forEach(el=>{const dir=Number(el.dataset.headingDir);let turn=((dir-startFacing)%6+6)%6;if(turn>3)turn-=6;const ok=enabled&&Math.abs(turn)<=s.turnRate;el.setAttribute('tabindex',ok?'0':'-1');el.setAttribute('role','button');el.setAttribute('aria-disabled',String(!ok));const go=()=>{if(!ok)return;const kindSel=$('#action-program [data-field=kind]');if(kindSel&&kindSel.value!=='move'){kindSel.value='move';kindSel.onchange();}const input=$('#action-program [data-field=turn]');if(!input)return;input.value=String(turn);input.onchange();renderOrders();};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
+  // Sequence keys beside the rose: turn before or after the run (Chris, 10 September 2026). Strict in
+  // the engine: only an ordinary maneuver carries it, and it is present-and-true or absent, never false.
+  const seq=$('#sequence-keys');
+  if(seq){seq.innerHTML=sequenceKeysMarkup(p,planKind(p),enabled);
+    seq.querySelectorAll('[data-sequence]').forEach(b=>b.onclick=()=>{
+      const o=editableOrder(s);if(!o||!flushPending())return;const a=o.plan[state.action];if(planKind(a)!=='move')return;
+      if(b.dataset.sequence==='run-first')a.turnAfter=true;else delete a.turnAfter;
+      renderOrders();drawMap();$('#sequence-keys [data-sequence="'+b.dataset.sequence+'"]')?.focus({preventScroll:true});});}
   $('#course-readout').innerHTML=f?.end?`A${i+1} · ${p.turnAfter&&p.turn?`<b>${p.forward} hex${p.burst?' +'+p.burst:''}</b> · then ${turnWords(p.turn).toLowerCase()}`:`<b>${turnWords(p.turn,true)}</b> · ${p.forward} hex${p.burst?' +'+p.burst:''}`}<br>ends ${f.end.q}, ${f.end.r} · hdg ${f.end.facing} · ceiling ${format(f.powerCeiling)} P`:`A${i+1} · <b>${esc(planWords(p))}</b><br>${esc((f?.notes||[]).find(n=>/clamped|unresolved/.test(n))||'')}`;
   // Target keys. With no weapon isolated they set the SHIP's priority, as before. With a weapon lamp
   // touched they assign THAT mount: its own contact, HOLD FIRE, or back to the ship's priority
@@ -424,8 +426,8 @@ function refreshPreview() {
   if(card){
     card.querySelector('.result').innerHTML=f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}${f.kind==='scan'?`<br>Face ${f.scan} · 1 action · 0 extra power`:''}`:'Course unresolved';
     card.querySelector('.instrument-note').textContent=f?.notes.join(' ')||'';
-    const heading=card.querySelector('#helm-heading');if(heading)heading.textContent=turnWords(p.turn,true);
-    const dist=card.querySelector('[data-readout=forward]');if(dist)dist.textContent=`${p.forward} hex`;
+    const heading=card.querySelector('#helm-heading');if(heading)heading.textContent=helmWords(p.turn);
+    const dist=card.querySelector('[data-readout=forward]');if(dist)dist.textContent=`${p.forward} of ${card.querySelector('[data-field=forward]')?.max??p.forward}`;
   }
   $('#action-tabs')?.querySelectorAll('[data-action-tab]').forEach((b,k)=>{b.innerHTML=`<b>ACTION ${k+1}</b>${esc(planWords(order.plan[k]))}`;});
   renderPlanSummary(order,forecast);

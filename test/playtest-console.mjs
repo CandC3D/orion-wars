@@ -16,6 +16,7 @@ const { DIRS } = await mod('src/tactical/hex.js');
 const { torpedoMarkup, torpedoSummary } = await mod('arena/contact-torpedoes.js');
 const { mountAssignment, setMountAssignment, pruneMountOrders, mountSolutions } = await mod('arena/mount-orders-ui.js');
 const { announcement } = await mod('arena/contact-effects.js');
+const { sequenceKeysMarkup } = await mod('arena/console-sequence.js');
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('ok:', name); };
@@ -201,6 +202,17 @@ check('point defence names the hulls that stopped the torpedo', () => {
 check("a captain's objection reads as his, not as a beam shot from nowhere", () => {
   const a = announcement({ kind: 'captain', shipId: 'A-1', rule: 'will-not-close', reason: 'Capt. Ridley will not close with a heavier ship', held: 1, of: 3 }, { label: () => 'ISS Resolute' });
   assert.match(a.title, /held short \(1 of 3 hex\)/); assert.match(a.detail, /Capt\. Ridley/); assert.ok(!/Unknown source/.test(a.detail));
+});
+
+// ---------------------------------------------------------------- "not a bloody checkbox"
+check('the sequence keys light the order the ship will fly, and go dark when there is nothing to sequence', () => {
+  const on = sequenceKeysMarkup({ turn: 1, forward: 2 }, 'move', true);
+  assert.match(on, /data-sequence="turn-first" aria-pressed="true"/); assert.ok(!/disabled/.test(on));
+  assert.match(sequenceKeysMarkup({ turn: 1, forward: 2, turnAfter: true }, 'move', true), /data-sequence="run-first" aria-pressed="true"/);
+  for (const [a, k] of [[{ turn: 0, forward: 3 }, 'move'], [{ turn: 2, forward: 0 }, 'move'], [{ turn: 0, forward: 0 }, 'hold']])
+    assert.equal((sequenceKeysMarkup(a, k, true).match(/disabled/g) || []).length, 2, JSON.stringify(a));
+  assert.equal((sequenceKeysMarkup({ turn: 1, forward: 2 }, 'move', false).match(/disabled/g) || []).length, 2, 'a recorded picture is read-only');
+  assert.ok(!/<input|checkbox/.test(on), 'keys with pictograms, not a form control');
 });
 
 console.log(`\nPlaytest console: ${passed} checks passed.`);
