@@ -2295,9 +2295,12 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     const o = hasOrder(s);
     if (o && Number.isFinite(o.reserve)) s.reserve = Math.round(Math.min(1, Math.max(0, o.reserve)) * s.power);
     s.orderTarget = (o && o.target && o.target !== "auto") ? o.target : null;
-    // A direct order stands for this turn only, and is cleared for every living hull each turn
-    // whether or not one was given, so it can never carry over into a turn nobody asked for it.
-    s.insistThisTurn = !!(o && o.insist);
+    // A direct order stands for this turn only. Cleared rather than set false, because fullState()
+    // serialises every ship field: writing the flag unconditionally put `insistThisTurn: false`
+    // into the recorded state of battles that have no officers at all. Behaviour was unaffected -
+    // the suite is byte-identical either way - but "a battle without captains is untouched" should
+    // be true of the record and not only of the outcome.
+    if (o && o.insist) s.insistThisTurn = true; else delete s.insistThisTurn;
   }
   for (const s of [...fighting(A), ...fighting(B)]) evade(s, tuning, rng, log, battle);
 
