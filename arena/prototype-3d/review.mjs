@@ -30,6 +30,9 @@ try{
     result.captures[kind]=await page.evaluate(k=>window.tabletopPrototype.capturePose(k,.48),kind);
     await page.locator('.frame').screenshot({path:path.join(out,kind+'.png')});
     if(kind==='planning'){
+      const rim=await page.evaluate(()=>window.tabletopPrototype.rimEvidence());
+      assert.deepEqual(rim.units.map(u=>u.code).sort(),['EFG-03','KFG-01','VFG-04']);
+      result.checks.explicitBoardCodes=rim.units.map(u=>({id:u.id,code:u.code}));
       assert.equal(result.captures.planning.visibleEnergyObjects,0,'static pieces came to life without playback');
       assert.equal(result.captures.planning.clearVariant,false,'clear experiment replaced the painted default');
       for(const m of result.captures.planning.mounting){assert.ok(Math.abs(m.exposedMm-30)<.001);assert.ok(Math.abs(m.baseGapMm)<.001&&m.hullGapMm<.001,'Unseated post: '+m.id);assert.equal(m.opaque,true);}

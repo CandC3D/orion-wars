@@ -1,0 +1,25 @@
+Extensions: writing cache failed ([Errno 13] Permission denied: 'C:\\Users\\chorr\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\extensions\\.cache\\compat.dat').
+18:22:33 | INFO: Data are loaded, start creating Blender stuff
+18:22:33 | INFO: Blender create Mesh node 0
+18:22:33 | INFO: glTF import finished in 0.01s
+00:02.187  geom.mesh        | ERROR Face 5938 is a duplicate of 210
+00:02.187  geom.mesh        | ERROR Face 6059 is a duplicate of 227
+00:02.187  geom.mesh        | ERROR Face 6285 is a duplicate of 6262
+00:02.187  geom.mesh        | ERROR Face 6389 is a duplicate of 6385
+00:02.187  geom.mesh        | ERROR Face 6541 is a duplicate of 6535
+00:02.187  geom.mesh        | ERROR Face 7570 is a duplicate of 7384
+00:02.187  geom.mesh        | ERROR Face 8062 is a duplicate of 7518
+00:02.187  geom.mesh        | ERROR Face 8164 is a duplicate of 295
+00:02.187  geom.mesh        | ERROR Face 8179 is a duplicate of 8169
+00:02.187  geom.mesh        | ERROR Face 8188 is a duplicate of 8178
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+18:22:33 | INFO: Starting glTF 2.0 export
+18:22:33 | INFO: Extracting primitive: Mesh_0
+18:22:33 | INFO: Primitives created: 1
+18:22:33 | INFO: Finished glTF 2.0 export in 0.05318403244018555 s
+
+PROTOTYPE_PREPARATION {"source": "vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb", "faction": "VRA", "sourceSha256": "e03dd65ed06a80f4db0900dda89e8a304bf6ce165d3f1f00874afb8acfd5a33f", "sourceBytes": 1182644, "output": "vra-shard.glb", "outputBytes": 262876, "outputSha256": "88e9ecde9b5f49900cd8c0ab9f74737a443e9715fa4acd7dbcf1fe426c98fa5d", "validation": {"corrected": true, "beforeVerticesEdgesFaces": [4249, 12629, 8418], "afterVerticesEdgesFaces": [4249, 12629, 8408]}, "sourceTriangles": 14064, "outputTriangles": 8408, "ratio": 0.6, "miniatureLengthMm": 50.39617828995831, "mmPerUnit": 10, "maximumVertexToSurfaceErrorMm": 0.08298701900041303, "errorMethod": "Both directions, all vertices to closest triangle; not a certified surface Hausdorff bound", "sourceComponentCount": 33, "outputComponentCount": 33, "sourceMaterials": ["lambert2SG.001"], "authoredColourRegions": true, "sourceColourAttribute": "COLOR_0", "sourcePalette": {"e91d2d": {"linearRGB": [0.9137254953384399, 0.11372549086809158, 0.1764705926179886], "sourceVertices": 84}, "7e3f98": {"linearRGB": [0.4941176474094391, 0.24705882370471954, 0.5960784554481506], "sourceVertices": 7893}, "e1ad34": {"linearRGB": [0.8823529481887817, 0.6784313917160034, 0.20392157137393951], "sourceVertices": 14073}, "ffdd1a": {"linearRGB": [1.0, 0.8666666746139526, 0.10196078568696976], "sourceVertices": 2454}, "d3bfe5": {"linearRGB": [0.8274509906768799, 0.7490196228027344, 0.8980392217636108], "sourceVertices": 15750}, "f5831f": {"linearRGB": [0.9607843160629272, 0.5137255191802979, 0.12156862765550613], "sourceVertices": 1782}, "46b749": {"linearRGB": [0.27450981736183167, 0.7176470756530762, 0.2862745225429535], "sourceVertices": 156}}, "physicalEmission": false, "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred."}
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:35:40)
+
+Blender quit

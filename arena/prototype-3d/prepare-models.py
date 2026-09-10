@@ -14,9 +14,16 @@ config = json.loads((HERE/'hull-sources.json').read_text(encoding='utf-8'))[fact
 if '--comparison' in sys.argv:
     config = json.loads((HERE/'comparison-source.json').read_text(encoding='utf-8'))
     faction = config['faction']
+if '--fleet' in sys.argv:
+    fleet_id = sys.argv[sys.argv.index('--fleet')+1]
+    records = json.loads((HERE/'prepared/fleet/inventory.json').read_text(encoding='utf-8'))['hulls']
+    config = next(h['config'] for h in records if h['id'] == fleet_id)
+    faction = config['faction']
 SOURCE = HERE / 'source' / config['source']
+if '--ratio' in sys.argv: config['ratio'] = float(sys.argv[sys.argv.index('--ratio')+1])
 output_name = config['output']
 OUT = HERE / 'prepared'
+if '--fleet' in sys.argv: OUT = OUT / 'fleet'
 OUT.mkdir(exist_ok=True)
 raw = SOURCE.read_bytes()
 json_length = struct.unpack_from('<I', raw, 12)[0]
@@ -84,7 +91,8 @@ validation_after = [len(mesh.vertices),len(mesh.edges),len(mesh.polygons)]
 # Export a centred, bow +X, Y-up GLB for runtime with no inferred orientation.
 mins = [min(v.co[i] for v in mesh.vertices) for i in range(3)]
 maxs = [max(v.co[i] for v in mesh.vertices) for i in range(3)]
-long_axis = 1 if config['nativeBow']=='-Y' else 0
+assert config['nativeBow'] in ('+X', '-X', '+Y', '-Y'), 'Explicit presentation axis required'
+long_axis = 1 if config['nativeBow'].endswith('Y') else 0
 length = maxs[long_axis]-mins[long_axis]
 centre = Vector([(a+b)/2 for a,b in zip(mins,maxs)])
 scale = config['lengthMm'] / 10 / length  # 1 scene unit = 10 mm
@@ -113,7 +121,7 @@ source_parts=components(original); output_parts=components(mesh)
 assert len(source_parts)==len(output_parts), 'A connected feature disappeared during reduction'
 for v in mesh.vertices:
     p=(v.co-centre)*scale
-    v.co=(-p.y,p.x,p.z) if config['nativeBow']=='-Y' else p # Blender Z up; exporter turns into X, Z, -Y (runtime Y up)
+    v.co={'-Y':(-p.y,p.x,p.z),'+Y':(p.y,-p.x,p.z),'-X':(-p.x,-p.y,p.z),'+X':p}[config['nativeBow']] # Blender Z up; exporter turns into X, Z, -Y (runtime Y up)
 for p in mesh.polygons: p.use_smooth=True
 mesh.update()
 obj.name=config['name']+' current hull - authored COLOR_0 regions'

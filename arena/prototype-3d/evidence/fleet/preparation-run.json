@@ -1,0 +1,184 @@
+[
+  {
+    "id": "ear-monoceros",
+    "triangles": 25960,
+    "bytes": 721212,
+    "errorMm": 0.18381575247731624,
+    "ratio": 0.21553153392134758
+  },
+  {
+    "id": "ear-victory",
+    "triangles": 25966,
+    "bytes": 737516,
+    "errorMm": 0.24569547208437698,
+    "ratio": 0.13491355154735465
+  },
+  {
+    "id": "ear-saturn",
+    "triangles": 25963,
+    "bytes": 740096,
+    "errorMm": 0.21170331786721974,
+    "ratio": 0.13487715803452854
+  },
+  {
+    "id": "ear-acamar",
+    "triangles": 25949,
+    "bytes": 750920,
+    "errorMm": 0.2962551374190423,
+    "ratio": 0.08608872436377121
+  },
+  {
+    "id": "ear-yi-sun-sin",
+    "triangles": 25946,
+    "bytes": 757092,
+    "errorMm": 0.34076886203057055,
+    "ratio": 0.1151043465172081
+  },
+  {
+    "id": "ear-federation",
+    "triangles": 83527,
+    "bytes": 2307644,
+    "errorMm": 0.14059284844053097,
+    "ratio": 0.25
+  },
+  {
+    "id": "ear-yamato",
+    "triangles": 25921,
+    "bytes": 769464,
+    "errorMm": 0.3136311990536538,
+    "ratio": 0.0915241588577785
+  },
+  {
+    "id": "kre-sparrowhawk",
+    "triangles": 25981,
+    "bytes": 700392,
+    "errorMm": 0.016986535906349583,
+    "ratio": 0.3113474158164487
+  },
+  {
+    "id": "kre-swift",
+    "triangles": 25968,
+    "bytes": 707328,
+    "errorMm": 0.02258313414048321,
+    "ratio": 0.23083615959656942
+  },
+  {
+    "id": "kre-ballista",
+    "triangles": 25977,
+    "bytes": 704324,
+    "errorMm": 0.019031645763420393,
+    "ratio": 0.23675535886648819
+  },
+  {
+    "id": "kre-raptor",
+    "triangles": 118058,
+    "bytes": 3961464,
+    "errorMm": 0.06111923108446323,
+    "ratio": 0.8
+  },
+  {
+    "id": "kre-lightning",
+    "triangles": 140472,
+    "bytes": 4662004,
+    "errorMm": 0.007953843431054472,
+    "ratio": 0.8
+  },
+  {
+    "id": "kre-star-knight",
+    "triangles": 25946,
+    "bytes": 731932,
+    "errorMm": 0.10227363013553466,
+    "ratio": 0.16421605780405235
+  },
+  {
+    "id": "kre-bladestar",
+    "triangles": 156892,
+    "bytes": 5194712,
+    "errorMm": 0.012804935173620486,
+    "ratio": 0.8
+  },
+  {
+    "id": "kre-star-lord",
+    "triangles": 25957,
+    "bytes": 741788,
+    "errorMm": 0.16063393878724402,
+    "ratio": 0.10547838504478775
+  },
+  {
+    "id": "kre-bomber",
+    "triangles": 15228,
+    "bytes": 387332,
+    "errorMm": 0.0024989574251585486,
+    "ratio": 0.6
+  },
+  {
+    "id": "kre-interceptor",
+    "triangles": 14331,
+    "bytes": 365792,
+    "errorMm": 0.0017691346873379486,
+    "ratio": 0.6
+  },
+  {
+    "id": "kre-intrallus",
+    "triangles": 385563,
+    "bytes": 12607176,
+    "errorMm": 0.017424973540008337,
+    "ratio": 0.8
+  },
+  {
+    "id": "kre-boss",
+    "triangles": 385898,
+    "bytes": 12621648,
+    "errorMm": 0.008022863866430288,
+    "ratio": 0.8
+  },
+  {
+    "id": "vra-shard",
+    "triangles": 8408,
+    "bytes": 262876,
+    "errorMm": 0.08298701900041303,
+    "ratio": 0.6
+  },
+  {
+    "id": "vra-point",
+    "triangles": 9182,
+    "bytes": 284220,
+    "errorMm": 0.07896694180471975,
+    "ratio": 0.6
+  },
+  {
+    "id": "vra-avalanche",
+    "triangles": 9316,
+    "bytes": 291076,
+    "errorMm": 0.08491828472870483,
+    "ratio": 0.6
+  },
+  {
+    "id": "vra-feldspar",
+    "triangles": 11268,
+    "bytes": 350380,
+    "errorMm": 0.11617220635185672,
+    "ratio": 0.6
+  },
+  {
+    "id": "vra-crystal",
+    "triangles": 14103,
+    "bytes": 436336,
+    "errorMm": 0.11411286616505842,
+    "ratio": 0.6
+  },
+  {
+    "id": "vra-cluster",
+    "triangles": 22190,
+    "bytes": 678360,
+    "errorMm": 0.1018370237490658,
+    "ratio": 0.6
+  },
+  {
+    "id": "vra-bastion",
+    "triangles": 13989,
+    "bytes": 438384,
+    "errorMm": 0.13315425263701725,
+    "ratio": 0.6
+  }
+]

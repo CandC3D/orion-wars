@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="808" height="60" viewBox="0 0 808 60" role="img" aria-labelledby="title">
+<title id="title">The Achernar Campaign</title>
+<desc>Transparent, fully editable vector subtitle. Each letter is an outlined path, grouped by word. The first r in Achernar has a corrected single hook. No fonts or embedded images.</desc>
+<g transform="translate(-109 -273)" fill="#FFFBEB" fill-rule="evenodd">
+<g id="word-The" inkscape:groupmode="layer" inkscape:label="The">
+  <path id="The-T" d="M166 281 L167 291 L150 291 L150 317 L136 317 L137 291 L117 291 L117 282 Z"/>
+  <path id="The-h" d="M171 281 L182 281 L182 290 L207 291 L211 297 L211 316 L198 317 L197 297 L182 297 L182 317 L170 317 Z"/>
+  <path id="The-e" d="M220 290 L248 290 L252 292 L254 297 L254 304 L252 306 L226 306 L226 309 L253 309 L254 316 L219 316 L215 312 L215 295 Z M227 297 L226 301 L241 301 L241 297 Z"/>
+</g>
+<g id="word-Achernar" inkscape:groupmode="layer" inkscape:label="Achernar">
+  <path id="Achernar-A" d="M303 282 L319 282 L343 317 L328 317 L324 310 L301 310 L305 303 L318 303 L312 293 L309 294 L293 317 L277 317 Z"/>
+  <path id="Achernar-c" d="M349 290 L376 290 L376 297 L355 298 L355 308 L377 309 L377 316 L353 317 L345 314 L344 294 Z"/>
+  <path id="Achernar-h" d="M381 282 L392 282 L392 290 L412 290 L416 292 L417 317 L406 317 L406 298 L392 298 L392 317 L381 317 Z"/>
+  <path id="Achernar-e" d="M425 290 L453 291 L456 295 L455 306 L431 306 L431 309 L455 309 L456 316 L424 316 L420 309 L420 297 Z M432 297 L432 301 L445 301 L445 297 Z"/>
+  <path id="Achernar-r-first" d="M460 290 H472 V293 L476 290 H484 L485 294 L483 298 H474 L471 301 V317 H460 Z"/>
+  <path id="Achernar-n" d="M493 290 L524 291 L528 296 L528 317 L516 317 L516 298 L504 298 L504 317 L493 317 Z"/>
+  <path id="Achernar-a" d="M534 290 L563 290 L567 294 L567 317 L533 316 L531 313 L531 305 L533 302 L556 301 L556 297 L533 297 Z M556 306 L543 306 L543 310 L556 310 Z"/>
+  <path id="Achernar-r-last" d="M571 290 L583 290 L583 293 L587 290 L595 290 L596 294 L594 298 L585 298 L582 301 L582 317 L571 317 Z"/>
+</g>
+<g id="word-Campaign" inkscape:groupmode="layer" inkscape:label="Campaign">
+  <path id="Campaign-C" d="M623 282 L658 282 L658 291 L625 291 L625 308 L658 309 L657 317 L625 317 L618 316 L612 311 L613 289 L617 284 Z"/>
+  <path id="Campaign-a-first" d="M663 290 L694 291 L696 294 L696 317 L664 317 L660 311 L661 304 L664 301 L685 301 L685 297 L662 297 Z M685 305 L672 306 L672 310 L685 310 Z"/>
+  <path id="Campaign-m" d="M700 290 L737 291 L740 295 L740 317 L731 317 L730 298 L725 298 L725 317 L716 317 L716 298 L710 298 L710 317 L700 317 Z"/>
+  <path id="Campaign-p" d="M744 290 L775 291 L778 295 L778 311 L776 315 L771 317 L754 316 L754 324 L744 324 Z M755 298 L755 309 L767 308 L766 298 Z"/>
+  <path id="Campaign-a-last" d="M784 290 L814 291 L817 296 L817 316 L785 317 L781 311 L784 302 L806 301 L806 297 L783 297 Z M806 305 L793 306 L793 310 L806 310 Z"/>
+  <path id="Campaign-i" d="M820 281 L831 281 L831 287 L820 287 Z M820 290 L831 290 L831 317 L820 317 Z"/>
+  <path id="Campaign-g" d="M839 290 L869 290 L869 318 L865 323 L835 324 L838 318 L856 318 L858 316 L858 313 L838 313 L835 310 L834 296 Z M847 297 L847 307 L858 307 L858 297 Z"/>
+  <path id="Campaign-n" d="M873 290 L905 291 L909 298 L908 317 L897 317 L896 298 L884 298 L884 317 L873 317 Z"/>
+</g>
+</g>
+</svg>

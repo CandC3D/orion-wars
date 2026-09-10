@@ -1,11 +1,39 @@
-# Cast stands, steel and clear kit parts — revision 07
+# Complete ship library — revision 09
 
-**Revision 08 rim-code finding:** Chris selected printed class codes, but the
-isolated candidate fails native planning legibility. The 2.638 mm maximum tested
-capitals project to only 3.15–3.16 pixels; paper contrast does not rescue them.
-Earth is blank and unscored. The accepted board below remains byte-identical.
-See [RIM-REVIEW.md](RIM-REVIEW.md) for the withheld result and supporting scores.
-This does not carry revision 07's passing material score into identification.
+**26 individual models, three inspection sheets:**
+[Earth](fleet-sheets/earth.html) · [Krelath](fleet-sheets/krelath.html) ·
+[Vraygon](fleet-sheets/vraygon.html). Each has matched planning-height and close
+side views, explicit class codes, and a provisional shared-scale strip.
+Full PNGs and native captures are linked from the sheets and
+[FLEET-REVIEW.md](FLEET-REVIEW.md).
+
+Direct visual self-review: **Earth 96.1, Krelath 94.6, Vraygon 95.6 /100**;
+every hull independently scores at least **93.1**. The
+[pre-build rubric](FLEET-RUBRIC.md), [per-hull scores](FLEET-REVIEW.md),
+[complete scale table](FLEET-SCALE.md) and [region tables](FLEET-REGIONS.md)
+record the evidence, deductions, preparation costs and unresolved decisions.
+Both fighters and both distinct flagship meshes are included, with four
+intentionally blank rims. Three composites are excluded; no Zandrax was supplied.
+
+The existing board now has **EFG-03 / KFG-01 / VFG-04**, taken from the explicit
+[class table](fleet-assets.json). Its miniature sizes remain 55 / 65 / 45 mm;
+the new provisional contact-sheet ladder is separate. The earlier
+[20/100 native planning-legibility finding](RIM-REVIEW.md) still stands.
+Readable inspection captures do not overturn it. The historical rim-study page
+retains the two-code fixture used to measure that failure.
+
+Current board budgets: **69,904 triangles / 79 draws** painted, within the
+original 70,000 / 90 cap. The optional clear-Shard variant adds the three rim
+transfers across its passes: **104,901 / 119**, with its separate draw cap
+updated to 119. All posts remain black. Furniture and shared runtime are untouched.
+No commit or branch has been created.
+
+## Earlier material and mounting slices
+
+The following describes the existing three-frigate prototype. Historical
+revision 07 scores are preserved in REVIEW.md; the current complete-library
+assessment is FLEET-REVIEW.md. Board captures have been refreshed with the
+newly authorised codes.
 
 The three-frigate board now has black FASA-profile bases: the retained bevelled
 skirt with six shallow facets rising to a central apex. Black posts taper gently
@@ -16,7 +44,7 @@ The old 0.5 mm mounting error is fixed; both post endpoints are now seated.
 Earth steel has a darker metallic body, more visible real-edge burnish and rough
 reflections captured from the existing lit tabletop. The source's blue regions
 stay blue. Steel, bronze and gold share the rough fine-flake finish; none is a
-mirror. Furniture, source art, identifiers and shared runtime are untouched.
+mirror. Furniture, source art and shared runtime are untouched.
 
 Start with [native planning](evidence/planning.png), the native
 [Earth crop](evidence/monoceros-planning.png), and the
@@ -36,7 +64,7 @@ for the stand's float illusion; on Crystal, paint still identifies green more
 strongly while clear reads as a separate kit part in detail. Chris decides.
 **Every post on the board remains black and opaque.**
 
-The [pre-build rubric](RUBRIC.md) and [fresh adversarial review](REVIEW.md) score
+Revision 07's [pre-build rubric](RUBRIC.md) and [adversarial review](REVIEW.md) scored
 94.30/100, with every criterion at least 90. Independent gates: steel at planning
 91, Crystal comparison 92, clear-post comparison 93. I can see and directly
 inspected the captured images. These are self-review scores, not Chris's approval.
@@ -56,8 +84,8 @@ preparation, inert energy attachments, clear optics and limitations.
 
 | View | Largest captured submission | Limit |
 |---|---|---|
-| Painted three-frigate board | 69,832 triangles / 73 draws | 70,000 / 90 |
-| Optional clear Shard on that board | 104,793 / 110 | 110,000 / 110 |
+| Painted three-frigate board, current codes | 69,904 triangles / 79 draws | 70,000 / 90 |
+| Optional clear Shard on that board, current codes | 104,901 / 119 | 110,000 / 119 |
 | Isolated Crystal comparison | 41,642 / 55 | 90,000 / 110 |
 | Isolated post pair | 7,144 / 47 | 90,000 / 110 |
 

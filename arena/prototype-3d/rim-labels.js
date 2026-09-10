@@ -42,11 +42,16 @@ function geometry(inkHeightMm,print){
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.computeVertexNormals();g.userData.rim={faces,inkHeightMm,inkWidthMm:inkHeightMm*print.inkAspect};return g;
 }
 
-export function createRimLabels(scene,units){
+export function classRim(code,capHeightMm=2.6){
+ if(code===null)return null;
+ if(typeof code!=='string'||!code)throw Error('Missing explicit code');
+ const print=decal(code);return physicalMesh(code+' / six skirt transfers',geometry(capHeightMm,print),print.material);
+}
+export function createRimLabels(scene,units,codes=RIM_CODES){
   const records=new Map();let capHeight=2.6,paper=false;
   for(const u of units){
-    const key=u.faction+'/'+u.className;if(!(key in RIM_CODES))throw Error('No rim designation decision for '+key);
-    const code=RIM_CODES[key];if(code===null){records.set(u.id,{code:null});continue;}
+    const key=u.faction+'/'+u.className;if(!(key in codes))throw Error('No rim designation decision for '+key);
+    const code=codes[key];if(code===null){records.set(u.id,{code:null});continue;}
     const print=decal(code),mesh=physicalMesh(u.id+' / six repeated rim codes',geometry(capHeight,print),print.material);
     mesh.matrixAutoUpdate=false;scene.add(mesh);records.set(u.id,{code,print,mesh});
   }

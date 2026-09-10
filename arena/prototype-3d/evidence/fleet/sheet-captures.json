@@ -1,0 +1,98 @@
+{
+  "final": true,
+  "browser": "152.0.4191.66",
+  "errors": [],
+  "sheets": [
+    {
+      "faction": "EAR",
+      "width": 3200,
+      "height": 4190,
+      "cells": [
+        "ear-monoceros",
+        "ear-victory",
+        "ear-saturn",
+        "ear-acamar",
+        "ear-yi-sun-sin",
+        "ear-federation",
+        "ear-yamato"
+      ],
+      "strip": [
+        "ear-monoceros",
+        "ear-victory",
+        "ear-saturn",
+        "ear-acamar",
+        "ear-yi-sun-sin",
+        "ear-federation",
+        "ear-yamato"
+      ],
+      "stripWidth": 3046,
+      "stripAvailable": 3046,
+      "broken": 0,
+      "overflows": []
+    },
+    {
+      "faction": "KRE",
+      "width": 3200,
+      "height": 5819,
+      "cells": [
+        "kre-sparrowhawk",
+        "kre-swift",
+        "kre-ballista",
+        "kre-raptor",
+        "kre-lightning",
+        "kre-star-knight",
+        "kre-bladestar",
+        "kre-star-lord",
+        "kre-bomber",
+        "kre-interceptor",
+        "kre-intrallus",
+        "kre-boss"
+      ],
+      "strip": [
+        "kre-sparrowhawk",
+        "kre-swift",
+        "kre-ballista",
+        "kre-raptor",
+        "kre-lightning",
+        "kre-star-knight",
+        "kre-bladestar",
+        "kre-star-lord",
+        "kre-bomber",
+        "kre-interceptor",
+        "kre-intrallus",
+        "kre-boss"
+      ],
+      "stripWidth": 3046,
+      "stripAvailable": 3046,
+      "broken": 0,
+      "overflows": []
+    },
+    {
+      "faction": "VRA",
+      "width": 3200,
+      "height": 4190,
+      "cells": [
+        "vra-shard",
+        "vra-point",
+        "vra-avalanche",
+        "vra-feldspar",
+        "vra-crystal",
+        "vra-cluster",
+        "vra-bastion"
+      ],
+      "strip": [
+        "vra-shard",
+        "vra-point",
+        "vra-avalanche",
+        "vra-feldspar",
+        "vra-crystal",
+        "vra-cluster",
+        "vra-bastion"
+      ],
+      "stripWidth": 3046,
+      "stripAvailable": 3046,
+      "broken": 0,
+      "overflows": []
+    }
+  ]
+}

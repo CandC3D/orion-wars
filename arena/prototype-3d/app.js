@@ -1,6 +1,8 @@
 import { createPlayback } from '../contact-playback.js';
 import { BUDGETS } from './contract.js';
 import { planning, exchange, shield, anonymous, timeline } from './fixture.js';
+import {createRimLabels} from './rim-labels.js';
+import {validateFleetManifest,boardCodeTable} from './fleet-contract.js';
 const $=s=>document.querySelector(s);
 const playback=createPlayback();
 let view=null,cameraProgress=0;
@@ -37,12 +39,13 @@ function showError(error){console.error(error);$('#fallback').hidden=false;$('#s
 try{
   const response=await fetch('./assets.json');if(!response.ok)throw new Error('Prototype asset manifest unavailable');
   const {createTabletop}=await import('./renderer.js');
-  view=await createTabletop($('#tabletop'),await response.json(),planning);
+  const fleet=validateFleetManifest(await (await fetch('./fleet-assets.json')).json());
+  view=await createTabletop($('#tabletop'),await response.json(),planning,{createRimStudy:(scene,units)=>createRimLabels(scene,units,boardCodeTable(fleet))});
   $('#fallback').hidden=true;view.setClearVariant(new URLSearchParams(location.search).get('insert')==='clear');planningState();buttons(false);status('Planning holds still.');
   new ResizeObserver(()=>{view.resize();draw();}).observe($('#tabletop'));
   // Deterministic review hooks for this isolated fixture. Nothing here reads or accepts battle state.
   window.tabletopPrototype=Object.freeze({
-    ready:true,setClearVariant(enabled){const result=view.setClearVariant(enabled);stats();return result;},regionEvidence:()=>view.regionEvidence(),brushEvidence:()=>view.brushEvidence(),captureDetail:(angle,faction)=>view.captureDetail(angle,faction),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
+    ready:true,rimEvidence:()=>view.measureRimStudy(),setClearVariant(enabled){const result=view.setClearVariant(enabled);stats();return result;},regionEvidence:()=>view.regionEvidence(),brushEvidence:()=>view.brushEvidence(),captureDetail:(angle,faction)=>view.captureDetail(angle,faction),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
     pause:()=>playback.pause(),resume:()=>playback.resume(),skip:()=>playback.skip(),
     cancel:()=>{playback.cancel();planningState();},
     get paused(){return playback.paused;},get running(){return playback.running;},

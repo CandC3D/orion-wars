@@ -1,0 +1,32 @@
+ok: exactly every staged individual GLB, excluding only the three named composites
+ok: missing class decisions fail; explicit corrected codes reach the board without filename parsing
+ok: foreign palette keys and missing per-region material classification fail
+ok: ear-monoceros source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: ear-victory source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: ear-saturn source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: ear-acamar source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: ear-yi-sun-sin source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: ear-federation source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: ear-yamato source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-sparrowhawk source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-swift source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-ballista source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-raptor source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-lightning source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-star-knight source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-bladestar source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-star-lord source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-bomber source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-interceptor source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-intrallus source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: kre-boss source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-shard source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-point source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-avalanche source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-feldspar source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-crystal source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-cluster source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: vra-bastion source integrity, complete regions, faithful reduction, inert renders and mounted scale
+ok: flagship files remain distinct; fighter length follows the actual fore-aft axis
+
+Complete fleet: 30 checks passed.

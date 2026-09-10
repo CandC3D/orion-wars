@@ -7,7 +7,9 @@ export const BUDGETS = Object.freeze({
   pixelRatio: 1.5, maxPixels: 2073600, shadowSize: 2048, shadowLights: 1,
   maxTriangles: 70000, maxDrawCalls: 90, materialTextureMiB: 24, renderTargetMiB: 64,
   activeEffects: 1, beamLayers: 2, bloomScale: 0.5, bloomGain: 0.18,
-  clearVariantTriangles: 110000, clearVariantDrawCalls: 110, clearVariantTargetMiB: 96,
+  // Three authorised rim transfers add nine submissions across the optional
+  // clear variant's passes; the painted board remains inside its original cap.
+  clearVariantTriangles: 110000, clearVariantDrawCalls: 119, clearVariantTargetMiB: 96,
   cameraFloor: 24, pitchFloor: 32, postHeight: mm(SIZES.postHeight), hexRadius: mm(SIZES.hexAcrossFlats) / Math.sqrt(3),
   cameraMoveMs: 900, beamMs: 850, shieldMs: 650, focusBlurPixels: 3,
   nebulaPeak: 0.06, nebulaBoardCoverage: 0.15, nebulaMean: 0.012

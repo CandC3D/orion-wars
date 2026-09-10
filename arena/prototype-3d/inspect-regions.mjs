@@ -5,8 +5,9 @@ import {validateFactionPalette,factionRegion} from './faction-palettes.js';
 const here=new URL('./',import.meta.url);
 const configs=JSON.parse(fs.readFileSync(new URL('./hull-sources.json',here)));
 const comparison=process.argv.includes('--comparison');
-const faction=process.argv[2]??'KRE',config=comparison?JSON.parse(fs.readFileSync(new URL('./comparison-source.json',here))):configs[faction];
-const profile=comparison?{palette:Object.keys(config.colours).map(k=>factionRegion(faction,k)),confirmedEffects:[]}:artProfile(faction);
+const fleet=process.argv.includes('--fleet');
+const faction=process.argv[2]??'KRE',config=fleet?JSON.parse(fs.readFileSync(new URL('./prepared/fleet/inventory.json',here))).hulls.find(h=>h.id===process.argv[process.argv.indexOf('--fleet')+1]).config:comparison?JSON.parse(fs.readFileSync(new URL('./comparison-source.json',here))):configs[faction];
+const profile=comparison||fleet?{palette:Object.keys(config.colours).map(k=>factionRegion(faction,k)),confirmedEffects:[]}:artProfile(faction);
 const source=readGLB(new URL('./source/'+config.source,here));
 const sp=source.json.meshes[0].primitives[0],sc=source.attribute(sp.attributes.COLOR_0);
 const palette=[];
@@ -14,7 +15,8 @@ for(const c of sc){const key=colourKey(c);let p=palette.find(p=>p.key===key);if(
 validateFactionPalette(faction,palette.map(p=>p.key),{expectedKeys:Object.keys(config.colours),context:config.source});
 const sourcePositions=source.attribute(sp.attributes.POSITION);
 for(const [key,b] of Object.entries(config.materialBounds??{}))for(let i=0;i<sc.length;i++)if(colourKey(sc[i])===key&&sourcePositions[i].some((v,k)=>v<b.sourceMin[k]||v>b.sourceMax[k]))throw Error(key+' outside '+b.role+'; report source disagreement');
-const glb=readGLB(new URL('./prepared/'+config.output+'.glb',here)),p=glb.json.meshes[0].primitives[0];
+const outputFolder=fleet?'./prepared/fleet/':'./prepared/';
+const glb=readGLB(new URL(outputFolder+config.output+'.glb',here)),p=glb.json.meshes[0].primitives[0];
 const positions=glb.attribute(p.attributes.POSITION),colours=glb.attribute(p.attributes.COLOR_0),indices=glb.attribute(p.indices).flat();
 const nearest=c=>palette.reduce((best,p,i)=>{const d=p.rgb.reduce((n,x,k)=>n+(x-c[k])**2,0);return d<best.d?{i,d}:best;},{d:Infinity}).i;
 const key=v=>v.map(n=>Math.round(n*1e6)).join(','),edges=new Map(),faces=[];
@@ -25,17 +27,18 @@ for(let i=0;i<indices.length;i+=3){const ids=indices.slice(i,i+3),region=nearest
 }
 const seen=new Set(),patches=[];
 for(let i=0;i<faces.length;i++){if(seen.has(i))continue;const todo=[i],ids=[];seen.add(i);while(todo.length){const n=todo.pop();ids.push(n);for(const k of faces[n].neighbours)if(!seen.has(k)){seen.add(k);todo.push(k);}}
- const pts=ids.flatMap(n=>faces[n].ids.map(id=>positions[id]));patches.push({region:palette[faces[i].region].key,triangles:ids.length,min:[0,1,2].map(k=>Math.min(...pts.map(p=>p[k]))),max:[0,1,2].map(k=>Math.max(...pts.map(p=>p[k]))),faces:ids});
+ const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];for(const n of ids)for(const id of faces[n].ids)for(let k=0;k<3;k++){min[k]=Math.min(min[k],positions[id][k]);max[k]=Math.max(max[k],positions[id][k]);}
+ patches.push({region:palette[faces[i].region].key,triangles:ids.length,min,max,faces:ids});
 }
 patches.sort((a,b)=>a.region.localeCompare(b.region)||b.triangles-a.triangles);
-for(const [key,b] of Object.entries(config.materialBounds??{}))for(const p of patches.filter(p=>p.region===key))if(p.min.some((v,k)=>v<b.preparedMin[k])||p.max.some((v,k)=>v>b.preparedMax[k]))throw Error(key+' outside prepared '+b.role);
+for(const [key,b] of Object.entries(config.materialBounds??{}))if(b.preparedMin&&b.preparedMax)for(const p of patches.filter(p=>p.region===key))if(p.min.some((v,k)=>v<b.preparedMin[k])||p.max.some((v,k)=>v>b.preparedMax[k]))throw Error(key+' outside prepared '+b.role);
 // The v2 plate identifies a vertical orange stern exhaust and the larger yellow
 // dorsal dome. Each selector must match one actual connected source-colour patch.
 const select=(label,predicate)=>{const found=patches.filter(predicate);if(found.length!==1)throw Error('Re-author semantic region: '+label);return {...found[0],register:'energetic',anatomy:label};};
-const features=faction==='KRE'?{
+const features=!fleet&&faction==='KRE'?{
   exhaust:select('vertical stern exhaust',p=>p.region==='f5831f'&&p.max[0]<-2.9&&p.min[1]>.1),
   beamEmitter:select('larger dorsal emitter',p=>p.region==='ffdd1a'&&p.min[0]>.2&&p.min[1]>.6)
-}:faction==='EAR'?{
+}:!fleet&&faction==='EAR'?{
   exhaust:select('red insert in the aft nacelle outlet',p=>p.region==='e91d2d'&&p.max[0]<-2.7&&p.min[1]>1),
   beamEmitter:select('forward laser muzzle inside the orange warning housing',p=>p.region==='e91d2d'&&p.min[0]>1.89&&p.max[0]<1.90&&p.min[1]>.85&&p.max[1]<1.01)
 }:{};
@@ -64,5 +67,5 @@ for(const p of palette){
    functions:meaning.role};
 }
 for(const p of patches)p.register='physical';
-fs.writeFileSync(new URL('./prepared/'+config.output+'-regions.json',here),JSON.stringify({format:'tabletop-colour-regions/3',faction,palette,patches,energyAttachments,features,sourceCoverage,derivativeCoverage},null,2)+'\n');
+fs.writeFileSync(new URL(outputFolder+config.output+'-regions.json',here),JSON.stringify({format:'tabletop-colour-regions/3',faction,palette,patches,energyAttachments,features,sourceCoverage,derivativeCoverage},null,2)+'\n');
 console.log(JSON.stringify({faction,output:config.output,patches:patches.length,regionAreaError:Math.max(...palette.map(p=>Math.abs(sourceCoverage[p.key]-derivativeCoverage[p.key])))}));

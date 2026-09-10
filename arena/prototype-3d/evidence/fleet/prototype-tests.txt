@@ -1,0 +1,31 @@
+ok: the local Three.js build and addons match the pinned r180 integrity manifest
+ok: three current local hulls, each painted with an explicit register, stand and per-hull region map
+ok: EAR current derivative preserves its own geometry, colours and fixtures
+ok: KRE current derivative preserves its own geometry, colours and fixtures
+ok: VRA current derivative preserves its own geometry, colours and fixtures
+ok: Crystal comparison is a reduced current hull with exact palette, retained components and no invented anatomy
+ok: shared hex values retain different per-hull interpretations
+ok: Chris's material and emissive rulings apply per hull, including the large metal regions
+ok: faction palette contracts reject foreign colours and preserve the classified extensions
+ok: Monoceros gold occupies only the authored sensor-dish region
+ok: every energy attachment is inert, exact and rejects missing classification or invented activation
+ok: clear ship parts are restricted to authored Vraygon green and cannot become energy
+ok: physical scale rejects errors and preserves the requested reference sizes
+ok: no procedural panel grid or faction base paint survives the revision
+ok: fixture packets are frozen, classified projections; shield is explicitly authored
+ok: both known event-time endpoints allow a hull-to-hull beam
+ok: missing source coordinates are never recovered from a currently visible hull
+ok: unknown endpoints and hidden raw geometry cannot affect the projection
+ok: incoming missile impacts suppress even an accidentally supplied known launcher
+ok: no disclosed endpoints means no geometry, trail, direction or shooter
+ok: contact loss removes the report without announcing destruction
+ok: resolved and a shield face are not confirmations of hit, shield flare or enemy kill
+ok: the renderer packet rejects raw fields, missing confirmation and unknown endpoint ids
+ok: raw battle input cannot enter through the safe-frame adapter
+ok: shared-hex layout is deterministic and tethers to unchanged rule coordinates
+ok: world projection preserves all six planar headings and distances
+ok: every camera interpolation, including bad/out-of-range input, respects both floors
+ok: the production prototype imports only the existing playback clock as shared runtime
+ok: the same active clock freezes camera and effects and skip settles the event
+
+Tabletop prototype: 29 checks passed.

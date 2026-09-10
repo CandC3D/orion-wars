@@ -1,0 +1,555 @@
+{
+  "reviewer": "Astra, direct visual self-review; not Chris's approval",
+  "date": "2026-09-10",
+  "hullWeights": [
+    0.3,
+    0.3,
+    0.2,
+    0.2
+  ],
+  "hullCriteria": [
+    "Authored geometry and regions",
+    "Period paint and metals",
+    "Miniature, scale and mounting",
+    "Inspection and identification"
+  ],
+  "sheetWeights": [
+    0.3,
+    0.3,
+    0.25,
+    0.15
+  ],
+  "sheetCriteria": [
+    "Completeness and authority",
+    "Direct visual comparison",
+    "Provisional scale strip",
+    "Reproduction and scope"
+  ],
+  "hulls": {
+    "ear-monoceros": {
+      "criteria": [
+        97,
+        92,
+        95,
+        96
+      ],
+      "note": "Steel collars and belly retain grain, dark recesses and burnish; warm key still warms the neutral metal.",
+      "total": 94.9,
+      "evidence": {
+        "prepared/fleet/ear-monoceros.glb": "cc261805572e3d5d750d3e2dfe64698112b7bd60abe5d15197a4c8e9c8788d23",
+        "evidence/fleet/images/ear-monoceros-quarter.png": "97421d4501c95d4c1ab39f57502672b02558d9690c766b170ca8ff67b3eff332",
+        "evidence/fleet/images/ear-monoceros-side.png": "30ea54c6c11e92f5a64ee3adc11ccc7b692daee3eccf47230bee69fe987aab87",
+        "evidence/fleet/images/ear-monoceros-strip.png": "2e6ba307cb764c3e3393d98881127feec087b14173a5728602d727cd6d0a4f47",
+        "prepared/fleet/ear-monoceros-regions.json": "87008b3a1a5ea769ea346be59c32ee7e9b62b5677e862f1d23336eb968e8132c",
+        "prepared/fleet/ear-monoceros-preparation.json": "e8ef2fe3e974ce6a8f5b80c84bc3fe5b31357fd67c8215262bc75e9a5858946d"
+      }
+    },
+    "ear-victory": {
+      "criteria": [
+        97,
+        93,
+        95,
+        96
+      ],
+      "note": "Paired nacelles and dish remain distinct; blue still attracts attention more strongly than neutral steel.",
+      "total": 95.2,
+      "evidence": {
+        "prepared/fleet/ear-victory.glb": "2a7a448b46982ad07dd7094b4205f396293cf8195a7f8b5ada8ad37d094d3090",
+        "evidence/fleet/images/ear-victory-quarter.png": "b16ca889621352750d4ab63d8403da274611a82f4f163480b1560613045b7535",
+        "evidence/fleet/images/ear-victory-side.png": "bb9a99fffe4b1c173e244f1aa09eae8938599825c1fc703963e280a49a2df362",
+        "evidence/fleet/images/ear-victory-strip.png": "d52e3473816e92c934e5b178c1ebb88c083152125b0bc6e29cb8e0e95a7a2a91",
+        "prepared/fleet/ear-victory-regions.json": "ada3a9d14ff5fbb4fb16ab35eedee487af742611c6553072596ea1faa22944b8",
+        "prepared/fleet/ear-victory-preparation.json": "07ab558b6d5363b61b62dd798c991c68f960841de404c3f71283085f1fda1267"
+      }
+    },
+    "ear-saturn": {
+      "criteria": [
+        96,
+        92,
+        95,
+        96
+      ],
+      "note": "Three-nacelle arrangement matches its plate; small hull-ring wear is slightly coarse in the side capture.",
+      "total": 94.6,
+      "evidence": {
+        "prepared/fleet/ear-saturn.glb": "84399a84f5e78505177016bee534aa386a36b62cf4c6d2947d7a74520f0b6ea9",
+        "evidence/fleet/images/ear-saturn-quarter.png": "ecc44f5f854eb63e2e69df394d2bb0e870d502580503d712c39d63fa2cc660a9",
+        "evidence/fleet/images/ear-saturn-side.png": "301f30dea32545d1795b162f5887802b9c9912ff442a54a93f654dbbb29db762",
+        "evidence/fleet/images/ear-saturn-strip.png": "e4a286cce3476608d08608b4ae6d2645040541b1ebcbd74005db3351ecf9a30b",
+        "prepared/fleet/ear-saturn-regions.json": "f26eb5ab21e1b4360a3003928963e6b00070f0064eef03561f299d4522589664",
+        "prepared/fleet/ear-saturn-preparation.json": "f69cde054c4c32ab45afde5ed73a65b87cdae55072e4bb416bb7cdb431329019"
+      }
+    },
+    "ear-acamar": {
+      "criteria": [
+        96,
+        93,
+        95,
+        96
+      ],
+      "note": "Raised sensor dish and four-nacelle arrangement survive; the lowest fixtures are partly hidden at this angle.",
+      "total": 94.9,
+      "evidence": {
+        "prepared/fleet/ear-acamar.glb": "6c3320a04e6bc7d5f5fa494d5a48b1e0d0edf1fcb291ea62c331a5faf6323300",
+        "evidence/fleet/images/ear-acamar-quarter.png": "d6120b7dbebfb12e6490bbfc82b536beb131ac9d018bb3a0b9896cb754e4f49b",
+        "evidence/fleet/images/ear-acamar-side.png": "1052c873b3d4edc75f444117b96bd7a3f4e4aa1220c2c934910039f960af802a",
+        "evidence/fleet/images/ear-acamar-strip.png": "52c67c0601f6c9e5a49f1000c0f990a7ae549095ef5761f552d6e8ee838ab575",
+        "prepared/fleet/ear-acamar-regions.json": "f401fe449791fb144eb8cfcc481b7506f588fa0c7422ef48c4ab2c9a3b54bb08",
+        "prepared/fleet/ear-acamar-preparation.json": "acb759eec430a4a328bf73b4e8a2536600f65d59191599d15d6695bc7f70477f"
+      }
+    },
+    "ear-yi-sun-sin": {
+      "criteria": [
+        95,
+        92,
+        94,
+        95
+      ],
+      "note": "Long engineering section and steel bands read; retained reduction error is the library maximum, 0.341 mm.",
+      "total": 93.9,
+      "evidence": {
+        "prepared/fleet/ear-yi-sun-sin.glb": "fa3e3a99da8214e42892528725c2cc973df27040ee1771272dc36fa3dcfa68c1",
+        "evidence/fleet/images/ear-yi-sun-sin-quarter.png": "8a95ed6f0f6c934ea8019f665ca9aa9147165505d1524ea3e2bd8adc04cb7ac3",
+        "evidence/fleet/images/ear-yi-sun-sin-side.png": "3681490ead073fd0c9f841f1a5dba68064ddcb21628975104db3c736b598fbc9",
+        "evidence/fleet/images/ear-yi-sun-sin-strip.png": "4e37a625347b23403191c4f806ee053a7b6c8aa16a0152d5fba6df0554389586",
+        "prepared/fleet/ear-yi-sun-sin-regions.json": "b7b6fb152b496cc3b8217acafeaabe0ce2964a1a8896792f2c7b5e83db38a907",
+        "prepared/fleet/ear-yi-sun-sin-preparation.json": "7301db03888aecfda5a1fdce42674f8189ed75a60488bc0db55e5761f04edb7e"
+      }
+    },
+    "ear-federation": {
+      "criteria": [
+        97,
+        93,
+        94,
+        95
+      ],
+      "note": "Six nacelles and multiple picked housings remain inspectable; dense small fittings merge in the shared-scale strip.",
+      "total": 94.8,
+      "evidence": {
+        "prepared/fleet/ear-federation.glb": "788f8a864c5e513d52c974720b5cb23434396f87dc3ab222c42bc602591b2afe",
+        "evidence/fleet/images/ear-federation-quarter.png": "34c5169b3b05d625ffc3e4c9772e37db50f3725c6852751f821e49801a50e0ea",
+        "evidence/fleet/images/ear-federation-side.png": "56e05d038583df250cbe6cdc73ff55234eff15f0f8847b3e26dc7fd7559e2378",
+        "evidence/fleet/images/ear-federation-strip.png": "ec345fe18d87cbdfc359d66807d5c8094bd7f34f8d6e3274387342b2d3167387",
+        "prepared/fleet/ear-federation-regions.json": "6d39137f3f6db945b88db3a804ae9fb139c86c0b8baff53a0c6b078967914d4b",
+        "prepared/fleet/ear-federation-preparation.json": "54765dfcb8efcda713d3adf55fbb171ff3a05d8a7d34f3bfd5d7f33c3bbcd69c"
+      }
+    },
+    "ear-yamato": {
+      "criteria": [
+        96,
+        93,
+        94,
+        96
+      ],
+      "note": "Raised command pod, dish and spinal ribs match the plate; finely repeated edges are intentionally busier than the flat paint.",
+      "total": 94.7,
+      "evidence": {
+        "prepared/fleet/ear-yamato.glb": "814e502ca5193c9740b2d5d988ffc095e830aa84f408b9e34b2379fe8b5128ae",
+        "evidence/fleet/images/ear-yamato-quarter.png": "d330ecd29eb166e66fb424a6c3b1cd8214267a5968cf0a37e357f179d761a961",
+        "evidence/fleet/images/ear-yamato-side.png": "6c0c54448aa69754f23fdcfd3d111061b59735b57ec58efdf2c8cb1457683673",
+        "evidence/fleet/images/ear-yamato-strip.png": "1df6acd9c9dc0b6833407b8196d28f986ad9fa4b5b8cae72b952e2613629350c",
+        "prepared/fleet/ear-yamato-regions.json": "ef769091cd189a7104f95699fedad96fcfc789be4faf887a599f1bbd9f722ecd",
+        "prepared/fleet/ear-yamato-preparation.json": "d2b4e68dd16a77627317b81d303c1e38a67fdd2d16153fb750e7983d65b3ea5f"
+      }
+    },
+    "kre-sparrowhawk": {
+      "criteria": [
+        98,
+        95,
+        95,
+        96
+      ],
+      "note": "Two greens, rough bronze housings and the red emitter ring agree with the approved source treatment; smaller dome remains unlabeled.",
+      "total": 96.1,
+      "evidence": {
+        "prepared/fleet/kre-sparrowhawk.glb": "1b4b7e17c5c43a5e4823fb45e9a757a1f6837503adc3e2067d46380279379e08",
+        "evidence/fleet/images/kre-sparrowhawk-quarter.png": "b6abdc916aacee64cedd9912b558f568a70d76fe365897c9bbe30009695c524c",
+        "evidence/fleet/images/kre-sparrowhawk-side.png": "b90c92860e4cdd7134d0184e450fd337d4ba8fc82fb79c38051000d04ef2fc8a",
+        "evidence/fleet/images/kre-sparrowhawk-strip.png": "72c5292917e1f36d85c67f8ea60246818753e0720efd132de0fcfc20d1684bfb",
+        "prepared/fleet/kre-sparrowhawk-regions.json": "e3ca078a925d8b0bb5979680e92b7c6ab552e8c11395e0e78aa5981794d86d15",
+        "prepared/fleet/kre-sparrowhawk-preparation.json": "bc53548576ef1a94ca50cb2cbba839eb6c0e6385217c0fb953b0954536865fd3"
+      }
+    },
+    "kre-swift": {
+      "criteria": [
+        98,
+        94,
+        95,
+        96
+      ],
+      "note": "Doubled rear structures and actual forward warning plates remain distinct; some small lining needs the native image.",
+      "total": 95.8,
+      "evidence": {
+        "prepared/fleet/kre-swift.glb": "49b32d45a4c90da4bbfcabbc5042f871f91effeeaf51985162c99e906e66f404",
+        "evidence/fleet/images/kre-swift-quarter.png": "b8b8b42bf9be7dd011b91e81d7be96fadc2bec68e5c72a08410fb50abb2b9d9d",
+        "evidence/fleet/images/kre-swift-side.png": "cec20af527cd2e093bfe94d328b9bca28bc64b41b0f9428da867306275ead72c",
+        "evidence/fleet/images/kre-swift-strip.png": "ab920bf7adf8cabfa22756fc2d80bca140afa10a6421b0f4811b7214527718cf",
+        "prepared/fleet/kre-swift-regions.json": "72bc24bdadc53304fd6efb8939bf6df98b30f9cf52ee0aba12f6b4fd9cfddc4c",
+        "prepared/fleet/kre-swift-preparation.json": "4a60e4df6052c1733f61f1a6ac790860fe1c9f7c7b00bf8d289f74ac2cd47569"
+      }
+    },
+    "kre-ballista": {
+      "criteria": [
+        98,
+        94,
+        95,
+        96
+      ],
+      "note": "Paired forward warning housings agree with the plate; the source shares Swift's length rather than a guessed class-size increase.",
+      "total": 95.8,
+      "evidence": {
+        "prepared/fleet/kre-ballista.glb": "727ab866b7c4a85c3d381f018f9c6a280c4ed858143aba1af3c4c792322b5b65",
+        "evidence/fleet/images/kre-ballista-quarter.png": "62a67a969fc8f2860d7694edb37ced4c9df11ff78049794523e90e8faa37e8e5",
+        "evidence/fleet/images/kre-ballista-side.png": "c0da9f190b0db612253c4a10deebc0f4adabb2c6a2a0384a2cfc42fba2f7c246",
+        "evidence/fleet/images/kre-ballista-strip.png": "a21b0c687ff2e4ebdc33c4c4b95922540066e51f5e6d634eb3d8ec4c3582931b",
+        "prepared/fleet/kre-ballista-regions.json": "2f04f282b271095ba9104c8cef95eedf4856e804095f2906f8edbc3f6c057387",
+        "prepared/fleet/kre-ballista-preparation.json": "534ed1bf5b72176956ab4e4a7b051c57f6e892fc3827155239078a8666c11912"
+      }
+    },
+    "kre-raptor": {
+      "criteria": [
+        97,
+        93,
+        94,
+        95
+      ],
+      "note": "Broad circular hull and bronze patches remain separate; fine outline wear is stronger than broad surface texture.",
+      "total": 94.8,
+      "evidence": {
+        "prepared/fleet/kre-raptor.glb": "2fd1c1a9f057771b1aa44790a1d98d548f7d2a8f67929a8212ff5977fbb5061b",
+        "evidence/fleet/images/kre-raptor-quarter.png": "9612460e8751d952cdb1d6419a4d3c581f199922e4324696f3d256757e00a4e0",
+        "evidence/fleet/images/kre-raptor-side.png": "dde889622e759c5604585facb50e9329c5750269e0a1234ba0555e1ab5807dbc",
+        "evidence/fleet/images/kre-raptor-strip.png": "a2ab34d24fb38269f21e37b3b4450f760bb03207deed3f751e2065cf3697b326",
+        "prepared/fleet/kre-raptor-regions.json": "ed9a0790c337ca563f16af91deac68bcf014b2420b5137854d37aff3ea59c279",
+        "prepared/fleet/kre-raptor-preparation.json": "40cfe4b63dec3a05c24ef31315785e09768d1daa3ef9e938deb298615c2247d0"
+      }
+    },
+    "kre-lightning": {
+      "criteria": [
+        97,
+        93,
+        94,
+        95
+      ],
+      "note": "Actual raised dorsal housing distinguishes it from Raptor; the same source length makes the scale-strip difference primarily silhouette.",
+      "total": 94.8,
+      "evidence": {
+        "prepared/fleet/kre-lightning.glb": "44b8078b440ab2c00060154ae35364ad8a53c26dc68b343170bc5f178502abf5",
+        "evidence/fleet/images/kre-lightning-quarter.png": "1fc9ceb1a9f400b57d36cc3674a2e94c57b3465ea9bec905ad452f538b45adc3",
+        "evidence/fleet/images/kre-lightning-side.png": "eb9d550cea3c8d3a905ab25da2fde0d0f02419918e9b03a3c3687d677ad1eb22",
+        "evidence/fleet/images/kre-lightning-strip.png": "deee55e2eea9a518fe45013a8799364af802722d8b1558fb9f8e082083a5a525",
+        "prepared/fleet/kre-lightning-regions.json": "8c4d8465d8cb4fe32c709ff711dde67975912be822ccb965735f2d0d458cbbd8",
+        "prepared/fleet/kre-lightning-preparation.json": "627dce74e65da6d84649afcc5def6137cb9f437259bea433893d0f36d22a6a2f"
+      }
+    },
+    "kre-star-knight": {
+      "criteria": [
+        96,
+        93,
+        94,
+        95
+      ],
+      "note": "Ring structure and extended forward body retain wash and bronze; small slots merge when the full sheet is reduced to screen width.",
+      "total": 94.5,
+      "evidence": {
+        "prepared/fleet/kre-star-knight.glb": "93ea22cf7d36d4ceeb2c718e6a0008e3db01a28909e2d5ca0243f4b17ec97a58",
+        "evidence/fleet/images/kre-star-knight-quarter.png": "c6d5b9bf14f8878b193b593bd7335dac2c260f2b64bc98aa48cdb41f7f634f79",
+        "evidence/fleet/images/kre-star-knight-side.png": "430ed9527d9de55c277ec07643e604bda20822842e06dc5f86910fabbbe0dd0c",
+        "evidence/fleet/images/kre-star-knight-strip.png": "475a9bf73e43e93a3af0fccad4e4d3b11a7cf57a692b961611838e535a9e105d",
+        "prepared/fleet/kre-star-knight-regions.json": "98cdf0bb9b5fdd4271ca07d5d7794ec05926a26733ff469de3b63b5aa2273f82",
+        "prepared/fleet/kre-star-knight-preparation.json": "53ae8cc8934747e262eb03c09bd251be6f55fd8a77fb02d55338a4a43de8e076"
+      }
+    },
+    "kre-bladestar": {
+      "criteria": [
+        98,
+        94,
+        94,
+        95
+      ],
+      "note": "Authored pale deck stays flat and separated from the bronze ring; the long upper deck partially hides lower features in side view.",
+      "total": 95.4,
+      "evidence": {
+        "prepared/fleet/kre-bladestar.glb": "baae2ed8264c9ed66c79c32631d60928f520a7cf8172dbf70402f482b3ced633",
+        "evidence/fleet/images/kre-bladestar-quarter.png": "f141fc86e1f15de40bfc5fc8ab0bb5d0006edff89b61566d9addae4d4e1b8305",
+        "evidence/fleet/images/kre-bladestar-side.png": "88c495737f555c08a81c4ff741329b975a9808381fab1cd08381af50acceb762",
+        "evidence/fleet/images/kre-bladestar-strip.png": "9d4828f61df2681d069f59cedde667a197954a9d10f7703464866e84f3535804",
+        "prepared/fleet/kre-bladestar-regions.json": "43b0168945a0ddb156326a73c07a3c3a76938817a58730d25ed0b741a5ad99a9",
+        "prepared/fleet/kre-bladestar-preparation.json": "e1e0f56093c0cda76dd64d584845783e74af184c4c2085cb386f3294e2ea8da0"
+      }
+    },
+    "kre-star-lord": {
+      "criteria": [
+        96,
+        93,
+        93,
+        95
+      ],
+      "note": "Additional upper structures and bow warning housings are visible; dense overlapping geometry limits the two-view view into recesses.",
+      "total": 94.3,
+      "evidence": {
+        "prepared/fleet/kre-star-lord.glb": "98c507c99414dc233fd49fd9f860dbe3649fa9492d758fa2cd0c55f245e16052",
+        "evidence/fleet/images/kre-star-lord-quarter.png": "ca49c8a2aadc12b1a830b2040c1415bf19ee7eda3eeb27b0b7fbdb9b6af20e00",
+        "evidence/fleet/images/kre-star-lord-side.png": "6c1db7e14d394d5e2d032107d7637c1d08cfcfa8f99dacb184f96fb456d2caed",
+        "evidence/fleet/images/kre-star-lord-strip.png": "5397d5fbe48b684be3cd4479fbb40695482d42751519c0aa238e0950f5f45e3b",
+        "prepared/fleet/kre-star-lord-regions.json": "8edca6946d42778886325bf7898ed9cb9523bf4db4d10a51581b800471a32124",
+        "prepared/fleet/kre-star-lord-preparation.json": "99f7e430bfdb70b310fdb56f53ebeb6b0395f0f9b9e640c8dd1152938ecb0b97"
+      }
+    },
+    "kre-bomber": {
+      "criteria": [
+        97,
+        92,
+        91,
+        91
+      ],
+      "note": "Wide swept wing, forward warning fixture and aft outlet are retained; the uniform 25 mm base dominates this 9.45 mm-long piece.",
+      "total": 93.1,
+      "evidence": {
+        "prepared/fleet/kre-bomber.glb": "10474e3689c5525e9c1a8869603dda9c2c62d2c66795b8ebc9aedfb545f3a88f",
+        "evidence/fleet/images/kre-bomber-quarter.png": "e0601104f15c4ae502e454b34e60a747f0711187d225aaf48e7abbde71feb2f5",
+        "evidence/fleet/images/kre-bomber-side.png": "db2a95a4b8afa1cfeaab3e81955347112b7dc4e45351553839c4f8f9311dded9",
+        "evidence/fleet/images/kre-bomber-strip.png": "9420497f01b73cf86269f059a19ffd8d3b4a0c819a3ac38a4406fffc310e24e3",
+        "prepared/fleet/kre-bomber-regions.json": "d107c704dcbcc84fb3eb41af7f0315547811ce86d718ca0b86cc24f716cb7858",
+        "prepared/fleet/kre-bomber-preparation.json": "8d0d7e10551dc8877ab9a3686ed3742c97be544c639a8cc33b1cea19f58ce4bb"
+      }
+    },
+    "kre-interceptor": {
+      "criteria": [
+        97,
+        92,
+        91,
+        92
+      ],
+      "note": "Narrower wing and yellow forward fixture distinguish it from the bomber; tiny metallic areas need the native capture.",
+      "total": 93.3,
+      "evidence": {
+        "prepared/fleet/kre-interceptor.glb": "0698d453c7421cdd9fcbb155f209b39a976f51740ce641d379e895d4586ffc7f",
+        "evidence/fleet/images/kre-interceptor-quarter.png": "074f5c12a976bc43ecb23033ff73ba850fbbb56185f42af652a30e841c93f524",
+        "evidence/fleet/images/kre-interceptor-side.png": "1c9b1a47ffc0d82496d4b13e2930030a7194ac1f26ac87b98a53313a1f40de01",
+        "evidence/fleet/images/kre-interceptor-strip.png": "53864de986788b00fd40a66d6fa3e172d9bcf2d238b14df7a75916f17f6296bc",
+        "prepared/fleet/kre-interceptor-regions.json": "de6a12f62dd36d2b2c273f27967c8d285ee399b7346d3b9bc610140f3b571949",
+        "prepared/fleet/kre-interceptor-preparation.json": "af87fdad0eea50895d7df5489fbc26763525a9448b99d17eb3547101876d927a"
+      }
+    },
+    "kre-intrallus": {
+      "criteria": [
+        98,
+        91,
+        93,
+        93
+      ],
+      "note": "Twin matte decks, bronze body and actual warning bands retained; fine lining is weakest on the largest smooth green expanses. Filename is necessary to distinguish the two flagship meshes.",
+      "total": 93.9,
+      "evidence": {
+        "prepared/fleet/kre-intrallus.glb": "c16d80d61479a92a0dedc954ff90b771e25234d00452956d58d72e06fba4c882",
+        "evidence/fleet/images/kre-intrallus-quarter.png": "1b7b922f5c3d6e3954f69c8c6a8ecb35629fe210df0bb342008c6b6879088f7a",
+        "evidence/fleet/images/kre-intrallus-side.png": "c2fb0a2931c8ebe0013a275fb886763ff28f4a13d65c24cbf80b3eb199c6c38b",
+        "evidence/fleet/images/kre-intrallus-strip.png": "5e5f23f52a2d8249c450f6372692c094d3948e93c38ede84ace48e953f72f1e8",
+        "prepared/fleet/kre-intrallus-regions.json": "a299d5a2e702d0517f887527466dcdfbd935951298f35b98c497760bf638b1d2",
+        "prepared/fleet/kre-intrallus-preparation.json": "f7be37cfa543448ca0637e87d13b389d1f6c0b625503c87359d3a903961f8fde"
+      }
+    },
+    "kre-boss": {
+      "criteria": [
+        98,
+        91,
+        93,
+        93
+      ],
+      "note": "Separate source and derivative retained; material comparison is intentionally almost identical to Intrallus. Local deck geometry differs below normal sheet recognition size.",
+      "total": 93.9,
+      "evidence": {
+        "prepared/fleet/kre-boss.glb": "43b98db3c23c8c9e0eae7ed2218e5c81a00e8ebfce5d9442321854eed037813d",
+        "evidence/fleet/images/kre-boss-quarter.png": "27f52e77d4a67f7b08ecba3ec5f145249f3e1b464cea382e32665416bc229fdf",
+        "evidence/fleet/images/kre-boss-side.png": "94b0db87c00f376967c3eaa40a00d291289fca3c970b9c8a814843287454c9a0",
+        "evidence/fleet/images/kre-boss-strip.png": "f10e142264c12ea2b6e922a2578ec24e2086897ab0e199675a35926de5b1422c",
+        "prepared/fleet/kre-boss-regions.json": "b2052fd05f0085977aa7d9c4104050a9ba14624d781bff4dd07ac6b80eb05179",
+        "prepared/fleet/kre-boss-preparation.json": "a3a14f57ed15f53c6864ed595ee177e685cb64d0253e1af75a7c96acccb969ab"
+      }
+    },
+    "vra-shard": {
+      "criteria": [
+        96,
+        94,
+        94,
+        96
+      ],
+      "note": "Gold body, yellow paint and inert violet regions remain distinct; small green part stays painted.",
+      "total": 95,
+      "evidence": {
+        "prepared/fleet/vra-shard.glb": "88e9ecde9b5f49900cd8c0ab9f74737a443e9715fa4acd7dbcf1fe426c98fa5d",
+        "evidence/fleet/images/vra-shard-quarter.png": "d8d9d7d0fd316b4d18ef66f19b55faac7733636009f562beeb2e47b8f5eded32",
+        "evidence/fleet/images/vra-shard-side.png": "6432af9f6e3ddecab2749a285c9889f9a795967236c80035b5e8a86e6a53441b",
+        "evidence/fleet/images/vra-shard-strip.png": "b2e0a01f8b725a6ec5a41598c4b4009caf9412540eebc919d0671f363548d85a",
+        "prepared/fleet/vra-shard-regions.json": "2f8dbcbcf50e3ffa0df83a04b245281156ccb5ae2d47531dc5b3a7e6d150651a",
+        "prepared/fleet/vra-shard-preparation.json": "20b79cb4e5280eeb9248e78a45524afaa8fc2d8f4fae7633a044e8da806a6501"
+      }
+    },
+    "vra-point": {
+      "criteria": [
+        96,
+        94,
+        94,
+        96
+      ],
+      "note": "Twin side structures and green fixtures follow the model; authoritative VDD-03 overrides the filename's missing V.",
+      "total": 95,
+      "evidence": {
+        "prepared/fleet/vra-point.glb": "8775d318853f26a4f51a66b12cfd0e7f0b0891b37e05b93910161af731c3dd7a",
+        "evidence/fleet/images/vra-point-quarter.png": "269b8792c28cd1890d244fd2dc8d25d8df32292989213bac928a33ac35b2d86f",
+        "evidence/fleet/images/vra-point-side.png": "f8a5eaf66092b9f4cf0b46c412211f62b32a4d6d47d0ddcf9913b1549af94bf2",
+        "evidence/fleet/images/vra-point-strip.png": "445ac8d6fc870adff00d10aa0bd8d6ab319ec434852ac07d9f9f7b5d57ba838c",
+        "prepared/fleet/vra-point-regions.json": "8bc9db524984483e6f494af0f1747aef973db7ba4482f44d29e360d36eeb09b2",
+        "prepared/fleet/vra-point-preparation.json": "12accee2ea4bf19c69a7866a751cf391756574c63c5c4aec929249ce8cb0d39e"
+      }
+    },
+    "vra-avalanche": {
+      "criteria": [
+        96,
+        94,
+        94,
+        96
+      ],
+      "note": "Twin forward fixtures and yellow additions are preserved; no extra anatomy is assigned to the unschematized model.",
+      "total": 95,
+      "evidence": {
+        "prepared/fleet/vra-avalanche.glb": "0c2950447e078f93725db970829f7fd2a2cc4b5bfbdee8f86bbc3708f258d4b8",
+        "evidence/fleet/images/vra-avalanche-quarter.png": "dd71583e91fe4782252a0c325f294d896d86a3ea15092d6f2ed0eb1a75875cfc",
+        "evidence/fleet/images/vra-avalanche-side.png": "6ac4de3fb2acee73c0b0015ebc1497056678d31eb0ee1ba40ab34af53b9ed5f9",
+        "evidence/fleet/images/vra-avalanche-strip.png": "459298bd18973d9d5f048ae8c2be208b7cca24dc6238a4e409f19ac6c06416e9",
+        "prepared/fleet/vra-avalanche-regions.json": "6c50c3c3ffc35207b8e0e9821d18ce9d54bb7ead5935b0e8f4c791f4682f17cf",
+        "prepared/fleet/vra-avalanche-preparation.json": "37c208447e0daff79428c65968dcd8c012be29959e4f6a84d4accb233d131880"
+      }
+    },
+    "vra-feldspar": {
+      "criteria": [
+        96,
+        94,
+        93,
+        95
+      ],
+      "note": "Long gold facets show rough metallic variation and recess lining; some lower detail is occluded in this matched view pair.",
+      "total": 94.6,
+      "evidence": {
+        "prepared/fleet/vra-feldspar.glb": "f968f622d7f91b8951f3171ec3d00e2344631bd427780f4acbdfa5af0394c6af",
+        "evidence/fleet/images/vra-feldspar-quarter.png": "3d035e27b35d8807666d5b45202219796e184a8429fac20ed81a7decd3ac8b5d",
+        "evidence/fleet/images/vra-feldspar-side.png": "6146f0bd6cd9df0348abf8f69203a17e1cc86cad28d121beadec303b4fee3b43",
+        "evidence/fleet/images/vra-feldspar-strip.png": "80caed1a637c1bb0e46f3e8f0277b3b3d4e0ed434539317e0c791f9ed46165c5",
+        "prepared/fleet/vra-feldspar-regions.json": "4b2dd1e16763516f8ab73d512c511f3095cb557177f9d0c9b6f83b5a4670c767",
+        "prepared/fleet/vra-feldspar-preparation.json": "382f3e3c1a6bb7ad8b665a9375591f3ef431f893a7e16ce2906eb1d76ed6b411"
+      }
+    },
+    "vra-crystal": {
+      "criteria": [
+        96,
+        94,
+        93,
+        95
+      ],
+      "note": "Broad painted yellow structures stay distinct from gold and cyan stays paint; green crystal is not switched to clear.",
+      "total": 94.6,
+      "evidence": {
+        "prepared/fleet/vra-crystal.glb": "705f5f3be7277cc325fefe2d53f3abd5dc1529112ca5e06db2f7d9bf1840a5e6",
+        "evidence/fleet/images/vra-crystal-quarter.png": "d12d5d877874dc5cd3722a64db207b39ca08f0011345bc4965e17c2cea51add5",
+        "evidence/fleet/images/vra-crystal-side.png": "3a954b5519e4230049215a2d223b0b6a40172eb511eca768bd7d7f3eaf967cd8",
+        "evidence/fleet/images/vra-crystal-strip.png": "57f58b625dad5be7b01625be55b394a2be93a89562c507bdd1a70776b90fa274",
+        "prepared/fleet/vra-crystal-regions.json": "bf02e5a845e59b24a32766fb6d5ab785d188091a6095c4456c758f006c8fbbe3",
+        "prepared/fleet/vra-crystal-preparation.json": "983112ad97a9cab1d535e2930a522c06ccf6d6404f5477a2ec6346f5ad321ef4"
+      }
+    },
+    "vra-cluster": {
+      "criteria": [
+        96,
+        94,
+        92,
+        95
+      ],
+      "note": "Repeated aft sections and broad bow compare clearly; large-hull stability on the shared base remains a scale-proposal question.",
+      "total": 94.4,
+      "evidence": {
+        "prepared/fleet/vra-cluster.glb": "bafdcd07c5b14f5e6d943f8ee2f0ad91cd2361147d5828a267eca195df0e0fa9",
+        "evidence/fleet/images/vra-cluster-quarter.png": "e58cd037022c8caac39db76eece39acad09e8e1d0765fa429c75cc0754056bee",
+        "evidence/fleet/images/vra-cluster-side.png": "7e982c6fd701b025ffbb30aa3b557d4c52d7893be9eca588ea33ab869a90366d",
+        "evidence/fleet/images/vra-cluster-strip.png": "ba65fc1d49f22b80e90761d8aae35356d093c9a1e5b694cb5e476291d59fed85",
+        "prepared/fleet/vra-cluster-regions.json": "7030d181ffc97c0347a72276007d929206aea5a5537d1f6526d8d983ecb1e5df",
+        "prepared/fleet/vra-cluster-preparation.json": "00047c5773335a1f85167b5a80e92e93782c7a856a314070a29613ce0bad6f5b"
+      }
+    },
+    "vra-bastion": {
+      "criteria": [
+        96,
+        93,
+        91,
+        92
+      ],
+      "note": "Tall arrangement is kept upright and fully framed; it produces the smallest readable side capitals and the strongest provisional mounting concern.",
+      "total": 93.3,
+      "evidence": {
+        "prepared/fleet/vra-bastion.glb": "f6de14d35e8c0fcaf03d0255c64884d7017c54dfe5bc3635e04287d6105622d6",
+        "evidence/fleet/images/vra-bastion-quarter.png": "d2ddd9cdf0831b844ec1f4d879841b1bead7cfcec322bec25c077bfa50455b17",
+        "evidence/fleet/images/vra-bastion-side.png": "56b692413d348cb5104135d606a215253276b46329f56b93a3c783bdb6259972",
+        "evidence/fleet/images/vra-bastion-strip.png": "fbf0ae29417c551b8d6366d303a3498cbe40456bcd43980c5e3fafd8767ae1bb",
+        "prepared/fleet/vra-bastion-regions.json": "c18611ddb78b9405d21380bfedccfe27fe0598ca7402d2ec7c8e01dea6ad9888",
+        "prepared/fleet/vra-bastion-preparation.json": "d4facaa76d74e0338d20047ce4bac5ba087ad44465c4059a662d972045d0b394"
+      }
+    }
+  },
+  "sheets": {
+    "EAR": {
+      "criteria": [
+        100,
+        95,
+        94,
+        94
+      ],
+      "note": "All seven source classes, corrected codes and matched views; shared-scale strip intentionally leaves space to preserve the same scale as Krelath.",
+      "total": 96.1
+    },
+    "KRE": {
+      "criteria": [
+        100,
+        92,
+        92,
+        93
+      ],
+      "note": "All twelve models, four honest blank codes and both full flagship filenames; longest sheet, small fighters and almost-identical flagships demand native-image inspection.",
+      "total": 94.6
+    },
+    "VRA": {
+      "criteria": [
+        100,
+        95,
+        92,
+        94
+      ],
+      "note": "All seven models and corrected V-prefixed codes; the source-unit calibration has no independent Vraygon physical-length reference.",
+      "total": 95.6
+    }
+  },
+  "unscored": [
+    "Rim-code legibility for the two fighters and both flagships: no supplied codes",
+    "Native full-board recognition and performance",
+    "Approved cross-class physical scale and stability",
+    "Facing",
+    "Clear-plastic adoption",
+    "Destruction, planet and nebula samples",
+    "Zandrax: no supplied models"
+  ],
+  "fileEvidence": {
+    "fleet-assets.json": "2a526a842d0fda25eec4cebeb3fb9cbb36ebadc9028e7ec95a9947a68c571635",
+    "fleet-studio.js": "fcc93995e0af56965bccd8ea43defaff72e35b76ff6cc8f3a24adfdf3093915c",
+    "hull-paint.js": "e20c3f629e9dd2674f4542bccf975473a7098b92bcf3ebfda7ed47127bceb74e",
+    "hull-art.js": "7da664f1c23a6f5361e357f8981311db8ef0688dcee436a91b3e0bdfabb768f6",
+    "faction-palettes.json": "600fd0c0b4ed37799331ac8b3c491bde0ee52ea40c2528f58d30faab4e01ae9d",
+    "materials.js": "b4c821e3edff5274fdf9d06c5f95adb18252d3e9cd2ed7b3d2789e518862e65b",
+    "stands.js": "3d9fa79fa5e4bc1614070f68957e504a2f1d9f0ef13d9b5b926130068435e871",
+    "rim-labels.js": "58a7f251b5673f2896a7933c3bd6cbba6a671468724bc1f6125adbda0a14b3b6",
+    "table.js": "e5ef8574018555efa88af1840c768d0388a90ba0ff35e925388d482c923493e2",
+    "scale.js": "026cfa47f3f8e2f6d3f7605157474bae4d940e79974b9511731b0d900a434cb2",
+    "room-reflections.js": "84c92f32457b9ab3fbce98d5e69f3babaf748f8e7f34734b006b958972fac5a7",
+    "fleet-contract.js": "28fa7bf3321766c6965fcbe2af5fd541f358497c2a806cc4c9410b0c83641ee3",
+    "contract.js": "9dac011dc9f09858dcaf91011628d4a3f52c5f9e721d5edc4795a4869eeebbd6",
+    "prepared/fleet/inventory.json": "e1c81de4885972d87c3e9f27096066e5a6623ccf87d230a86fc124bffc3b5306"
+  }
+}

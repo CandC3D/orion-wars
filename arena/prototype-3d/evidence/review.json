@@ -6,14 +6,14 @@
   },
   "captures": {
     "planning": {
-      "drawCalls": 73,
-      "triangles": 69832,
-      "textures": 21,
-      "geometries": 31,
+      "drawCalls": 79,
+      "triangles": 69904,
+      "textures": 24,
+      "geometries": 34,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           8,
@@ -218,7 +218,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 18.812988281250004,
+      "materialTextureMiB": 20.26219177246094,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -540,14 +540,14 @@
       "energyLights": 0
     },
     "beam": {
-      "drawCalls": 68,
-      "triangles": 69206,
-      "textures": 21,
-      "geometries": 36,
+      "drawCalls": 74,
+      "triangles": 69278,
+      "textures": 24,
+      "geometries": 39,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           5,
@@ -752,7 +752,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 18.812988281250004,
+      "materialTextureMiB": 20.26219177246094,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -1074,14 +1074,14 @@
       "energyLights": 0
     },
     "shield": {
-      "drawCalls": 66,
-      "triangles": 69358,
-      "textures": 21,
-      "geometries": 37,
+      "drawCalls": 72,
+      "triangles": 69430,
+      "textures": 24,
+      "geometries": 40,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           5,
@@ -1286,7 +1286,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 18.812988281250004,
+      "materialTextureMiB": 20.26219177246094,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -1608,14 +1608,14 @@
       "energyLights": 0
     },
     "anonymous": {
-      "drawCalls": 66,
-      "triangles": 68832,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 72,
+      "triangles": 68904,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           5,
@@ -1820,7 +1820,7 @@
           "triangles": 312
         }
       ],
-      "materialTextureMiB": 18.812988281250004,
+      "materialTextureMiB": 20.26219177246094,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -2143,6 +2143,20 @@
     }
   },
   "checks": {
+    "explicitBoardCodes": [
+      {
+        "id": "EAR-FF-1",
+        "code": "EFG-03"
+      },
+      {
+        "id": "KRE-FF-1",
+        "code": "KFG-01"
+      },
+      {
+        "id": "VRA-FF-1",
+        "code": "VFG-04"
+      }
+    ],
     "planningBrush": {
       "EAR": {
         "pixelsChangedAbove025": 1114,
@@ -2294,8 +2308,8 @@
       "energeticNonzeroPixels": 1318
     },
     "physicalIsolation": {
-      "physicalBefore": "f675427b",
-      "physicalAfter": "f675427b",
+      "physicalBefore": "e5df21a8",
+      "physicalAfter": "e5df21a8",
       "shadowBefore": "7c5232e0",
       "shadowAfter": "7c5232e0",
       "identical": true
@@ -2431,14 +2445,14 @@
   },
   "detailCameras": {
     "EAR-plan": {
-      "drawCalls": 11,
-      "triangles": 15938,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 13,
+      "triangles": 15962,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -6.4,
@@ -2459,14 +2473,14 @@
       "activeEffect": null
     },
     "EAR-side": {
-      "drawCalls": 15,
-      "triangles": 15976,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 17,
+      "triangles": 16000,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -2.4000000000000004,
@@ -2487,14 +2501,14 @@
       "activeEffect": null
     },
     "EAR-stern": {
-      "drawCalls": 19,
-      "triangles": 33085,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 22,
+      "triangles": 33121,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -37.4,
@@ -2515,14 +2529,14 @@
       "activeEffect": null
     },
     "EAR-bow": {
-      "drawCalls": 19,
-      "triangles": 16014,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 21,
+      "triangles": 16038,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           24.6,
@@ -2543,14 +2557,14 @@
       "activeEffect": null
     },
     "KRE-plan": {
-      "drawCalls": 11,
-      "triangles": 17409,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 12,
+      "triangles": 17421,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           6.400000000000002,
@@ -2571,14 +2585,14 @@
       "activeEffect": null
     },
     "KRE-side": {
-      "drawCalls": 15,
-      "triangles": 21623,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 16,
+      "triangles": 21635,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           2.400000000000004,
@@ -2599,14 +2613,14 @@
       "activeEffect": null
     },
     "KRE-stern": {
-      "drawCalls": 20,
-      "triangles": 33103,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 23,
+      "triangles": 33139,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           37.4,
@@ -2627,14 +2641,14 @@
       "activeEffect": null
     },
     "KRE-bow": {
-      "drawCalls": 16,
-      "triangles": 21647,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 17,
+      "triangles": 21659,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -24.6,
@@ -2655,14 +2669,14 @@
       "activeEffect": null
     },
     "VRA-plan": {
-      "drawCalls": 11,
-      "triangles": 29277,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 12,
+      "triangles": 29289,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -13.592304845413263,
@@ -2683,14 +2697,14 @@
       "activeEffect": null
     },
     "VRA-side": {
-      "drawCalls": 12,
-      "triangles": 29289,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 14,
+      "triangles": 29313,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -27.180762113533156,
@@ -2711,14 +2725,14 @@
       "activeEffect": null
     },
     "VRA-stern": {
-      "drawCalls": 16,
-      "triangles": 33059,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 19,
+      "triangles": 33095,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           -18.700000000000003,
@@ -2739,14 +2753,14 @@
       "activeEffect": null
     },
     "VRA-bow": {
-      "drawCalls": 17,
-      "triangles": 29339,
-      "textures": 21,
-      "geometries": 38,
+      "drawCalls": 19,
+      "triangles": 29363,
+      "textures": 24,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 45,
+      "drawables": 48,
       "actualCamera": {
         "position": [
           12.300000000000004,
@@ -2794,8 +2808,8 @@
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
-      "drawCalls": 46,
-      "submittedTriangles": 64190,
+      "drawCalls": 50,
+      "submittedTriangles": 64238,
       "estimatedTargetMiB": 41.989532470703125,
       "actualCamera": {
         "position": [
@@ -2833,8 +2847,8 @@
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
-      "drawCalls": 56,
-      "submittedTriangles": 93509,
+      "drawCalls": 61,
+      "submittedTriangles": 93569,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2872,8 +2886,8 @@
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
-      "drawCalls": 46,
-      "submittedTriangles": 64190,
+      "drawCalls": 51,
+      "submittedTriangles": 64250,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2911,8 +2925,8 @@
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
-      "drawCalls": 56,
-      "submittedTriangles": 93509,
+      "drawCalls": 63,
+      "submittedTriangles": 93593,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2950,8 +2964,8 @@
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
-      "drawCalls": 73,
-      "submittedTriangles": 69832,
+      "drawCalls": 79,
+      "submittedTriangles": 69904,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2989,8 +3003,8 @@
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
-      "drawCalls": 110,
-      "submittedTriangles": 104793,
+      "drawCalls": 119,
+      "submittedTriangles": 104901,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -3025,9 +3039,9 @@
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 0.3483333336810271,
-    "p95Ms": 0.5,
-    "maxMs": 0.699999988079071,
+    "meanMs": 0.5899999991059304,
+    "p95Ms": 0.7000000029802322,
+    "maxMs": 0.7999999970197678,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }
