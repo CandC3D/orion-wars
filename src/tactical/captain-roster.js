@@ -9,10 +9,16 @@
 // stream, hashed from the battle seed and the ship id, and the battle's own generator is never
 // advanced by so much as one call.
 //
-// A NAME CHANGES NOTHING. The draw assigns identity and nothing else: posture defaults to standard,
-// which is what a ship without a captain record already behaves as. So officers can be switched on,
-// looked at, and named in the console before a single ship behaves differently - and if they read
-// wrong, they can be changed without re-measuring anything.
+// THE NAME CHANGES NOTHING; COMMISSIONING CHANGES EVERYTHING. Drawing a name moves no threshold, and
+// a drawn officer takes the standing posture. But a hull with no record is not running the rules
+// under a default profile - it is not running them at all, because every touch point in the resolver
+// is guarded by `if (ship.captain)`. Attaching the first record arms all of them, and standard
+// posture still holds a hurt ship outside three hexes.
+//
+// I wrote the opposite here and told Chris so twice, until Astra reproduced the difference on
+// 2026-09-09: a hurt light cruiser closes four hexes unofficered and three with an officer. So
+// commissioning a fleet is a BALANCE CHANGE and the corpus must be re-measured against it. See the
+// check "but COMMISSIONING changes behaviour" in test/captain-roster.mjs.
 import { makePrng, seedFromString } from '../prng.js';
 import { DEFAULT_POSTURE } from './ship-command.js';
 
