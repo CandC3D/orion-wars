@@ -787,8 +787,13 @@ function chargeSpinal(ship, enemies, tuning, log, battle = null, order = null) {
     const breakOff = ventsUnderFire(ship, tuning);
     // A direct order is obeyed, and the objection goes on the record anyway. The player is never
     // trapped by their own crew, and the crew are never silently overruled.
-    if (breakOff && order?.insist) { if (log) log(`${ship.id} captain: ${breakOff.protest}`); }
-    else if (breakOff) { intent = 'vent'; if (log) log(`${ship.id} captain: ${breakOff.reason}`); }
+    if (breakOff && order?.insist) {
+      if (log) log(`${ship.id} captain: ${breakOff.protest}`);
+      recordCaptain(battle, ship, 'holds-charge-under-protest', breakOff.protest, { insisted: true });
+    } else if (breakOff) {
+      intent = 'vent'; if (log) log(`${ship.id} captain: ${breakOff.reason}`);
+      recordCaptain(battle, ship, breakOff.rule, breakOff.reason, { insisted: false });
+    }
   }
   if(order || st.manualControl || intent === 'vent'){
     const note=advanceManualSpinal(ship,w,intent);
@@ -1478,7 +1483,10 @@ function move(ship, enemies, friends, tuning, log = null, battle = null) {
   // Once per ROUND, however many branches he turned down in it - the same cadence an ordered move
   // reports at, since that is called once per action. Only ever for a ship that has an officer, so
   // a battle without captains produces not one extra line.
-  if (helmRefusal && log) log(`${ship.id} captain: ${helmRefusal.reason}`);
+  if (helmRefusal) {
+    if (log) log(`${ship.id} captain: ${helmRefusal.reason}`);
+    recordCaptain(battle, ship, helmRefusal.rule, helmRefusal.reason, { insisted: false, unordered: true });
+  }
   let trimmed = false;
   while (!ship.destroyed && steps.length && enemyAt(ship.pos, enemies, tuning)) {
     const { counter, free, contactLocks, ...before } = steps.pop();
@@ -2045,6 +2053,21 @@ function inContact(A, B, tuning) {
 // clamped by the rules the AI lives under - turnRatePerRound, power at the
 // hex's step cost, the map edge, terrain, the same-hex rule - and every clamp
 // is logged so the player learns the rule. Returns the number of hexes moved.
+// A captain's deviation, recorded as DATA and not only as a line of prose.
+//
+// The trusted narrative log is omniscient, which is why the player session deliberately does not
+// subscribe to it. Without a structured channel the consequence was that clause 2 of the ruling -
+// reported after execution - held only for a trusted caller, and a player watching his own ship
+// stop short was told nothing at all (Astra, 2026-09-09).
+//
+// Deliberately NOT carried: which enemy provoked it. The rule is evaluated against every living
+// enemy, including ones the observing side cannot see, so naming one would disclose it. The reason
+// text names a range and the ship's own hull and no one else.
+function recordCaptain(battle, ship, rule, reason, extra = {}) {
+  if (!battle) return;
+  (battle.captainLog ??= []).push({ shipId: ship.id, side: ship.side, rule, reason, turn: battle.turn, ...extra });
+}
+
 function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = null) {
   const M = tuning.movement ?? {};
   const turnRate = ship.turnRate ?? (M.turnRatePerRound ?? {})[ship.className] ?? 2;
@@ -2101,14 +2124,20 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
     }
     steps.push({pos:next,cost:0,burst:true});pos=next;
   }
-  if (captainProtest && log) log(`${ship.id} captain: ${captainProtest.protest}`);
+  if (captainProtest) {
+    if (log) log(`${ship.id} captain: ${captainProtest.protest}`);
+    recordCaptain(battle, ship, 'closes-under-protest', captainProtest.protest, { insisted: true });
+  }
   let trimmed = false;
   while (steps.length && enemyAt(steps.at(-1).pos, foes, tuning)) { steps.pop(); trimmed = true; }
   // A refusal is a different KIND of event from a clamp, and must not be swallowed by one.
   // Reported by Astra 2026-09-09: with a picket in the next hex, occupancy trimming and the
   // refusal were mutually exclusive, so a ship that stopped because of its captain was recorded
   // as merely declining to end its move in an enemy's hex. Both are now reported.
-  if (captainStop && log) log(`${ship.id} captain: ${captainStop.reason}; held at ${steps.length} of ${forward+burst} hexes`);
+  if (captainStop) {
+    if (log) log(`${ship.id} captain: ${captainStop.reason}; held at ${steps.length} of ${forward+burst} hexes`);
+    recordCaptain(battle, ship, captainStop.rule, captainStop.reason, { held: steps.length, of: forward + burst, insisted: false });
+  }
   if (trimmed && log) log(`${ship.id} order clamped: will not end its move in an enemy's hex${stop ? ` (${stop} limits transit)` : ""}`);
   else if (stop && log) log(`${ship.id} order clamped: ${stop} after ${steps.length} of ${forward+burst} hexes`);
   for (const step of steps) {

@@ -23,6 +23,7 @@ const { enableContacts } = await mod('src/tactical/contacts.js');
 const { SENSING_PROFILE } = await mod('src/tactical/sensing.js');
 const { captainObservation } = await mod('src/captains/observation.js');
 const { previewContactOrders } = await mod('src/captains/preview.js');
+const { bindPlayerSession } = await mod('src/captains/player-session.js');
 const { appraiseContact } = await mod('src/tactical/ship-command.js');
 const { makePrng } = await mod('src/prng.js');
 const tuning = JSON.parse(fs.readFileSync(path.join(root, 'data/tactical-tuning.json')));
@@ -339,6 +340,48 @@ check('a live range rule says so, because silence from it is not consent', () =>
   const whole = forecast(world({ captain: { id: 'c1', posture: 'cautious' }, hull: 1 }));
   assert.equal(whole.captain.armed, false, 'a healthy hull is not under the rule');
   assert.ok(!whole.actions.flatMap(a => a.notes).some(n => /line is live/.test(n)));
+});
+
+check('a refusal reaches the RESTRICTED tape, not only the trusted log', () => {
+  // FINDING 5. Clause 2 of the ruling is "reported after execution". It held for a trusted caller
+  // reading the narrative log, and not at all for the player: the session deliberately does not
+  // subscribe to that log, because it is omniscient. So the deviation is now a structured record.
+  const w = world({ captain: { id: 'c1', name: 'Capt. Renard', posture: 'cautious' } });
+  const session = bindPlayerSession(w.battle, 'A');
+  const r = session.step({ 'A-own': close });
+  assert.equal(r.ok, true);
+  const events = r.timeline.flatMap(t => t.events).filter(e => e.kind === 'captain');
+  assert.equal(events.length, 1, 'exactly one deviation should be reported');
+  assert.equal(events[0].shipId, 'A-own');
+  assert.match(events[0].reason, /Capt\. Renard will not close inside 5 hexes at 40% hull/);
+  assert.ok(Number.isFinite(events[0].held) && Number.isFinite(events[0].of));
+});
+
+check('and it names no enemy, because the rule is judged against ships the side cannot see', () => {
+  // refusesStep runs against every LIVING enemy at execution, including undetected ones. Carrying
+  // the provoking ship's id would disclose it, so the record carries a range and the ship's own
+  // hull and nothing else.
+  const w = world({ captain: { id: 'c1', posture: 'cautious' } });
+  const r = bindPlayerSession(w.battle, 'A').step({ 'A-own': close });
+  const events = r.timeline.flatMap(t => t.events).filter(e => e.kind === 'captain');
+  assert.ok(events.length);
+  const text = JSON.stringify(events);
+  assert.ok(!/B-foe/.test(text), 'the provoking enemy must not be named');
+  assert.ok(!/enemyId/.test(text));
+});
+
+check('the other side hears nothing of it', () => {
+  const w = world({ captain: { id: 'c1', posture: 'cautious' } });
+  const theirs = bindPlayerSession(w.battle, 'B');
+  const r = theirs.step({ 'B-foe': hold });
+  const events = r.timeline.flatMap(t => t.events).filter(e => e.kind === 'captain');
+  assert.deepEqual(events, [], 'a captain speaks to his own admiral only');
+});
+
+check('an unofficered ship puts nothing on the tape', () => {
+  const w = world();
+  const r = bindPlayerSession(w.battle, 'A').step({ 'A-own': close });
+  assert.deepEqual(r.timeline.flatMap(t => t.events).filter(e => e.kind === 'captain'), []);
 });
 
 // ---------------------------------------------------------------- the boundary
