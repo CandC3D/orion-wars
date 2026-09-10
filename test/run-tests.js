@@ -14,6 +14,7 @@ const tests = [
   ["Player contact boundary, event-time projection and movement ceiling", "player-contacts.mjs"],
   ["Map shield arcs agree with the hex directions they cover", "map-shield-arcs.mjs"],
   ["Point defence cover, and the schematic ring", "point-defence-cover.mjs"],
+  ["Playtest of 10 September: the console half", "playtest-console.mjs"],
   ["Main Fleet Command setup, restricted sessions and map labels", "fleet-command.mjs"],
   ["Explicit warp and emergency burst commands", "special-orders.mjs"],
   ["Keel-gun target obedience and whole-point shields", "target-shield-rulings.mjs"],

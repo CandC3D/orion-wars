@@ -58,6 +58,16 @@ body[data-command] #map-legend ul { padding-top:2px; }
 .readout-grid span { font-size:10px; letter-spacing:.8px; text-transform:uppercase; color:var(--muted); }
 .readout-grid b { font-size:18px; font-weight:500; color:var(--accent); font-variant-numeric:tabular-nums; line-height:1.15; }
 .readout-grid b small { font-size:11px; color:var(--muted); }
+/* Hull alarms: amber below half, red and pulsing below a quarter. */
+.readout-grid>div.hull-damaged { border-color:#efb773; box-shadow:inset 0 0 0 1px rgb(239 183 115 / .35); }
+.readout-grid>div.hull-damaged b { color:#efb773; }
+.readout-grid>div.hull-critical { border-color:#ff6b5b; box-shadow:inset 0 0 0 1px rgb(255 107 91 / .5); animation:hull-critical 1.1s ease-in-out infinite; }
+.readout-grid>div.hull-critical b { color:#ff8a7c; }
+.readout-grid .hull-alarm { font-style:normal; font-weight:700; letter-spacing:1px; margin-left:4px; }
+.readout-grid>div.hull-damaged .hull-alarm { color:#efb773; }
+.readout-grid>div.hull-critical .hull-alarm { color:#ff8a7c; }
+@keyframes hull-critical { 0%,100% { background:var(--bg); } 50% { background:rgb(255 107 91 / .16); } }
+@media (prefers-reduced-motion: reduce) { .readout-grid>div.hull-critical { animation:none; } }
 .power-well #power-well { padding-top:2px; }
 /* helm: the numeric model stays as readouts; keys drive it */
 .helm-well #action-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; margin-bottom:4px; }
@@ -127,3 +137,9 @@ body[data-command] .contact-footer>#incoming { flex:1; min-width:0; overflow:hid
   body[data-command] #resolve-orders { padding:8px 12px; white-space:nowrap; } .scope-suffix { display:none; }
   .fleet-builders{grid-template-columns:1fr;} .command-setup{margin:8px;} .command-roster>label{grid-template-columns:1fr 90px 60px;} .command-links{margin:0;}
 }
+
+/* TARGET LOCKED reads as a lock, not as one more word in the key. */
+.target-locked { color:#7fe3a1; letter-spacing:1px; text-shadow:0 0 6px rgb(127 227 161 / .45); }
+
+/* A weapon coming back online is good news; it reads in the lock colour. */
+#events li[data-weight="ready"] { color:#7fe3a1; }

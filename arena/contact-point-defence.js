@@ -11,7 +11,8 @@
 //
 // Drawn for EVERY own hull that carries point defence, not only the selected one, because the case
 // that matters most is selecting a ship with none and asking whose cover it is standing in.
-import { DIRS, distance } from '../src/tactical/hex.js';
+import { distance } from '../src/tactical/hex.js';
+import { radiusOutlinePath } from './hex-region.js';
 
 export const PD_COLOUR = '#e2a2ff';
 const num = v => Number.isFinite(Number(v)) ? Number(v) : 0;
@@ -35,21 +36,19 @@ export function coverFor(ship, umbrellas) {
   return { own, from: from.map(u => u.id), pooled };
 }
 
-// The region within N hexes is a hexagon; its corners are the cells N steps along each direction.
-// Built the same way movementRangeMarkup builds its ceiling, so the two overlays agree about what
-// "N hexes" looks like on this map rather than each inventing a radius.
-export function pointDefenceMarkup(ships, { project, rangeHexes, selectedId = null } = {}) {
+// Outlines the actual covered hexes along their edges, shared with the movement overlay through
+// hex-region.js, so the two agree about what "N hexes" includes and a hex on the boundary is
+// visibly in or out (Chris, 10 September 2026).
+export function pointDefenceMarkup(ships, { project, scale, rangeHexes, selectedId = null } = {}) {
   const umbrellas = pointDefenceUmbrellas(ships, rangeHexes);
-  if (!umbrellas.length || typeof project !== 'function') return '';
+  if (!umbrellas.length || typeof project !== 'function' || !(scale > 0)) return '';
   const body = umbrellas.map(u => {
-    const points = DIRS.map(d => project({ q: u.pos.q + d.q * u.hexes, r: u.pos.r + d.r * u.hexes }))
-      .map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
     const mine = u.id === selectedId;
-    return `<polygon class="point-defence${mine ? ' selected' : ''}" data-point-defence="${u.id}"`
-      + ` data-pd-points="${u.points}" points="${points}" fill="none" stroke="${PD_COLOUR}"`
-      + ` stroke-opacity="${mine ? '.95' : '.5'}" stroke-width="${mine ? 2 : 1.4}" stroke-dasharray="7 6">`
-      + `<title>${u.id} point defence: ${u.points} point(s) covering everything within ${u.hexes} hexes,`
-      + ` including hulls that carry none of their own</title></polygon>`;
+    return `<path class="point-defence${mine ? ' selected' : ''}" data-point-defence="${u.id}"`
+      + ` data-pd-points="${u.points}" d="${radiusOutlinePath(u.pos, u.hexes, project, scale)}" fill="none" stroke="${PD_COLOUR}"`
+      + ` stroke-opacity="${mine ? '.95' : '.5'}" stroke-width="${mine ? 2 : 1.4}" stroke-dasharray="7 6" stroke-linecap="round">`
+      + `<title>${u.id} point defence: ${u.points} point(s) covering every outlined hex, within ${u.hexes} hexes,`
+      + ` including hulls that carry none of their own</title></path>`;
   }).join('');
   return `<g class="point-defence-umbrellas" pointer-events="none" role="img"`
     + ` aria-label="Point defence umbrellas: ${umbrellas.length} covering hull(s)">${body}</g>`;

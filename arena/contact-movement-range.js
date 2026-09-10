@@ -1,4 +1,5 @@
 import {DIRS} from '../src/tactical/hex.js';
+import {radiusOutlinePath} from './hex-region.js';
 import {advanceManualSpinal} from '../src/tactical/spinal-control.js';
 // A power-only ordinary-movement ceiling, not a reachability/pathfinder claim.
 export function movementRange(ship,reserveFraction,intent,manual=false){
@@ -22,8 +23,9 @@ export function movementRange(ship,reserveFraction,intent,manual=false){
   return {hexes,label:`Movement ≤ ${hexes} hex / turn · refill/reserve ceiling, not a route`,
     reason:`Ordinary movement ceiling: ${hexes} hex total / turn after refill and reserve. Heading, terrain, incoming damage and other spending can shorten it. Warp/burst not included.`};
 }
-export function movementRangeMarkup(ship,range,project){
-  if(!ship||range.hexes===null||range.hexes<=0)return '';
-  const points=DIRS.map(d=>project({q:ship.pos.q+d.q*range.hexes,r:ship.pos.r+d.r*range.hexes}));
-  return `<polygon class="movement-range" data-movement-radius="${range.hexes}" points="${points.map(p=>`${p.x},${p.y}`).join(' ')}"><title>Ordinary movement upper bound: ${range.hexes} hex; not all enclosed hexes are reachable</title></polygon>`;
+// Outlines the actual hexes, along their edges, rather than a polygon through the corner cells'
+// centres which cut through every cell on its boundary (Chris, 10 September 2026).
+export function movementRangeMarkup(ship,range,project,scale){
+  if(!ship||range.hexes===null||range.hexes<=0||!(scale>0))return '';
+  return `<path class="movement-range" data-movement-radius="${range.hexes}" d="${radiusOutlinePath(ship.pos,range.hexes,project,scale)}"><title>Ordinary movement upper bound: ${range.hexes} hex; every outlined hex is within reach of the power ceiling, though heading and terrain can shorten the route</title></path>`;
 }

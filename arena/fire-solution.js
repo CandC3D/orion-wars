@@ -56,7 +56,12 @@ export function fireSolution(ship, mount, contact, view, budget = null) {
   if (budget !== null && Number.isFinite(budget) && budget < need)
     return { short: 'POWER', full: `Insufficient power: this plan leaves ${Math.round(budget)} P for weapons, one shot needs ${Math.round(need)} P`,
       state: 'blocked' };
-  return { short: 'BEARS', full: 'Bears on the preferred contact at the current position; not a firing solution', state: 'bears' };
+  // TARGET LOCKED (Chris, 10 September 2026): confirmation that this weapon is aimed at this target.
+  // The state stays 'bears' and the claim stays honest - it is the lock at the CURRENT position, ready,
+  // in arc, in range and powered; movement this turn by either ship can break it, and the full text says so.
+  const name = contact.vesselName?.full ?? contact.className?.replaceAll('-', ' ') ?? contact.id;
+  return { short: 'TARGET LOCKED', full: `Target locked on ${name}: ready, in arc, in range and powered at the current position. A lock, not a guaranteed hit - movement this turn by either ship can break it.`,
+    state: 'bears', locked: true, target: contact.id, targetName: name };
 }
 
 // One pass for the whole battery, keyed by mount id.
