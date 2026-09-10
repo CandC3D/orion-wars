@@ -1447,11 +1447,22 @@ function move(ship, enemies, friends, tuning, log = null, battle = null) {
   // Charge burst stress only after endpoint trimming: zero retained free steps
   // consume no stress, accuracy penalty or per-turn burst allowance.
   const steps = [];
+  let helmRefusal = null;
   const step = (next, cost, free = false, counter = null) => {
     // All helm branches must afford the actual destination's terrain cost,
     // not just the ordinary hex cost used by their coarse movement gates.
     // Emergency bursts deliberately waive power, never terrain legality.
     if (!free && spendable(ship) < cost) return false;
+    // AND THE CAPTAIN. Every helm branch - formation, travel, orbit, evasion, free burst -
+    // commits through this one closure, so he is consulted here and nowhere else. Reported by
+    // Astra 2026-09-09: he was being asked only about ORDERED moves, which left Chris's ruling
+    // that both sides use one captain layer unsatisfied for every unordered ship, including the
+    // whole AI side. A refusal reads as a step the helm cannot take, which the branches already
+    // handle, so the substitute action comes free here exactly as it does for an ordered move.
+    if (ship.captain && !ship.insistThisTurn) {
+      const refusal = refusesStep(ship, ship.pos, next, living(enemies), tuning);
+      if (refusal) { helmRefusal = helmRefusal ?? refusal; return false; }
+    }
     steps.push({ pos: ship.pos, power: ship.power, lastStepCost: ship.lastStepCost,
       movedThisTurn: ship.movedThisTurn, counter, free,
       ...(finiteSensing(battle) ? { contactLocks: structuredClone(battle.contacts.locks) } : {}) });
@@ -1464,6 +1475,10 @@ function move(ship, enemies, friends, tuning, log = null, battle = null) {
     return true;
   };
   moveHelm(ship, enemies, friends, tuning, step, battle);
+  // Once per ROUND, however many branches he turned down in it - the same cadence an ordered move
+  // reports at, since that is called once per action. Only ever for a ship that has an officer, so
+  // a battle without captains produces not one extra line.
+  if (helmRefusal && log) log(`${ship.id} captain: ${helmRefusal.reason}`);
   let trimmed = false;
   while (!ship.destroyed && steps.length && enemyAt(ship.pos, enemies, tuning)) {
     const { counter, free, contactLocks, ...before } = steps.pop();

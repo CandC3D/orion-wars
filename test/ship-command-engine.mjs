@@ -83,6 +83,58 @@ check("an order that stops outside the line is obeyed in full", () => {
   assert.equal(r.log.filter(l => /captain:/.test(l)).length, 0);
 });
 
+// ---------------------------------------------------------- the side that gives no orders
+// Chris's ruling 1: one captain layer, BOTH sides. Reported by Astra 2026-09-09 as unsatisfied -
+// the layer was consulted on ordered moves only, so every unordered ship, which is the whole AI
+// side, sailed under no captain at all.
+function unordered({ captain = null, hull = 0.4 } = {}) {
+  const rng = makePrng(11);
+  const tune = structuredClone(T);
+  tune.toHit.target = -100; tune.explosion.enabled = false;
+  const mine = buildShip("A-light-cruiser-1", "EAR", "light-cruiser", tune, L, rng);
+  mine.pos = { q: 0, r: 0 }; mine.facing = 0;
+  mine.superstructure = Math.round(mine.superstructureMax * hull);
+  if (captain) mine.captain = captain;
+  const theirs = buildShip("B-heavy-cruiser-1", "KRE", "heavy-cruiser", tune, L, rng);
+  theirs.pos = { q: 5, r: 0 }; theirs.facing = 3; theirs.mounts = []; theirs.turnRate = 0;
+  const battle = createBattleFromFleets([[mine], [theirs]], tune, makePrng(5), { maxTurns: 4, terrain: [] });
+  const log = [];
+  // Only the enemy is given an order. Ours falls through to the scripted helm.
+  stepTurn(battle, { [theirs.id]: { plan: hold, target: "auto", reserve: 1 } }, { log: line => log.push(line) });
+  return { pos: mine.pos, range: distance(mine.pos, theirs.pos), log };
+}
+
+const helmFree = unordered();
+
+check("the scripted helm closes when nobody is on the bridge", () => {
+  assert.ok(helmFree.range < 5, `expected the helm to close inside 5 hexes, ended at ${helmFree.range}`);
+  assert.equal(helmFree.log.filter(l => /captain:/.test(l)).length, 0);
+});
+
+check("the scripted helm obeys a captain too, and says so", () => {
+  const r = unordered({ captain: { id: "cap-1", name: "Capt. Renard", posture: "cautious" } });
+  assert.ok(r.range >= 5, `expected to hold at or outside 5 hexes, held at ${r.range}`);
+  const said = r.log.find(l => /captain:/.test(l));
+  assert.ok(said, "an unordered refusal must be reported like an ordered one");
+  assert.match(said, /Capt\. Renard will not close inside 5 hexes at 40% hull/);
+});
+
+check("and reports per round, not per branch the helm tried", () => {
+  // The helm runs once a round and may turn down several candidate steps within one. One line per
+  // round he refused in is the same cadence an ordered move reports at; one line per rejected
+  // branch would be noise.
+  const r = unordered({ captain: { id: "cap-1", posture: "cautious" } });
+  const said = r.log.filter(l => /captain:/.test(l));
+  assert.ok(said.length >= 1 && said.length <= 3, `expected at most one per round, got ${said.length}`);
+  assert.equal(new Set(said).size, 1, "and the same objection each time, not a new one per branch");
+});
+
+check("a healthy unordered ship is not held back", () => {
+  const r = unordered({ captain: { id: "cap-1", posture: "cautious" }, hull: 1 });
+  assert.deepEqual(r.pos, helmFree.pos, "the helm should have taken its usual line");
+  assert.equal(r.log.filter(l => /captain:/.test(l)).length, 0);
+});
+
 // ---------------------------------------------------------------- breaking off a charge
 function gunstar({ captain = null, damage = 0 } = {}) {
   const rng = makePrng(3);
