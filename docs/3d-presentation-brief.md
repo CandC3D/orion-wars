@@ -150,6 +150,6 @@ Open, and needed before the effects layer is built: the **projection contract** 
 
 **Earth class codes, supplied by Chris 10 September 2026:** `EFG-03` Monoceros frigate, `EDD-02` Victory destroyer, `EDM-01` Saturn missile destroyer, `ELC-01` Acamar light cruiser, `ECA-03` Yi Sun-sin heavy cruiser, `EBB-01` Federation battleship, `EBY-00` Yamato gunstar battlecruiser. Krelath and Vraygon codes are carried in the model filenames.
 
-Open: two Vraygon codes (`BB-01` *Cluster*, `DD-03` *Point*) lack the `V` prefix the other five carry.
+**Vraygon codes all begin with `V` (Chris, 10 September 2026):** `VFG-04` Shard, `VDD-03` Point, `VDD-05` Avalanche, `VLC-01` Feldspar, `VCA-02` Crystal, `VBB-01` Cluster, `VMN-01` Bastion. The source filenames for *Cluster* and *Point* still read `BB-01` and `DD-03`; the codes are authoritative, not the filenames.
 
 Open: **facing.** The heading arrow was removed with the faction colour, and the rim code does not replace it. Facing is rules-critical — shield faces and arcs hang off it.
