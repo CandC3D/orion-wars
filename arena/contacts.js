@@ -15,10 +15,11 @@ import { rotationMarkup } from './contact-rotation.js';
 import { reticleMarkup } from './contact-reticle.js';
 import { readinessChanges } from './weapon-readiness.js';
 import { debrisMarkup } from './contact-debris.js';
+import { torpedoMarkup, torpedoSummary } from './contact-torpedoes.js';
+import { HOLD, mountAssignment, setMountAssignment, pruneMountOrders, mountSolutions } from './mount-orders-ui.js';
 import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
-import { batterySolutions } from './fire-solution.js';
 import { shadowMarkup, shadowCache } from './terrain-shadow.js';
 import { schematicMarkup, headingRoseMarkup, powerBarMarkup, consolePower, mountState, WEAPON_COLOURS } from './console-instruments.js';
 const $ = selector => document.querySelector(selector);
@@ -49,12 +50,19 @@ function victimFor(frame,event){const own=frame?.observation?.own.find(s=>s.id==
 const textExtent=new Map();
 function measureText(map,font){return text=>{const key=font+'|'+text;if(textExtent.has(key))return textExtent.get(key);let w=text.length*font*.58;try{const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('font-size',font);t.textContent=text;map.appendChild(t);w=t.getComputedTextLength()||w;map.removeChild(t);}catch{}textExtent.set(key,w);return w;};}
 const currentShip = () => state.current?.observation.own.find(s=>s.id===state.selected);
+// Enemy wrecks stay in the report list as observed debris (destroyed: true). Nothing that targets,
+// appraises or reads a live sensor track may see them.
+const liveContacts = view => (view?.contacts??[]).filter(c=>!c.destroyed);
 const editable = () => sessionReady && !state.busy && state.index===state.tape.length-1 && !state.latest?.result;
 const editableOrder = (ship=currentShip()) => editable() && ship && !ship.destroyed ? state.orders[ship.id] : null;
 const idle = () => ({turn:0,forward:0});
 const turnWords=(t,long=false)=>t>0?`Port ${t} face${t===1?'':'s'}`:t<0?`Starboard ${-t} face${t===-1?'':'s'}`:long?'Straight ahead':'Ahead';
-const planKind=p=>p.scan?'scan':p.warp?'warp':p.turn||p.forward||p.burst?'move':'hold';
-const planWords=p=>{const k=planKind(p);return k==='scan'?`Scan face ${p.scan}`:k==='warp'?'Warp insertion':k==='move'?`${turnWords(p.turn)} · ${p.forward} hex${p.burst?' +'+p.burst+' burst':''}`:'Hold & fire';};
+// A Maneuver starts as a turn in place with nothing set yet (Chris, 10 September), which is the same
+// numbers as Hold & fire - so the choice itself is remembered here, on the action object, where the
+// engine never sees it. The packet stays exactly the engine's shape.
+const maneuvering=new WeakSet();
+const planKind=p=>p.scan?'scan':p.warp?'warp':p.turn||p.forward||p.burst||maneuvering.has(p)?'move':'hold';
+const planWords=p=>{const k=planKind(p);return k==='scan'?`Scan face ${p.scan}`:k==='warp'?'Warp insertion':k==='move'?(p.turnAfter&&p.turn?`${p.forward} hex${p.burst?' +'+p.burst+' burst':''} · then ${turnWords(p.turn).toLowerCase()}`:`${turnWords(p.turn)} · ${p.forward} hex${p.burst?' +'+p.burst+' burst':''}`):'Hold & fire';};
 const KIND_NAMES={hold:'Hold & fire',move:'Maneuver',scan:'Scan',warp:'Warp'};
 const status = text => { $('#trial-status').textContent=text; };
 let refusedAt=0;
@@ -105,7 +113,7 @@ function renderMission(){
 }
 function frameReports(){
   const v=state.current?.observation;if(!v)return;
-  const camera=reportCamera([...v.own.filter(s=>!s.destroyed),...v.contacts],v.map);
+  const camera=reportCamera([...v.own.filter(s=>!s.destroyed),...liveContacts(v)],v.map);
   state.center=camera.center;state.zoom=camera.zoom;$('#zoom').max=12;$('#zoom').value=state.zoom;
 }
 function picture(index) { state.index=index;state.current=state.tape[index].frame;render(); }
@@ -130,8 +138,10 @@ function damageText(report) {
 function render() {
   if(!state.current)return;const frame=state.current,view=frame.observation;
   $('#clock').textContent=`TURN ${frame.turn} · ${frame.phase==='planning'?'PLANNING':frame.phase.toUpperCase()+(frame.round?' '+frame.round:'')}`;
-  $('#contact-count').textContent=`${view.contacts.length} current report${view.contacts.length===1?'':'s'}`;
-  $('#contacts-list').innerHTML=view.contacts.length?view.contacts.map(c=>`<article class="contact-report"><b>${esc(shipLabel(c))} · ${esc(c.faction)}</b><span>${esc(damageText(c))}</span><small>${esc(c.id)} · ${c.pos.q}, ${c.pos.r} · heading ${c.facing}</small><small>Observers: ${c.observers.map(o=>esc(o.observerId)+` / rating ${o.rating} ${o.kind}`).join(', ')}</small><small>${c.shields?esc(shieldWords(c.shields)):'Engineering and shield points: unknown · scan a sector to read shields'}</small></article>`).join(''):'<p>No current enemy reports. Absence is not confirmation of destruction.</p>';
+  const live=liveContacts(view),wrecks=view.contacts.filter(c=>c.destroyed);
+  $('#contact-count').textContent=`${live.length} current report${live.length===1?'':'s'}`;
+  $('#contacts-list').innerHTML=(live.length?live.map(c=>`<article class="contact-report"><b>${esc(shipLabel(c))} · ${esc(c.faction)}</b><span>${esc(damageText(c))}</span><small>${esc(c.id)} · ${c.pos.q}, ${c.pos.r} · heading ${c.facing}</small><small>Observers: ${c.observers.map(o=>esc(o.observerId)+` / rating ${o.rating} ${o.kind}`).join(', ')}</small><small>${c.shields?esc(shieldWords(c.shields)):'Engineering and shield points: unknown · scan a sector to read shields'}</small></article>`).join(''):'<p>No current enemy reports. Absence is not confirmation of destruction.</p>')
+    +wrecks.map(c=>`<article class="contact-report wreck-report"><b>${esc(shipLabel(c))} · ${esc(c.faction)}</b><span>Destroyed · turn ${c.wreckedTurn}</span><small>Debris at ${c.pos.q}, ${c.pos.r}</small></article>`).join('');
   $('#own-vessel').innerHTML=view.own.map(s=>`<option value="${esc(s.id)}">${esc(shipLabel(s))}${s.destroyed?' · DESTROYED':''}</option>`).join('');
   if(!view.own.some(s=>s.id===state.selected))state.selected=view.own[0]?.id;
   $('#own-vessel').value=state.selected;
@@ -146,11 +156,20 @@ function render() {
     const ownAsset=view.own.find(s=>s.className===mission?.ownProtectedClass);
     $('#mission-own-asset').textContent=ownAsset?`Protect ${shipLabel(ownAsset)} · ${ownAsset.destroyed?'DESTROYED':format(ownAsset.superstructure)+' / '+format(ownAsset.superstructureMax)+' hull'}`:'';
   }
-  $('#incoming').textContent=view.incoming.length?`${view.incoming.length} incoming flight(s) to own vessels · before next refill`:'No incoming warnings';
+  $('#incoming').textContent=torpedoSummary(view);
   if(frame.result)status(frame.result.victor===view.side?'Battle concluded · YOUR SIDE WINS':frame.result.victor?'Battle concluded · OPPOSING SIDE WINS':'Battle concluded · DRAW');
   const entries=state.tape.slice(0,state.index+1).flatMap((item,index)=>item.events.map(event=>({index,event,frame:item.frame})));
-  $('#events').innerHTML=entries.slice(consoleMode?-3:-100).map(({event:e,frame:f})=>{
-    const text=e.kind==='weapon-ready'?`${nameOf(f,e.shipId)} · ${e.weapon} ${e.detail}`:e.kind==='contact-acquired'?`Contact acquired: ${nameOf(f,e.contactId)}`:e.kind==='contact-lost'?`Contact lost: ${nameOf(f,e.contactId)}; current position unknown`:
+  // The console tape shows three lines. A kill in the turn just resolved stays on it even when later
+  // fire would push it off (Chris, 10 September: "enemy destruction is not in the game log").
+  let shown=entries.slice(consoleMode?-3:-100);
+  if(consoleMode){
+    let turnStart=-1;for(let k=state.index-1;k>=0;k--)if(state.tape[k].frame.phase==='planning'){turnStart=k;break;}
+    const pinned=new Set(entries.filter(x=>x.event.kind==='destruction'&&x.index>turnStart).slice(-3));
+    const room=3-pinned.size,rest=room>0?entries.filter(x=>!pinned.has(x)).slice(-room):[];
+    if(pinned.size)shown=entries.filter(x=>pinned.has(x)||rest.includes(x));
+  }
+  $('#events').innerHTML=shown.map(({event:e,frame:f,index})=>{
+    const text=e.kind==='weapon-ready'?`${nameOf(f,e.shipId)} · ${e.weapon} ${e.detail}`:e.kind==='contact-acquired'?`Contact acquired: ${nameOf(f,e.contactId)}`:e.kind==='contact-lost'?`Contact lost: ${nameOf(state.tape[index-1]?.frame??f,e.contactId)}; current position unknown`:
       (()=>{const a=announcement(e,{label:id=>nameOf(f,id)});return `${a.title} · ${a.detail}`;})();
     const weight=e.kind==='weapon-ready'?'ready':['contact-acquired','contact-lost'].includes(e.kind)?'minor':announcement(e,{label:id=>nameOf(f,id)}).weight;
     return `<li data-weight="${weight}">T${f.turn}${f.round?' / A'+f.round:''} · ${esc(text)}</li>`;
@@ -182,7 +201,7 @@ function renderConsole(s){
   const inFog=view.terrain.some(t=>t.type==='nebula'&&t.q===s.pos.q&&t.r===s.pos.r)&&view.rules.terrain.nebula.shieldsUseless!==false;
   const art=icons[`${s.faction}/${s.className}`]?.file;
   $('#schematic').innerHTML=schematicMarkup(s,{size:300,selectedMount:state.mount,iconHref:art?`../assets/icons/${art}`:null,nebula:inFog});
-  $('#schematic').querySelectorAll('[data-mount]').forEach(g=>{g.setAttribute('tabindex','0');g.setAttribute('role','button');const pick=()=>{const m=s.mounts.find(x=>String(x.id)===g.dataset.mount);if(!m)return;state.mount=state.mount===m.id?null:m.id;renderVessel();drawMap();$('#schematic').querySelector(`[data-mount="${CSS.escape(g.dataset.mount)}"]`)?.focus({preventScroll:true});};g.onclick=pick;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};});
+  $('#schematic').querySelectorAll('[data-mount]').forEach(g=>{g.setAttribute('tabindex','0');g.setAttribute('role','button');const pick=()=>{const m=s.mounts.find(x=>String(x.id)===g.dataset.mount);if(!m)return;state.mount=state.mount===m.id?null:m.id;renderVessel();renderOrders();drawMap();$('#schematic').querySelector(`[data-mount="${CSS.escape(g.dataset.mount)}"]`)?.focus({preventScroll:true});};g.onclick=pick;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}};});
   const shown=s.mounts.find(m=>m.id===state.mount);
   $('#range-disclosure').hidden=!shown||s.destroyed;
   $('#arc-caption').textContent=s.destroyed?'Vessel lost':shown?`${shown.displayName||shown.type.replaceAll('-',' ')} · faces ${shown.arc.join(', ')} · ${shown.maxRange} hex · ${mountState(shown,s).label}`:'Whole battery on map · touch a lamp to isolate one weapon';
@@ -218,7 +237,7 @@ function renderVessel() {
   const displayed=s.mounts.find(m=>m.id===state.mount);
   if(!consoleMode)$('#arc-caption').textContent=s.destroyed?'Destroyed vessel: no coverage shown.':displayed?`ONE mount: ${displayed.kind} · faces ${displayed.arc.join(', ')} · ${displayed.maxRange} hex · other weapons hidden${displayed.inop?' · OFFLINE':displayed.firedThisTurn?' · SPENT':''}.`:'WHOLE battery · blue beams / amber missiles / violet spinal. Select a mount for its bands.';
   $('#battery').innerHTML=s.mounts.map((m,i)=>`<div class="battery-entry"><button data-mount="${esc(m.id)}" aria-pressed="${state.mount===m.id}">${i+1} · ${esc(m.displayName||m.type.replaceAll('-',' '))}</button><small>${s.destroyed?'Destroyed':m.inop?'Offline':m.firedThisTurn?'Spent this turn':'Online'} · faces ${m.arc.join(',')} · ${m.maxRange} hex<br>${m.kind==='missile'?`${m.weapon.powerToArm} P / shot · shared magazine ${s.magazine}`:m.kind==='spinal'?`${m.weapon.firePower} P / shot · ${esc(s.spinal?.state)}`:`up to ${m.weapon.maxPower} P / shot`} · once per turn</small></div>`).join('');
-  $('#battery').querySelectorAll('[data-mount]').forEach(b=>b.onclick=()=>{state.mount=s.mounts.find(m=>String(m.id)===b.dataset.mount)?.id??null;renderVessel();drawMap();});
+  $('#battery').querySelectorAll('[data-mount]').forEach(b=>b.onclick=()=>{state.mount=s.mounts.find(m=>String(m.id)===b.dataset.mount)?.id??null;renderVessel();renderOrders();drawMap();});
 }
 function renderSpinalControls(s,order,enabled){
   $('#spinal-control').hidden=!s.spinal;
@@ -255,10 +274,10 @@ function renderOrders() {
   const turnCeiling=movementRange(s,order.reserve,order.spinal,true).hexes;
   const forwardMaxFor=i=>Number.isFinite(turnCeiling)
     ?Math.max(0,turnCeiling-order.plan.reduce((n,a,j)=>j===i?n:n+(Number(a.forward)||0),0)):forwardCap;
-  $('#priority').innerHTML='<option value="auto">Automatic · current contacts</option>'+state.current.observation.contacts.map(c=>`<option value="${esc(c.id)}">${esc(shipLabel(c))} · ${esc(c.id)}</option>`).join('');
-  $('#priority').value=state.current.observation.contacts.some(c=>c.id===order.target)?order.target:'auto';$('#priority').disabled=!enabled;
+  $('#priority').innerHTML='<option value="auto">Automatic · current contacts</option>'+liveContacts(state.current.observation).map(c=>`<option value="${esc(c.id)}">${esc(shipLabel(c))} · ${esc(c.id)}</option>`).join('');
+  $('#priority').value=liveContacts(state.current.observation).some(c=>c.id===order.target)?order.target:'auto';$('#priority').disabled=!enabled;
   $('#shield-reserve').value=order.reserve;$('#shield-reserve').disabled=!enabled;$('#reserve-readout').textContent=Math.round(order.reserve*100)+'%';
-  const forecast=s.destroyed?{valid:false,caveat:'Vessel destroyed; actions unavailable.'}:previewContactOrders(state.current.observation,s.id,{...order,target:$('#priority').value});
+  const forecast=s.destroyed?{valid:false,caveat:'Vessel destroyed; actions unavailable.'}:previewContactOrders(state.current.observation,s.id,pruneMountOrders({...structuredClone(order),target:$('#priority').value},s,state.current.observation));
   $('#preview-caveat').textContent=forecast.caveat||'No valid course preview.';
   if(consoleMode)renderConsoleOrders(s,order,forecast,enabled);
   const active=document.activeElement,restore=active?.dataset.field?{field:active.dataset.field}:active?.dataset.actionTab!==undefined?{tab:true}:active?.dataset.helm?{helm:active.dataset.helm}:null;
@@ -273,7 +292,7 @@ function renderOrders() {
   const i=state.action,p=order.plan[i],kind=planKind(p),f=forecast.actions?.[i];
   const attr=field=>`data-round="${i}" data-field="${field}" ${enabled?'':'disabled'}`;
   const helm=(name,label,title)=>`<button type="button" data-helm="${name}" title="${title}" ${enabled?'':'disabled'}>${label}</button>`;
-  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm</span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}<output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(turnWords(p.turn,true))}</output></div><div class="helm-row"><span>Distance</span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)} hex</output></div>${s.specials.burst?`<div class="helm-row"><span>Free burst</span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes} burst</output></div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
+  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm</span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}<span class="helm-turn-end"><output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(turnWords(p.turn,true))}</output><button type="button" class="console-key turn-after-key" data-turn-order="${p.turnAfter?'before':'after'}" aria-pressed="${!!p.turnAfter}" ${enabled?'':'disabled'} title="${p.turnAfter?'Turning AFTER the move: runs along the current heading, then turns in the end hex. Press to turn first.':'Turning BEFORE the move: turns in the start hex, then runs along the new heading. Press to turn after the move instead.'}">${p.turnAfter?'Turn after move':'Turn before move'}</button></span></div><div class="helm-row"><span>Distance</span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)} hex</output></div>${s.specials.burst?`<div class="helm-row"><span>Free burst</span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes} burst</output></div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
   program.querySelector('[data-field=kind]').value=kind;
   if(consoleMode){
     const kindSel=program.querySelector('[data-field=kind]');
@@ -293,7 +312,7 @@ function renderOrders() {
     }
     else if(!input.reportValidity())return false;
     else if(field==='scan')o.plan[round].scan=Number(input.value);
-    if(field==='kind')o.plan[round]=input.value==='scan'?{...idle(),scan:2}:input.value==='warp'?{...idle(),warp:true}:input.value==='move'?{turn:0,forward:0}:idle(); // turn in place by default: a forced forward step made every turn a turn-and-move (Chris, 10 Sept)
+    if(field==='kind'){o.plan[round]=input.value==='scan'?{...idle(),scan:2}:input.value==='warp'?{...idle(),warp:true}:input.value==='move'?{turn:0,forward:0}:idle();if(input.value==='move')maneuvering.add(o.plan[round]);} // turn in place by default: a forced forward step made every turn a turn-and-move (Chris, 10 Sept)
     if(field==='kind')renderOrders();
     else refreshPreview(); // Keep the edited control in the DOM through Tab/blur.
     drawMap();return true;
@@ -306,6 +325,14 @@ function renderOrders() {
     const next=Math.max(Number(input.min),Math.min(Number(input.max),(Number.isFinite(input.valueAsNumber)?input.valueAsNumber:0)+dir));
     if(next===Number(input.value)&&Number.isFinite(input.valueAsNumber)){orderFeedback(`Action ${i+1}: ${field==='turn'?'turn':field} is already at its limit (${input.min} to ${input.max}).`);return;}
     input.value=String(next);if(apply(input))renderOrders(); // rerender keeps the same action; focus returns to the button
+  });
+  // Turn before or after the linear move (Chris, 10 September 2026). Strict in the engine: only an
+  // ordinary maneuver may carry it, and it is present-and-true or absent - never false.
+  program.querySelectorAll('[data-turn-order]').forEach(b=>b.onclick=()=>{
+    const o=editableOrder(s);if(!o||!flushPending())return;
+    const a=o.plan[i];if(planKind(a)==='scan'||planKind(a)==='warp')return;
+    if(b.dataset.turnOrder==='after')a.turnAfter=true;else delete a.turnAfter;
+    renderOrders();drawMap();$('#action-program .turn-after-key')?.focus({preventScroll:true});
   });
   renderPlanSummary(order,forecast);
   if(restore?.field)program.querySelector(`[data-field="${restore.field}"]`)?.focus({preventScroll:true});
@@ -325,11 +352,34 @@ function renderConsoleOrders(s,order,forecast,enabled){
   const startFacing=f?.start?.facing??s.facing;
   $('#heading-rose').innerHTML=headingRoseMarkup({facing:s.facing,startFacing,plannedFacing:planned,turnRate:s.turnRate,size:150});
   $('#heading-rose').querySelectorAll('[data-heading-dir]').forEach(el=>{const dir=Number(el.dataset.headingDir);let turn=((dir-startFacing)%6+6)%6;if(turn>3)turn-=6;const ok=enabled&&Math.abs(turn)<=s.turnRate;el.setAttribute('tabindex',ok?'0':'-1');el.setAttribute('role','button');el.setAttribute('aria-disabled',String(!ok));const go=()=>{if(!ok)return;const kindSel=$('#action-program [data-field=kind]');if(kindSel&&kindSel.value!=='move'){kindSel.value='move';kindSel.onchange();}const input=$('#action-program [data-field=turn]');if(!input)return;input.value=String(turn);input.onchange();renderOrders();};el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
-  $('#course-readout').innerHTML=f?.end?`A${i+1} · <b>${turnWords(p.turn,true)}</b> · ${p.forward} hex${p.burst?' +'+p.burst:''}<br>ends ${f.end.q}, ${f.end.r} · hdg ${f.end.facing} · ceiling ${format(f.powerCeiling)} P`:`A${i+1} · <b>${esc(planWords(p))}</b><br>${esc((f?.notes||[]).find(n=>/clamped|unresolved/.test(n))||'')}`;
-  // target keys: AUTO plus every current contact; a preference, not a firing solution
-  const target=view.contacts.some(c=>c.id===order.target)?order.target:'auto';
-  $('#target-keys').innerHTML=`<button type="button" class="console-key" data-target-key="auto" aria-pressed="${target==='auto'}" ${enabled?'':'disabled'}>Auto</button>`+view.contacts.map(c=>`<button type="button" class="console-key target-key" data-target-key="${esc(c.id)}" aria-pressed="${target===c.id}" ${enabled?'':'disabled'} title="${esc(damageText(c))}">${esc(shipLabel(c))}<small>${esc(c.faction)} · ${distance(s.pos,c.pos)} hex</small></button>`).join('')||'<span class="instrument-note">No current reports</span>';
-  $('#target-keys').querySelectorAll('[data-target-key]').forEach(b=>b.onclick=()=>{const o=editableOrder(s);if(!o)return;o.target=b.dataset.targetKey;$('#priority').value=o.target;renderOrders();drawMap();$('#target-keys').querySelector(`[data-target-key="${CSS.escape(o.target)}"]`)?.focus({preventScroll:true});});
+  $('#course-readout').innerHTML=f?.end?`A${i+1} · ${p.turnAfter&&p.turn?`<b>${p.forward} hex${p.burst?' +'+p.burst:''}</b> · then ${turnWords(p.turn).toLowerCase()}`:`<b>${turnWords(p.turn,true)}</b> · ${p.forward} hex${p.burst?' +'+p.burst:''}`}<br>ends ${f.end.q}, ${f.end.r} · hdg ${f.end.facing} · ceiling ${format(f.powerCeiling)} P`:`A${i+1} · <b>${esc(planWords(p))}</b><br>${esc((f?.notes||[]).find(n=>/clamped|unresolved/.test(n))||'')}`;
+  // Target keys. With no weapon isolated they set the SHIP's priority, as before. With a weapon lamp
+  // touched they assign THAT mount: its own contact, HOLD FIRE, or back to the ship's priority
+  // (Chris, 10 September 2026: "per-weapon target assignment and hold fire"). Live reports only -
+  // a wreck is debris, not a target.
+  const live=liveContacts(view),well=$('#target-keys').closest('.instrument-well');
+  const mount=s.mounts.find(m=>m.id===state.mount),mountName=m=>`${s.mounts.indexOf(m)+1} · ${m.displayName||m.type.replaceAll('-',' ')}`;
+  const contactKey=(c,pressed)=>`<button type="button" class="console-key target-key" data-target-key="${esc(c.id)}" aria-pressed="${pressed}" ${enabled?'':'disabled'} title="${esc(damageText(c))}">${esc(shipLabel(c))}<small>${esc(c.faction)} · ${distance(s.pos,c.pos)} hex</small></button>`;
+  if(mount){
+    const assigned=mountAssignment(order,mount.id),pick=assigned===HOLD?HOLD:live.some(c=>c.id===assigned)?assigned:'auto';
+    if(well){well.dataset.label=`TARGET · WEAPON ${mountName(mount).toUpperCase()}`;well.title='Touch the lamp again to return to the ship priority';}
+    $('#target-keys').innerHTML=`<button type="button" class="console-key" data-target-key="auto" aria-pressed="${pick==='auto'}" ${enabled?'':'disabled'} title="This weapon engages the ship's priority target">Ship priority</button>`
+      +`<button type="button" class="console-key hold-key" data-target-key="${HOLD}" aria-pressed="${pick===HOLD}" ${enabled?'':'disabled'} title="This weapon does not fire this turn">Hold fire</button>`
+      +live.map(c=>contactKey(c,pick===c.id)).join('');
+  }else{
+    if(well){well.dataset.label='TARGET · PREFERENCE';well.title='Touch a weapon lamp to give that weapon its own target or hold its fire';}
+    const target=live.some(c=>c.id===order.target)?order.target:'auto';
+    $('#target-keys').innerHTML=`<button type="button" class="console-key" data-target-key="auto" aria-pressed="${target==='auto'}" ${enabled?'':'disabled'}>Auto</button>`+live.map(c=>contactKey(c,target===c.id)).join('')
+      +(live.length?'':'<span class="instrument-note">No current reports</span>');
+    // No caption: each weapon's own assignment already reads on the map (HOLD FIRE / TARGET LOCKED
+    // beside the mount, a dotted line to its target) and in the range key.
+  }
+  $('#target-keys').querySelectorAll('[data-target-key]').forEach(b=>b.onclick=()=>{
+    const o=editableOrder(s);if(!o)return;const key=b.dataset.targetKey;
+    if(mount)setMountAssignment(o,mount.id,key==='auto'?null:key);
+    else{o.target=key;$('#priority').value=o.target;}
+    renderOrders();drawMap();$('#target-keys').querySelector(`[data-target-key="${CSS.escape(key)}"]`)?.focus({preventScroll:true});
+  });
   $('#formation-note').textContent=$('#formation-note').textContent||'';
 }
 // Typed values that have not fired change yet are committed (or refused with feedback) before the active card is
@@ -368,7 +418,7 @@ function refreshPreview() {
   if(currentShip()?.spinal)renderSpinalControls(currentShip(),state.orders[state.selected],editable()&&!currentShip().destroyed);
   renderFleetOrders();
   const ship=currentShip(),order=state.orders[ship?.id];if(!ship||!order||ship.destroyed)return;
-  const forecast=previewContactOrders(state.current.observation,ship.id,{...order,target:$('#priority').value});
+  const forecast=previewContactOrders(state.current.observation,ship.id,pruneMountOrders({...structuredClone(order),target:$('#priority').value},ship,state.current.observation));
   $('#preview-caveat').textContent=forecast.caveat||'No valid course preview.';
   const card=$('#action-program').querySelector('.action-card'),i=state.action,f=forecast.actions?.[i],p=order.plan[i];
   if(card){
@@ -432,7 +482,7 @@ function drawMap() {
   const shownMount=own?.mounts.find(m=>m.id===state.mount);
   $('#range-summary').textContent=(shownMount?`ONE mount ${shownMount.id} · ${shownMount.displayName||shownMount.type.replaceAll('-',' ')} · ${shownMount.kind} · ${shownMount.maxRange} hex · Range bands`:'WHOLE battery · blue beams / amber missiles / violet spinal · Weapons & ranges')+(mapCells.length>6000?' · zoom in for coverage':'');
   if(own&&order&&editable()&&!own.destroyed){
-    const p=preview=previewContactOrders(view,own.id,{...order,target:view.contacts.some(c=>c.id===order.target)?order.target:'auto'});
+    const p=preview=previewContactOrders(view,own.id,pruneMountOrders({...structuredClone(order),target:liveContacts(view).some(c=>c.id===order.target)?order.target:'auto'},own,view));
     if(p.route?.length>1)svg+=`<polyline points="${p.route.map(p=>{const q=xy(p);return q.x+','+q.y;}).join(' ')}" fill="none" stroke="#efb773" stroke-width="2.5" stroke-dasharray="6 5"/>`;
     // A turn in place has no travel line to draw, so it gets its own mark.
     svg+=rotationMarkup(p.actions,{project:xy,scale});
@@ -440,19 +490,27 @@ function drawMap() {
   // Why each mount is dark against the CHOSEN contact. Own telemetry and the
   // current report only; never a firing solution. The budget is what the plan
   // leaves for weapons once refill, cannon charge, helm and the floor are met.
-  const preferredContact=order?.target&&order.target!=='auto'?view.contacts.find(c=>c.id===order.target):null;
+  const preferredContact=order?.target&&order.target!=='auto'?liveContacts(view).find(c=>c.id===order.target):null;
   let solutions=null;
   if(own&&!own.destroyed&&order){
     const p=consolePower(own,order,preview);
     const budget=Math.max(0,p.pool-p.charge-(p.helm??0)-p.reserve);
-    solutions=batterySolutions(own,preferredContact,view,budget);
+    // Each mount against the contact IT will engage: its own assignment, else the ship's priority.
+    solutions=mountSolutions(own,order,view,budget);
   }
   $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own,solutions))+pointDefenceKey(own,umbrellas)+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
   if(mapCells.length<=6000)svg+=shownMount?weaponArcMarkup(own,shownMount,{project:xy,scale,cells:mapCells}):batteryArcMarkup(own,{project:xy,scale,cells:mapCells});
   if(own&&!own.destroyed){
     const a=xy(own.pos),d=DIRS[own.facing],b=xy({q:own.pos.q+d.q*.85,r:own.pos.r+d.r*.85});
     svg+=`<path class="leader" data-bow="${own.facing}" d="M${a.x},${a.y}L${b.x},${b.y}" stroke="#fff" stroke-width="2.5"><title>Bow / forward</title></path><circle class="leader" cx="${b.x}" cy="${b.y}" r="2.5" fill="#fff"/>`;
+    // A weapon given its own target draws a thin line to it in the weapon's colour.
+    if(order?.mountOrders)for(const [id,assigned] of Object.entries(order.mountOrders)){
+      const m=own.mounts.find(x=>String(x.id)===id),c=assigned!==HOLD&&liveContacts(view).find(x=>x.id===assigned);if(!m||!c)continue;
+      const t=xy(c.pos);svg+=`<line class="mount-assignment" data-mount-assignment="${esc(id)}" x1="${a.x}" y1="${a.y}" x2="${t.x}" y2="${t.y}" stroke="${WEAPON_COLOURS[m.kind]||'#8ec6dc'}" stroke-opacity=".55" stroke-width="1.2" stroke-dasharray="1 3" pointer-events="none"/>`;
+    }
   }
+  // Torpedoes in flight, as far as this side may know them.
+  svg+=torpedoMarkup(view,{project:xy,scale,icon});
   // Recorded events of the chosen frame as stable markers (the same renderer at rest), never geometry beyond the supplied endpoints.
   svg+=effectDefs();
   const frameNow=state.tape[state.index]?.frame;
@@ -461,15 +519,15 @@ function drawMap() {
   const layout=layoutContactMap([...view.own,...view.contacts],preview?.actions,{project:xy,width:w,height:h,font,icon,label:s=>shipLabel(s)+(s.destroyed?' / lost':s.spinal&&(s.spinal.charge>0||s.spinal.state==='ready')?' · LOCKED':''),measure:measureText(map,font),priority:{selected:state.selected,target:priorityTarget}});
   // Planning preference only, never a firing solution or a historical order.
   // Both endpoints must be current, visible markers from this projection.
-  const preferred=editable()&&!own?.destroyed&&view.contacts.some(c=>c.id===priorityTarget)
+  const preferred=editable()&&!own?.destroyed&&liveContacts(view).some(c=>c.id===priorityTarget)
     ?layout.markers.find(m=>m.ship.id===priorityTarget):null;
   const origin=preferred?layout.markers.find(m=>m.ship.id===own?.id):null;
   if(origin&&preferred){
     svg+=`<g class="target-preference" data-target-preference="${esc(priorityTarget)}" role="img" aria-label="Preferred target; not a firing solution"><title>Preferred target; not a firing solution</title><line x1="${origin.anchor.x}" y1="${origin.anchor.y}" x2="${preferred.anchor.x}" y2="${preferred.anchor.y}"/><circle cx="${preferred.x}" cy="${preferred.y}" r="${icon*.8}"/></g>`;
   }
-  const outside=view.contacts.filter(s=>!layout.markers.some(m=>m.ship.id===s.id)).length;
+  const liveNow=liveContacts(view),outside=liveNow.filter(s=>!layout.markers.some(m=>m.ship.id===s.id)).length;
   const deferredNames=layout.deferred.filter(d=>!d.course).length;
-  $('#contact-count').textContent=`${view.contacts.length} current report${view.contacts.length===1?'':'s'}${outside?' · '+outside+' outside view — Frame reports':''}${deferredNames?' · '+deferredNames+' name'+(deferredNames===1?'':'s')+' deferred (focus or select a marker)':''}${origin&&preferred?' · Dashed link: preferred target, not a firing solution':''}`;
+  $('#contact-count').textContent=`${liveNow.length} current report${liveNow.length===1?'':'s'}${outside?' · '+outside+' outside view — Frame reports':''}${deferredNames?' · '+deferredNames+' name'+(deferredNames===1?'':'s')+' deferred (focus or select a marker)':''}${origin&&preferred?' · Dashed link: preferred target, not a firing solution':''}`;
   // One pass for every ring, under all symbols and labels: at high zoom a
   // later ship's ring would otherwise cover an earlier ship's name.
   for(const marker of layout.markers){
@@ -513,7 +571,7 @@ function drawMap() {
     // Leaders and anchors are drawn but never capture pointer input, so a line crossing a neighbour's name cannot steal its click.
     const displacedLeader=marker.displaced?`<path class="leader" d="M${marker.anchor.x},${marker.anchor.y}L${p.x},${p.y}" stroke="#8ec6dc" stroke-dasharray="3 3"/>`:'';
     const labelLeader=text&&text.leader?`<path class="leader" d="M${p.x},${p.y}L${b.x+b.w/2},${b.y+b.h/2}" stroke="#496376" stroke-width="1"/>`:'';
-    svg+=`<g data-ship="${esc(s.id)}" data-selected="${selected}" data-own="${isOwn}" data-labelled="${!!text}" data-marker-x="${p.x.toFixed(1)}" data-marker-y="${p.y.toFixed(1)}" role="button" tabindex="0" aria-label="${esc(shipLabel(s))}${s.destroyed?' (lost)':''}"><title>${esc(shipLabel(s))} · ${isOwn?'friendly':damageText(s)} · hex ${s.pos.q}, ${s.pos.r}</title>${displacedLeader}<circle class="leader" data-hex-anchor="true" cx="${marker.anchor.x}" cy="${marker.anchor.y}" r="${Math.max(1.5,scale*.08)}" fill="#8ec6dc" fill-opacity="${marker.displaced?1:.55}"/>${reticleMarkup(marker.anchor,scale)}${symbol}${labelLeader}${text?tag(text,'ship',selected?'#efb773':'#dfeaf1'):''}${text&&isOwn&&!s.destroyed?hullBar(text,s):''}</g>`;
+    svg+=`<g data-ship="${esc(s.id)}" data-selected="${selected}" data-own="${isOwn}" data-wreck="${!!s.destroyed}" data-labelled="${!!text}" data-marker-x="${p.x.toFixed(1)}" data-marker-y="${p.y.toFixed(1)}" role="button" tabindex="0" aria-label="${esc(shipLabel(s))}${s.destroyed?' (lost)':''}"><title>${esc(shipLabel(s))} · ${s.destroyed?`destroyed${s.wreckedTurn?' turn '+s.wreckedTurn:''} · debris`:isOwn?'friendly':damageText(s)} · hex ${s.pos.q}, ${s.pos.r}</title>${displacedLeader}<circle class="leader" data-hex-anchor="true" cx="${marker.anchor.x}" cy="${marker.anchor.y}" r="${Math.max(1.5,scale*.08)}" fill="#8ec6dc" fill-opacity="${marker.displaced?1:.55}"/>${reticleMarkup(marker.anchor,scale)}${symbol}${labelLeader}${text?tag(text,'ship',selected?'#efb773':'#dfeaf1'):''}${text&&isOwn&&!s.destroyed?hullBar(text,s):''}</g>`;
   }
   for(const entry of layout.course){const b=entry.box;svg+=`<path d="M${entry.anchor.x},${entry.anchor.y}L${b.x+b.w/2},${b.y+b.h/2}" stroke="#efb773"/>${tag({...entry,primary:true},'course','#efb773')}`;}
   map.innerHTML=svg;
@@ -521,7 +579,8 @@ function drawMap() {
     if(mapDragged)return;
     const id=g.dataset.ship;
     if(g.dataset.own==='true'){flushPending();state.selected=id;state.mount=null;render();}
-    else {const o=editableOrder();if(o){o.target=id;renderOrders();drawMap();}}
+    // A wreck is debris, not a target. With a weapon isolated, the click assigns that weapon.
+    else if(g.dataset.wreck!=='true'){const o=editableOrder();if(o){const m=currentShip()?.mounts.find(x=>x.id===state.mount);if(m)setMountAssignment(o,m.id,id);else o.target=id;renderOrders();drawMap();}}
     // Rendering replaces the SVG nodes; retain keyboard focus on the new control.
     [...map.querySelectorAll('[data-ship]')].find(node=>node.dataset.ship===id)?.focus({preventScroll:true});
   };g.onclick=select;g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mapDragged=false;select();}};
@@ -547,6 +606,7 @@ async function execute() {
     refreshPreview();drawMap();return;
   }
   if(order)state.orders[state.selected]=order;
+  for(const ship of state.latest.observation.own)if(state.orders[ship.id])pruneMountOrders(state.orders[ship.id],ship,state.latest.observation);
   state.busy=true;render();status('Resolving turn · receiving side-visible events only…');const token=generation;
   try{
     const result=await request('orders',{orders:structuredClone(state.orders)});if(token!==generation)return;
@@ -619,7 +679,7 @@ async function execute() {
 $('#begin').onclick=()=>begin();$('#resolve-orders').onclick=execute;$('#resolve-orders').onpointerdown=()=>{executePressAt=performance.now();holdExecute=false;};
 $('#new-session').onclick=()=>{generation++;playback.cancel();resetPlaybackControls();liveEffects('');announce('');worker?.terminate();for(const task of pending.values())task.reject(new Error('Session replaced'));pending.clear();state.busy=false;$('#trial-setup').hidden=false;$('#contact-station').hidden=true;$('#resolve-orders').disabled=true;$('#export-contact').disabled=true;status('Awaiting new trial. Previous browser session was not saved.');};
 $('#own-vessel').onchange=e=>{flushPending();state.selected=e.target.value;state.mount=null;renderVessel();renderOrders();drawMap();};
-$('#arc-mount').onchange=e=>{const m=currentShip()?.mounts.find(m=>String(m.id)===e.target.value);state.mount=m?.id??null;$('#range-disclosure').open=!!m&&!compactRange.matches;renderVessel();drawMap();};
+$('#arc-mount').onchange=e=>{const m=currentShip()?.mounts.find(m=>String(m.id)===e.target.value);state.mount=m?.id??null;$('#range-disclosure').open=!!m&&!compactRange.matches;renderVessel();renderOrders();drawMap();};
 $('#priority').onchange=e=>{const o=editableOrder();if(o&&!e.target.disabled){o.target=e.target.value;renderOrders();drawMap();}};
 $('#shield-reserve').oninput=e=>{const o=editableOrder();if(o&&!e.target.disabled){o.reserve=Number(e.target.value);renderOrders();drawMap();}};
 $('#zoom').oninput=e=>{state.zoom=Number(e.target.value);drawMap();};

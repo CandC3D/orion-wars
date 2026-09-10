@@ -143,3 +143,9 @@ body[data-command] .contact-footer>#incoming { flex:1; min-width:0; overflow:hid
 
 /* A weapon coming back online is good news; it reads in the lock colour. */
 #events li[data-weight="ready"] { color:#7fe3a1; }
+/* Playtest 10 September 2026: turn before/after, per-weapon targeting, wrecks. */
+.target-well .hold-key[aria-pressed=true] { background:#ffafa2; border-color:#ffafa2; color:#1a0b08; }
+.contact-report.wreck-report { border-left-color:#6f7a80; opacity:.75; }
+.helm-well .helm-turn-end { display:flex; align-items:center; gap:6px; min-width:0; }
+.helm-well .helm-turn-end output { flex:1 1 auto; min-width:0; }
+.helm-well .helm-row .turn-after-key { min-width:0; min-height:26px; padding:2px 6px; font-size:10px; white-space:nowrap; }
