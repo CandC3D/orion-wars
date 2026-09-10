@@ -7,8 +7,8 @@ const enemies = [
 ];
 const frame = phase => ({ format: 'player-contact-frame/1', phase, turn: 1, observation: { own: [own], contacts: enemies } });
 export const planning = projectContactFrame(frame('planning'));
-export const exchange = projectContactFrame(frame('resolution'), [{ kind: 'beam', direction: 'outgoing', outcome: 'resolved',
-  shooterId: own.id, targetId: enemies[0].id, source: own.pos, destination: enemies[0].pos }]);
+export const exchange = projectContactFrame(frame('resolution'), [{ kind: 'beam', direction: 'incoming', outcome: 'resolved',
+  shooterId: enemies[0].id, targetId: own.id, source: enemies[0].pos, destination: own.pos }]);
 // This explicitly authored shield observation tests the material. It is NOT derived from
 // the engine's "resolved" outcome and proposes no additional live disclosure.
 export const shield = freeze(validateProjection({ ...exchange, events: [{ kind: 'shield-flare',

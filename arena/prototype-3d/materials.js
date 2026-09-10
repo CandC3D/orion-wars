@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import { assertRegister } from './contract.js';
+import { assertRegister, BUDGETS } from './contract.js';
+import { BOARD } from './scale.js';
 
 export function physicalMaterial(name, options = {}) {
   const m = new THREE.MeshStandardMaterial({ roughness: 0.82, metalness: 0, ...options,
@@ -33,49 +34,6 @@ export function validateScene(scene) {
   return drawables;
 }
 
-// A brush could make every mark here. Object-space colour and roughness only:
-// no displacement, normal map, extra topology, directional priming or light baked into paint.
-export function candidatePaint(bounds) {
-  const mat = physicalMaterial('Earth / black undercoat, enamel, ink, drybrush', { color: '#345e98', roughness: 0.83, metalness: 0.06 });
-  mat.onBeforeCompile = shader => {
-    shader.uniforms.paintSize = { value: bounds.clone() };
-    shader.vertexShader = 'varying vec3 vBrushPos;\n' + shader.vertexShader;
-    shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvBrushPos = position;');
-    shader.fragmentShader = `varying vec3 vBrushPos;
-uniform vec3 paintSize;
-float brushHash(vec3 p){ return fract(sin(dot(p,vec3(17.17,31.31,11.71)))*437.13); }
-` + shader.fragmentShader;
-    shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `#include <color_fragment>
-  vec3 p = vBrushPos / paintSize + 0.5;
-  // Six broad painted stations. Slight per-panel differences are flat block coats.
-  vec3 grid = vec3(p.x*6.0,p.y*2.0,p.z*3.0);
-  vec3 cell = floor(grid); vec3 f = fract(grid);
-  float ink = 1.0-smoothstep(0.012,0.026,min(f.x,min(f.z,1.0-f.z)));
-  float stroke = step(0.70,brushHash(floor(p*vec3(94.,26.,32.))));
-  float dry = (1.0-smoothstep(0.024,0.065,f.x))*stroke;
-  float trim;
-  // Silver-painted collars, picked by hand; not a continuous metallic body.
-  trim = max(step(0.08,p.x)*step(p.x,0.14),step(0.79,p.x)*step(p.x,0.84));
-  vec3 coat = vec3(0.037,0.105,0.255)*(0.87+0.22*brushHash(cell));
-  coat = mix(coat,vec3(0.32,0.36,0.37),trim);
-  coat = mix(coat,vec3(0.006,0.009,0.013),ink*0.88);
-  coat = mix(coat,vec3(0.25,0.37,0.52),dry*0.72);
-  // A soft parting seam picked out by the dry brush; a colour mark, not relief.
-  float seam = (1.0-smoothstep(0.0015,0.005,abs(p.y-0.50)))*step(0.6,brushHash(floor(p*50.)));
-  coat = mix(coat,vec3(0.20,0.26,0.32),seam*0.35);
-  diffuseColor.rgb = coat;
-`);
-    shader.fragmentShader = shader.fragmentShader.replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
-  // Period ink pools retain some gloss. Main coats and chalky raised strokes stay matte.
-  roughnessFactor = mix(0.84,0.39,ink*0.8);
-  roughnessFactor = mix(roughnessFactor,0.44,trim);
-`);
-    shader.fragmentShader = shader.fragmentShader.replace('#include <metalnessmap_fragment>', '#include <metalnessmap_fragment>\nmetalnessFactor = mix(0.035,0.58,trim);');
-  };
-  mat.customProgramCacheKey = () => 'earth-brushed-enamel-1987-v1';
-  return mat;
-}
-
 export function canvasTexture(width, height, draw) {
   const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
   draw(canvas.getContext('2d'), width, height);
@@ -85,21 +43,21 @@ export function canvasTexture(width, height, draw) {
 }
 
 export function boardTexture() {
-  return canvasTexture(1536, 1024, (c,w,h) => {
+  return canvasTexture(1152, 768, (c,w,h) => {
     c.fillStyle='#d9cdae';c.fillRect(0,0,w,h);
     c.fillStyle='#253b45';c.fillRect(28,86,w-56,h-126);
     // Two spot inks, stippled tints and a deliberately displaced registration impression.
     c.fillStyle='#3c5962';c.beginPath();c.ellipse(w*.70,h*.45,250,280,.4,0,Math.PI*2);c.fill();
     c.fillStyle='#223640';
     for(let y=90;y<h-40;y+=8)for(let x=30;x<w-25;x+=8){c.beginPath();c.arc(x,y,1.15,0,Math.PI*2);c.fill();}
-    const sx=w/25,sy=h/18,hex=1.65;
-    for(let r=-5;r<=5;r++)for(let q=-7;q<=7;q++){
+    const sx=w/BOARD.width,sy=h/BOARD.depth,hex=BUDGETS.hexRadius;
+    for(let r=-8;r<=8;r++)for(let q=-12;q<=12;q++){
       const x=w/2+Math.sqrt(3)*hex*(q+r/2)*sx,y=h/2+1.5*hex*r*sy;
       if(x<55||x>w-55||y<112||y>h-60)continue;
       const outline=(ox,oy,colour)=>{c.strokeStyle=colour;c.lineWidth=1.25;c.beginPath();
         for(let i=0;i<7;i++){const a=(30+i*60)*Math.PI/180,px=x+Math.cos(a)*hex*sx+ox,py=y+Math.sin(a)*hex*sy+oy;i?c.lineTo(px,py):c.moveTo(px,py);}c.stroke();};
       outline(1.5,.7,'#8d754a');outline(0,0,'#718586');
-      c.fillStyle='#8c9d98';c.font='12px monospace';c.fillText(`${q+8}${String(r+6).padStart(2,'0')}`,x-15,y+50);
+      c.fillStyle='#8c9d98';c.font='12px monospace';c.fillText(`${q+8}${String(r+6).padStart(2,'0')}`,x-10,y+hex*sy*.70);
     }
     c.fillStyle='#293b41';c.font='bold 37px Georgia';c.fillText('DISTANT SECTORS',48,53);
     c.font='15px monospace';c.textAlign='right';c.fillText('THE ACHERNAR CAMPAIGN   /   SECTOR SHEET 01',w-48,49);c.textAlign='left';
@@ -112,7 +70,7 @@ export function boardTexture() {
 }
 
 export function woodTexture() {
-  return canvasTexture(1024,1024,(c,w,h)=>{
+  return canvasTexture(512,512,(c,w,h)=>{
     c.fillStyle='#7c5133';c.fillRect(0,0,w,h);
     for(let i=0;i<420;i++){
       const y=i/420*h;c.strokeStyle=`rgba(${i%3?35:220},${i%3?22:164},${i%3?15:103},${.05+(i%7)*.009})`;

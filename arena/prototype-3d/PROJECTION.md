@@ -43,6 +43,15 @@ the loaded geometry by a local raycast. If a socket cannot be seated, fail the
 asset gate. Never use a nozzle as a weapon socket. Adding real mount selection
 to projected shots is a separate contact-owner decision.
 
+The sample uses the Sparrowhawk's schematic-confirmed larger beam dome for
+the sample shot. A geometric intersection alone is not proof of a feature's
+function: new weapon/engine regions also require authored semantic evidence.
+The current Krelath GLB supplies its regions through `COLOR_0`. Orange, yellow
+and white remain non-emissive physical paint. A separate energetic mesh copies
+the exact confirmed exhaust faces; another copies the larger emitter's faces
+only during its shot. The smaller dome retains its paint with no assigned
+function or energetic activation. See `SOURCE-GAP.md` for the corrected contract.
+
 `resolved` is not proof of a hit, damage, a shield strike or destruction.
 The isolated fixture may carry `shield-flare` only as an explicitly authored
 own-ship confirmation. The adapter for existing events never manufactures it

@@ -1,0 +1,125 @@
+{
+  "status": "passed-self-review",
+  "revision": 3,
+  "reviewedAtUtc": "2026-09-10T05:09:27Z",
+  "reviewer": "Astra",
+  "approvalByChris": false,
+  "canSeeCapturedFrames": true,
+  "visualEvidence": "All eight final captures directly opened in the image viewer; source GLB colours, schematic and written conventions inspected.",
+  "rubricWrittenBeforeBuild": "RUBRIC.md",
+  "rubricSha256": "ce6f07088f49fe9e2467f05571816c8208ccccb6bd79271945055119a7b5f209",
+  "report": "REVIEW.md",
+  "minimumPerCriterion": 90,
+  "weightedTotal": 95.3,
+  "criteria": [
+    {
+      "name": "Brief and scope fidelity",
+      "weight": 20,
+      "score": 100,
+      "deductions": []
+    },
+    {
+      "name": "Fidelity to generated art",
+      "weight": 25,
+      "score": 95,
+      "deductions": [
+        {
+          "points": 2,
+          "reason": "Small decimation approximation; vertex-to-triangle measurement is not a certified continuous bound."
+        },
+        {
+          "points": 3,
+          "reason": "Fine window shapes and door separation are less distinct in the ordinary view and need close inspection."
+        }
+      ]
+    },
+    {
+      "name": "Period materials and painting",
+      "weight": 20,
+      "score": 92,
+      "deductions": [
+        {
+          "points": 4,
+          "reason": "Edge stroke widths remain more regular than individual handwork."
+        },
+        {
+          "points": 2,
+          "reason": "Bronze highlight is simplified; individual paint flakes are not resolved."
+        },
+        {
+          "points": 2,
+          "reason": "Box-cover art and wood grain are visibly stylised."
+        }
+      ]
+    },
+    {
+      "name": "Scale coherence",
+      "weight": 20,
+      "score": 96,
+      "deductions": [
+        {
+          "points": 2,
+          "reason": "D20 opposite-vertex sizing convention has not been confirmed against the intended physical die."
+        },
+        {
+          "points": 2,
+          "reason": "Table, board and base dimensions are prototype choices, not approved production dimensions."
+        }
+      ]
+    },
+    {
+      "name": "Unaided tabletop reading",
+      "weight": 15,
+      "score": 93,
+      "deductions": [
+        {
+          "points": 4,
+          "reason": "Fine window and ring paint diminishes at ordinary planning scale."
+        },
+        {
+          "points": 3,
+          "reason": "Simplified props and focus blur still disclose an illustrative prototype."
+        }
+      ]
+    }
+  ],
+  "unscoredCriteriaWithinSlice": [],
+  "outsideSliceUnscored": [
+    "Replacement identification scheme and full-board readability",
+    "Full-board performance",
+    "Cross-class miniature scale ladder",
+    "Destruction",
+    "Planet and nebula samples",
+    "Interactive target-machine and integrated-GPU performance",
+    "Peak decoded-image and driver memory"
+  ],
+  "unresolvedFiction": [
+    "Two authored greens preserved with identical painted-hull material treatment; their distinction is not inferred.",
+    "Smaller dome preserved with source paint and ring; no label, weapon mount or glow assigned."
+  ],
+  "previousBlockerCorrection": "The source and prior derivative already contained seven COLOR_0 regions. The earlier claim that the reference was missing was an inspection error.",
+  "validation": {
+    "prototypeChecks": 20,
+    "unchangedFastSuiteGroups": 38,
+    "browserEvidence": "evidence/review.json"
+  },
+  "capturedFrameSha256": {
+    "planning.png": "3b2578ca9f1561f79ebe44e3cc5d2a78c686529e896a7e2c8fd4f9a9bb42df85",
+    "beam.png": "8462255d9a7f6966cda52d624af910a6f8b05057bd38a0a22b3a3c5be26818c4",
+    "shield.png": "86a8db179a3a20de6dbbd19fc3bc1cc7ffe8575505d9fc042f39252414d3b1ad",
+    "anonymous.png": "ebced5f4b73aa81bc3a6568c0fe98a54ea16a40f7ab1d79af2c51e4dc32eaade",
+    "sparrowhawk-detail.png": "a55ae6b6eae15d170c4dc8a655a8e45acfdbd0ee310bdd37a9885dc01a3658d4",
+    "sparrowhawk-side.png": "60d5f31a631664bba9dd80d95c2c7684955979852978778017d1b75764998396",
+    "sparrowhawk-stern.png": "40724de8a92e90f721600383460b947aab840830f05cf9bb1c3d56d0d6272dc2",
+    "sparrowhawk-bow.png": "981b19c6278eb8523c6cc7a220c46dc1ba2bf4c79507381aefd050b1f07c090e"
+  },
+  "evidenceSha256": {
+    "evidence/review.json": "ef8daecdfff1f208860a36a8eb3fa90961c8fc2fb25597a55d55aeda41177d16",
+    "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
+    "prepared/regions.json": "87bd91893ad037e030740907c178d6ebd5f3ec9a229a1d4ec50a8ade9f64751e",
+    "prepared/preparation.json": "f3f20f7c70aa07ed7cc6c0b2a2c45bd2217d0ee8e14e6a037bfa47e88b153e89",
+    "hull-paint.js": "dd7df11eedcbd85d734887520f58c45a01112ed89701b5974019b36591b8b90c",
+    "renderer.js": "cdfacb525594c06b639cf80764c1e90b177ed856553b8bcb8f247ed72d4b5639",
+    "SCALE.md": "2ae69fa07a70b34a0c3be036aded4970a87a87057d0b241c644224c23772adf0"
+  }
+}

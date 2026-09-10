@@ -29,6 +29,16 @@ try{
     result.captures[kind]=await page.evaluate(k=>window.tabletopPrototype.capturePose(k,.48),kind);
     await page.locator('.frame').screenshot({path:path.join(out,kind+'.png')});
   }
+  result.detailCameras={};
+  for(const angle of ['plan','side','stern','bow']){
+    result.detailCameras[angle]=await page.evaluate(a=>window.tabletopPrototype.captureDetail(a),angle);
+    await page.locator('.stage').screenshot({path:path.join(out,angle==='plan'?'sparrowhawk-detail.png':'sparrowhawk-'+angle+'.png')});
+  }
+  await page.evaluate(()=>window.tabletopPrototype.capturePose('anonymous',.48));
+  await page.evaluate(()=>window.tabletopPrototype.capturePose('beam',.48));
+  result.checks.lightsOff=await page.evaluate(()=>window.tabletopPrototype.lightsOffEvidence());
+  assert.equal(result.checks.lightsOff.physicalNonzeroPixels,0,'bright physical paint emits without room lights');
+  assert.ok(result.checks.lightsOff.energeticNonzeroPixels>0,'imagined energy depends on room lights');
   result.checks.physicalIsolation=await page.evaluate(()=>window.tabletopPrototype.physicalInvariant());
   assert.ok(result.checks.physicalIsolation.identical,'energy changed physical or shadow buffer');
   result.checks.occlusion=await page.evaluate(()=>window.tabletopPrototype.depthEvidence());
@@ -45,9 +55,23 @@ try{
     mesh.geometry.dispose();mesh.material.dispose();return {missingObject,missingMaterial,emission,energyLight};
   });
   assert.ok(Object.values(result.checks.classification).every(Boolean));
+  result.checks.geometricPaint=await page.evaluate(async()=>{
+    const T=await import('three'),{preparePaintGeometry,regionOf}=await import('./hull-paint.js');
+    const colour=g=>{const a=[];for(let i=0;i<g.attributes.position.count;i++)a.push(18/255,105/255,54/255);g.setAttribute('color',new T.Float32BufferAttribute(a,3));return g;};
+    const box=preparePaintGeometry(colour(new T.BoxGeometry())),plane=preparePaintGeometry(colour(new T.PlaneGeometry()));
+    const fold=new T.BufferGeometry();fold.setAttribute('position',new T.Float32BufferAttribute([0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,-1,0],3));fold.computeVertexNormals();
+    const folded=preparePaintGeometry(colour(fold));let missing=false,unknown=false;
+    try{preparePaintGeometry(new T.BoxGeometry());}catch{missing=true;}
+    try{regionOf([.8,.05,.9]);}catch{unknown=true;}
+    const result={cubeConvex:box.userData.paint.raisedEdges,cubeConcave:box.userData.paint.concaveEdges,flatPlaneCreases:plane.userData.paint.raisedEdges+plane.userData.paint.concaveEdges,foldConcave:folded.userData.paint.concaveEdges,missingColourRejected:missing,unknownColourRejected:unknown};
+    [box,plane,folded,fold].forEach(g=>g.dispose());return result;
+  });
+  assert.deepEqual(result.checks.geometricPaint,{cubeConvex:12,cubeConcave:0,flatPlaneCreases:0,foldConcave:1,missingColourRejected:true,unknownColourRejected:true});
+  for(const detail of Object.values(result.detailCameras)){assert.ok(detail.actualCamera.position[1]>=24);assert.ok(detail.actualCamera.pitch>=32);}
+
   await page.evaluate(()=>window.tabletopPrototype.capturePose('planning'));
   await page.click('#exchange');
-  await page.waitForFunction(()=>window.tabletopPrototype.inspect().camera.y<29);
+  await page.waitForFunction(()=>window.tabletopPrototype.inspect().camera.y<60);
   await page.click('#pause');
   const before=await page.evaluate(()=>window.tabletopPrototype.inspect());
   await new Promise(resolve=>setTimeout(resolve,180));
@@ -59,6 +83,22 @@ try{
   assert.equal((await page.evaluate(()=>window.tabletopPrototype.inspect())).camera.blur,0);result.checks.reducedMotion=true;
   const gl=await page.evaluate(()=>{const g=document.querySelector('canvas').getContext('webgl2');const e=g.getExtension('WEBGL_debug_renderer_info');return{vendor:g.getParameter(e?e.UNMASKED_VENDOR_WEBGL:g.VENDOR),renderer:g.getParameter(e?e.UNMASKED_RENDERER_WEBGL:g.RENDERER)};});
   result.gpu=gl;result.errors=errors;
+  const dimensions=result.captures.planning.scaleMeasurements;
+  const f=n=>Number(n.toFixed(3));
+  const scaleText=['# Measured scale - revision 03 (dimensions unchanged)','',
+    '**1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.',
+    '', 'The browser measures the built geometry before its tabletop rotation. The printed hex uses the same 32 mm across-flats geometry as the presentation coordinates. Rows fail at a 0.06 mm discrepancy. The D20 uses opposite vertices (20 mm), not opposite faces.',
+    '', '| Object | Measurement | Scene units | Implied actual mm | Reference / chosen mm |',
+    '|---|---|---:|---:|---:|',
+    ...dimensions.map(r=>'| '+[r.object,r.basis,r.sceneUnits.map(f).join(' x '),r.actualMm.map(f).join(' x '),r.referenceMm.map(f).join(' x ')].join(' | ')+' |'),
+    '', 'References: mug, dice, rulebook, notebook, pencil, hex and frigate range are the sizes supplied by Fable and Chris. Table (1000 x 700 mm), 480 x 320 mm study board, box lid, 25 mm base and 30 mm post are prototype choices. Book thickness is 28 mm within the supplied 25-30 mm range.',
+    '', 'All three samples remain frigates: Vraygon 45 mm, Earth 55 mm, Sparrowhawk 65 mm. This demonstrates size variation within the requested 40-75 mm range, not a validated destroyer/battleship scale ladder. Swift is not loaded.',
+    '', 'The notebook row measures its 216 x 279 mm body; the wire loop adds 1.95 mm beyond its left edge and reaches 7.45 mm above the table. The pencil has a 7 mm hexagonal section across corners (6.062 mm across flats), including a real sharpened tip within the 190 mm total. The mug-body reference excludes its handle; the full width is reported separately.',
+    '', 'The card is 2 mm thick. Printed faces are 0.05 mm above their substrate to prevent depth interference; this is a render separation, not extra card thickness. Posts meet the actual ray-intersected underside of each hull; their exposed length is uniformly 30 mm. Their contact coordinates are included in evidence/review.json.',
+    '', 'Before correction, using the old 1.65-unit hex radius as 32 mm across flats implied 11.197 mm/unit: the mug was only 17.58 mm high x 18.81 mm wide, the D6 8.73 mm, D20 15.67 mm, rulebook about 48.15 x 69.42 mm, notebook 48.15 x 44.79 mm, and pencil 39.19 mm long. Equal 3.8-unit hulls all implied 42.55 mm. Those relative scales were wrong.',
+    '', 'This table is regenerated by review.mjs; exact floating-point measurements and all hull length / height / width bounds are in evidence/review.json.', ''].join('\n');
+  await fs.writeFile(path.join(here,'SCALE.md'),scaleText);
+
   // Submission + GPU completion at 1920x1080 for THIS three-hull study, not the deferred scale test.
   result.timing=await page.evaluate(async()=>{
     const canvas=document.querySelector('canvas');canvas.style.width='1920px';canvas.style.height='1080px';

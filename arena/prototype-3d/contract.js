@@ -1,10 +1,11 @@
 // Pure, presentation-only contracts. No simulation imports or state access.
+import { SIZES, mm } from './scale.js';
 export const FORMAT = 'tabletop-projection/1';
 export const BUDGETS = Object.freeze({
   pixelRatio: 1.5, maxPixels: 2073600, shadowSize: 2048, shadowLights: 1,
   maxTriangles: 70000, maxDrawCalls: 90, materialTextureMiB: 24, renderTargetMiB: 64,
   activeEffects: 1, beamLayers: 2, bloomScale: 0.5, bloomGain: 0.18,
-  cameraFloor: 12, pitchFloor: 32, postHeight: 1.6, hexRadius: 1.65,
+  cameraFloor: 24, pitchFloor: 32, postHeight: mm(SIZES.postHeight), hexRadius: mm(SIZES.hexAcrossFlats) / Math.sqrt(3),
   cameraMoveMs: 900, beamMs: 850, shieldMs: 650, focusBlurPixels: 3,
   nebulaPeak: 0.06, nebulaBoardCoverage: 0.15, nebulaMean: 0.012
 });
@@ -36,17 +37,32 @@ export function validateAssets(manifest) {
     id(a.key, 'asset key'); id(a.faction, 'faction'); id(a.className, 'class');
     if (seen.has(a.key)) fail('duplicate asset'); seen.add(a.key);
     if (a.key !== `${a.faction}/${a.className}`) fail('asset key disagrees with faction/class');
-    if (typeof a.url !== 'string' || !a.url.startsWith('../../assets/game/ships/') || !a.url.endsWith('.glb')) fail('asset must name an existing local game GLB');
+    if (typeof a.url !== 'string' || !(/^(?:\.\.\/\.\.\/assets\/game\/ships\/|\.\/prepared\/)[a-z_]+\.glb$/).test(a.url)) fail('asset must name an existing local or prepared GLB');
+    finite(a.rotationY, 'asset rotation');
+    if (a.paint === 'candidate-1987' && a.regionMap !== './prepared/regions.json') fail('candidate needs authored COLOR_0 region map');
     if (a.stand?.height !== BUDGETS.postHeight) fail('stand height must be uniform');
     for (const p of [a.stand.attachment, a.sockets?.weapon, a.sockets?.impact, ...(a.sockets?.engines ?? [])]) {
       if (!Array.isArray(p) || p.length !== 3 || !p.every(Number.isFinite)) fail('asset attachment requires three coordinates');
     }
-    if (!a.sockets.engines.length) fail('missing engine sockets');
+    if (!a.sockets.engines.length && !a.regionMap) fail('missing engine sockets');
     if (!['candidate-1987','basecoat-reference'].includes(a.paint)) fail('missing paint treatment');
-    if (!(a.length > 0 && a.length <= 4)) fail('hull length outside slice budget');
+    if (!(a.length > 0 && a.length <= 7.5)) fail('hull length outside slice budget');
   }
   if (manifest.assets.filter(a => a.paint === 'candidate-1987').length !== 1) fail('exactly one paint candidate');
   return manifest;
+}
+
+export function validateRegionMap(map) {
+  if(map?.format!=='tabletop-colour-regions/1'||map.palette?.length!==7||!map.patches?.length)fail('missing authored region map');
+  for(const p of [...map.palette,...map.patches]){
+    assertRegister(p.register,'paint region');if(p.register!=='physical')fail('source colours are physical paint');
+  }
+  if(Object.keys(map.features??{}).sort().join(',')!=='beamEmitter,exhaust')fail('only the confirmed exhaust and larger emitter may animate');
+  for(const p of Object.values(map.features)){
+    assertRegister(p.register,'separate glow region');if(p.register!=='energetic')fail('glow needs a separate energetic object');
+    if(!p.faces?.length||p.faces.some(i=>!Number.isInteger(i)||i<0))fail('glow requires exact authored faces');
+  }
+  return map;
 }
 
 export function validateProjection(packet) {
@@ -122,8 +138,8 @@ export function displayLayout(units) {
 
 export function cameraPose(progress) {
   const p = Math.min(1, Math.max(0, Number(progress) || 0)), s = p * p * (3 - 2 * p);
-  const pose = { x: 12 - s * 3, y: Math.max(BUDGETS.cameraFloor, 31 - s * 16), z: 35 - s * 13,
-    targetY: 0.7 + s * 0.5, fov: 32 + s * 8, blur: s * BUDGETS.focusBlurPixels };
+  const pose = { x: 8 - s * 3, y: Math.max(BUDGETS.cameraFloor, 63 - s * 35), z: 54 - s * 24,
+    targetY: 1.0 + s * 1.2, fov: 32 + s * 8, blur: s * BUDGETS.focusBlurPixels };
   const minimum = pose.targetY + Math.hypot(pose.x, pose.z) * Math.tan(BUDGETS.pitchFloor * Math.PI / 180);
   pose.y = Math.max(pose.y, minimum);
   return pose;

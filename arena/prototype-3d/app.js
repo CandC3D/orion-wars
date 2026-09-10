@@ -10,7 +10,7 @@ const status=text=>{$('#playback-status').textContent=text;};
 function stats(){const s=view.inspect();$('#numbers').textContent=`${s.drawCalls} draws / ${s.triangles.toLocaleString()} submitted triangles / r${s.threeRevision}`;}
 function draw(){view.render();stats();}
 function setCamera(p){cameraProgress=p;view.setCamera(p);}
-function planningState(){view.clearEffect();view.applyProjection(planning);setCamera(0);draw();$('#phase').textContent='Planning / deep focus';$('#caption').textContent='Three current hulls. Earth alone carries the paint candidate.';}
+function planningState(){view.clearEffect();view.applyProjection(planning);setCamera(0);draw();$('#phase').textContent='Planning / deep focus';$('#caption').textContent='Sparrowhawk: authored colours, bronze, ink-lined recesses and chalky raised edges.';}
 function buttons(running){$('#exchange').disabled=running;$('#pause').disabled=$('#skip').disabled=!running;$('#pause').textContent='Pause';}
 async function play(){
   buttons(true);status('Camera and effects share active playback time.');
@@ -42,14 +42,14 @@ try{
   new ResizeObserver(()=>{view.resize();draw();}).observe($('#tabletop'));
   // Deterministic review hooks for this isolated fixture. Nothing here reads or accepts battle state.
   window.tabletopPrototype=Object.freeze({
-    ready:true,inspect:()=>view.inspect(),play,
+    ready:true,captureDetail:angle=>view.captureDetail(angle),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
     pause:()=>playback.pause(),resume:()=>playback.resume(),skip:()=>playback.skip(),
     cancel:()=>{playback.cancel();planningState();},
     get paused(){return playback.paused;},get running(){return playback.running;},
     capturePose(kind='planning',phase=.5){playback.cancel();const f=kind==='beam'?exchange:kind==='shield'?shield:kind==='anonymous'?anonymous:planning;
       view.applyProjection(f);setCamera(kind==='planning'?0:1);view.setEffect(f.events[0],phase);
       $('#phase').textContent=kind==='planning'?'Planning / deep focus':'Resolution / tabletop macro';
-      $('#caption').textContent=kind==='beam'?'Both endpoints disclosed. Cosmetic hull sockets, above the board.':kind==='shield'?'Authored own-shield confirmation; not inferred from resolved.':kind==='anonymous'?'Origin unresolved. A neutral radial cue makes no bearing or shooter claim.':'Three current hulls. Earth alone carries the paint candidate.';
+      $('#caption').textContent=kind==='beam'?'Both endpoints disclosed. Cosmetic hull sockets, above the board.':kind==='shield'?'Authored own-shield confirmation; not inferred from resolved.':kind==='anonymous'?'Origin unresolved. A neutral radial cue makes no bearing or shooter claim.':'Sparrowhawk: authored colours, bronze, ink-lined recesses and chalky raised edges.';
       draw();return view.inspect();},
     depthEvidence:()=>view.depthEvidence(),
     renderForReview:()=>view.render(),

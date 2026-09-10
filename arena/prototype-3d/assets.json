@@ -1,27 +1,115 @@
 {
   "format": "tabletop-assets/1",
-  "_note": "Prototype sidecar only. GLBs and exporter are unchanged. Coordinates are in centred, length-normalised hull space, bow +X, Y up. Sockets are cosmetic geometry-seated attachments, not simulated mount IDs.",
+  "_note": "Prototype local art adapter. Bow +X, Y up, 10 mm/unit. Sparrowhawk COLOR_0 is the authored seven-region map. Bright regions are physical paint; energy uses separate geometry at confirmed features.",
   "assets": [
     {
-      "key": "EAR/frigate", "faction": "EAR", "className": "frigate", "register": "physical",
-      "url": "../../assets/game/ships/earth_frigate.glb", "length": 3.8,
-      "paint": "candidate-1987", "colour": "#254b80", "baseColour": "#315c91",
-      "stand": { "height": 1.6, "attachment": [0, 0, 0] },
-      "sockets": { "weapon": [1.1, 0.3, 0], "impact": [0.7, 0.3, 0], "engines": [[-1.8, 0, 0]] }
+      "key": "EAR/frigate",
+      "faction": "EAR",
+      "className": "frigate",
+      "register": "physical",
+      "url": "../../assets/game/ships/earth_frigate.glb",
+      "length": 5.5,
+      "paint": "basecoat-reference",
+      "colour": "#254b80",
+      "stand": {
+        "height": 3,
+        "attachment": [
+          0,
+          -0.4062489867210388,
+          0
+        ]
+      },
+      "sockets": {
+        "weapon": [
+          1.592105263157895,
+          0.4342105263157895,
+          0
+        ],
+        "impact": [
+          1.013157894736842,
+          0.4342105263157895,
+          0
+        ],
+        "engines": [
+          [
+            -2.605263157894737,
+            0,
+            0
+          ]
+        ]
+      },
+      "rotationY": -1.5707963267948966
     },
     {
-      "key": "KRE/frigate", "faction": "KRE", "className": "frigate", "register": "physical",
-      "url": "../../assets/game/ships/krelath_frigate.glb", "length": 3.8,
-      "paint": "basecoat-reference", "colour": "#396f47", "baseColour": "#476b43",
-      "stand": { "height": 1.6, "attachment": [0, 0, 0] },
-      "sockets": { "weapon": [1.05, 0.28, 0], "impact": [0.6, 0.3, 0], "engines": [[-1.8, -0.25, -0.22], [-1.8, -0.25, 0.22]] }
+      "key": "KRE/frigate",
+      "faction": "KRE",
+      "className": "frigate",
+      "register": "physical",
+      "url": "./prepared/sparrowhawk.glb",
+      "length": 6.5,
+      "paint": "candidate-1987",
+      "colour": "#ffffff",
+      "stand": {
+        "height": 3,
+        "attachment": [
+          0,
+          -0.35799855261063573,
+          0
+        ]
+      },
+      "sockets": {
+        "weapon": [
+          0.382,
+          0.75,
+          0
+        ],
+        "impact": [
+          1.2,
+          0.3,
+          0
+        ],
+        "engines": []
+      },
+      "rotationY": 0,
+      "regionMap": "./prepared/regions.json"
     },
     {
-      "key": "VRA/frigate", "faction": "VRA", "className": "frigate", "register": "physical",
-      "url": "../../assets/game/ships/vraygon_frigate.glb", "length": 3.8,
-      "paint": "basecoat-reference", "colour": "#b68a32", "baseColour": "#a17c34",
-      "stand": { "height": 1.6, "attachment": [0, 0, 0] },
-      "sockets": { "weapon": [1.05, 0.2, 0], "impact": [0.65, 0.25, 0], "engines": [[-1.65, 0, 0]] }
+      "key": "VRA/frigate",
+      "faction": "VRA",
+      "className": "frigate",
+      "register": "physical",
+      "url": "../../assets/game/ships/vraygon_frigate.glb",
+      "length": 4.5,
+      "paint": "basecoat-reference",
+      "colour": "#b68a32",
+      "stand": {
+        "height": 3,
+        "attachment": [
+          0,
+          -0.6062756776809692,
+          0
+        ]
+      },
+      "sockets": {
+        "weapon": [
+          1.2434210526315792,
+          0.23684210526315794,
+          0
+        ],
+        "impact": [
+          0.7697368421052633,
+          0.2960526315789474,
+          0
+        ],
+        "engines": [
+          [
+            -1.9539473684210527,
+            0,
+            0
+          ]
+        ]
+      },
+      "rotationY": -1.5707963267948966
     }
   ]
 }

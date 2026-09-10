@@ -1,49 +1,44 @@
 import * as THREE from 'three';
 import { GLTFLoader } from './vendor/three-r180/loaders/GLTFLoader.js';
-import { BUDGETS, validateAssets, validateProjection, displayLayout, hexWorld, cameraPose } from './contract.js';
-import { physicalMaterial, physicalMesh, validateScene, candidatePaint, canvasTexture } from './materials.js';
+import { BUDGETS, validateAssets, validateRegionMap, validateProjection, displayLayout, hexWorld, cameraPose } from './contract.js';
+import { physicalMaterial, physicalMesh, validateScene } from './materials.js';
 import { BOARD, buildTable } from './table.js';
+import { SIZES, mm, validateScaleRows } from './scale.js';
+import { preparePaintGeometry, candidatePaint, patchGeometry } from './hull-paint.js';
 
 const vertex = 'varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
-const labelTexture = (faction, colour) => canvasTexture(256,256,c=>{
-  c.fillStyle=colour;c.fillRect(0,0,256,256);c.fillStyle='#d8cdb0';c.textAlign='center';
-  c.font='bold 29px monospace';c.fillText(`${faction} / FF`,128,207);
-  c.beginPath();c.moveTo(207,111);c.lineTo(175,95);c.lineTo(175,127);c.closePath();c.fill();
-  c.strokeStyle='#c3bc9f';c.lineWidth=3;c.beginPath();c.arc(128,128,104,0,Math.PI*2);c.stroke();
-});
-
 function normalizeHull(gltf, asset) {
-  const group = new THREE.Group(), discard = new Set();
-  gltf.scene.updateMatrixWorld(true);
-  gltf.scene.traverse(o => {
-    if (!o.isMesh) return;
-    // Original geometry stays intact. Bake the existing node transform into a runtime clone.
-    const geometry = o.geometry.clone().applyMatrix4(o.matrixWorld).rotateY(-Math.PI/2);
-    group.add(physicalMesh(`${asset.key} / painted white metal`,geometry,physicalMaterial('temporary classified basecoat')));
-    for (const mat of Array.isArray(o.material)?o.material:[o.material]) {
-      for (const value of Object.values(mat)) if(value?.isTexture) discard.add(value);
-      discard.add(mat);
-    }
-    discard.add(o.geometry);
+  const group=new THREE.Group();gltf.scene.updateMatrixWorld(true);
+  gltf.scene.traverse(o=>{
+    if(!o.isMesh)return;
+    const geometry=o.geometry.clone().applyMatrix4(o.matrixWorld).rotateY(asset.rotationY);
+    const convert=mat=>physicalMaterial(asset.key+' / '+mat.name,{
+      color:mat.map?'#ffffff':asset.colour,map:mat.map??null,
+      roughness:.83,metalness:.025,flatShading:asset.faction==='VRA'
+    });
+    group.add(physicalMesh(asset.key+' / source geometry',geometry,Array.isArray(o.material)?o.material.map(convert):convert(o.material)));
   });
-  const box = new THREE.Box3().setFromObject(group), size=box.getSize(new THREE.Vector3()), centre=box.getCenter(new THREE.Vector3());
-  const scale=asset.length/size.x;
-  const material=asset.paint==='candidate-1987'?candidatePaint(size.clone().multiplyScalar(scale)):
-    physicalMaterial(`${asset.key} / reference basecoat only`,{color:asset.colour,roughness:.83,metalness:.025,flatShading:asset.faction==='VRA'});
-  group.traverse(o=>{if(o.isMesh){o.geometry.translate(-centre.x,-centre.y,-centre.z).scale(scale,scale,scale);o.material.dispose();o.material=material;}});
-  for(const value of discard)value.dispose();
+  const box=new THREE.Box3().setFromObject(group),size=box.getSize(new THREE.Vector3()),centre=box.getCenter(new THREE.Vector3()),scale=asset.length/size.x;
+  for(const o of group.children)o.geometry.translate(-centre.x,-centre.y,-centre.z).scale(scale,scale,scale);
+  if(asset.paint==='candidate-1987')for(const o of group.children){
+    const original=o.geometry;o.geometry=preparePaintGeometry(original);original.dispose();
+    if(Object.values(o.geometry.userData.paint.paletteTriangles).some(n=>n===0))throw new Error('A source paint region disappeared from the candidate');
+    o.material.dispose();o.material=candidatePaint();
+  }
   group.updateMatrixWorld(true);
-  const meshes=group.children;
   const seat=(seed,kind)=>{
     const origin=new THREE.Vector3(...seed),dir=kind==='engine'?new THREE.Vector3(1,0,0):new THREE.Vector3(0,-1,0);
     if(kind==='engine')origin.x=-asset.length;else origin.y=asset.length;
-    const hit=new THREE.Raycaster(origin,dir,0,asset.length*3).intersectObjects(meshes,false)[0];
-    if(!hit)throw new Error(`Unseated ${kind} socket on ${asset.key}; asset owner must author it`);
-    if(kind==='engine'&&hit.point.x>-asset.length*.35)throw new Error(`Engine socket missed the stern on ${asset.key}`);
+    const hit=new THREE.Raycaster(origin,dir,0,asset.length*3).intersectObjects(group.children,false)[0];
+    if(!hit)throw new Error('Unseated '+kind+' on '+asset.key);
+    if(kind==='engine'&&hit.point.x>-asset.length*.35)throw new Error('Engine socket missed stern on '+asset.key);
     return hit.point.clone().addScaledVector(dir,-.018);
   };
-  return { group, size:size.multiplyScalar(scale), sockets:{ weapon:seat(asset.sockets.weapon,'weapon'), impact:seat(asset.sockets.impact,'impact'),
-    engines:asset.sockets.engines.map(p=>seat(p,'engine')) }, triangles:meshes.reduce((n,m)=>n+(m.geometry.index?.count??m.geometry.attributes.position.count)/3,0) };
+  const underside=new THREE.Raycaster(new THREE.Vector3(asset.stand.attachment[0],-asset.length,asset.stand.attachment[2]),new THREE.Vector3(0,1,0),0,asset.length*2).intersectObjects(group.children,false)[0];
+  if(!underside)throw new Error('Stand misses the actual underside of '+asset.key);
+  if(underside.point.distanceTo(new THREE.Vector3(...asset.stand.attachment))>.003)throw new Error('Authored stand attachment is no longer seated on '+asset.key);
+  return {group,size:size.multiplyScalar(scale),attachment:underside.point.clone(),sockets:{weapon:seat(asset.sockets.weapon,'weapon'),impact:seat(asset.sockets.impact,'impact'),engines:asset.sockets.engines.map(p=>seat(p,'engine'))},
+    triangles:group.children.reduce((n,m)=>n+(m.geometry.index?.count??m.geometry.attributes.position.count)/3,0)};
 }
 
 export async function createTabletop(canvas, manifest, initial) {
@@ -56,12 +51,12 @@ export async function createTabletop(canvas, manifest, initial) {
   renderer.info.autoReset=false;
   const scene=new THREE.Scene();scene.background=new THREE.Color('#6f5a42');
   const energyScene=new THREE.Scene();energyScene.userData.register='energetic';
-  const key=new THREE.DirectionalLight('#ffe0ad',3.1);key.position.set(-8,21,11);key.castShadow=true;
-  Object.assign(key.shadow.camera,{left:-20,right:20,top:18,bottom:-18,near:1,far:60});
+  const key=new THREE.DirectionalLight('#ffe0ad',3.1);key.position.set(-25,65,30);key.castShadow=true;
+  Object.assign(key.shadow.camera,{left:-59,right:59,top:44,bottom:-44,near:1,far:150});
   key.shadow.mapSize.set(BUDGETS.shadowSize,BUDGETS.shadowSize);key.shadow.normalBias=.025;key.shadow.bias=-.00025;key.shadow.radius=2;
   scene.add(key);scene.add(new THREE.HemisphereLight('#d5deeb','#75614b',1.30));
   buildTable(scene);
-  const camera=new THREE.PerspectiveCamera(32,1,.1,160);
+  const camera=new THREE.PerspectiveCamera(32,1,1,250);
   const targetOptions={type:THREE.HalfFloatType,minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter};
   const physical=new THREE.WebGLRenderTarget(1,1,targetOptions);
   physical.depthTexture=new THREE.DepthTexture(1,1,THREE.UnsignedIntType);
@@ -77,10 +72,11 @@ c+=texture2D(image,vUv+stepSize*2.)*.06;c+=texture2D(image,vUv-stepSize*2.)*.06;
   const composite=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,toneMapped:false,uniforms:{base:{value:physical.texture},energy:{value:energy.texture},bloom:{value:blurV.texture},depth:{value:physical.depthTexture},
     pixels:{value:new THREE.Vector2()},blur:{value:0},focus:{value:40},gain:{value:BUDGETS.bloomGain}},vertexShader:vertex,
     fragmentShader:`uniform sampler2D base,energy,bloom,depth;uniform vec2 pixels;uniform float blur,focus,gain;varying vec2 vUv;
-float metres(float d){return 16.0/(160.0-d*159.9);}
+float metres(float d){return 250.0/(250.0-d*249.0);}
 void main(){float z=metres(texture2D(depth,vUv).r);float coc=clamp(abs(z-focus)/8.,0.,1.)*blur;
-vec2 s=coc*pixels;vec3 c=texture2D(base,vUv).rgb*.4;
-c+=(texture2D(base,vUv+vec2(s.x,0)).rgb+texture2D(base,vUv-vec2(s.x,0)).rgb+texture2D(base,vUv+vec2(0,s.y)).rgb+texture2D(base,vUv-vec2(0,s.y)).rgb)*.15;
+vec2 s=coc*pixels*.70710678;vec3 c=texture2D(base,vUv).rgb*.25;
+c+=(texture2D(base,vUv+vec2(s.x,0)).rgb+texture2D(base,vUv-vec2(s.x,0)).rgb+texture2D(base,vUv+vec2(0,s.y)).rgb+texture2D(base,vUv-vec2(0,s.y)).rgb)*.125;
+c+=(texture2D(base,vUv+s).rgb+texture2D(base,vUv-s).rgb+texture2D(base,vUv+vec2(s.x,-s.y)).rgb+texture2D(base,vUv+vec2(-s.x,s.y)).rgb)*.0625;
 c+=texture2D(energy,vUv).rgb+min(texture2D(bloom,vUv).rgb*gain,vec3(.18));
 gl_FragColor=vec4(c,1.);
 #include <colorspace_fragment>
@@ -112,43 +108,63 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   const anonymous=energyMesh('unresolved origin',new THREE.PlaneGeometry(1,1),anonymousMaterial);
   for(const o of [beamCore,beamHalo,flare,anonymous])o.visible=false;
 
-  const loaded=await Promise.all(manifest.assets.map(async asset=>({asset,...normalizeHull(await new GLTFLoader().loadAsync(asset.url),asset)})));
+  const loaded=await Promise.all(manifest.assets.map(async asset=>{
+    const result={asset,...normalizeHull(await new GLTFLoader().loadAsync(asset.url),asset)};
+    if(asset.regionMap){const response=await fetch(asset.regionMap);if(!response.ok)throw new Error('Missing authored region map');result.regions=validateRegionMap(await response.json());}
+    return result;
+  }));
   const catalogue=new Map(loaded.map(a=>[a.asset.key,a]));
-  const baseMaterial=physicalMaterial('faction-painted hex bases',{color:'#ffffff',roughness:.81});
-  const bases=new THREE.InstancedMesh(new THREE.CylinderGeometry(1.16,1.24,.25,6),baseMaterial,initial.units.length);
+  const baseMaterial=physicalMaterial('painted black hex bases',{color:'#151513',roughness:.86});
+  const bases=new THREE.InstancedMesh(new THREE.CylinderGeometry(mm(SIZES.baseAcrossFlats)/Math.sqrt(3)-.055,mm(SIZES.baseAcrossFlats)/Math.sqrt(3),mm(SIZES.baseHeight),6),baseMaterial,initial.units.length);
   bases.name='bases / instanced';bases.userData.register='physical';bases.castShadow=bases.receiveShadow=true;scene.add(bases);
-  const posts=new THREE.InstancedMesh(new THREE.CylinderGeometry(.065,.074,BUDGETS.postHeight,10),physicalMaterial('neutral flight posts',{color:'#aaa999',roughness:.53,metalness:.2}),initial.units.length);
+  const posts=new THREE.InstancedMesh(new THREE.CylinderGeometry(.1,.1,BUDGETS.postHeight,12),physicalMaterial('painted black flight posts',{color:'#151513',roughness:.86,metalness:0}),initial.units.length);
   posts.name='posts / instanced and uniform';posts.userData.register='physical';posts.castShadow=posts.receiveShadow=true;scene.add(posts);
-  const units=new Map(),glows=[],dummy=new THREE.Object3D();
+  const radius=bases.geometry.parameters.radiusBottom;
+  scene.userData.scaleRows.push({object:'Black hex base',basis:'across flats / height',sceneUnits:[radius*Math.sqrt(3),bases.geometry.parameters.height],actualMm:[radius*Math.sqrt(3)*10,bases.geometry.parameters.height*10],referenceMm:[25,3]},
+    {object:'Black post',basis:'diameter / exposed length',sceneUnits:[posts.geometry.parameters.radiusTop*2,posts.geometry.parameters.height],actualMm:[posts.geometry.parameters.radiusTop*20,posts.geometry.parameters.height*10],referenceMm:[2,30]});
+  for(const a of loaded)scene.userData.scaleRows.push({object:a.asset.faction+' frigate',basis:'length; width/height in asset metrics',sceneUnits:[a.size.x],actualMm:[a.size.x*10],referenceMm:[SIZES.miniatures[a.asset.faction]]});
+  validateScaleRows(scene.userData.scaleRows);
+  const units=new Map(),glows=[],regionGlows=[],dummy=new THREE.Object3D();
+  const exhaustMaterial=energyMaterial('Sparrowhawk exhaust / separate imagined energy','#f5831f',1,.16);
+  const emitterMaterial=energyMaterial('Sparrowhawk larger dome / separate imagined energy','#ffdd1a',1,.25);
   for(const u of initial.units){
     const asset=catalogue.get(`${u.faction}/${u.className}`);if(!asset)throw new Error(`No classified asset for ${u.faction}/${u.className}`);
     const model=asset.group;scene.add(model);
-    const label=physicalMesh(`${u.id} / class and heading on base`,new THREE.CircleGeometry(1.06,6),physicalMaterial(`${u.faction} base printing`,{map:labelTexture(u.faction,asset.asset.baseColour),roughness:.89}));label.rotation.x=-Math.PI/2;scene.add(label);
     const tether=physicalMesh(`${u.id} / shared-hex anchor tether`,new THREE.BoxGeometry(1,.012,.035),physicalMaterial('printed tether ink',{color:'#c9c3a2'}));scene.add(tether);tether.visible=false;
     const anchor=physicalMesh(`${u.id} / authoritative hex anchor`,new THREE.CylinderGeometry(.085,.085,.015,10),physicalMaterial('hex anchor ink',{color:'#cabf9b'}));scene.add(anchor);anchor.visible=false;
     const engines=asset.sockets.engines.map((socket,i)=>{const mesh=energyMesh(`${u.id} / engine ${i+1}`,new THREE.PlaneGeometry(.34,.34),glowMaterial);glows.push(mesh);return {socket,mesh};});
-    units.set(u.id,{model,label,tether,anchor,engines,asset,unit:u});
+    const patches=[];
+    if(asset.regions)for(const [kind,feature] of Object.entries(asset.regions.features)){
+      const g=patchGeometry(model.children[0].geometry,feature.faces);
+      g.computeBoundingBox();const expectedMin=new THREE.Vector3(...feature.min),expectedMax=new THREE.Vector3(...feature.max);
+      if(g.boundingBox.min.distanceTo(expectedMin)>.003||g.boundingBox.max.distanceTo(expectedMax)>.003)throw new Error('Stale semantic face map: '+kind);
+      const position=g.attributes.position,normal=g.attributes.normal;
+      for(let i=0;i<position.count;i++)position.setXYZ(i,position.getX(i)+normal.getX(i)*.003,position.getY(i)+normal.getY(i)*.003,position.getZ(i)+normal.getZ(i)*.003);
+      const mesh=energyMesh(u.id+' / exact '+kind+' colour patch',g,kind==='exhaust'?exhaustMaterial:emitterMaterial);mesh.matrixAutoUpdate=false;
+      patches.push({kind,mesh});regionGlows.push({id:u.id,kind,mesh});
+    }
+    units.set(u.id,{model,tether,anchor,engines,patches,asset,unit:u});
   }
   let packet=initial,layout=displayLayout(initial.units),pose=0,currentEffect=null,lastStats=null;
   function applyProjection(next) {
     validateProjection(next);if(!Object.isFrozen(next))throw new Error('Renderer requires a frozen projection');
     packet=next;layout=displayLayout(next.units);const present=new Set(next.units.map(u=>u.id));
-    for(const [id,u] of units){u.model.visible=u.label.visible=present.has(id);u.tether.visible=u.anchor.visible=false;for(const e of u.engines)e.mesh.visible=present.has(id);}
+    for(const [id,u] of units){u.model.visible=present.has(id);u.tether.visible=u.anchor.visible=false;for(const e of u.engines)e.mesh.visible=present.has(id);for(const p of u.patches)p.mesh.visible=present.has(id)&&p.kind==='exhaust';}
     bases.count=posts.count=next.units.length;
     next.units.forEach((u,i)=>{
       const entry=units.get(u.id);if(!entry)throw new Error('New hull requires an explicitly loaded asset');
       const p=layout[u.id],angle=u.facing*Math.PI/3;
-      entry.unit=u;entry.model.position.set(p.x,BOARD.top+.25+BUDGETS.postHeight,p.z);entry.model.rotation.y=angle;
+      entry.unit=u;entry.model.position.set(p.x,BOARD.top+mm(SIZES.baseHeight)+BUDGETS.postHeight,p.z);entry.model.rotation.y=angle;
       entry.model.position.y-=entry.asset.asset.stand.attachment[1];
       const attachment=new THREE.Vector3(entry.asset.asset.stand.attachment[0],0,entry.asset.asset.stand.attachment[2]).applyAxisAngle(new THREE.Vector3(0,1,0),angle);
       entry.model.position.x-=attachment.x;entry.model.position.z-=attachment.z;
       entry.model.updateMatrixWorld(true);
-      entry.label.position.set(p.x,BOARD.top+.253,p.z);entry.label.rotation.z=angle;entry.label.scale.setScalar(p.baseScale);
-      dummy.position.set(p.x,BOARD.top+.125,p.z);dummy.rotation.set(0,angle,0);dummy.scale.set(p.baseScale,1,p.baseScale);dummy.updateMatrix();bases.setMatrixAt(i,dummy.matrix);bases.setColorAt(i,new THREE.Color(entry.asset.asset.baseColour));
+      dummy.position.set(p.x,BOARD.top+mm(SIZES.baseHeight)/2,p.z);dummy.rotation.set(0,angle,0);dummy.scale.set(p.baseScale,1,p.baseScale);dummy.updateMatrix();bases.setMatrixAt(i,dummy.matrix);
       dummy.position.y=BOARD.top+.25+BUDGETS.postHeight/2;dummy.scale.set(1,1,1);dummy.updateMatrix();posts.setMatrixAt(i,dummy.matrix);
       if(p.baseScale<1){entry.anchor.visible=entry.tether.visible=true;entry.anchor.position.set(p.anchor.x,BOARD.top+.01,p.anchor.z);
         const dx=p.x-p.anchor.x,dz=p.z-p.anchor.z;entry.tether.position.set((p.x+p.anchor.x)/2,BOARD.top+.015,(p.z+p.anchor.z)/2);entry.tether.rotation.y=-Math.atan2(dz,dx);entry.tether.scale.x=Math.hypot(dx,dz);}
       for(const e of entry.engines)e.mesh.position.copy(entry.model.localToWorld(e.socket.clone()));
+      for(const p of entry.patches)p.mesh.matrix.copy(entry.model.matrixWorld);
     });
     bases.instanceMatrix.needsUpdate=posts.instanceMatrix.needsUpdate=true;if(bases.instanceColor)bases.instanceColor.needsUpdate=true;
     bases.computeBoundingSphere();posts.computeBoundingSphere();
@@ -156,7 +172,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   }
   function setCamera(progress) {
     pose=progress;const p=cameraPose(progress);camera.position.set(p.x,p.y,p.z);camera.fov=p.fov;camera.lookAt(0,p.targetY,0);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-    composite.uniforms.blur.value=p.blur;composite.uniforms.focus.value=camera.position.distanceTo(new THREE.Vector3(-1,2,0));
+    composite.uniforms.blur.value=p.blur;composite.uniforms.focus.value=camera.position.distanceTo(new THREE.Vector3(0,4,0));
     for(const g of glows)g.quaternion.copy(camera.quaternion);anonymous.quaternion.copy(camera.quaternion);
   }
   const endpoint=(e,kind)=>{
@@ -166,12 +182,13 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     point.x+=p.x-l.anchor.x;point.z+=p.z-l.anchor.z;
     if(point.y<BOARD.top+.4)throw new Error('Weapon endpoint intersects the board');return point;
   };
-  function clearEffect(){for(const o of [beamCore,beamHalo,flare,anonymous])o.visible=false;currentEffect=null;}
+  function clearEffect(){for(const o of [beamCore,beamHalo,flare,anonymous])o.visible=false;for(const p of regionGlows)if(p.kind==='beamEmitter')p.mesh.visible=false;currentEffect=null;}
   function setEffect(event,progress) {
     if(event&&!packet.events.includes(event))throw new Error('Effect must belong to the current frozen projection');
     clearEffect();if(!event||progress>=1)return;currentEffect=event;
     const pulse=Math.sin(Math.PI*Math.max(.015,progress));
     if(event.kind==='beam'){
+      for(const p of regionGlows)if(p.kind==='beamEmitter'&&p.id===event.source.id){p.mesh.visible=true;emitterMaterial.uniforms.strength.value=.25*pulse;}
       const from=endpoint(event.source,'weapon'),to=endpoint(event.destination,'impact'),delta=to.clone().sub(from);
       for(const mesh of [beamCore,beamHalo]){mesh.visible=true;mesh.position.copy(from).add(to).multiplyScalar(.5);mesh.scale.y=delta.length();mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.clone().normalize());}
       coreMaterial.uniforms.strength.value=.82*pulse;haloMaterial.uniforms.strength.value=.21*pulse;
@@ -197,15 +214,36 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     renderer.setRenderTarget(null);screen(composite);
     lastStats={drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,textures:renderer.info.memory.textures,geometries:renderer.info.memory.geometries,
       width:physical.width,height:physical.height,estimatedTargetMiB:(physical.width*physical.height*24+BUDGETS.shadowSize**2*4)/1048576,
-      drawables:validateScene(scene)+validateScene(energyScene),camera:cameraPose(pose),activeEffect:currentEffect?.kind??null};
+      drawables:validateScene(scene)+validateScene(energyScene),actualCamera:{position:camera.position.toArray(),fov:camera.fov,pitch:Math.asin(-camera.getWorldDirection(new THREE.Vector3()).y)*180/Math.PI},camera:cameraPose(pose),activeEffect:currentEffect?.kind??null};
     return lastStats;
   }
   applyProjection(initial);setCamera(0);resize();render();
   if(lastStats.triangles>BUDGETS.maxTriangles||lastStats.drawCalls>BUDGETS.maxDrawCalls)throw new Error(`Slice budget exceeded: ${lastStats.triangles} triangles / ${lastStats.drawCalls} draws`);
+  const textureSet=new Set();
+  scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material])for(const value of Object.values(m))if(value?.isTexture)textureSet.add(value);});
+  const textureMiB=[...textureSet].reduce((n,t)=>n+t.image.width*t.image.height*4*(t.generateMipmaps?4/3:1),0)/1048576;
+  if(textureMiB>BUDGETS.materialTextureMiB)throw new Error('Material texture budget exceeded: '+textureMiB+' MiB');
   const api={ applyProjection,setCamera,setEffect,clearEffect,resize,render,
-    inspect:()=>({...lastStats,threeRevision:THREE.REVISION,assets:loaded.map(a=>({key:a.asset.key,paint:a.asset.paint,triangles:a.triangles,
-      sockets:Object.fromEntries(Object.entries(a.sockets).map(([k,v])=>[k,Array.isArray(v)?v.map(p=>p.toArray()):v.toArray()]))})),
-      postHeights:manifest.assets.map(a=>a.stand.height),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
+    captureDetail(angle='plan'){
+      clearEffect();const hull=units.get('KRE-FF-1'),x=hull.model.position.x;
+      const positions={plan:[x,28,12],side:[x+4,25,30],stern:[x+31,25,0],bow:[x-31,25,0]};
+      if(!positions[angle])throw new Error('Unknown review angle');camera.position.set(...positions[angle]);camera.fov=14;
+      camera.lookAt(hull.model.position);camera.updateProjectionMatrix();camera.updateMatrixWorld();composite.uniforms.blur.value=0;
+      const direction=camera.getWorldDirection(new THREE.Vector3());if(camera.position.y<BUDGETS.cameraFloor||Math.asin(-direction.y)*180/Math.PI<BUDGETS.pitchFloor)throw new Error('Review camera crossed a floor');
+      return render();
+    },
+    inspect:()=>({...lastStats,threeRevision:THREE.REVISION,assets:loaded.map(a=>({key:a.asset.key,paint:a.asset.paint,triangles:a.triangles,paintEvidence:a.group.children[0].geometry.userData.paint??null,
+      sizeMm:a.size.toArray().map(n=>n*10),standAttachment:a.attachment.toArray(),sockets:Object.fromEntries(Object.entries(a.sockets).map(([k,v])=>[k,Array.isArray(v)?v.map(p=>p.toArray()):v.toArray()]))})),
+      energyRegionGeometry:regionGlows.map(p=>({id:p.id,kind:p.kind,triangles:p.mesh.geometry.attributes.position.count/3})),materialTextureMiB:textureMiB,scaleMeasurements:scene.userData.scaleRows, postHeights:manifest.assets.map(a=>a.stand.height),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
+    lightsOffEvidence(){
+      const lights=scene.children.filter(o=>o.isLight).map(o=>[o,o.intensity]),background=scene.background;
+      for(const [light] of lights)light.intensity=0;scene.background=new THREE.Color(0);render();
+      const pixels=new Uint16Array(physical.width*physical.height*4),glow=new Uint16Array(energy.width*energy.height*4);
+      renderer.readRenderTargetPixels(physical,0,0,physical.width,physical.height,pixels);renderer.readRenderTargetPixels(energy,0,0,energy.width,energy.height,glow);
+      const count=a=>{let n=0;for(let i=0;i<a.length;i+=4)if(a[i]||a[i+1]||a[i+2])n++;return n;};
+      const result={physicalNonzeroPixels:count(pixels),energeticNonzeroPixels:count(glow)};
+      for(const [light,intensity] of lights)light.intensity=intensity;scene.background=background;render();return result;
+    },
     // Read-only regression evidence from this isolated scene, never game state.
     physicalPixels:()=>{const out=new Uint16Array(physical.width*physical.height*4);renderer.readRenderTargetPixels(physical,0,0,physical.width,physical.height,out);return out;},
     shadowPixels:()=>{const target=key.shadow.map,out=new Uint8Array(target.width*target.height*4);renderer.readRenderTargetPixels(target,0,0,target.width,target.height,out);return out;},

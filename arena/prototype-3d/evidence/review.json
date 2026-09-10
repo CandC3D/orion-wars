@@ -6,19 +6,28 @@
   },
   "captures": {
     "planning": {
-      "drawCalls": 55,
-      "triangles": 50802,
-      "textures": 15,
-      "geometries": 29,
+      "drawCalls": 76,
+      "triangles": 61310,
+      "textures": 19,
+      "geometries": 34,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 38,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          8,
+          63,
+          54
+        ],
+        "fov": 32,
+        "pitch": 48.636926923625396
+      },
       "camera": {
-        "x": 12,
-        "y": 31,
-        "z": 35,
-        "targetY": 0.7,
+        "x": 8,
+        "y": 63,
+        "z": 54,
+        "targetY": 1,
         "fov": 32,
         "blur": 0
       },
@@ -27,22 +36,33 @@
       "assets": [
         {
           "key": "EAR/frigate",
-          "paint": "candidate-1987",
+          "paint": "basecoat-reference",
           "triangles": 11256,
+          "paintEvidence": null,
+          "sizeMm": [
+            55,
+            16.95776157389623,
+            15.553909203120547
+          ],
+          "standAttachment": [
+            0,
+            -0.4062489867210388,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.1,
-              0.6023676908020505,
+              1.592105263157895,
+              0.863795326924903,
               0
             ],
             "impact": [
-              0.7,
-              0.3870184119392317,
+              1.013157894736842,
+              0.5521056253779302,
               0
             ],
             "engines": [
               [
-                -1.917999976158142,
+                -2.768,
                 0,
                 0
               ]
@@ -51,51 +71,78 @@
         },
         {
           "key": "KRE/frigate",
-          "paint": "basecoat-reference",
-          "triangles": 11664,
+          "paint": "candidate-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "inkWidthMm": 0.14,
+            "edgeWidthMm": 0.22
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              -0.05069756675719163,
+              0.382,
+              0.7448017250925354,
               0
             ],
             "impact": [
-              0.6,
-              -0.06751514554049211,
+              1.2,
+              0.4635994528838545,
               0
             ],
-            "engines": [
-              [
-                -1.917999976158142,
-                -0.25,
-                -0.22
-              ],
-              [
-                -1.917999976158142,
-                -0.25,
-                0.22
-              ]
-            ]
+            "engines": []
           }
         },
         {
           "key": "VRA/frigate",
           "paint": "basecoat-reference",
           "triangles": 150,
+          "paintEvidence": null,
+          "sizeMm": [
+            45,
+            12.125513661281094,
+            12.941348754635015
+          ],
+          "standAttachment": [
+            0,
+            -0.6062756776809692,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              0.4523668520450592,
+              1.2434210526315792,
+              0.5323818259239197,
               0
             ],
             "impact": [
-              0.65,
-              0.4523668520450592,
+              0.7697368421052633,
+              0.5323818259239197,
               0
             ],
             "engines": [
               [
-                -1.7244077478424071,
+                -2.0387459349132553,
                 0,
                 0
               ]
@@ -103,28 +150,320 @@
           }
         }
       ],
+      "energyRegionGeometry": [
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 22.666666666666668,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black hex base",
+          "basis": "across flats / height",
+          "sceneUnits": [
+            2.5,
+            0.3
+          ],
+          "actualMm": [
+            25,
+            3
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black post",
+          "basis": "diameter / exposed length",
+          "sceneUnits": [
+            0.2,
+            3
+          ],
+          "actualMm": [
+            2,
+            30
+          ],
+          "referenceMm": [
+            2,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
       "postHeights": [
-        1.6,
-        1.6,
-        1.6
+        3,
+        3,
+        3
       ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "beam": {
-      "drawCalls": 56,
-      "triangles": 50842,
-      "textures": 15,
-      "geometries": 31,
+      "drawCalls": 69,
+      "triangles": 60654,
+      "textures": 19,
+      "geometries": 37,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 38,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
       "camera": {
-        "x": 9,
-        "y": 16.052974935342224,
-        "z": 22,
-        "targetY": 1.2,
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
         "fov": 40,
         "blur": 3
       },
@@ -133,22 +472,33 @@
       "assets": [
         {
           "key": "EAR/frigate",
-          "paint": "candidate-1987",
+          "paint": "basecoat-reference",
           "triangles": 11256,
+          "paintEvidence": null,
+          "sizeMm": [
+            55,
+            16.95776157389623,
+            15.553909203120547
+          ],
+          "standAttachment": [
+            0,
+            -0.4062489867210388,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.1,
-              0.6023676908020505,
+              1.592105263157895,
+              0.863795326924903,
               0
             ],
             "impact": [
-              0.7,
-              0.3870184119392317,
+              1.013157894736842,
+              0.5521056253779302,
               0
             ],
             "engines": [
               [
-                -1.917999976158142,
+                -2.768,
                 0,
                 0
               ]
@@ -157,51 +507,78 @@
         },
         {
           "key": "KRE/frigate",
-          "paint": "basecoat-reference",
-          "triangles": 11664,
+          "paint": "candidate-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "inkWidthMm": 0.14,
+            "edgeWidthMm": 0.22
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              -0.05069756675719163,
+              0.382,
+              0.7448017250925354,
               0
             ],
             "impact": [
-              0.6,
-              -0.06751514554049211,
+              1.2,
+              0.4635994528838545,
               0
             ],
-            "engines": [
-              [
-                -1.917999976158142,
-                -0.25,
-                -0.22
-              ],
-              [
-                -1.917999976158142,
-                -0.25,
-                0.22
-              ]
-            ]
+            "engines": []
           }
         },
         {
           "key": "VRA/frigate",
           "paint": "basecoat-reference",
           "triangles": 150,
+          "paintEvidence": null,
+          "sizeMm": [
+            45,
+            12.125513661281094,
+            12.941348754635015
+          ],
+          "standAttachment": [
+            0,
+            -0.6062756776809692,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              0.4523668520450592,
+              1.2434210526315792,
+              0.5323818259239197,
               0
             ],
             "impact": [
-              0.65,
-              0.4523668520450592,
+              0.7697368421052633,
+              0.5323818259239197,
               0
             ],
             "engines": [
               [
-                -1.7244077478424071,
+                -2.0387459349132553,
                 0,
                 0
               ]
@@ -209,28 +586,320 @@
           }
         }
       ],
+      "energyRegionGeometry": [
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 22.666666666666668,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black hex base",
+          "basis": "across flats / height",
+          "sceneUnits": [
+            2.5,
+            0.3
+          ],
+          "actualMm": [
+            25,
+            3
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black post",
+          "basis": "diameter / exposed length",
+          "sceneUnits": [
+            0.2,
+            3
+          ],
+          "actualMm": [
+            2,
+            30
+          ],
+          "referenceMm": [
+            2,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
       "postHeights": [
-        1.6,
-        1.6,
-        1.6
+        3,
+        3,
+        3
       ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "shield": {
-      "drawCalls": 55,
-      "triangles": 51306,
-      "textures": 15,
-      "geometries": 32,
+      "drawCalls": 67,
+      "triangles": 60806,
+      "textures": 19,
+      "geometries": 38,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 38,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
       "camera": {
-        "x": 9,
-        "y": 16.052974935342224,
-        "z": 22,
-        "targetY": 1.2,
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
         "fov": 40,
         "blur": 3
       },
@@ -239,22 +908,33 @@
       "assets": [
         {
           "key": "EAR/frigate",
-          "paint": "candidate-1987",
+          "paint": "basecoat-reference",
           "triangles": 11256,
+          "paintEvidence": null,
+          "sizeMm": [
+            55,
+            16.95776157389623,
+            15.553909203120547
+          ],
+          "standAttachment": [
+            0,
+            -0.4062489867210388,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.1,
-              0.6023676908020505,
+              1.592105263157895,
+              0.863795326924903,
               0
             ],
             "impact": [
-              0.7,
-              0.3870184119392317,
+              1.013157894736842,
+              0.5521056253779302,
               0
             ],
             "engines": [
               [
-                -1.917999976158142,
+                -2.768,
                 0,
                 0
               ]
@@ -263,51 +943,78 @@
         },
         {
           "key": "KRE/frigate",
-          "paint": "basecoat-reference",
-          "triangles": 11664,
+          "paint": "candidate-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "inkWidthMm": 0.14,
+            "edgeWidthMm": 0.22
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              -0.05069756675719163,
+              0.382,
+              0.7448017250925354,
               0
             ],
             "impact": [
-              0.6,
-              -0.06751514554049211,
+              1.2,
+              0.4635994528838545,
               0
             ],
-            "engines": [
-              [
-                -1.917999976158142,
-                -0.25,
-                -0.22
-              ],
-              [
-                -1.917999976158142,
-                -0.25,
-                0.22
-              ]
-            ]
+            "engines": []
           }
         },
         {
           "key": "VRA/frigate",
           "paint": "basecoat-reference",
           "triangles": 150,
+          "paintEvidence": null,
+          "sizeMm": [
+            45,
+            12.125513661281094,
+            12.941348754635015
+          ],
+          "standAttachment": [
+            0,
+            -0.6062756776809692,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              0.4523668520450592,
+              1.2434210526315792,
+              0.5323818259239197,
               0
             ],
             "impact": [
-              0.65,
-              0.4523668520450592,
+              0.7697368421052633,
+              0.5323818259239197,
               0
             ],
             "engines": [
               [
-                -1.7244077478424071,
+                -2.0387459349132553,
                 0,
                 0
               ]
@@ -315,28 +1022,320 @@
           }
         }
       ],
+      "energyRegionGeometry": [
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 22.666666666666668,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black hex base",
+          "basis": "across flats / height",
+          "sceneUnits": [
+            2.5,
+            0.3
+          ],
+          "actualMm": [
+            25,
+            3
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black post",
+          "basis": "diameter / exposed length",
+          "sceneUnits": [
+            0.2,
+            3
+          ],
+          "actualMm": [
+            2,
+            30
+          ],
+          "referenceMm": [
+            2,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
       "postHeights": [
-        1.6,
-        1.6,
-        1.6
+        3,
+        3,
+        3
       ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "anonymous": {
-      "drawCalls": 55,
-      "triangles": 50780,
-      "textures": 15,
-      "geometries": 33,
+      "drawCalls": 67,
+      "triangles": 60280,
+      "textures": 19,
+      "geometries": 39,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 38,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          5,
+          28,
+          30
+        ],
+        "fov": 40,
+        "pitch": 40.30790092307506
+      },
       "camera": {
-        "x": 9,
-        "y": 16.052974935342224,
-        "z": 22,
-        "targetY": 1.2,
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
         "fov": 40,
         "blur": 3
       },
@@ -345,22 +1344,33 @@
       "assets": [
         {
           "key": "EAR/frigate",
-          "paint": "candidate-1987",
+          "paint": "basecoat-reference",
           "triangles": 11256,
+          "paintEvidence": null,
+          "sizeMm": [
+            55,
+            16.95776157389623,
+            15.553909203120547
+          ],
+          "standAttachment": [
+            0,
+            -0.4062489867210388,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.1,
-              0.6023676908020505,
+              1.592105263157895,
+              0.863795326924903,
               0
             ],
             "impact": [
-              0.7,
-              0.3870184119392317,
+              1.013157894736842,
+              0.5521056253779302,
               0
             ],
             "engines": [
               [
-                -1.917999976158142,
+                -2.768,
                 0,
                 0
               ]
@@ -369,51 +1379,78 @@
         },
         {
           "key": "KRE/frigate",
-          "paint": "basecoat-reference",
-          "triangles": 11664,
+          "paint": "candidate-1987",
+          "triangles": 13351,
+          "paintEvidence": {
+            "paletteTriangles": {
+              "126936": 5439,
+              "46b749": 2859,
+              "a97b50": 3328,
+              "f5831f": 794,
+              "fafafa": 55,
+              "ffdd1a": 651,
+              "e91d2d": 225
+            },
+            "concaveEdges": 1450,
+            "raisedEdges": 978,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "inkWidthMm": 0.14,
+            "edgeWidthMm": 0.22
+          },
+          "sizeMm": [
+            65,
+            17.827179431915283,
+            39.582622051239014
+          ],
+          "standAttachment": [
+            0,
+            -0.35799855261063573,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              -0.05069756675719163,
+              0.382,
+              0.7448017250925354,
               0
             ],
             "impact": [
-              0.6,
-              -0.06751514554049211,
+              1.2,
+              0.4635994528838545,
               0
             ],
-            "engines": [
-              [
-                -1.917999976158142,
-                -0.25,
-                -0.22
-              ],
-              [
-                -1.917999976158142,
-                -0.25,
-                0.22
-              ]
-            ]
+            "engines": []
           }
         },
         {
           "key": "VRA/frigate",
           "paint": "basecoat-reference",
           "triangles": 150,
+          "paintEvidence": null,
+          "sizeMm": [
+            45,
+            12.125513661281094,
+            12.941348754635015
+          ],
+          "standAttachment": [
+            0,
+            -0.6062756776809692,
+            0
+          ],
           "sockets": {
             "weapon": [
-              1.05,
-              0.4523668520450592,
+              1.2434210526315792,
+              0.5323818259239197,
               0
             ],
             "impact": [
-              0.65,
-              0.4523668520450592,
+              0.7697368421052633,
+              0.5323818259239197,
               0
             ],
             "engines": [
               [
-                -1.7244077478424071,
+                -2.0387459349132553,
                 0,
                 0
               ]
@@ -421,26 +1458,313 @@
           }
         }
       ],
+      "energyRegionGeometry": [
+        {
+          "id": "KRE-FF-1",
+          "kind": "exhaust",
+          "triangles": 18
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "beamEmitter",
+          "triangles": 312
+        }
+      ],
+      "materialTextureMiB": 22.666666666666668,
+      "scaleMeasurements": [
+        {
+          "object": "Tabletop",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            100,
+            2.5,
+            70
+          ],
+          "actualMm": [
+            1000,
+            25,
+            700
+          ],
+          "referenceMm": [
+            1000,
+            25,
+            700
+          ]
+        },
+        {
+          "object": "Board card",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            48,
+            0.20000000298023224,
+            32
+          ],
+          "actualMm": [
+            480,
+            2.0000000298023224,
+            320
+          ],
+          "referenceMm": [
+            480,
+            2,
+            320
+          ]
+        },
+        {
+          "object": "Printed hex",
+          "basis": "across flats",
+          "sceneUnits": [
+            3.2
+          ],
+          "actualMm": [
+            32
+          ],
+          "referenceMm": [
+            32
+          ]
+        },
+        {
+          "object": "Hardback rulebook",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            2.800000011920929,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            28.00000011920929,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            28,
+            279
+          ]
+        },
+        {
+          "object": "Box lid",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            25.000000002980233,
+            2.999999977648258,
+            19.000000002980233
+          ],
+          "actualMm": [
+            250.00000002980232,
+            29.999999776482582,
+            190.00000002980232
+          ],
+          "referenceMm": [
+            250,
+            30,
+            190
+          ]
+        },
+        {
+          "object": "Mug body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            8,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            80,
+            95,
+            80
+          ],
+          "referenceMm": [
+            80,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "Mug including handle",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            11.199999952316285,
+            9.5,
+            8
+          ],
+          "actualMm": [
+            111.99999952316284,
+            95,
+            80
+          ],
+          "referenceMm": [
+            112,
+            95,
+            80
+          ]
+        },
+        {
+          "object": "D20",
+          "basis": "maximum opposite-vertex distance",
+          "sceneUnits": [
+            1.9999999375804682
+          ],
+          "actualMm": [
+            19.999999375804684
+          ],
+          "referenceMm": [
+            20
+          ]
+        },
+        {
+          "object": "D6",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            1.600000023841858,
+            1.600000023841858,
+            1.600000023841858
+          ],
+          "actualMm": [
+            16.00000023841858,
+            16.00000023841858,
+            16.00000023841858
+          ],
+          "referenceMm": [
+            16,
+            16,
+            16
+          ]
+        },
+        {
+          "object": "Spiral notebook body",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            21.600000381469727,
+            0.5999999970197678,
+            27.899999618530273
+          ],
+          "actualMm": [
+            216.00000381469727,
+            5.999999970197678,
+            278.99999618530273
+          ],
+          "referenceMm": [
+            216,
+            6,
+            279
+          ]
+        },
+        {
+          "object": "Pencil",
+          "basis": "local X / Y / Z extents",
+          "sceneUnits": [
+            0.6062178015708923,
+            18.999999810010195,
+            0.699999988079071
+          ],
+          "actualMm": [
+            6.062178015708923,
+            189.99999810010195,
+            6.9999998807907104
+          ],
+          "referenceMm": [
+            6.06217782649107,
+            190,
+            7
+          ]
+        },
+        {
+          "object": "Black hex base",
+          "basis": "across flats / height",
+          "sceneUnits": [
+            2.5,
+            0.3
+          ],
+          "actualMm": [
+            25,
+            3
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black post",
+          "basis": "diameter / exposed length",
+          "sceneUnits": [
+            0.2,
+            3
+          ],
+          "actualMm": [
+            2,
+            30
+          ],
+          "referenceMm": [
+            2,
+            30
+          ]
+        },
+        {
+          "object": "EAR frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            5.5
+          ],
+          "actualMm": [
+            55
+          ],
+          "referenceMm": [
+            55
+          ]
+        },
+        {
+          "object": "KRE frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            6.5
+          ],
+          "actualMm": [
+            65
+          ],
+          "referenceMm": [
+            65
+          ]
+        },
+        {
+          "object": "VRA frigate",
+          "basis": "length; width/height in asset metrics",
+          "sceneUnits": [
+            4.5
+          ],
+          "actualMm": [
+            45
+          ],
+          "referenceMm": [
+            45
+          ]
+        }
+      ],
       "postHeights": [
-        1.6,
-        1.6,
-        1.6
+        3,
+        3,
+        3
       ],
       "shadowLights": 1,
       "energyLights": 0
     }
   },
   "checks": {
+    "lightsOff": {
+      "physicalNonzeroPixels": 0,
+      "energeticNonzeroPixels": 1330
+    },
     "physicalIsolation": {
-      "physicalBefore": "71c3856",
-      "physicalAfter": "71c3856",
-      "shadowBefore": "8a10e016",
-      "shadowAfter": "8a10e016",
+      "physicalBefore": "5922a43f",
+      "physicalAfter": "5922a43f",
+      "shadowBefore": "e94c0ec",
+      "shadowAfter": "e94c0ec",
       "identical": true
     },
     "occlusion": {
       "behindSamples": 0,
-      "frontSamples": 880
+      "frontSamples": 424
     },
     "classification": {
       "missingObject": true,
@@ -448,10 +1772,132 @@
       "emission": true,
       "energyLight": true
     },
+    "geometricPaint": {
+      "cubeConvex": 12,
+      "cubeConcave": 0,
+      "flatPlaneCreases": 0,
+      "foldConcave": 1,
+      "missingColourRejected": true,
+      "unknownColourRejected": true
+    },
     "pause": true,
     "skip": true,
     "reducedMotion": true,
     "svgFallback": true
+  },
+  "detailCameras": {
+    "plan": {
+      "drawCalls": 10,
+      "triangles": 13617,
+      "textures": 19,
+      "geometries": 39,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          6.4,
+          28,
+          12
+        ],
+        "fov": 14,
+        "pitch": 63.569911137659524
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": null
+    },
+    "side": {
+      "drawCalls": 13,
+      "triangles": 17513,
+      "textures": 19,
+      "geometries": 39,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          10.4,
+          25,
+          30
+        ],
+        "fov": 14,
+        "pitch": 34.93627810722955
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": null
+    },
+    "stern": {
+      "drawCalls": 22,
+      "triangles": 28845,
+      "textures": 19,
+      "geometries": 39,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          37.4,
+          25,
+          0
+        ],
+        "fov": 14,
+        "pitch": 34.2939896661617
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": null
+    },
+    "bow": {
+      "drawCalls": 16,
+      "triangles": 17561,
+      "textures": 19,
+      "geometries": 39,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 44,
+      "actualCamera": {
+        "position": [
+          -24.6,
+          25,
+          0
+        ],
+        "fov": 14,
+        "pitch": 34.2939896661617
+      },
+      "camera": {
+        "x": 5,
+        "y": 28,
+        "z": 30,
+        "targetY": 2.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": null
+    }
   },
   "gpu": {
     "vendor": "Google Inc. (NVIDIA)",
@@ -462,9 +1908,9 @@
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 0.40333333301047486,
-    "p95Ms": 0.5999999940395355,
-    "maxMs": 0.8000000044703484,
+    "meanMs": 0.5500000004967054,
+    "p95Ms": 0.7000000029802322,
+    "maxMs": 1.5,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }

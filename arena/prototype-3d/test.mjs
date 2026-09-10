@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
-import { BUDGETS, FORMAT, validateAssets, validateProjection, projectContactFrame, displayLayout, hexWorld, cameraPose } from './contract.js';
+import { validateScaleRows, SIZES, mm } from './scale.js';
+import { readGLB, colourKey } from './glb-data.mjs';
+import { BUDGETS, FORMAT, validateAssets, validateRegionMap, validateProjection, projectContactFrame, displayLayout, hexWorld, cameraPose } from './contract.js';
 import { planning, exchange, shield, anonymous } from './fixture.js';
 import { createPlayback } from '../contact-playback.js';
 import { DIRS } from '../../src/tactical/hex.js';
@@ -18,7 +20,7 @@ check('the local Three.js build and addons match the pinned r180 integrity manif
   for(const [file,hash] of Object.entries(integrity.sha256))assert.equal(createHash('sha256').update(fs.readFileSync(new URL('./vendor/three-r180/'+file,import.meta.url))).digest('hex'),hash,file);
 });
 
-check('three existing hulls, explicit register and stand contracts, exactly one paint candidate',()=>{
+check('three existing hulls, explicit register and stand contracts, exactly one paint candidate using an authored region map',()=>{
   validateAssets(manifest);
   for(const asset of manifest.assets)assert.ok(fs.existsSync(new URL(asset.url,import.meta.url)));
   assert.equal(manifest.assets.filter(a=>a.paint==='candidate-1987').length,1);
@@ -27,6 +29,50 @@ check('three existing hulls, explicit register and stand contracts, exactly one 
   const mixed=structuredClone(manifest);mixed.assets[0].register='both';assert.throws(()=>validateAssets(mixed),/classification/);
   const wrongHeight=structuredClone(manifest);wrongHeight.assets[0].stand.height+=1;assert.throws(()=>validateAssets(wrongHeight),/uniform/);
 });
+
+check('current Sparrowhawk derivative preserves geometry AND the seven authored COLOR_0 regions',()=>{
+  const prep=JSON.parse(fs.readFileSync(new URL('./prepared/preparation.json',import.meta.url)));
+  const source=fs.readFileSync(new URL('./source/'+prep.source,import.meta.url));
+  const json=JSON.parse(source.subarray(20,20+source.readUInt32LE(12)));
+  assert.equal(json.materials.length,1);assert.equal(json.images,undefined);
+  assert.equal(json.materials[0].emissiveFactor,undefined);assert.equal(json.materials[0].pbrMetallicRoughness.baseColorTexture,undefined);
+  assert.equal(createHash('sha256').update(source).digest('hex'),prep.sourceSha256);
+  const derived=fs.readFileSync(new URL('./prepared/'+prep.output,import.meta.url));
+  assert.equal(createHash('sha256').update(derived).digest('hex'),prep.outputSha256);
+  assert.equal(prep.sourceComponentCount,prep.outputComponentCount);assert.equal(prep.outputComponentCount,3);
+  assert.ok(prep.outputTriangles<14000);assert.ok(prep.maximumVertexToSurfaceErrorMm<.05);
+  assert.equal(manifest.assets.find(a=>a.faction==='KRE').url,'./prepared/sparrowhawk.glb');
+  assert.equal(manifest.assets.find(a=>a.faction==='KRE').regionMap,'./prepared/regions.json');
+  assert.equal(prep.authoredColourRegions,true);assert.equal(prep.sourceColourAttribute,'COLOR_0');
+  const raw=readGLB(new URL('./source/'+prep.source,import.meta.url)),primitive=raw.json.meshes[0].primitives[0];
+  const colours=raw.attribute(primitive.attributes.COLOR_0),counts={};for(const c of colours){const key=colourKey(c);counts[key]=(counts[key]??0)+1;}
+  assert.deepEqual(counts,{'126936':101052,'46b749':55350,a97b50:58557,f5831f:17751,fafafa:264,ffdd1a:15549,e91d2d:2001});
+  const tri=raw.attribute(primitive.indices).flat();for(let i=0;i<tri.length;i+=3)assert.equal(new Set(tri.slice(i,i+3).map(j=>colourKey(colours[j]))).size,1);
+  const map=validateRegionMap(JSON.parse(fs.readFileSync(new URL('./prepared/regions.json',import.meta.url))));
+  for(const key of Object.keys(counts))assert.ok(Math.abs(map.sourceCoverage[key]-map.derivativeCoverage[key])<.0002);
+  assert.equal(map.features.exhaust.region,'f5831f');assert.equal(map.features.exhaust.faces.length,18);
+  assert.equal(map.features.beamEmitter.region,'ffdd1a');assert.equal(map.features.beamEmitter.faces.length,312);
+  const missing=structuredClone(map);delete missing.palette[0].register;assert.throws(()=>validateRegionMap(missing),/classification/);
+  const mixed=structuredClone(map);mixed.palette[3].register='energetic';assert.throws(()=>validateRegionMap(mixed),/physical paint/);
+  const invented=structuredClone(map);invented.features.smallDome=map.features.beamEmitter;assert.throws(()=>validateRegionMap(invented),/confirmed/);
+});
+check('physical scale rejects errors and preserves the requested reference sizes',()=>{
+  assert.equal(mm(95),9.5);assert.equal(SIZES.mugBody[1],95);assert.equal(SIZES.d6,16);
+  assert.deepEqual(SIZES.rulebook,[216,28,279]);assert.deepEqual(SIZES.notebook,[216,6,279]);
+  assert.equal(SIZES.pencilLength,190);assert.equal(Math.sqrt(3)*BUDGETS.hexRadius*10,32);
+  const rows=JSON.parse(fs.readFileSync(new URL('./evidence/review.json',import.meta.url))).captures.planning.scaleMeasurements;
+  validateScaleRows(rows);assert.deepEqual(rows.map(r=>r.object),['Tabletop','Board card','Printed hex','Hardback rulebook','Box lid','Mug body','Mug including handle','D20','D6','Spiral notebook body','Pencil','Black hex base','Black post','EAR frigate','KRE frigate','VRA frigate']);
+  assert.throws(()=>validateScaleRows([{object:'bad mug',actualMm:[18],referenceMm:[95]}]),/Scale mismatch/);
+  for(const a of manifest.assets)assert.equal(a.length*10,SIZES.miniatures[a.faction]);
+});
+check('no procedural panel grid or faction base paint survives the revision',()=>{
+  const paint=fs.readFileSync(new URL('./materials.js',import.meta.url),'utf8');
+  assert.doesNotMatch(paint,/brushHash|vBrushPos|candidatePaint/);
+  const renderer=fs.readFileSync(new URL('./renderer.js',import.meta.url),'utf8');
+  assert.doesNotMatch(renderer,/baseColour|setColorAt|labelTexture|krelath_frigate/);
+  assert.match(renderer,/painted black flight posts/);assert.match(renderer,/painted black hex bases/);
+});
+
 check('fixture packets are frozen, classified projections; shield is explicitly authored',()=>{
   for(const packet of [planning,exchange,shield,anonymous]){validateProjection(packet);assert.ok(Object.isFrozen(packet));assert.ok(Object.isFrozen(packet.units[0].hex));}
   assert.equal(shield.events[0].confirmation,'authored-own-shield');
@@ -101,7 +147,7 @@ check('every camera interpolation, including bad/out-of-range input, respects bo
   assert.equal(cameraPose(0).blur,0);assert.equal(cameraPose(1).blur,3);
 });
 check('the production prototype imports only the existing playback clock as shared runtime',()=>{
-  const files=['app.js','renderer.js','materials.js','table.js','fixture.js','contract.js'];
+  const files=['app.js','renderer.js','materials.js','table.js','fixture.js','contract.js','scale.js','hull-paint.js'];
   for(const file of files){const source=fs.readFileSync(new URL(file,import.meta.url),'utf8');
     assert.doesNotMatch(source,/from\s+['"][^'"]*src\//);assert.doesNotMatch(source,/new\s+THREE\.Clock|performance\.now|Date\.now|setInterval|setTimeout|requestAnimationFrame/);
   }
