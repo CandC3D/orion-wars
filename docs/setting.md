@@ -52,6 +52,23 @@ Mechanically this is the second spinal hull in the game: the Earth gunstar is cu
 
 **Parked — not to be designed yet.** One practical note for whenever it is: a unique boss hull must stay out of `rosters` in `data/tactical-tuning.json`, which is the single source of truth for what each power may field. If it lands there it appears in quick build and in the balance sweep, and it will wreck both.
 
+### The Intrallus
+
+Modelled 9 September 2026 — the first of the boss to exist as anything but a note. Chris's Yamato reference for it is the **Deusura III**, a specialised member of the **Galvades**-class astro carrier, and that is the shape it takes here too: not a superweapon from nowhere but a production hull taken off the line and rebuilt for one man.
+
+- **The bronze tube is the Valdar Cannon**, and it fixes the ship's bow: the muzzle leads.
+- **Twin flight decks** run most of the hull's length — launch forward, recover through ports on the port and starboard flanks.
+- **The bridge pod is suspended on an actual bridge**, which is the one place the design is wry rather than grim.
+- **Four ring pylons** give it a head-on silhouette no other hull has, which is the test a boss must pass at icon size on a hex map.
+
+**Why a carrier is the right hull for this weapon, and it is not a coincidence.** A spinal bank plants the ship: immobile while it charges, which is why the Earth gunstar is given captains chosen for nerve. A carrier is the one hull type that loses nothing by standing still — it would rather be stationary while it cycles craft. The two systems are complementary rather than in tension, and the Empire choosing a carrier to carry the Cannon reads as competence rather than convenience.
+
+It also means **the boss contests its own counter-play.** The note above promises the player a planted capital ship as a target for strike craft. The Intrallus answers that with strike craft of its own, so reaching the planted hull is the fight rather than the reward for noticing it.
+
+**Unique ship, production class.** This is what reconciles "there is only ever one" with the Deusura pattern, where there were several, each grander than the last. The Galvades class is not unique; the Intrallus is. Valdar can commission another hull. What he cannot replace is what is installed in it and whose name is on it — so beating the Intrallus is a victory that does not end the war, which is the more interesting of the two campaigns available.
+
+**One thing the fiction will eventually hand the tactical layer.** Chris calls the Cannon world-ending. A weapon at that scale cannot translate into hex combat as simply a large damage number, and the honest answer may be that its tactical effect and its strategic effect are different things. Parked with the rest of it.
+
 ## Captain Hikaru Kobayashi, and the ships that stand
 
 The Federation's gunstar captain. **Modelled on Okita, not imported as him** — the same relation Supreme Leader Stratan Valdar has to Leader Desslar, and from the same source, so the two flagship commanders of the campaign are drawn from opposite sides of one story. Valdar is the antagonist who is always already prepared. Kobayashi is the commander who does not flinch and does not break off.
