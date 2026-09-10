@@ -152,6 +152,9 @@ Settled by Chris after Astra's read of the codebase. Each is written into the se
 | Facing (10 Sep) | **A subtle raised triangle on the pyramid facet at arc 2**, pointing forward, cast into the black base. |
 | Flagship (10 Sep) | **The Intrallus file is the flagship.** The near-identical "Boss / Game Secret" file is retired. |
 | Krelath codes (10 Sep) | `KFY-02` Interceptor, `KFB-03` Bomber, `KDN-0000` Intrallus. |
+| Earth blue (10 Sep) | **As the model files have it.** |
+| Sparrowhawk smaller dome (10 Sep) | **A point-defence weapon.** |
+| Cameras (10 Sep) | **Fix every camera to this brief** — planning high and near-orthographic with deep focus; resolution descending to tilt-shift macro with shallow focus, as a deliberate move; hard height floor. |
 
 Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
 
