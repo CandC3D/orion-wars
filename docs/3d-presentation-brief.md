@@ -76,7 +76,7 @@ Stars, gravitic phenomena, and any other fixed sector feature follow the same pr
 
 These features sit in the energetic register — unlit, additive, contributing nothing to the room's lighting — with one exception. They are ambient rather than emitted, so they run at all times rather than only during resolution, and their brightness is **capped** low enough that they do not compete with weapons fire.
 
-Bases carry faction color and unit class, and are the primary at-a-glance identification for both. Posts are clear or neutral and read as flight stands.
+**Ruled 10 September 2026: bases are black, and carry a small printed class code on the rim.** Faction-coloured bases read as childish and were withdrawn. Faction is now carried by the model itself — each faction's metal covers a large share of its hull (Earth steel, Krelath bronze, Vraygon gold) and the faction palettes are verified consistent fleet-wide. Class is carried by the rim code, in the faction's own designation style (e.g. `KFG-01`). The base follows the FASA pattern: a bevelled skirt at the bottom, and a low hexagonal pyramid rising to the post. Posts taper slightly and read as flight stands; if the clear-plastic material passes review they become clear.
 
 **Ruled 9 September 2026: post height is uniform.** The game is planar and always has been — `src/tactical/hex.js` is axial `q,r` with six headings and planar range, `data/tactical-tuning.json` specifies a 72×40 arena, and the `x,y,z` on a mount is model metadata, not altitude; arcs originate at the ship's hex. Volumetric movement would be a rules revision across range, arcs, shields, visibility, terrain, deployment, orders, AI, recordings and balance, not a choice of stand height. Stand attachment and height are nonetheless **parameterised** in the asset contract so the decision stays reversible without recutting bases.
 
@@ -143,5 +143,11 @@ Settled by Chris after Astra's read of the codebase. Each is written into the se
 | Nebulae against the register rule | **Additive veil, brightness and coverage capped.** They add light; they do not filter it. |
 | Hull-to-hull fire against the information boundary | **The boundary wins.** Anonymous effects for unknown endpoints; models break only on confirmed kills. |
 | Period | **Circa 1987**, for every physical object in the scene. |
+| Base identification (10 Sep) | **Black bases, small printed class code on the rim.** Faction carried by the hull's metal and palette. |
+| Base and post shape (10 Sep) | **FASA base:** bevelled skirt, low hexagonal pyramid top. Slightly tapering post; clear if the material passes. |
 
 Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
+
+Open: **Earth class codes.** Krelath and Vraygon codes exist in the model filenames; Earth has none, and two Vraygon codes (`BB-01`, `DD-03`) lack the faction prefix the others carry.
+
+Open: **facing.** The heading arrow was removed with the faction colour, and the rim code does not replace it. Facing is rules-critical — shield faces and arcs hang off it.
