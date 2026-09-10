@@ -147,6 +147,11 @@ Settled by Chris after Astra's read of the codebase. Each is written into the se
 | Base and post shape (10 Sep) | **Approved for all ships:** FASA base with bevelled skirt and low hexagonal pyramid top; slightly tapering **transparent** post. |
 | Rim code placement (10 Sep) | **On skirt faces 2, 4 and 6 only** — forward, rear-right, rear-left in the rules' clockwise numbering from front-left. Faces 1, 3 and 5 blank. The base turns with the ship. |
 | Vraygon weapons (10 Sep) | **Transparent moulded plastic approved** for the green crystal weapon components. |
+| Relative size (10 Sep) | **The compressed scale ladder is approved** — frigates about 50–55 mm, battleships about 80 mm, the Intrallus 97 mm. |
+| Fighters (10 Sep) | **Depicted as wings of fighters, six to a flight** on one stand, not as single craft on a capital-ship base. |
+| Facing (10 Sep) | **A subtle raised triangle on the pyramid facet at arc 2**, pointing forward, cast into the black base. |
+| Flagship (10 Sep) | **The Intrallus file is the flagship.** The near-identical "Boss / Game Secret" file is retired. |
+| Krelath codes (10 Sep) | `KFY-02` Interceptor, `KFB-03` Bomber, `KDN-0000` Intrallus. |
 
 Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
 
@@ -154,4 +159,4 @@ Open, and needed before the effects layer is built: the **projection contract** 
 
 **Vraygon codes all begin with `V` (Chris, 10 September 2026):** `VFG-04` Shard, `VDD-03` Point, `VDD-05` Avalanche, `VLC-01` Feldspar, `VCA-02` Crystal, `VBB-01` Cluster, `VMN-01` Bastion. The source filenames for *Cluster* and *Point* still read `BB-01` and `DD-03`; the codes are authoritative, not the filenames.
 
-Open: **facing.** The heading arrow was removed with the faction colour, and the rim code does not replace it. Facing is rules-critical — shield faces and arcs hang off it.
+**Facing, ruled 10 September 2026:** a subtle raised triangle on the pyramid facet at arc 2 points forward. It replaces the heading arrow that was removed with the faction colour.
