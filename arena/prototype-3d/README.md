@@ -1,5 +1,12 @@
 # Cast stands, steel and clear kit parts — revision 07
 
+**Revision 08 rim-code finding:** Chris selected printed class codes, but the
+isolated candidate fails native planning legibility. The 2.638 mm maximum tested
+capitals project to only 3.15–3.16 pixels; paper contrast does not rescue them.
+Earth is blank and unscored. The accepted board below remains byte-identical.
+See [RIM-REVIEW.md](RIM-REVIEW.md) for the withheld result and supporting scores.
+This does not carry revision 07's passing material score into identification.
+
 The three-frigate board now has black FASA-profile bases: the retained bevelled
 skirt with six shallow facets rising to a central apex. Black posts taper gently
 from 3.0 to 2.4 mm and remain uniformly **30 mm exposed above the apex**. The

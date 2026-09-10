@@ -46,7 +46,7 @@ function normalizeHull(gltf, asset, regions) {
     triangles:group.children.reduce((n,m)=>n+(m.geometry.index?.count??m.geometry.attributes.position.count)/3,0)};
 }
 
-export async function createTabletop(canvas, manifest, initial) {
+export async function createTabletop(canvas, manifest, initial, {createRimStudy=null}={}) {
   validateAssets(manifest);validateProjection(initial);
   const context=canvas.getContext('webgl2',{antialias:true,alpha:false,preserveDrawingBuffer:true});
   if(!context)throw new Error('WebGL2 is unavailable. Open the SVG Fleet Command fallback.');
@@ -132,6 +132,8 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   const posts=new THREE.InstancedMesh(postGeometry(),physicalMaterial('painted black flight posts',{color:'#151513',roughness:.86,metalness:0}),initial.units.length);
   posts.name='posts / instanced and uniform';posts.userData.register='physical';posts.castShadow=posts.receiveShadow=true;scene.add(posts);
   scene.userData.scaleRows.push(...standScaleRows(bases.geometry,posts.geometry));
+  // Opt-in measurement study only; the accepted board has no candidate markings.
+  const rimStudy=createRimStudy?.(scene,initial.units);
   for(const a of loaded)scene.userData.scaleRows.push({object:a.asset.faction+' frigate',basis:'length; width/height in asset metrics',sceneUnits:[a.size.x],actualMm:[a.size.x*10],referenceMm:[SIZES.miniatures[a.asset.faction]]});
   validateScaleRows(scene.userData.scaleRows);
   const units=new Map(),glows=[],regionGlows=[],dummy=new THREE.Object3D();
@@ -176,6 +178,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     });
     bases.instanceMatrix.needsUpdate=posts.instanceMatrix.needsUpdate=true;if(bases.instanceColor)bases.instanceColor.needsUpdate=true;
     bases.computeBoundingSphere();posts.computeBoundingSphere();
+    rimStudy?.update(next.units,bases);
     renderer.shadowMap.needsUpdate=true;
   }
   function setCamera(progress) {
@@ -233,6 +236,8 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   const textureMiB=[...textureSet].reduce((n,t)=>n+(t.userData.byteLength??t.image.width*t.image.height*4*(t.generateMipmaps?4/3:1)),0)/1048576;
   if(textureMiB>BUDGETS.materialTextureMiB)throw new Error('Material texture budget exceeded: '+textureMiB+' MiB');
   const api={ applyProjection,setCamera,setEffect,clearEffect,resize,render,
+    measureRimStudy:()=>rimStudy?.measure(camera,canvas),
+    measureRimTransit:()=>rimStudy?.transitSweep(camera,canvas),
     captureDetail(angle='plan',faction='KRE'){
       clearEffect();const hull=units.get(faction+'-FF-1');
       const positions={plan:[0,28,12],side:[4,26,30],stern:[-31,26,0],bow:[31,26,0]};

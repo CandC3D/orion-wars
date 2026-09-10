@@ -1,0 +1,160 @@
+{
+  "revision": 8,
+  "status": "withheld-planning-legibility-failed",
+  "reviewer": "Astra",
+  "reviewedImagesDirectly": true,
+  "reviewedFrames": [
+    "planning-max.png",
+    "paper-planning-max.png",
+    "KRE-rim-detail.png",
+    "VRA-rim-detail.png",
+    "EAR-rim-detail.png",
+    "native-1-KFG-01.png",
+    "native-1-VFG-04.png",
+    "native-1.5-KFG-01.png",
+    "native-1.5-VFG-04.png",
+    "native-2-KFG-01.png",
+    "native-2-VFG-04.png",
+    "native-2.3-KFG-01.png",
+    "native-2.3-VFG-04.png",
+    "native-2.6-KFG-01.png",
+    "native-2.6-VFG-04.png",
+    "native-max-KFG-01.png",
+    "native-max-VFG-04.png",
+    "paper-native-max-KFG-01.png",
+    "paper-native-max-VFG-04.png"
+  ],
+  "reviewMethod": "Directly viewed native unscaled images and detail placement. Not blind testing: reviewer knew the codes, treated recognition from expectation as insufficient. Diagnostic captures are not a passing deliverable.",
+  "scores": [
+    {
+      "criterion": "Rim-code legibility at planning height",
+      "weight": 40,
+      "score": 20,
+      "status": "failed"
+    },
+    {
+      "criterion": "Source fidelity",
+      "weight": 15,
+      "score": 100
+    },
+    {
+      "criterion": "Physical placement and orientation",
+      "weight": 15,
+      "score": 96
+    },
+    {
+      "criterion": "Period printing and visual restraint",
+      "weight": 15,
+      "score": 93
+    },
+    {
+      "criterion": "Scope, repeatability and scale",
+      "weight": 15,
+      "score": 100
+    }
+  ],
+  "aggregatePassed": false,
+  "codeLegibility": {
+    "KFG-01": 20,
+    "VFG-04": 20,
+    "Monoceros": null
+  },
+  "unscored": {
+    "Monoceros": "Explicitly requested blank rim in this test; concurrent brief now supplies EFG-03.",
+    "facing": "No indicator authorised or built",
+    "fullBoard": "Outside slice",
+    "transitOcclusion": "Projection availability only"
+  },
+  "minimumLegibleCapHeightMm": null,
+  "largestTestedFittingCapHeightMm": 2.637577159513812,
+  "blocker": "Capitals occupy about 3.15 px at native planning scale; entire skirt less than 3.68 projected pixels throughout geometric sweep. Decal and paper both fail complete-code reading.",
+  "frameSha256": {
+    "EAR-rim-detail.png": "fc360427da8f2535dddbb639b1d080a36c9f6b2be5c201b3e3a530f4297e060e",
+    "KRE-rim-detail.png": "74f944476800ea7581d068571faafffc80586c53f47701616353d476ad3d9d7f",
+    "VRA-rim-detail.png": "5c3df19468f7ff13ce0bc42574afd5c8cdc94e4cf02c42d45993f56e8a6e080a",
+    "default-board.png": "7c4a9d21970ff1ef72ac1fa022d66336a375947dbdd2c1c41d0685b9bc6342b6",
+    "native-1-KFG-01.png": "a10f8e4d20d5bf52bfbbedb72ac30f1e2bcf2022fe5682a80ab3efcbef692ba4",
+    "native-1-VFG-04.png": "fa316512a3bd034891479f2c870b78cf49938b2db45eb8ba3322e8a3ee488118",
+    "native-1.5-KFG-01.png": "d76c86df921cc4e6d33ddea7347dec26a9e01cebadad7cb0340f3d55d95f4707",
+    "native-1.5-VFG-04.png": "f8f922b9e65b620945fab8ecffe761cec52ceb55be27bbe180ea3f6c22fcbb1f",
+    "native-2-KFG-01.png": "6151554638b55fb136790b804b4fe23285cf663829e5ec0634c9fcd8d1cc2acd",
+    "native-2-VFG-04.png": "36d8ab5600fbdbe36a6ee3cd9b6b3e8703fe0d5f54e11121e04a782ef478a365",
+    "native-2.3-KFG-01.png": "a40ba5cdfd1c9e5b6dbb26dffaf3f8dc5d0eddfadea70221d681c63577bb81cb",
+    "native-2.3-VFG-04.png": "06476da48c6b61b4ca67f791a79ddf97fa4fd06b3949c25151c106551de3c761",
+    "native-2.6-KFG-01.png": "ac0df6093f4c953752e59e2dbd862d97f23d29cd3fd455aeab863391cbcb9448",
+    "native-2.6-VFG-04.png": "035a11b30b190db7f1fc2d898b02c4ea52b84852d674f5a152dc7017dbca7923",
+    "native-max-KFG-01.png": "b763dabae300fdde570cd96c2699916594582a766e5cb453c359b2a2abd6e6f8",
+    "native-max-VFG-04.png": "f7b6537e7959a1d9bbaadb3ff2d465c4fbfd203ff18678b708b799a0d9dcd040",
+    "paper-native-max-KFG-01.png": "638f33c584cfbd85f4375ac7b211deb97199e0171f9db71e4a305986a69baeee",
+    "paper-native-max-VFG-04.png": "6f795d7d775e368d7fc2a8f4ad008b968abe056da8cbdd4ee0dec7800e6d0de6",
+    "paper-planning-max.png": "811776e41c7840d1bf7f8dcad3aa275d1d494cebfcc3e475229cf35e0095c607",
+    "planning-1.5.png": "72ffe863717d9e843681f7bfcb6744a646e5943848e74ae274ee0f08c6c8a5b4",
+    "planning-1.png": "6fb75b2e6425ff1607c0f3ed04e32b32fa8545b87dbb227d419dc4ed0f842a2f",
+    "planning-2.3.png": "f6d720d8cd9401fa1499cce6c3ad8ff353c5dbc4ab4443d48b6479658997928c",
+    "planning-2.6.png": "e5d5f49bb62f9bbf9f246fb38dc2bcbc9661997519ac23c0e2375276a42a3b72",
+    "planning-2.png": "861566032e89a1ae93dd2863e057c92db304efdcab15d635455f46e2191a7f69",
+    "planning-max.png": "6f736796218598760820b3177793ceece3571e993039d423625ada30fc1a8cb4"
+  },
+  "fileSha256": {
+    "RIM-RUBRIC.md": "fba5c4013c98854ab7f104006616672ac876e87240db27499b599b690c91acca",
+    "RIM-REVIEW.md": "0c8d4655f95fb469ab3804b451e98ec4efcef1810841c32b0ceb1ecec5eed289",
+    "IDENTIFICATION.md": "d3b0f2afba24d06b9728908de3f3ab81ce9c92a7b644a9d06cc3714ab74b826c",
+    "README.md": "714f39fa17dd25060cbbd7250fb37d4b6c0815c4dc9156eb07fa5017084bc022",
+    "rim-labels.js": "99dbf29a2bebb698daaaef622c84ad52763508564179db5083e4b42c76261bf3",
+    "rim-study.js": "7850f74c0574e79f553006fc721aa6ee730c4630312df5e94f717c57449899d6",
+    "rim-study.html": "a257ed1082cca45bb62b065ef750e12150a29cebfb1390b40eb1a11976e4dae1",
+    "review-rim.mjs": "57a5b5304b5ec919dc319d2aefb071cc316987833329d23f6da55e67f45bcdac",
+    "renderer.js": "ae3ab66825e7fa1dacd5fee55f1cf1573a207871d50d6228d31817fdee8b25b3",
+    "evidence/rim/measurements.json": "a469525ef07b7f01ccb0212d44c3a34cfb18aa312fa454f18e317d0676d06797",
+    "evidence/rim/prototype-tests.log": "1fcf6ded8151055c444fe628655ea19fe7035b65caf3e5098118ad23d1738e20",
+    "evidence/rim/fast-suite.log": "07169d84ed77ce2fe66f6aaa1bc0810414cdb6c93dc9c56b1438aeb4bb9fc375"
+  },
+  "protectedFileSha256": {
+    "table.js": "e5ef8574018555efa88af1840c768d0388a90ba0ff35e925388d482c923493e2",
+    "materials.js": "b4c821e3edff5274fdf9d06c5f95adb18252d3e9cd2ed7b3d2789e518862e65b",
+    "scale.js": "026cfa47f3f8e2f6d3f7605157474bae4d940e79974b9511731b0d900a434cb2",
+    "stands.js": "3d9fa79fa5e4bc1614070f68957e504a2f1d9f0ef13d9b5b926130068435e871",
+    "contract.js": "599a7de5799279a1a4f1605d0bee4cc9082120d324031b8d451856fa9e1ac878",
+    "fixture.js": "a7ff6f801aa1944fc5db4bcfd905fcf0e4dd864443a7204f5b1ab15f349562bc",
+    "app.js": "e2930818261e2215fefb3641233f145b6f11a02d57f334ed2049653e06fd6ae8",
+    "assets.json": "1ca3219ef9806d1de9b5c467522497cbbc4fedca5980933031e2cf4f12832bee",
+    "hull-art.js": "7da664f1c23a6f5361e357f8981311db8ef0688dcee436a91b3e0bdfabb768f6",
+    "hull-paint.js": "e20c3f629e9dd2674f4542bccf975473a7098b92bcf3ebfda7ed47127bceb74e",
+    "moulded-plastic.js": "4489ec423b454926fbabc43be66c87a880deab949f0e065ced006960c6587bad",
+    "clear-insert.js": "7ab521aaf8964751178a84683c137cbf255dbf56c001ad92bf1b836770472f5e",
+    "room-reflections.js": "84c92f32457b9ab3fbce98d5e69f3babaf748f8e7f34734b006b958972fac5a7",
+    "prototype.css": "35c7e33bdf778eb09c01aa83d9d4deb4380f21bbe94da83246caaed2dae67b7e",
+    "index.html": "a0fa0d679783e58de5fac784ff2ea7e7614caa981f61aa0ca4df941c884b7388",
+    "prepared/monoceros.glb": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
+    "prepared/sparrowhawk.glb": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
+    "prepared/shard.glb": "9fd9d1d91798b7257780492ba308732344be6113c9886567e517c3bd8dfccda3",
+    "SCALE.md": "f1c3d07c8511093c748e10dd4bdf38785867bfc3d2c507d473995cf127aa5c07"
+  },
+  "validation": {
+    "prototypeChecks": 29,
+    "fastSuite": "passed, exit 0",
+    "rimBrowser": "passed, exit 0",
+    "browserErrors": [],
+    "defaultBoardByteIdentical": true,
+    "defaultBoardSha256": "7c4a9d21970ff1ef72ac1fa022d66336a375947dbdd2c1c41d0685b9bc6342b6",
+    "physicalEnergyIsolation": {
+      "physicalBefore": "f675427b",
+      "physicalAfter": "f675427b",
+      "shadowBefore": "7c5232e0",
+      "shadowAfter": "7c5232e0",
+      "identical": true
+    },
+    "sourceFilesStillMatch": 20,
+    "protectedContentUnchanged": "Compared with starting Git commit; CRLF normalized for text, exact bytes for GLBs",
+    "scopeOnlyPrototype": true,
+    "startingHead": "aa4b615",
+    "head": "fbf124fa551950cdcd7be827d09678b745876f85",
+    "branch": "work/presentation-3d",
+    "committedByAstra": false,
+    "externalCommits": [
+      "0732ca3 Earth codes",
+      "fbf124f Vraygon code corrections"
+    ],
+    "externalChangesOnlyBrief": true
+  }
+}

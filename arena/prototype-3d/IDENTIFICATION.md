@@ -1,23 +1,36 @@
-# Identification after black bases — proposal for Chris
+﻿# Identification — Chris's rim-code ruling, planning gate withheld
 
-No replacement identification scheme has been implemented. Bases and posts are
-plain painted black. The former faction fill, class disc and heading arrow have
-been removed together; their absence is not a claim that identification is solved.
+Chris selected the **printed class code alone on the bevelled base skirt**, as
+recorded at aa4b615. Faction is carried by the authored hull metal/palette.
+The earlier four-option proposal is superseded; no alternative was selected here.
 
-| Option | What it supplies | What it costs / needs testing |
+The isolated lettering test exists, but **native planning legibility fails**.
+The largest tested fitting capitals, 2.638 mm, project to only 3.15–3.16 pixels
+on the best-facing code. Neither complete string can reliably be read. A paper
+label's extra contrast does not fix this. No legible minimum was found within
+the rim at the unchanged camera; see [RIM-REVIEW.md](RIM-REVIEW.md) for measurements,
+rubric, scores and blocker. The accepted board remains unchanged.
+
+| Hull | Rim content in diagnostic study | Status |
 |---|---|---|
-| The hull's authored paint scheme | Faction recognition without an added symbol; strongly belongs to the miniature | The Krelath scheme is now recovered from COLOR_0. Silhouette/colour alone may not separate classes or survive colour-vision differences. |
-| Small printed class code on the base rim | Explicit faction/class text; `KFG-01` is supported by the supplied Sparrowhawk filename | Small rim lettering may disappear at the planning angle. Facing and occlusion matter. Needs a measured minimum text size and full-board test. |
-| Small painted unit badge | Plausible period hobby work; can combine shape and colour | Chris must author/approve the badge. It would be new fiction if invented here. It could be confused with the hull's real warning markings. |
-| Printed counter under the stand | Most room for readable class, facing and identity; can remain readable independently of the hull | Adds visual mass and a second footprint. Shared hexes/transit need arranging and testing; it can make the display read as counters with models on top. |
+| Sparrowhawk | KFG-01, six identical repeats | Filename-backed; planning readability 20/100, withheld |
+| Shard | VFG-04, six identical repeats | Filename-backed; planning readability 20/100, withheld |
+| Monoceros | Visibly blank | Blank in the requested two-code test; explicitly unscored |
 
-My proposal is **the authored hull scheme plus a restrained rim class code** as
-the first combination to test. Hull scheme would supply the quick faction cue;
-text would disambiguate class. A counter is the next candidate if that fails at
-Fleet Command's real planning scale. This is a recommendation, not a decision
-or a readability result. No badge, code, counter, faction accent or new marking
-has been placed on the current black bases.
+Chosen physical method: off-white waterslide lettering in bold Arial, designed
+in 1982 according to [Monotype](https://www.myfonts.com/collections/arial-font-monotype-imaging).
+It keeps the skirt black and reads as a printed transfer in detail. The
+[diagnostic study](rim-study.html) retains the black-on-paper comparison.
+Print stays below the skirt top, never on the pyramid facets.
 
-Still unscored: the replacement system, class recognition, facing indication,
-colour accessibility and shared-hex readability at full-board scale. They await
-Chris's choice and the deferred test.
+One identical code per face prevents a turned-away base from hiding its only
+label. It does not single out a front, and **does not solve facing**. No arrow,
+badge, counter, faction accent or substitute marking was built. All posts stay
+black and opaque. Full-board recognition and crowded/transit occlusion remain
+untested. The six-heading check is limited to the existing three-piece scene.
+
+During final audit, the brief advanced through 0732ca3 and fbf124f: Chris supplied
+**EFG-03** for Monoceros and corrected the authoritative larger Vraygon codes
+to **VBB-01** / **VDD-03**. The filenames still lack V. These rulings are recorded
+here; this test retains the explicitly requested blank Earth rim. Its code is
+no longer an unanswered fiction question. Neither larger hull appears here.
