@@ -74,20 +74,21 @@ check('a covering hull does not count itself twice', () => {
 check('the overlay draws one hexagon per covering hull, and marks the selected one', () => {
   const fleet = [ship('A-cl', 'light-cruiser', 0, 0), ship('A-dd', 'destroyer', 4, 0), ship('A-bb', 'battleship', 1, 0)];
   const project = p => ({ x: 100 * (p.q + p.r / 2), y: 100 * 0.866 * p.r });
-  const svg = pointDefenceMarkup(fleet, { project, rangeHexes: RANGE, selectedId: 'A-dd' });
+  const svg = pointDefenceMarkup(fleet, { project, scale: 100, rangeHexes: RANGE, selectedId: 'A-dd' });
   assert.equal((svg.match(/data-point-defence=/g) || []).length, 2, 'two covering hulls, two umbrellas');
   assert.ok(!/data-point-defence="A-bb"/.test(svg), 'a hull with none projects nothing');
-  assert.match(svg, /data-point-defence="A-dd"[^>]*class|class="point-defence selected"/);
-  const poly = /<polygon class="point-defence selected"[^>]*points="([^"]+)"/.exec(svg);
-  assert.ok(poly, 'the selected hull is marked');
-  assert.equal(poly[1].trim().split(/\s+/).length, 6, 'the region within N hexes is a hexagon');
+  const sel = /<path class="point-defence selected"[^>]*d="([^"]+)"/.exec(svg);
+  assert.ok(sel, 'the selected hull is marked');
+  // Chris, 10 September 2026: the outline follows the real hex edges of every covered cell, so a hex
+  // on the boundary is visibly in or out. The region within N has 6(2N+1) boundary edges.
+  assert.equal((sel[1].match(/M/g) || []).length, 6 * (2 * RANGE + 1), 'the outline is the exact hex boundary');
 });
 
 check('nothing is drawn when nothing carries it, or the rule is missing', () => {
   const project = p => ({ x: p.q, y: p.r });
-  assert.equal(pointDefenceMarkup([ship('A-bb', 'battleship', 0, 0)], { project, rangeHexes: RANGE }), '');
-  assert.equal(pointDefenceMarkup([ship('A-cl', 'light-cruiser', 0, 0)], { project, rangeHexes: 0 }), '');
-  assert.equal(pointDefenceMarkup([], { project, rangeHexes: RANGE }), '');
+  assert.equal(pointDefenceMarkup([ship('A-bb', 'battleship', 0, 0)], { project, scale: 100, rangeHexes: RANGE }), '');
+  assert.equal(pointDefenceMarkup([ship('A-cl', 'light-cruiser', 0, 0)], { project, scale: 100, rangeHexes: 0 }), '');
+  assert.equal(pointDefenceMarkup([], { project, scale: 100, rangeHexes: RANGE }), '');
 });
 
 check('the key says the thing the player actually wants to know', () => {

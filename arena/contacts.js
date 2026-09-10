@@ -11,6 +11,7 @@ import { weaponArcMarkup, weaponRangeKey, batteryArcMarkup, batteryRangeKey } fr
 import { DIRS, distance } from '../src/tactical/hex.js';
 import { movementRange, movementRangeMarkup } from './contact-movement-range.js';
 import { pointDefenceMarkup, pointDefenceUmbrellas, pointDefenceKey } from './contact-point-defence.js';
+import { rotationMarkup } from './contact-rotation.js';
 import { spinalPanel } from './spinal-panel.js';
 import { weaponLabelLayout } from './console-weapon-labels.js';
 import { shieldArcMarkup, conditionArcMarkup, contactShieldArcMarkup } from './contact-condition-arcs.js';
@@ -241,6 +242,12 @@ function renderOrders() {
   const enabled=editable()&&!s.destroyed;
   renderSpinalControls(s,order,enabled);
   const map=state.current.observation.map,forwardCap=Math.ceil(map.widthHexes+2*map.heightHexes+2);
+  // The distance control is capped at what the hull can actually move this turn, shared across its
+  // actions - not at the map-geometry ceiling, which let the input run far past the power pool
+  // (Chris, 10 September 2026). The engine would clamp it anyway; the control should never offer it.
+  const turnCeiling=movementRange(s,order.reserve,order.spinal,true).hexes;
+  const forwardMaxFor=i=>Number.isFinite(turnCeiling)
+    ?Math.max(0,turnCeiling-order.plan.reduce((n,a,j)=>j===i?n:n+(Number(a.forward)||0),0)):forwardCap;
   $('#priority').innerHTML='<option value="auto">Automatic · current contacts</option>'+state.current.observation.contacts.map(c=>`<option value="${esc(c.id)}">${esc(shipLabel(c))} · ${esc(c.id)}</option>`).join('');
   $('#priority').value=state.current.observation.contacts.some(c=>c.id===order.target)?order.target:'auto';$('#priority').disabled=!enabled;
   $('#shield-reserve').value=order.reserve;$('#shield-reserve').disabled=!enabled;$('#reserve-readout').textContent=Math.round(order.reserve*100)+'%';
@@ -259,7 +266,7 @@ function renderOrders() {
   const i=state.action,p=order.plan[i],kind=planKind(p),f=forecast.actions?.[i];
   const attr=field=>`data-round="${i}" data-field="${field}" ${enabled?'':'disabled'}`;
   const helm=(name,label,title)=>`<button type="button" data-helm="${name}" title="${title}" ${enabled?'':'disabled'}>${label}</button>`;
-  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm</span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}<output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(turnWords(p.turn,true))}</output></div><div class="helm-row"><span>Distance</span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardCap}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}<output data-readout="forward">${p.forward} hex</output></div>${s.specials.burst?`<div class="helm-row"><span>Free burst</span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes} burst</output></div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
+  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm</span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}<output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(turnWords(p.turn,true))}</output></div><div class="helm-row"><span>Distance</span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)} hex</output></div>${s.specials.burst?`<div class="helm-row"><span>Free burst</span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes} burst</output></div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
   program.querySelector('[data-field=kind]').value=kind;
   if(consoleMode){
     const kindSel=program.querySelector('[data-field=kind]');
@@ -279,7 +286,7 @@ function renderOrders() {
     }
     else if(!input.reportValidity())return false;
     else if(field==='scan')o.plan[round].scan=Number(input.value);
-    if(field==='kind')o.plan[round]=input.value==='scan'?{...idle(),scan:2}:input.value==='warp'?{...idle(),warp:true}:input.value==='move'?{turn:0,forward:1}:idle();
+    if(field==='kind')o.plan[round]=input.value==='scan'?{...idle(),scan:2}:input.value==='warp'?{...idle(),warp:true}:input.value==='move'?{turn:0,forward:0}:idle(); // turn in place by default: a forced forward step made every turn a turn-and-move (Chris, 10 Sept)
     if(field==='kind')renderOrders();
     else refreshPreview(); // Keep the edited control in the DOM through Tab/blur.
     drawMap();return true;
@@ -410,16 +417,18 @@ function drawMap() {
   const movement=editable()&&own&&order?movementRange(own,order.reserve,order.spinal,true):null;
   $('#movement-range-caption').textContent=movement?(movement.label||movement.reason):'';
   $('#movement-range-caption').title=movement?.reason||'';
-  if(movement)svg+=movementRangeMarkup(own,movement,xy);
+  if(movement)svg+=movementRangeMarkup(own,movement,xy,scale);
   // Every own umbrella, always - not just the selected hull's. The hulls that carry no point
   // defence are exactly the ones whose cover the player needs to see.
   const umbrellas=pointDefenceUmbrellas(view.own,view.rules.pointDefence?.rangeHexes);
-  svg+=pointDefenceMarkup(view.own,{project:xy,rangeHexes:view.rules.pointDefence?.rangeHexes,selectedId:own?.id??null});
+  svg+=pointDefenceMarkup(view.own,{project:xy,scale,rangeHexes:view.rules.pointDefence?.rangeHexes,selectedId:own?.id??null});
   const shownMount=own?.mounts.find(m=>m.id===state.mount);
   $('#range-summary').textContent=(shownMount?`ONE mount ${shownMount.id} · ${shownMount.displayName||shownMount.type.replaceAll('-',' ')} · ${shownMount.kind} · ${shownMount.maxRange} hex · Range bands`:'WHOLE battery · blue beams / amber missiles / violet spinal · Weapons & ranges')+(mapCells.length>6000?' · zoom in for coverage':'');
   if(own&&order&&editable()&&!own.destroyed){
     const p=preview=previewContactOrders(view,own.id,{...order,target:view.contacts.some(c=>c.id===order.target)?order.target:'auto'});
     if(p.route?.length>1)svg+=`<polyline points="${p.route.map(p=>{const q=xy(p);return q.x+','+q.y;}).join(' ')}" fill="none" stroke="#efb773" stroke-width="2.5" stroke-dasharray="6 5"/>`;
+    // A turn in place has no travel line to draw, so it gets its own mark.
+    svg+=rotationMarkup(p.actions,{project:xy,scale});
   }
   // Why each mount is dark against the CHOSEN contact. Own telemetry and the
   // current report only; never a firing solution. The budget is what the plan

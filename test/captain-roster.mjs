@@ -264,8 +264,8 @@ check('the named characters are not dealt out as ship captains', () => {
   // The Federation has one too, since 9 September 2026: Captain Hikaru Kobayashi of the gunstar,
   // modelled on Okita. A frigate captain dealt his name would put a named character on a picket.
   const federation = [...registers.EAR.given, ...registers.EAR.family].join(' ');
-  assert.ok(!/Hikaru/.test(federation), 'Hikaru belongs to the gunstar captain');
-  assert.ok(!/Kobayashi/.test(federation), 'Kobayashi belongs to the gunstar captain');
+  assert.ok(!/\bHikaru\b/.test(federation), 'Hikaru belongs to the gunstar captain');
+  assert.ok(!/\bKobayashi\b/.test(federation), 'Kobayashi belongs to the gunstar captain');
   const krelath = [...registers.KRE.given, ...registers.KRE.family].join(' ');
   assert.ok(!/\bValdar\b/.test(krelath), 'Valdar belongs to the Supreme Leader');
   assert.ok(!/\bZeltus\b/.test(krelath), 'Zeltus belongs to the deposed Archon');
