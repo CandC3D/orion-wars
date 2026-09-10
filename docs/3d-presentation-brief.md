@@ -8,11 +8,33 @@ The game is presented as a physical tabletop miniatures game that has come to li
 
 This frame is not decoration. It is the reason the low-polygon hull geometry reads as a deliberate register rather than a limitation: a miniature is supposed to be simplified. The frame only holds if it is committed to completely and never partially abandoned.
 
+## The period
+
+The game on the table is a product of **circa 1987**, and so is the room it is being played in. This dates every physical object in the scene and settles a great many questions that would otherwise be matters of taste.
+
+The miniatures are **white metal**, not resin. Cast in lead alloy in a spin-cast mould, with the softness and the weight that implies: detail that rounds off where the mould could not fill, visible parting lines, occasional flash left on by whoever clipped the sprue, and a surface that takes paint slightly unevenly. They are heavy for their size and they sit on their stands with authority.
+
+The painting is period technique, done by a competent hobbyist with the materials that existed:
+
+- A **black undercoat**, brushed or rattle-canned on, showing at the recesses where nothing covered it.
+- **Block base coats** in flat enamels or early acrylics, applied opaque and unmodulated.
+- **Ink washes** for panel lining, run into recesses and along breaks — glossy where they pool, because period inks did.
+- **Drybrushing** for the highlight pass, chalky and slightly overdone on the raised edges.
+- **Blocky edge highlights** picked out by hand where the painter had the patience.
+
+What does *not* exist in 1987: airbrushed zenithal priming, wet blending, glazing, weathering powders, contrast or speedpaints, and anything that reads as a modern display-cabinet finish. The paint should be good hobby work of its decade, not a 2020s Golden Demon entry. Slightly chalky, slightly heavy-handed, honest.
+
+The board is **offset-printed paper or card**: a flat hex grid in limited spot colours, visible halftone dot in the tints, registration not quite perfect, and fold creases if it shipped folded in a box. It is a printed game component, not a rendered surface.
+
+The table furnishings are of the period too — a hardback rulebook, polyhedral dice, a box lid with painted cover art, a mug, a spiral notebook with pencilled ship records. Nothing on that table was manufactured after 1987.
+
+This period frame is not nostalgia for its own sake. It is what makes the simplified hulls, the flat printed board and the bold imagined effects all belong to one object, and it is the strongest single defence the presentation has against reading as an underbuilt modern space game.
+
 ## The two registers
 
 Every element in the scene belongs to exactly one of two rendering registers. Nothing belongs to both, and nothing sits between them.
 
-**The physical register** covers hulls, bases, posts, the board and its printed sector markings, and everything visible beyond the board edge. These objects are lit by the room's lighting, use matte physically based materials, cast and receive shadow, and sit correctly in the scene's depth. They look like painted resin.
+**The physical register** covers hulls, bases, posts, the board and its printed sector markings, and everything visible beyond the board edge. These objects are lit by the room's lighting, use matte physically based materials, cast and receive shadow, and sit correctly in the scene's depth. They look like painted white metal.
 
 **The energetic register** covers engine glow, weapons fire, shield flare, and any other emitted light. These are unlit and additive. They do not contribute to the scene's lighting solution, do not cast shadow onto the board, and do not illuminate nearby hulls. They are visibly not part of the room.
 
@@ -20,16 +42,15 @@ Implemented as a lit pass and an emissive pass, this split is both the cheapest 
 
 ## The physical layer
 
-Hulls are painted cast metal. The paint is mostly matte, with metallic detail picked out on engines, weapon housings, and trim, so that most of the model absorbs the key light and a few small areas return a hard specular. Casting artifacts belong: faint mold seams along the model's parting line, slightly softened detail where the mold could not hold a sharp edge, and paint wear on exposed corners rubbed back to bright metal underneath.
+Hulls are painted white metal. The paint is mostly matte, with metallic detail picked out on engines, weapon housings, and trim, so that most of the model absorbs the key light and a few small areas return a hard specular. Casting artifacts belong: faint mold seams along the model's parting line, slightly softened detail where the mold could not hold a sharp edge, occasional unclipped flash, and paint wear on exposed corners rubbed back to bright metal underneath.
 
-**Detail is painted, not sculpted.** The standard is a competent miniatures painter working on a cleanly cast, simply shaped hull — which means real technique, applied to a surface that stays geometrically simple:
+**Detail is painted, not sculpted.** The standard is a competent miniatures painter of 1987 working on a spin-cast, simply shaped hull — real technique of the period, applied to a surface that stays geometrically simple. The techniques are listed under **The period** above; what matters here is what they mean for the material:
 
-- **Panel lining.** A thinned dark wash pulled into recesses and along what few breaks the cast holds, suggesting plating that was never modelled.
-- **Edge highlighting.** A lighter tone along raised edges, so the silhouette's facets separate and read at arm's length.
-- **Drybrushing and a zenithal pass.** A chalky pass over upper surfaces that catches whatever texture the cast has and grounds the model under the room's key light.
-- **Painted value variation.** Subtle panel-to-panel shifts in the base coat, so a hull is never one dead flat colour.
+- **Ink lining** suggests plating that was never modelled.
+- **Drybrushed and hand-picked edge highlights** separate the silhouette's facets so they read at arm's length.
+- **Block base coats** vary panel to panel by the painter's hand, not by a gradient, so a hull is never one dead flat colour and never smoothly blended either.
 
-The test is whether a detail could plausibly have come off a brush. Painted suggestion of panels and greebles is wanted; sculpted panel-line density and modelled greebles are not. A painter implying a hundred panels with one wash is a different act from a modeller building a hundred panels, and only the first belongs in this frame.
+The test is whether a detail could plausibly have come off a brush in 1987. Painted suggestion of panels and greebles is wanted; sculpted panel-line density and modelled greebles are not. A painter implying a hundred panels with one wash is a different act from a modeller building a hundred panels, and only the first belongs in this frame.
 
 **The ceiling is named explicitly: nowhere near *Sins of a Solar Empire II*.** No continuous fine-scale hull detail, no photographic normal maps, no surface density that only survives because it was rendered rather than painted. Detail of that kind pushes the object toward "spacecraft rendered at scale" and away from "object someone printed and painted," which is the opposite of what the frame requires.
 
@@ -45,13 +66,21 @@ Ships are inert until they are ordered to move. Stationary objects are not. The 
 
 Planets are brightly colored orbs on posts, rotating slowly and continuously, in the register of the original Star Trek planet plates: saturated single dominant hues, broad soft banding, high contrast, no attempt at geography. They are painted spheres that happen to turn. Rotation is slow enough to read as ambience rather than motion.
 
-Nebula clouds occupy board volume with soft wispy edges, drifting and curling on a long cycle, translucent enough that ships and posts remain fully legible through them. They tint what is behind them and never obscure it.
+**Ruled 9 September 2026:** a planet is a *physical* painted sphere — lit, opaque, shadowed, a real object on the table — with a *separate* energetic halo around it. An opaque painted sphere and a purely additive orb are different things and one drawable cannot be both. The sphere is the miniature; the halo is the imagining. This is the one place a single sector feature is deliberately built from one object in each register.
+
+Nebula clouds occupy board volume with soft wispy edges, drifting and curling on a long cycle, translucent enough that ships and posts remain fully legible through them.
+
+**Ruled 9 September 2026:** nebulae lay a coloured veil over what is behind them and cannot darken or filter it. Additive blending only adds light. The earlier wording — that they "tint" what is behind them — asked for a transmission effect that this register cannot produce, and the veil is what is wanted instead. Their brightness is **capped**, not floored: a ceiling low enough that they never compete with weapons fire, plus a stated ceiling on how much of the board they may cover and how bright that coverage may get.
 
 Stars, gravitic phenomena, and any other fixed sector feature follow the same principle: continuous, slow, self-contained motion that never competes with the fleet action for attention.
 
 These features sit in the energetic register — unlit, additive, contributing nothing to the room's lighting — with one exception. They are ambient rather than emitted, so they run at all times rather than only during resolution, and their brightness is floored low enough that they do not compete with weapons fire.
 
-Bases carry faction color and unit class, and are the primary at-a-glance identification for both. Posts are clear or neutral and read as flight stands. If the sector map is planar, post height is uniform; if movement is volumetric, post height encodes altitude and becomes the primary readout for vertical position. This decision is open and should be settled before base geometry is finalized.
+Bases carry faction color and unit class, and are the primary at-a-glance identification for both. Posts are clear or neutral and read as flight stands.
+
+**Ruled 9 September 2026: post height is uniform.** The game is planar and always has been — `src/tactical/hex.js` is axial `q,r` with six headings and planar range, `data/tactical-tuning.json` specifies a 72×40 arena, and the `x,y,z` on a mount is model metadata, not altitude; arcs originate at the ship's hex. Volumetric movement would be a rules revision across range, arcs, shields, visibility, terrain, deployment, orders, AI, recordings and balance, not a choice of stand height. Stand attachment and height are nonetheless **parameterised** in the asset contract so the decision stays reversible without recutting bases.
+
+Because the rules permit two ships to share a hex and have no collision or ramming, bases need an authored arrangement for stacking and transit. Any presentation offset must remain visibly attached to the hex that actually holds the ship, and model or debris collision must never acquire rules authority.
 
 ## The board and the proscenium
 
@@ -77,6 +106,8 @@ A hard floor governs camera descent. There is a minimum orbit height below which
 
 Fire originates at the weapon emplacements on the firing model's hull and terminates on the target model's hull. It is ship to ship, not base to base. Arcs and beams pass above the board surface, in the volume the models occupy, and never intersect the board.
 
+**Ruled 9 September 2026: the information boundary wins.** The captains layer deliberately withholds things the player has not observed — unseen geometry, the launcher position of an incoming missile, and the fact that a lost contact was destroyed rather than merely lost. Hull-to-hull fire drawn from full simulation state would leak exactly those things back to the player through the picture. So: where both endpoints are known to the player, fire is hull to hull as described. Where an endpoint is not known, the effect is **anonymous** — it arrives from or departs toward an unresolved bearing, and it does not invent a muzzle, a hull, or a shooter. The same applies to destruction: the model breaks only on a *confirmed* kill. A contact that is merely lost simply stops being drawn. What the player is allowed to know needs writing down as a projection contract before this is built, and the renderer consumes that projection, never the raw state.
+
 Weapons fire lives entirely in the energetic register: additive, unlit, casting nothing. It does not shake the camera, does not produce lens flare, and does not fill the frame. Beam duration and tracer speed should be tuned so that a full exchange reads clearly at the planning camera's height as well as at resolution range.
 
 ## Engine glow
@@ -99,8 +130,18 @@ Bases and posts are instanced with shared materials. The emissive pass carries a
 
 ## Non-goals
 
-Cockpit and hull-level cameras. Lens flare and camera shake. Skybox or starfield as the world boundary. Sculpted greebles or modelled panel-line density on hulls. *Sins of a Solar Empire II*-tier surface detail. Photoreal planets. Cinematic screen-filling weapons effects. Any element that exists in neither the room nor the imagined effects layer.
+Cockpit and hull-level cameras. Lens flare and camera shake. Skybox or starfield as the world boundary. Sculpted greebles or modelled panel-line density on hulls. Dense relief reproduced through normal maps instead of geometry, which defeats the same standard by another route. *Sins of a Solar Empire II*-tier surface detail. Modern display-cabinet painting — airbrushed zenithal, wet blending, glazes, weathering powders. Photoreal planets. Cinematic screen-filling weapons effects. Any physical object that postdates 1987. Any element that exists in neither the room nor the imagined effects layer.
 
-## Open question
+## Rulings, 9 September 2026
 
-Planar or volumetric sector movement. It decides whether post height is uniform or encodes altitude, and it blocks final base and post geometry. A rules decision that an art decision is waiting on.
+Settled by Chris after Astra's read of the codebase. Each is written into the section it governs.
+
+| Question | Ruling |
+|---|---|
+| Planar or volumetric | **Planar.** Uniform post height; stand attachment parameterised so it stays reversible. |
+| Planets against the register rule | **Physical painted sphere plus a separate energetic halo.** |
+| Nebulae against the register rule | **Additive veil, brightness and coverage capped.** They add light; they do not filter it. |
+| Hull-to-hull fire against the information boundary | **The boundary wins.** Anonymous effects for unknown endpoints; models break only on confirmed kills. |
+| Period | **Circa 1987**, for every physical object in the scene. |
+
+Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
