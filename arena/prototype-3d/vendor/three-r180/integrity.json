@@ -1,0 +1,13 @@
+{
+  "revision": "r180",
+  "version": "0.180.0",
+  "source": "https://github.com/mrdoob/three.js/tree/r180",
+  "license": "MIT",
+  "sha256": {
+    "build/three.module.min.js": "147e8cb8c048718bf9fef1de2b85fe51486edca3391b1bc31760c4af4b898018",
+    "build/three.core.min.js": "7be0e00456c1736162fd6afa07315c13e9ceecbe6247128bfd453efb27585fe7",
+    "loaders/GLTFLoader.js": "d011d3678fe82cfda9189714fa32480cc01baebf0ab5acaede8f88e5b5258168",
+    "utils/BufferGeometryUtils.js": "6fab5a2a888cbc8e4a33cc85b78df7e4dfea1e07e4ef967a5e303cb1c44d9773",
+    "LICENSE": "da421a2efc51f026964b5c556d50102769d26502d4e0f85f599b1336e26a15f9"
+  }
+}

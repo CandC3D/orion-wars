@@ -1,0 +1,27 @@
+{
+  "format": "tabletop-assets/1",
+  "_note": "Prototype sidecar only. GLBs and exporter are unchanged. Coordinates are in centred, length-normalised hull space, bow +X, Y up. Sockets are cosmetic geometry-seated attachments, not simulated mount IDs.",
+  "assets": [
+    {
+      "key": "EAR/frigate", "faction": "EAR", "className": "frigate", "register": "physical",
+      "url": "../../assets/game/ships/earth_frigate.glb", "length": 3.8,
+      "paint": "candidate-1987", "colour": "#254b80", "baseColour": "#315c91",
+      "stand": { "height": 1.6, "attachment": [0, 0, 0] },
+      "sockets": { "weapon": [1.1, 0.3, 0], "impact": [0.7, 0.3, 0], "engines": [[-1.8, 0, 0]] }
+    },
+    {
+      "key": "KRE/frigate", "faction": "KRE", "className": "frigate", "register": "physical",
+      "url": "../../assets/game/ships/krelath_frigate.glb", "length": 3.8,
+      "paint": "basecoat-reference", "colour": "#396f47", "baseColour": "#476b43",
+      "stand": { "height": 1.6, "attachment": [0, 0, 0] },
+      "sockets": { "weapon": [1.05, 0.28, 0], "impact": [0.6, 0.3, 0], "engines": [[-1.8, -0.25, -0.22], [-1.8, -0.25, 0.22]] }
+    },
+    {
+      "key": "VRA/frigate", "faction": "VRA", "className": "frigate", "register": "physical",
+      "url": "../../assets/game/ships/vraygon_frigate.glb", "length": 3.8,
+      "paint": "basecoat-reference", "colour": "#b68a32", "baseColour": "#a17c34",
+      "stand": { "height": 1.6, "attachment": [0, 0, 0] },
+      "sockets": { "weapon": [1.05, 0.2, 0], "impact": [0.65, 0.25, 0], "engines": [[-1.65, 0, 0]] }
+    }
+  ]
+}

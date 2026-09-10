@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Distant Sectors · The tabletop, 1987</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="prototype.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three-r180/build/three.module.min.js"}}</script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<header><div><p class="eyebrow">DISTANT SECTORS / PRESENTATION STUDY 01</p><h1>The tabletop, <em>1987.</em></h1></div>
+  <a class="back" href="../play.html">SVG Fleet Command ↗</a></header>
+<main>
+  <section class="frame" aria-label="Isolated three-hull tabletop prototype">
+    <div class="frame-top"><span><i></i> <b id="phase">Setting the table</b></span><span>WHITE METAL · PRINTED CARD · IMAGINED LIGHT</span></div>
+    <div class="stage"><canvas id="tabletop" aria-label="Three painted spacecraft miniatures on neutral posts, on a printed hex board and furnished wooden table"></canvas>
+      <div id="fallback" role="status"><p id="status">Loading the three existing hulls…</p><a href="../play.html">Open SVG Fleet Command</a></div>
+    </div>
+    <div class="frame-bottom"><span id="caption">An isolated material and camera study. No live battle state.</span><span id="numbers">Three hulls / one paint candidate</span></div>
+  </section>
+  <div class="study-tools" aria-label="Prototype playback controls">
+    <button id="exchange" disabled>Play the exchange <span>↗</span></button><button id="pause" disabled>Pause</button><button id="skip" disabled>Skip to planning</button>
+    <label><input id="reduced" type="checkbox"> Reduced motion</label><span id="playback-status" aria-live="polite">Planning holds still.</span>
+  </div>
+  <section class="notes" aria-label="Prototype budgets and review notes">
+    <article><p class="eyebrow">01 / THE PAINT CANDIDATE</p><h2>One brush standard.</h2><p>The Earth frigate carries the candidate: opaque blue enamel over black, pooling ink lines, chalky drybrush marks and picked silver collars. Krelath and Vraygon are basecoat references. Original meshes and exports are untouched.</p></article>
+    <article><p class="eyebrow">02 / THE CAMERA & LIGHT</p><h2>The room stays in frame.</h2><p>A warm key casts the room’s shadows. Uniform posts are 1.6 units high. Planning is deep-focus; resolution descends over 900 ms, staying above 12 units and a 32° downward angle. Camera and effects share the existing playback clock.</p></article>
+    <article><p class="eyebrow">03 / PROVISIONAL BUDGETS</p><h2>Bound the first frame.</h2><p>One 2048² shadow map. One transient event at a time; two beam layers. Half-resolution bloom at 0.18 gain. Resolution blur ≤3 px. Render buffer ≤2.07M pixels; submitted triangles ≤70k and draw calls ≤90, including shadows and post-processing.</p></article>
+    <article><p class="eyebrow">04 / WHAT NEEDS MEASURING</p><h2>This is the small gate.</h2><p>Still to measure: target-GPU frame time, mobile and integrated-GPU headroom, ink and base readability at full-board scale. Nebula proposal: ≤0.06 linear contribution, ≤15% board coverage and ≤0.012 mean. Destruction and the 72×40 scale test await this frame’s review.</p></article>
+  </section>
+  <footer><a href="PROJECTION.md">Projection contract</a><a href="README.md">Budgets, evidence & handover</a><span>r180 / WebGL2 · SVG fallback retained</span></footer>
+</main>
+</body></html>

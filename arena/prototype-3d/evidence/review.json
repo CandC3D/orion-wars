@@ -1,0 +1,470 @@
+{
+  "browser": "152.0.4191.66",
+  "viewport": {
+    "width": 1600,
+    "height": 1080
+  },
+  "captures": {
+    "planning": {
+      "drawCalls": 55,
+      "triangles": 50802,
+      "textures": 15,
+      "geometries": 29,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 38,
+      "camera": {
+        "x": 12,
+        "y": 31,
+        "z": 35,
+        "targetY": 0.7,
+        "fov": 32,
+        "blur": 0
+      },
+      "activeEffect": null,
+      "threeRevision": "180",
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "candidate-1987",
+          "triangles": 11256,
+          "sockets": {
+            "weapon": [
+              1.1,
+              0.6023676908020505,
+              0
+            ],
+            "impact": [
+              0.7,
+              0.3870184119392317,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 11664,
+          "sockets": {
+            "weapon": [
+              1.05,
+              -0.05069756675719163,
+              0
+            ],
+            "impact": [
+              0.6,
+              -0.06751514554049211,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                -0.25,
+                -0.22
+              ],
+              [
+                -1.917999976158142,
+                -0.25,
+                0.22
+              ]
+            ]
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 150,
+          "sockets": {
+            "weapon": [
+              1.05,
+              0.4523668520450592,
+              0
+            ],
+            "impact": [
+              0.65,
+              0.4523668520450592,
+              0
+            ],
+            "engines": [
+              [
+                -1.7244077478424071,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "postHeights": [
+        1.6,
+        1.6,
+        1.6
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    },
+    "beam": {
+      "drawCalls": 56,
+      "triangles": 50842,
+      "textures": 15,
+      "geometries": 31,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 38,
+      "camera": {
+        "x": 9,
+        "y": 16.052974935342224,
+        "z": 22,
+        "targetY": 1.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": "beam",
+      "threeRevision": "180",
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "candidate-1987",
+          "triangles": 11256,
+          "sockets": {
+            "weapon": [
+              1.1,
+              0.6023676908020505,
+              0
+            ],
+            "impact": [
+              0.7,
+              0.3870184119392317,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 11664,
+          "sockets": {
+            "weapon": [
+              1.05,
+              -0.05069756675719163,
+              0
+            ],
+            "impact": [
+              0.6,
+              -0.06751514554049211,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                -0.25,
+                -0.22
+              ],
+              [
+                -1.917999976158142,
+                -0.25,
+                0.22
+              ]
+            ]
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 150,
+          "sockets": {
+            "weapon": [
+              1.05,
+              0.4523668520450592,
+              0
+            ],
+            "impact": [
+              0.65,
+              0.4523668520450592,
+              0
+            ],
+            "engines": [
+              [
+                -1.7244077478424071,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "postHeights": [
+        1.6,
+        1.6,
+        1.6
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    },
+    "shield": {
+      "drawCalls": 55,
+      "triangles": 51306,
+      "textures": 15,
+      "geometries": 32,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 38,
+      "camera": {
+        "x": 9,
+        "y": 16.052974935342224,
+        "z": 22,
+        "targetY": 1.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": "shield-flare",
+      "threeRevision": "180",
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "candidate-1987",
+          "triangles": 11256,
+          "sockets": {
+            "weapon": [
+              1.1,
+              0.6023676908020505,
+              0
+            ],
+            "impact": [
+              0.7,
+              0.3870184119392317,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 11664,
+          "sockets": {
+            "weapon": [
+              1.05,
+              -0.05069756675719163,
+              0
+            ],
+            "impact": [
+              0.6,
+              -0.06751514554049211,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                -0.25,
+                -0.22
+              ],
+              [
+                -1.917999976158142,
+                -0.25,
+                0.22
+              ]
+            ]
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 150,
+          "sockets": {
+            "weapon": [
+              1.05,
+              0.4523668520450592,
+              0
+            ],
+            "impact": [
+              0.65,
+              0.4523668520450592,
+              0
+            ],
+            "engines": [
+              [
+                -1.7244077478424071,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "postHeights": [
+        1.6,
+        1.6,
+        1.6
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    },
+    "anonymous": {
+      "drawCalls": 55,
+      "triangles": 50780,
+      "textures": 15,
+      "geometries": 33,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 41.989532470703125,
+      "drawables": 38,
+      "camera": {
+        "x": 9,
+        "y": 16.052974935342224,
+        "z": 22,
+        "targetY": 1.2,
+        "fov": 40,
+        "blur": 3
+      },
+      "activeEffect": "anonymous",
+      "threeRevision": "180",
+      "assets": [
+        {
+          "key": "EAR/frigate",
+          "paint": "candidate-1987",
+          "triangles": 11256,
+          "sockets": {
+            "weapon": [
+              1.1,
+              0.6023676908020505,
+              0
+            ],
+            "impact": [
+              0.7,
+              0.3870184119392317,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "key": "KRE/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 11664,
+          "sockets": {
+            "weapon": [
+              1.05,
+              -0.05069756675719163,
+              0
+            ],
+            "impact": [
+              0.6,
+              -0.06751514554049211,
+              0
+            ],
+            "engines": [
+              [
+                -1.917999976158142,
+                -0.25,
+                -0.22
+              ],
+              [
+                -1.917999976158142,
+                -0.25,
+                0.22
+              ]
+            ]
+          }
+        },
+        {
+          "key": "VRA/frigate",
+          "paint": "basecoat-reference",
+          "triangles": 150,
+          "sockets": {
+            "weapon": [
+              1.05,
+              0.4523668520450592,
+              0
+            ],
+            "impact": [
+              0.65,
+              0.4523668520450592,
+              0
+            ],
+            "engines": [
+              [
+                -1.7244077478424071,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "postHeights": [
+        1.6,
+        1.6,
+        1.6
+      ],
+      "shadowLights": 1,
+      "energyLights": 0
+    }
+  },
+  "checks": {
+    "physicalIsolation": {
+      "physicalBefore": "71c3856",
+      "physicalAfter": "71c3856",
+      "shadowBefore": "8a10e016",
+      "shadowAfter": "8a10e016",
+      "identical": true
+    },
+    "occlusion": {
+      "behindSamples": 0,
+      "frontSamples": 880
+    },
+    "classification": {
+      "missingObject": true,
+      "missingMaterial": true,
+      "emission": true,
+      "energyLight": true
+    },
+    "pause": true,
+    "skip": true,
+    "reducedMotion": true,
+    "svgFallback": true
+  },
+  "gpu": {
+    "vendor": "Google Inc. (NVIDIA)",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5060 Ti (0x00002D04) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "errors": [],
+  "timing": {
+    "samples": 60,
+    "width": 1920,
+    "height": 1080,
+    "meanMs": 0.40333333301047486,
+    "p95Ms": 0.5999999940395355,
+    "maxMs": 0.8000000044703484,
+    "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
+  }
+}

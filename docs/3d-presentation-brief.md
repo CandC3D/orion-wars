@@ -74,7 +74,7 @@ Nebula clouds occupy board volume with soft wispy edges, drifting and curling on
 
 Stars, gravitic phenomena, and any other fixed sector feature follow the same principle: continuous, slow, self-contained motion that never competes with the fleet action for attention.
 
-These features sit in the energetic register — unlit, additive, contributing nothing to the room's lighting — with one exception. They are ambient rather than emitted, so they run at all times rather than only during resolution, and their brightness is floored low enough that they do not compete with weapons fire.
+These features sit in the energetic register — unlit, additive, contributing nothing to the room's lighting — with one exception. They are ambient rather than emitted, so they run at all times rather than only during resolution, and their brightness is **capped** low enough that they do not compete with weapons fire.
 
 Bases carry faction color and unit class, and are the primary at-a-glance identification for both. Posts are clear or neutral and read as flight stands.
 
