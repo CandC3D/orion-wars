@@ -219,8 +219,13 @@ check('generation reproduces the checked-in JSON and reports the one within-clas
   assert.equal(registers.KRE.classes['strike-cruiser'].sourceClass, 'Lightning');
   assert.equal(registers.VRA.classes.monitor.sourceClass, 'Bastion');
   assert.equal(registers.VRA.classes['missile-destroyer'].sourceClass, 'Avalanche');
-  assert.equal(registers.KRE.classes.carrier.sourceClass, 'Starblade');
-  assert.equal(registers.KRE.classes.carrier.names[0], 'Starbade', 'source fiction is preserved verbatim');
+  assert.equal(registers.KRE.classes.carrier.sourceClass, 'Bladestar');
+  // Ruled by Chris 2026-09-09: the class is Bladestar, the model filename's spelling, not the
+  // names file's Starblade. The lead vessel then completes the grid the rest of the class uses -
+  // {Star, Fire, Ice} against {blade, sword, wing} - so the source's 'Starbade' was a dropped
+  // letter and is corrected. That correction is Fable's inference, not Chris's ruling.
+  assert.equal(registers.KRE.classes.carrier.names[0], 'Starblade');
+  assert.deepEqual(registers.KRE.classes.carrier.names.slice(0, 3), ['Starblade', 'Fireblade', 'Iceblade']);
 });
 
 check('unrecognised class headings, empty classes and incomplete metadata fail loudly', () => {

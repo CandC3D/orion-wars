@@ -52,9 +52,14 @@ commissions captains.
 - Vraygon Avalanche maps to `missile-destroyer` per Fable's explicit instruction.
   This remains an inference: its supplied model designation is VDD. The mapping
   is one line in `scripts/build-ship-names.mjs` if Chris corrects it.
-- Krelath's carrier remains `Starblade` from the names register; Fable reports
-  `Bladestar` in the model filename. Its first listed vessel is spelled
-  `Starbade`; that spelling is preserved too. These are Chris's decisions.
+- Krelath's carrier class is **`Bladestar`** — Chris's ruling, 9 September 2026, taking the model
+  filename's spelling over the names file's `Starblade`. The repo copy of
+  `data/source/kre-ship-names.txt` was edited to match, so it now differs deliberately from the
+  copy that shipped with the model set.
+- The lead vessel of that class read `Starbade` in the source. The rest of the class is
+  {Star, Fire, Ice} against {blade, sword, wing}, so that was a dropped letter, and with the class
+  renamed to Bladestar the name `Starblade` is free and completes the grid. **Corrected to
+  `Starblade`. That is Fable's inference, not Chris's ruling** — one line to revert.
 - Zandrax has no source register. Every ZAN roster class explicitly draws no
   name, and opting in adds no vessel fields to its ships.
 

@@ -221,9 +221,9 @@
           ]
         },
         "carrier": {
-          "sourceClass": "Starblade",
+          "sourceClass": "Bladestar",
           "names": [
-            "Starbade",
+            "Starblade",
             "Fireblade",
             "Iceblade",
             "Starsword",

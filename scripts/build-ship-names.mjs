@@ -13,7 +13,7 @@ export const CLASS_MAP = {
   KRE: {
     Sparrowhawk: 'frigate', Swift: 'destroyer', Ballista: 'missile-destroyer',
     Raptor: 'light-cruiser', Lightning: 'strike-cruiser', 'Star Knight': 'heavy-cruiser',
-    'Star Lord': 'battleship', Starblade: 'carrier'
+    'Star Lord': 'battleship', Bladestar: 'carrier'
   },
   VRA: {
     Shard: 'frigate', Point: 'destroyer',

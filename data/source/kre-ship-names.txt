@@ -76,8 +76,8 @@ Star King
 Star Emperor
 
 CARRIERS
-*Starblade Class*
-Starbade
+*Bladestar Class*
+Starblade
 Fireblade
 Iceblade
 Starsword
