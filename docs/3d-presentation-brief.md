@@ -148,6 +148,8 @@ Settled by Chris after Astra's read of the codebase. Each is written into the se
 
 Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
 
-Open: **Earth class codes.** Krelath and Vraygon codes exist in the model filenames; Earth has none, and two Vraygon codes (`BB-01`, `DD-03`) lack the faction prefix the others carry.
+**Earth class codes, supplied by Chris 10 September 2026:** `EFG-03` Monoceros frigate, `EDD-02` Victory destroyer, `EDM-01` Saturn missile destroyer, `ELC-01` Acamar light cruiser, `ECA-03` Yi Sun-sin heavy cruiser, `EBB-01` Federation battleship, `EBY-00` Yamato gunstar battlecruiser. Krelath and Vraygon codes are carried in the model filenames.
+
+Open: two Vraygon codes (`BB-01` *Cluster*, `DD-03` *Point*) lack the `V` prefix the other five carry.
 
 Open: **facing.** The heading arrow was removed with the faction colour, and the rim code does not replace it. Facing is rules-critical — shield faces and arcs hang off it.
