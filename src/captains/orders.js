@@ -55,7 +55,8 @@ export function validateOrders(observation, input) {
           const error = scanActionError(p, ship.sensors?.scan, observation.contactProfile === SENSING_PROFILE);
           if (error) throw new Error(error);
         }
-        if(Object.hasOwn(p,'warp')&&(p.warp!==true||!ship.specials?.warp||p.turn!==0||p.forward!==0||Object.hasOwn(p,'burst')))throw new Error('Warp requires a fitted vessel and an exclusive action');
+        // A warp is a straight jump of 1..rangeHexes along the present heading; its distance rides in forward.
+        if(Object.hasOwn(p,'warp')&&(p.warp!==true||!ship.specials?.warp||p.turn!==0||!Number.isSafeInteger(p.forward)||p.forward<1||p.forward>ship.specials.warp.rangeHexes||Object.hasOwn(p,'burst')))throw new Error('Warp requires a fitted vessel, no turn or burst, and a distance of 1 to the warp range');
         if(Object.hasOwn(p,'burst')&&(!Number.isSafeInteger(p.burst)||!ship.specials?.burst))throw new Error('Burst requires a fitted vessel and an integer extra-hex count');
         const action={ turn: clamp(p.turn, -ship.turnRate, ship.turnRate, `plan.${index}.turn`),
           forward: clamp(p.forward, 0, cap, `plan.${index}.forward`) };

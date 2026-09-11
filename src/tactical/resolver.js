@@ -7,7 +7,7 @@
 // Sits behind the frozen combat interface in src/combat.js; the strategic
 // layer never sees anything in this file.
 
-import { distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLineGroups } from "./hex.js";
+import { DIRS, distance, add, bearing, shieldFacing, faceFor, inArc, turnToward, hexLineGroups } from "./hex.js";
 import { buildShip, weaponFor, fullPower, ratedPower, shieldCapacity, shieldCost, startTurn, startRound, spendable, applyDamage } from "./ship.js";
 import { makePrng, seedFromString } from "../prng.js";
 import { refusesStep, ventsUnderFire } from "./ship-command.js";
@@ -1923,91 +1923,76 @@ function payBurst(ship, moved, tuning, battle = null) {
   recordHullLoss(battle, ship, witness);
 }
 
-// Krelath short-range tactical warp. Replaces the cloak they lost: instead of
-// choosing WHETHER to engage, they choose WHERE they appear in one. Arrives by
-// preference behind the target, where the rear facing table takes engineering
-// and eats the current turn's power pool.
-function tryWarp(ship, enemies, friends, tuning, log, targetId=null, onStep=null, reportFailure=false, battle=null) {
-  const refused=reason=>{if(log&&reportFailure)log(`${ship.id} warp refused: ${reason}`);return false;};
+// Krelath tactical warp. Chris, 10 September 2026: "travel UP TO 8 hexes in a straight line, no
+// turning, same restrictions to landing on non-play spaces." It replaced an insertion behind a chosen
+// target - gated by rear arc, closing gain, stand-off distance and a fleet quota - that he found "too
+// fussy and elaborate", and that a player could not predict: in his first Krelath game every warp was
+// refused, silently, because the enemy was facing him.
+//
+// Now: the ship jumps along its present heading, up to the ordered number of hexes, and keeps that
+// heading. The jump passes over anything; only the landing hex matters, under the same rules as any
+// move's end - on the map, not a moon, planet or asteroid, not an enemy's hex. "Up to" is honoured
+// literally: if the ordered hex is illegal, the ship comes out at the farthest legal hex short of it.
+// It costs the same flat share of the pool as before, once a turn, and uses the whole action.
+export function warpLanding(ship, hexes, tuning, enemies = []) {
+  const max = tuning.warpJump?.rangeHexes ?? 0, want = Number(hexes);
+  if (!Number.isSafeInteger(want) || want < 1 || want > max) return { ok: false, reason: `warp distance must be 1 to ${max} hexes` };
+  const dir = DIRS[((ship.facing % 6) + 6) % 6];
+  const at = d => ({ q: ship.pos.q + dir.q * d, r: ship.pos.r + dir.r * d });
+  const why = pos => !inBounds(pos, tuning) ? 'the map edge' : blockedHex(pos, tuning) ? 'impassable terrain' : enemyAt(pos, enemies, tuning) ? "an enemy's hex" : null;
+  const ordered = why(at(want));
+  for (let d = want; d >= 1; d--) if (!why(at(d)))
+    return { ok: true, dest: at(d), hexes: d, ...(d < want ? { shortened: `ordered ${want}, landed ${d}: ${ordered}` } : {}) };
+  return { ok: false, reason: `no legal landing hex ahead (${why(at(1))})` };
+}
+
+function recordWarp(battle, ship, detail) {
+  if (!battle) return;
+  (battle.warpLog ??= []).push({ side: ship.side, shipId: ship.id, turn: battle.turn, ...detail });
+}
+
+function tryWarp(ship, enemies, friends, tuning, log, hexes, onStep=null, reportFailure=false, battle=null) {
+  const refused=reason=>{
+    if(log&&reportFailure)log(`${ship.id} warp refused: ${reason}`);
+    // A refusal is news for the side that ordered it; the scripted helm's own tries are not.
+    if(reportFailure)recordWarp(battle,ship,{refused:reason});
+    return false;
+  };
   const W = tuning.warpJump;
   if (!W || !W.factions.includes(ship.faction)) return refused('not fitted');
   if (ship.destroyed || ship.cloaked || ship.decloaking) return refused('vessel unavailable');
   if (plantedByCharge(ship,tuning)) return refused('spinal charge plants the ship');
   if (W.oncePerTurn && ship.warpedThisTurn) return refused('already used this turn');
-
-  // A squadron manoeuvre, not a fleet teleport. Left uncapped, every Krelath
-  // ship jumped behind the SAME enemy battleship on turn one and the whole
-  // action collapsed into one point-blank melee at the range their blasters
-  // like best - measured, 94% against Earth at 32 points in six turns.
-  const share = W.fleetFraction ?? 1;
-  if (share < 1) {
-    const fleet = living(friends);
-    const already = fleet.filter((f) => f.warpedThisTurn).length;
-    if (already >= Math.max(1, Math.floor(fleet.length * share))) return refused('fleet jump allowance exhausted');
-  }
-
-  const foes = targetable(enemies, battle, ship.side);
-  if (!foes.length) return refused('no visible contact');
-  const target = targetId ? foes.find(s=>s.id===targetId) : nearest(ship.pos, foes, ship.facing).ship;
-  if (!target) return refused('selected target is not a visible contact');
-  const want = Math.max(1, preferredRange(ship, tuning));
-  const gap = distance(ship.pos, target.pos);
-  if (gap <= want + 1) return refused('already in engagement position');
-
   const cost = Math.round(fullPower(ship) * W.powerCostFraction);
-  if (ship.power < cost) return refused('insufficient power');
-
-  // Aim for a hex `want` behind the target; fall back to straight ahead of it.
-  const behind = (target.facing + 3) % 6;
-  let dest = target.pos;
-  for (let i = 0; i < want; i++) dest = add(dest, behind);
-  const rearReachable = W.preferRearArc && inBounds(dest, tuning) &&
-    distance(ship.pos, dest) <= W.rangeHexes;
-  if (!rearReachable) {
-    // A jump straight up the enemy's nose is not the trait; it is a taxi.
-    // Measured, the fallback was the whole of the warp's usage: at 26 hexes no
-    // rear hex is within jump range, so every Krelath ship burned a third of
-    // its pool closing on turn one, the fleet arrived in a knife fight two
-    // turns early with empty engines, and the trait cost its owner 23pp at 64
-    // points and 35pp at 16 against simply not having it. Gated to a real rear
-    // insertion, the warp waits for the enemy to come inside jump range and
-    // then does what it is named for.
-    if (W.requireRearArc) return refused('rear insertion outside jump range or map');
-    dest = ship.pos;
-    const toward = bearing(ship.pos, target.pos);
-    for (let i = 0; i < Math.min(W.rangeHexes, gap - want); i++) {
-      const step = add(dest, toward);
-      if (!inBounds(step, tuning)) break;
-      dest = step;
-    }
-  }
-  if (dest.q === ship.pos.q && dest.r === ship.pos.r) return refused('no displacement');
-  // The jump has to be worth the round it costs and the third of the pool it
-  // burns. Without this test the warp was also unreachable in practice: it was
-  // only attempted when nothing could bear, and a Krelath blaster reaches 17
-  // hexes of a 16-hex opening range, so every ship fired from the far side of
-  // the field instead and the trait never fired once in a whole campaign.
-  if (gap - distance(dest, target.pos) < (W.minGain ?? 0)) return refused('minimum closing gain not met');
-  if (!inBounds(dest,tuning) || blockedHex(dest,tuning)) {
-    if(log)log(`${ship.id} warp refused: impassable terrain or the map edge`);
-    return false;
-  }
-
-  // Check every living enemy, not just the hull behind which we are jumping.
-  // Do not spend jump power or the per-turn jump slot for an illegal landing.
-  if (enemyAt(dest, enemies, tuning)) {
-    if (log) log(`${ship.id} warp refused: will not land in an enemy's hex`);
-    return false;
-  }
-
-  ship.pos = dest;
+  if (ship.power < cost) return refused(`insufficient power (${cost} needed)`);
+  const landing = warpLanding(ship, hexes, tuning, enemies);
+  if (!landing.ok) return refused(landing.reason);
+  const from = { ...ship.pos };
+  ship.pos = landing.dest;
   ship.power -= cost;
   ship.warpedThisTurn = true;
-  ship.facing = turnToward(ship.facing, bestHeading(ship, target.pos, tuning, -1, null));
   reconcileContacts(battle);
   if(onStep)onStep({...ship.pos,facing:ship.facing,warp:true});
-  if (log) log(ship.id + ' warps in behind ' + target.id);
+  if (log) log(`${ship.id} warps ${landing.hexes} hex${landing.hexes===1?'':'es'}${landing.shortened?' ('+landing.shortened+')':''}`);
+  recordWarp(battle, ship, { from, to: { ...ship.pos }, hexes: landing.hexes, ...(landing.shortened ? { shortened: landing.shortened } : {}) });
   return true;
+}
+
+// The scripted helm's use of the warp: a closing jump down its own bow onto a contact it can see,
+// landing at the range its guns like best. Never a taxi - the measured lesson of the old fallback
+// (a third of the pool burned to arrive early with empty engines cost Krelath 23-35 points) - so it
+// jumps only when the landing reaches that range, and only when the jump is worth aiMinGain hexes.
+function autoWarp(ship, enemies, friends, tuning, log, battle = null, canBear = false) {
+  const W = tuning.warpJump;
+  if (!W || !W.factions.includes(ship.faction) || (W.oncePerTurn && ship.warpedThisTurn)) return false;
+  if (canBear && W.aiHoldWhenBearing !== false) return false;
+  const want = Math.max(1, preferredRange(ship, tuning));
+  const ahead = targetable(enemies, battle, ship.side).filter(f => bearing(ship.pos, f.pos) === ship.facing)
+    .sort((a, b) => (distance(ship.pos, a.pos) - distance(ship.pos, b.pos)) || targetTie(ship, a, b))[0];
+  if (!ahead) return false;
+  const hexes = distance(ship.pos, ahead.pos) - want - (W.aiLandingOffset ?? 0);
+  if (hexes < (W.aiMinGain ?? 4) || hexes > W.rangeHexes) return false;
+  return tryWarp(ship, enemies, friends, tuning, log, hexes, null, false, battle);
 }
 
 function scan(ship, enemies, friends, tuning, log, battle = null, face = null) {
@@ -2222,11 +2207,13 @@ function moveOrdered(ship, plan, enemies, tuning, log, onStep = null, battle = n
 // Explicit requests consume the action even when refused; never silently fire
 // or route a rejected special back into the privileged scripted helm.
 function orderedWarp(ship,plan,order,enemies,friends,tuning,log,onStep=null,battle=null){
-  if(plan.warp!==true || (Number(plan.turn)||0)!==0 || (Number(plan.forward)||0)!==0 || (Number(plan.burst)||0)!==0){
-    if(log)log(`${ship.id} warp refused: warp must occupy an action without turn, forward or burst`);
+  if(plan.warp!==true || (Number(plan.turn)||0)!==0 || (Number(plan.burst)||0)!==0){
+    if(log)log(`${ship.id} warp refused: a warp is straight ahead - no turn or burst in the same action`);
+    recordWarp(battle,ship,{refused:'no turn or burst in a warp action'});
     return false;
   }
-  return tryWarp(ship,enemies,friends,tuning,log,order.target&&order.target!=='auto'?order.target:null,onStep,true,battle);
+  // The distance rides in `forward`: a warp is a straight-line move of up to rangeHexes.
+  return tryWarp(ship,enemies,friends,tuning,log,plan.forward,onStep,true,battle);
 }
 
 // ------------------------------------------------------------- stepping API
@@ -2533,7 +2520,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
         scan(s, foe, s.side === 'A' ? A : B, tuning, log, battle);
         continue;
       }
-      if (!o && tryWarp(s, foe, s.side === "A" ? A : B, tuning, log, null, null, false, battle)) continue;
+      if (!o && autoWarp(s, foe, s.side === "A" ? A : B, tuning, log, battle, canBear)) continue;
       if (canBear && fire(s, foe, s.side === "A" ? A : B, tuning, rng, inFlight, st, log, onShot, null, {turn,round}, battle) > 0) continue;
       if (o) { if (log && plan) log(`${s.id} holds as ordered`); continue; } // an ordered hold does not wander
       move(s, foe, s.side === "A" ? A : B, tuning, log, battle);
@@ -2704,6 +2691,12 @@ export function previewPublicStep(ship, action, contacts, tuning) {
   const copy = structuredClone(ship), notes = [], route = [];
   moveOrdered(copy, action, structuredClone(contacts), structuredClone(tuning),
     note => notes.push(note), point => route.push(point));
+  return { ship: copy, notes, route };
+}
+export function previewPublicWarp(ship, action, contacts, tuning) {
+  const copy = structuredClone(ship), notes = [], route = [];
+  tryWarp(copy, structuredClone(contacts), [], structuredClone(tuning), note => notes.push(note.replace(copy.id + ' ', '')),
+    action.forward, point => route.push(point), true, null);
   return { ship: copy, notes, route };
 }
 export function publicWeaponGeometry(ship, mount, contact, tuning) {

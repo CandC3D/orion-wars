@@ -38,46 +38,59 @@ function reconcile(r){for(let i=0;i<r.frames.length;i++){
   if(p.special){assert.equal(frame.superstructure,p.special.superstructure);assert.equal(frame.toHitPenalty,p.special.toHitPenalty);}
 }}
 
-check('Explicit warp uses the same insertion, heading, cost and reserve-spending rules as automatic warp',()=>{
-  const f=fixture(),g=fixture();f.a.movementPointRatio=g.a.movementPointRatio=999;
-  const r=run(f,order({turn:0,forward:0,warp:true},1,f.b.id));reconcile(r);
-  let automatic;stepTurn(g.battle,{[g.b.id]:order(hold(),1)},{onRound:(_,round)=>{if(round===1)automatic=clone(g.a);}});
-  assert.deepEqual(r.frames[0].pos,{q:-4,r:0});assert.deepEqual(r.frames[0].pos,automatic.pos);assert.equal(r.frames[0].facing,automatic.facing);
-  assert.equal(r.frames[0].power,fullPower(f.a)-Math.round(fullPower(f.a)*f.t.warpJump.powerCostFraction));assert.equal(r.frames[0].power,automatic.power);
+// The straight warp. Chris, 10 September 2026: "travel UP TO 8 hexes in a straight line, no turning,
+// same restrictions to landing on non-play spaces." The fixture ship sits at (6,-8) heading 3 (-q).
+const W=(forward=6)=>({turn:0,forward,warp:true});
+check('Warp jumps straight down the heading, keeps it, pays the flat cost, and the forecast agrees',()=>{
+  const f=fixture();const r=run(f,order(W(6),1,f.b.id));reconcile(r);
+  assert.deepEqual(r.frames[0].pos,{q:0,r:-8});assert.equal(r.frames[0].facing,3);
+  assert.equal(r.frames[0].power,fullPower(f.a)-Math.round(fullPower(f.a)*f.t.warpJump.powerCostFraction));
   assert.equal(r.preview.actions[0].special.executed,true);assert.equal(r.preview.route.filter(p=>p.warp).length,1);
-  assert.equal(courseReadings(r.preview,order({turn:0,forward:0,warp:true}))[0].special,'warp');
+  assert.equal(courseReadings(r.preview,order(W(6)))[0].special,'warp');
+});
+check('The target order plays no part: the same jump with any target, or none',()=>{
+  for(const target of ['auto','B-target','B-gone']){const f=fixture();run(f,order(W(3),0,target));assert.deepEqual(f.a.pos,{q:3,r:-8},target);}
 });
 for(const mode of ['enemy','moon','planet','asteroid','field','nebula','friendly'])check('Warp landing: '+mode,()=>{
-  const f=fixture(),dest={q:-4,r:0};
+  const f=fixture(),dest={q:0,r:-8};
   if(mode==='enemy'){const s=clone(f.b);s.id='B-block';s.pos=dest;f.battle.B.push(s);}
   else if(mode==='friendly'){const s=clone(f.a);s.id='A-mate';s.pos=dest;f.battle.A.push(s);}
   else f.t.battle.terrain=f.battle.terrain=[{type:mode==='field'?'asteroids':mode,...dest}];
-  const r=run(f,order({turn:0,forward:0,warp:true},0,f.b.id)),allowed=['field','nebula','friendly'].includes(mode);reconcile(r);
-  assert.equal(r.frames[0].warpedThisTurn,allowed);
-  if(!allowed){assert.equal(r.frames[0].power,fullPower(f.a));assert.deepEqual(r.frames[0].pos,{q:6,r:-8});assert.ok(r.log.some(s=>s.includes('warp refused')));}
+  const r=run(f,order(W(6),0,f.b.id)),allowed=['field','nebula','friendly'].includes(mode);reconcile(r);
+  assert.equal(r.frames[0].warpedThisTurn,true);
+  // "Up to": an illegal landing hex brings the ship out at the farthest legal hex short of it.
+  // A planet fills seven hexes, so the ship comes out one hex further back than for a moon.
+  const short=mode==='planet'?4:5;
+  assert.deepEqual(r.frames[0].pos,allowed?dest:{q:6-short,r:-8});
+  if(!allowed)assert.ok(r.log.some(s=>s.includes('ordered 6, landed '+short)));
 });
-check('Warp target order is respected; a missing target never falls back to another enemy',()=>{
-  const f=fixture(),b=clone(f.b);b.id='B-selected';b.pos={q:1,r:0};f.battle.B.push(b);
-  const r=run(f,order({turn:0,forward:0,warp:true},0,b.id));reconcile(r);assert.deepEqual(f.a.pos,{q:-3,r:0});
-  const missing=fixture(),r2=run(missing,order({turn:0,forward:0,warp:true},0,'B-gone'));reconcile(r2);assert.equal(missing.a.warpedThisTurn,false);
-});
-for(const mode of ['used','power','range','gain','near','unsupported','malformed'])check('Warp refusal: '+mode,()=>{
-  const f=fixture(),o=order({turn:0,forward:0,warp:true},0,f.b.id);
-  if(mode==='used')o.plan[1]={turn:0,forward:0,warp:true};
+for(const mode of ['used','power','range','zero','unsupported','turning','nowhere'])check('Warp refusal: '+mode,()=>{
+  const f=fixture(),o=order(W(6),0,f.b.id);
+  if(mode==='used')o.plan[1]=W(1);
   if(mode==='power')f.t.warpJump.powerCostFraction=2;
-  if(mode==='range')f.t.warpJump.rangeHexes=1;
-  if(mode==='gain')f.t.warpJump.minGain=99;
-  if(mode==='near')f.a.pos={q:3,r:0};
+  if(mode==='range')o.plan[0]=W(f.t.warpJump.rangeHexes+1);
+  if(mode==='zero')o.plan[0]=W(0);
   if(mode==='unsupported')f.a.faction='EAR';
-  if(mode==='malformed')o.plan[0].forward=2;
-  const r=run(f,o);reconcile(r);assert.ok(r.log.some(s=>s.includes('warp refused')));
+  if(mode==='turning')o.plan[0]={...W(6),turn:1};
+  if(mode==='nowhere'){o.plan[0]=W(1);f.t.battle.terrain=f.battle.terrain=[{type:'moon',q:5,r:-8}];}
+  const r=run(f,o);reconcile(r);assert.ok(r.log.some(s=>s.includes('warp refused')),mode);
   if(mode==='used')assert.equal(r.frames[1].power,r.frames[0].power);
-  else {assert.equal(f.a.warpedThisTurn,false);assert.equal(f.a.power,fullPower(f.a));}
+  else {assert.equal(f.a.warpedThisTurn,false);assert.equal(f.a.power,fullPower(f.a));assert.deepEqual(f.a.pos,{q:6,r:-8});}
 });
-check('Real shared fleet quota applies to simultaneous ordered jumpers, not one allowance each',()=>{
-  const f=fixture();for(let i=1;i<4;i++){const mate=clone(f.a);mate.id='A-mate-'+i;f.battle.A.push(mate);}
-  const orders={[f.b.id]:order(hold(),1)};for(const a of f.battle.A)orders[a.id]=order({turn:0,forward:0,warp:true});
-  stepTurn(f.battle,orders);assert.equal(f.battle.A.filter(s=>s.warpedThisTurn).length,Math.floor(4*f.t.warpJump.fleetFraction));
+check('No fleet quota: every ordered jumper jumps',()=>{
+  const f=fixture();for(let i=1;i<4;i++){const mate=clone(f.a);mate.id='A-mate-'+i;mate.pos={q:6,r:-8+2*i};f.battle.A.push(mate);}
+  const orders={[f.b.id]:order(hold(),1)};for(const a of f.battle.A)orders[a.id]=order(W(4));
+  stepTurn(f.battle,orders);assert.equal(f.battle.A.filter(s=>s.warpedThisTurn).length,4);
+});
+check('The scripted helm jumps down its bow to just outside its preferred range, and never taxis',()=>{
+  // Preferred range 4, landing offset 2: it comes out 6 hexes short of the contact.
+  for(const [gap,expect] of [[12,6],[10,4],[14,8],[9,null],[16,null]]){
+    const f=fixture();f.a.pos={q:gap,r:0};f.a.facing=3;f.b.pos={q:0,r:0};
+    // Read the ship after the first action: later actions may close further by ordinary movement.
+    let first;stepTurn(f.battle,{[f.b.id]:order(hold(),1)},{onRound:(_,r)=>{if(r===1)first=clone(f.a);}});
+    if(expect===null)assert.equal(first.warpedThisTurn,false,'gap '+gap);
+    else{assert.equal(first.warpedThisTurn,true,'gap '+gap);assert.deepEqual(first.pos,{q:gap-expect,r:0},'gap '+gap);}
+  }
 });
 check('Burst adds chosen free hexes to paid movement, with exactly one stress and penalty debit',()=>{
   const f=fixture('burst'),hp=f.a.superstructure;f.a.movementPointRatio=1;
@@ -108,7 +121,7 @@ check('Burst is once per turn, resets next turn, and death makes later forecast 
 });
 check('Special actions never fire, including refused and turn-only actions',()=>{
   for(const kind of ['warp','burst']){const f=fixture(kind);f.a.mounts.forEach(m=>{m.inop=false;});f.b.pos={q:3,r:0};
-    const action=kind==='warp'?{turn:0,forward:0,warp:true}:{turn:1,forward:0,burst:1};
+    const action=kind==='warp'?W(2):{turn:1,forward:0,burst:1};
     const r=run(f,order(action));assert.equal(r.shots.filter(s=>s.round===1&&s.shooterId===f.a.id).length,0);
   }
 });
@@ -116,15 +129,16 @@ check('Captain validation clamps burst resources and rejects malformed or unsupp
   const f=fixture('burst');enableContacts(f.battle);const view=captainObservation(f.battle,'A'),orders={[f.a.id]:order({turn:0,forward:0,burst:99})};
   const good=validateOrders(view,orders);assert.equal(good.ok,true);assert.equal(good.orders[f.a.id].plan[0].burst,5);assert.equal(good.adjustments[0].requested,99);
   let getters=0;const evil={turn:0,forward:0};Object.defineProperty(evil,'burst',{enumerable:true,get(){getters++;return 1;}});
-  for(const action of [{turn:0,forward:0,warp:true},{turn:0,forward:0,burst:'2'},{turn:0,forward:0,burst:1.5},{turn:0,forward:0,burst:Infinity},{turn:0,forward:0,burst:{count:1}},evil]){
+  for(const action of [W(2),{turn:0,forward:0,burst:'2'},{turn:0,forward:0,burst:1.5},{turn:0,forward:0,burst:Infinity},{turn:0,forward:0,burst:{count:1}},evil]){
     const r=validateOrders(view,{[f.a.id]:order(action)});assert.equal(r.ok,false);assert.deepEqual(r.orders,allHoldOrders(view));
   }assert.equal(getters,0);
   const w=fixture();enableContacts(w.battle);const wv=captainObservation(w.battle,'A');
-  for(const action of [{turn:1,forward:0,warp:true},{turn:0,forward:2,warp:true},{turn:0,forward:0,warp:false},{turn:0,forward:0,warp:'true'},{turn:0,forward:0,warp:true,burst:0}])assert.equal(validateOrders(wv,{[w.a.id]:order(action)}).ok,false);
+  for(const action of [{...W(2),turn:1},W(0),W(9),W(1.5),W('2'),{turn:0,forward:0,warp:false},{turn:0,forward:2,warp:'true'},{...W(2),burst:0}])assert.equal(validateOrders(wv,{[w.a.id]:order(action)}).ok,false,JSON.stringify(action));
+  for(const d of [1,4,8])assert.equal(validateOrders(wv,{[w.a.id]:order(W(d))}).ok,true,'distance '+d);
 });
 check('Reviewed special-proof captains produce reproducible packets; default pilot gate stays shut',()=>{
   for(const kind of ['warp','burst']){
-    const a=fixture(kind),b=fixture(kind),captain=view=>({orders:Object.fromEntries(view.own.map(s=>[s.id,order(kind==='warp'?{turn:0,forward:0,warp:true}:{turn:0,forward:0,burst:3})])),memory:null});
+    const a=fixture(kind),b=fixture(kind),captain=view=>({orders:Object.fromEntries(view.own.map(s=>[s.id,order(kind==='warp'?W(3):{turn:0,forward:0,burst:3})])),memory:null});
     const passive=view=>({orders:allHoldOrders(view),memory:null});
     assert.throws(()=>createTrustedSession(a.battle,{A:captain,B:passive}));
     const session=createTrustedSession(a.battle,{A:captain,B:passive},{mode:'special-command-proof'});enableContacts(b.battle);

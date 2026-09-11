@@ -30,6 +30,8 @@
 //   drawStrikes     -> staggered craft chevrons with lateral spread + flicker
 //   arrival labels  -> a short tag at the point of arrival, outcome-coloured
 
+import { warpCue } from './contact-warp.js';
+
 export const EFFECT_PROFILE = 'contact-effects/1';
 
 // ---------------------------------------------------------------- palette
@@ -63,7 +65,7 @@ const C = {
 const OFFSET_OF_FACE = { 2: 0, 1: 1, 6: 2, 5: 3, 4: 4, 3: 5 };
 
 // Tape records with no picture of their own: reports, officers' objections, losses, readiness.
-const NO_EFFECT_KINDS = new Set(['contact-acquired', 'contact-lost', 'captain', 'destruction', 'weapon-ready']);
+const NO_EFFECT_KINDS = new Set(['contact-acquired', 'contact-lost', 'captain', 'destruction', 'weapon-ready', 'warp-refused']);
 
 // ---------------------------------------------------------------- helpers
 
@@ -716,6 +718,8 @@ export function effectMarkup(event, options) {
     } else {
       body = launchCue(b, icon, phase, reduced, F);
     }
+  } else if (kind === 'warp') {
+    body = warpCue(a, b, icon, phase, reduced);
   } else if (kind === 'missile') {
     body = b ? missileArrival(b, icon, phase, reduced, outcome, F, approach, seed, event.face) : '';
   } else {
@@ -777,6 +781,15 @@ export function announcement(event, options) {
       ? { title: 'Own vessel lost', detail: who, weight: 'major' }
       : { title: 'Enemy vessel destroyed', detail: who, weight: 'major' };
   }
+  if (event.kind === 'warp') {
+    const who = nameOf(event.shipId, label) || 'Unknown vessel';
+    return event.direction === 'incoming'
+      ? { title: 'Enemy warp', detail: who + (event.destination ? ' · arrived' : ' · jumped out of contact'), weight: 'major' }
+      : { title: 'Warp jump', detail: who + ' · ' + event.hexes + ' hex' + (event.hexes === 1 ? '' : 'es') + ' straight ahead' + (event.shortened ? ' (' + event.shortened + ')' : ''), weight: 'major' };
+  }
+  if (event.kind === 'warp-refused') {
+    return { title: 'Warp refused', detail: (nameOf(event.shipId, label) || 'Own vessel') + ' · ' + (event.reason || 'no reason given'), weight: 'major' };
+  }
   if (event.kind === 'captain') {
     // The reason is already a sentence in the captain's name ("Capt. Ridley will not close ...").
     const who = nameOf(event.shipId, label) || 'Own vessel';
@@ -834,6 +847,7 @@ export function effectDuration(event, reduced) {
     case 'strike': return 1300;
     case 'launch': return 1100;
     case 'missile': return 1300;
+    case 'warp': return 1200;
     default: return 600;
   }
 }

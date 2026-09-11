@@ -17,6 +17,12 @@ const read = p => JSON.parse(readFileSync(p, 'utf8').replace(/^﻿/, ''));
 const scenario = read(file), tuning = read('data/tactical-tuning.json'), loadouts = read('data/loadouts.json');
 const battles = num('--battles', 1000), maxTurns = num('--max-turns', scenario.maxTurns), pd = num('--pd', tuning.pointDefence.rangeHexes);
 const local = structuredClone(tuning); local.pointDefence.rangeHexes = pd;
+// --tune path=value, repeatable, as in test/fleet-trial.js.
+for (let i = args.indexOf('--tune'); i >= 0; i = args.indexOf('--tune', i + 1)) {
+  const [path, value] = args[i + 1].split('='), keys = path.split('.'), last = keys.pop(), node = keys.reduce((o, k) => o[k], local);
+  if (!node || !(last in node)) throw new Error('--tune: no such tuning field ' + path);
+  node[last] = JSON.parse(value);
+}
 const run = { ...structuredClone(scenario), maxTurns };
 
 const tally = { A: 0, B: 0, draw: 0 }, reasons = {}, turns = [];

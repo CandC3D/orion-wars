@@ -12,6 +12,7 @@ import { DIRS, distance } from '../src/tactical/hex.js';
 import { movementRange, movementRangeMarkup } from './contact-movement-range.js';
 import { pointDefenceMarkup, pointDefenceUmbrellas, pointDefenceKey } from './contact-point-defence.js';
 import { rotationMarkup } from './contact-rotation.js';
+import { warpCourseMarkup } from './contact-warp.js';
 import { reticleMarkup } from './contact-reticle.js';
 import { readinessChanges } from './weapon-readiness.js';
 import { debrisMarkup } from './contact-debris.js';
@@ -75,7 +76,7 @@ const turnWords=(t,long=false)=>t>0?`Port ${t} face${t===1?'':'s'}`:t<0?`Starboa
 // engine never sees it. The packet stays exactly the engine's shape.
 const maneuvering=new WeakSet();
 const planKind=p=>p.scan?'scan':p.warp?'warp':p.turn||p.forward||p.burst||maneuvering.has(p)?'move':'hold';
-const planWords=p=>{const k=planKind(p);return k==='scan'?`Scan face ${p.scan}`:k==='warp'?'Warp insertion':k==='move'?(p.turnAfter&&p.turn?`${p.forward} hex${p.burst?' +'+p.burst+' burst':''} · then ${turnWords(p.turn).toLowerCase()}`:`${turnWords(p.turn)} · ${p.forward} hex${p.burst?' +'+p.burst+' burst':''}`):'Hold & fire';};
+const planWords=p=>{const k=planKind(p);return k==='scan'?`Scan face ${p.scan}`:k==='warp'?`Warp ${p.forward} hex ahead`:k==='move'?(p.turnAfter&&p.turn?`${p.forward} hex${p.burst?' +'+p.burst+' burst':''} · then ${turnWords(p.turn).toLowerCase()}`:`${turnWords(p.turn)} · ${p.forward} hex${p.burst?' +'+p.burst+' burst':''}`):'Hold & fire';};
 const KIND_NAMES={hold:'Hold & fire',move:'Maneuver',scan:'Scan',warp:'Warp'};
 const status = text => { $('#trial-status').textContent=text; };
 let refusedAt=0;
@@ -305,7 +306,7 @@ function renderOrders() {
   const i=state.action,p=order.plan[i],kind=planKind(p),f=forecast.actions?.[i];
   const attr=field=>`data-round="${i}" data-field="${field}" ${enabled?'':'disabled'}`;
   const helm=(name,label,title)=>`<button type="button" data-helm="${name}" title="${title}" ${enabled?'':'disabled'}>${label}</button>`;
-  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label><div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm<output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(helmWords(p.turn))}</output></span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}</div><div class="helm-row"><span>Distance<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)}</output></span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}</div>${s.specials.burst?`<div class="helm-row"><span>Burst<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes}</output></span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}</div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
+  program.innerHTML=`<fieldset class="action-card"><legend>ACTION ${i+1} OF ${order.plan.length}</legend><label>Assignment <select ${attr('kind')} aria-label="Action ${i+1} assignment"><option value="hold">Hold &amp; fire</option><option value="move">Maneuver</option>${s.sensors.scan.available||p.scan?'<option value="scan">Scan one face</option>':''}${s.specials.warp?'<option value="warp">Warp insertion</option>':''}</select></label>${kind==='warp'?`<div class="helm-row warp-row"><span>Warp<output data-readout="forward">${p.forward} of ${s.specials.warp?.rangeHexes??0}</output></span>${helm('forward-dec','−','One hex less')}<input type="number" min="1" max="${s.specials.warp?.rangeHexes??1}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Warp distance in hexes, straight ahead">${helm('forward-inc','+','One hex more')}</div>`:''}<div ${kind==='move'?'':'hidden'}><div class="helm-row"><span>Helm<output id="helm-heading" title="Up to ${s.turnRate} face${s.turnRate===1?'':'s'} per action">${esc(helmWords(p.turn))}</output></span>${helm('port','Port','Turn one face to port')}<input type="number" min="${-s.turnRate}" max="${s.turnRate}" step="1" value="${p.turn}" ${attr('turn')} aria-label="Turn in faces, positive is port">${helm('starboard','Stbd','Turn one face to starboard')}</div><div class="helm-row"><span>Distance<output data-readout="forward">${p.forward} of ${forwardMaxFor(i)}</output></span>${helm('forward-dec','−','One hex less')}<input type="number" min="0" max="${forwardMaxFor(i)}" step="1" value="${p.forward}" ${attr('forward')} aria-label="Forward distance in hexes">${helm('forward-inc','+','One hex more')}</div>${s.specials.burst?`<div class="helm-row"><span>Burst<output>${p.burst||0} of ${s.specials.burst.maxExtraHexes}</output></span>${helm('burst-dec','−','One burst hex less')}<input type="number" min="0" max="${s.specials.burst.maxExtraHexes}" step="1" value="${p.burst||0}" ${attr('burst')} aria-label="Free burst hexes">${helm('burst-inc','+','One burst hex more')}</div>`:''}</div><label ${kind==='scan'?'':'hidden'}>Scan sector <select ${attr('scan')}>${[1,2,3,4,5,6].map(face=>`<option value="${face}" ${p.scan===face?'selected':''}>${face} · ${FACE_NAMES[face]}</option>`).join('')}</select></label><p class="result">${f?.end?`End ≤ (${f.end.q}, ${f.end.r}) · heading ${f.end.facing}<br>Power ceiling ${format(f.powerCeiling)}`:'Course unresolved'}${kind==='scan'?`<br>Face ${p.scan} · 1 action · 0 extra power`:''}</p><p class="instrument-note">${esc(f?.notes.join(' ')||'')}${kind==='hold'&&f?`<br>${f.mounts.filter(m=>m.contacts.length).length} mounts with geometry to current reports; no hit or fire guarantee.`:''}</p></fieldset>`;
   program.querySelector('[data-field=kind]').value=kind;
   if(consoleMode){
     const kindSel=program.querySelector('[data-field=kind]');
@@ -325,7 +326,7 @@ function renderOrders() {
     }
     else if(!input.reportValidity())return false;
     else if(field==='scan')o.plan[round].scan=Number(input.value);
-    if(field==='kind'){o.plan[round]=input.value==='scan'?{...idle(),scan:2}:input.value==='warp'?{...idle(),warp:true}:input.value==='move'?{turn:0,forward:0}:idle();if(input.value==='move')maneuvering.add(o.plan[round]);} // turn in place by default: a forced forward step made every turn a turn-and-move (Chris, 10 Sept)
+    if(field==='kind'){o.plan[round]=input.value==='scan'?{...idle(),scan:2}:input.value==='warp'?{turn:0,forward:s.specials.warp?.rangeHexes??1,warp:true}:input.value==='move'?{turn:0,forward:0}:idle();if(input.value==='move')maneuvering.add(o.plan[round]);} // turn in place by default: a forced forward step made every turn a turn-and-move (Chris, 10 Sept)
     if(field==='kind')renderOrders();
     else refreshPreview(); // Keep the edited control in the DOM through Tab/blur.
     drawMap();return true;
@@ -365,7 +366,9 @@ function renderConsoleOrders(s,order,forecast,enabled){
       const o=editableOrder(s);if(!o||!flushPending())return;const a=o.plan[state.action];if(planKind(a)!=='move')return;
       if(b.dataset.sequence==='run-first')a.turnAfter=true;else delete a.turnAfter;
       renderOrders();drawMap();$('#sequence-keys [data-sequence="'+b.dataset.sequence+'"]')?.focus({preventScroll:true});});}
-  $('#course-readout').innerHTML=f?.end?`A${i+1} · ${p.turnAfter&&p.turn?`<b>${p.forward} hex${p.burst?' +'+p.burst:''}</b> · then ${turnWords(p.turn).toLowerCase()}`:`<b>${turnWords(p.turn,true)}</b> · ${p.forward} hex${p.burst?' +'+p.burst:''}`}<br>ends ${f.end.q}, ${f.end.r} · hdg ${f.end.facing} · ceiling ${format(f.powerCeiling)} P`:`A${i+1} · <b>${esc(planWords(p))}</b><br>${esc((f?.notes||[]).find(n=>/clamped|unresolved/.test(n))||'')}`;
+  // A warp reads as where it lands, or why it will not: a refused warp used to be silent (10 Sept).
+  const warpNote=planKind(p)==='warp'?((f?.notes||[]).find(n=>/refused/.test(n))||''):'';
+  $('#course-readout').innerHTML=planKind(p)==='warp'?`A${i+1} · <b>${esc(planWords(p))}</b><br>${warpNote?`<span class="warp-refused">${esc(warpNote)}</span>`:f?.end?`lands ${f.end.q}, ${f.end.r} · hdg ${f.end.facing} · ${s.specials.warp.powerCost} P`:''}`:f?.end?`A${i+1} · ${p.turnAfter&&p.turn?`<b>${p.forward} hex${p.burst?' +'+p.burst:''}</b> · then ${turnWords(p.turn).toLowerCase()}`:`<b>${turnWords(p.turn,true)}</b> · ${p.forward} hex${p.burst?' +'+p.burst:''}`}<br>ends ${f.end.q}, ${f.end.r} · hdg ${f.end.facing} · ceiling ${format(f.powerCeiling)} P`:`A${i+1} · <b>${esc(planWords(p))}</b><br>${esc((f?.notes||[]).find(n=>/clamped|unresolved/.test(n))||'')}`;
   // Target keys. With no weapon isolated they set the SHIP's priority, as before. With a weapon lamp
   // touched they assign THAT mount: its own contact, HOLD FIRE, or back to the ship's priority
   // (Chris, 10 September 2026: "per-weapon target assignment and hold fire"). Live reports only -
@@ -497,6 +500,8 @@ function drawMap() {
     if(p.route?.length>1)svg+=`<polyline points="${p.route.map(p=>{const q=xy(p);return q.x+','+q.y;}).join(' ')}" fill="none" stroke="#efb773" stroke-width="2.5" stroke-dasharray="6 5"/>`;
     // A turn in place has no travel line to draw, so it gets its own mark.
     svg+=rotationMarkup(p.actions,{project:xy,scale});
+    // A warp is a jump, not a track: its own mark, from where it leaves to the hex it lands in.
+    svg+=warpCourseMarkup(p.actions,{project:xy,scale});
   }
   // Why each mount is dark against the CHOSEN contact. Own telemetry and the
   // current report only; never a firing solution. The budget is what the plan
@@ -642,7 +647,8 @@ async function execute() {
         let turn=((Number(s.facing)-Number(was.facing))%6+6)%6;if(turn>3)turn-=6;
         if(!moved&&!turn)continue;
         // A disappearing/reappearing report has no continuous visible track.
-        // Own warp insertion is instantaneous, never drawn as ordinary flight.
+        // A warp is instantaneous, never drawn as ordinary flight: the warp effect shows it instead.
+        if((state.tape[index].events||[]).some(e=>e.kind==='warp'&&e.shipId===s.id))continue;
         if(prev.own.some(o=>o.id===s.id)&&state.orders[s.id]?.plan[state.tape[index].frame.round-1]?.warp)continue;
         moves.push({id:s.id,from:was.pos,to:s.pos,turn,moved});
       }

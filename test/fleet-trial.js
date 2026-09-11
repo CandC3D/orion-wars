@@ -18,7 +18,24 @@ import { commissionCaptains } from "../src/tactical/captain-roster.js";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, ""));
 const TUNING = readJson(join(root, "data", "tactical-tuning.json"));
+// --tune path=value overrides one tuning number for a counterfactual run, repeatable:
+//   node test/fleet-trial.js --tune warpJump.powerCostFraction=0.2 --tune warpJump.aiMinGain=99
+for (let i = process.argv.indexOf("--tune"); i >= 0; i = process.argv.indexOf("--tune", i + 1)) {
+  const [path, value] = process.argv[i + 1].split("=");
+  const keys = path.split("."), last = keys.pop();
+  const node = keys.reduce((o, k) => o[k], TUNING);
+  if (!node || !(last in node)) throw new Error("--tune: no such tuning field " + path);
+  node[last] = JSON.parse(value);
+}
 const LOADOUTS = readJson(join(root, "data", "loadouts.json"));
+// --magazine-scale X multiplies every missile magazine, hull default and faction fit alike (rounded).
+// --magazine-faction F limits it to one power's fits (hull defaults are shared, so they are left alone).
+{ const i = process.argv.indexOf("--magazine-scale"), fi = process.argv.indexOf("--magazine-faction");
+  const only = fi >= 0 ? process.argv[fi + 1] : null;
+  if (i >= 0) { const k = Number(process.argv[i + 1]);
+    if (!only) for (const h of Object.values(TUNING.hullClasses)) if (Number.isFinite(h.magazine)) h.magazine = Math.round(h.magazine * k);
+    for (const [faction, fits] of Object.entries(LOADOUTS)) if (!only || faction === only) for (const fit of Object.values(fits ?? {}))
+      if (fit && typeof fit === "object" && Number.isFinite(fit.magazine)) fit.magazine = Math.round(fit.magazine * k); } }
 
 const FACTIONS = ["EAR", "VRA", "ZAN", "KRE"];
 const NAMES = {

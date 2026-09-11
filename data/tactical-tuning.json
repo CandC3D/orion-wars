@@ -888,16 +888,14 @@
     "factions": [
       "KRE"
     ],
-    "rangeHexes": 10,
+    "rangeHexes": 8,
     "powerCostFraction": 0.35,
     "oncePerTurn": true,
-    "preferRearArc": true,
-    "_note": "Krelath fleet-wide trait, replacing the cloak they lost when it moved onto the submarine. A short-range tactical warp: a ship may spend 35% of its pool to reposition up to 10 hexes, arriving by preference in the target's REAR arc, at most once a turn and for at most 0.6 of the living fleet in any one turn. Three things had to be true before it was worth having. It must be considered BEFORE firing - it was only ever attempted when nothing could bear, and a Krelath blaster reaches 17 hexes of a 16-hex opening range, so it never fired once in a whole campaign. It must be capped, because uncapped every Krelath ship jumped behind the same enemy battleship on turn one for a 94% win rate at 32 points. And it must be expensive, because at 30% of pool the jump was still buying isolation: a ship that arrives alone behind a fourteen-ship line does not come back. Do NOT try to fix the big-fleet cells by shortening the jump - rangeHexes 7 lifts 64 points and simultaneously blows 32 points to 79%, because the same trait is what wins the closing game there.",
-    "minGain": 4,
-    "fleetFraction": 0.6,
-    "_fleetNote": "A squadron manoeuvre, not a fleet teleport. Uncapped, every Krelath ship jumped behind the SAME enemy battleship on turn one and the action collapsed into one point-blank melee at exactly the range their blasters like best: 94% against Earth at 32 points, decided in six turns. Capped at 0.6 of the living fleet: raising the price and widening the squadron share together trim the isolation without touching the shape of the trait.",
-    "requireRearArc": true,
-    "_rearArcNote": "The warp is a mid-battle strike, and this is what makes it one. Without the gate, tryWarp fell back to a jump straight up the enemy's nose whenever the rear hex was out of range - which at a 26-hex start is EVERY jump of the approach. Measured, that fallback was essentially the whole of the trait's usage (19 jumps a battle at 64 points, against 3.4 gated), and it was a self-inflicted wound: the fleet burned a third of its pool per ship closing, arrived in a knife fight two turns early with empty engines, and lost 95-100% of every class. Turning the warp OFF ALTOGETHER beat leaving it ungated by 23pp at 64 points and 35pp at 16. Gated, the jump waits until the enemy is inside warp range and a rear insertion is actually available, and it is worth having."
+    "aiMinGain": 4,
+    "aiHoldWhenBearing": false,
+    "aiLandingOffset": 2,
+    "_note": "Krelath fleet-wide trait, replacing the cloak they lost when it moved onto the submarine. RULING 2026-09-10 (Chris): \"travel UP TO 8 hexes in a straight line, no turning, same restrictions to landing on non-play spaces.\" The ship jumps along its present heading, up to the ordered distance, keeping its heading; only the landing hex is tested (map edge, moon, planet, asteroid, enemy hex), and an illegal ordered hex lands the ship at the farthest legal hex short of it. It costs 35% of the pool, once a turn, and uses the whole action. The earlier insertion - behind a chosen target, gated by rear arc, a 4-hex closing gain, stand-off distance and a 0.6 fleet quota - was ruled too fussy: in Chris's first Krelath game every warp he ordered was refused, silently, because the enemy line faced him the whole action.",
+    "_aiNote": "The scripted helm, measured 2026-09-10 against both Asterion scenarios (5000 battles) and the fleet corpus (300 pairs): it jumps down its bow onto the nearest contact dead ahead, landing aiLandingOffset hexes OUTSIDE its preferred range, when the jump is worth at least aiMinGain hexes and fits in rangeHexes. Landing IN the preferred band (offset 0) put the hull inside the enemy's best band too and cost Krelath 7 points in the corpus; landing at +2 is what keeps the tutorial at Earth 56% / 54%. aiHoldWhenBearing true (jump only when no mount bears) was the most even corpus (Krelath 47%) but left the Asterion Krelath battleship to be shot to pieces on its approach: Earth 89%. The AI never taxis: a jump that cannot reach the offset range is not taken."
   },
   "movement": {
     "coupledToFacing": true,

@@ -32,7 +32,8 @@ export function bindPlayerSession(battle, side) {
       // these are structured records that never name the enemy that provoked them.
       battle.captainLog = [];
       battle.destructionLog = [];
-      let lossesDrained = 0;
+      battle.warpLog = [];
+      let lossesDrained = 0, warpsDrained = 0;
       let drained = 0;
       const captainEvents = () => battle.captainLog.slice(drained)
         .filter(e => e.side === side)
@@ -45,12 +46,25 @@ export function bindPlayerSession(battle, side) {
         const losses = battle.destructionLog.slice(lossesDrained).filter(e => e.side === side)
           .map(e => ({ kind: 'destruction', shipId: e.shipId, name: e.name, turn: e.turn, own: e.own }));
         lossesDrained = battle.destructionLog.length;
+        // Warps: own jumps and refusals are this side's own record. An enemy jump is shown only as far
+        // as sensors saw it - its arrival if it is a live contact now, its departure if it was one before.
+        const seen = obs => new Set((obs?.contacts ?? []).filter(c => !c.destroyed).map(c => c.id));
+        const before = seen(last?.observation), after = seen(frame.observation);
+        const warps = battle.warpLog.slice(warpsDrained).flatMap(e => {
+          if (e.side === side) return [e.refused ? { kind: 'warp-refused', shipId: e.shipId, reason: e.refused }
+            : { kind: 'warp', direction: 'outgoing', shipId: e.shipId, source: { ...e.from }, destination: { ...e.to }, hexes: e.hexes, ...(e.shortened ? { shortened: e.shortened } : {}) }];
+          if (e.refused || (!before.has(e.shipId) && !after.has(e.shipId))) return [];
+          return [{ kind: 'warp', direction: 'incoming', shipId: e.shipId, ...(before.has(e.shipId) ? { source: { ...e.from } } : {}),
+            ...(after.has(e.shipId) ? { destination: { ...e.to } } : {}) }];
+        });
+        warpsDrained = battle.warpLog.length;
         // Omit invisible enemy actions and their ordering/count. Public round
         // boundaries remain, but raw callback/initiative indices never escape.
-        if (!force && !event && !fromCaptains.length && !losses.length && JSON.stringify(frame.observation) === JSON.stringify(last.observation)) return frame;
+        if (!force && !event && !fromCaptains.length && !losses.length && !warps.length && JSON.stringify(frame.observation) === JSON.stringify(last.observation)) return frame;
         const events = contactChanges(last, frame); if (event) events.push(event);
         events.push(...fromCaptains);
         events.push(...losses);
+        events.push(...warps);
         timeline.push({ frame, events }); last = frame; return frame;
       };
       try {

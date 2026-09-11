@@ -159,3 +159,5 @@ body[data-command] .contact-footer>#incoming { flex:1; min-width:0; overflow:hid
 .rose-well .rose-deck #heading-rose { flex:0 1 auto; min-width:0; display:flex; justify-content:center; }
 .rose-well .rose-deck #heading-rose svg { max-width:100%; height:auto; aspect-ratio:1; }
 .rose-well .sequence-keys { flex:none; }
+/* Warp: a refused jump says why, in the course readout (10 Sept 2026). */
+.command-console #course-readout .warp-refused { color:#ffafa2; }

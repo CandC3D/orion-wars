@@ -85,15 +85,17 @@ check('hidden hulls cannot start scripted keel charging; a supported legal order
   const packet=orders(w);packet[w.a.id].target=w.b.id;
   const r=run(w,packet);ok(r.shots.some(e=>e.kind==='spinal'&&e.targetId===w.b.id));
 });
-check('warp acquisition uses the same contacts; hidden endpoints remain physical occupancy',()=>{
+// The straight warp (Chris, 10 September 2026) needs no contact at all. What sensing still must not
+// change is occupancy: an enemy on the landing hex is there whether or not anyone can see it.
+check('warp needs no contact; an unseen hull on the landing hex still occupies it',()=>{
   for(const supported of [false,true]){
     const w=world({faction:'KRE',rating:0});disable(w.b);
-    w.a.pos={q:6,r:-8};w.a.facing=3;w.b.pos={q:0,r:0};w.b.facing=0;
+    w.a.pos={q:6,r:-8};w.a.facing=3;w.b.pos={q:0,r:-8};w.b.facing=0;
     w.tuning.helm.enabled=false;
-    if(supported){const observer=add(w,'A-spotter',1,{q:0,r:1});disable(observer);}
-    const packet=orders(w);packet[w.a.id]=hold([{turn:0,forward:0,warp:true},action(),action()],w.b.id,1);
-    const r=run(w,packet);equal(w.a.warpedThisTurn,supported);
-    if(!supported){equal(w.a.pos,{q:6,r:-8});ok(r.log.some(l=>l.includes('no visible contact')));}
+    if(supported){const observer=add(w,'A-spotter',1,{q:0,r:-6});disable(observer);}
+    const packet=orders(w);packet[w.a.id]=hold([{turn:0,forward:6,warp:true},action(),action()],w.b.id,1);
+    const r=run(w,packet);equal(w.a.warpedThisTurn,true);
+    equal(w.a.pos,{q:1,r:-8});ok(r.log.some(l=>l.includes('landed 5')));
   }
 });
 check('deck launch and raid acquisition ignore unsupported hulls',()=>{
@@ -170,13 +172,14 @@ check('free burst steps and a field warp landing revoke the acquiring observer c
   x.tuning.cloak.evadeChance=0;
   x.a.pos={q:6,r:-8};x.a.facing=3;x.b.pos={q:0,r:0};x.b.facing=0;
   x.b.canCloak=true;x.b.cloaked=true;x.b.detected=false;
-  x.b.turnRate=0; // pin rear insertion geometry despite legacy cloak helm control
+  x.b.turnRate=0; // pin the target's geometry despite legacy cloak helm control
   // The target is off the forward-starboard sector of this approach.
   let acquired=false;for(let face=1;face<=6;face++)acquired=N.acquireScanLock(x.battle,x.a,x.b,face)||acquired;
   ok(acquired);
-  x.battle.terrain=x.tuning.battle.terrain=[{type:'asteroids',q:-4,r:0}];
-  const p=orders(x);p[x.b.id].reserve=1;p[x.a.id]=hold([{turn:0,forward:0,warp:true},action(),action()],x.b.id,1);
-  const jumped=run(x,p);equal(x.a.warpedThisTurn,true,jumped.log.join('\n'));equal(x.a.pos,{q:-4,r:0});equal(x.battle.contacts.locks.A,[]);
+  // The straight warp (10 Sept): six hexes down the heading, into the field.
+  x.battle.terrain=x.tuning.battle.terrain=[{type:'asteroids',q:0,r:-8}];
+  const p=orders(x);p[x.b.id].reserve=1;p[x.a.id]=hold([{turn:0,forward:6,warp:true},action(),action()],x.b.id,1);
+  const jumped=run(x,p);equal(x.a.warpedThisTurn,true,jumped.log.join('\n'));equal(x.a.pos,{q:0,r:-8});equal(x.battle.contacts.locks.A,[]);
 });
 check('missiles already launched still arrive after spotting sensors are lost',()=>{
   const w=world();disable(w.b);w.a.mounts=w.a.mounts.filter(m=>m.kind==='missile');

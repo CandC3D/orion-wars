@@ -45,38 +45,41 @@ for (let heading = 0; heading < 6; heading++) for (const transit of [false, true
   cases++;
 }
 
-for (const mode of ["blocked", "dead", "clear", "disabled", "friendly"]) {
+// The scripted helm's straight warp (Chris, 10 September 2026: up to 8 hexes, straight ahead). It
+// jumps down its bow onto the NEAREST contact dead ahead, landing 6 hexes short of it (preferred range 4
+// plus the landing offset 2), and it never lands in an enemy's hex. The jumper is a Krelath destroyer at
+// (12,0) heading 3 (toward -q); the far target sits at (0,0), the blocker at (4,0).
+for (const [mode, expect] of [["nearest", null], ["dead", { q: 6, r: 0 }], ["clear", { q: 6, r: 0 }],
+    ["friendly", { q: 6, r: 0 }], ["too-far", null]]) {
   const t = structuredClone(tuning);
   t.explosion.enabled = false;
-  if (mode === "disabled") t.battle.sameHexNoFire = false;
   const scenario = { map: { widthHexes: 60, heightHexes: 20 }, terrain: [], sides: [
-    { faction: "EAR", ships: [ship("destroyer", { q: 0, r: 0 }), ship("destroyer", { q: -4, r: 0 })] },
-    { faction: "KRE", ships: [ship("destroyer", { q: 6, r: -8 }, 3)] }
+    { faction: "EAR", ships: [ship("destroyer", { q: 0, r: 0 }), ship("destroyer", { q: 4, r: 0 })] },
+    { faction: "KRE", ships: [ship("destroyer", { q: mode === "too-far" ? 17 : 12, r: 0 }, 3)] }
   ] };
   const battle = createBattle(scenario, t, loadouts, "p2-endpoints:warp-onto-enemy");
   const jumper = battle.B[0], blocker = battle.A[1];
   if (mode === "dead") blocker.destroyed = true;
-  if (mode === "clear" || mode === "friendly") blocker.pos = { q: -10, r: 5 };
+  if (mode === "clear" || mode === "friendly" || mode === "too-far") blocker.pos = { q: -10, r: 5 };
   let mate;
   if (mode === "friendly") {
-    mate = structuredClone(jumper); mate.id += "-mate"; mate.pos = { q: -4, r: 0 }; battle.B.push(mate);
+    mate = structuredClone(jumper); mate.id += "-mate"; mate.pos = { q: 6, r: 0 }; battle.B.push(mate);
   }
-  // Prevent a refused jump falling through to gunnery/movement so its power
-  // and per-turn jump allowance can be asserted directly.
+  // Keep the jumper from firing or moving instead, so the jump itself can be asserted.
   jumper.mounts.forEach(m => { m.inop = true; });
   jumper.movementPointRatio = 999;
   const orders = Object.fromEntries(battle.A.map(s => [s.id, hold]));
   if (mate) orders[mate.id] = hold;
-  const log = []; let first;
-  stepTurn(battle, orders, { log: m => log.push(m), onRound: (_, r) => { if (r === 1) first = structuredClone(jumper); } });
-  if (mode === "blocked") {
-    assert.equal(first.warpedThisTurn, false);
-    assert.equal(first.power, fullPower(jumper));
-    assert.deepEqual(first.pos, { q: 6, r: -8 });
-    assert.ok(log.some(m => /warp refused:/.test(m)));
+  let first;
+  stepTurn(battle, orders, { onRound: (_, r) => { if (r === 1) first = structuredClone(jumper); } });
+  if (!expect) {
+    // nearest: the blocker 8 ahead is worth only a 2-hex jump; too-far: 11 hexes is beyond the warp.
+    assert.equal(first.warpedThisTurn, false, mode);
   } else {
-    assert.equal(first.warpedThisTurn, true);
-    assert.deepEqual(first.pos, { q: -4, r: 0 });
+    assert.equal(first.warpedThisTurn, true, mode);
+    assert.deepEqual(first.pos, expect, mode);
+    assert.equal(first.facing, 3, "the warp keeps its heading");
+    assert.ok(!battle.A.some(e => !e.destroyed && e.pos.q === first.pos.q && e.pos.r === first.pos.r), "never in an enemy's hex");
     assert.equal(first.power, fullPower(jumper) - Math.round(fullPower(jumper) * t.warpJump.powerCostFraction));
   }
   cases++;

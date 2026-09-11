@@ -8,9 +8,7 @@ export function specialCapabilities(ship, tuning) {
     warp: warp?.factions?.includes(ship.faction) ? {
       rangeHexes:warp.rangeHexes, powerCostFraction:warp.powerCostFraction,
       powerCost:Math.round(fullPower(ship)*warp.powerCostFraction),
-      oncePerTurn:!!warp.oncePerTurn, fleetFraction:warp.fleetFraction??1,
-      minGain:warp.minGain??0, requireRearArc:!!warp.requireRearArc,
-      targeting:'selected-contact-or-nearest; standard insertion solution', spendsReserve:true
+      oncePerTurn:!!warp.oncePerTurn, course:'straight-ahead; up to rangeHexes; heading kept', spendsReserve:true
     } : null,
     burst: burst?.factions?.includes(ship.faction) ? {
       maxExtraHexes:burst.extraHexes, stressDamage:burst.stressDamage,

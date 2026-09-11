@@ -17,6 +17,9 @@ const { torpedoMarkup, torpedoSummary } = await mod('arena/contact-torpedoes.js'
 const { mountAssignment, setMountAssignment, pruneMountOrders, mountSolutions } = await mod('arena/mount-orders-ui.js');
 const { announcement } = await mod('arena/contact-effects.js');
 const { sequenceKeysMarkup } = await mod('arena/console-sequence.js');
+const { warpCourseMarkup, warpCue } = await mod('arena/contact-warp.js');
+const { createCommandSession } = await mod('arena/command-host.js');
+import fs from 'node:fs';
 
 let passed = 0;
 const check = (name, fn) => { fn(); passed++; console.log('ok:', name); };
@@ -213,6 +216,47 @@ check('the sequence keys light the order the ship will fly, and go dark when the
     assert.equal((sequenceKeysMarkup(a, k, true).match(/disabled/g) || []).length, 2, JSON.stringify(a));
   assert.equal((sequenceKeysMarkup({ turn: 1, forward: 2 }, 'move', false).match(/disabled/g) || []).length, 2, 'a recorded picture is read-only');
   assert.ok(!/<input|checkbox/.test(on), 'keys with pictograms, not a form control');
+});
+
+// ---------------------------------------------------------------- "warp should be: up to 8 hexes"
+check('a planned warp is marked from where it leaves to the hex it lands in; a refused one is not', () => {
+  const moved = warpCourseMarkup([{ round: 1, kind: 'warp', start: { q: 6, r: 0 }, end: { q: 0, r: 0 } }], { project, scale: PITCH });
+  assert.equal((moved.match(/class="warp-course"/g) || []).length, 1);
+  assert.match(moved, /class="warp-landing" points="(-?[\d.]+,-?[\d.]+ ?){6}"/);
+  assert.equal(warpCourseMarkup([{ round: 1, kind: 'warp', start: { q: 6, r: 0 }, end: { q: 6, r: 0 } }], { project, scale: PITCH }), '');
+  assert.equal(warpCourseMarkup([{ round: 1, kind: 'move', start: { q: 6, r: 0 }, end: { q: 0, r: 0 } }], { project, scale: PITCH }), '');
+});
+
+check('the warp effect folds out, streaks and flashes in, and still reads with reduced motion', () => {
+  const a = { x: 0, y: 0 }, b = { x: 600, y: 0 };
+  for (const p of [0, .2, .45, .7, 1]) assert.ok(!/NaN/.test(warpCue(a, b, 30, p, false)), 'phase ' + p);
+  assert.match(warpCue(a, b, 30, .45, false), /<line/, 'the streak is drawn mid-jump');
+  assert.ok(warpCue(null, b, 30, .8, false).length > 0, 'an arrival seen alone still flashes');
+  assert.match(warpCue(a, b, 30, 0, true), /stroke-dasharray/);
+});
+
+check('a warp and a refused warp both reach the tape in words', () => {
+  const jump = announcement({ kind: 'warp', direction: 'outgoing', shipId: 'B-1', hexes: 6, source: { q: 6, r: 0 }, destination: { q: 0, r: 0 } }, { label: () => 'IKS Swift' });
+  assert.equal(jump.title, 'Warp jump'); assert.match(jump.detail, /IKS Swift · 6 hexes straight ahead/);
+  const no = announcement({ kind: 'warp-refused', shipId: 'B-1', reason: 'insufficient power (6 needed)' }, { label: () => 'IKS Swift' });
+  assert.equal(no.title, 'Warp refused'); assert.match(no.detail, /insufficient power/);
+});
+
+check('a real Krelath session puts its own warp, and its refusal, on the restricted tape', () => {
+  const tuning = JSON.parse(fs.readFileSync(path.join(root, 'data/tactical-tuning.json'), 'utf8'));
+  const loadouts = JSON.parse(fs.readFileSync(path.join(root, 'data/loadouts.json'), 'utf8'));
+  const scenario = JSON.parse(fs.readFileSync(path.join(root, 'arena/scenarios/asterion-line.json'), 'utf8'));
+  const { session } = createCommandSession({ mode: 'bundled', side: 'B', scenario }, tuning, loadouts);
+  const own = session.view().observation.own, [bs, dd] = own;
+  const hold = () => ({ turn: 0, forward: 0 });
+  const orders = Object.fromEntries(own.map(s => [s.id, { plan: [hold(), hold(), hold()], target: 'auto', reserve: 0 }]));
+  orders[bs.id].plan[0] = { turn: 0, forward: 5, warp: true };
+  orders[dd.id].plan[0] = { turn: 0, forward: 5, warp: true }; orders[dd.id].plan[1] = { turn: 0, forward: 2, warp: true };
+  const events = session.step(orders).timeline.flatMap(t => t.events);
+  const jump = events.find(e => e.kind === 'warp' && e.shipId === bs.id);
+  assert.ok(jump, 'the ordered warp is on the tape'); assert.equal(jump.hexes, 5);
+  assert.deepEqual(jump.destination, { q: bs.pos.q - 5, r: bs.pos.r }, 'five hexes straight down heading 3');
+  assert.ok(events.some(e => e.kind === 'warp-refused' && e.shipId === dd.id && /already used/.test(e.reason)), 'the second warp says why it failed');
 });
 
 console.log(`\nPlaytest console: ${passed} checks passed.`);

@@ -75,6 +75,10 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(beforeT.hullClasses.frigate.superstructure,8);
   restored.hullClasses.frigate.superstructure=beforeT.hullClasses.frigate.superstructure;
   delete restored.hullClasses.frigate._structureNote;
+  // Chris's September 10 warp ruling: straight ahead, up to 8 hexes; the insertion gates are gone.
+  assert.equal(restored.warpJump.rangeHexes,8);assert.equal(restored.warpJump.powerCostFraction,beforeT.warpJump.powerCostFraction);
+  for(const gone of ['preferRearArc','requireRearArc','minGain','fleetFraction'])assert.ok(!(gone in restored.warpJump),gone);
+  restored.warpJump=beforeT.warpJump;
   assert.deepEqual(restored,beforeT);
   const stripped=copy(l);delete stripped._publishedStock;
   assert.equal(stripped.VRA.destroyer.missileMounts,1);stripped.VRA.destroyer.missileMounts=beforeL.VRA.destroyer.missileMounts;
@@ -110,7 +114,9 @@ check('Old pinned stock packs remain exact under new defaults, including the ori
     const [f,c]=key.split('/'),old=stockPack(f,c,beforeT,beforeL),saved=JSON.stringify(old);
     const scenario=trialScenario(old,beforeT);scenario.maxTurns=2;
     for(const side of scenario.sides)for(const entry of side.ships)entry.designPack=stockPack(side.faction,entry.className,beforeT,beforeL);
-    const a=recordScenario(scenario,beforeT,beforeL),b=recordScenario(scenario,t,l);
+    // A pinned pack fixes the ships, not the rules of play: the September 10 warp ruling changes how
+    // every Krelath hull moves, so both runs play under the current warp.
+    const a=recordScenario(scenario,{...beforeT,warpJump:t.warpJump},beforeL),b=recordScenario(scenario,t,l);
     assert.deepEqual(b,a,'fully pinned historical replay '+key);
     assert.equal(JSON.stringify(old),saved);
     for(const s of b.rounds[0].ships)assert.deepEqual(s.design,stockPack(s.faction,s.className,beforeT,beforeL));

@@ -1,5 +1,5 @@
 // Observation-only movement envelope, not an omniscient combat prediction.
-import { previewPublicStep, publicWeaponGeometry } from '../tactical/resolver.js';
+import { previewPublicStep, previewPublicWarp, publicWeaponGeometry } from '../tactical/resolver.js';
 import { SENSING_PROFILE } from '../tactical/sensing.js';
 import { validateOrders } from './orders.js';
 import { freezeTree } from './json.js';
@@ -20,6 +20,9 @@ export function previewContactOrders(observation, shipId, order) {
     sameHexNoFire: observation.rules.movement.sameHexNoFire },
     emergencyManoeuvre: burst ? { factions: [own.faction], extraHexes: burst.maxExtraHexes,
       stressDamage: burst.stressDamage, toHitPenalty: burst.toHitPenalty } : null,
+    // The warp's public terms, from the ship's own capability report.
+    warpJump: own.specials.warp ? { factions: [own.faction], rangeHexes: own.specials.warp.rangeHexes,
+      powerCostFraction: own.specials.warp.powerCostFraction, oncePerTurn: own.specials.warp.oncePerTurn } : null,
     captainProfiles: observation.rules.captainProfiles };
   let ship = structuredClone(own);
   ship.weaponDefinitions = Object.fromEntries(ship.mounts.map(m => [m.type, m.weapon]));
@@ -77,14 +80,19 @@ export function previewContactOrders(observation, shipId, order) {
     if(breakOff)notes.push(`Captain: ${insist ? breakOff.protest : breakOff.possible}.`);
     if(armedNote)notes.push(armedNote);
     const kind = entry.scan ? 'scan' : entry.warp ? 'warp' : entry.turn || entry.forward || entry.burst ? 'move' : 'hold';
-    if (entry.warp) unknownPosition = true;
     // A captain-free route that DIES cannot bound a route that has a captain aboard: he may refuse
     // the very burst that killed the hull here, and the ship then lives and travels further than
     // this forecast ever showed (Astra, 2026-09-09). Unresolved is the honest answer.
     if (ship.destroyed && captain) unknownPosition = true;
-    if (unknownPosition) notes.push('Course unresolved: warp, cloak, keel, flight-deck coordination or a captain declining a fatal burst requires execution.');
+    if (unknownPosition) notes.push('Course unresolved: cloak, keel, flight-deck coordination or a captain declining a fatal burst requires execution.');
     else if (ship.destroyed) notes.push('Burst stress would destroy this vessel; later actions unavailable.');
-    else if (kind === 'move') {
+    else if (kind === 'warp') {
+      // A straight jump along the present heading: the landing is the engine's own rule on the
+      // console's picture. An enemy this side cannot see could still hold the landing hex.
+      const result = previewPublicWarp(ship, entry, contacts, tuning);
+      ship = result.ship; notes.push(...result.notes);
+      route.push(...result.route.map(p => ({ ...p, round })));
+    } else if (kind === 'move') {
       const result = previewPublicStep(ship, entry, contacts, tuning);
       ship = result.ship; notes.push(...result.notes);
       route.push(...result.route.map(p => ({ ...p, round })));
