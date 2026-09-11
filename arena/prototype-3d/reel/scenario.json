@@ -1,0 +1,233 @@
+{
+  "format": "pre-alpha-reel/1",
+  "durationMs": 38000,
+  "units": [
+    {
+      "id": "EAR-DD-1",
+      "faction": "EAR",
+      "asset": "ear-victory",
+      "poses": [
+        {
+          "q": -5,
+          "r": -3,
+          "facing": 5
+        },
+        {
+          "q": -5,
+          "r": -2,
+          "facing": 5
+        },
+        {
+          "q": -5,
+          "r": -2,
+          "facing": 0
+        }
+      ]
+    },
+    {
+      "id": "KRE-DD-1",
+      "faction": "KRE",
+      "asset": "kre-swift",
+      "poses": [
+        {
+          "q": -6,
+          "r": -1,
+          "facing": 5
+        },
+        {
+          "q": -6,
+          "r": 0,
+          "facing": 5
+        },
+        {
+          "q": -6,
+          "r": 0,
+          "facing": 0
+        }
+      ]
+    },
+    {
+      "id": "VRA-DD-1",
+      "faction": "VRA",
+      "asset": "vra-point",
+      "poses": [
+        {
+          "q": 5,
+          "r": 1,
+          "facing": 4
+        },
+        {
+          "q": 4,
+          "r": 2,
+          "facing": 4
+        },
+        {
+          "q": 4,
+          "r": 2,
+          "facing": 3
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "kind": "beam",
+      "source": "EAR-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "laser-cannon",
+      "turn": 1,
+      "round": 3,
+      "mount": 0,
+      "hit": true,
+      "face": 2,
+      "absorbed": 4
+    },
+    {
+      "kind": "launch",
+      "source": "EAR-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "neutronic-missile",
+      "turn": 1,
+      "round": 3,
+      "mount": 2,
+      "missileId": "missile:1:1"
+    },
+    {
+      "kind": "beam",
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "blaster-beam",
+      "turn": 1,
+      "round": 3,
+      "mount": 0,
+      "hit": true,
+      "face": 2,
+      "absorbed": 0
+    },
+    {
+      "kind": "beam",
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "blaster-beam",
+      "turn": 1,
+      "round": 3,
+      "mount": 1,
+      "hit": true,
+      "face": 2,
+      "absorbed": 0
+    },
+    {
+      "kind": "launch",
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "plasma-torpedo",
+      "turn": 1,
+      "round": 3,
+      "mount": 2,
+      "missileId": "missile:1:2"
+    },
+    {
+      "kind": "beam",
+      "source": "VRA-DD-1",
+      "target": "EAR-DD-1",
+      "weapon": "heavy-blaster",
+      "turn": 1,
+      "round": 3,
+      "mount": 0,
+      "hit": true,
+      "face": 2,
+      "absorbed": 4
+    },
+    {
+      "kind": "launch",
+      "source": "VRA-DD-1",
+      "target": "EAR-DD-1",
+      "weapon": "neutronic-missile",
+      "turn": 1,
+      "round": 3,
+      "mount": 2,
+      "missileId": "missile:1:3"
+    },
+    {
+      "kind": "missile",
+      "source": "EAR-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "neutronic-missile",
+      "turn": 2,
+      "round": 1,
+      "mount": 2,
+      "defenders": [
+        "VRA-DD-1"
+      ],
+      "intercepted": false,
+      "hit": true,
+      "face": 2,
+      "absorbed": 0,
+      "missileId": "missile:1:1"
+    },
+    {
+      "kind": "missile",
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "weapon": "plasma-torpedo",
+      "turn": 2,
+      "round": 1,
+      "mount": 2,
+      "defenders": [
+        "VRA-DD-1"
+      ],
+      "intercepted": false,
+      "hit": true,
+      "face": 2,
+      "absorbed": 0,
+      "missileId": "missile:1:2"
+    },
+    {
+      "kind": "missile",
+      "source": "VRA-DD-1",
+      "target": "EAR-DD-1",
+      "weapon": "neutronic-missile",
+      "turn": 2,
+      "round": 1,
+      "mount": 2,
+      "defenders": [
+        "EAR-DD-1",
+        "KRE-DD-1"
+      ],
+      "intercepted": false,
+      "hit": true,
+      "face": 2,
+      "absorbed": 0,
+      "missileId": "missile:1:3"
+    }
+  ],
+  "projectiles": [
+    {
+      "id": "missile:1:1",
+      "source": "EAR-DD-1",
+      "target": "VRA-DD-1",
+      "midpoint": {
+        "q": -0.5,
+        "r": 0
+      }
+    },
+    {
+      "id": "missile:1:2",
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "midpoint": {
+        "q": -1,
+        "r": 1
+      }
+    },
+    {
+      "id": "missile:1:3",
+      "source": "VRA-DD-1",
+      "target": "EAR-DD-1",
+      "midpoint": {
+        "q": -0.5,
+        "r": 0
+      }
+    }
+  ]
+}

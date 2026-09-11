@@ -1,6 +1,9 @@
 source/
 evidence/*.log
 
+# Reproducible decoded video QA; the WebM, five delivery stills and audits remain tracked.
+evidence/pre-alpha-reel/decoded/
+
 # Private normal-threshold iterations. Retain the requested before/after evidence.
 evidence/revision-12/candidates/
 evidence/revision-12/neutral/*-30-*.png

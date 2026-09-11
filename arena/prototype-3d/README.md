@@ -1,5 +1,7 @@
 # Corrected fleets and tabletop prototype - revision 12
 
+**The pre-alpha reel is ready for review:** [38-second WebM](evidence/pre-alpha-reel/pre-alpha-reel.webm), [video and five stills](evidence/pre-alpha-reel/watch.html), [scored report and reproduction commands](reel/REVIEW.md). It uses the corrected Victory and Swift, approved Point, and the existing updated table and phase camera. This is an isolated, fully observed stock-destroyer exhibition; it does not change the live game adapter.
+
 Earth and Krelath now use 40° crease splits with area-and-angle weighted normals: window shading fans are removed while curved hulls stay smooth. Fresh inspection self-review: **Earth 97.5, Krelath 97.1 /100**, all 18 hulls **96.1 or higher**, every criterion at least 94. These are Astra's scores, not Chris's approval. **Vraygon is unchanged** at its approved revision; it is not re-scored in this pass.
 
 - [Earth sheet](fleet-sheets/earth.html) / [PNG](fleet-sheets/earth.png)
@@ -19,6 +21,6 @@ Current board limits are 110k submitted triangles, 128 draws, 24 MiB material te
 
 Fast regression suite, 29 prototype checks, 32 fleet checks and the browser reviews pass. Commands and qualifications are in the full review. With the repository's existing local server, open `/arena/prototype-3d/index.html` for the working board and `/arena/prototype-3d/fleet-sheets/earth.html` for inspection. The SVG Fleet Command fallback remains linked.
 
-Historical assessments remain in REVIEW.md, RIM-REVIEW.md, FLEET-REVIEW.md and BRAND-REVIEW.md. Their scores and unapproved variants describe their own revisions. Revision 12 supersedes the Earth/Krelath window preparation and inspection scores; revision 11 still records the unchanged Vraygon sheet and failed game-camera identification gates. `material-study.html` retains explicit historical black/painted comparisons; its live default is approved clear. Its 90 mm optical-study Crystal is not the approved 71.94 mm fleet piece. The **pre-alpha reel remains on hold**, pending Chris's ruling on the verified move/fire and frigate-missile conflicts in [its preflight](PRE-ALPHA-REEL-PREFLIGHT.md).
+Historical assessments remain in REVIEW.md, RIM-REVIEW.md, FLEET-REVIEW.md and BRAND-REVIEW.md. Their scores and unapproved variants describe their own revisions. Revision 12 supersedes the Earth/Krelath window preparation and inspection scores; revision 11 still records the unchanged Vraygon sheet and failed game-camera identification gates. `material-study.html` retains explicit historical black/painted comparisons; its live default is approved clear. Its 90 mm optical-study Crystal is not the approved 71.94 mm fleet piece. Chris's destroyer ruling resolves the conflicts recorded in the historical [reel preflight](PRE-ALPHA-REEL-PREFLIGHT.md): advance, turn and fire occupy separate rounds, then missiles arrive next turn.
 
 No commit or branch. All implementation changes are inside this prototype. Campaign-map owns permanent assets, export fixes and the Sparrowhawk schematic label; map owns integration/picking; console owns controls. No destruction, planet/nebula sample or full-board test was added.

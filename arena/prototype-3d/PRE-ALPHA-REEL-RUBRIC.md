@@ -19,15 +19,23 @@ The final report will distinguish measured evidence from visual judgement.
 | Phase camera move | 7 | Shared contact-playback clock; high, deep-focus planning, deliberate descent/lens change, resolution macro focus; sampled height/pitch floors throughout. |
 | Video integrity and faithful updated board | 10 | Complete deterministic 1920×1080 frames at 30 fps or better, 20–40 seconds, playable file; approved clear supports/crystals, casting and codes preserved; furniture untouched. |
 
-Known rule issue, found before building: `resolver.js` spends a round on movement
+Historical preflight issue, now resolved by Chris's destroyer ruling: `resolver.js` spends a round on movement
 OR firing. A turn-only order also spends that round. Missile arrival is next turn.
-A scope clarification is pending: three rounds of one turn (advance, turn, fire),
-or firing alone in one round. Neither requires an engine change.
+The approved sequence is advance, turn, fire in rounds 1–3, then next-turn impacts.
+The deliverable duration is now 30–60 seconds. The video-integrity row above uses
+this revised duration, superseding its original 20–40 second limit.
 
 Existing planning-height failures of tiny rim codes and the cast facing triangle
 remain reported in REVISION-11-REVIEW.md. This reel will not silently redesign
 those approved components or claim their readability has improved.
 
-Delivery is withheld if an attachment cannot be supported by the supplied model
-or its source conventions. A cosmetic point on a hull is not evidence of a missile
-launcher. The rule that no raw simulation state enters the renderer remains.
+Use confirmed features where available. Chris now permits the nearest honest
+weapon attachment where the exact function is unconfirmed; label that uncertainty
+explicitly. A cosmetic choice does not become canonical anatomy. No raw simulation
+state enters the renderer.
+
+Implementation budget, set before effects: 1920×1080, 30 fps, 38 seconds; up to
+350,000 submitted triangles and 200 draw calls per captured frame, 110 MiB render
+targets including transmission and shadows. These are offline reel budgets, not
+an amendment to the live board's budget. Measure actual costs and report overruns.
+Effects are bounded to a 19 mm hit fireball and a 13 mm plasma flame envelope.

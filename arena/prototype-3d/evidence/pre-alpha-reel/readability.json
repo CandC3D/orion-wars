@@ -1,0 +1,180 @@
+[
+  {
+    "time": 13.6,
+    "planning": true,
+    "effects": [
+      {
+        "effect": "continuous beam 0",
+        "thresholdLinear": 0.05,
+        "pixels": 5157,
+        "bounds": {
+          "x": 409,
+          "y": 331,
+          "width": 993,
+          "height": 342
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 0",
+        "thresholdLinear": 0.05,
+        "pixels": 1471,
+        "bounds": {
+          "x": 1380,
+          "y": 649,
+          "width": 43,
+          "height": 44
+        }
+      }
+    ]
+  },
+  {
+    "time": 17.9,
+    "planning": true,
+    "effects": [
+      {
+        "effect": "continuous beam 1",
+        "thresholdLinear": 0.05,
+        "pixels": 5241,
+        "bounds": {
+          "x": 364,
+          "y": 487,
+          "width": 1043,
+          "height": 198
+        }
+      },
+      {
+        "effect": "continuous beam 2",
+        "thresholdLinear": 0.05,
+        "pixels": 5239,
+        "bounds": {
+          "x": 363,
+          "y": 518,
+          "width": 1047,
+          "height": 170
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 188,
+        "bounds": {
+          "x": 600,
+          "y": 386,
+          "width": 24,
+          "height": 31
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 451,
+        "bounds": {
+          "x": 443,
+          "y": 501,
+          "width": 29,
+          "height": 27
+        }
+      }
+    ]
+  },
+  {
+    "time": 21.4,
+    "planning": true,
+    "effects": [
+      {
+        "effect": "continuous beam 3",
+        "thresholdLinear": 0.05,
+        "pixels": 5682,
+        "bounds": {
+          "x": 303,
+          "y": 350,
+          "width": 1108,
+          "height": 321
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 200,
+        "bounds": {
+          "x": 759,
+          "y": 445,
+          "width": 20,
+          "height": 24
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 467,
+        "bounds": {
+          "x": 681,
+          "y": 539,
+          "width": 29,
+          "height": 31
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 205,
+        "bounds": {
+          "x": 1319,
+          "y": 645,
+          "width": 28,
+          "height": 21
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 3",
+        "thresholdLinear": 0.05,
+        "pixels": 1313,
+        "bounds": {
+          "x": 283,
+          "y": 333,
+          "width": 41,
+          "height": 41
+        }
+      }
+    ]
+  },
+  {
+    "time": 28.3,
+    "planning": true,
+    "effects": [
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 435,
+        "bounds": {
+          "x": 1198,
+          "y": 632,
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 193,
+        "bounds": {
+          "x": 646,
+          "y": 427,
+          "width": 24,
+          "height": 22
+        }
+      },
+      {
+        "effect": "hit flash and fireball 4",
+        "thresholdLinear": 0.05,
+        "pixels": 716,
+        "bounds": {
+          "x": 1386,
+          "y": 655,
+          "width": 29,
+          "height": 31
+        }
+      }
+    ]
+  }
+]

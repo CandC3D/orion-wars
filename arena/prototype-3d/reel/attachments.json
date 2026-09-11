@@ -1,0 +1,299 @@
+{
+  "format": "reel-surface-attachments/1",
+  "units": {
+    "ear-victory": {
+      "preparedSha256": "fc2dea8c0dc79acfba6fcc10084e880e850dcee60dd1487bf8692fc3b5321189",
+      "normalPolicy": {
+        "method": "smooth faces with angle-split loop normals",
+        "creaseAngleDegrees": 40,
+        "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+        "sharpEdges": 6051,
+        "sourceAuthoredNormals": false
+      },
+      "sockets": {
+        "beam0": {
+          "face": 25643,
+          "region": "e91d2d",
+          "surface": [
+            1.686031460762024,
+            1.163,
+            8.239936510889834e-18
+          ],
+          "normal": [
+            0.9999999999999999,
+            0,
+            0
+          ],
+          "socket": [
+            1.698031460762024,
+            1.163,
+            8.239936510889834e-18
+          ],
+          "distance": 0.0006685392379761623,
+          "evidence": "confirmed: Victory v4 schematic L1, forward laser aperture",
+          "emissiveDesignated": true
+        },
+        "beam1": {
+          "face": 6625,
+          "region": "e91d2d",
+          "surface": [
+            -1.815483808517456,
+            0.934,
+            6.938893903907228e-18
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ],
+          "socket": [
+            -1.827483808517456,
+            0.934,
+            6.938893903907228e-18
+          ],
+          "distance": 0.000016191482543836955,
+          "evidence": "confirmed: Victory v4 schematic L2, aft laser aperture; out of arc in reel",
+          "emissiveDesignated": true
+        },
+        "missile": {
+          "face": 19491,
+          "region": "a7adb1",
+          "surface": [
+            2.77626895904541,
+            0.166,
+            0
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ],
+          "socket": [
+            2.78826895904541,
+            0.166,
+            0
+          ],
+          "distance": 0.12373104095458975,
+          "evidence": "confirmed housing: Victory v4 schematic M1 bow missile tube; seated on actual inner aperture",
+          "emissiveDesignated": false
+        },
+        "pd": {
+          "face": 25643,
+          "region": "e91d2d",
+          "surface": [
+            1.686031460762024,
+            1.163,
+            8.239936510889834e-18
+          ],
+          "normal": [
+            0.9999999999999999,
+            0,
+            0
+          ],
+          "socket": [
+            1.698031460762024,
+            1.163,
+            8.239936510889834e-18
+          ],
+          "distance": 0.0006685392379761623,
+          "evidence": "nearest honest defensive attachment: forward laser; specific PD battery not model-labelled",
+          "emissiveDesignated": true
+        }
+      }
+    },
+    "kre-swift": {
+      "preparedSha256": "e7cb5fe538e40869f352f5aeab1312d29b540510541a2f3f768e0b92961d793e",
+      "normalPolicy": {
+        "method": "smooth faces with angle-split loop normals",
+        "creaseAngleDegrees": 40,
+        "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+        "sharpEdges": 4076,
+        "sourceAuthoredNormals": false
+      },
+      "sockets": {
+        "beam0": {
+          "face": 18543,
+          "region": "ffdd1a",
+          "surface": [
+            0.38196598163001,
+            0.5985213724461075,
+            -0.5156839741982172
+          ],
+          "normal": [
+            0.6146858546770547,
+            0.7883349230413969,
+            -0.02625545987511549
+          ],
+          "socket": [
+            0.38934221188613466,
+            0.6079813915226042,
+            -0.5159990397167186
+          ],
+          "distance": 0.0031983518329747797,
+          "evidence": "confirmed: Swift schematic B1 dorsal beam crystal with red ring",
+          "emissiveDesignated": true
+        },
+        "beam1": {
+          "face": 1901,
+          "region": "ffdd1a",
+          "surface": [
+            0.38184331991188797,
+            0.5984417535213012,
+            0.5156315381617299
+          ],
+          "normal": [
+            0.6024763191359112,
+            0.7980701907809694,
+            0.010308029262217046
+          ],
+          "socket": [
+            0.3890730357415189,
+            0.6080185958106729,
+            0.5157552345128765
+          ],
+          "distance": 0.0030595723903831906,
+          "evidence": "confirmed: Swift schematic B2 dorsal beam crystal with red ring",
+          "emissiveDesignated": true
+        },
+        "missile": {
+          "face": 5860,
+          "region": "ffdd1a",
+          "surface": [
+            2.4265136314256086,
+            0.014001408622296955,
+            5.5871666069942996e-8
+          ],
+          "normal": [
+            0.9999933436843972,
+            -0.0036457750813758865,
+            -0.00014460620731133556
+          ],
+          "socket": [
+            2.4385135515498213,
+            0.013957659321320445,
+            -0.0000016794028216660838
+          ],
+          "distance": 0.0003863711461995159,
+          "evidence": "confirmed: Swift schematic P1 flattened hexagonal plasma projector, three painted red warnings",
+          "emissiveDesignated": true
+        },
+        "pd": {
+          "face": 7738,
+          "region": "ffdd1a",
+          "surface": [
+            -0.21950729177066616,
+            0.3747977731135611,
+            -0.000001090200506695914
+          ],
+          "normal": [
+            0.07114449193947948,
+            0.9974093030655232,
+            0.010636889818949759
+          ],
+          "socket": [
+            -0.2186535578673924,
+            0.38676668475034737,
+            0.00012655247732070118
+          ],
+          "distance": 0.00010249241321964056,
+          "evidence": "confirmed: existing pointDefenceEmitter energy-map feature; Chris dome ruling",
+          "emissiveDesignated": true
+        }
+      }
+    },
+    "vra-point": {
+      "preparedSha256": "cfd92ead3cabcc30e73df96c22e989c30ae2f38514f821eb53734b2fabe24d5f",
+      "normalPolicy": "approved Vraygon faceted derivative, untouched",
+      "sockets": {
+        "beam0": {
+          "face": 6824,
+          "region": "46b749",
+          "surface": [
+            1.9747208600479684,
+            0.7800000001553328,
+            0.0004160912520292659
+          ],
+          "normal": [
+            0.8660761181314149,
+            1.8662418710078346e-7,
+            0.49991214988474164
+          ],
+          "socket": [
+            1.9851137734655455,
+            0.780000002394823,
+            0.006415037050646165
+          ],
+          "distance": 0.000832328744410756,
+          "evidence": "nearest honest weapon crystal: forward dorsal green component; heavy-blaster role unconfirmed",
+          "emissiveDesignated": false
+        },
+        "beam1": {
+          "face": 3465,
+          "region": "46b749",
+          "surface": [
+            0.12250549599065001,
+            0.7800000003220406,
+            0.0008626537742192732
+          ],
+          "normal": [
+            -0.8660752143330755,
+            1.8662477161661532e-7,
+            0.4999137156728972
+          ],
+          "socket": [
+            0.11211259341865311,
+            0.7800000025615379,
+            0.00686161836229404
+          ],
+          "distance": 0.001725605333828696,
+          "evidence": "nearest honest weapon crystal: aft dorsal green component; stern heavy-blaster role unconfirmed, not fired",
+          "emissiveDesignated": false
+        },
+        "missile": {
+          "face": 5374,
+          "region": "46b749",
+          "surface": [
+            2.6158522479343023,
+            0.058759681751573464,
+            9.606749105176005e-7
+          ],
+          "normal": [
+            0.48632528145587905,
+            -0.8737778438514302,
+            -0.000014532913383675127
+          ],
+          "socket": [
+            2.6216881513117727,
+            0.048274347625356304,
+            7.86279949913499e-7
+          ],
+          "distance": 0.0661033947679204,
+          "evidence": "nearest honest weapon crystal: axial bow green component; missile-launcher role unconfirmed",
+          "emissiveDesignated": false
+        },
+        "pd": {
+          "face": 6824,
+          "region": "46b749",
+          "surface": [
+            1.9747208600479684,
+            0.7800000001553328,
+            0.0004160912520292659
+          ],
+          "normal": [
+            0.8660761181314149,
+            1.8662418710078346e-7,
+            0.49991214988474164
+          ],
+          "socket": [
+            1.9851137734655455,
+            0.780000002394823,
+            0.006415037050646165
+          ],
+          "distance": 0.000832328744410756,
+          "evidence": "nearest honest defensive weapon crystal; exact PD battery unconfirmed",
+          "emissiveDesignated": false
+        }
+      }
+    }
+  }
+}
