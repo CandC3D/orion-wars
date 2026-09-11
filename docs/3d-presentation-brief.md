@@ -154,6 +154,7 @@ Settled by Chris after Astra's read of the codebase. Each is written into the se
 | Krelath codes (10 Sep) | `KFY-02` Interceptor, `KFB-03` Bomber, `KDN-0000` Intrallus. |
 | Earth blue (10 Sep) | **As the model files have it.** |
 | Sparrowhawk smaller dome (10 Sep) | **A point-defence weapon.** |
+| Weapon effects (10 Sep) | **Earth red, Krelath green, Vraygon yellow.** In the manner of 1980s film science fiction: solid continuous beams, never pulsed bolts; missiles like flying stars with glow and trail; plasma torpedoes like a ball of fel fire. Plain explosions. |
 | Cameras (10 Sep) | **Fix every camera to this brief** — planning high and near-orthographic with deep focus; resolution descending to tilt-shift macro with shallow focus, as a deliberate move; hard height floor. |
 
 Open, and needed before the effects layer is built: the **projection contract** — a written statement of what the player is permitted to know, which the renderer consumes in place of raw simulation state.
