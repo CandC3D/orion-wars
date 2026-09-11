@@ -1,5 +1,5 @@
 {
-  "format": "pre-alpha-legality/2",
+  "format": "pre-alpha-legality/3",
   "sourceHashes": {
     "data/loadouts.json": "b57e2bcd97a8f199421a95fd225c1dbf470cdcc88c1b46c6795ff96ed36603d1",
     "data/tactical-tuning.json": "0c14039b647f09513f84dfda073cd53ac7643863d68c89f630800ae4c9c52d60",
@@ -9,16 +9,26 @@
     "src/tactical/resolver.js": "ecbd968879a769f520ed4be83e574eb9cb16f3d127fac7f23f2e2b6ea9a1c38a",
     "src/tactical/missiles.js": "8eb7f9430c4dd95e6d43f0b84c6481604e413b499da158bb008dd6f4d16baeaf"
   },
+  "resolverHash": "ecbd968879a769f520ed4be83e574eb9cb16f3d127fac7f23f2e2b6ea9a1c38a",
+  "adapter": "Relative import URLs relocated; unchanged private helper bodies exported only in memory",
   "deterministicReplay": true,
   "previewReadOnly": true,
-  "seed": "pre-alpha-destroyers-192",
-  "sideA": [
-    "EAR-DD-1",
-    "KRE-DD-1"
-  ],
-  "sideB": [
-    "VRA-DD-1"
-  ],
+  "seed": "pre-alpha-second-cut-1375",
+  "standard": "Individual canonical rule checks; not a three-sided stepTurn execution",
+  "hostility": {
+    "EAR-DD-1": [
+      "KRE-DD-1",
+      "VRA-DD-1"
+    ],
+    "KRE-DD-1": [
+      "EAR-DD-1",
+      "VRA-DD-1"
+    ],
+    "VRA-DD-1": [
+      "EAR-DD-1",
+      "KRE-DD-1"
+    ]
+  },
   "construction": [
     {
       "id": "EAR-DD-1",
@@ -385,1025 +395,1015 @@
       "pointDefence": 1
     }
   ],
-  "orders": {
-    "EAR-DD-1": {
-      "reserve": 0,
-      "target": "VRA-DD-1",
-      "plan": [
-        {
-          "forward": 1,
-          "turn": 0
-        },
-        {
-          "forward": 0,
-          "turn": 1
-        },
-        {
-          "forward": 0,
-          "turn": 0
-        }
-      ]
-    },
-    "KRE-DD-1": {
-      "reserve": 0,
-      "target": "VRA-DD-1",
-      "plan": [
-        {
-          "forward": 1,
-          "turn": 0
-        },
-        {
-          "forward": 0,
-          "turn": 1
-        },
-        {
-          "forward": 0,
-          "turn": 0
-        }
-      ]
-    },
-    "VRA-DD-1": {
-      "reserve": 0,
-      "target": "EAR-DD-1",
-      "plan": [
-        {
-          "forward": 1,
-          "turn": 0
-        },
-        {
-          "forward": 0,
-          "turn": -1
-        },
-        {
-          "forward": 0,
-          "turn": 0
-        }
-      ]
-    }
-  },
-  "forecasts": [
+  "movement": [
     {
-      "fullPower": 16,
-      "available": 16,
-      "overhead": 0,
-      "reserve": 0,
-      "movement": 1,
-      "weapons": 7,
-      "deck": 0,
-      "remaining": 8,
-      "free": 8,
-      "actions": [
-        {
-          "round": 1,
-          "start": {
-            "q": -5,
+      "id": "EAR-DD-1",
+      "turn": 1,
+      "round": 1,
+      "action": {
+        "turn": 1,
+        "forward": 1
+      },
+      "turnBudget": 2,
+      "preview": {
+        "ship": {
+          "id": "EAR-DD-1",
+          "faction": "EAR",
+          "className": "destroyer",
+          "points": 4,
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "beamMounts": 2,
+            "missileMounts": 1,
+            "magazine": 4,
+            "superstructure": 14,
+            "maxShieldPower": 4,
+            "_capNote": "Cut from 6, for the same reason as the frigate: at 6 a destroyer facing swallowed Earth's 7-damage laser almost whole while passing 3 of Vraygon's 9. Compressing the cap makes damage per shot matter roughly in proportion to itself again. This is the single change that carries the 8-point cell and it also lifts Zandrax at 16 and 32.",
+            "shieldPointRatio": 0.7,
+            "movementPointRatio": 1,
+            "beamArcs": [
+              "bow",
+              "stern"
+            ],
+            "missileArcs": [
+              "f"
+            ],
+            "screen": 2,
+            "pointDefence": 1,
+            "assault": 0,
+            "sensorRating": 1,
+            "weaponReach": 0.83,
+            "_note": "RULING 2026-09-03 (Chris): a destroyer carries a forward turret (bow arc: everything but dead astern), a rear turret (stern arc: everything but dead ahead) - overlapping on the quarters for a two-turret broadside - and one forward torpedo tube (arc f). Applies to every faction's destroyer; faction fits may change the weapon types but not this layout. Untuned since the change (content-first). "
+          },
+          "mounts": [
+            {
+              "id": 1,
+              "type": "laser-cannon",
+              "kind": "beam",
+              "arc": [
+                1,
+                2,
+                3
+              ],
+              "arcName": "fwd",
+              "maxRange": 15,
+              "bands": [
+                {
+                  "to": 5,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 12,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
+            },
+            {
+              "id": 2,
+              "type": "laser-cannon",
+              "kind": "beam",
+              "arc": [
+                4,
+                5,
+                6
+              ],
+              "arcName": "aft",
+              "maxRange": 15,
+              "bands": [
+                {
+                  "to": 5,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 12,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
+            },
+            {
+              "id": 3,
+              "type": "neutronic-missile",
+              "kind": "missile",
+              "arc": [
+                2
+              ],
+              "arcName": "f",
+              "maxRange": 17,
+              "bands": [
+                {
+                  "to": 17,
+                  "damageMod": 0
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.25,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
+            }
+          ],
+          "pos": {
+            "q": -2,
+            "r": -3
+          },
+          "facing": 0,
+          "cores": [
+            {
+              "power": 13,
+              "alive": true
+            }
+          ],
+          "impulse": 3,
+          "power": 15,
+          "reserve": 0,
+          "shieldCap": {
+            "1": 4,
+            "2": 4,
+            "3": 4,
+            "4": 4,
+            "5": 4,
+            "6": 4
+          },
+          "shieldDown": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false,
+            "6": false
+          },
+          "superstructureMax": 13,
+          "superstructure": 13,
+          "damageSinceLastSystemHit": 0,
+          "systems": {},
+          "magazine": 4,
+          "squadrons": null,
+          "squadronsLost": false,
+          "canCloak": false,
+          "cloaked": false,
+          "decloaking": false,
+          "detected": true,
+          "movedThisTurn": 1,
+          "damageThisTurn": 0,
+          "damageLastTurn": 0,
+          "emergencyUsed": false,
+          "warpedThisTurn": false,
+          "toHitPenalty": 0,
+          "destroyed": false,
+          "shieldPointRatio": 0.595,
+          "movementPointRatio": 1,
+          "detectionBonusAgainst": 0,
+          "side": "EAR",
+          "capacitor": 0,
+          "lastStepCost": 1
+        },
+        "notes": [
+          "EAR-DD-1 moves as ordered (1 hexes), facing 0"
+        ],
+        "route": [
+          {
+            "q": -2,
             "r": -3,
-            "facing": 5
-          },
-          "end": {
-            "q": -5,
-            "r": -2,
-            "facing": 5
-          },
-          "moving": true,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [
-            "moves as ordered (1 hexes), facing 5"
-          ],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 3,
-              "eligible": false,
-              "reason": "Maneuver action"
-            }
-          ],
-          "power": 15,
-          "magazine": 4
-        },
-        {
-          "round": 2,
-          "start": {
-            "q": -5,
-            "r": -2,
-            "facing": 5
-          },
-          "end": {
-            "q": -5,
-            "r": -2,
             "facing": 0
-          },
-          "moving": true,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 3,
-              "eligible": false,
-              "reason": "Maneuver action"
-            }
-          ],
-          "power": 15,
-          "magazine": 4
-        },
-        {
-          "round": 3,
-          "start": {
-            "q": -5,
-            "r": -2,
-            "facing": 0
-          },
-          "end": {
-            "q": -5,
-            "r": -2,
-            "facing": 0
-          },
-          "moving": false,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "VRA-DD-1",
-              "range": 13,
-              "power": 5,
-              "kind": "beam"
-            },
-            {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Outside bearing arc"
-            },
-            {
-              "mountId": 3,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "VRA-DD-1",
-              "range": 13,
-              "power": 2,
-              "kind": "launch"
-            }
-          ],
-          "power": 8,
-          "magazine": 3
-        }
-      ],
-      "route": [
-        {
-          "q": -5,
-          "r": -3,
-          "facing": 5,
-          "round": 0
-        },
-        {
-          "q": -5,
-          "r": -2,
-          "facing": 5,
-          "round": 1,
-          "moved": true
-        },
-        {
-          "q": -5,
-          "r": -2,
-          "facing": 5,
-          "round": 1,
-          "waypoint": true,
-          "hold": false
-        },
-        {
-          "q": -5,
-          "r": -2,
-          "facing": 0,
-          "round": 2,
-          "waypoint": true,
-          "hold": false
-        },
-        {
-          "q": -5,
-          "r": -2,
-          "facing": 0,
-          "round": 3,
-          "waypoint": true,
-          "hold": true
-        }
-      ],
-      "caveat": "Stationary contacts; no damage or initiative effects. Actual targets, movement and power may change during resolution."
+          }
+        ]
+      }
     },
     {
-      "fullPower": 16,
-      "available": 16,
-      "overhead": 0,
-      "reserve": 0,
-      "movement": 0.7799999999999994,
-      "weapons": 13,
-      "deck": 0,
-      "remaining": 2.2200000000000006,
-      "free": 2.2200000000000006,
-      "actions": [
-        {
-          "round": 1,
-          "start": {
-            "q": -6,
-            "r": -1,
-            "facing": 5
+      "id": "KRE-DD-1",
+      "turn": 1,
+      "round": 1,
+      "action": {
+        "turn": 1,
+        "forward": 1
+      },
+      "turnBudget": 2,
+      "preview": {
+        "ship": {
+          "id": "KRE-DD-1",
+          "faction": "KRE",
+          "className": "destroyer",
+          "points": 4,
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "beamMounts": 2,
+            "missileMounts": 1,
+            "magazine": 4,
+            "superstructure": 14,
+            "maxShieldPower": 4,
+            "_capNote": "Cut from 6, for the same reason as the frigate: at 6 a destroyer facing swallowed Earth's 7-damage laser almost whole while passing 3 of Vraygon's 9. Compressing the cap makes damage per shot matter roughly in proportion to itself again. This is the single change that carries the 8-point cell and it also lifts Zandrax at 16 and 32.",
+            "shieldPointRatio": 0.7,
+            "movementPointRatio": 1,
+            "beamArcs": [
+              "bow",
+              "stern"
+            ],
+            "missileArcs": [
+              "f"
+            ],
+            "screen": 2,
+            "pointDefence": 1,
+            "assault": 0,
+            "sensorRating": 1,
+            "weaponReach": 0.83,
+            "_note": "RULING 2026-09-03 (Chris): a destroyer carries a forward turret (bow arc: everything but dead astern), a rear turret (stern arc: everything but dead ahead) - overlapping on the quarters for a two-turret broadside - and one forward torpedo tube (arc f). Applies to every faction's destroyer; faction fits may change the weapon types but not this layout. Untuned since the change (content-first). "
           },
-          "end": {
-            "q": -6,
-            "r": 0,
-            "facing": 5
-          },
-          "moving": true,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [
-            "moves as ordered (1 hexes), facing 5"
-          ],
           "mounts": [
             {
-              "mountId": 1,
-              "eligible": false,
-              "reason": "Maneuver action"
+              "id": 1,
+              "type": "blaster-beam",
+              "kind": "beam",
+              "arc": [
+                1,
+                2,
+                6
+              ],
+              "arcName": "pfwd",
+              "maxRange": 14,
+              "bands": [
+                {
+                  "to": 3,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 7,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 14,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ],
+              "position": {
+                "x": -1.2,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
             },
             {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Maneuver action"
+              "id": 2,
+              "type": "blaster-beam",
+              "kind": "beam",
+              "arc": [
+                2,
+                3,
+                4
+              ],
+              "arcName": "sfwd",
+              "maxRange": 14,
+              "bands": [
+                {
+                  "to": 3,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 7,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 14,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ],
+              "position": {
+                "x": 1.2,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
             },
             {
-              "mountId": 3,
-              "eligible": false,
-              "reason": "Maneuver action"
+              "id": 3,
+              "type": "plasma-torpedo",
+              "kind": "missile",
+              "arc": [
+                2
+              ],
+              "arcName": "f",
+              "maxRange": 14,
+              "bands": [
+                {
+                  "to": 3,
+                  "damageMod": 0
+                },
+                {
+                  "to": 7,
+                  "damageMod": -6
+                },
+                {
+                  "to": 11,
+                  "damageMod": -11
+                },
+                {
+                  "to": 14,
+                  "damageMod": -15
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
             }
           ],
-          "power": 15.22,
-          "magazine": 4
-        },
-        {
-          "round": 2,
-          "start": {
-            "q": -6,
-            "r": 0,
-            "facing": 5
+          "pos": {
+            "q": -5,
+            "r": 1
           },
-          "end": {
-            "q": -6,
-            "r": 0,
-            "facing": 0
-          },
-          "moving": true,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 3,
-              "eligible": false,
-              "reason": "Maneuver action"
-            }
-          ],
-          "power": 15.22,
-          "magazine": 4
-        },
-        {
-          "round": 3,
-          "start": {
-            "q": -6,
-            "r": 0,
-            "facing": 0
-          },
-          "end": {
-            "q": -6,
-            "r": 0,
-            "facing": 0
-          },
-          "moving": false,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "VRA-DD-1",
-              "range": 12,
-              "power": 5,
-              "kind": "beam"
-            },
-            {
-              "mountId": 2,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "VRA-DD-1",
-              "range": 12,
-              "power": 5,
-              "kind": "beam"
-            },
-            {
-              "mountId": 3,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "VRA-DD-1",
-              "range": 12,
-              "power": 3,
-              "kind": "launch"
-            }
-          ],
-          "power": 2.2200000000000006,
-          "magazine": 3
-        }
-      ],
-      "route": [
-        {
-          "q": -6,
-          "r": -1,
-          "facing": 5,
-          "round": 0
-        },
-        {
-          "q": -6,
-          "r": 0,
-          "facing": 5,
-          "round": 1,
-          "moved": true
-        },
-        {
-          "q": -6,
-          "r": 0,
-          "facing": 5,
-          "round": 1,
-          "waypoint": true,
-          "hold": false
-        },
-        {
-          "q": -6,
-          "r": 0,
           "facing": 0,
-          "round": 2,
-          "waypoint": true,
-          "hold": false
+          "cores": [
+            {
+              "power": 13,
+              "alive": true
+            }
+          ],
+          "impulse": 3,
+          "power": 15.22,
+          "reserve": 0,
+          "shieldCap": {
+            "1": 4,
+            "2": 4,
+            "3": 4,
+            "4": 4,
+            "5": 4,
+            "6": 4
+          },
+          "shieldDown": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false,
+            "6": false
+          },
+          "superstructureMax": 13,
+          "superstructure": 13,
+          "damageSinceLastSystemHit": 0,
+          "systems": {},
+          "magazine": 4,
+          "squadrons": null,
+          "squadronsLost": false,
+          "canCloak": false,
+          "cloaked": false,
+          "decloaking": false,
+          "detected": true,
+          "movedThisTurn": 1,
+          "damageThisTurn": 0,
+          "damageLastTurn": 0,
+          "emergencyUsed": false,
+          "warpedThisTurn": false,
+          "toHitPenalty": 0,
+          "destroyed": false,
+          "shieldPointRatio": 0.6649999999999999,
+          "movementPointRatio": 0.78,
+          "detectionBonusAgainst": 0,
+          "side": "KRE",
+          "capacitor": 0,
+          "lastStepCost": 0.78
         },
-        {
-          "q": -6,
-          "r": 0,
-          "facing": 0,
-          "round": 3,
-          "waypoint": true,
-          "hold": true
-        }
-      ],
-      "caveat": "Stationary contacts; no damage or initiative effects. Actual targets, movement and power may change during resolution."
-    },
-    {
-      "fullPower": 16,
-      "available": 16,
-      "overhead": 0,
-      "reserve": 0,
-      "movement": 1.25,
-      "weapons": 8,
-      "deck": 0,
-      "remaining": 6.75,
-      "free": 6.75,
-      "actions": [
-        {
-          "round": 1,
-          "start": {
-            "q": 5,
+        "notes": [
+          "KRE-DD-1 moves as ordered (1 hexes), facing 0"
+        ],
+        "route": [
+          {
+            "q": -5,
             "r": 1,
-            "facing": 4
+            "facing": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "VRA-DD-1",
+      "turn": 1,
+      "round": 1,
+      "action": {
+        "turn": -1,
+        "forward": 1
+      },
+      "turnBudget": 2,
+      "preview": {
+        "ship": {
+          "id": "VRA-DD-1",
+          "faction": "VRA",
+          "className": "destroyer",
+          "points": 4,
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "beamMounts": 2,
+            "missileMounts": 1,
+            "magazine": 4,
+            "superstructure": 14,
+            "maxShieldPower": 4,
+            "_capNote": "Cut from 6, for the same reason as the frigate: at 6 a destroyer facing swallowed Earth's 7-damage laser almost whole while passing 3 of Vraygon's 9. Compressing the cap makes damage per shot matter roughly in proportion to itself again. This is the single change that carries the 8-point cell and it also lifts Zandrax at 16 and 32.",
+            "shieldPointRatio": 0.7,
+            "movementPointRatio": 1,
+            "beamArcs": [
+              "bow",
+              "stern"
+            ],
+            "missileArcs": [
+              "f"
+            ],
+            "screen": 2,
+            "pointDefence": 1,
+            "assault": 0,
+            "sensorRating": 1,
+            "weaponReach": 0.83,
+            "_note": "RULING 2026-09-03 (Chris): a destroyer carries a forward turret (bow arc: everything but dead astern), a rear turret (stern arc: everything but dead ahead) - overlapping on the quarters for a two-turret broadside - and one forward torpedo tube (arc f). Applies to every faction's destroyer; faction fits may change the weapon types but not this layout. Untuned since the change (content-first). "
           },
-          "end": {
-            "q": 4,
-            "r": 2,
-            "facing": 4
-          },
-          "moving": true,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [
-            "moves as ordered (1 hexes), facing 4"
-          ],
           "mounts": [
             {
-              "mountId": 1,
-              "eligible": false,
-              "reason": "Maneuver action"
+              "id": 1,
+              "type": "heavy-blaster",
+              "kind": "beam",
+              "arc": [
+                6,
+                1,
+                2,
+                3,
+                4
+              ],
+              "arcName": "bow",
+              "maxRange": 13,
+              "bands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 7,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.3,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
             },
             {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Maneuver action"
+              "id": 2,
+              "type": "heavy-blaster",
+              "kind": "beam",
+              "arc": [
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "arcName": "stern",
+              "maxRange": 13,
+              "bands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 7,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.75,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
             },
             {
-              "mountId": 3,
-              "eligible": false,
-              "reason": "Maneuver action"
+              "id": 3,
+              "type": "neutronic-missile",
+              "kind": "missile",
+              "arc": [
+                2
+              ],
+              "arcName": "f",
+              "maxRange": 17,
+              "bands": [
+                {
+                  "to": 17,
+                  "damageMod": 0
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.85,
+                "z": 0
+              },
+              "orientation": 0,
+              "inop": false,
+              "firedThisTurn": false
             }
           ],
-          "power": 14.75,
-          "magazine": 6
-        },
-        {
-          "round": 2,
-          "start": {
+          "pos": {
             "q": 4,
-            "r": 2,
-            "facing": 4
+            "r": 1
           },
-          "end": {
-            "q": 4,
-            "r": 2,
-            "facing": 3
-          },
-          "moving": true,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Maneuver action"
-            },
-            {
-              "mountId": 3,
-              "eligible": false,
-              "reason": "Maneuver action"
-            }
-          ],
-          "power": 14.75,
-          "magazine": 6
-        },
-        {
-          "round": 3,
-          "start": {
-            "q": 4,
-            "r": 2,
-            "facing": 3
-          },
-          "end": {
-            "q": 4,
-            "r": 2,
-            "facing": 3
-          },
-          "moving": false,
-          "unavailable": false,
-          "scanned": false,
-          "notes": [],
-          "mounts": [
-            {
-              "mountId": 1,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "KRE-DD-1",
-              "range": 13,
-              "power": 6,
-              "kind": "beam"
-            },
-            {
-              "mountId": 2,
-              "eligible": false,
-              "reason": "Out of range"
-            },
-            {
-              "mountId": 3,
-              "eligible": true,
-              "reason": "Eligible",
-              "targetId": "EAR-DD-1",
-              "range": 14,
-              "power": 2,
-              "kind": "launch"
-            }
-          ],
-          "power": 6.75,
-          "magazine": 5
-        }
-      ],
-      "route": [
-        {
-          "q": 5,
-          "r": 1,
-          "facing": 4,
-          "round": 0
-        },
-        {
-          "q": 4,
-          "r": 2,
-          "facing": 4,
-          "round": 1,
-          "moved": true
-        },
-        {
-          "q": 4,
-          "r": 2,
-          "facing": 4,
-          "round": 1,
-          "waypoint": true,
-          "hold": false
-        },
-        {
-          "q": 4,
-          "r": 2,
           "facing": 3,
-          "round": 2,
-          "waypoint": true,
-          "hold": false
+          "cores": [
+            {
+              "power": 13,
+              "alive": true
+            }
+          ],
+          "impulse": 3,
+          "power": 14.75,
+          "reserve": 0,
+          "shieldCap": {
+            "1": 4,
+            "2": 4,
+            "3": 4,
+            "4": 4,
+            "5": 4,
+            "6": 4
+          },
+          "shieldDown": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false,
+            "6": false
+          },
+          "superstructureMax": 25,
+          "superstructure": 25,
+          "damageSinceLastSystemHit": 0,
+          "systems": {},
+          "magazine": 6,
+          "squadrons": null,
+          "squadronsLost": false,
+          "canCloak": false,
+          "cloaked": false,
+          "decloaking": false,
+          "detected": true,
+          "movedThisTurn": 1,
+          "damageThisTurn": 0,
+          "damageLastTurn": 0,
+          "emergencyUsed": false,
+          "warpedThisTurn": false,
+          "toHitPenalty": 0,
+          "destroyed": false,
+          "shieldPointRatio": 0.9799999999999999,
+          "movementPointRatio": 1.25,
+          "detectionBonusAgainst": 6,
+          "side": "VRA",
+          "capacitor": 0,
+          "lastStepCost": 1.25
         },
-        {
-          "q": 4,
-          "r": 2,
-          "facing": 3,
-          "round": 3,
-          "waypoint": true,
-          "hold": true
-        }
+        "notes": [
+          "VRA-DD-1 moves as ordered (1 hexes), facing 3"
+        ],
+        "route": [
+          {
+            "q": 4,
+            "r": 1,
+            "facing": 3
+          }
+        ]
+      }
+    }
+  ],
+  "actionOrder": [
+    "KRE-DD-1",
+    "EAR-DD-1",
+    "VRA-DD-1"
+  ],
+  "checks": [
+    {
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "mount": 0,
+      "face": 2,
+      "range": 9,
+      "arc": [
+        1,
+        2,
+        6
       ],
-      "caveat": "Stationary contacts; no damage or initiative effects. Actual targets, movement and power may change during resolution."
+      "maxRange": 14,
+      "powerBefore": 15.22,
+      "powerAfter": 10.22,
+      "magazineBefore": 4,
+      "magazineAfter": 4,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "mount": 1,
+      "face": 2,
+      "range": 9,
+      "arc": [
+        2,
+        3,
+        4
+      ],
+      "maxRange": 14,
+      "powerBefore": 10.22,
+      "powerAfter": 5.220000000000001,
+      "magazineBefore": 4,
+      "magazineAfter": 4,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "KRE-DD-1",
+      "target": "VRA-DD-1",
+      "mount": 2,
+      "face": 2,
+      "range": 9,
+      "arc": [
+        2
+      ],
+      "maxRange": 14,
+      "powerBefore": 5.220000000000001,
+      "powerAfter": 2.2200000000000006,
+      "magazineBefore": 4,
+      "magazineAfter": 3,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "EAR-DD-1",
+      "target": "VRA-DD-1",
+      "mount": 0,
+      "face": 2,
+      "range": 10,
+      "arc": [
+        1,
+        2,
+        3
+      ],
+      "maxRange": 15,
+      "powerBefore": 15,
+      "powerAfter": 10,
+      "magazineBefore": 4,
+      "magazineAfter": 4,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "EAR-DD-1",
+      "target": "KRE-DD-1",
+      "mount": 1,
+      "face": 4,
+      "range": 4,
+      "arc": [
+        4,
+        5,
+        6
+      ],
+      "maxRange": 15,
+      "powerBefore": 10,
+      "powerAfter": 5,
+      "magazineBefore": 4,
+      "magazineAfter": 4,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "EAR-DD-1",
+      "target": "VRA-DD-1",
+      "mount": 2,
+      "face": 2,
+      "range": 10,
+      "arc": [
+        2
+      ],
+      "maxRange": 17,
+      "powerBefore": 5,
+      "powerAfter": 3,
+      "magazineBefore": 4,
+      "magazineAfter": 3,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "VRA-DD-1",
+      "target": "EAR-DD-1",
+      "mount": 0,
+      "face": 2,
+      "range": 10,
+      "arc": [
+        6,
+        1,
+        2,
+        3,
+        4
+      ],
+      "maxRange": 13,
+      "powerBefore": 10.83,
+      "powerAfter": 4.83,
+      "magazineBefore": 6,
+      "magazineAfter": 6,
+      "canonicalGeometry": null
+    },
+    {
+      "source": "VRA-DD-1",
+      "target": "EAR-DD-1",
+      "mount": 2,
+      "face": 2,
+      "range": 10,
+      "arc": [
+        2
+      ],
+      "maxRange": 17,
+      "powerBefore": 4.83,
+      "powerAfter": 2.83,
+      "magazineBefore": 6,
+      "magazineAfter": 5,
+      "canonicalGeometry": null
     }
   ],
   "raw": [
     {
-      "turn": 1,
-      "round": 3,
+      "kind": "beam",
+      "weapon": "blaster-beam",
+      "shooterId": "KRE-DD-1",
+      "targetId": "VRA-DD-1",
+      "hit": true,
+      "range": 9,
+      "damage": 5,
+      "shooterPos": {
+        "q": -5,
+        "r": 1
+      },
+      "shooterFacing": 0,
+      "targetPos": {
+        "q": 4,
+        "r": 1
+      },
+      "targetFacing": 3,
+      "victimId": "VRA-DD-1",
+      "victimPos": {
+        "q": 4,
+        "r": 1
+      },
+      "victimFacing": 3,
+      "face": 2
+    },
+    {
+      "kind": "beam",
+      "weapon": "blaster-beam",
+      "shooterId": "KRE-DD-1",
+      "targetId": "VRA-DD-1",
+      "hit": true,
+      "range": 9,
+      "damage": 5,
+      "shooterPos": {
+        "q": -5,
+        "r": 1
+      },
+      "shooterFacing": 0,
+      "targetPos": {
+        "q": 4,
+        "r": 1
+      },
+      "targetFacing": 3,
+      "victimId": "VRA-DD-1",
+      "victimPos": {
+        "q": 4,
+        "r": 1
+      },
+      "victimFacing": 3,
+      "face": 2
+    },
+    {
+      "kind": "launch",
+      "missileId": "missile:1:1",
+      "weapon": "plasma-torpedo",
+      "shooterId": "KRE-DD-1",
+      "targetId": "VRA-DD-1",
+      "range": 9,
+      "damage": 7,
+      "shooterPos": {
+        "q": -5,
+        "r": 1
+      },
+      "shooterFacing": 0,
+      "targetPos": {
+        "q": 4,
+        "r": 1
+      },
+      "targetFacing": 3
+    },
+    {
       "kind": "beam",
       "weapon": "laser-cannon",
       "shooterId": "EAR-DD-1",
       "targetId": "VRA-DD-1",
       "hit": true,
-      "range": 13,
+      "range": 10,
       "damage": 5,
       "shooterPos": {
-        "q": -5,
-        "r": -2
+        "q": -2,
+        "r": -3
       },
       "shooterFacing": 0,
       "targetPos": {
         "q": 4,
-        "r": 2
+        "r": 1
       },
       "targetFacing": 3,
       "victimId": "VRA-DD-1",
       "victimPos": {
         "q": 4,
-        "r": 2
+        "r": 1
       },
       "victimFacing": 3,
       "face": 2
     },
     {
-      "turn": 1,
-      "round": 3,
+      "kind": "beam",
+      "weapon": "laser-cannon",
+      "shooterId": "EAR-DD-1",
+      "targetId": "KRE-DD-1",
+      "hit": true,
+      "range": 4,
+      "damage": 7,
+      "shooterPos": {
+        "q": -2,
+        "r": -3
+      },
+      "shooterFacing": 0,
+      "targetPos": {
+        "q": -5,
+        "r": 1
+      },
+      "targetFacing": 0,
+      "victimId": "KRE-DD-1",
+      "victimPos": {
+        "q": -5,
+        "r": 1
+      },
+      "victimFacing": 0,
+      "face": 1
+    },
+    {
       "kind": "launch",
-      "missileId": "missile:1:1",
+      "missileId": "missile:1:2",
       "weapon": "neutronic-missile",
       "shooterId": "EAR-DD-1",
       "targetId": "VRA-DD-1",
-      "range": 13,
+      "range": 10,
       "damage": 10,
       "shooterPos": {
-        "q": -5,
-        "r": -2
+        "q": -2,
+        "r": -3
       },
       "shooterFacing": 0,
       "targetPos": {
         "q": 4,
-        "r": 2
+        "r": 1
       },
       "targetFacing": 3
     },
     {
-      "turn": 1,
-      "round": 3,
-      "kind": "beam",
-      "weapon": "blaster-beam",
-      "shooterId": "KRE-DD-1",
-      "targetId": "VRA-DD-1",
-      "hit": true,
-      "range": 12,
-      "damage": 5,
-      "shooterPos": {
-        "q": -6,
-        "r": 0
-      },
-      "shooterFacing": 0,
-      "targetPos": {
-        "q": 4,
-        "r": 2
-      },
-      "targetFacing": 3,
-      "victimId": "VRA-DD-1",
-      "victimPos": {
-        "q": 4,
-        "r": 2
-      },
-      "victimFacing": 3,
-      "face": 2
-    },
-    {
-      "turn": 1,
-      "round": 3,
-      "kind": "beam",
-      "weapon": "blaster-beam",
-      "shooterId": "KRE-DD-1",
-      "targetId": "VRA-DD-1",
-      "hit": true,
-      "range": 12,
-      "damage": 5,
-      "shooterPos": {
-        "q": -6,
-        "r": 0
-      },
-      "shooterFacing": 0,
-      "targetPos": {
-        "q": 4,
-        "r": 2
-      },
-      "targetFacing": 3,
-      "victimId": "VRA-DD-1",
-      "victimPos": {
-        "q": 4,
-        "r": 2
-      },
-      "victimFacing": 3,
-      "face": 2
-    },
-    {
-      "turn": 1,
-      "round": 3,
-      "kind": "launch",
-      "missileId": "missile:1:2",
-      "weapon": "plasma-torpedo",
-      "shooterId": "KRE-DD-1",
-      "targetId": "VRA-DD-1",
-      "range": 12,
-      "damage": 3,
-      "shooterPos": {
-        "q": -6,
-        "r": 0
-      },
-      "shooterFacing": 0,
-      "targetPos": {
-        "q": 4,
-        "r": 2
-      },
-      "targetFacing": 3
-    },
-    {
-      "turn": 1,
-      "round": 3,
       "kind": "beam",
       "weapon": "heavy-blaster",
       "shooterId": "VRA-DD-1",
       "targetId": "EAR-DD-1",
       "hit": true,
-      "range": 13,
+      "range": 10,
       "damage": 6,
       "shooterPos": {
         "q": 4,
-        "r": 2
+        "r": 1
       },
       "shooterFacing": 3,
       "targetPos": {
-        "q": -5,
-        "r": -2
+        "q": -2,
+        "r": -3
       },
       "targetFacing": 0,
       "victimId": "EAR-DD-1",
       "victimPos": {
-        "q": -5,
-        "r": -2
+        "q": -2,
+        "r": -3
       },
       "victimFacing": 0,
       "face": 2
     },
     {
-      "turn": 1,
-      "round": 3,
       "kind": "launch",
       "missileId": "missile:1:3",
       "weapon": "neutronic-missile",
       "shooterId": "VRA-DD-1",
       "targetId": "EAR-DD-1",
-      "range": 13,
+      "range": 10,
       "damage": 10,
       "shooterPos": {
         "q": 4,
-        "r": 2
+        "r": 1
       },
       "shooterFacing": 3,
       "targetPos": {
-        "q": -5,
-        "r": -2
+        "q": -2,
+        "r": -3
       },
       "targetFacing": 0
-    },
-    {
-      "turn": 2,
-      "round": 1,
-      "kind": "missile",
-      "weapon": "neutronic-missile",
-      "shooterId": "EAR-DD-1",
-      "targetId": "VRA-DD-1",
-      "outcome": "hit",
-      "damage": 10,
-      "shooterPos": {
-        "q": -5,
-        "r": -2
-      },
-      "shooterFacing": 0,
-      "targetPos": {
-        "q": 4,
-        "r": 2
-      },
-      "targetFacing": 3,
-      "missileId": "missile:1:1",
-      "approachPos": {
-        "q": -0.5,
-        "r": 0
-      },
-      "flight": {
-        "profile": "timed-homing/1",
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": -5,
-              "r": -2
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -0.5,
-              "r": 0
-            }
-          }
-        ]
-      },
-      "victimId": "VRA-DD-1",
-      "victimPos": {
-        "q": 4,
-        "r": 2
-      },
-      "victimFacing": 3,
-      "face": 2
-    },
-    {
-      "turn": 2,
-      "round": 1,
-      "kind": "missile",
-      "weapon": "plasma-torpedo",
-      "shooterId": "KRE-DD-1",
-      "targetId": "VRA-DD-1",
-      "outcome": "hit",
-      "damage": 3,
-      "shooterPos": {
-        "q": -6,
-        "r": 0
-      },
-      "shooterFacing": 0,
-      "targetPos": {
-        "q": 4,
-        "r": 2
-      },
-      "targetFacing": 3,
-      "missileId": "missile:1:2",
-      "approachPos": {
-        "q": -1,
-        "r": 1
-      },
-      "flight": {
-        "profile": "timed-homing/1",
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": -6,
-              "r": 0
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -1,
-              "r": 1
-            }
-          }
-        ]
-      },
-      "victimId": "VRA-DD-1",
-      "victimPos": {
-        "q": 4,
-        "r": 2
-      },
-      "victimFacing": 3,
-      "face": 2
-    },
-    {
-      "turn": 2,
-      "round": 1,
-      "kind": "missile",
-      "weapon": "neutronic-missile",
-      "shooterId": "VRA-DD-1",
-      "targetId": "EAR-DD-1",
-      "outcome": "hit",
-      "damage": 10,
-      "shooterPos": {
-        "q": 4,
-        "r": 2
-      },
-      "shooterFacing": 3,
-      "targetPos": {
-        "q": -5,
-        "r": -2
-      },
-      "targetFacing": 0,
-      "missileId": "missile:1:3",
-      "approachPos": {
-        "q": -0.5,
-        "r": 0
-      },
-      "flight": {
-        "profile": "timed-homing/1",
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": 4,
-              "r": 2
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -0.5,
-              "r": 0
-            }
-          }
-        ]
-      },
-      "victimId": "EAR-DD-1",
-      "victimPos": {
-        "q": -5,
-        "r": -2
-      },
-      "victimFacing": 0,
-      "face": 2
-    }
-  ],
-  "courses": [
-    {
-      "missileId": "missile:1:1",
-      "shooterId": "EAR-DD-1",
-      "targetId": "VRA-DD-1",
-      "side": "A",
-      "weapon": "neutronic-missile",
-      "pos": {
-        "q": -0.5,
-        "r": 0
-      },
-      "flight": {
-        "profile": "timed-homing/1",
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": -5,
-              "r": -2
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -0.5,
-              "r": 0
-            }
-          }
-        ]
-      }
-    },
-    {
-      "missileId": "missile:1:2",
-      "shooterId": "KRE-DD-1",
-      "targetId": "VRA-DD-1",
-      "side": "A",
-      "weapon": "plasma-torpedo",
-      "pos": {
-        "q": -1,
-        "r": 1
-      },
-      "flight": {
-        "profile": "timed-homing/1",
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": -6,
-              "r": 0
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -1,
-              "r": 1
-            }
-          }
-        ]
-      }
-    },
-    {
-      "missileId": "missile:1:3",
-      "shooterId": "VRA-DD-1",
-      "targetId": "EAR-DD-1",
-      "side": "B",
-      "weapon": "neutronic-missile",
-      "pos": {
-        "q": -0.5,
-        "r": 0
-      },
-      "flight": {
-        "profile": "timed-homing/1",
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": 4,
-              "r": 2
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -0.5,
-              "r": 0
-            }
-          }
-        ]
-      }
     }
   ],
   "flight": [
@@ -1412,23 +1412,32 @@
       "flight": {
         "profile": "timed-homing/1",
         "position": {
-          "q": -1,
-          "r": 0,
-          "d": 2
+          "q": 1,
+          "r": 1,
+          "d": 1
         },
         "lastDirection": {
-          "q": 9,
-          "r": 4,
+          "q": 6,
+          "r": 0,
           "d": 1
         },
         "path": [
           {
             "turn": 1,
-            "round": 3,
+            "round": 2,
             "phase": "launch",
             "pos": {
               "q": -5,
-              "r": -2
+              "r": 1
+            }
+          },
+          {
+            "turn": 1,
+            "round": 2,
+            "phase": "course",
+            "pos": {
+              "q": -2,
+              "r": 1
             }
           },
           {
@@ -1436,19 +1445,76 @@
             "round": 3,
             "phase": "course",
             "pos": {
-              "q": -0.5,
-              "r": 0
+              "q": 1,
+              "r": 1
             }
           }
         ]
       },
       "shooterPos": {
         "q": -5,
-        "r": -2
+        "r": 1
+      },
+      "shooterFacing": 0,
+      "shooterId": "KRE-DD-1",
+      "side": "KRE",
+      "targetId": "VRA-DD-1",
+      "weapon": "plasma-torpedo",
+      "shooterPoints": 4,
+      "damage": 7,
+      "spread": 5
+    },
+    {
+      "missileId": "missile:1:2",
+      "flight": {
+        "profile": "timed-homing/1",
+        "position": {
+          "q": 6,
+          "r": -1,
+          "d": 3
+        },
+        "lastDirection": {
+          "q": 12,
+          "r": 8,
+          "d": 1
+        },
+        "path": [
+          {
+            "turn": 1,
+            "round": 2,
+            "phase": "launch",
+            "pos": {
+              "q": -2,
+              "r": -3
+            }
+          },
+          {
+            "turn": 1,
+            "round": 2,
+            "phase": "course",
+            "pos": {
+              "q": 0,
+              "r": -1.6666666666666667
+            }
+          },
+          {
+            "turn": 1,
+            "round": 3,
+            "phase": "course",
+            "pos": {
+              "q": 2,
+              "r": -0.3333333333333333
+            }
+          }
+        ]
+      },
+      "shooterPos": {
+        "q": -2,
+        "r": -3
       },
       "shooterFacing": 0,
       "shooterId": "EAR-DD-1",
-      "side": "A",
+      "side": "EAR",
       "targetId": "VRA-DD-1",
       "weapon": "neutronic-missile",
       "shooterPoints": 4,
@@ -1456,75 +1522,36 @@
       "spread": 0
     },
     {
-      "missileId": "missile:1:2",
-      "flight": {
-        "profile": "timed-homing/1",
-        "position": {
-          "q": -1,
-          "r": 1,
-          "d": 1
-        },
-        "lastDirection": {
-          "q": 10,
-          "r": 2,
-          "d": 1
-        },
-        "path": [
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "launch",
-            "pos": {
-              "q": -6,
-              "r": 0
-            }
-          },
-          {
-            "turn": 1,
-            "round": 3,
-            "phase": "course",
-            "pos": {
-              "q": -1,
-              "r": 1
-            }
-          }
-        ]
-      },
-      "shooterPos": {
-        "q": -6,
-        "r": 0
-      },
-      "shooterFacing": 0,
-      "shooterId": "KRE-DD-1",
-      "side": "A",
-      "targetId": "VRA-DD-1",
-      "weapon": "plasma-torpedo",
-      "shooterPoints": 4,
-      "damage": 3,
-      "spread": 5
-    },
-    {
       "missileId": "missile:1:3",
       "flight": {
         "profile": "timed-homing/1",
         "position": {
-          "q": -1,
-          "r": 0,
-          "d": 2
+          "q": 0,
+          "r": -5,
+          "d": 3
         },
         "lastDirection": {
-          "q": -9,
-          "r": -4,
+          "q": -12,
+          "r": -8,
           "d": 1
         },
         "path": [
           {
             "turn": 1,
-            "round": 3,
+            "round": 2,
             "phase": "launch",
             "pos": {
               "q": 4,
-              "r": 2
+              "r": 1
+            }
+          },
+          {
+            "turn": 1,
+            "round": 2,
+            "phase": "course",
+            "pos": {
+              "q": 2,
+              "r": -0.3333333333333333
             }
           },
           {
@@ -1532,19 +1559,19 @@
             "round": 3,
             "phase": "course",
             "pos": {
-              "q": -0.5,
-              "r": 0
+              "q": 0,
+              "r": -1.6666666666666667
             }
           }
         ]
       },
       "shooterPos": {
         "q": 4,
-        "r": 2
+        "r": 1
       },
       "shooterFacing": 3,
       "shooterId": "VRA-DD-1",
-      "side": "B",
+      "side": "VRA",
       "targetId": "EAR-DD-1",
       "weapon": "neutronic-missile",
       "shooterPoints": 4,
@@ -1552,43 +1579,192 @@
       "spread": 0
     }
   ],
+  "pd": [
+    {
+      "missileId": "missile:1:1",
+      "weapon": "plasma-torpedo",
+      "target": "VRA-DD-1",
+      "defenders": [
+        "VRA-DD-1"
+      ],
+      "before": 700294260,
+      "after": 2531860073,
+      "rolls": [
+        {
+          "before": 700294260,
+          "after": 2531860073,
+          "value": 0.024236358935013413
+        }
+      ],
+      "chance": 0.18,
+      "intercepted": true
+    },
+    {
+      "missileId": "missile:1:2",
+      "weapon": "neutronic-missile",
+      "target": "VRA-DD-1",
+      "defenders": [
+        "VRA-DD-1"
+      ],
+      "before": 2531860073,
+      "after": 68458590,
+      "rolls": [
+        {
+          "before": 2531860073,
+          "after": 68458590,
+          "value": 0.6729183020070195
+        }
+      ],
+      "chance": 0.18,
+      "intercepted": false
+    },
+    {
+      "missileId": "missile:1:3",
+      "weapon": "neutronic-missile",
+      "target": "EAR-DD-1",
+      "defenders": [
+        "EAR-DD-1"
+      ],
+      "before": 1900024403,
+      "after": 3731590216,
+      "rolls": [
+        {
+          "before": 1900024403,
+          "after": 3731590216,
+          "value": 0.06721951835788786
+        }
+      ],
+      "chance": 0.18,
+      "intercepted": true
+    }
+  ],
+  "rolls": [
+    {
+      "before": 3859472610,
+      "after": 1396071127,
+      "value": 0.6151225012727082
+    },
+    {
+      "before": 1396071127,
+      "after": 3227636940,
+      "value": 0.3073508713860065
+    },
+    {
+      "before": 3227636940,
+      "after": 764235457,
+      "value": 0.7219463132787496
+    },
+    {
+      "before": 764235457,
+      "after": 2595801270,
+      "value": 0.5244075988885015
+    },
+    {
+      "before": 2595801270,
+      "after": 132399787,
+      "value": 0.7479503881186247
+    },
+    {
+      "before": 132399787,
+      "after": 1963965600,
+      "value": 0.0843636600766331
+    },
+    {
+      "before": 1963965600,
+      "after": 3795531413,
+      "value": 0.6743906601332128
+    },
+    {
+      "before": 3795531413,
+      "after": 1332129930,
+      "value": 0.8783166815992445
+    },
+    {
+      "before": 1332129930,
+      "after": 3163695743,
+      "value": 0.8653823900967836
+    },
+    {
+      "before": 3163695743,
+      "after": 700294260,
+      "value": 0.9829710908234119
+    },
+    {
+      "before": 700294260,
+      "after": 2531860073,
+      "value": 0.024236358935013413
+    },
+    {
+      "before": 2531860073,
+      "after": 68458590,
+      "value": 0.6729183020070195
+    },
+    {
+      "before": 68458590,
+      "after": 1900024403,
+      "value": 0.5072347361128777
+    },
+    {
+      "before": 1900024403,
+      "after": 3731590216,
+      "value": 0.06721951835788786
+    }
+  ],
   "logs": [
-    "KRE-DD-1 moves as ordered (1 hexes), facing 5",
-    "EAR-DD-1 moves as ordered (1 hexes), facing 5",
-    "VRA-DD-1 moves as ordered (1 hexes), facing 4",
-    "EAR-DD-1 holds as ordered",
-    "VRA-DD-1 holds as ordered",
-    "KRE-DD-1 holds as ordered",
-    "KRE-DD-1 holds as ordered",
-    "EAR-DD-1 holds as ordered",
-    "VRA-DD-1 holds as ordered",
-    "VRA-DD-1 holds as ordered",
-    "KRE-DD-1 holds as ordered",
-    "EAR-DD-1 holds as ordered"
+    "EAR-DD-1 moves as ordered (1 hexes), facing 0",
+    "KRE-DD-1 moves as ordered (1 hexes), facing 0",
+    "VRA-DD-1 moves as ordered (1 hexes), facing 3"
   ],
   "survivors": [
     {
       "id": "EAR-DD-1",
-      "structure": 1,
+      "structure": 11,
       "destroyed": false,
       "crippled": false
     },
     {
       "id": "KRE-DD-1",
-      "structure": 13,
+      "structure": 9,
       "destroyed": false,
       "crippled": false
     },
     {
       "id": "VRA-DD-1",
-      "structure": 1,
+      "structure": 6,
       "destroyed": false,
       "crippled": false
     }
   ],
-  "pointDefence": {
-    "chancePerPoint": 0.18,
-    "maxChance": 0.7,
-    "rangeHexes": 3
+  "stats": {
+    "EAR-DD-1": {
+      "shots": 2,
+      "hits": 2,
+      "launches": 1,
+      "damage": 22,
+      "internal": 17,
+      "screened": 0,
+      "hitsForward": 3,
+      "hitsRear": 0
+    },
+    "KRE-DD-1": {
+      "shots": 2,
+      "hits": 2,
+      "launches": 1,
+      "damage": 10,
+      "internal": 6,
+      "screened": 0,
+      "hitsForward": 2,
+      "hitsRear": 0
+    },
+    "VRA-DD-1": {
+      "shots": 1,
+      "hits": 1,
+      "launches": 1,
+      "damage": 6,
+      "internal": 2,
+      "screened": 0,
+      "hitsForward": 1,
+      "hitsRear": 0
+    }
   }
 }

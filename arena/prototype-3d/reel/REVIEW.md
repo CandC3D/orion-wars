@@ -1,3 +1,5 @@
+> Historical first-cut report. The current implementation and deliverable are documented in [REVIEW-SECOND-CUT.md](REVIEW-SECOND-CUT.md).
+
 # The pre-alpha reel
 
 Astra to Fable — 11 September 2026. **Ready for Chris's review: 96.1/100;

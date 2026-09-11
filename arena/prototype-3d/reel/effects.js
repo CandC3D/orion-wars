@@ -11,7 +11,7 @@ export function createEffects(scene,camera,depth,w,h){
  if(style==3||style==4){vec3 front=viewPosition;front.z+=radius*sqrt(max(0.,1.-r*r));vec4 clip=projectionMatrix*vec4(front,1.);frontDepth=clip.z/clip.w*.5+.5;}
  if(frontDepth>texture2D(depthImage,gl_FragCoord.xy/resolution).r+.000003)discard;
  vec3 c=colour;float n=fbm(p*5.+vec2(-time*3.,time*1.7));
- if(style==0){float d=abs(p.y);a=(1.-smoothstep(.35,1.,d));c=mix(colour,vec3(1.,.96,.83),1.-smoothstep(.0,.25,d));}
+ if(style==0){float d=abs(p.y);a=(1.-smoothstep(.35,1.,d));c=mix(colour,vec3(1.,.96,.83),1.-smoothstep(.24,.46,d));}
  if(style==1){float spike=exp(-abs(p.x)*80.)*pow(max(0.,1.-abs(p.y)),1.8)+exp(-abs(p.y)*80.)*pow(max(0.,1.-abs(p.x)),1.8);
   spike+=.35*(exp(-abs(p.x-p.y)*90.)+exp(-abs(p.x+p.y)*90.))*pow(max(0.,1.-r),2.);a=exp(-r*r*16.)*.38+spike+exp(-r*r*300.)*1.5;c=mix(colour,vec3(1.,.97,.8),exp(-r*r*180.));a*=.86+.14*sin(time*21.);}
  if(style==2){float ang=atan(p.y,p.x);float tongue=.08*sin(ang*9.+time*9.)+.07*sin(ang*15.-time*13.)+.06*sin(ang*5.+time*7.);float edge=.55+tongue+(n-.5)*.38;
@@ -26,17 +26,19 @@ export function createEffects(scene,camera,depth,w,h){
   // Plane UV X follows the flight direction; Y is transverse beam width.
  }
  const beams=Array.from({length:8},(_,i)=>mesh('continuous beam '+i,'#ffffff',0));
+ const tracers=Array.from({length:12},(_,i)=>mesh('PD tracer '+i,'#ffffff',0));
  const stars=Array.from({length:3},(_,i)=>mesh('projectile '+i,'#ffffff',i===1?2:1));
  const trails=Array.from({length:3},(_,i)=>mesh('projectile trail '+i,'#ffffff',5));
- const bursts=Array.from({length:7},(_,i)=>mesh('hit flash and fireball '+i,'#ffad35',3));
- const shields=Array.from({length:4},(_,i)=>mesh('confirmed struck shield face '+i,'#60b8ff',4));
+ const bursts=Array.from({length:8},(_,i)=>mesh('hit flash and fireball '+i,'#ffad35',3));
+ const shields=Array.from({length:8},(_,i)=>mesh('confirmed struck shield face '+i,'#60b8ff',4));
  const flameTails=Array.from({length:5},(_,i)=>mesh('plasma flame tongue '+i,'#16ff24',2));
  const setColour=(m,f)=>m.material.uniforms.colour.value.set(colours[f]);
  const billboard=(m,pos,size)=>{m.visible=true;m.position.copy(pos);m.quaternion.copy(camera.quaternion);m.scale.setScalar(size);m.material.uniforms.radius.value=size/2;};
  return {all,clear(t){for(const m of all){m.visible=false;m.material.uniforms.time.value=t;m.material.uniforms.age.value=0;m.material.uniforms.strength.value=1;}},
- beam(i,a,b,f,strength=1,width=.17){const m=beams[i];ribbon(m,a,b,width);setColour(m,f);m.material.uniforms.strength.value=strength;},
- projectile(i,pos,prior,f,t){const m=stars[i];setColour(m,f);billboard(m,pos,i===1?1.3:1.35);const tail=trails[i];setColour(tail,f);ribbon(tail,prior,pos,i===1?.28:.16);
-  if(i===1)for(let j=0;j<5;j++){const p=pos.clone().lerp(prior,(j+1)*.095);p.y+=Math.sin(t*11+j*1.8)*.09;p.z+=Math.cos(t*9+j)*.08;const q=flameTails[j];billboard(q,p,.7-j*.07);q.material.uniforms.strength.value=.7-j*.08;}
+ beam(i,a,b,f,strength=1,width=.5){const m=beams[i];ribbon(m,a,b,width);setColour(m,f);m.material.uniforms.strength.value=strength;},
+ tracer(i,a,b,progress,f){const dir=b.clone().sub(a),end=a.clone().addScaledVector(dir,progress),start=a.clone().addScaledVector(dir,Math.max(0,progress-.19));ribbon(tracers[i],start,end,.22);setColour(tracers[i],f);},
+ projectile(i,pos,prior,f,t,plasma=false){const m=stars[i];m.material.uniforms.style.value=plasma?2:1;setColour(m,f);billboard(m,pos,plasma?3:2.8);const tail=trails[i];setColour(tail,f);ribbon(tail,prior,pos,plasma?.50:.28);
+  if(plasma)for(let j=0;j<5;j++){const p=pos.clone().lerp(prior,(j+1)*.185);p.y+=Math.sin(t*11+j*1.8)*.18;p.z+=Math.cos(t*9+j)*.16;const q=flameTails[j];billboard(q,p,1.45-j*.14);q.material.uniforms.strength.value=.7-j*.16;}
  },burst(i,pos,age,size=.95){const m=bursts[i];billboard(m,pos,2*size*(.22+.78*Math.sqrt(age)));m.material.uniforms.age.value=age;},
  shield(i,pos,normal,age){const m=shields[i];billboard(m,pos.clone().addScaledVector(normal,.055),1.5);m.material.uniforms.age.value=age;},
  colours};

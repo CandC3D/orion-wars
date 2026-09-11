@@ -1,0 +1,22 @@
+{
+  "videoFrames": 950,
+  "videoPayloadsIdentical": true,
+  "frameSpacingIdentical": true,
+  "firstVideoTimestampMs": 0,
+  "firstAudioTimestampMs": 0,
+  "audioCodecDelayMs": 0,
+  "tracks": [
+    {
+      "number": 1,
+      "codec": "V_VP8",
+      "type": 1
+    },
+    {
+      "number": 2,
+      "codec": "A_OPUS",
+      "type": 2
+    }
+  ],
+  "durationSeconds": 31.666,
+  "sha256": "2b62f5da81c440816c6e3db22cd64a61fb48853068234e7fde7c1038c5c65db6"
+}

@@ -1,0 +1,1299 @@
+[
+  {
+    "time": 6.6,
+    "frame": 198,
+    "planning": false,
+    "expected": [
+      "continuous beam 0",
+      "hit flash and fireball 0",
+      "confirmed struck shield face 0"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 0",
+        "thresholdLinear": 0.05,
+        "pixels": 19621,
+        "bounds": {
+          "x": 394,
+          "y": 455,
+          "width": 1093,
+          "height": 147
+        }
+      },
+      {
+        "effect": "hit flash and fireball 0",
+        "thresholdLinear": 0.05,
+        "pixels": 48,
+        "bounds": {
+          "x": 1482,
+          "y": 589,
+          "width": 8,
+          "height": 8
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3133,
+        "bounds": {
+          "x": 1453,
+          "y": 562,
+          "width": 64,
+          "height": 63
+        }
+      }
+    ]
+  },
+  {
+    "time": 6.733333333333333,
+    "frame": 202,
+    "planning": false,
+    "expected": [
+      "continuous beam 1",
+      "hit flash and fireball 1"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 0",
+        "thresholdLinear": 0.05,
+        "pixels": 21280,
+        "bounds": {
+          "x": 394,
+          "y": 454,
+          "width": 1093,
+          "height": 149
+        }
+      },
+      {
+        "effect": "continuous beam 1",
+        "thresholdLinear": 0.05,
+        "pixels": 20219,
+        "bounds": {
+          "x": 375,
+          "y": 478,
+          "width": 1116,
+          "height": 127
+        }
+      },
+      {
+        "effect": "hit flash and fireball 0",
+        "thresholdLinear": 0.05,
+        "pixels": 211,
+        "bounds": {
+          "x": 1478,
+          "y": 585,
+          "width": 17,
+          "height": 16
+        }
+      },
+      {
+        "effect": "hit flash and fireball 1",
+        "thresholdLinear": 0.05,
+        "pixels": 47,
+        "bounds": {
+          "x": 1486,
+          "y": 592,
+          "width": 8,
+          "height": 7
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3125,
+        "bounds": {
+          "x": 1453,
+          "y": 562,
+          "width": 64,
+          "height": 63
+        }
+      }
+    ]
+  },
+  {
+    "time": 8.1,
+    "frame": 243,
+    "planning": false,
+    "expected": [
+      "projectile 0"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 0",
+        "thresholdLinear": 0.05,
+        "pixels": 21280,
+        "bounds": {
+          "x": 394,
+          "y": 454,
+          "width": 1093,
+          "height": 149
+        }
+      },
+      {
+        "effect": "continuous beam 1",
+        "thresholdLinear": 0.05,
+        "pixels": 21919,
+        "bounds": {
+          "x": 375,
+          "y": 478,
+          "width": 1116,
+          "height": 128
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 2880,
+        "bounds": {
+          "x": 432,
+          "y": 459,
+          "width": 73,
+          "height": 81
+        }
+      },
+      {
+        "effect": "hit flash and fireball 1",
+        "thresholdLinear": 0.05,
+        "pixels": 842,
+        "bounds": {
+          "x": 1473,
+          "y": 578,
+          "width": 34,
+          "height": 34
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 0",
+        "thresholdLinear": 0.05,
+        "pixels": 2971,
+        "bounds": {
+          "x": 1454,
+          "y": 562,
+          "width": 62,
+          "height": 62
+        }
+      }
+    ]
+  },
+  {
+    "time": 9.9,
+    "frame": 297,
+    "planning": false,
+    "expected": [
+      "continuous beam 2",
+      "hit flash and fireball 2"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 2",
+        "thresholdLinear": 0.05,
+        "pixels": 13849,
+        "bounds": {
+          "x": 692,
+          "y": 253,
+          "width": 791,
+          "height": 325
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3979,
+        "bounds": {
+          "x": 486,
+          "y": 461,
+          "width": 82,
+          "height": 85
+        }
+      },
+      {
+        "effect": "hit flash and fireball 2",
+        "thresholdLinear": 0.05,
+        "pixels": 8,
+        "bounds": {
+          "x": 1475,
+          "y": 567,
+          "width": 5,
+          "height": 4
+        }
+      }
+    ]
+  },
+  {
+    "time": 10.033333333333333,
+    "frame": 301,
+    "planning": false,
+    "expected": [
+      "continuous beam 3",
+      "hit flash and fireball 3",
+      "confirmed struck shield face 3"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 2",
+        "thresholdLinear": 0.05,
+        "pixels": 15011,
+        "bounds": {
+          "x": 692,
+          "y": 252,
+          "width": 791,
+          "height": 327
+        }
+      },
+      {
+        "effect": "continuous beam 3",
+        "thresholdLinear": 0.05,
+        "pixels": 4432,
+        "bounds": {
+          "x": 383,
+          "y": 253,
+          "width": 200,
+          "height": 212
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3808,
+        "bounds": {
+          "x": 492,
+          "y": 464,
+          "width": 83,
+          "height": 81
+        }
+      },
+      {
+        "effect": "hit flash and fireball 2",
+        "thresholdLinear": 0.05,
+        "pixels": 87,
+        "bounds": {
+          "x": 1471,
+          "y": 563,
+          "width": 14,
+          "height": 15
+        }
+      },
+      {
+        "effect": "hit flash and fireball 3",
+        "thresholdLinear": 0.05,
+        "pixels": 5,
+        "bounds": {
+          "x": 386,
+          "y": 463,
+          "width": 3,
+          "height": 4
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 3",
+        "thresholdLinear": 0.05,
+        "pixels": 2111,
+        "bounds": {
+          "x": 360,
+          "y": 438,
+          "width": 56,
+          "height": 48
+        }
+      }
+    ]
+  },
+  {
+    "time": 11.4,
+    "frame": 342,
+    "planning": false,
+    "expected": [
+      "projectile 1"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 2",
+        "thresholdLinear": 0.05,
+        "pixels": 15011,
+        "bounds": {
+          "x": 692,
+          "y": 252,
+          "width": 791,
+          "height": 327
+        }
+      },
+      {
+        "effect": "continuous beam 3",
+        "thresholdLinear": 0.05,
+        "pixels": 4799,
+        "bounds": {
+          "x": 383,
+          "y": 253,
+          "width": 200,
+          "height": 212
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3766,
+        "bounds": {
+          "x": 534,
+          "y": 467,
+          "width": 84,
+          "height": 85
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 757,
+        "bounds": {
+          "x": 712,
+          "y": 259,
+          "width": 52,
+          "height": 66
+        }
+      },
+      {
+        "effect": "hit flash and fireball 3",
+        "thresholdLinear": 0.05,
+        "pixels": 603,
+        "bounds": {
+          "x": 375,
+          "y": 452,
+          "width": 29,
+          "height": 27
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 3",
+        "thresholdLinear": 0.05,
+        "pixels": 2042,
+        "bounds": {
+          "x": 361,
+          "y": 438,
+          "width": 54,
+          "height": 48
+        }
+      }
+    ]
+  },
+  {
+    "time": 13.2,
+    "frame": 396,
+    "planning": false,
+    "expected": [
+      "continuous beam 4",
+      "hit flash and fireball 4",
+      "confirmed struck shield face 4"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 4",
+        "thresholdLinear": 0.05,
+        "pixels": 15523,
+        "bounds": {
+          "x": 592,
+          "y": 268,
+          "width": 900,
+          "height": 308
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3821,
+        "bounds": {
+          "x": 588,
+          "y": 475,
+          "width": 93,
+          "height": 81
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1082,
+        "bounds": {
+          "x": 748,
+          "y": 284,
+          "width": 76,
+          "height": 67
+        }
+      },
+      {
+        "effect": "hit flash and fireball 4",
+        "thresholdLinear": 0.05,
+        "pixels": 27,
+        "bounds": {
+          "x": 590,
+          "y": 272,
+          "width": 6,
+          "height": 6
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 4",
+        "thresholdLinear": 0.05,
+        "pixels": 1526,
+        "bounds": {
+          "x": 571,
+          "y": 252,
+          "width": 47,
+          "height": 42
+        }
+      }
+    ]
+  },
+  {
+    "time": 14.7,
+    "frame": 441,
+    "planning": false,
+    "expected": [
+      "projectile 2"
+    ],
+    "effects": [
+      {
+        "effect": "continuous beam 4",
+        "thresholdLinear": 0.05,
+        "pixels": 16820,
+        "bounds": {
+          "x": 592,
+          "y": 268,
+          "width": 901,
+          "height": 308
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 3959,
+        "bounds": {
+          "x": 642,
+          "y": 475,
+          "width": 81,
+          "height": 92
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1144,
+        "bounds": {
+          "x": 800,
+          "y": 301,
+          "width": 69,
+          "height": 78
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1323,
+        "bounds": {
+          "x": 1408,
+          "y": 542,
+          "width": 69,
+          "height": 96
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 4",
+        "thresholdLinear": 0.05,
+        "pixels": 1453,
+        "bounds": {
+          "x": 572,
+          "y": 253,
+          "width": 45,
+          "height": 40
+        }
+      }
+    ]
+  },
+  {
+    "time": 23.3,
+    "frame": 699,
+    "planning": false,
+    "expected": [
+      "PD tracer 0"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 0",
+        "thresholdLinear": 0.05,
+        "pixels": 137,
+        "bounds": {
+          "x": 1474,
+          "y": 563,
+          "width": 16,
+          "height": 10
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 4699,
+        "bounds": {
+          "x": 1245,
+          "y": 529,
+          "width": 94,
+          "height": 92
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1501,
+        "bounds": {
+          "x": 1320,
+          "y": 489,
+          "width": 91,
+          "height": 85
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1032,
+        "bounds": {
+          "x": 756,
+          "y": 297,
+          "width": 71,
+          "height": 76
+        }
+      }
+    ]
+  },
+  {
+    "time": 23.5,
+    "frame": 705,
+    "planning": false,
+    "expected": [
+      "PD tracer 1"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 0",
+        "thresholdLinear": 0.05,
+        "pixels": 303,
+        "bounds": {
+          "x": 1384,
+          "y": 568,
+          "width": 35,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 1",
+        "thresholdLinear": 0.05,
+        "pixels": 130,
+        "bounds": {
+          "x": 1475,
+          "y": 563,
+          "width": 15,
+          "height": 10
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 4740,
+        "bounds": {
+          "x": 1257,
+          "y": 531,
+          "width": 94,
+          "height": 90
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1581,
+        "bounds": {
+          "x": 1330,
+          "y": 493,
+          "width": 92,
+          "height": 85
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1072,
+        "bounds": {
+          "x": 751,
+          "y": 294,
+          "width": 69,
+          "height": 78
+        }
+      }
+    ]
+  },
+  {
+    "time": 23.7,
+    "frame": 711,
+    "planning": false,
+    "expected": [
+      "PD tracer 2"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 0",
+        "thresholdLinear": 0.05,
+        "pixels": 296,
+        "bounds": {
+          "x": 1311,
+          "y": 572,
+          "width": 34,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 1",
+        "thresholdLinear": 0.05,
+        "pixels": 288,
+        "bounds": {
+          "x": 1390,
+          "y": 568,
+          "width": 33,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 2",
+        "thresholdLinear": 0.05,
+        "pixels": 121,
+        "bounds": {
+          "x": 1475,
+          "y": 563,
+          "width": 15,
+          "height": 10
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 4784,
+        "bounds": {
+          "x": 1271,
+          "y": 535,
+          "width": 88,
+          "height": 88
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1746,
+        "bounds": {
+          "x": 1339,
+          "y": 496,
+          "width": 96,
+          "height": 87
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1185,
+        "bounds": {
+          "x": 740,
+          "y": 292,
+          "width": 79,
+          "height": 79
+        }
+      }
+    ]
+  },
+  {
+    "time": 23.9,
+    "frame": 717,
+    "planning": false,
+    "expected": [
+      "PD tracer 3"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 1",
+        "thresholdLinear": 0.05,
+        "pixels": 283,
+        "bounds": {
+          "x": 1320,
+          "y": 573,
+          "width": 32,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 2",
+        "thresholdLinear": 0.05,
+        "pixels": 274,
+        "bounds": {
+          "x": 1395,
+          "y": 569,
+          "width": 31,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 3",
+        "thresholdLinear": 0.05,
+        "pixels": 115,
+        "bounds": {
+          "x": 1476,
+          "y": 563,
+          "width": 14,
+          "height": 10
+        }
+      },
+      {
+        "effect": "projectile 0",
+        "thresholdLinear": 0.05,
+        "pixels": 4602,
+        "bounds": {
+          "x": 1274,
+          "y": 538,
+          "width": 97,
+          "height": 91
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1545,
+        "bounds": {
+          "x": 1351,
+          "y": 501,
+          "width": 94,
+          "height": 85
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1024,
+        "bounds": {
+          "x": 740,
+          "y": 293,
+          "width": 67,
+          "height": 73
+        }
+      }
+    ]
+  },
+  {
+    "time": 24.3,
+    "frame": 729,
+    "planning": false,
+    "expected": [
+      "hit flash and fireball 5",
+      "PD tracer 4"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 4",
+        "thresholdLinear": 0.05,
+        "pixels": 39,
+        "bounds": {
+          "x": 1483,
+          "y": 562,
+          "width": 9,
+          "height": 9
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1799,
+        "bounds": {
+          "x": 1373,
+          "y": 503,
+          "width": 95,
+          "height": 97
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1160,
+        "bounds": {
+          "x": 724,
+          "y": 291,
+          "width": 76,
+          "height": 71
+        }
+      },
+      {
+        "effect": "hit flash and fireball 5",
+        "thresholdLinear": 0.05,
+        "pixels": 113,
+        "bounds": {
+          "x": 1333,
+          "y": 576,
+          "width": 12,
+          "height": 12
+        }
+      }
+    ]
+  },
+  {
+    "time": 24.5,
+    "frame": 735,
+    "planning": false,
+    "expected": [
+      "PD tracer 5"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 4",
+        "thresholdLinear": 0.05,
+        "pixels": 87,
+        "bounds": {
+          "x": 1463,
+          "y": 548,
+          "width": 13,
+          "height": 12
+        }
+      },
+      {
+        "effect": "PD tracer 5",
+        "thresholdLinear": 0.05,
+        "pixels": 30,
+        "bounds": {
+          "x": 1484,
+          "y": 563,
+          "width": 8,
+          "height": 8
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1587,
+        "bounds": {
+          "x": 1388,
+          "y": 511,
+          "width": 88,
+          "height": 89
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1024,
+        "bounds": {
+          "x": 722,
+          "y": 293,
+          "width": 68,
+          "height": 64
+        }
+      },
+      {
+        "effect": "hit flash and fireball 5",
+        "thresholdLinear": 0.05,
+        "pixels": 676,
+        "bounds": {
+          "x": 1324,
+          "y": 567,
+          "width": 29,
+          "height": 30
+        }
+      }
+    ]
+  },
+  {
+    "time": 24.7,
+    "frame": 741,
+    "planning": false,
+    "expected": [
+      "PD tracer 6"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 4",
+        "thresholdLinear": 0.05,
+        "pixels": 85,
+        "bounds": {
+          "x": 1446,
+          "y": 536,
+          "width": 13,
+          "height": 12
+        }
+      },
+      {
+        "effect": "PD tracer 5",
+        "thresholdLinear": 0.05,
+        "pixels": 66,
+        "bounds": {
+          "x": 1469,
+          "y": 550,
+          "width": 12,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 6",
+        "thresholdLinear": 0.05,
+        "pixels": 19,
+        "bounds": {
+          "x": 1485,
+          "y": 563,
+          "width": 8,
+          "height": 7
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1643,
+        "bounds": {
+          "x": 1401,
+          "y": 515,
+          "width": 85,
+          "height": 90
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1044,
+        "bounds": {
+          "x": 712,
+          "y": 289,
+          "width": 76,
+          "height": 69
+        }
+      },
+      {
+        "effect": "hit flash and fireball 5",
+        "thresholdLinear": 0.05,
+        "pixels": 1048,
+        "bounds": {
+          "x": 1320,
+          "y": 564,
+          "width": 38,
+          "height": 36
+        }
+      }
+    ]
+  },
+  {
+    "time": 24.9,
+    "frame": 747,
+    "planning": false,
+    "expected": [
+      "PD tracer 7"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 5",
+        "thresholdLinear": 0.05,
+        "pixels": 65,
+        "bounds": {
+          "x": 1457,
+          "y": 540,
+          "width": 11,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 6",
+        "thresholdLinear": 0.05,
+        "pixels": 47,
+        "bounds": {
+          "x": 1476,
+          "y": 553,
+          "width": 10,
+          "height": 9
+        }
+      },
+      {
+        "effect": "PD tracer 7",
+        "thresholdLinear": 0.05,
+        "pixels": 9,
+        "bounds": {
+          "x": 1485,
+          "y": 566,
+          "width": 5,
+          "height": 3
+        }
+      },
+      {
+        "effect": "projectile 1",
+        "thresholdLinear": 0.05,
+        "pixels": 1728,
+        "bounds": {
+          "x": 1408,
+          "y": 516,
+          "width": 85,
+          "height": 96
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1146,
+        "bounds": {
+          "x": 710,
+          "y": 284,
+          "width": 69,
+          "height": 76
+        }
+      },
+      {
+        "effect": "hit flash and fireball 5",
+        "thresholdLinear": 0.05,
+        "pixels": 1390,
+        "bounds": {
+          "x": 1317,
+          "y": 561,
+          "width": 45,
+          "height": 42
+        }
+      }
+    ]
+  },
+  {
+    "time": 25.3,
+    "frame": 759,
+    "planning": false,
+    "expected": [
+      "hit flash and fireball 6",
+      "confirmed struck shield face 6"
+    ],
+    "effects": [
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1037,
+        "bounds": {
+          "x": 698,
+          "y": 283,
+          "width": 70,
+          "height": 71
+        }
+      },
+      {
+        "effect": "hit flash and fireball 5",
+        "thresholdLinear": 0.05,
+        "pixels": 2011,
+        "bounds": {
+          "x": 1313,
+          "y": 557,
+          "width": 52,
+          "height": 51
+        }
+      },
+      {
+        "effect": "hit flash and fireball 6",
+        "thresholdLinear": 0.05,
+        "pixels": 73,
+        "bounds": {
+          "x": 1470,
+          "y": 565,
+          "width": 11,
+          "height": 13
+        }
+      },
+      {
+        "effect": "confirmed struck shield face 6",
+        "thresholdLinear": 0.05,
+        "pixels": 2403,
+        "bounds": {
+          "x": 1445,
+          "y": 540,
+          "width": 61,
+          "height": 61
+        }
+      }
+    ]
+  },
+  {
+    "time": 26.5,
+    "frame": 795,
+    "planning": false,
+    "expected": [
+      "PD tracer 8"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 8",
+        "thresholdLinear": 0.05,
+        "pixels": 17,
+        "bounds": {
+          "x": 689,
+          "y": 260,
+          "width": 7,
+          "height": 4
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1015,
+        "bounds": {
+          "x": 661,
+          "y": 273,
+          "width": 75,
+          "height": 73
+        }
+      }
+    ]
+  },
+  {
+    "time": 26.7,
+    "frame": 801,
+    "planning": false,
+    "expected": [
+      "PD tracer 9"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 8",
+        "thresholdLinear": 0.05,
+        "pixels": 62,
+        "bounds": {
+          "x": 686,
+          "y": 277,
+          "width": 8,
+          "height": 10
+        }
+      },
+      {
+        "effect": "PD tracer 9",
+        "thresholdLinear": 0.05,
+        "pixels": 14,
+        "bounds": {
+          "x": 689,
+          "y": 260,
+          "width": 7,
+          "height": 4
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 1124,
+        "bounds": {
+          "x": 659,
+          "y": 271,
+          "width": 68,
+          "height": 74
+        }
+      }
+    ]
+  },
+  {
+    "time": 26.9,
+    "frame": 807,
+    "planning": false,
+    "expected": [
+      "PD tracer 10"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 8",
+        "thresholdLinear": 0.05,
+        "pixels": 63,
+        "bounds": {
+          "x": 684,
+          "y": 297,
+          "width": 8,
+          "height": 10
+        }
+      },
+      {
+        "effect": "PD tracer 9",
+        "thresholdLinear": 0.05,
+        "pixels": 63,
+        "bounds": {
+          "x": 683,
+          "y": 276,
+          "width": 9,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 10",
+        "thresholdLinear": 0.05,
+        "pixels": 12,
+        "bounds": {
+          "x": 691,
+          "y": 260,
+          "width": 5,
+          "height": 4
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 987,
+        "bounds": {
+          "x": 650,
+          "y": 274,
+          "width": 74,
+          "height": 65
+        }
+      }
+    ]
+  },
+  {
+    "time": 27.1,
+    "frame": 813,
+    "planning": false,
+    "expected": [
+      "PD tracer 11"
+    ],
+    "effects": [
+      {
+        "effect": "PD tracer 10",
+        "thresholdLinear": 0.05,
+        "pixels": 62,
+        "bounds": {
+          "x": 680,
+          "y": 275,
+          "width": 9,
+          "height": 11
+        }
+      },
+      {
+        "effect": "PD tracer 11",
+        "thresholdLinear": 0.05,
+        "pixels": 10,
+        "bounds": {
+          "x": 692,
+          "y": 260,
+          "width": 4,
+          "height": 4
+        }
+      },
+      {
+        "effect": "projectile 2",
+        "thresholdLinear": 0.05,
+        "pixels": 993,
+        "bounds": {
+          "x": 649,
+          "y": 268,
+          "width": 65,
+          "height": 74
+        }
+      }
+    ]
+  },
+  {
+    "time": 27.5,
+    "frame": 825,
+    "planning": false,
+    "expected": [
+      "hit flash and fireball 7"
+    ],
+    "effects": [
+      {
+        "effect": "hit flash and fireball 7",
+        "thresholdLinear": 0.05,
+        "pixels": 66,
+        "bounds": {
+          "x": 666,
+          "y": 297,
+          "width": 9,
+          "height": 9
+        }
+      }
+    ]
+  }
+]

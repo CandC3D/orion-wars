@@ -1,0 +1,36 @@
+{
+  "head": "d570412f5ce8e01abf9b42022a404127a157eb4f",
+  "branch": "work/presentation-3d",
+  "scopedRepositoryChanges": true,
+  "diffCheck": 0,
+  "ruleSourcesUnchanged": true,
+  "tests": {
+    "fast": {
+      "exitCode": 0,
+      "evidence": "fast-tests.log"
+    },
+    "prototype": {
+      "passed": 29,
+      "exitCode": 0
+    },
+    "fleet": {
+      "passed": 32,
+      "exitCode": 0
+    },
+    "reel": {
+      "passed": 8,
+      "exitCode": 0
+    }
+  },
+  "implementationHashes": {
+    "app.js": "e7d427c5722e881eb5ac4ea91edb4fae3f06f55cc6ceaf9c0c392c388c800fd2",
+    "effects.js": "46619a18bc1f05a079a95c23f2c13afbedff3821a4da614cea42167870fcb7b1",
+    "timeline.js": "86f2f9de243ca47beb30bf53e0153c9ef021b8ddcf860fb587c7a127b6bf7b95",
+    "scenario.json": "028f805afa3c9acfe17bac4354938181cedab7026eae517fe55e407e3be7e588",
+    "projection.js": "a91ad88414b1f4debfc61d00b03d9ab2f4e0d1b4c50245276c833487f2ecf90f",
+    "pipeline.js": "333a0c5ec40fbdb936113d3982d166e1141a7cd0c2c9758af340662add5f78ab",
+    "attachments.json": "912696aac684dea975bffae88bce52a3022755549bb5bfbcf4154a199da9e9b4",
+    "audio.js": "4a7c9eb74582cfefd4583635d2325b2b123c67e012a7372df90f57d258aeae8c",
+    "build-second-cut.mjs": "5a72a0e8a036083ce2601a5b791f73a2e648b3e96cde681467fa9c14a991f93a"
+  }
+}

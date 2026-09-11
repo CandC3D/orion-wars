@@ -1,0 +1,16 @@
+import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createServer} from 'node:http';import {spawn} from 'node:child_process';import assert from 'node:assert/strict';
+const {chromium}=await import('file:///C:/Users/chorr/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
+const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../../..'),out=path.resolve(here,'../evidence/pre-alpha-reel-second-cut');await fs.mkdir(out,{recursive:true});
+const server=createServer(async(req,res)=>{try{const f=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(!f.startsWith(root+path.sep))throw Error('outside');res.setHeader('Content-Type',f.endsWith('.js')?'text/javascript':f.endsWith('.webm')?'video/webm':'text/html');res.end(await fs.readFile(f));}catch{res.writeHead(404).end();}});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+try{
+ browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',args:['--autoplay-policy=no-user-gesture-required','--disable-background-timer-throttling']});const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.exposeFunction('saveAudio',data=>fs.writeFile(path.join(out,'audio-opus.webm'),Buffer.from(data,'base64')));
+ await page.goto('http://127.0.0.1:'+server.address().port+'/arena/prototype-3d/reel/audio.html');await page.waitForFunction(()=>window.audioAssembly?.ready);
+ console.log('Chromium assembling existing synthesized cues');const recorded=process.argv.includes('--reuse')?JSON.parse(await fs.readFile(path.join(out,'audio-recording.json'),'utf8')):await page.evaluate(()=>window.audioAssembly.record());assert.deepEqual(recorded.cues,await page.evaluate(()=>window.audioAssembly.cues),'Stale recorded cue schedule');await fs.writeFile(path.join(out,'audio-recording.json'),JSON.stringify(recorded,null,2)+'\n');console.log('Recorded audio median lag: '+recorded.medianLagMs+' ms');
+ if(process.argv.includes('--audio-only'))process.exitCode=0;
+ else{
+  const args=['-v','error','-y','-i',path.join(out,'pre-alpha-reel-silent.webm'),'-itsoffset','0','-i',path.join(out,'audio-opus.webm'),'-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','copy','-t',String(950/30),path.join(out,'pre-alpha-reel.webm')];
+  await new Promise((resolve,reject)=>{const child=spawn('C:/Users/chorr/AppData/Local/ms-playwright/ffmpeg-1011/ffmpeg-win64.exe',args,{windowsHide:true,stdio:['ignore','ignore','pipe']});let err='';child.stderr.on('data',d=>err+=d);child.on('error',reject);child.on('close',c=>c===0?resolve():reject(Error(err)));});
+  const final=await page.evaluate(()=>window.audioAssembly.verify('../evidence/pre-alpha-reel-second-cut/pre-alpha-reel.webm'));await fs.writeFile(path.join(out,'sound-sync.json'),JSON.stringify({route:'Chromium Opus-only encode; bundled ffmpeg lossless VP8/Opus stream-copy mux',offsetMs:0,errors,...final},null,2)+'\n');console.log(JSON.stringify(final));assert.ok(final.worstAbsoluteMs<=1000/30,'Sound exceeds one frame');assert.deepEqual(errors,[]);
+ }
+}finally{await browser?.close();await new Promise(r=>server.close(r));}

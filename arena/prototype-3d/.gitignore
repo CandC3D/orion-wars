@@ -16,3 +16,9 @@ evidence/revision-12/normal-audit-*.json
 evidence/revision-12/*-30.log
 evidence/revision-12/*-40w.log
 evidence/revision-12/*-60.log
+
+# Rebuildable second-cut intermediates; final audiovisual reel and evidence stay.
+evidence/pre-alpha-reel-second-cut/decoded/
+evidence/pre-alpha-reel-second-cut/pre-alpha-reel-silent.webm
+evidence/pre-alpha-reel-second-cut/audio-opus.webm
+evidence/pre-alpha-reel-second-cut/*.log

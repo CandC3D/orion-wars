@@ -1,0 +1,382 @@
+{
+  "sampleRate": 48000,
+  "duration": 31.62,
+  "measurement": "1 ms amplitude envelope; 110 ms cue attack; normalized cross correlation",
+  "medianLagMs": 6,
+  "worstAbsoluteMs": 393,
+  "rows": [
+    {
+      "time": 6.6,
+      "frame": 198,
+      "roles": [
+        "beam",
+        "hit",
+        "shield"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9665683881414813
+    },
+    {
+      "time": 6.733333333333333,
+      "frame": 202,
+      "roles": [
+        "beam",
+        "hit"
+      ],
+      "lagMs": 7,
+      "correlation": 0.9750232323572904
+    },
+    {
+      "time": 8.1,
+      "frame": 243,
+      "roles": [
+        "torpedo"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9876914626419245
+    },
+    {
+      "time": 9.9,
+      "frame": 297,
+      "roles": [
+        "beam",
+        "hit"
+      ],
+      "lagMs": 7,
+      "correlation": 0.9859196408110702
+    },
+    {
+      "time": 10.033333333333333,
+      "frame": 301,
+      "roles": [
+        "beam",
+        "hit",
+        "shield"
+      ],
+      "lagMs": 6,
+      "correlation": 0.96549690151619
+    },
+    {
+      "time": 11.4,
+      "frame": 342,
+      "roles": [
+        "missile"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9110637204153627
+    },
+    {
+      "time": 13.2,
+      "frame": 396,
+      "roles": [
+        "beam",
+        "hit",
+        "shield"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9665683875020136
+    },
+    {
+      "time": 14.7,
+      "frame": 441,
+      "roles": [
+        "missile"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9117190713834076
+    },
+    {
+      "time": 23.3,
+      "frame": 699,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 207,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 23.5,
+      "frame": 705,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 7,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 23.7,
+      "frame": 711,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": -193,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 23.9,
+      "frame": 717,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": -393,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 24.3,
+      "frame": 729,
+      "roles": [
+        "interception",
+        "point-defence"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9909920843704882
+    },
+    {
+      "time": 24.5,
+      "frame": 735,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9966716303079357
+    },
+    {
+      "time": 24.7,
+      "frame": 741,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 207,
+      "correlation": 0.997207441579068
+    },
+    {
+      "time": 24.9,
+      "frame": 747,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 7,
+      "correlation": 0.997207441579068
+    },
+    {
+      "time": 25.3,
+      "frame": 759,
+      "roles": [
+        "hit",
+        "shield"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9720231853771876
+    },
+    {
+      "time": 26.5,
+      "frame": 795,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 207,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 26.7,
+      "frame": 801,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": 7,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 26.9,
+      "frame": 807,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": -193,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 27.1,
+      "frame": 813,
+      "roles": [
+        "point-defence"
+      ],
+      "lagMs": -393,
+      "correlation": 0.9972074415882342
+    },
+    {
+      "time": 27.5,
+      "frame": 825,
+      "roles": [
+        "interception"
+      ],
+      "lagMs": 6,
+      "correlation": 0.9911756419168557
+    }
+  ],
+  "mimeType": "audio/webm;codecs=opus",
+  "bitrate": 192000,
+  "referencePeak": 0.11655353009700775,
+  "cues": [
+    {
+      "time": 6.6,
+      "role": "beam",
+      "cue": "beam"
+    },
+    {
+      "time": 6.6,
+      "role": "hit",
+      "cue": "impact"
+    },
+    {
+      "time": 6.6,
+      "role": "shield",
+      "cue": "engage"
+    },
+    {
+      "time": 6.733333333333333,
+      "role": "beam",
+      "cue": "beam"
+    },
+    {
+      "time": 6.733333333333333,
+      "role": "hit",
+      "cue": "impact"
+    },
+    {
+      "time": 8.1,
+      "role": "torpedo",
+      "cue": "spinal"
+    },
+    {
+      "time": 9.9,
+      "role": "beam",
+      "cue": "beam"
+    },
+    {
+      "time": 9.9,
+      "role": "hit",
+      "cue": "impact"
+    },
+    {
+      "time": 10.033333333333333,
+      "role": "beam",
+      "cue": "beam"
+    },
+    {
+      "time": 10.033333333333333,
+      "role": "hit",
+      "cue": "impact"
+    },
+    {
+      "time": 10.033333333333333,
+      "role": "shield",
+      "cue": "engage"
+    },
+    {
+      "time": 11.4,
+      "role": "missile",
+      "cue": "launch"
+    },
+    {
+      "time": 13.2,
+      "role": "beam",
+      "cue": "beam"
+    },
+    {
+      "time": 13.2,
+      "role": "hit",
+      "cue": "impact"
+    },
+    {
+      "time": 13.2,
+      "role": "shield",
+      "cue": "engage"
+    },
+    {
+      "time": 14.7,
+      "role": "missile",
+      "cue": "launch"
+    },
+    {
+      "time": 23.3,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 23.5,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 23.7,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 23.9,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 24.3,
+      "role": "interception",
+      "cue": "impact"
+    },
+    {
+      "time": 24.3,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 24.5,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 24.7,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 24.9,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 25.3,
+      "role": "hit",
+      "cue": "impact"
+    },
+    {
+      "time": 25.3,
+      "role": "shield",
+      "cue": "engage"
+    },
+    {
+      "time": 26.5,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 26.7,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 26.9,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 27.1,
+      "role": "point-defence",
+      "cue": "intercept"
+    },
+    {
+      "time": 27.5,
+      "role": "interception",
+      "cue": "impact"
+    }
+  ]
+}
