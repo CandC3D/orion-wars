@@ -25,7 +25,10 @@ const THREAD_FILE = path.join(LINK, 'thread.json');
 const SEEN_FILE = path.join(LINK, 'seen.json');
 
 const MODEL = process.env.DS_ASTRA_MODEL || 'gpt-6-astra';
-const EFFORT = process.env.DS_ASTRA_EFFORT || 'xhigh';
+// Medium by default since 2026-09-11: Chris reports visual evidence from r/aigamedev that medium
+// effort yields results as good as high or xhigh on Astra, at a fraction of the time and cost.
+// Raise per call with DS_ASTRA_EFFORT=high|xhigh when a job really is reasoning-bound.
+const EFFORT = process.env.DS_ASTRA_EFFORT || 'medium';
 // Node refuses to spawn a .cmd shim without a shell, and the shell would mangle
 // the TOML in our -c arguments. The npm package is a plain node script, so run
 // that directly when we can find it.
