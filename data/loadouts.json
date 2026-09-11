@@ -193,7 +193,7 @@
         "neutronic-missile": 1
       },
       "missileMounts": 2,
-      "magazine": 8,
+      "magazine": 12,
       "_note": "A second tube, against the class envelope's one. This is the 8-point cell's lever and only the 8-point cell's: Earth field a light cruiser at 8 points and NOWHERE else in the sweep, because at 24, 32 and 64 both light cruisers are swapped for the command ship and at 16 there are none, so the change is worth +19pp at 8 and a flat zero at every other size. That is worth stating plainly rather than hiding - it is a single-cell fix. Two things justify it beyond the number. Earth at 8 points was 22% against Zandrax and 27% against Krelath: a laser cannon is the lowest-damage beam in the game and this cell is decided before the fleets are in laser band, so the tube is what Earth needs and the neutronic missile is Earth's weapon. And one tube was the outlier, not two - three of the four powers already override this class's tube count (Vraygon 3, Zandrax 2), so Earth at 2 is inside the family rather than outside it. Eight rounds rather than the envelope's five so the second tube has something to fire in a fourteen-turn action.",
       "mounts": [
         {
@@ -663,7 +663,7 @@
         "neutronic-missile": 1
       },
       "missileMounts": 1,
-      "magazine": 6,
+      "magazine": 9,
       "_note": "Layout follows the class envelope (forward turret 180, rear turret 180, one forward tube) per the 2026-09-03 ruling; this fit sets weapon types only. ",
       "mounts": [
         {
@@ -727,7 +727,7 @@
         "a"
       ],
       "missileMounts": 3,
-      "magazine": 12,
+      "magazine": 18,
       "mounts": [
         {
           "type": "heavy-blaster",
@@ -818,7 +818,7 @@
       },
       "beamMounts": 5,
       "missileMounts": 3,
-      "magazine": 12,
+      "magazine": 18,
       "beamArcs": [
         "fp",
         "fs",
@@ -943,7 +943,7 @@
         "neutronic-missile": 1
       },
       "missileMounts": 5,
-      "magazine": 18,
+      "magazine": 27,
       "beamArcs": [
         "fp",
         "fp",
@@ -1378,7 +1378,7 @@
         "f",
         "fs"
       ],
-      "magazine": 12,
+      "magazine": 18,
       "_note": "A second tube, so the 50/50 mix can actually split. buildShip assigns missile mounts by largest remainder; with a single mount both halves of a 0.5/0.5 mix floor to zero and the one spare always goes to the first entry, so the plasma torpedo - half the declared Zandrax armament - never appeared on any hull with fewer than two tubes. At 8 points Zandrax field only 1- and 2-tube hulls, so their signature weapon never appeared in that cell at all; reverting this drops them to 24% there and 34% at 32 points. Six rounds a tube rather than the envelope's five, because half of what these tubes fire is a plasma torpedo that decays to nothing past 8 hexes: a fair share of the magazine is spent on launches that were never going to earn their damage. Worth a consistent 1-2pp to Zandrax at 8 points across five seed sets, which is where their thinnest margin in the whole sweep sits.",
       "mounts": [
         {
@@ -1454,7 +1454,7 @@
         "plasma-torpedo": 0.5
       },
       "missileMounts": 7,
-      "magazine": 26,
+      "magazine": 39,
       "_note": "Seven tubes rather than the envelope's five. Zandrax are the swarm, and a swarm dilutes as the budget grows: they were 73% at 8 points and 24-31% at 64, because at the top of the ladder the cell is decided by capitals and theirs was a plain envelope hull with the worst shields in the game but one. Weight of missile fire is the Klingon answer and it is the only Zandrax lever measured that moves 64 points without also moving 8 and 16 - the battleship appears at 32 and 64 only. Worth about 9pp at 64. The alternative tried and rejected was lifting factionModifiers.ZAN.shieldPointRatio to 1.2, which buys 3pp at 64 and pushes 24 points to 69%.",
       "mounts": [
         {
@@ -1887,7 +1887,7 @@
         "neutronic-missile": 1
       },
       "missileMounts": 5,
-      "magazine": 20,
+      "magazine": 30,
       "missileArcs": [
         "f",
         "f",
@@ -2032,7 +2032,7 @@
         "plasma-torpedo": 1
       },
       "missileMounts": 7,
-      "magazine": 26,
+      "magazine": 39,
       "_note": "Seven tubes rather than the envelope's five, all plasma. Krelath field a battleship at 32 and 64 points only, and after the warp jump was gated to real rear insertions they sat at 33-35% at 64 - the floor - while 32 was healthy at ~50%. This is the one lever measured that separates those two cells: it is worth +6pp at 64 and about +1pp at 32, and it is invisible at 2, 8, 16 and 24 where the hull is not bought. Weight of short-range torpedo fire is the right answer for this faction - the plasma decays to nothing past 8 hexes, so more tubes buys Krelath more of the thing they already do, which is arrive close and hit hard, rather than a new capability. The alternative of putting NEUTRONIC missiles in the mix is a trap and was re-measured on the merged tree, where it is worse than the first time it was tried: 60/40 plasma/neutronic lifts 64 points but craters 32 from 52% to 14%, because the neutronic's 20-hex nominal range flips the hull into engagementRange's stand-off branch and a blaster fleet that stands off is a dead fleet. Do not do it.",
       "mounts": [
         {
@@ -2540,16 +2540,35 @@
     "date": "2026-09-05",
     "source": "Chris-authored faction layouts; all 29 classes. Explicit mounts supersede envelope/cyclic arcs. Monitor stat ruling is in tactical-tuning.json.",
     "revisions": {
-      "EAR/gunstar-battlecruiser": 3,
-      "EAR/light-cruiser": 3,
-   "VRA/battleship": 3,
-      "VRA/destroyer": 3,
-      "VRA/heavy-cruiser": 3,
+      "EAR/gunstar-battlecruiser": 4,
+      "EAR/light-cruiser": 4,
+      "VRA/battleship": 5,
+      "VRA/destroyer": 5,
+      "VRA/heavy-cruiser": 5,
       "EAR/frigate": 3,
       "KRE/frigate": 3,
-      "VRA/frigate": 3,
-      "ZAN/frigate": 3
+      "VRA/frigate": 4,
+      "ZAN/frigate": 3,
+      "EAR/battleship": 3,
+      "EAR/destroyer": 3,
+      "EAR/heavy-cruiser": 3,
+      "EAR/missile-destroyer": 3,
+      "KRE/battleship": 3,
+      "KRE/carrier": 3,
+      "KRE/destroyer": 3,
+      "KRE/heavy-cruiser": 3,
+      "KRE/light-cruiser": 3,
+      "KRE/missile-destroyer": 3,
+      "KRE/strike-cruiser": 3,
+      "VRA/light-cruiser": 4,
+      "VRA/missile-destroyer": 4,
+      "VRA/monitor": 4,
+      "ZAN/battleship": 3,
+      "ZAN/destroyer": 3,
+      "ZAN/heavy-cruiser": 3,
+      "ZAN/light-cruiser": 3,
+      "ZAN/missile-destroyer": 3
     },
-    "amended": "2026-09-08"
+    "amended": "2026-09-11"
   }
 }

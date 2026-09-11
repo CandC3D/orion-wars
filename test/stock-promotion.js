@@ -36,7 +36,13 @@ check('All 29 current stock packs equal the latest approved returns, apart from 
 });
 check('Non-layout changes are limited to the monitor, September 6 legacy tables, approved unused laser metadata, the September 7 arc presets and the September 8 frigate profile and structure',()=>{
   const restored=copy(t),m=restored.hullClasses.monitor,old=beforeT.hullClasses.monitor;
-  assert.equal(m.points,24);assert.equal(m.magazine,32);assert.equal(Math.round(m.superstructure*t.factionModifiers.VRA.superstructure),220);
+  assert.equal(m.points,24);assert.equal(m.magazine,48); // the monitor ruling's 32, x1.5 by the September 11 magazine ruling
+  // September 11 (Chris, "magazines - increase for all"): every hull-class magazine is x1.5, rounded.
+  for(const [c,h] of Object.entries(restored.hullClasses))if(c!=='monitor'&&Number.isFinite(beforeT.hullClasses[c]?.magazine)){
+    assert.equal(h.magazine,Math.round(beforeT.hullClasses[c].magazine*1.5),c+' magazine');h.magazine=beforeT.hullClasses[c].magazine;}assert.equal(Math.round(m.superstructure*1.8),220); // the monitor ruling, at the Vraygon armour it was made under
+  // September 11 warp rebalance (Chris): Vraygon armour x1.80 -> x2.10; the monitor is now 256.
+  assert.equal(restored.factionModifiers.VRA.superstructure,2.1);assert.equal(Math.round(m.superstructure*2.1),256);
+  restored.factionModifiers.VRA.superstructure=beforeT.factionModifiers.VRA.superstructure;restored.factionModifiers.VRA._doctrine=beforeT.factionModifiers.VRA._doctrine;
   assert.deepEqual(m.missileArcs,old.missileArcs.slice(0,5));m.missileArcs=old.missileArcs;
   delete m._publication;for(const k of ['points','magazine','superstructure'])m[k]=old[k];
   const laser=restored.weapons['laser-cannon'];
@@ -76,7 +82,7 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   restored.hullClasses.frigate.superstructure=beforeT.hullClasses.frigate.superstructure;
   delete restored.hullClasses.frigate._structureNote;
   // Chris's September 10 warp ruling: straight ahead, up to 8 hexes; the insertion gates are gone.
-  assert.equal(restored.warpJump.rangeHexes,8);assert.equal(restored.warpJump.powerCostFraction,beforeT.warpJump.powerCostFraction);
+  assert.equal(restored.warpJump.rangeHexes,8);assert.equal(restored.warpJump.powerCostFraction,0.45); // 0.35 until the September 11 rebalance
   for(const gone of ['preferRearArc','requireRearArc','minGain','fleetFraction'])assert.ok(!(gone in restored.warpJump),gone);
   restored.warpJump=beforeT.warpJump;
   assert.deepEqual(restored,beforeT);
@@ -84,6 +90,9 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(stripped.VRA.destroyer.missileMounts,1);stripped.VRA.destroyer.missileMounts=beforeL.VRA.destroyer.missileMounts;
   assert.deepEqual(stripped.VRA['heavy-cruiser'].beamArcs,[...beforeL.VRA['heavy-cruiser'].beamArcs,'a']);stripped.VRA['heavy-cruiser'].beamArcs=beforeL.VRA['heavy-cruiser'].beamArcs;
   assert.deepEqual(stripped.VRA.battleship.missileArcs,beforeL.VRA.battleship.missileArcs.slice(0,5));stripped.VRA.battleship.missileArcs=beforeL.VRA.battleship.missileArcs;
+  // September 11 magazine ruling: every faction fit's own magazine is x1.5, rounded.
+  for(const f of ['EAR','KRE','VRA','ZAN'])for(const [c,fit] of Object.entries(stripped[f]))if(Number.isFinite(beforeL[f]?.[c]?.magazine)){
+    assert.equal(fit.magazine,Math.round(beforeL[f][c].magazine*1.5),f+'/'+c+' magazine');fit.magazine=beforeL[f][c].magazine;}
   for(const f of ['EAR','KRE','VRA','ZAN'])for(const c of t.rosters[f]){
     assert.ok(Array.isArray(stripped[f][c].mounts),f+'/'+c);delete stripped[f][c].mounts;
     if(!Object.hasOwn(beforeL[f],c)){assert.deepEqual(stripped[f][c],beforeL[f]._default);delete stripped[f][c];}
@@ -129,8 +138,9 @@ check('Browser-local stock takes precedence regardless of supplied revision; res
   const scenario=trialScenario(old,beforeT),pinned=pinStockRevisions(scenario,[old]);
   assert.deepEqual(pinned.sides[1].ships[0].designPack,old);
   const restored=appendRevision(storage,stockPack('VRA','monitor',t,l),t,raw,{allowStock:true});
-  assert.equal(restored.pack.design.revision,3);assert.equal(restored.library.length,2);
-  assert.deepEqual(restored.library[0],old);assert.equal(restored.pack.design.hull.superstructure,220);
+  // Stock monitor is r4 after the two September 11 amendments (magazine, armour), so the restore appends r5.
+  assert.equal(restored.pack.design.revision,5);assert.equal(restored.library.length,2);
+  assert.deepEqual(restored.library[0],old);assert.equal(restored.pack.design.hull.superstructure,256);
   assert.deepEqual(pinStockRevisions(pinned,restored.library),pinned);
   assert.equal(createBattle(pinned,t,l,'old').B[0].superstructure,198);
 });

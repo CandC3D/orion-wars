@@ -10,9 +10,10 @@ import {recordScenario,snapshotShip} from '../arena/record.js';
 import {trialScenario} from '../drydock/model.js';
 import {add} from '../src/tactical/hex.js';
 import {makePrng} from '../src/prng.js';
-import {originalApproved,approved} from './fixtures/stock-approvals.js';
+import {originalApproved,approved,beforeMagazineRuling} from './fixtures/stock-approvals.js';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
-const tuning=read('../data/tactical-tuning.json'),loadouts=read('../data/loadouts.json');
+// Judged with the September 11 magazine ruling undone: that amendment is proved in stock-promotion.js.
+const {tuning,loadouts}=beforeMagazineRuling(read('../data/tactical-tuning.json'),read('../data/loadouts.json'));
 const original=originalApproved.find(e=>e.key==='EAR/light-cruiser').pack;
 const supplied=read('../docs/drydock/earth-light-cruiser-amendment-2026-09-06/approved-designs.json').designs[0].pack;
 const previous=copy(loadouts);previous.EAR['light-cruiser'].mounts[0].faces=copy(original.design.mounts[0].faces);

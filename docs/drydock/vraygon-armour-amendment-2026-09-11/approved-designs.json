@@ -1,0 +1,1411 @@
+{
+  "date": "2026-09-11",
+  "authority": "Chris, in session: \"warp balance - yes let's try a rebalance\", after the straight warp and the x1.5 magazines left Vraygon at 33% (docs/balance-2026-09-11-warp-rebalance.md).",
+  "designs": [
+    {
+      "key": "VRA/battleship",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 144 -> 168. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 5,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-battleship-armour-2026-09-11",
+          "revision": 5,
+          "name": "VRA battleship - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "battleship",
+          "hull": {
+            "points": 32,
+            "cores": 4,
+            "corePower": 19,
+            "impulsePower": 8,
+            "magazine": 27,
+            "superstructure": 168,
+            "maxShieldPower": 18,
+            "shieldPointRatio": 0.63,
+            "movementPointRatio": 7.5,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 3,
+            "weaponReach": 1
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                5,
+                6
+              ],
+              "position": {
+                "x": -0.4,
+                "y": -0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5
+              ],
+              "position": {
+                "x": 0.4,
+                "y": -0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.2,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.2,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1
+              ],
+              "position": {
+                "x": -0.7,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3
+              ],
+              "position": {
+                "x": 0.7,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-13",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 25 -> 29. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 5,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-destroyer-armour-2026-09-11",
+          "revision": 5,
+          "name": "VRA destroyer - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 9,
+            "superstructure": 29,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 1.25,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                6,
+                1,
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.85,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/frigate",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 17 -> 19. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-frigate-armour-2026-09-11",
+          "revision": 4,
+          "name": "VRA frigate - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "frigate",
+          "hull": {
+            "points": 2,
+            "cores": 1,
+            "corePower": 8,
+            "impulsePower": 2,
+            "magazine": 0,
+            "superstructure": 19,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 1.1199999999999999,
+            "movementPointRatio": 1.25,
+            "screen": 1,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.84
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/heavy-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 81 -> 95. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 5,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-heavy-cruiser-armour-2026-09-11",
+          "revision": 5,
+          "name": "VRA heavy cruiser - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "heavy-cruiser",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 21,
+            "impulsePower": 6,
+            "magazine": 18,
+            "superstructure": 95,
+            "maxShieldPower": 13,
+            "shieldPointRatio": 0.7,
+            "movementPointRatio": 3.75,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 0.95
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.5,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.5,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.6,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.6,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/light-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 47 -> 55. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-light-cruiser-armour-2026-09-11",
+          "revision": 4,
+          "name": "VRA light cruiser - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "light-cruiser",
+          "hull": {
+            "points": 10,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 4,
+            "magazine": 18,
+            "superstructure": 55,
+            "maxShieldPower": 9,
+            "shieldPointRatio": 0.84,
+            "movementPointRatio": 2.5,
+            "screen": 3,
+            "pointDefence": 2,
+            "sensorRating": 2,
+            "weaponReach": 0.89
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/missile-destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 25 -> 29. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-missile-destroyer-armour-2026-09-11",
+          "revision": 4,
+          "name": "VRA missile destroyer - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "missile-destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 12,
+            "superstructure": 29,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 1.25,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 0.8,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.8,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/monitor",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Superstructure 220 -> 256. The Vraygon armour multiplier rose from 1.80 to 2.10, so every Vraygon hull thickens; no other field of the pack changes and no other power is touched. Ruling: Chris, 2026-09-11, \"warp balance - yes let's try a rebalance\": the straight Krelath warp and the larger magazines had left Vraygon at 33% and losing to Krelath 22/78.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-monitor-armour-2026-09-11",
+          "revision": 4,
+          "name": "VRA monitor - armour amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "monitor",
+          "hull": {
+            "points": 24,
+            "cores": 3,
+            "corePower": 22,
+            "impulsePower": 4,
+            "magazine": 48,
+            "superstructure": 256,
+            "maxShieldPower": 16,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 8.75,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 1,
+            "explosionYield": 1.5
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                6,
+                1
+              ],
+              "position": {
+                "x": -0.9,
+                "y": -0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.9,
+                "y": -0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -12,7 +12,7 @@ import {recordScenario} from '../arena/record.js';
 import {trialScenario} from '../drydock/model.js';
 import {add,faceFor} from '../src/tactical/hex.js';
 import {makePrng} from '../src/prng.js';
-import {originalApproved,amendments,approved} from './fixtures/stock-approvals.js';
+import {originalApproved,amendments,approved,MAGAZINES_BEFORE_SEP11,VRAYGON_ARMOUR_BEFORE_SEP11} from './fixtures/stock-approvals.js';
 const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url),'utf8'));
 const tuning=read('../data/tactical-tuning.json'),loadouts=read('../data/loadouts.json');
 const previousTuning=copy(tuning),previousLoadouts=copy(loadouts);
@@ -21,6 +21,10 @@ previousLoadouts.VRA.battleship.missileArcs.push('a','pa');
 previousLoadouts.VRA.destroyer.missileMounts=2;
 previousLoadouts.VRA['heavy-cruiser'].beamArcs.pop();
 previousTuning.hullClasses.frigate.superstructure=8;delete previousTuning.hullClasses.frigate._structureNote;
+// September 11 magazine amendment (Chris, "magazines - increase for all"): every magazine was x1.5.
+for(const [c,m] of Object.entries(MAGAZINES_BEFORE_SEP11.hull))previousTuning.hullClasses[c].magazine=m;
+previousTuning.factionModifiers.VRA.superstructure=VRAYGON_ARMOUR_BEFORE_SEP11; // September 11 warp rebalance
+for(const [k,m] of Object.entries(MAGAZINES_BEFORE_SEP11.fit)){const [f,c]=k.split('/');previousLoadouts[f][c].magazine=m;}
 delete previousLoadouts._publishedStock.revisions;delete previousLoadouts._publishedStock.amended;
 for(const e of originalApproved){const [f,c]=e.key.split('/');previousLoadouts[f][c].mounts=e.pack.design.mounts.map(m=>({type:m.weapon.id.slice(6),faces:copy(m.faces),position:copy(m.position),orientation:m.orientation}));}
 const untouched=JSON.stringify({tuning,loadouts,originalApproved,amendments});
@@ -33,11 +37,18 @@ check('Only the nine approved amended ships advance revision; all catalogue iden
   // a disconnected arc with a gap at dead astern, and face 6 was removed. Also
   // his September 8 frigate structure amendment: the class envelope rose from 8
   // to 9.2, which moves one frigate for each of the four powers and nothing else.
-  assert.deepEqual(amendments.map(e=>e.key).sort(),['EAR/frigate','EAR/gunstar-battlecruiser','EAR/light-cruiser','KRE/frigate','VRA/battleship','VRA/destroyer','VRA/frigate','VRA/heavy-cruiser','ZAN/frigate']);
+  // And the September 11 magazine amendment: every class whose magazine moved, one revision each.
+  const nine=['EAR/frigate','EAR/gunstar-battlecruiser','EAR/light-cruiser','KRE/frigate','VRA/battleship','VRA/destroyer','VRA/frigate','VRA/heavy-cruiser','ZAN/frigate'];
+  const magazineKeys=approved.map(e=>e.key).filter(k=>{const [f,c]=k.split('/');return stockPack(f,c,tuning,loadouts).design.hull.magazine!==stockPack(f,c,previousTuning,previousLoadouts).design.hull.magazine;});
+  assert.equal(magazineKeys.length,24);
+  // And the September 11 Vraygon armour amendment: every Vraygon hull.
+  const armourKeys=approved.map(e=>e.key).filter(k=>k.startsWith('VRA/'));assert.equal(armourKeys.length,7);
+  assert.deepEqual([...new Set(amendments.map(e=>e.key))].sort(),[...new Set([...nine,...magazineKeys,...armourKeys])].sort());
   for(const e of approved){
     const [f,c]=e.key.split('/'),now=stockPack(f,c,tuning,loadouts),old=stockPack(f,c,previousTuning,previousLoadouts);
     assert.ok(STOCK_REFERENCES[now.design.id]);assert.equal(now.design.id,old.design.id);
-    if(amendments.some(a=>a.key===e.key))assert.equal(now.design.revision,old.design.revision+1);
+    const times=amendments.filter(a=>a.key===e.key).length;
+    if(times)assert.equal(now.design.revision,old.design.revision+times,e.key);
     else assert.deepEqual(now,old,e.key);
     assert.deepEqual(identityFree(now),identityFree(e.pack),e.key);
   }
@@ -46,10 +57,11 @@ check('Heavy cruiser has a dead-astern fifth beam; destroyer keeps exactly one c
   const hc=stockPack('VRA','heavy-cruiser',tuning,loadouts),dd=stockPack('VRA','destroyer',tuning,loadouts);
   assert.deepEqual(hc.design.mounts[4].faces,[5]);assert.deepEqual(hc.design.mounts[4].position,{x:0,y:-1,z:0});
   const tubes=dd.design.mounts.filter(m=>m.weapon.id==='stock:neutronic-missile');
-  assert.equal(tubes.length,1);assert.deepEqual(tubes[0].faces,[2]);assert.deepEqual(tubes[0].position,{x:0,y:0.85,z:0});assert.equal(dd.design.hull.magazine,6);
+  assert.equal(tubes.length,1);assert.deepEqual(tubes[0].faces,[2]);assert.deepEqual(tubes[0].position,{x:0,y:0.85,z:0});assert.equal(dd.design.hull.magazine,9); // six rounds, x1.5 on September 11
   for(const c of ['destroyer','heavy-cruiser']){
     const before=stockPack('VRA',c,previousTuning,previousLoadouts),now=stockPack('VRA',c,tuning,loadouts);
-    assert.deepEqual(now.design.hull,before.design.hull);assert.deepEqual(now.weapons,before.weapons);
+    const noMag=h=>{const x={...h};delete x.magazine;delete x.superstructure;return x;}; // magazine and armour moved on September 11, by their own amendments
+    assert.deepEqual(noMag(now.design.hull),noMag(before.design.hull));assert.deepEqual(now.weapons,before.weapons);
   }
 });
 
@@ -74,7 +86,7 @@ check('Heavy-cruiser fifth beam forecast and actual fire agree on all six bearin
 });
 check('A real destroyer turn launches and spends one round, with the old two-tube fit as positive control',()=>{
   const now=fireTrial('destroyer',0,0),old=fireTrial('destroyer',0,0,true);
-  assert.equal(now.shots.filter(e=>e.kind==='launch').length,1);assert.equal(now.spentMagazine,1);assert.equal(now.a.magazine,5);
+  assert.equal(now.shots.filter(e=>e.kind==='launch').length,1);assert.equal(now.spentMagazine,1);assert.equal(now.a.magazine,8);
   assert.equal(old.shots.filter(e=>e.kind==='launch').length,2);assert.equal(old.spentMagazine,2);
   assert.equal(now.preview.weapons,tuning.weapons['neutronic-missile'].powerToArm);
 });
@@ -96,7 +108,9 @@ check('Trimming only unused missile entries preserves mount output, apart from t
   }
   assert.deepEqual(tuning.hullClasses.monitor.beamArcs,previousTuning.hullClasses.monitor.beamArcs);
   assert.equal(tuning.hullClasses.monitor.beamArcs.length,6);assert.equal(tuning.hullClasses.monitor.beamMounts,7);
-  assert.deepEqual(loadouts.VRA['light-cruiser'],previousLoadouts.VRA['light-cruiser']);
+  // The light cruiser's fit is untouched by the trim; only its magazine moved, by the September 11 ruling.
+  assert.deepEqual({...loadouts.VRA['light-cruiser'],magazine:null},{...previousLoadouts.VRA['light-cruiser'],magazine:null});
+  assert.equal(loadouts.VRA['light-cruiser'].magazine,Math.round(previousLoadouts.VRA['light-cruiser'].magazine*1.5));
 });
 check('Both old r2 stock revisions stay pinned through library adoption, restoration and recorded battles',()=>{
   for(const c of ['destroyer','heavy-cruiser']){
@@ -105,7 +119,8 @@ check('Both old r2 stock revisions stay pinned through library adoption, restora
     const storage={value:raw,getItem:k=>{assert.equal(k,LIBRARY_KEY);return storage.value;},setItem:(k,v)=>{assert.equal(k,LIBRARY_KEY);storage.value=v;}};
     const scenario=pinStockRevisions(trialScenario(old,previousTuning),[old]);scenario.maxTurns=3;
     const saved=appendRevision(storage,now,tuning,raw,{allowStock:true});
-    assert.equal(saved.pack.design.revision,4,'local save appends beyond both the local r2 and supplied r3');assert.deepEqual(saved.library[0],old);assert.equal(saved.library.length,2);
+    // Supplied stock is r4 since the September 11 magazine amendment, so the local save appends r5.
+    assert.equal(saved.pack.design.revision,now.design.revision+1,'local save appends beyond both the local r2 and the supplied revision');assert.equal(now.design.revision,2+amendments.filter(a=>a.key==='VRA/'+c).length);assert.deepEqual(saved.library[0],old);assert.equal(saved.library.length,2);
     assert.deepEqual(pinStockRevisions(scenario,saved.library),scenario);
     assert.deepEqual(recordScenario(scenario,tuning,loadouts),recordScenario(scenario,previousTuning,previousLoadouts));
     assert.deepEqual(compileDesign(old,tuning),compileDesign(old,previousTuning));

@@ -1,0 +1,5184 @@
+{
+  "date": "2026-09-11",
+  "authority": "Chris, in session: \"magazines - increase for all\", after the x1.5 and x2 measurements were reported (docs/balance-2026-09-10-warp.md).",
+  "designs": [
+    {
+      "key": "EAR/battleship",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 20 -> 30. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:ear-battleship-magazine-2026-09-11",
+          "revision": 3,
+          "name": "EAR battleship - magazine amendment",
+          "notes": "",
+          "faction": "EAR",
+          "className": "battleship",
+          "hull": {
+            "points": 32,
+            "cores": 4,
+            "corePower": 19,
+            "impulsePower": 8,
+            "magazine": 30,
+            "superstructure": 76,
+            "maxShieldPower": 18,
+            "shieldPointRatio": 0.3825,
+            "movementPointRatio": 6,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 3,
+            "weaponReach": 1
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.95,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.95,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                3,
+                4,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0.2,
+                "y": -0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": -0.2,
+                "y": -0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.3,
+                "y": -0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.3,
+                "y": -0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-13",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.85,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "EAR/destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 4 -> 6. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:ear-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "EAR destroyer - magazine amendment",
+          "notes": "",
+          "faction": "EAR",
+          "className": "destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 6,
+            "superstructure": 13,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.595,
+            "movementPointRatio": 1,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.25,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "EAR/gunstar-battlecruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 12 -> 18. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:photonic-cannon",
+            "revision": 1,
+            "name": "photonic cannon",
+            "spec": {
+              "kind": "spinal",
+              "damage": 26,
+              "spreadPer": 8,
+              "maxRange": 26,
+              "firePower": 6,
+              "chargeRequired": 72,
+              "chargeDrawPerTurn": 20,
+              "holdDrawPerTurn": 4,
+              "cooldownTurns": 2,
+              "toHitBonus": 2,
+              "vsLightPenalty": -5,
+              "evasionMultiplier": 2,
+              "capitalPoints": 16,
+              "holdForCapitalTurns": 2,
+              "aimWeight": 9,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 26,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                }
+              ],
+              "bypassShield": true,
+              "battleLinePoints": 32,
+              "vsMediumPenalty": -1,
+              "immobileWhileCharging": true,
+              "chargeStartRangeHexes": 20
+            }
+          }
+        ],
+        "design": {
+          "id": "local:ear-gunstar-battlecruiser-magazine-2026-09-11",
+          "revision": 4,
+          "name": "EAR gunstar battlecruiser - magazine amendment",
+          "notes": "",
+          "faction": "EAR",
+          "className": "gunstar-battlecruiser",
+          "hull": {
+            "points": 16,
+            "cores": 3,
+            "corePower": 19,
+            "impulsePower": 6,
+            "magazine": 18,
+            "superstructure": 53,
+            "maxShieldPower": 15,
+            "shieldPointRatio": 0.3825,
+            "movementPointRatio": 3,
+            "screen": 4,
+            "pointDefence": 1,
+            "sensorRating": 2,
+            "weaponReach": 0.95,
+            "explosionYield": 1.2
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -1,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.95,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 1.15,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 1.15,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:photonic-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "EAR/heavy-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 12 -> 18. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:ear-heavy-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "EAR heavy cruiser - magazine amendment",
+          "notes": "",
+          "faction": "EAR",
+          "className": "heavy-cruiser",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 21,
+            "impulsePower": 6,
+            "magazine": 18,
+            "superstructure": 43,
+            "maxShieldPower": 13,
+            "shieldPointRatio": 0.425,
+            "movementPointRatio": 3,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 0.95
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -0.95,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.95,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                3,
+                4,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 1.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 1.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "EAR/light-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 8 -> 12. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:ear-light-cruiser-magazine-2026-09-11",
+          "revision": 4,
+          "name": "EAR light cruiser - magazine amendment",
+          "notes": "",
+          "faction": "EAR",
+          "className": "light-cruiser",
+          "hull": {
+            "points": 10,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 4,
+            "magazine": 12,
+            "superstructure": 25,
+            "maxShieldPower": 9,
+            "shieldPointRatio": 0.51,
+            "movementPointRatio": 2,
+            "screen": 3,
+            "pointDefence": 2,
+            "sensorRating": 2,
+            "weaponReach": 0.89
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -1,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 1,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "EAR/missile-destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 8 -> 12. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:ear-missile-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "EAR missile destroyer - magazine amendment",
+          "notes": "",
+          "faction": "EAR",
+          "className": "missile-destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 12,
+            "superstructure": 13,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.595,
+            "movementPointRatio": 1,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 1.3,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/battleship",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 26 -> 39. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:blaster-beam",
+            "revision": 1,
+            "name": "blaster beam",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 17,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 17,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-battleship-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE battleship - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "battleship",
+          "hull": {
+            "points": 32,
+            "cores": 4,
+            "corePower": 19,
+            "impulsePower": 8,
+            "magazine": 39,
+            "superstructure": 76,
+            "maxShieldPower": 18,
+            "shieldPointRatio": 0.4275,
+            "movementPointRatio": 4.68,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 3,
+            "weaponReach": 1
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.5,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.2,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.2,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.5,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": -0.2,
+                "y": -1.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0.2,
+                "y": -1.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.8,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.15,
+                "y": 1.25,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.15,
+                "y": 1.25,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.75,
+                "y": -0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-13",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.8,
+                "y": -0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-14",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.2,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-15",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.2,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/carrier",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 6 -> 9. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-carrier-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE carrier - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "carrier",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 15,
+            "impulsePower": 5,
+            "magazine": 9,
+            "superstructure": 46,
+            "maxShieldPower": 16,
+            "shieldPointRatio": 0.475,
+            "movementPointRatio": 1.9500000000000002,
+            "screen": 0,
+            "pointDefence": 2,
+            "sensorRating": 3,
+            "weaponReach": 0.9,
+            "explosionYield": 1,
+            "hangar": {
+              "interceptor": {
+                "squadrons": 2,
+                "strength": 6
+              },
+              "bomber": {
+                "squadrons": 2,
+                "strength": 4
+              }
+            }
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                6,
+                1
+              ],
+              "position": {
+                "x": -1.2,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 1.2,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.25,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 4 -> 6. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:blaster-beam",
+            "revision": 1,
+            "name": "blaster beam",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 17,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 17,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE destroyer - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 6,
+            "superstructure": 13,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.6649999999999999,
+            "movementPointRatio": 0.78,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -1.2,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 1.2,
+                "y": -0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/heavy-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 20 -> 30. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:blaster-beam",
+            "revision": 1,
+            "name": "blaster beam",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 17,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 17,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-heavy-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE heavy cruiser - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "heavy-cruiser",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 21,
+            "impulsePower": 6,
+            "magazine": 30,
+            "superstructure": 43,
+            "maxShieldPower": 13,
+            "shieldPointRatio": 0.475,
+            "movementPointRatio": 2.34,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 0.95
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/light-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 5 -> 8. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:blaster-beam",
+            "revision": 1,
+            "name": "blaster beam",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 17,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 17,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-light-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE light cruiser - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "light-cruiser",
+          "hull": {
+            "points": 10,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 4,
+            "magazine": 8,
+            "superstructure": 25,
+            "maxShieldPower": 9,
+            "shieldPointRatio": 0.57,
+            "movementPointRatio": 1.56,
+            "screen": 3,
+            "pointDefence": 2,
+            "sensorRating": 2,
+            "weaponReach": 0.89
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.35,
+                "y": 0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.35,
+                "y": 0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.9,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/missile-destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 8 -> 12. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:blaster-beam",
+            "revision": 1,
+            "name": "blaster beam",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 17,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 17,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-missile-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE missile destroyer - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "missile-destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 12,
+            "superstructure": 13,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.6649999999999999,
+            "movementPointRatio": 0.78,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.6,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.6,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "KRE/strike-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 16 -> 24. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:blaster-beam",
+            "revision": 1,
+            "name": "blaster beam",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 17,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -1
+                },
+                {
+                  "to": 17,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:kre-strike-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "KRE strike cruiser - magazine amendment",
+          "notes": "",
+          "faction": "KRE",
+          "className": "strike-cruiser",
+          "hull": {
+            "points": 8,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 2,
+            "magazine": 24,
+            "superstructure": 21,
+            "maxShieldPower": 8,
+            "shieldPointRatio": 0.6174999999999999,
+            "movementPointRatio": 1.014,
+            "screen": 0,
+            "pointDefence": 1,
+            "sensorRating": 2,
+            "weaponReach": 0.89,
+            "explosionYield": 1
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:blaster-beam",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.43,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.43,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.3,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/battleship",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 18 -> 27. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-battleship-magazine-2026-09-11",
+          "revision": 4,
+          "name": "VRA battleship - magazine amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "battleship",
+          "hull": {
+            "points": 32,
+            "cores": 4,
+            "corePower": 19,
+            "impulsePower": 8,
+            "magazine": 27,
+            "superstructure": 144,
+            "maxShieldPower": 18,
+            "shieldPointRatio": 0.63,
+            "movementPointRatio": 7.5,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 3,
+            "weaponReach": 1
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.7,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                5,
+                6
+              ],
+              "position": {
+                "x": -0.4,
+                "y": -0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5
+              ],
+              "position": {
+                "x": 0.4,
+                "y": -0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.2,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.2,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1
+              ],
+              "position": {
+                "x": -0.7,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3
+              ],
+              "position": {
+                "x": 0.7,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-13",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 6 -> 9. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-destroyer-magazine-2026-09-11",
+          "revision": 4,
+          "name": "VRA destroyer - magazine amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 9,
+            "superstructure": 25,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 1.25,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                6,
+                1,
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4,
+                5,
+                6,
+                1
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.85,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/heavy-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 12 -> 18. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 4,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-heavy-cruiser-magazine-2026-09-11",
+          "revision": 4,
+          "name": "VRA heavy cruiser - magazine amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "heavy-cruiser",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 21,
+            "impulsePower": 6,
+            "magazine": 18,
+            "superstructure": 81,
+            "maxShieldPower": 13,
+            "shieldPointRatio": 0.7,
+            "movementPointRatio": 3.75,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 0.95
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.5,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.5,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.6,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.6,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/light-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 12 -> 18. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-light-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "VRA light cruiser - magazine amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "light-cruiser",
+          "hull": {
+            "points": 10,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 4,
+            "magazine": 18,
+            "superstructure": 47,
+            "maxShieldPower": 9,
+            "shieldPointRatio": 0.84,
+            "movementPointRatio": 2.5,
+            "screen": 3,
+            "pointDefence": 2,
+            "sensorRating": 2,
+            "weaponReach": 0.89
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                6
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/missile-destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 8 -> 12. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-missile-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "VRA missile destroyer - magazine amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "missile-destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 12,
+            "superstructure": 25,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 1.25,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 0.8,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.8,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "VRA/monitor",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 32 -> 48. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:heavy-blaster",
+            "revision": 1,
+            "name": "heavy blaster",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 6,
+              "maxRange": 16,
+              "rangeBands": [
+                {
+                  "to": 5,
+                  "damageBonus": 3,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 9,
+                  "damageBonus": 2,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 13,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                },
+                {
+                  "to": 16,
+                  "damageBonus": 0,
+                  "toHitMod": -4
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:vra-monitor-magazine-2026-09-11",
+          "revision": 3,
+          "name": "VRA monitor - magazine amendment",
+          "notes": "",
+          "faction": "VRA",
+          "className": "monitor",
+          "hull": {
+            "points": 24,
+            "cores": 3,
+            "corePower": 22,
+            "impulsePower": 4,
+            "magazine": 48,
+            "superstructure": 220,
+            "maxShieldPower": 16,
+            "shieldPointRatio": 0.9799999999999999,
+            "movementPointRatio": 8.75,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 1,
+            "explosionYield": 1.5
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 6,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                6,
+                1
+              ],
+              "position": {
+                "x": -0.9,
+                "y": -0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.9,
+                "y": -0.3,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                4,
+                5,
+                6
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:heavy-blaster",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.45,
+                "y": 0.35,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                1
+              ],
+              "position": {
+                "x": -0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                3
+              ],
+              "position": {
+                "x": 0.65,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "ZAN/battleship",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 26 -> 39. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:zan-battleship-magazine-2026-09-11",
+          "revision": 3,
+          "name": "ZAN battleship - magazine amendment",
+          "notes": "",
+          "faction": "ZAN",
+          "className": "battleship",
+          "hull": {
+            "points": 32,
+            "cores": 4,
+            "corePower": 19,
+            "impulsePower": 8,
+            "magazine": 39,
+            "superstructure": 96,
+            "maxShieldPower": 18,
+            "shieldPointRatio": 0.6075,
+            "movementPointRatio": 4.800000000000001,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 3,
+            "weaponReach": 1
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.4,
+                "y": 0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.5,
+                "y": 0.25,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 1,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.4,
+                "y": 0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.5,
+                "y": 0.25,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                6
+              ],
+              "position": {
+                "x": -0.75,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3,
+                4
+              ],
+              "position": {
+                "x": 0.75,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-9",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.2,
+                "y": 0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-10",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.75,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-11",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.2,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-12",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.2,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-13",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-14",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-15",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "ZAN/destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 4 -> 6. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:zan-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "ZAN destroyer - magazine amendment",
+          "notes": "",
+          "faction": "ZAN",
+          "className": "destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 6,
+            "superstructure": 17,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.945,
+            "movementPointRatio": 0.8,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "ZAN/heavy-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 12 -> 18. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:zan-heavy-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "ZAN heavy cruiser - magazine amendment",
+          "notes": "",
+          "faction": "ZAN",
+          "className": "heavy-cruiser",
+          "hull": {
+            "points": 16,
+            "cores": 2,
+            "corePower": 21,
+            "impulsePower": 6,
+            "magazine": 18,
+            "superstructure": 54,
+            "maxShieldPower": 13,
+            "shieldPointRatio": 0.675,
+            "movementPointRatio": 2.4000000000000004,
+            "screen": 0,
+            "pointDefence": 0,
+            "sensorRating": 2,
+            "weaponReach": 0.95
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 1,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.43,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-6",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-7",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": -0.25,
+                "y": 0.95,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-8",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.05,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "ZAN/light-cruiser",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 12 -> 18. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:zan-light-cruiser-magazine-2026-09-11",
+          "revision": 3,
+          "name": "ZAN light cruiser - magazine amendment",
+          "notes": "",
+          "faction": "ZAN",
+          "className": "light-cruiser",
+          "hull": {
+            "points": 10,
+            "cores": 2,
+            "corePower": 12,
+            "impulsePower": 4,
+            "magazine": 18,
+            "superstructure": 31,
+            "maxShieldPower": 9,
+            "shieldPointRatio": 0.81,
+            "movementPointRatio": 1.6,
+            "screen": 3,
+            "pointDefence": 2,
+            "sensorRating": 2,
+            "weaponReach": 0.89
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2
+              ],
+              "position": {
+                "x": -0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                2,
+                3
+              ],
+              "position": {
+                "x": 0.3,
+                "y": 0.65,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.45,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-4",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.25,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-5",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.85,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "ZAN/missile-destroyer",
+      "sourceFile": null,
+      "sourceSha256": null,
+      "note": "No supplied design file. Magazine 8 -> 12. Every missile magazine in every roster rose by x1.5 (rounded), hull defaults and faction fits alike; no other field of the pack changes. Ruling: Chris, 2026-09-11, \"magazines - increase for all\", after a Krelath battleship emptied its 26 torpedoes by turn 6 against an enemy flagship that stayed out of contact until turn 16.",
+      "suppliedRevision": 3,
+      "pack": {
+        "format": "orion-drydock",
+        "version": 1,
+        "profile": "six-face-residual-power-v1",
+        "weapons": [
+          {
+            "id": "stock:laser-cannon",
+            "revision": 1,
+            "name": "laser cannon",
+            "spec": {
+              "kind": "beam",
+              "maxPower": 5,
+              "maxRange": 18,
+              "rangeBands": [
+                {
+                  "to": 6,
+                  "damageBonus": 2,
+                  "toHitMod": 2
+                },
+                {
+                  "to": 11,
+                  "damageBonus": 1,
+                  "toHitMod": 1
+                },
+                {
+                  "to": 15,
+                  "damageBonus": 0,
+                  "toHitMod": 0
+                },
+                {
+                  "to": 18,
+                  "damageBonus": 0,
+                  "toHitMod": -2
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:neutronic-missile",
+            "revision": 1,
+            "name": "neutronic missile",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 2,
+              "damage": 10,
+              "maxRange": 20,
+              "rangeBands": [
+                {
+                  "to": 20,
+                  "damageMod": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "stock:plasma-torpedo",
+            "revision": 1,
+            "name": "plasma torpedo",
+            "spec": {
+              "kind": "missile",
+              "powerToArm": 3,
+              "damage": 18,
+              "maxRange": 17,
+              "spreadPer": 5,
+              "rangeBands": [
+                {
+                  "to": 4,
+                  "damageMod": 0
+                },
+                {
+                  "to": 8,
+                  "damageMod": -6
+                },
+                {
+                  "to": 13,
+                  "damageMod": -11
+                },
+                {
+                  "to": 17,
+                  "damageMod": -15
+                }
+              ]
+            }
+          }
+        ],
+        "design": {
+          "id": "local:zan-missile-destroyer-magazine-2026-09-11",
+          "revision": 3,
+          "name": "ZAN missile destroyer - magazine amendment",
+          "notes": "",
+          "faction": "ZAN",
+          "className": "missile-destroyer",
+          "hull": {
+            "points": 4,
+            "cores": 1,
+            "corePower": 13,
+            "impulsePower": 3,
+            "magazine": 12,
+            "superstructure": 17,
+            "maxShieldPower": 4,
+            "shieldPointRatio": 0.945,
+            "movementPointRatio": 0.8,
+            "screen": 2,
+            "pointDefence": 1,
+            "sensorRating": 1,
+            "weaponReach": 0.83
+          },
+          "canCloak": false,
+          "detectionBonusAgainst": 0,
+          "turnRate": 2,
+          "mounts": [
+            {
+              "id": "mount-1",
+              "weapon": {
+                "id": "stock:laser-cannon",
+                "revision": 1
+              },
+              "faces": [
+                1,
+                2,
+                3
+              ],
+              "position": {
+                "x": 0,
+                "y": 0.55,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-2",
+              "weapon": {
+                "id": "stock:neutronic-missile",
+                "revision": 1
+              },
+              "faces": [
+                5
+              ],
+              "position": {
+                "x": 0,
+                "y": -1.15,
+                "z": 0
+              },
+              "orientation": 0
+            },
+            {
+              "id": "mount-3",
+              "weapon": {
+                "id": "stock:plasma-torpedo",
+                "revision": 1
+              },
+              "faces": [
+                2
+              ],
+              "position": {
+                "x": 0,
+                "y": 1.1,
+                "z": 0
+              },
+              "orientation": 0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
