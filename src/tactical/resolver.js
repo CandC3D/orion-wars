@@ -18,7 +18,7 @@ import { objectiveErrors } from "./objectives.js";
 import { grantScanContact, loseContact, sensorAbility, assertExecutableContacts, sideContacts } from './contacts.js';
 import { SENSING_PROFILE, currentContacts, pruneScanLocks, recordShieldSweep } from './sensing.js';
 import { scanCapabilities, scanActionError } from './scans.js';
-import { createMissileFlight, advanceMissileFlights, missileImpactFace, missileGeometry, snapshotMissiles } from './missiles.js';
+import { createMissileFlight, advanceMissileFlights, missileImpactFace, missileGeometry, snapshotMissiles, retargetOrphan, retargetOrphans } from './missiles.js';
 import { advanceManualSpinal } from './spinal-control.js';
 import { nameShips } from './ship-registry.js';
 import { mountOrdersError } from './mount-orders.js';
@@ -2365,6 +2365,8 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     onShot?.before?.();
     const foeSide = m.side === "A" ? B : A;
     const st = m.side === "A" ? stats.A : stats.B;
+    // Experiment: an orphaned torpedo may take another enemy close to where it is (off by default).
+    retargetOrphan(m, fleets, tuning.missileRetarget);
     const target = foeSide.find((s) => s.id === m.targetId);
     const geometry = { ...shotGeometry(m.shooterPos, target, m.shooterFacing), ...missileGeometry(m) };
     if (!target || target.destroyed) {
@@ -2532,6 +2534,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
     for (const s of allShips) if (s.destroyed && !s.exploded) detonate(s, allShips, tuning, rng, log, battle);
     for (const s of allShips) if (s.destroyed && s.squadrons) scuttleSquadrons(s, log);
     reconcileContacts(battle);
+    retargetOrphans(inFlight,fleets,tuning.missileRetarget);
     advanceMissileFlights(inFlight,fleets,turn,round,rounds);
     if (INS) censusFaces(A, B, tuning);
     if (opts.onRound) opts.onRound(turn, round, fleets, snapshotMissiles(inFlight));

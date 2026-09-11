@@ -85,6 +85,10 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(restored.warpJump.rangeHexes,8);assert.equal(restored.warpJump.powerCostFraction,0.45); // 0.35 until the September 11 rebalance
   for(const gone of ['preferRearArc','requireRearArc','minGain','fleetFraction'])assert.ok(!(gone in restored.warpJump),gone);
   restored.warpJump=beforeT.warpJump;
+  // Torpedo retargeting experiment added 2026-09-11 (Chris), disabled by default.
+  assert.equal(restored.missileRetarget.enabled,false,'retargeting must ship disabled');
+  assert.equal(Object.hasOwn(beforeT,'missileRetarget'),false,'retargeting must be new, not a rewrite');
+  delete restored.missileRetarget;
   assert.deepEqual(restored,beforeT);
   const stripped=copy(l);delete stripped._publishedStock;
   assert.equal(stripped.VRA.destroyer.missileMounts,1);stripped.VRA.destroyer.missileMounts=beforeL.VRA.destroyer.missileMounts;

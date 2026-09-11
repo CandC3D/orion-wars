@@ -795,6 +795,11 @@
     "maxChance": 0.7,
     "rangeHexes": 3
   },
+  "missileRetarget": {
+    "enabled": false,
+    "radiusHexes": 3,
+    "_note": "EXPERIMENT 2026-09-11 (Chris): a torpedo whose target dies before it lands takes the nearest living, uncloaked enemy within radiusHexes of the torpedo's current position; otherwise it is lost as before. No fuel limit - a flight here lasts one turn - so the radius is the only restraint. Motive: 21% of all torpedoes at 52 points arrived on a dead target (Zandrax 30%). Off by default; measurements in docs/balance-2026-09-11-missile-retarget.md."
+  },
   "damage": {
     "shieldCapacitor": {
       "enabled": false,

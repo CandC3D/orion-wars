@@ -60,3 +60,28 @@ export function snapshotMissiles(missiles) {
     weapon:m.weapon,pos:missilePosition(m.flight),flight:copy({profile:m.flight.profile,path:m.flight.path})
   }));
 }
+
+// Retargeting (EXPERIMENT, Chris 2026-09-11). A torpedo whose target dies before it lands takes the
+// nearest living enemy within `radiusHexes` of where the torpedo now is; with none that close, it is
+// lost as before ("dead-target"). No fuel limit, deliberately - Sins of a Solar Empire caps its
+// chases by fuel, and a flight here lasts one turn - so the radius is the whole of the restraint.
+// A cloaked hull is not a homing target. Nearest by exact distance from the torpedo's current
+// sample, ties by id; consumes no RNG. Disabled, nothing here runs.
+const cubeDistance = (a, b) => { const dq = a.q - b.q, dr = a.r - b.r; return (Math.abs(dq) + Math.abs(dr) + Math.abs(dq + dr)) / 2; };
+export function retargetOrphan(missile, fleets, rule) {
+  if (!rule?.enabled || missile.flight?.profile !== MISSILE_FLIGHT_PROFILE) return false;
+  const ships = fleets.flat(), current = ships.find(s => s.id === missile.targetId);
+  if (current && !current.destroyed) return false;
+  const at = missilePosition(missile.flight);
+  const pick = ships.filter(s => s.side !== missile.side && !s.destroyed && !s.cloaked)
+    .map(s => ({ s, d: cubeDistance(at, s.pos) })).filter(x => x.d <= rule.radiusHexes)
+    .sort((a, b) => a.d - b.d || (a.s.id < b.s.id ? -1 : a.s.id > b.s.id ? 1 : 0))[0];
+  if (!pick) return false;
+  missile.retargets = [...(missile.retargets ?? []), { from: missile.targetId, to: pick.s.id }];
+  missile.targetId = pick.s.id;
+  return true;
+}
+export function retargetOrphans(missiles, fleets, rule) {
+  if (!rule?.enabled) return;
+  for (const m of missiles) retargetOrphan(m, fleets, rule);
+}
