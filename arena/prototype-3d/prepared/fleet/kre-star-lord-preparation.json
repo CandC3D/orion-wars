@@ -4,8 +4,8 @@
   "sourceSha256": "18d5423a324874761d2531b570ff0de9c71770a427749da90fed550033f0ad5d",
   "sourceBytes": 20706948,
   "output": "kre-star-lord.glb",
-  "outputBytes": 741788,
-  "outputSha256": "98c507c99414dc233fd49fd9f860dbe3649fa9492d758fa2cd0c55f245e16052",
+  "outputBytes": 854036,
+  "outputSha256": "bfc59e872f7f8e0673054f7a676a69597d5f371503257050a59305fb6b5ff29a",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 5027,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

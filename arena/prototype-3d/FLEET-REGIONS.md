@@ -20,7 +20,7 @@ Source: `edf/Earth Monoceros Class Frigate v3 Series.glb`. Source SHA-256: `515a
 | #46b749 | emissive-designated | green; function depends on actual feature | 0.013 |
 | #61676a | paint | dark grey paint | 1.766 |
 
-Derivative: 25,960 triangles, 0.69 MiB; 2 → 2 connected components; maximum sampled vertex-to-surface deviation 0.1838 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,960 triangles, 0.80 MiB; 2 → 2 connected components; maximum sampled vertex-to-surface deviation 0.1838 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## EAR Victory — EDD-02
 
@@ -39,7 +39,7 @@ Source: `edf/Earth Victory Class Destroyer v3 Series.glb`. Source SHA-256: `3757
 | #e1ad34 | metal | sensor-dish gold | 1.589 |
 | #a7adb1 | metal | alternate steel-family alloy | 0.077 |
 
-Derivative: 25,966 triangles, 0.70 MiB; 6 → 6 connected components; maximum sampled vertex-to-surface deviation 0.2457 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,966 triangles, 0.84 MiB; 6 → 6 connected components; maximum sampled vertex-to-surface deviation 0.2457 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## EAR Saturn — EDM-01
 
@@ -58,7 +58,7 @@ Source: `edf/Earth Saturn Class Missile Destroyer v3 Series [NEW].glb`. Source S
 | #46b749 | emissive-designated | green; function depends on actual feature | 0.010 |
 | #e1ad34 | metal | sensor-dish gold | 1.625 |
 
-Derivative: 25,963 triangles, 0.71 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.2117 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,963 triangles, 0.84 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.2117 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## EAR Acamar — ELC-01
 
@@ -77,7 +77,7 @@ Source: `edf/Earth Acamar Class Light Cruiser v3.glb`. Source SHA-256: `d42a114d
 | #61676a | paint | dark grey paint | 2.513 |
 | #e1ad34 | metal | sensor-dish gold | 0.767 |
 
-Derivative: 25,949 triangles, 0.72 MiB; 6 → 6 connected components; maximum sampled vertex-to-surface deviation 0.2963 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,949 triangles, 0.92 MiB; 6 → 6 connected components; maximum sampled vertex-to-surface deviation 0.2963 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## EAR Yi Sun-sin — ECA-03
 
@@ -96,7 +96,7 @@ Source: `edf/Earth Yi Sun-sin Class Heavy Cruiser v3 series.glb`. Source SHA-256
 | #61676a | paint | dark grey paint | 1.961 |
 | #46b749 | emissive-designated | green; function depends on actual feature | 0.003 |
 
-Derivative: 25,946 triangles, 0.72 MiB; 7 → 7 connected components; maximum sampled vertex-to-surface deviation 0.3408 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,946 triangles, 0.93 MiB; 7 → 7 connected components; maximum sampled vertex-to-surface deviation 0.3408 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## EAR Federation — EBB-01
 
@@ -115,7 +115,7 @@ Source: `edf/Earth Federation Class Battleship v3 series.glb`. Source SHA-256: `
 | #61676a | paint | dark grey paint | 3.048 |
 | #46b749 | emissive-designated | green; function depends on actual feature | 0.002 |
 
-Derivative: 83,527 triangles, 2.20 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.1406 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 83,527 triangles, 2.65 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.1406 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## EAR Yamato — EBY-00
 
@@ -134,7 +134,7 @@ Source: `edf/Earth Yamato Class Gunstar Battlecruiser v3 Series.glb`. Source SHA
 | #e1ad34 | metal | sensor-dish gold | 0.432 |
 | #46b749 | emissive-designated | green; function depends on actual feature | 0.003 |
 
-Derivative: 25,921 triangles, 0.73 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.3136 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,921 triangles, 0.99 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.3136 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Sparrowhawk — KFG-01
 
@@ -150,7 +150,7 @@ Source: `ksn/Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb`. Source SHA-256: `8
 | #ffdd1a | emissive-designated | yellow; function depends on actual feature | 0.432 |
 | #e91d2d | paint | red weapons warning | 0.225 |
 
-Derivative: 25,981 triangles, 0.67 MiB; 3 → 3 connected components; maximum sampled vertex-to-surface deviation 0.0170 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,981 triangles, 0.73 MiB; 3 → 3 connected components; maximum sampled vertex-to-surface deviation 0.0170 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Swift — KDD-02
 
@@ -166,7 +166,7 @@ Source: `ksn/Krelath KDD-02 _Swift_ Class _Destroyer.glb`. Source SHA-256: `5eaa
 | #ffdd1a | emissive-designated | yellow; function depends on actual feature | 0.850 |
 | #fafafa | emissive-designated | white; function depends on actual feature | 0.287 |
 
-Derivative: 25,968 triangles, 0.67 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.0226 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,968 triangles, 0.76 MiB; 10 → 10 connected components; maximum sampled vertex-to-surface deviation 0.0226 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Ballista — KDG-01
 
@@ -182,7 +182,7 @@ Source: `ksn/Krelath KDG-01 _Ballista_ Class Missile Destroyer.glb`. Source SHA-
 | #e91d2d | paint | red weapons warning | 0.459 |
 | #fafafa | emissive-designated | white; function depends on actual feature | 0.263 |
 
-Derivative: 25,977 triangles, 0.67 MiB; 7 → 7 connected components; maximum sampled vertex-to-surface deviation 0.0190 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,977 triangles, 0.75 MiB; 7 → 7 connected components; maximum sampled vertex-to-surface deviation 0.0190 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Raptor — KCL-02
 
@@ -198,7 +198,7 @@ Source: `ksn/Krelath KCL-02 _Raptor_ Class Light Cruiser.glb`. Source SHA-256: `
 | #e91d2d | paint | red weapons warning | 0.487 |
 | #ffdd1a | emissive-designated | yellow; function depends on actual feature | 0.880 |
 
-Derivative: 118,058 triangles, 3.78 MiB; 15 → 15 connected components; maximum sampled vertex-to-surface deviation 0.0611 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 118,058 triangles, 4.02 MiB; 15 → 15 connected components; maximum sampled vertex-to-surface deviation 0.0611 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Lightning — KCS-02
 
@@ -214,7 +214,7 @@ Source: `ksn/Krelath KCS-02 _Lightning_ Class Strike Cruiser.glb`. Source SHA-25
 | #e91d2d | paint | red weapons warning | 0.560 |
 | #ffdd1a | emissive-designated | yellow; function depends on actual feature | 0.931 |
 
-Derivative: 140,472 triangles, 4.45 MiB; 17 → 17 connected components; maximum sampled vertex-to-surface deviation 0.0080 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 140,472 triangles, 4.70 MiB; 17 → 17 connected components; maximum sampled vertex-to-surface deviation 0.0080 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Star Knight — KCA-03
 
@@ -230,7 +230,7 @@ Source: `ksn/Krelath KCA-03 _Star Knight_ Class Heavy Cruiser.glb`. Source SHA-2
 | #f5831f | emissive-designated | orange; function depends on actual feature | 4.324 |
 | #e91d2d | paint | red weapons warning | 0.421 |
 
-Derivative: 25,946 triangles, 0.70 MiB; 15 → 15 connected components; maximum sampled vertex-to-surface deviation 0.1023 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,946 triangles, 0.79 MiB; 15 → 15 connected components; maximum sampled vertex-to-surface deviation 0.1023 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Bladestar — KCV-01
 
@@ -247,7 +247,7 @@ Source: `ksn/Krelath KCV-01 _Bladestar_ Class Carrier.glb`. Source SHA-256: `08d
 | #f5831f | emissive-designated | orange; function depends on actual feature | 3.636 |
 | #e91d2d | paint | red weapons warning | 0.454 |
 
-Derivative: 156,892 triangles, 4.95 MiB; 12 → 12 connected components; maximum sampled vertex-to-surface deviation 0.0128 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 156,892 triangles, 5.17 MiB; 12 → 12 connected components; maximum sampled vertex-to-surface deviation 0.0128 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Star Lord — KBB-02
 
@@ -263,7 +263,7 @@ Source: `ksn/Krelath KBB-02 _Star Lord_ Class Battleship.glb`. Source SHA-256: `
 | #ffdd1a | emissive-designated | yellow; function depends on actual feature | 0.995 |
 | #fafafa | emissive-designated | white; function depends on actual feature | 0.122 |
 
-Derivative: 25,957 triangles, 0.71 MiB; 19 → 19 connected components; maximum sampled vertex-to-surface deviation 0.1606 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 25,957 triangles, 0.81 MiB; 19 → 19 connected components; maximum sampled vertex-to-surface deviation 0.1606 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Fighter — Bomber — KFB-03
 
@@ -278,7 +278,7 @@ Source: `ksn/Krelath Fighter - Bomber.glb`. Source SHA-256: `ff40f2e175e673899a9
 | #f5831f | emissive-designated | orange; function depends on actual feature | 0.313 |
 | #e91d2d | paint | red weapons warning | 0.644 |
 
-Derivative: 15,228 triangles, 0.37 MiB; 4 → 4 connected components; maximum sampled vertex-to-surface deviation 0.0025 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 15,228 triangles, 0.39 MiB; 4 → 4 connected components; maximum sampled vertex-to-surface deviation 0.0025 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Fighter — Interceptor — KFY-02
 
@@ -293,7 +293,7 @@ Source: `ksn/Krelath Fighter - Interceptor.glb`. Source SHA-256: `995eac2f57c439
 | #f5831f | emissive-designated | orange; function depends on actual feature | 0.429 |
 | #e91d2d | paint | red weapons warning | 1.797 |
 
-Derivative: 14,331 triangles, 0.35 MiB; 3 → 3 connected components; maximum sampled vertex-to-surface deviation 0.0018 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 14,331 triangles, 0.37 MiB; 3 → 3 connected components; maximum sampled vertex-to-surface deviation 0.0018 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## KRE Intrallus — KDN-0000
 
@@ -310,7 +310,7 @@ Source: `ksn/Supreme Leader's Flagship Intrallus.glb`. Source SHA-256: `32d9994d
 | #f5831f | emissive-designated | orange; function depends on actual feature | 3.600 |
 | #c8e4bd | paint | flight deck | 3.267 |
 
-Derivative: 385,563 triangles, 12.02 MiB; 29 → 29 connected components; maximum sampled vertex-to-surface deviation 0.0174 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
+Derivative: 385,563 triangles, 12.50 MiB; 29 → 29 connected components; maximum sampled vertex-to-surface deviation 0.0174 mm. This is a two-direction all-vertex measurement, not a certified continuous Hausdorff bound.
 
 ## VRA Shard — VFG-04
 

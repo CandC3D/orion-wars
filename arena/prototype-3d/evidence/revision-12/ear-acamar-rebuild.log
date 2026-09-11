@@ -1,0 +1,18 @@
+Extensions: writing cache failed ([Errno 13] Permission denied: 'C:\\Users\\chorr\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\extensions\\.cache\\compat.dat').
+21:10:49 | INFO: Data are loaded, start creating Blender stuff
+21:10:49 | INFO: Blender create Mesh node 0
+21:10:50 | INFO: glTF import finished in 0.24s
+00:15.140  geom.mesh        | ERROR Face 15316 is a duplicate of 15315
+00:15.140  geom.mesh        | ERROR Face 18824 is a duplicate of 18523
+00:15.140  geom.mesh        | ERROR Face 19531 is a duplicate of 19528
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+21:10:59 | INFO: Starting glTF 2.0 export
+21:10:59 | INFO: Extracting primitive: Mesh_0
+21:10:59 | INFO: Primitives created: 1
+21:10:59 | INFO: Finished glTF 2.0 export in 0.11392641067504883 s
+
+PROTOTYPE_PREPARATION {"source": "edf/Earth Acamar Class Light Cruiser v3.glb", "faction": "EAR", "sourceSha256": "d42a114d3afc052081e93ef65dc441c4cd6c8e8941914f466aae302ab498a87b", "sourceBytes": 25370412, "output": "ear-acamar.glb", "outputBytes": 963716, "outputSha256": "4f81b2c73533b9bbbf684ab16bfd5356d91c2f0e3cef4f1c06030f434e25e1a0", "validation": {"corrected": true, "beforeVerticesEdgesFaces": [12659, 38692, 25952], "afterVerticesEdgesFaces": [12659, 38692, 25949]}, "sourceTriangles": 302014, "outputTriangles": 25949, "ratio": 0.08608872436377121, "miniatureLengthMm": 63.18447092806881, "mmPerUnit": 10, "maximumVertexToSurfaceErrorMm": 0.2962551374190423, "errorMethod": "Both directions, all vertices to closest triangle; not a certified surface Hausdorff bound", "sourceComponentCount": 6, "outputComponentCount": 6, "sourceMaterials": ["lambert2SG.001"], "authoredColourRegions": true, "sourceColourAttribute": "COLOR_0", "sourcePalette": {"009fd7": {"linearRGB": [0.0, 0.6235294342041016, 0.843137264251709], "sourceVertices": 152523}, "bfc7cc": {"linearRGB": [0.7490196228027344, 0.7803921699523926, 0.800000011920929], "sourceVertices": 355515}, "e91d2d": {"linearRGB": [0.9137254953384399, 0.11372549086809158, 0.1764705926179886], "sourceVertices": 226515}, "46b749": {"linearRGB": [0.27450981736183167, 0.7176470756530762, 0.2862745225429535], "sourceVertices": 3855}, "0076a9": {"linearRGB": [0.0, 0.4627451002597809, 0.6627451181411743], "sourceVertices": 47370}, "f5831f": {"linearRGB": [0.9607843160629272, 0.5137255191802979, 0.12156862765550613], "sourceVertices": 46503}, "fafafa": {"linearRGB": [0.9803921580314636, 0.9803921580314636, 0.9803921580314636], "sourceVertices": 19206}, "a7adb1": {"linearRGB": [0.6549019813537598, 0.6784313917160034, 0.6941176652908325], "sourceVertices": 26100}, "61676a": {"linearRGB": [0.3803921639919281, 0.40392157435417175, 0.4156862795352936], "sourceVertices": 15984}, "e1ad34": {"linearRGB": [0.8823529481887817, 0.6784313917160034, 0.20392157137393951], "sourceVertices": 12471}}, "physicalEmission": false, "normalPolicy": {"method": "smooth faces with angle-split loop normals", "creaseAngleDegrees": 40.0, "weighting": "face area and corner angle; Blender weight 50; keep sharp", "sharpEdges": 7818, "sourceAuthoredNormals": false}, "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred."}
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:35:40)
+
+Blender quit

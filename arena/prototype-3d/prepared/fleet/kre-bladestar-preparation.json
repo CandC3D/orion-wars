@@ -4,8 +4,8 @@
   "sourceSha256": "08dc7efdac2cdcc8db97f981b5db8ddb6b6aaea8678a4da2cd503f508cbe1624",
   "sourceBytes": 16493796,
   "output": "kre-bladestar.glb",
-  "outputBytes": 5194712,
-  "outputSha256": "baae2ed8264c9ed66c79c32631d60928f520a7cf8172dbf70402f482b3ced633",
+  "outputBytes": 5417732,
+  "outputSha256": "28c87d13f1e748043c7efdb6689ad7d01ea5a09c5b42bceaf808132a95b1ad97",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -100,6 +100,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 16892,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

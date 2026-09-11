@@ -1,0 +1,620 @@
+{
+  "revision": 12,
+  "reviewer": "Astra — direct visual adversarial self-review; not Chris's approval",
+  "canSeeCapturedFrames": true,
+  "hullWeights": [
+    0.4,
+    0.25,
+    0.2,
+    0.15
+  ],
+  "hullCriteria": [
+    "No window pinching and no new curved-surface faceting",
+    "Unchanged geometry and authored material regions",
+    "Approved miniature treatment",
+    "Matched inspection readability and completeness"
+  ],
+  "sheetWeights": [
+    0.25,
+    0.35,
+    0.25,
+    0.15
+  ],
+  "sheetCriteria": [
+    "Complete approved inventory",
+    "Corrected windows and retained curvature",
+    "Comparison, captions and approved scale",
+    "Layout and evidence integrity"
+  ],
+  "hulls": {
+    "ear-monoceros": {
+      "criteria": [
+        94,
+        100,
+        95,
+        97
+      ],
+      "note": "Command-sphere window belt and nacelle insets are crisp; the sphere and cylindrical body retain continuous shading. Small existing join irregularities remain visible in macro.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/ear-monoceros.glb": "7bdf5e80f9d054e0c0d8273c3c13cf8e54a83135e12e97aff6dce3025c8edd94",
+        "prepared/fleet/ear-monoceros-regions.json": "87008b3a1a5ea769ea346be59c32ee7e9b62b5677e862f1d23336eb968e8132c",
+        "prepared/fleet/ear-monoceros-preparation.json": "8a647dbf5be29d2583b639c8e7014b7702999ecc5feca8f48604804c928038ec",
+        "evidence/fleet/images/ear-monoceros-side.png": "7dd88833c71e7924e12a69d7f342ec052bfd5abc5791ad59853ff8740fbdf282",
+        "evidence/revision-12/baseline/ear-monoceros-side.png": "be36c73d13b0c1aecd541016c345fcaec8725c2a27aae20f4756013fcbdaa54f",
+        "evidence/fleet/images/ear-monoceros-quarter.png": "46c73b09ba2d63ea4ef9fe719227ba0e388460a5e14e63f70d70c5efb4c684ab",
+        "evidence/revision-12/baseline/ear-monoceros-quarter.png": "15e1517a6cd1db417ed4cc94c7adc09c642487c7104dcacb5d7a66cfba657f23",
+        "evidence/fleet/images/ear-monoceros-strip.png": "998b6923404afa6683f6df0584ab4cb3e76c7fbb1ef6552c2cf16c2329c45182",
+        "evidence/revision-12/baseline/ear-monoceros-strip.png": "0f3e4d9fce9daded1ddc131de9abc8a2adc162d38afccded7e4442e38c8a74af",
+        "evidence/revision-12/neutral/ear-monoceros-before-side.png": "d1be9d55fd1c70dea88b374825d81c683423d5f5e22ad156a7487b3c89166b00",
+        "evidence/revision-12/neutral/ear-monoceros-after-side.png": "236590141c089a0643d1e2a63c0a6f4337ababa5542518404b906b25f968ca49",
+        "evidence/revision-12/neutral/ear-monoceros-before-port.png": "fad65bcdf3c6bf7028eafb3ee0bc952d217b54a14fb28da517e7f2715a5b3c99",
+        "evidence/revision-12/neutral/ear-monoceros-after-port.png": "14192f01210ae6583fc4ca522b7b30d9212e76e9b08d5f71996364f3db4e198d",
+        "evidence/revision-12/neutral/ear-monoceros-before-quarter.png": "938bbdba5b51d6f9987a4e367f6d2a271eb905c9ec84809249f38a6db3d8fff0",
+        "evidence/revision-12/neutral/ear-monoceros-after-quarter.png": "fff3dbf171b936d5f7f5fa23e28eb81b066df17969cd031b28b4c4f481e99f53",
+        "evidence/revision-12/neutral/ear-monoceros-before-top.png": "55dabdb93e3ad01b4c99b5f07a24f9babd16a491b956329235c9c86364d922c2",
+        "evidence/revision-12/neutral/ear-monoceros-after-top.png": "8be21ee916f2d6e5ba61bf8166d56c29fac82a7e4cea9c380bf2a56a13ef44d6"
+      }
+    },
+    "ear-victory": {
+      "criteria": [
+        94,
+        100,
+        95,
+        97
+      ],
+      "note": "Command-sphere bands, window belt and twin nacelle recesses checked on both sides. No new flat patches across the broad sphere.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/ear-victory.glb": "fc2dea8c0dc79acfba6fcc10084e880e850dcee60dd1487bf8692fc3b5321189",
+        "prepared/fleet/ear-victory-regions.json": "ada3a9d14ff5fbb4fb16ab35eedee487af742611c6553072596ea1faa22944b8",
+        "prepared/fleet/ear-victory-preparation.json": "bb3f0fd9fa9a876da2b64a299126440d12378a11e5248e2631140bfece333e4b",
+        "evidence/fleet/images/ear-victory-side.png": "d8d9ff82026c89eaaa204995062424ac481d114b15af2b69b994e6743b3f8214",
+        "evidence/revision-12/baseline/ear-victory-side.png": "a47c24488b594eb7519c56581c889d68f24dd759bc0db1daed28d257635e0197",
+        "evidence/fleet/images/ear-victory-quarter.png": "c975f78625b6bb2c64a685adb05bcdd5f3aee65416f62f5b499ae3c1b40fe1be",
+        "evidence/revision-12/baseline/ear-victory-quarter.png": "64476c05cd0d82fbc972dec832beeebf76bc6d0425bca7a60f987b18d91b8a1d",
+        "evidence/fleet/images/ear-victory-strip.png": "22c7b9851f846e0917a27a5b5957ae829fb80863c1b84138458a0fd446438247",
+        "evidence/revision-12/baseline/ear-victory-strip.png": "9f12d019567ee022243b274416043afb89f61907c8ab7d7a374aa3b8e7498b9f",
+        "evidence/revision-12/neutral/ear-victory-before-side.png": "78eb02c2cc888dcf36f03c35df1fd487029d5d3f1d67b704fe5b502727c12882",
+        "evidence/revision-12/neutral/ear-victory-after-side.png": "014fdaa9bd4136ad21bd3bcdfe383a444b5716ee7e3506d60cd2fedbcbec5dae",
+        "evidence/revision-12/neutral/ear-victory-before-port.png": "33c94bf949267ac70d10079f710f4bce74ab09652da10224b18a929a44edc01a",
+        "evidence/revision-12/neutral/ear-victory-after-port.png": "f1c54f76139c1eabe51a89ad77623db096c21da9993efba822b163f7f2390aea",
+        "evidence/revision-12/neutral/ear-victory-before-quarter.png": "f5fc5a2cebe20cf8bbd05514979380f8296d177f8c426421eaefb4244ae05fc5",
+        "evidence/revision-12/neutral/ear-victory-after-quarter.png": "7d095e786dab927c8670d6601298b87be9a67b14383535b3d64965b3ff0ee91c",
+        "evidence/revision-12/neutral/ear-victory-before-top.png": "31e79395b279d05020df86c8806b2f1d8f5368f4735913b91763e273273814f0",
+        "evidence/revision-12/neutral/ear-victory-after-top.png": "607cad3eb46cddfe2f9dfc5d1a4da4815fa23893327f579e017832785c4454e5"
+      }
+    },
+    "ear-saturn": {
+      "criteria": [
+        94,
+        100,
+        95,
+        97
+      ],
+      "note": "Window belt, cylinder rings and elongated nacelle insets checked. Broad curvature stays smooth; sharp housing ends now remain hard.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/ear-saturn.glb": "6c87a9c8ee5a7b07f7fbf3c98b2ca9dfc4fe002efd6f2f4f5034089b2e141554",
+        "prepared/fleet/ear-saturn-regions.json": "f26eb5ab21e1b4360a3003928963e6b00070f0064eef03561f299d4522589664",
+        "prepared/fleet/ear-saturn-preparation.json": "ce8529c753dda4124e158886d6a00abaa5c08d12cee5e59014838aaedc05801d",
+        "evidence/fleet/images/ear-saturn-side.png": "40ec13e8c698865292969fbbcf70f301bd57ec316521ef1e6abed567e23d92f7",
+        "evidence/revision-12/baseline/ear-saturn-side.png": "76bf3272db7d33a3a91196205d9e60254e65bc03ae7d3d5c689a53c615d58fc5",
+        "evidence/fleet/images/ear-saturn-quarter.png": "ff1851bf741d9be3f28cdff607fc774b84ec5b5bfad60dede410ebf4164aa248",
+        "evidence/revision-12/baseline/ear-saturn-quarter.png": "1ddd6a80b75c8c0a1895e4418737db32b46319505e9237a540f0b985de36c082",
+        "evidence/fleet/images/ear-saturn-strip.png": "922067135684b27c24883c43ab6093c0ade31e88c4472c417a9e9a9401f5a384",
+        "evidence/revision-12/baseline/ear-saturn-strip.png": "94b400f493a9279ad3db8148393168a2fe8303ffb56381be1665ec79040f28c3",
+        "evidence/revision-12/neutral/ear-saturn-before-side.png": "ccbe5417586e3fb762b13a1fe4c802677ffc88df80d61e0e1aab0b38aa7fde47",
+        "evidence/revision-12/neutral/ear-saturn-after-side.png": "c7c01e3e322b62eba44eebe9043b068cf5943d638ea37d2b0ff813a847c24386",
+        "evidence/revision-12/neutral/ear-saturn-before-port.png": "e8fb7ffead42ba9619f4042b743398d7d82ef6d308ba981d8c24212707888d9a",
+        "evidence/revision-12/neutral/ear-saturn-after-port.png": "e32ef7c46c53359f79bd0889417e09eef08f81bd0b4969ed2e2d663ba3bb6de9",
+        "evidence/revision-12/neutral/ear-saturn-before-quarter.png": "3fbe4285dbd212ca390475005b7173026da549d6e544c0e53814ba8e121463e8",
+        "evidence/revision-12/neutral/ear-saturn-after-quarter.png": "0d391d26e99559ff37108af781910979722610b666274e8343d7a84b3ab62326",
+        "evidence/revision-12/neutral/ear-saturn-before-top.png": "9863295494203f6bb8dac4e5b2203182f1d1795dbd6e169e525d1cae79b70c0d",
+        "evidence/revision-12/neutral/ear-saturn-after-top.png": "d7be3fb188961ffb78ab525f5a5ddadc82df1bd4cd0ba25dfc95824d7c21d336"
+      }
+    },
+    "ear-acamar": {
+      "criteria": [
+        95,
+        100,
+        95,
+        97
+      ],
+      "note": "The flank window strip loses its radial fans in the neutral detail pair. Both flanks, nacelles and command sphere checked; shallow insets remain subtle under neutral light.",
+      "total": 96.6,
+      "evidence": {
+        "prepared/fleet/ear-acamar.glb": "4f81b2c73533b9bbbf684ab16bfd5356d91c2f0e3cef4f1c06030f434e25e1a0",
+        "prepared/fleet/ear-acamar-regions.json": "f401fe449791fb144eb8cfcc481b7506f588fa0c7422ef48c4ab2c9a3b54bb08",
+        "prepared/fleet/ear-acamar-preparation.json": "8076f60ebf9a140a9cd844eff2cba7350e7d8ee62da722fb31c9d905311df007",
+        "evidence/fleet/images/ear-acamar-side.png": "47e37ae4918b0381ccff77dd82ddebae74da423a9d2cfb9cac9f6d84867de286",
+        "evidence/revision-12/baseline/ear-acamar-side.png": "ead148a4698250443352b7fd9e055fab7f2d23a4c89802bd9709b25cb692814a",
+        "evidence/fleet/images/ear-acamar-quarter.png": "8aec688a55e60628ce1f773cf942e01ac6f9ba67f2ae618710d5afb12d0dcca1",
+        "evidence/revision-12/baseline/ear-acamar-quarter.png": "b6fdd3bf25e7cad5468d60be0aee81d1dc8f8a1a6afcbfa6082025847748708d",
+        "evidence/fleet/images/ear-acamar-strip.png": "3a315c13a38aefe04786e46adf577ce3564de26df6caf6d73494262ec050c8aa",
+        "evidence/revision-12/baseline/ear-acamar-strip.png": "dd023562bd1279651d62dfd68cec50d240e1866d1e031645bd4810eb776fda32",
+        "evidence/revision-12/neutral/ear-acamar-before-side.png": "e1257420e34091fbf90ec3fc34e66f4a467a1b0413e12662b57ff25a688d6f57",
+        "evidence/revision-12/neutral/ear-acamar-after-side.png": "e158fee76af3de772db2ef54b4d657187e0e70d1b5365d135794b0597c99a3f7",
+        "evidence/revision-12/neutral/ear-acamar-before-port.png": "2258d381bfd2c39fc9e427c216724a60bc6e36571f4365dae7b579dcef5d66f8",
+        "evidence/revision-12/neutral/ear-acamar-after-port.png": "4dcff9670470a84b3b3f376f65b77cf1e35d601b035e53bf1e68b1bc58070674",
+        "evidence/revision-12/neutral/ear-acamar-before-quarter.png": "03d4ebcb33bc3d54f7c45ba69a715f4b0cdbb6d1a8cdc8409da8cfbf57672bde",
+        "evidence/revision-12/neutral/ear-acamar-after-quarter.png": "d5a49c13775b6e8d1e1944014bebd9a6c4c7323e9ff0092decbec791b4d6258a",
+        "evidence/revision-12/neutral/ear-acamar-before-top.png": "0834b6634fb2aec6e2a6f757b3205e55db5ecc6c4433c55dd1df24b395e21c89",
+        "evidence/revision-12/neutral/ear-acamar-after-top.png": "bfcad7d1e3980225a6e078d4d146ea66063ba74f08e30d1e1c78c1e6693cfb4c",
+        "evidence/revision-12/neutral/ear-acamar-before-detail.png": "3f90fd90b50839fcc6e543d03626aeea0f28285cc1ec18cee69ade01c8922e57",
+        "evidence/revision-12/neutral/ear-acamar-after-detail.png": "04dd1163d48658273936244d4644d5fa1ad89e7559f638e9b00acdecb7031d13"
+      }
+    },
+    "ear-yi-sun-sin": {
+      "criteria": [
+        94,
+        100,
+        95,
+        97
+      ],
+      "note": "Cylinder window rows and command-sphere belt remain complete. Curved surfaces are round; existing small trim intersections are not remodelled.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/ear-yi-sun-sin.glb": "a02e0c59b3c9d1a5ce87d089ff82270e1cc15acb5c977db2b12a47c4eb697b73",
+        "prepared/fleet/ear-yi-sun-sin-regions.json": "b7b6fb152b496cc3b8217acafeaabe0ce2964a1a8896792f2c7b5e83db38a907",
+        "prepared/fleet/ear-yi-sun-sin-preparation.json": "f73f1daca499ec94f50d8504db11a61b5b2a8479fa179814629338a4779cb492",
+        "evidence/fleet/images/ear-yi-sun-sin-side.png": "8c190847f4a2707144595e9cf7eeaee521c8619f545bb2288de7c3b98d7da860",
+        "evidence/revision-12/baseline/ear-yi-sun-sin-side.png": "8d246df69e9e18f77e9a9d655037407e447e4d5327d4d8590a16417ce6629814",
+        "evidence/fleet/images/ear-yi-sun-sin-quarter.png": "ca9e6891656c30c94421d9f0d9c50b90f6e48868ca6ec3373230b73c113a538d",
+        "evidence/revision-12/baseline/ear-yi-sun-sin-quarter.png": "a12cc86449053c5e8a25ea244fa4c382661e974b178751cbb8dd59aebf3cd671",
+        "evidence/fleet/images/ear-yi-sun-sin-strip.png": "bd633244f1a5550d839f7ddb91771ef92ae05d89051b80d2ca6e3a0da6d0a0c6",
+        "evidence/revision-12/baseline/ear-yi-sun-sin-strip.png": "2a96c0a4fbe39d6bbad8f3b7cf98498317625548f5b42d771518a2458ad2dab1",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-before-side.png": "a045317f33dd78af8faa6dfb060afde957d068347172d61ab44618a0172925cf",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-after-side.png": "7e4a50b681ff81b2ddc83c9fa31b9981965efdeb42e881ce0eeb8c4926b1cc99",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-before-port.png": "5630f3895a419d063570f96322c4dac4217ab9e7c8720c0671556f32970df7ac",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-after-port.png": "17b6f8c2664ac2d5cf69c48961d8838291e28b4ee6da93754aa095ac401fc480",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-before-quarter.png": "64d1e237e282d8ab5aad5215515a1350a63259aa209e994d046b1a0197df4c25",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-after-quarter.png": "fe151a6d4e763331b6aae79a7c40b258335c87c9f04ca8c499e1e746b9874def",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-before-top.png": "ac259f4ce42bb8b00ee16595a5daa231fd866cac34f1dd424f3c60d0513443fc",
+        "evidence/revision-12/neutral/ear-yi-sun-sin-after-top.png": "625c78c0dc0debd7364494687ae3a29e05aacefe4f03349adf89b7bf8dd103da"
+      }
+    },
+    "ear-federation": {
+      "criteria": [
+        95,
+        100,
+        95,
+        97
+      ],
+      "note": "Repeated window rows, sphere belt, cylindrical housings and rounded gold fixtures checked. No triangular shading fans or new broad faceting observed.",
+      "total": 96.6,
+      "evidence": {
+        "prepared/fleet/ear-federation.glb": "fde5f349944dcd91e52e7b8ab58b32d5b6380f921728016fdd434131ba02eee8",
+        "prepared/fleet/ear-federation-regions.json": "6d39137f3f6db945b88db3a804ae9fb139c86c0b8baff53a0c6b078967914d4b",
+        "prepared/fleet/ear-federation-preparation.json": "b2c1f8a26df538365c18cabbdf933f592206dd4bc5e03fd9c4da9c189ca26355",
+        "evidence/fleet/images/ear-federation-side.png": "321ac62240c712a8fc4d4bff9bd0b4f8790735267fbda43dddd4978c5576adf0",
+        "evidence/revision-12/baseline/ear-federation-side.png": "a34c258b448e6a8a4d1aea3b70bc1c101debcc8d3e622b2fe68a7cc2e55a21ff",
+        "evidence/fleet/images/ear-federation-quarter.png": "036a77cf1b4d158d278fc1df884040e59e309003d2dad533eabb984006199ee9",
+        "evidence/revision-12/baseline/ear-federation-quarter.png": "8e9e2f5044bf7960b3a8693d66a54f6707c16b57bd72ec47596bcd618b82e910",
+        "evidence/fleet/images/ear-federation-strip.png": "680d5a324755c3c63e3f7a45bd3cecd63d259535cab58fabbc5fd5e282a8be43",
+        "evidence/revision-12/baseline/ear-federation-strip.png": "21249a1b5bdc2e9bd5b81f8107b9e3471646f1121824f5c082b9aba5c2655029",
+        "evidence/revision-12/neutral/ear-federation-before-side.png": "b31607b57d91825be89fbab94dc0c2dd0e6eb31afbd9e7451ab1a4996c6ea1be",
+        "evidence/revision-12/neutral/ear-federation-after-side.png": "3fa27dde89111f6006666a213f458023ebe653bca311e61397654f94742fd4cd",
+        "evidence/revision-12/neutral/ear-federation-before-port.png": "e19956753c9fced5500a5e101c7513d6c9ef8a8d37980add7d7b815ff8b974f2",
+        "evidence/revision-12/neutral/ear-federation-after-port.png": "59a630b9bab997178804211c1cc44bc5abcf7f5e1b6e83f46246db51f3fa8ee4",
+        "evidence/revision-12/neutral/ear-federation-before-quarter.png": "75af7c3555f50cebe52f17a72d28a7579f5aa1b48999b8c3226bfebe35c42ed1",
+        "evidence/revision-12/neutral/ear-federation-after-quarter.png": "bd7708ad2a501d3ad8806f2872cfee7e4e1e060fff403127022ca34c6551f7d6",
+        "evidence/revision-12/neutral/ear-federation-before-top.png": "ca1ce8f90a513fbb0bd31d7dd9dc0bc7811133b232010d5fd67a8e952665360b",
+        "evidence/revision-12/neutral/ear-federation-after-top.png": "dc2a945768180495a6161e200ac7ddf49b71a395e1429397e9ac3f4e98c2f10f"
+      }
+    },
+    "ear-yamato": {
+      "criteria": [
+        94,
+        100,
+        95,
+        97
+      ],
+      "note": "Main cylinder recesses, smaller command body and repeated forward rings checked. Rings have hard shoulders with smooth curved outer surfaces.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/ear-yamato.glb": "d7e2038f0778ced716f50aac05c847f3af77135bb4ac6a42c62cd1e173fa1cd3",
+        "prepared/fleet/ear-yamato-regions.json": "ef769091cd189a7104f95699fedad96fcfc789be4faf887a599f1bbd9f722ecd",
+        "prepared/fleet/ear-yamato-preparation.json": "df9dd789998ba479c13af5abee9d79b636582a89cbe2ee387e694304e89b16ec",
+        "evidence/fleet/images/ear-yamato-side.png": "0b8d521a268ea6e6d7a15a511f267198c50a398d34faf7f19a6c1f0827932940",
+        "evidence/revision-12/baseline/ear-yamato-side.png": "756604ffc33479f6896c60e76555683f689402faa32c655b873f50b0904ef4ca",
+        "evidence/fleet/images/ear-yamato-quarter.png": "5224c4802d770e6f7880ea35c734142ee4c605b7d69712ccf483ccda780ee329",
+        "evidence/revision-12/baseline/ear-yamato-quarter.png": "beaddd42411dc4bbb85e6e54945864b8a159dfc268aa2cf5f9d0b8b467413dd2",
+        "evidence/fleet/images/ear-yamato-strip.png": "b9ccce9564d200a3163d2ae2cd3d9ab711fd9167e1e58fdc32d52b4ef51711a9",
+        "evidence/revision-12/baseline/ear-yamato-strip.png": "db4749716b9d1ea3b60c7fdde698a116bc6a328954e31a975586e0bffadba3c2",
+        "evidence/revision-12/neutral/ear-yamato-before-side.png": "8d32405b8e2ce48df12d9be77fbe85b357db877dfb566cf514c0f88e9125be27",
+        "evidence/revision-12/neutral/ear-yamato-after-side.png": "70dd02394c2996ab02704c971d47011720e927c190d0877ea119a9afaf57126b",
+        "evidence/revision-12/neutral/ear-yamato-before-port.png": "b819863ce37966e724f09bcc37a7416926f3e615484e11eaca108039d6db1143",
+        "evidence/revision-12/neutral/ear-yamato-after-port.png": "ee047b5897607022edd2aeb93295828e49bf78c8a3f14753df86053c48ad2f6c",
+        "evidence/revision-12/neutral/ear-yamato-before-quarter.png": "bd8453784f84b89247b9ae2ea4bf5b7e9aad0591ebd8a42ba1bcc5af71c43da4",
+        "evidence/revision-12/neutral/ear-yamato-after-quarter.png": "1ff0b4fbb485cf5f17663ace906d4701c46661bd07ec011ffdcd0d05970f560e",
+        "evidence/revision-12/neutral/ear-yamato-before-top.png": "702117db252b72d239430d4707ef9b4ddc1fc1fcac57bcc30e859910f3745660",
+        "evidence/revision-12/neutral/ear-yamato-after-top.png": "42a8b5d1e82d62abb5b69bbc08c14e7a6ed166ef00df230b8812249e4329147b"
+      }
+    },
+    "kre-sparrowhawk": {
+      "criteria": [
+        96,
+        100,
+        96,
+        97
+      ],
+      "note": "Habitation window strip loses both large fans and the residual pillows. Curved wings, central nacelle and both dorsal domes remain round.",
+      "total": 97.2,
+      "evidence": {
+        "prepared/fleet/kre-sparrowhawk.glb": "8c6c8b77982296fd7d56fe3f0f710caf6b2e9fa635c25af2408d8a7f6cad29ff",
+        "prepared/fleet/kre-sparrowhawk-regions.json": "a7aa215b566c7086bb7ac48427307ae4c911cd7dba82802ee111a1b4de92c819",
+        "prepared/fleet/kre-sparrowhawk-preparation.json": "b7e4085a42ee7765500e53596ea096bdda710ca5b8acf3fb8f2a2c651c086677",
+        "evidence/fleet/images/kre-sparrowhawk-side.png": "4b7e3bab4939d2db8314c9d382a15e4dfdeaefa21b811205b4e27787937df1f7",
+        "evidence/revision-12/baseline/kre-sparrowhawk-side.png": "a2fa8bf7c6ea018467b73556fe2afb9cdada5517cec5e22b3ef10a016eb0ee52",
+        "evidence/fleet/images/kre-sparrowhawk-quarter.png": "6be01ff9c9ee198cf6f33e9b544fed7c10a6bc8108c19a77ec9f607818603403",
+        "evidence/revision-12/baseline/kre-sparrowhawk-quarter.png": "150dd6889b9f518805fae14f37cf0c0334200ef127217afcffaeb675f63e5672",
+        "evidence/fleet/images/kre-sparrowhawk-strip.png": "b3067ddef056ffc073c0215c9e7c97cb9aeffe321e1517e7ddee0b5a0ce5bb09",
+        "evidence/revision-12/baseline/kre-sparrowhawk-strip.png": "5e33dd67c4838f1c2f4fdfe61ae9339fe77ae2ee4e6ee7ba94f1540fc2cf92ef",
+        "evidence/revision-12/neutral/kre-sparrowhawk-before-side.png": "94ddfff1e28e166675b24f0e1ec027a0e206ba5ff44730e8378a2a13c5333168",
+        "evidence/revision-12/neutral/kre-sparrowhawk-after-side.png": "36112e9a10278e81c2e707566590966fa068ca9a3979983cf7781dcffcf7b2a7",
+        "evidence/revision-12/neutral/kre-sparrowhawk-before-port.png": "50972beb6db714864c55853b5f09fe0fdf119fc64331d4a0df2cadcaa36a8676",
+        "evidence/revision-12/neutral/kre-sparrowhawk-after-port.png": "aa2ebd915992dc4907cdc22282c07293c3bc11477956342d1dd78a6c7c30308b",
+        "evidence/revision-12/neutral/kre-sparrowhawk-before-quarter.png": "82f4e95f05295c5c4015e1a3829b39f5a66c95d9a850ce3383838bf025c6e13f",
+        "evidence/revision-12/neutral/kre-sparrowhawk-after-quarter.png": "74f1e8aa563e1d2a08725c1cfb43235d611a8b2606b1c29cb8a689fe51fecec0",
+        "evidence/revision-12/neutral/kre-sparrowhawk-before-top.png": "7e4785c53efc4547ffd9071b5bdc363325eedb832ccdc8cf4503bd7221b680ac",
+        "evidence/revision-12/neutral/kre-sparrowhawk-after-top.png": "e4c28b650c6b76187c2eb70c10a0252be85aae3fce56cb8e3654b25f86f10936",
+        "evidence/revision-12/neutral/kre-sparrowhawk-before-detail.png": "4d1ba1862c3dd3378b4ac3b54be22ea67c0312d30b5c3904bdf966296aecae84",
+        "evidence/revision-12/neutral/kre-sparrowhawk-after-detail.png": "01cd08154ebd588d862bf2af02da8575025698d8cc238f23c677888eecdaee84"
+      }
+    },
+    "kre-swift": {
+      "criteria": [
+        95,
+        100,
+        96,
+        97
+      ],
+      "note": "Central window strip and paired curved hull surfaces checked from both flanks. Small recesses stay tight and organic surfaces stay smooth.",
+      "total": 96.8,
+      "evidence": {
+        "prepared/fleet/kre-swift.glb": "e7cb5fe538e40869f352f5aeab1312d29b540510541a2f3f768e0b92961d793e",
+        "prepared/fleet/kre-swift-regions.json": "8b7837e140bdbd0e729a9a96da4998ed0650f989c6bcf4da3b5111a5cd419f1e",
+        "prepared/fleet/kre-swift-preparation.json": "fc09ea785837a8427807e8b201d0bdd93a0d8be2cb94f4f0ef91efea8f147db4",
+        "evidence/fleet/images/kre-swift-side.png": "89e2a96ef2161252fa5f8f864088d24a776114318be25559da300b4b1c54838c",
+        "evidence/revision-12/baseline/kre-swift-side.png": "4d1d656e66f4248917b91080032d39f7db4916df7dba4afcfd112945a2e898df",
+        "evidence/fleet/images/kre-swift-quarter.png": "44f53838a415a19937858357f551afc78e64a7a7ae3c929672f922a48a5ac433",
+        "evidence/revision-12/baseline/kre-swift-quarter.png": "081af2688e05058ba034b6131a5907c84479db0fe53d05cfe284e28543ec5c15",
+        "evidence/fleet/images/kre-swift-strip.png": "1c26d4108d5f9721b1a410dd43b5436d6316229e7f5c308c9c2dc363de0bc51a",
+        "evidence/revision-12/baseline/kre-swift-strip.png": "7fccb6c10cad61a378bc8eff5075d59ad360f200e96ca6bc53c2615505310c5d",
+        "evidence/revision-12/neutral/kre-swift-before-side.png": "397afeafb2b3a8e56937663f2cefc119402e59486dd0616f97357d9a24944cfa",
+        "evidence/revision-12/neutral/kre-swift-after-side.png": "0bf7fa9ce0d7b09c48a35c6eec99dda56cd3bd59a25070881a85a449cd5c5e0e",
+        "evidence/revision-12/neutral/kre-swift-before-port.png": "0eea7c3db9e78b98509cd276ea037fe461e2f0c7c176a5daa96d003b56e9da27",
+        "evidence/revision-12/neutral/kre-swift-after-port.png": "2fec7295e880aef00babf5fbeee9e0a2194207bbe096719f5f7d5f2ce225f4d9",
+        "evidence/revision-12/neutral/kre-swift-before-quarter.png": "963450a181b9b713e4138b0a265a9c8f5ae8a697e40ed04f19869c1460aa33cf",
+        "evidence/revision-12/neutral/kre-swift-after-quarter.png": "7d211a48453215a07645fc507d0d62b2f71dcecfc048ee470b850b09d77ea42f",
+        "evidence/revision-12/neutral/kre-swift-before-top.png": "5f43cb013c26231073234adb9ba315c43433137f6fffaeb676d3818625402e56",
+        "evidence/revision-12/neutral/kre-swift-after-top.png": "94ec7ccf48c1dbecabeb8cc439b0a7fa4620597d2321e261d7f16d08cb40d832"
+      }
+    },
+    "kre-ballista": {
+      "criteria": [
+        95,
+        100,
+        96,
+        97
+      ],
+      "note": "Central window strip, repeated housings and forward prism details checked. No new faceting across the broad green forms.",
+      "total": 96.8,
+      "evidence": {
+        "prepared/fleet/kre-ballista.glb": "0536dc784b3326b2be576fad2a2dfd6e14955e2a93f8ae098fa9045ebd7cf1e8",
+        "prepared/fleet/kre-ballista-regions.json": "2dc5d2d149c051d7016009443a7a670c347733fbab91bf42c70f815ebc1b4c74",
+        "prepared/fleet/kre-ballista-preparation.json": "9e4893d138653a0337c508526557926367956b859eb4e805daf945a72c5f2729",
+        "evidence/fleet/images/kre-ballista-side.png": "85c911dc22173fb39e368bdd69471ce16641e0add24fe4405cc962b0257e1d61",
+        "evidence/revision-12/baseline/kre-ballista-side.png": "89a117358e1bd3943458e9db830b4d51df9d77bbbf5483af8251be179e4bb0e7",
+        "evidence/fleet/images/kre-ballista-quarter.png": "578f4c3e795e2a9b00d4ccd1635c5eee0f4de1442dc3372e4136005a98540859",
+        "evidence/revision-12/baseline/kre-ballista-quarter.png": "aae298d152e9138a3342b4b3cd7314b3b1f28ce35adb2bffea83796f671ac78b",
+        "evidence/fleet/images/kre-ballista-strip.png": "3c33f5a331646c01c482c813cbfea46660e66d659ab88d1b6dff99ffd678e66d",
+        "evidence/revision-12/baseline/kre-ballista-strip.png": "f6a44955acbde377a3f941d26b9f0f7a72782d2d83f784354092ebe7890b1082",
+        "evidence/revision-12/neutral/kre-ballista-before-side.png": "9f03011ecdd7334f5a992cf0d21f589ad27f8e7abbc683baa66bc0a2fec1a145",
+        "evidence/revision-12/neutral/kre-ballista-after-side.png": "6a39852c2cf1e70d4c916e29f42d8b80b7ea387cb52d98502298489cb3704257",
+        "evidence/revision-12/neutral/kre-ballista-before-port.png": "01bee40e4e9c440c020de05df4aaf55e64472a7e3e7117c68bf8c13ddc3562e3",
+        "evidence/revision-12/neutral/kre-ballista-after-port.png": "ca33370fd02296bac818d304676a82dfdd9b90cda8c4087f4fdcc6e893b8f22f",
+        "evidence/revision-12/neutral/kre-ballista-before-quarter.png": "412476b4e2af64ceebb328ec9777bb1dff37e01ab2269158f99954605633c6d7",
+        "evidence/revision-12/neutral/kre-ballista-after-quarter.png": "cdc402b84d98d4bc5fdcfbb4e1ebfceaf9879600678f5b574748917ada1266b2",
+        "evidence/revision-12/neutral/kre-ballista-before-top.png": "71d1d1abfb736607af4782cce677f33667e64b26bc223b58b45b3bdffa4a7d65",
+        "evidence/revision-12/neutral/kre-ballista-after-top.png": "9911744b7aaf414192036720d73162faf57b27b587ead56a692118f6e859274e"
+      }
+    },
+    "kre-raptor": {
+      "criteria": [
+        96,
+        100,
+        96,
+        97
+      ],
+      "note": "Window groups on the flank inserts and forward rim are distinct; the broad curved body and dome profiles remain smooth.",
+      "total": 97.2,
+      "evidence": {
+        "prepared/fleet/kre-raptor.glb": "6179fc98ac654d704e4abd6b1c06530a711d274f051dec1f26e57a629d1d17d2",
+        "prepared/fleet/kre-raptor-regions.json": "fff2b6a4035cae777dbde45441c23c8c40d1dd3d0045d9b22d99e5b94be7684d",
+        "prepared/fleet/kre-raptor-preparation.json": "1e079c1b532e6c3476404c6e9fa1206611205a904e190919d4a86e9640f35d63",
+        "evidence/fleet/images/kre-raptor-side.png": "e84d7081ae3ee15ca3a0ed4ad019875a23a01c6eb6f21d9b777b58b8fa1986d4",
+        "evidence/revision-12/baseline/kre-raptor-side.png": "361207c1a722fa3caf1436b7cf5b9dff19e2264ea4447a5a71a01a8b2338c739",
+        "evidence/fleet/images/kre-raptor-quarter.png": "8ccf44eaef2ed05d7f2a161036713c3ecc6fba6225e41afd30f45a14a81b6f0b",
+        "evidence/revision-12/baseline/kre-raptor-quarter.png": "92a661083f8ca51f01e755e1af9651b7fc837a9ba46c34fabd6dec39775cc9ba",
+        "evidence/fleet/images/kre-raptor-strip.png": "f0cb40177a65cba6e64f90486de88e47840de7ca06032bc9b10a35c82ede6938",
+        "evidence/revision-12/baseline/kre-raptor-strip.png": "2aaa13e2ba7edcf91d3c48ce087140ab7adef61454f3a4148d7d07c7c00b0f32",
+        "evidence/revision-12/neutral/kre-raptor-before-side.png": "b973ffbafc1c8b8d84adcce723da00a93b6a2f60fc1993c3608cf62fb793d489",
+        "evidence/revision-12/neutral/kre-raptor-after-side.png": "68ea5c201368dcc0f5771bc0582c5751d5397d628dac81e0b5d38eb002270a9b",
+        "evidence/revision-12/neutral/kre-raptor-before-port.png": "b35b36640318139b80dbbdafd655b6d2e90b257f8f081de79674148c340277c6",
+        "evidence/revision-12/neutral/kre-raptor-after-port.png": "0d344c61d90c03959cc101623e836d0b606355fdc088f3eb02ec401faa0f084b",
+        "evidence/revision-12/neutral/kre-raptor-before-quarter.png": "cc683aa52e8fa490f41772cb3e7aa2c8e78e2d90aa0f47bd342508f786788ae9",
+        "evidence/revision-12/neutral/kre-raptor-after-quarter.png": "34dd317f6b999add7c5c02996f827e350dba0594c70f762d3fa34bc041b40bce",
+        "evidence/revision-12/neutral/kre-raptor-before-top.png": "7d4bdf0f087429f623a0d3e6dae315f4f640f7542481aabd0e32fa8d6fe3ef63",
+        "evidence/revision-12/neutral/kre-raptor-after-top.png": "9d197106541b5ce8fa09a6c84c34af87da386c57416ebe3ee1a6ee5b7a23cea6"
+      }
+    },
+    "kre-lightning": {
+      "criteria": [
+        96,
+        100,
+        96,
+        97
+      ],
+      "note": "Flank and forward window groups are controlled; the curved body and upper housings keep continuous shading.",
+      "total": 97.2,
+      "evidence": {
+        "prepared/fleet/kre-lightning.glb": "61dafbc251c667313aa85bf47a102b7c05aaee766915e586b63360e3c9cd4ad8",
+        "prepared/fleet/kre-lightning-regions.json": "8c4d8465d8cb4fe32c709ff711dde67975912be822ccb965735f2d0d458cbbd8",
+        "prepared/fleet/kre-lightning-preparation.json": "beb0e35c54c19defd4f2a2cd97af3254c1b72d6636bf91871700704fe31125c0",
+        "evidence/fleet/images/kre-lightning-side.png": "65831b72c499d70fbf39b33fb6aa6cee22662afc8b26cf03315ec74263117446",
+        "evidence/revision-12/baseline/kre-lightning-side.png": "7000f4ca14825354a8be91a9504dd2cf4e05c7ff178fc47fa29ec4ad28edd3f8",
+        "evidence/fleet/images/kre-lightning-quarter.png": "38a2308833831ab90e7b6296a6131a24a660911ffe74c2009b621381707f4597",
+        "evidence/revision-12/baseline/kre-lightning-quarter.png": "c41f5c1bb11de729728e26da3542b5732408b9f68d148a35c4d4e1d47b4d7dd5",
+        "evidence/fleet/images/kre-lightning-strip.png": "16044105e306a08be95b9d812e09a6de37da83f140a916fe9d933e72a1c98854",
+        "evidence/revision-12/baseline/kre-lightning-strip.png": "0631c17ccb2a3ab29010facf4ece088e0ee99d4e699941314cef0eec8c6efa43",
+        "evidence/revision-12/neutral/kre-lightning-before-side.png": "33cb3df6bbe63c1d4f6e2e4fa51ae8997a448a4229aa57100fdb8e4c2ba6a7c8",
+        "evidence/revision-12/neutral/kre-lightning-after-side.png": "155dd4aa928f753869ad5fac7bd0f436af3afc9b01f39c6edc850b844fbd14f0",
+        "evidence/revision-12/neutral/kre-lightning-before-port.png": "bb060e9d6aa2c9c80e0c4a4da230aa841580a0fad69e43ae403622a4f5eeeffe",
+        "evidence/revision-12/neutral/kre-lightning-after-port.png": "a07ef4643e0e3f0546d2ad54760f73a604b961991b1a1205bf623f2d9b24deae",
+        "evidence/revision-12/neutral/kre-lightning-before-quarter.png": "2eb4196057138b9e08d6f55153edb7c4ffbea5ddc5e926cc760bb403ebcedaf8",
+        "evidence/revision-12/neutral/kre-lightning-after-quarter.png": "065d6363ccbfaefa1cf75bfe1dc5ff2d135a84e2fc8679adabc25bc76bb24927",
+        "evidence/revision-12/neutral/kre-lightning-before-top.png": "e148a9ea5d6c850201b7ed93daed777679ed6c61dc5ff8933d4b47248a6814ee",
+        "evidence/revision-12/neutral/kre-lightning-after-top.png": "b0e6da4e87b2e9b6d45a69506b8b874ff1a46b5d7bfd6be4566252862e0bf552"
+      }
+    },
+    "kre-star-knight": {
+      "criteria": [
+        95,
+        100,
+        96,
+        97
+      ],
+      "note": "Both flank window groups, forward perimeter and ring recesses checked. Rounded annuli and organic bow remain smooth.",
+      "total": 96.8,
+      "evidence": {
+        "prepared/fleet/kre-star-knight.glb": "29f51a6d425317dd80d39222a3d31e0dd9da5d71965b5ce7ccea40e58fe19c49",
+        "prepared/fleet/kre-star-knight-regions.json": "98cdf0bb9b5fdd4271ca07d5d7794ec05926a26733ff469de3b63b5aa2273f82",
+        "prepared/fleet/kre-star-knight-preparation.json": "1070e0856c7abc5b6aef6e546f575d7ca743353bb783215732efd54b1cb3b06c",
+        "evidence/fleet/images/kre-star-knight-side.png": "e6b4152f9eeac7a2ca008e47f7977c5d2af2aeae232f9fd97fba29b71dcd22f3",
+        "evidence/revision-12/baseline/kre-star-knight-side.png": "ffe941bf5fd85a1d473ca1a7180313accf9b29cbafff39c907b9cddb0d7ce17d",
+        "evidence/fleet/images/kre-star-knight-quarter.png": "d696fea6a49199a979e2fe60b5dd2e10c24094d21cf1fd3ef853b75f5213063a",
+        "evidence/revision-12/baseline/kre-star-knight-quarter.png": "943e5adb05208bafee792a4cd65e3c6f541a43d247ee3ab6642cc7b76c7f780d",
+        "evidence/fleet/images/kre-star-knight-strip.png": "9f9f9b97c07222e5ac0f56c3e13a265cbb4bfdcd2bbe5166d901c7e83e04cd13",
+        "evidence/revision-12/baseline/kre-star-knight-strip.png": "ccac00cc8b0e07e953043725b718e226404db18494f200bf672e1fc04e89c898",
+        "evidence/revision-12/neutral/kre-star-knight-before-side.png": "9814754bf9a08c610135bb6691f76e7d02f826cb76c44008ffad2c3b13f426f0",
+        "evidence/revision-12/neutral/kre-star-knight-after-side.png": "375cd18cc682505d9a09cc099ff4c07afb3a8500a8848764c152390b9d7cba6f",
+        "evidence/revision-12/neutral/kre-star-knight-before-port.png": "daeb80567673451fa6d736fde673af586776b34c5389c16268644741c070dc12",
+        "evidence/revision-12/neutral/kre-star-knight-after-port.png": "893b836143c6b2c1d0550628802ec7dc50f123b7f3f6d8b3b234b41cac230461",
+        "evidence/revision-12/neutral/kre-star-knight-before-quarter.png": "2bd76effcfc52c814755e1a008557c634ae74250ca03f7832e8f6d0c788d12de",
+        "evidence/revision-12/neutral/kre-star-knight-after-quarter.png": "6327c54e2b0c06aea069a504e499648a7c7c1a389a9604820c6fc2248293deef",
+        "evidence/revision-12/neutral/kre-star-knight-before-top.png": "9c42cf92e107b97a02904ca914cf1d8c345febb51ea9f39f39d24abb5caafd19",
+        "evidence/revision-12/neutral/kre-star-knight-after-top.png": "61b832c2c2bc837a0a06139d61a0a4db3abb891759af07e1fc275b86ed36285e"
+      }
+    },
+    "kre-bladestar": {
+      "criteria": [
+        95,
+        100,
+        96,
+        97
+      ],
+      "note": "Flank window inserts and carrier deck breaks checked. Curved rings remain round, and the approved flight deck stays matte.",
+      "total": 96.8,
+      "evidence": {
+        "prepared/fleet/kre-bladestar.glb": "28c87d13f1e748043c7efdb6689ad7d01ea5a09c5b42bceaf808132a95b1ad97",
+        "prepared/fleet/kre-bladestar-regions.json": "43b0168945a0ddb156326a73c07a3c3a76938817a58730d25ed0b741a5ad99a9",
+        "prepared/fleet/kre-bladestar-preparation.json": "e92050095d163a4a16566a33890f7210a2e5f12ec30c99a50fe3c05ba0114cad",
+        "evidence/fleet/images/kre-bladestar-side.png": "fdcb19ce95cafb260aa270ee51dbf9bb8c0505249030cfbde39ec1c55ae51ba2",
+        "evidence/revision-12/baseline/kre-bladestar-side.png": "56577bbab87f0483ff6072ba09f07426e2801cb1baa9909e6b3cdcee9187411c",
+        "evidence/fleet/images/kre-bladestar-quarter.png": "48c7b264051dbc71fa9a1a7eefcc4031f4fc6870e8fe47d391fab420e333ec84",
+        "evidence/revision-12/baseline/kre-bladestar-quarter.png": "3611dd42ae8d47a8d1ddf77f16a122577982c26607328170ded6b971e71aab7d",
+        "evidence/fleet/images/kre-bladestar-strip.png": "3fb096c1228119e058e20a185a74a0a36dc1f30ac11610f9567a31b49fb2c26c",
+        "evidence/revision-12/baseline/kre-bladestar-strip.png": "d70b941e4a62bd9e180e0e2297e7255f1a7d7e857f61f9efdb40b528b6655b5e",
+        "evidence/revision-12/neutral/kre-bladestar-before-side.png": "71b61aa026bd84402032c904850aa5de17265816c3ccbdfc3ca3265fe4006862",
+        "evidence/revision-12/neutral/kre-bladestar-after-side.png": "b471d62950b2bd345248439b422316bea4b59eebcf63ed5a88f648229325f190",
+        "evidence/revision-12/neutral/kre-bladestar-before-port.png": "b60b17230d64d65a4cbaf7051d5ff0dc48b7da6e355a0ad90c41409a92479c20",
+        "evidence/revision-12/neutral/kre-bladestar-after-port.png": "a52eeb71643642e1759a4ddcbc786da992f05a345caf7c000a46cdcfa6cfa4a5",
+        "evidence/revision-12/neutral/kre-bladestar-before-quarter.png": "cfe7a7c7b06667917d80902bffe1e4951ba708daeb3074ca470fc2137ae31fe4",
+        "evidence/revision-12/neutral/kre-bladestar-after-quarter.png": "d451cf5d36eeb19597d6e80159d02d342925776707a29dbff57075635653b914",
+        "evidence/revision-12/neutral/kre-bladestar-before-top.png": "4eb23c96038c461bbc908a44dc3dfc9556fb10cfa9909d858892ba955890d99b",
+        "evidence/revision-12/neutral/kre-bladestar-after-top.png": "d8ea7eb84a37c6db41b73a0e0eb3da3163d94ce8564cfc5899023c82b67c8d85"
+      }
+    },
+    "kre-star-lord": {
+      "criteria": [
+        95,
+        100,
+        96,
+        97
+      ],
+      "note": "Multiple flank window inserts and bow perimeter checked. Stacked curved wings and ring forms retain their smooth profiles.",
+      "total": 96.8,
+      "evidence": {
+        "prepared/fleet/kre-star-lord.glb": "bfc59e872f7f8e0673054f7a676a69597d5f371503257050a59305fb6b5ff29a",
+        "prepared/fleet/kre-star-lord-regions.json": "8edca6946d42778886325bf7898ed9cb9523bf4db4d10a51581b800471a32124",
+        "prepared/fleet/kre-star-lord-preparation.json": "e8a4345bd9e4703608b11a4264f04c80efc8eb03e53e305163db061a65afc5b1",
+        "evidence/fleet/images/kre-star-lord-side.png": "b4c548f39b6b4b9996fd02235e767449bad7f69b4abe20b2c5980bf4d1738f9e",
+        "evidence/revision-12/baseline/kre-star-lord-side.png": "04b3c429f2a53854be35dc62a220a9b45366d9e8ded804bea81ccc05b7bdb579",
+        "evidence/fleet/images/kre-star-lord-quarter.png": "806d239856c89a8d838276f812a849af9df4f778f921015a758c7d2c3707680a",
+        "evidence/revision-12/baseline/kre-star-lord-quarter.png": "d77937ea3bcae4d610fa0948ac961f5e34ca6d23559daf71a55479f2c432c8cd",
+        "evidence/fleet/images/kre-star-lord-strip.png": "52c15acae822f1a77eff1e53f9cdbad91e374ecbd0e487c81c664af328f3fcc4",
+        "evidence/revision-12/baseline/kre-star-lord-strip.png": "9b471e2fc8f0e51e437bf08ecef373b0f68ec808a94ac95042da11492138c95c",
+        "evidence/revision-12/neutral/kre-star-lord-before-side.png": "3c9c5b685232b7d1818737af5c4223ffe68c1b490dba7ef75bde87ebc6bb586a",
+        "evidence/revision-12/neutral/kre-star-lord-after-side.png": "506d5fb08b5e770f0d8b64addefd3636c5fe7a9584bb9e436e45ebdde01179cc",
+        "evidence/revision-12/neutral/kre-star-lord-before-port.png": "4766b300eee2e792746277a39fe49c88c693d147bec6f6e7d140f34bd36b6f37",
+        "evidence/revision-12/neutral/kre-star-lord-after-port.png": "f656c53f1a6c625ed8a6c1185a2442ba536887a7e428a5172db07b16b997163d",
+        "evidence/revision-12/neutral/kre-star-lord-before-quarter.png": "34796743dfaf6458ea11f20237d5a835ffc2121e45c95220c207fcf35c642c43",
+        "evidence/revision-12/neutral/kre-star-lord-after-quarter.png": "96660f32c80bbd7f66d3b39357c7918951e32b4cc3a02afb051ced33de21a14c",
+        "evidence/revision-12/neutral/kre-star-lord-before-top.png": "099b3bc3dc1bc8553537c2b6d78b50680622903652ee9a36003269ff62e94845",
+        "evidence/revision-12/neutral/kre-star-lord-after-top.png": "59d351f84f3b3766af4a024776691a79e389131c4a712bf2d4283e719e20062a"
+      }
+    },
+    "kre-bomber": {
+      "criteria": [
+        94,
+        100,
+        96,
+        96
+      ],
+      "note": "No white window cluster. Checked the oval insert and recessed prism housing; broad swept wing remains smooth. Small geometric tessellation remains visible at diagnostic magnification, not at the six-craft inspection size.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/kre-bomber.glb": "83dd007a3c02fc6cc2f9d60dc30f3d23e6558d58bb891c9a21f8777a91b5fcf1",
+        "prepared/fleet/kre-bomber-regions.json": "d107c704dcbcc84fb3eb41af7f0315547811ce86d718ca0b86cc24f716cb7858",
+        "prepared/fleet/kre-bomber-preparation.json": "92323ecad3f275559f54b6c1010f1291f208988b3a618decfd3042437cb0f643",
+        "evidence/fleet/images/kre-bomber-side.png": "3ecec00abee223d7f4e0dfeefa238c07e9d242fe5e30a4ec28b6914c9fe415ff",
+        "evidence/revision-12/baseline/kre-bomber-side.png": "6005dfae54a6329a123ab91b5a29cf514878e0634edaa9f0d6829e20361afc23",
+        "evidence/fleet/images/kre-bomber-quarter.png": "3bbd96c55cfe52225b09e44e08ad64ea9609c57d2d669e3770aea2d156092bdf",
+        "evidence/revision-12/baseline/kre-bomber-quarter.png": "79ad55d105e20de415eae2661085d3bcfcf6e66f6d9b0be3f0838a010ed2beb8",
+        "evidence/fleet/images/kre-bomber-strip.png": "fbe4ed9992fd614b6db0eb18a06dd22251b28f7b8d95123e3e83a9997abde262",
+        "evidence/revision-12/baseline/kre-bomber-strip.png": "91f4f508c2c940debab4eb77c26eda9546be490ec2810e9644c2e90ec964125e",
+        "evidence/revision-12/neutral/kre-bomber-before-side.png": "a928c84a473355715a6151834fe19abd94432a03cd60364aa31cbf1ea56ea07b",
+        "evidence/revision-12/neutral/kre-bomber-after-side.png": "3c6aa4d02eb72f9a54a3c85e4ce2a6ff5a846a7620f9520f1a94de9431fe6abe",
+        "evidence/revision-12/neutral/kre-bomber-before-port.png": "e4130477a3c4a53a9a7bd96d00e081380454c022a732d13b95ee905241b81b0a",
+        "evidence/revision-12/neutral/kre-bomber-after-port.png": "5478d7e25878d8210ea1f957fef2d9d1e34bea2a53fc87d5aaeec49443bf920d",
+        "evidence/revision-12/neutral/kre-bomber-before-quarter.png": "8ed00bfe50382e783ca8d6899d16cfcdd7b5d9a0a6c645898d24d44625096a21",
+        "evidence/revision-12/neutral/kre-bomber-after-quarter.png": "30b061561fabc36de13340b611d493e516a5c0ce072bff34effe702659520a68",
+        "evidence/revision-12/neutral/kre-bomber-before-top.png": "6ac24bb6a0802d852e5f303f7a1a6d750cd5e87583a3f72b18a32d4e1df3471e",
+        "evidence/revision-12/neutral/kre-bomber-after-top.png": "1bcaa80cc72217185f07dd84587f5ae41011645c085f43034f76d03db68403b0"
+      }
+    },
+    "kre-interceptor": {
+      "criteria": [
+        94,
+        100,
+        96,
+        96
+      ],
+      "note": "No white window cluster. Checked the oval insert and front housing breaks; broad swept wing remains smooth. Six craft and supplied code remain legible in the finished inspection cell.",
+      "total": 96.2,
+      "evidence": {
+        "prepared/fleet/kre-interceptor.glb": "19b27550f38ba314608e74d16d29bfb61e5c5c18550de064b2ff685256423a68",
+        "prepared/fleet/kre-interceptor-regions.json": "de6a12f62dd36d2b2c273f27967c8d285ee399b7346d3b9bc610140f3b571949",
+        "prepared/fleet/kre-interceptor-preparation.json": "3112ae4895411fee40d425c84d1dbb3d03fcacb346899f27b2e9b5086917984c",
+        "evidence/fleet/images/kre-interceptor-side.png": "2116207d93717f4b14e87c6768e9a6496fc7a62b26adb70dc9732df2f8d0e037",
+        "evidence/revision-12/baseline/kre-interceptor-side.png": "2cdaa29edcf3db8985a318b257fce3a2f9bdddf0bdeb75584b5cd57ca23871ec",
+        "evidence/fleet/images/kre-interceptor-quarter.png": "3c94b3facbf668eda3fc42f8f1e6d85afdd02ad3600a3619d9c765d1f696105a",
+        "evidence/revision-12/baseline/kre-interceptor-quarter.png": "f0f2333c60248f07f8b7b183f78499af67f0c39872014f1ecd2204d9a62486f8",
+        "evidence/fleet/images/kre-interceptor-strip.png": "639c1b50d5c3526d9b90d0e034cfeec23e05cdfd01a8517214bb8db134813851",
+        "evidence/revision-12/baseline/kre-interceptor-strip.png": "9f779f114d838cd093ed4cccb4226f2673632abe22c97c69917eee4ac48d02ae",
+        "evidence/revision-12/neutral/kre-interceptor-before-side.png": "2873a7141e7baadeb594759afbff5de6e712f25046e979f5844e36716c3f0741",
+        "evidence/revision-12/neutral/kre-interceptor-after-side.png": "a714613ce78bcc1b28918ddabdc739c94707ab4d123a4ca8e05cae74a1abd5d1",
+        "evidence/revision-12/neutral/kre-interceptor-before-port.png": "0836a1d19ce052ba444482606bded30f7f75ee52206f7cae7d70309b7faf697f",
+        "evidence/revision-12/neutral/kre-interceptor-after-port.png": "d5dbdb7445a98cf42a4bcf946308d3bdaddb1bb93da764eabddecea293202f5d",
+        "evidence/revision-12/neutral/kre-interceptor-before-quarter.png": "f76a9309877b25d528abee0be6dd256658054ceb94452edd868c64a4146d34ee",
+        "evidence/revision-12/neutral/kre-interceptor-after-quarter.png": "db7fd0ccb53eb1575ef1bcc76663addd268cf71009eafe49ff38c2170f129946",
+        "evidence/revision-12/neutral/kre-interceptor-before-top.png": "3593d4e7937faf7194ebf862db5405f261aa53d33385aaca079b291de4bb43b5",
+        "evidence/revision-12/neutral/kre-interceptor-after-top.png": "f9bbe79d9a6fc50ec0e07f8dec56c74e541769410694605c0f694d316e510442"
+      }
+    },
+    "kre-intrallus": {
+      "criteria": [
+        94,
+        100,
+        96,
+        95
+      ],
+      "note": "Stacked flank window groups, ring surfaces, forward door surround and deck edges checked. Dense overlapping structures still require the neutral opposite-flank view to inspect fully; no new curved-body faceting observed.",
+      "total": 96.1,
+      "evidence": {
+        "prepared/fleet/kre-intrallus.glb": "a3723aa47b076d2e80de341e96f3921091b92d83cf338106fdd2670ac817b443",
+        "prepared/fleet/kre-intrallus-regions.json": "a299d5a2e702d0517f887527466dcdfbd935951298f35b98c497760bf638b1d2",
+        "prepared/fleet/kre-intrallus-preparation.json": "b9b1a1858fd4c2792aefbb371e6b26a8677ad88f98c60fa9def76e82f3b2f9e9",
+        "evidence/fleet/images/kre-intrallus-side.png": "5b799d5f8cb6afa93322e019424b6a41135c896cd6a3352ebac2309a8794e290",
+        "evidence/revision-12/baseline/kre-intrallus-side.png": "b6d9b4a604719e72a69f94e981bb5a16fc0b986b63500e13f6083d280fe58333",
+        "evidence/fleet/images/kre-intrallus-quarter.png": "1a0ff1ce9b3a0d083bebed6f77f243a61e1a2ea3812cf1fa22a85a34046a30ba",
+        "evidence/revision-12/baseline/kre-intrallus-quarter.png": "3715d9a1cad85966274a50fe7b9aeb02fa347da8fbbbe07f33bb340600670b35",
+        "evidence/fleet/images/kre-intrallus-strip.png": "91df762796455d581502e03028eeaf1dfa9b831ef5c7f08ae1e7a0763e36513a",
+        "evidence/revision-12/baseline/kre-intrallus-strip.png": "77832fc9dde093197c887f2b9e690be9ea4e45254f161f62ec80fa0b8cd2e1ff",
+        "evidence/revision-12/neutral/kre-intrallus-before-side.png": "0b266d77f0b2456e94908629e8dff37d0d81cc57962f5ca241d52c7b368978e2",
+        "evidence/revision-12/neutral/kre-intrallus-after-side.png": "bdc67bdede75f1e01f7b12e3cd7e08ee0c0200817c81ae403763782c5d365b54",
+        "evidence/revision-12/neutral/kre-intrallus-before-port.png": "458d60d4d0b639a36e3297c493faaf9ce6dd1c5d5bb494665a89c22c79f5d2b8",
+        "evidence/revision-12/neutral/kre-intrallus-after-port.png": "82c8c25a0389634fe3aba89e5b6534df45c87f82031a08779138146eee5afeca",
+        "evidence/revision-12/neutral/kre-intrallus-before-quarter.png": "fd2f2a2fb961e9114ee5d53bcff8b41a4ea96dd52c191f6cffc003fca1ee27aa",
+        "evidence/revision-12/neutral/kre-intrallus-after-quarter.png": "5c0ed1acab43c96d1c6cb2753da34333f432d3a34ffe6f72e98e2220650ba91f",
+        "evidence/revision-12/neutral/kre-intrallus-before-top.png": "ae37cf8d6729133290b1ca7db130c4d80cd582301df1a5799235aa5aebf408d1",
+        "evidence/revision-12/neutral/kre-intrallus-after-top.png": "44b364853514d6cb9d472eb12dbf78661bcec79dcbf2e45718e69cbf8030fd7d"
+      }
+    }
+  },
+  "sheets": {
+    "EAR": {
+      "criteria": [
+        100,
+        95,
+        98,
+        98
+      ],
+      "total": 97.5
+    },
+    "KRE": {
+      "criteria": [
+        100,
+        95,
+        97,
+        97
+      ],
+      "total": 97.1
+    }
+  },
+  "unscored": [],
+  "scopeLimits": [
+    "Vraygon remains at its approved revision and is not re-scored.",
+    "Planning rim-code and facing-triangle failures remain as recorded in revision 11; this inspection review does not clear the game board.",
+    "The pre-alpha reel remains on hold. No destruction, full-board test or new effect work is included."
+  ],
+  "fileEvidence": {
+    "REVISION-12-RUBRIC.md": "8c3cf4c36d71f07d42667c69a97e78aaa0655746f3a74ee8a426f850b87009ea",
+    "REVISION-12-REVIEW.md": "ca0c90a6ee033519dbeee39637793bcfea22f97565450fac89ee1c4d79c499ce",
+    "prepare-models.py": "e90764adb5ee8e016ff587cc293558d01a714af3c40dc4dc91eeafdad1940657",
+    "rebuild-window-normals.mjs": "f2d795470a5362a75852244180d71f3b5e75b700f8ae8f74956a78edc4b6d2de",
+    "normal-study.js": "391ce0134e488f2e3cff0b563c157213adedb5483659ead2db370e69a5953f1e",
+    "normal-study.html": "3cbbad36ab1eb82b8392548b47d030b0019ed2918d45be7a27188f202306998e",
+    "capture-normal-study.mjs": "e2e4b3c026474d4c273bf6e658ff326aa6da1ca755a82f955aaf5c6079b00cf0",
+    "audit-window-normals.mjs": "4c23d3ee57d9e79814fea616c3aad9754443f79d352cc11455455dcfe479d980",
+    "verify-window-captures.mjs": "f18ec95a3911a72262cb3a67cc9f4564d93a22936b7f37fea2cf30d05c604cd4",
+    "build-window-comparisons.mjs": "d120a9ad0fa23addc0bc4c316c062688fc8bc9b95213ebfc842754deb608e0a3",
+    "WINDOW-COMPARISONS.html": "f5d9656c912f10cad4bba9627435457248ef9011277a45ad9aa2f01a7e14bc37",
+    "seal-window-review.mjs": "84d108be843f188314497f8cf2953fb479305eac3b4a71fc7283c0db51ab3d12",
+    "build-fleet-sheets.mjs": "606a07cc1e6da7efb427037c0b7867f973088d3ee0c44baaccb98863c52f5494",
+    "capture-fleet-sheets.mjs": "96de54f36f3d8404aef534e79393b34f3d892f0b4017422f66638e91dac457e3",
+    "capture-fleet.mjs": "e464ceeb396bb2010cd796c558e31d864036d27a7831350fcfe0aba7f9b8e2c9",
+    "fleet-assets.json": "f4732eb3d437e6df4194f52f0ed1db4ff1e6e6801e18dc0b22e13bfbb6a5838b",
+    "fleet-contract.js": "b15529f45be98e524e145c26566d04126777cd840f8acdf3205991b240ddd077",
+    "faction-palettes.json": "c0b283c0267ad0163f797c6b610c851ba22e65cdb0f2170ec0170d95bcb79fc7",
+    "faction-palettes.js": "e0cd50642d3cad562a81b74cb2c3e42f6fbae04b044ad9f9142cc0e16da504d9",
+    "hull-paint.js": "c1972c53805554c37b5d5b1c01869a96e91563006ec0f92bf32c8b8e66e18f5c",
+    "hull-art.js": "d993d8b1cbf72ec871966358a815027cacc99dd24540d6e43c91c5fbe280edf3",
+    "paint-edges.js": "b71d59afd895b9e1e49e636b217bc0919a9570912ae031d8d7e4acd111f5e5b5",
+    "fleet-studio.js": "7e28a95b3cedc1b04153693eeb08f40c6c2c8191540581c1b31e3d1387c440c4",
+    "fleet-mount.js": "037107159b71f4f8db97e44415ee40e1f210e78ad2d5996dd680657b3ba2452d",
+    "evidence/fleet/captures.json": "1d80877679d328d1b95135debb1eb3e31cc650ea6e0f9fd991f2ed65b2951455",
+    "evidence/revision-12/baseline.json": "c88adfe666571af7c754b807ed8344e38b723849a91797d7e97512b489f48ca0",
+    "evidence/revision-12/normal-audit.json": "3d3710fe578135d8c852f75c83bb50edd012d6b09b61f10be2bb32c0d31a47f5",
+    "evidence/revision-12/matched-captures.json": "2e2197769d6f30e6e591468a45e59c3592ae5c055972ef8330c3830215a37c64",
+    "evidence/revision-12/neutral/cameras-all-earth-krelath-before_after.json": "269e01fb0fca1f83f5f2836ed542e015855eee151e06a59fa4b8ee2e702c546d",
+    "prepared/monoceros.glb": "5e8ef5d976d4ef0fadee2760262d6d01b47718e68b81e6faba0a3317636bc035",
+    "prepared/monoceros-regions.json": "ac8dd283506a1fde84ff018e982d20cafd65b891fa3e010923a0adff051c6924",
+    "prepared/monoceros-preparation.json": "07a42005c768c091b31bd071769a7c9913f44eeac432c7477291b87df95be9d1",
+    "prepared/sparrowhawk.glb": "4e92c3caf115ecee09cef45d39bd8a7d0621e9fcb2d066459c4006f1acd8315e",
+    "prepared/sparrowhawk-regions.json": "a3b908f9aca200f710409808eb1ce6001adf8aa35ec4cefd009277a04ab632fb",
+    "prepared/sparrowhawk-preparation.json": "0cdac849ca7087d507216cbcaaa356a61e4596239eeeb0c949c28323c06bc8bc"
+  }
+}

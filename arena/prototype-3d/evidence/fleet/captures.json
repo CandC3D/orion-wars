@@ -4019,7 +4019,7 @@
           "code": "KFB-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.940692630687863e-09,
+          "postHullGapMm": 8.940692630687863e-9,
           "rimCapPixels": [
             16.66691260226038,
             16.484801338696702
@@ -4140,7 +4140,7 @@
           "code": "KFB-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.940692630687863e-09,
+          "postHullGapMm": 8.940692630687863e-9,
           "rimCapPixels": [
             22.796711799195865,
             25.069670678468903
@@ -4261,7 +4261,7 @@
           "code": "KFB-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.940692630687863e-09,
+          "postHullGapMm": 8.940692630687863e-9,
           "rimCapPixels": [
             7.306067076666432,
             7.849028515207546
@@ -4388,7 +4388,7 @@
           "code": "KFY-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.940692630687863e-09,
+          "postHullGapMm": 8.940692630687863e-9,
           "rimCapPixels": [
             18.25015946259602,
             18.05075435630872
@@ -4509,7 +4509,7 @@
           "code": "KFY-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.940692630687863e-09,
+          "postHullGapMm": 8.940692630687863e-9,
           "rimCapPixels": [
             25.76472886255147,
             28.330912364960433
@@ -4630,7 +4630,7 @@
           "code": "KFY-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.940692630687863e-09,
+          "postHullGapMm": 8.940692630687863e-9,
           "rimCapPixels": [
             7.306067076666432,
             7.849028515207546

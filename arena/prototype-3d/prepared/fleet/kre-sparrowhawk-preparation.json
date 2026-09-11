@@ -4,8 +4,8 @@
   "sourceSha256": "8cf11f930ff0d8a096e8d1d1b70ae31b50018fdda47024a11520e48d757ea964",
   "sourceBytes": 7015984,
   "output": "kre-sparrowhawk.glb",
-  "outputBytes": 700392,
-  "outputSha256": "1b4b7e17c5c43a5e4823fb45e9a757a1f6837503adc3e2067d46380279379e08",
+  "outputBytes": 769296,
+  "outputSha256": "8c6c8b77982296fd7d56fe3f0f710caf6b2e9fa635c25af2408d8a7f6cad29ff",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 3276,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

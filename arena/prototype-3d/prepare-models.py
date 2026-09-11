@@ -24,12 +24,18 @@ if '--ratio' in sys.argv: config['ratio'] = float(sys.argv[sys.argv.index('--rat
 output_name = config['output']
 OUT = HERE / 'prepared'
 if '--fleet' in sys.argv: OUT = OUT / 'fleet'
+if '--output-dir' in sys.argv:
+    OUT = (HERE / sys.argv[sys.argv.index('--output-dir')+1]).resolve()
+    assert OUT.is_relative_to(HERE), 'Preparation outputs must stay inside the prototype'
+    OUT.mkdir(parents=True, exist_ok=True)
 OUT.mkdir(exist_ok=True)
 raw = SOURCE.read_bytes()
 json_length = struct.unpack_from('<I', raw, 12)[0]
 gltf = json.loads(raw[20:20+json_length])
 assert len(gltf['meshes']) == 1 and len(gltf['meshes'][0]['primitives']) == 1, 'Preparation expects one primitive: inspect the complete changed export'
 primitive = gltf['meshes'][0]['primitives'][0]
+if faction in ('EAR', 'KRE'):
+    assert 'NORMAL' not in primitive['attributes'], 'Source acquired authored normals: inspect before replacing them'
 accessor = gltf['accessors'][primitive['attributes']['COLOR_0']]
 view = gltf['bufferViews'][accessor['bufferView']]
 assert accessor['componentType'] == 5126 and accessor['type'] == 'VEC3'
@@ -122,9 +128,26 @@ assert len(source_parts)==len(output_parts), 'A connected feature disappeared du
 for v in mesh.vertices:
     p=(v.co-centre)*scale
     v.co={'-Y':(-p.y,p.x,p.z),'+Y':(p.y,-p.x,p.z),'-X':(-p.x,-p.y,p.z),'+X':p}[config['nativeBow']] # Blender Z up; exporter turns into X, Z, -Y (runtime Y up)
-# Preserve Vraygon facets; averaging inset normals pinches flat panels.
+# Preserve Vraygon facets. Curved Earth/Krelath surfaces need split loop normals:
+# inset walls must not pull the normals of their surrounding panels sideways.
+normal_angle = float(sys.argv[sys.argv.index('--normal-angle')+1]) if '--normal-angle' in sys.argv else 40.0
+assert 0 < normal_angle < 90, 'Normal crease angle must separate curved surfaces from sharp breaks'
 for p in mesh.polygons: p.use_smooth=(faction != 'VRA')
+if faction != 'VRA':
+    assert not mesh.has_custom_normals, 'Source acquired authored normals: inspect instead of replacing them'
+    mesh.set_sharp_from_angle(angle=math.radians(normal_angle))
 mesh.update()
+weighted_normals = faction != 'VRA' and '--unweighted-normals' not in sys.argv
+if weighted_normals:
+    # Within each smooth fan, use area and corner angle together. Tiny inset
+    # bevels must not pull a large panel normal across its long triangles.
+    # keep_sharp prevents the weighting from reconnecting a split crease.
+    weighted = obj.modifiers.new('Area and corner-angle weighting within crease splits', 'WEIGHTED_NORMAL')
+    weighted.keep_sharp = True
+    weighted.mode = 'FACE_AREA_WITH_ANGLE'
+    weighted.weight = 50
+    bpy.ops.object.modifier_apply(modifier=weighted.name)
+    mesh.update()
 obj.name=config['name']+' current hull - authored COLOR_0 regions'
 # Keep COLOR_0 and the source material. Runtime paint uses those region colours;
 # any energetic overlay remains a separate classified drawable.
@@ -139,6 +162,11 @@ report={'source':config['source'],'faction':faction,'sourceSha256':hashlib.sha25
     'sourceComponentCount':len(source_parts),'outputComponentCount':len(output_parts),
     'sourceMaterials':[m.name for m in original.materials], 'authoredColourRegions':True,
     'sourceColourAttribute':'COLOR_0','sourcePalette':palette,'physicalEmission':False,
+    'normalPolicy':{'method':'face normals' if faction=='VRA' else 'smooth faces with angle-split loop normals',
+        'creaseAngleDegrees':None if faction=='VRA' else normal_angle,
+        'weighting':'face area and corner angle; Blender weight 50; keep sharp' if weighted_normals else 'unweighted',
+        'sharpEdges':sum(1 for e in mesh.edges if e.use_edge_sharp),
+        'sourceAuthoredNormals': 'NORMAL' in primitive['attributes']},
     'orientation':config.get('orientationNote', 'Centred runtime +X longitudinal forward, +Y up; native '+config['nativeBow']+'. Earth/Krelath schematic reference; Shard long pointed end, no inferred systems.'),
     'sourceComponents':source_parts,'outputComponents':output_parts}
 (OUT/(output_name+'-preparation.json')).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')

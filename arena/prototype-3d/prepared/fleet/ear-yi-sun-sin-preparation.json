@@ -4,8 +4,8 @@
   "sourceSha256": "36aa6749ac34c0eca01f48d87c3d5012c9d1ba417e658ba12ef52f8b6df728d4",
   "sourceBytes": 18975324,
   "output": "ear-yi-sun-sin.glb",
-  "outputBytes": 757092,
-  "outputSha256": "fa3e3a99da8214e42892528725c2cc973df27040ee1771272dc36fa3dcfa68c1",
+  "outputBytes": 979896,
+  "outputSha256": "a02e0c59b3c9d1a5ce87d089ff82270e1cc15acb5c977db2b12a47c4eb697b73",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -116,6 +116,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 7987,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

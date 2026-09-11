@@ -4,8 +4,8 @@
   "sourceSha256": "32d9994d7ae7df9c48a931cdd6ce4fe5ee853255986103871bfa315be6c3ae30",
   "sourceBytes": 40562904,
   "output": "kre-intrallus.glb",
-  "outputBytes": 12607176,
-  "outputSha256": "c16d80d61479a92a0dedc954ff90b771e25234d00452956d58d72e06fba4c882",
+  "outputBytes": 13108332,
+  "outputSha256": "a3723aa47b076d2e80de341e96f3921091b92d83cf338106fdd2670ac817b443",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -100,6 +100,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 37939,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

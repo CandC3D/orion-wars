@@ -4,8 +4,8 @@
   "sourceSha256": "11a1d6c5c5fa74905417fed5eda3047814147d06e78473af0226390d699231b0",
   "sourceBytes": 28145444,
   "output": "ear-federation.glb",
-  "outputBytes": 2307644,
-  "outputSha256": "788f8a864c5e513d52c974720b5cb23434396f87dc3ab222c42bc602591b2afe",
+  "outputBytes": 2775176,
+  "outputSha256": "fde5f349944dcd91e52e7b8ab58b32d5b6380f921728016fdd434131ba02eee8",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -116,6 +116,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 18885,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

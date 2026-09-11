@@ -1,0 +1,437 @@
+{
+  "results": [
+    {
+      "id": "ear-monoceros",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 16343,
+          "maxChannelDifference": 114
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 28292,
+          "maxChannelDifference": 127
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 3607,
+          "maxChannelDifference": 108
+        }
+      }
+    },
+    {
+      "id": "ear-victory",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 20436,
+          "maxChannelDifference": 117
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 30507,
+          "maxChannelDifference": 121
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 3769,
+          "maxChannelDifference": 104
+        }
+      }
+    },
+    {
+      "id": "ear-saturn",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 18042,
+          "maxChannelDifference": 128
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 29107,
+          "maxChannelDifference": 122
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 3396,
+          "maxChannelDifference": 109
+        }
+      }
+    },
+    {
+      "id": "ear-acamar",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 25949,
+          "maxChannelDifference": 147
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 38752,
+          "maxChannelDifference": 125
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 5717,
+          "maxChannelDifference": 113
+        }
+      }
+    },
+    {
+      "id": "ear-yi-sun-sin",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 24485,
+          "maxChannelDifference": 105
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 39025,
+          "maxChannelDifference": 120
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 6554,
+          "maxChannelDifference": 103
+        }
+      }
+    },
+    {
+      "id": "ear-federation",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 24925,
+          "maxChannelDifference": 108
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 41400,
+          "maxChannelDifference": 113
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 5918,
+          "maxChannelDifference": 109
+        }
+      }
+    },
+    {
+      "id": "ear-yamato",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 23358,
+          "maxChannelDifference": 170
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 41037,
+          "maxChannelDifference": 139
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 6861,
+          "maxChannelDifference": 135
+        }
+      }
+    },
+    {
+      "id": "kre-sparrowhawk",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 5154,
+          "maxChannelDifference": 99
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 7739,
+          "maxChannelDifference": 102
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 770,
+          "maxChannelDifference": 82
+        }
+      }
+    },
+    {
+      "id": "kre-swift",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 8883,
+          "maxChannelDifference": 119
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 13225,
+          "maxChannelDifference": 103
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 1233,
+          "maxChannelDifference": 82
+        }
+      }
+    },
+    {
+      "id": "kre-ballista",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 10903,
+          "maxChannelDifference": 116
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 14983,
+          "maxChannelDifference": 102
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 1387,
+          "maxChannelDifference": 78
+        }
+      }
+    },
+    {
+      "id": "kre-raptor",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 8070,
+          "maxChannelDifference": 104
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 13056,
+          "maxChannelDifference": 106
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 1391,
+          "maxChannelDifference": 67
+        }
+      }
+    },
+    {
+      "id": "kre-lightning",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 7980,
+          "maxChannelDifference": 92
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 12163,
+          "maxChannelDifference": 84
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 1392,
+          "maxChannelDifference": 68
+        }
+      }
+    },
+    {
+      "id": "kre-star-knight",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 10658,
+          "maxChannelDifference": 93
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 17966,
+          "maxChannelDifference": 139
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 2083,
+          "maxChannelDifference": 77
+        }
+      }
+    },
+    {
+      "id": "kre-bladestar",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 13442,
+          "maxChannelDifference": 114
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 23802,
+          "maxChannelDifference": 81
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 2868,
+          "maxChannelDifference": 95
+        }
+      }
+    },
+    {
+      "id": "kre-star-lord",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 12532,
+          "maxChannelDifference": 99
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 25040,
+          "maxChannelDifference": 113
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 2856,
+          "maxChannelDifference": 80
+        }
+      }
+    },
+    {
+      "id": "kre-bomber",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 3230,
+          "maxChannelDifference": 80
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 3691,
+          "maxChannelDifference": 76
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 423,
+          "maxChannelDifference": 70
+        }
+      }
+    },
+    {
+      "id": "kre-interceptor",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 2251,
+          "maxChannelDifference": 78
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 2598,
+          "maxChannelDifference": 94
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 251,
+          "maxChannelDifference": 68
+        }
+      }
+    },
+    {
+      "id": "kre-intrallus",
+      "identicalCamerasAndBounds": true,
+      "views": {
+        "quarter": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 13409,
+          "maxChannelDifference": 82
+        },
+        "side": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 24729,
+          "maxChannelDifference": 106
+        },
+        "strip": {
+          "width": 1000,
+          "height": 720,
+          "changedPixelsOver8": 4105,
+          "maxChannelDifference": 97
+        }
+      }
+    }
+  ],
+  "unchangedVraygonCaptureRecords": 7
+}

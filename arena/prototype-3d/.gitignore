@@ -1,2 +1,15 @@
 source/
 evidence/*.log
+
+# Private normal-threshold iterations. Retain the requested before/after evidence.
+evidence/revision-12/candidates/
+evidence/revision-12/neutral/*-30-*.png
+evidence/revision-12/neutral/*-40-*.png
+evidence/revision-12/neutral/*-40w-*.png
+evidence/revision-12/neutral/*-60-*.png
+evidence/revision-12/neutral/*.json
+!evidence/revision-12/neutral/cameras-*.json
+evidence/revision-12/normal-audit-*.json
+evidence/revision-12/*-30.log
+evidence/revision-12/*-40w.log
+evidence/revision-12/*-60.log

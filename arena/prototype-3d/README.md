@@ -1,12 +1,12 @@
-# Corrected fleets and tabletop prototype - revision 11
+# Corrected fleets and tabletop prototype - revision 12
 
-Three inspection sheets pass fresh direct visual review: **Earth 97.6, Krelath 97.3, Vraygon 98.2 /100**. All 25 retained entries score at least **94.6**, with every scored hull criterion above 90. These are Astra's self-review scores, not Chris's approval.
+Earth and Krelath now use 40° crease splits with area-and-angle weighted normals: window shading fans are removed while curved hulls stay smooth. Fresh inspection self-review: **Earth 97.5, Krelath 97.1 /100**, all 18 hulls **96.1 or higher**, every criterion at least 94. These are Astra's scores, not Chris's approval. **Vraygon is unchanged** at its approved revision; it is not re-scored in this pass.
 
 - [Earth sheet](fleet-sheets/earth.html) / [PNG](fleet-sheets/earth.png)
 - [Krelath sheet](fleet-sheets/krelath.html) / [PNG](fleet-sheets/krelath.png)
 - [Vraygon sheet](fleet-sheets/vraygon.html) / [PNG](fleet-sheets/vraygon.png)
-- [Pre-build rubric](REVISION-11-RUBRIC.md), [full review and per-hull scores](REVISION-11-REVIEW.md)
-- [Vraygon diagnosis and matched before/after](WINDOW-DIAGNOSIS.md)
+- [Pre-build rubric](REVISION-12-RUBRIC.md), [full review and per-hull scores](REVISION-12-REVIEW.md)
+- [Earth/Krelath matched before/after viewer](WINDOW-COMPARISONS.html), [Vraygon's earlier diagnosis](WINDOW-DIAGNOSIS.md)
 - [Approved fleet scale](FLEET-SCALE.md), [measured scene scale](SCALE.md), [every material region](FLEET-REGIONS.md)
 
 Clear tapered posts and clear green Vraygon weapons are standard. Black FASA bases carry codes on arcs 2/4/6 and a cast triangle on arc 2. Both fighter entries carry six craft on one clear formation frame. Intrallus remains; Boss is retired. Earth steel is bright again; original blue is retained. Ink lines use complete geometry-local crease support. The smaller domes on Sparrowhawk, Swift, Ballista and Raptor are mapped as inert point-defence emitters.
@@ -19,6 +19,6 @@ Current board limits are 110k submitted triangles, 128 draws, 24 MiB material te
 
 Fast regression suite, 29 prototype checks, 32 fleet checks and the browser reviews pass. Commands and qualifications are in the full review. With the repository's existing local server, open `/arena/prototype-3d/index.html` for the working board and `/arena/prototype-3d/fleet-sheets/earth.html` for inspection. The SVG Fleet Command fallback remains linked.
 
-Historical assessments remain in REVIEW.md, RIM-REVIEW.md, FLEET-REVIEW.md and BRAND-REVIEW.md. Their scores and unapproved variants describe their own revisions and are superseded by revision 11. `material-study.html` retains explicit historical black/painted comparisons; its live default is approved clear. Its 90 mm optical-study Crystal is not the approved 71.94 mm fleet piece.
+Historical assessments remain in REVIEW.md, RIM-REVIEW.md, FLEET-REVIEW.md and BRAND-REVIEW.md. Their scores and unapproved variants describe their own revisions. Revision 12 supersedes the Earth/Krelath window preparation and inspection scores; revision 11 still records the unchanged Vraygon sheet and failed game-camera identification gates. `material-study.html` retains explicit historical black/painted comparisons; its live default is approved clear. Its 90 mm optical-study Crystal is not the approved 71.94 mm fleet piece. The **pre-alpha reel remains on hold**, pending Chris's ruling on the verified move/fire and frigate-missile conflicts in [its preflight](PRE-ALPHA-REEL-PREFLIGHT.md).
 
 No commit or branch. All implementation changes are inside this prototype. Campaign-map owns permanent assets, export fixes and the Sparrowhawk schematic label; map owns integration/picking; console owns controls. No destruction, planet/nebula sample or full-board test was added.

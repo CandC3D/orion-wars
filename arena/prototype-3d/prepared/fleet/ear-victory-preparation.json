@@ -4,8 +4,8 @@
   "sourceSha256": "375794bb8405bac952e5f697786cf5105c8f7fa5d74b11f066603eb2a9687243",
   "sourceBytes": 16189428,
   "output": "ear-victory.glb",
-  "outputBytes": 737516,
-  "outputSha256": "2a7a448b46982ad07dd7094b4205f396293cf8195a7f8b5ada8ad37d094d3090",
+  "outputBytes": 876548,
+  "outputSha256": "fc2dea8c0dc79acfba6fcc10084e880e850dcee60dd1487bf8692fc3b5321189",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -116,6 +116,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 6051,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

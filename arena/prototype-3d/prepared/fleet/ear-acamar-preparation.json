@@ -4,8 +4,8 @@
   "sourceSha256": "d42a114d3afc052081e93ef65dc441c4cd6c8e8941914f466aae302ab498a87b",
   "sourceBytes": 25370412,
   "output": "ear-acamar.glb",
-  "outputBytes": 750920,
-  "outputSha256": "6c3320a04e6bc7d5f5fa494d5a48b1e0d0edf1fcb291ea62c331a5faf6323300",
+  "outputBytes": 963716,
+  "outputSha256": "4f81b2c73533b9bbbf684ab16bfd5356d91c2f0e3cef4f1c06030f434e25e1a0",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -116,6 +116,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 7818,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

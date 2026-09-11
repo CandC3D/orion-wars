@@ -4,8 +4,8 @@
   "sourceSha256": "5eaa4c481f819fcdd138951c7b74cb75d33f2ab4933e684f9d299d0d272a7558",
   "sourceBytes": 9462504,
   "output": "kre-swift.glb",
-  "outputBytes": 707328,
-  "outputSha256": "49b32d45a4c90da4bbfcabbc5042f871f91effeeaf51985162c99e906e66f404",
+  "outputBytes": 795600,
+  "outputSha256": "e7cb5fe538e40869f352f5aeab1312d29b540510541a2f3f768e0b92961d793e",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 4076,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

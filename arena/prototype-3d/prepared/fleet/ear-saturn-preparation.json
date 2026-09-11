@@ -4,8 +4,8 @@
   "sourceSha256": "20c98e950568d44b62e577c5b10a95d2e2a0740ae4613e6816d48bbfb4d56508",
   "sourceBytes": 16193740,
   "output": "ear-saturn.glb",
-  "outputBytes": 740096,
-  "outputSha256": "84399a84f5e78505177016bee534aa386a36b62cf4c6d2947d7a74520f0b6ea9",
+  "outputBytes": 877256,
+  "outputSha256": "6c87a9c8ee5a7b07f7fbf3c98b2ca9dfc4fe002efd6f2f4f5034089b2e141554",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -116,6 +116,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 6010,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

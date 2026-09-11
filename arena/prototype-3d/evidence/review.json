@@ -2315,12 +2315,12 @@
     ],
     "planningBrush": {
       "EAR": {
-        "pixelsChangedAbove025": 1596,
-        "maxLinearChannelDifference": 0.43603515625
+        "pixelsChangedAbove025": 1603,
+        "maxLinearChannelDifference": 0.474365234375
       },
       "KRE": {
-        "pixelsChangedAbove025": 363,
-        "maxLinearChannelDifference": 0.547607421875
+        "pixelsChangedAbove025": 383,
+        "maxLinearChannelDifference": 0.44677734375
       },
       "VRA": {
         "pixelsChangedAbove025": 975,
@@ -2464,8 +2464,8 @@
       "energeticNonzeroPixels": 1389
     },
     "physicalIsolation": {
-      "physicalBefore": "f01b9b9e",
-      "physicalAfter": "f01b9b9e",
+      "physicalBefore": "65d35030",
+      "physicalAfter": "65d35030",
       "shadowBefore": "f8f13897",
       "shadowAfter": "f8f13897",
       "identical": true
@@ -3220,9 +3220,9 @@
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 1.3933333337306977,
-    "p95Ms": 2,
-    "maxMs": 2.1000000089406967,
+    "meanMs": 0.9383333310484886,
+    "p95Ms": 1.2999999821186066,
+    "maxMs": 1.5999999940395355,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }

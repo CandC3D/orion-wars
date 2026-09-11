@@ -4,8 +4,8 @@
   "sourceSha256": "995eac2f57c4391394ea4edaaccd591b35f8c534fcbcbdcb5bee17f728bc9630",
   "sourceBytes": 2008688,
   "output": "kre-interceptor.glb",
-  "outputBytes": 365792,
-  "outputSha256": "0698d453c7421cdd9fcbb155f209b39a976f51740ce641d379e895d4586ffc7f",
+  "outputBytes": 384836,
+  "outputSha256": "19b27550f38ba314608e74d16d29bfb61e5c5c18550de064b2ff685256423a68",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -84,6 +84,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 946,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

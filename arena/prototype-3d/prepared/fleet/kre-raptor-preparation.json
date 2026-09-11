@@ -4,8 +4,8 @@
   "sourceSha256": "6772415538f4527a70248286c44d390f8de24d2a53245cd14132e2f40aa24daa",
   "sourceBytes": 12408276,
   "output": "kre-raptor.glb",
-  "outputBytes": 3961464,
-  "outputSha256": "2fd1c1a9f057771b1aa44790a1d98d548f7d2a8f67929a8212ff5977fbb5061b",
+  "outputBytes": 4214004,
+  "outputSha256": "6179fc98ac654d704e4abd6b1c06530a711d274f051dec1f26e57a629d1d17d2",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 15733,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

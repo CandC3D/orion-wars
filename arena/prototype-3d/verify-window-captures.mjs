@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createServer} from 'node:http';import assert from 'node:assert/strict';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'file:///C:/Users/chorr/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs');
+const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..'),read=async p=>JSON.parse(await fs.readFile(path.join(here,p)));
+const before=await read('evidence/revision-12/baseline/captures.json'),after=await read('evidence/fleet/captures.json'),manifest=await read('fleet-assets.json');
+const mime={'.html':'text/html','.js':'text/javascript','.json':'application/json','.png':'image/png'};
+const server=createServer(async(req,res)=>{try{const file=path.resolve(root,'.'+decodeURIComponent(new URL(req.url,'http://localhost').pathname));if(!file.startsWith(root+path.sep))throw Error('outside');res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');res.end(await fs.readFile(file));}catch{res.writeHead(404).end();}});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+try{browser=await chromium.launch({headless:true,executablePath:process.env.PROTOTYPE_BROWSER||'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'});const page=await browser.newPage();await page.goto(`http://127.0.0.1:${server.address().port}/arena/prototype-3d/normal-study.html`);const results=[];
+ for(const h of manifest.hulls){const a=before.hulls.find(r=>r.id===h.id),b=after.hulls.find(r=>r.id===h.id);if(h.faction==='VRA'){assert.deepEqual(b,a,'Vraygon capture metadata changed');continue;}
+  const views={};for(const view of ['quarter','side','strip']){assert.deepEqual(b.views[view].camera,a.views[view].camera,'Camera changed: '+h.id);assert.deepEqual(b.views[view].bounds,a.views[view].bounds);assert.equal(b.views[view].triangles,a.views[view].triangles);
+   views[view]=await page.evaluate(async({id,view})=>{const get=async src=>{const image=new Image();image.src=src;await image.decode();const c=document.createElement('canvas');c.width=image.width;c.height=image.height;const ctx=c.getContext('2d');ctx.drawImage(image,0,0);return {pixels:ctx.getImageData(0,0,c.width,c.height).data,width:c.width,height:c.height};};
+    const a=await get('./evidence/revision-12/baseline/'+id+'-'+view+'.png'),b=await get('./evidence/fleet/images/'+id+'-'+view+'.png');if(a.width!==b.width||a.height!==b.height)throw Error('Different pixel dimensions');let changed=0,maximum=0;
+    for(let i=0;i<a.pixels.length;i+=4){const d=Math.max(...[0,1,2].map(k=>Math.abs(a.pixels[i+k]-b.pixels[i+k])));if(d>8)changed++;maximum=Math.max(maximum,d);}return {width:a.width,height:a.height,changedPixelsOver8:changed,maxChannelDifference:maximum};
+   },{id:h.id,view});assert.ok(views[view].changedPixelsOver8>0,'No visible change recorded: '+h.id);
+  }results.push({id:h.id,identicalCamerasAndBounds:true,views});
+ }
+ await fs.writeFile(path.join(here,'evidence/revision-12/matched-captures.json'),JSON.stringify({results,unchangedVraygonCaptureRecords:7},null,2)+'\n');console.log('All 54 finished before/after views have identical cameras, bounds and triangle counts; all 18 hulls visibly changed. Vraygon records unchanged.');
+}finally{await browser?.close();await new Promise(r=>server.close(r));}

@@ -4,8 +4,8 @@
   "sourceSha256": "515a39878bb19c274f82312c40f2b913fef4d05e3cf54cc4983fe470fb303701",
   "sourceBytes": 10134364,
   "output": "monoceros.glb",
-  "outputBytes": 334512,
-  "outputSha256": "188505509b76af7e1cbc8a880e8b04aa0c3a372731ea63de5ae0d98c1d9cefce",
+  "outputBytes": 413824,
+  "outputSha256": "5e8ef5d976d4ef0fadee2760262d6d01b47718e68b81e6faba0a3317636bc035",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -108,6 +108,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 3198,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Centred runtime +X longitudinal forward, +Y up; native +X. Earth/Krelath schematic reference; Shard long pointed end, no inferred systems.",
   "sourceComponents": [
     {

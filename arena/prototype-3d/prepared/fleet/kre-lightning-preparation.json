@@ -4,8 +4,8 @@
   "sourceSha256": "12165a484bc2d007debcc54e72ff8a09fd5c03a4f6770579bb088fdfb268f039",
   "sourceBytes": 14763808,
   "output": "kre-lightning.glb",
-  "outputBytes": 4662004,
-  "outputSha256": "44b8078b440ab2c00060154ae35364ad8a53c26dc68b343170bc5f178502abf5",
+  "outputBytes": 4930280,
+  "outputSha256": "61dafbc251c667313aa85bf47a102b7c05aaee766915e586b63360e3c9cd4ad8",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 16678,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

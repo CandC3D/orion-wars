@@ -4,8 +4,8 @@
   "sourceSha256": "aefba50b9a5d2e09807ea7acd45788c2493792bdefc7c2a369cb99bff0b96d9e",
   "sourceBytes": 13300792,
   "output": "kre-star-knight.glb",
-  "outputBytes": 731932,
-  "outputSha256": "93ea22cf7d36d4ceeb2c718e6a0008e3db01a28909e2d5ca0243f4b17ec97a58",
+  "outputBytes": 827512,
+  "outputSha256": "29f51a6d425317dd80d39222a3d31e0dd9da5d71965b5ce7ccea40e58fe19c49",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 4373,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

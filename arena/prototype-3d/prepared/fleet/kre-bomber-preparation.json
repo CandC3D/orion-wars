@@ -4,8 +4,8 @@
   "sourceSha256": "ff40f2e175e673899a981a25fdad9c6a8c7bfd10fd5fb03c9a1486ebb1a61f85",
   "sourceBytes": 2134064,
   "output": "kre-bomber.glb",
-  "outputBytes": 387332,
-  "outputSha256": "10474e3689c5525e9c1a8869603dda9c2c62d2c66795b8ebc9aedfb545f3a88f",
+  "outputBytes": 405084,
+  "outputSha256": "83dd007a3c02fc6cc2f9d60dc30f3d23e6558d58bb891c9a21f8777a91b5fcf1",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -84,6 +84,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 894,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

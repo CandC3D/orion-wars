@@ -4,8 +4,8 @@
   "sourceSha256": "82b7781011c34aea740ff0098e140996deacbf1f2de248162d06ed582c76bc20",
   "sourceBytes": 23863792,
   "output": "ear-yamato.glb",
-  "outputBytes": 769464,
-  "outputSha256": "814e502ca5193c9740b2d5d988ffc095e830aa84f408b9e34b2379fe8b5128ae",
+  "outputBytes": 1033564,
+  "outputSha256": "d7e2038f0778ced716f50aac05c847f3af77135bb4ac6a42c62cd1e173fa1cd3",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [
@@ -116,6 +116,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 9468,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

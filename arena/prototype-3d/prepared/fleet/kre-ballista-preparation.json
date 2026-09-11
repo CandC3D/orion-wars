@@ -4,8 +4,8 @@
   "sourceSha256": "5e01801890c6a7909e9d4a10ce726bb80a88b3acbdfb29a8b929485ed5f9e952",
   "sourceBytes": 9226028,
   "output": "kre-ballista.glb",
-  "outputBytes": 704324,
-  "outputSha256": "727ab866b7c4a85c3d381f018f9c6a280c4ed858143aba1af3c4c792322b5b65",
+  "outputBytes": 781796,
+  "outputSha256": "0536dc784b3326b2be576fad2a2dfd6e14955e2a93f8ae098fa9045ebd7cf1e8",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -92,6 +92,13 @@
     }
   },
   "physicalEmission": false,
+  "normalPolicy": {
+    "method": "smooth faces with angle-split loop normals",
+    "creaseAngleDegrees": 40.0,
+    "weighting": "face area and corner angle; Blender weight 50; keep sharp",
+    "sharpEdges": 3647,
+    "sourceAuthoredNormals": false
+  },
   "orientation": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred.",
   "sourceComponents": [
     {

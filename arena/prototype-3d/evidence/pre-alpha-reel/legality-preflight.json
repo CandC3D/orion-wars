@@ -1,0 +1,375 @@
+{
+  "format": "pre-alpha-reel-preflight/1",
+  "status": "blocked-by-brief-conflicts",
+  "seed": "pre-alpha-reel-rules-preflight",
+  "notes": [
+    "This is a diagnostic execution, not an approved reel scenario.",
+    "Advance and turn-only actions each exclude firing in their round.",
+    "All three stock frigates have one beam, zero missile mounts, and zero magazine.",
+    "Missile arrival is at the beginning of the next turn, never the launch round.",
+    "No rules, loadouts, tuning or source models were modified."
+  ],
+  "sourceHashes": {
+    "data/loadouts.json": "b57e2bcd97a8f199421a95fd225c1dbf470cdcc88c1b46c6795ff96ed36603d1",
+    "data/tactical-tuning.json": "0c14039b647f09513f84dfda073cd53ac7643863d68c89f630800ae4c9c52d60",
+    "src/construction/legacy.js": "2db09d49df9371cebb391145ed3ed1ab0f0172236809d40f3dcfdf10a30d3db0",
+    "src/tactical/hex.js": "987a434230d4268705e160e523d6f6d09ee22bdc8a6edaaf4ed2111c3671aa33",
+    "src/tactical/resolver.js": "ecbd968879a769f520ed4be83e574eb9cb16f3d127fac7f23f2e2b6ea9a1c38a",
+    "src/tactical/missiles.js": "8eb7f9430c4dd95e6d43f0b84c6481604e413b499da158bb008dd6f4d16baeaf"
+  },
+  "roundsPerTurn": 3,
+  "ships": [
+    {
+      "id": "EAR-FF-1",
+      "beam": "laser-cannon",
+      "beamMaxRange": 15,
+      "faces": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "missileMounts": 0,
+      "magazine": 0,
+      "movementPowerPerHex": 1,
+      "actions": [
+        {
+          "round": 1,
+          "start": {
+            "q": -3,
+            "r": -1,
+            "facing": 0
+          },
+          "end": {
+            "q": -2,
+            "r": -1,
+            "facing": 0
+          },
+          "power": 9,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": false,
+              "reason": "Maneuver action"
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "start": {
+            "q": -2,
+            "r": -1,
+            "facing": 0
+          },
+          "end": {
+            "q": -2,
+            "r": -1,
+            "facing": 1
+          },
+          "power": 9,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": false,
+              "reason": "Maneuver action"
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "start": {
+            "q": -2,
+            "r": -1,
+            "facing": 1
+          },
+          "end": {
+            "q": -2,
+            "r": -1,
+            "facing": 1
+          },
+          "power": 4,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": true,
+              "reason": "Eligible",
+              "targetId": "KRE-FF-1",
+              "range": 6,
+              "power": 5,
+              "kind": "beam"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "KRE-FF-1",
+      "beam": "blaster-beam",
+      "beamMaxRange": 14,
+      "faces": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "missileMounts": 0,
+      "magazine": 0,
+      "movementPowerPerHex": 0.78,
+      "actions": [
+        {
+          "round": 1,
+          "start": {
+            "q": 3,
+            "r": 0,
+            "facing": 3
+          },
+          "end": {
+            "q": 2,
+            "r": 0,
+            "facing": 3
+          },
+          "power": 9.22,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": false,
+              "reason": "Maneuver action"
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "start": {
+            "q": 2,
+            "r": 0,
+            "facing": 3
+          },
+          "end": {
+            "q": 2,
+            "r": 0,
+            "facing": 4
+          },
+          "power": 9.22,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": false,
+              "reason": "Maneuver action"
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "start": {
+            "q": 2,
+            "r": 0,
+            "facing": 4
+          },
+          "end": {
+            "q": 2,
+            "r": 0,
+            "facing": 4
+          },
+          "power": 4.220000000000001,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": true,
+              "reason": "Eligible",
+              "targetId": "EAR-FF-1",
+              "range": 6,
+              "power": 5,
+              "kind": "beam"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "VRA-FF-1",
+      "beam": "heavy-blaster",
+      "beamMaxRange": 13,
+      "faces": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "missileMounts": 0,
+      "magazine": 0,
+      "movementPowerPerHex": 1.25,
+      "actions": [
+        {
+          "round": 1,
+          "start": {
+            "q": 0,
+            "r": 3,
+            "facing": 4
+          },
+          "end": {
+            "q": -1,
+            "r": 4,
+            "facing": 4
+          },
+          "power": 8.75,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": false,
+              "reason": "Maneuver action"
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "start": {
+            "q": -1,
+            "r": 4,
+            "facing": 4
+          },
+          "end": {
+            "q": -1,
+            "r": 4,
+            "facing": 5
+          },
+          "power": 8.75,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": false,
+              "reason": "Maneuver action"
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "start": {
+            "q": -1,
+            "r": 4,
+            "facing": 5
+          },
+          "end": {
+            "q": -1,
+            "r": 4,
+            "facing": 5
+          },
+          "power": 3,
+          "mounts": [
+            {
+              "mountId": 1,
+              "eligible": true,
+              "reason": "Eligible",
+              "targetId": "KRE-FF-1",
+              "range": 4,
+              "power": 5.75,
+              "kind": "beam"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actualExecution": {
+    "shots": [
+      {
+        "turn": 1,
+        "round": 3,
+        "kind": "beam",
+        "weapon": "laser-cannon",
+        "shooterId": "EAR-FF-1",
+        "targetId": "KRE-FF-1",
+        "hit": false,
+        "range": 5,
+        "damage": 0,
+        "shooterPos": {
+          "q": -2,
+          "r": -1
+        },
+        "shooterFacing": 1,
+        "targetPos": {
+          "q": 2,
+          "r": 0
+        },
+        "targetFacing": 4
+      },
+      {
+        "turn": 1,
+        "round": 3,
+        "kind": "beam",
+        "weapon": "heavy-blaster",
+        "shooterId": "VRA-FF-1",
+        "targetId": "KRE-FF-1",
+        "hit": false,
+        "range": 4,
+        "damage": 0,
+        "shooterPos": {
+          "q": -1,
+          "r": 4
+        },
+        "shooterFacing": 5,
+        "targetPos": {
+          "q": 2,
+          "r": 0
+        },
+        "targetFacing": 4
+      },
+      {
+        "turn": 1,
+        "round": 3,
+        "kind": "beam",
+        "weapon": "blaster-beam",
+        "shooterId": "KRE-FF-1",
+        "targetId": "EAR-FF-1",
+        "hit": true,
+        "range": 5,
+        "damage": 7,
+        "shooterPos": {
+          "q": 2,
+          "r": 0
+        },
+        "shooterFacing": 4,
+        "targetPos": {
+          "q": -2,
+          "r": -1
+        },
+        "targetFacing": 1,
+        "victimId": "EAR-FF-1",
+        "victimPos": {
+          "q": -2,
+          "r": -1
+        },
+        "victimFacing": 1,
+        "face": 3
+      }
+    ],
+    "logs": [
+      "KRE-FF-1 moves as ordered (1 hexes), facing 3",
+      "EAR-FF-1 moves as ordered (1 hexes), facing 0",
+      "VRA-FF-1 moves as ordered (1 hexes), facing 4"
+    ],
+    "inFlight": 0,
+    "survivors": [
+      {
+        "id": "EAR-FF-1",
+        "destroyed": false,
+        "superstructure": 5
+      },
+      {
+        "id": "KRE-FF-1",
+        "destroyed": false,
+        "superstructure": 8
+      },
+      {
+        "id": "VRA-FF-1",
+        "destroyed": false,
+        "superstructure": 14
+      }
+    ]
+  }
+}
