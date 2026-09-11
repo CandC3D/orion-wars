@@ -25,13 +25,15 @@
       ],
       "sourceVertices": 1614,
       "register": "physical",
-      "classification": "paint",
-      "role": "grown-crystal components; optional supplied clear kit parts",
+      "classification": "moulded transparent",
+      "role": "approved clear green grown-crystal weapon components",
       "physicalEmission": 0,
       "variant": {
-        "classification": "moulded transparent",
-        "material": "green styrene",
-        "fiction": "grown crystal weapon components; no specific mount assignment"
+        "classification": "paint",
+        "material": "historical green paint comparison"
+      },
+      "optics": {
+        "material": "green styrene"
       }
     },
     {
@@ -33049,7 +33051,7 @@
       "faces": [],
       "features": [],
       "evidence": "Outside this hull's emissive set",
-      "functions": "grown-crystal components; optional supplied clear kit parts"
+      "functions": "approved clear green grown-crystal weapon components"
     },
     "ffdd1a": {
       "designated": false,

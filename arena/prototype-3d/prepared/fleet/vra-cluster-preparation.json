@@ -4,8 +4,8 @@
   "sourceSha256": "29baf498132bc2497977489ace5b5d1e081ecb5ef126efa96ecc2acd4e472c4e",
   "sourceBytes": 3117972,
   "output": "vra-cluster.glb",
-  "outputBytes": 678360,
-  "outputSha256": "bafdcd07c5b14f5e6d943f8ee2f0ad91cd2361147d5828a267eca195df0e0fa9",
+  "outputBytes": 1900632,
+  "outputSha256": "766d147d709fe1cf7fb8c311b8fe87f82691e9827f69e8f8034cce805f2750f3",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [

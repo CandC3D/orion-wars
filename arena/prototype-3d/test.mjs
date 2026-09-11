@@ -41,7 +41,7 @@ for(const [faction,config] of Object.entries(sourceConfigs))check(faction+' curr
   assert.equal(createHash('sha256').update(fs.readFileSync(derivedURL)).digest('hex'),prep.outputSha256);
   assert.equal(prep.sourceComponentCount,prep.outputComponentCount);assert.equal(prep.outputComponentCount,{EAR:2,KRE:3,VRA:33}[faction]);
   assert.ok(prep.maximumVertexToSurfaceErrorMm<({EAR:.27,KRE:.05,VRA:.18}[faction]));
-  assert.ok(prep.outputBytes<prep.sourceBytes/5);assert.ok(prep.outputTriangles<({EAR:11500,KRE:14000,VRA:4250}[faction]));
+  assert.ok(prep.outputBytes<prep.sourceBytes/(faction==='VRA'?2:5));assert.ok(prep.outputTriangles<({EAR:11500,KRE:14000,VRA:5700}[faction]));
   const asset=manifest.assets.find(a=>a.faction===faction);
   assert.equal(asset.url,'./prepared/'+config.output+'.glb');
   const raw=readGLB(sourceURL),primitive=raw.json.meshes[0].primitives[0],colours=raw.attribute(primitive.attributes.COLOR_0),counts={};
@@ -80,7 +80,7 @@ check('Crystal comparison is a reduced current hull with exact palette, retained
 
 check('shared hex values retain different per-hull interpretations',()=>{
   const green=f=>artProfile(f).palette.find(p=>p.key==='46b749');
-  assert.match(green('KRE').role,/hull green/);assert.match(green('EAR').role,/nav fitting/);assert.match(green('VRA').role,/no inferred function/);
+  assert.match(green('KRE').role,/hull green/);assert.match(green('EAR').role,/nav fitting/);assert.match(green('VRA').role,/clear green crystal weapon/);
   assert.match(artProfile('EAR').palette.find(p=>p.key==='e91d2d').role,/multiple parts/);
   assert.equal(artProfile('EAR').palette.length,9);assert.throws(()=>artProfile('ZAN'),/Missing hull-specific/);
 });
@@ -128,7 +128,7 @@ check('every energy attachment is inert, exact and rejects missing classificatio
   }
 });
 check('clear ship parts are restricted to authored Vraygon green and cannot become energy',()=>{
-  const p=artProfile('VRA').palette.find(r=>r.key==='46b749');assert.equal(p.classification,'paint');assert.equal(p.variant.classification,'moulded transparent');
+  const p=artProfile('VRA').palette.find(r=>r.key==='46b749');assert.equal(p.classification,'moulded transparent');assert.equal(p.variant.classification,'paint');
   assert.equal(artProfile('KRE').palette.find(r=>r.key===p.key).variant,undefined);
   assert.equal(artProfile('EAR').palette.find(r=>r.key===p.key).variant,undefined);
   const map=JSON.parse(fs.readFileSync(new URL('./prepared/shard-regions.json',import.meta.url)));
@@ -140,7 +140,7 @@ check('physical scale rejects errors and preserves the requested reference sizes
   assert.deepEqual(SIZES.rulebook,[216,28,279]);assert.deepEqual(SIZES.notebook,[216,6,279]);
   assert.equal(SIZES.pencilLength,190);assert.equal(Math.sqrt(3)*BUDGETS.hexRadius*10,32);
   const rows=JSON.parse(fs.readFileSync(new URL('./evidence/review.json',import.meta.url))).captures.planning.scaleMeasurements;
-  validateScaleRows(rows);assert.deepEqual(rows.map(r=>r.object),['Tabletop','Board card','Printed hex','Hardback rulebook','Box lid','Mug body','Mug including handle','D20','D6','Spiral notebook body','Pencil','Black base skirt','Black base pyramid','Black tapered post','EAR frigate','KRE frigate','VRA frigate']);
+  validateScaleRows(rows);assert.deepEqual(rows.map(r=>r.object),['Tabletop','Board card','Printed hex','Hardback rulebook','Box lid','Mug body','Mug including handle','D20','D6','Spiral notebook body','Pencil','Black base skirt','Black base pyramid','Clear tapered post','Cast arc-2 triangle','EAR frigate','KRE frigate','VRA frigate']);
   assert.throws(()=>validateScaleRows([{object:'bad mug',actualMm:[18],referenceMm:[95]}]),/Scale mismatch/);
   for(const a of manifest.assets)assert.equal(a.length*10,SIZES.miniatures[a.faction]);
 });
@@ -149,7 +149,7 @@ check('no procedural panel grid or faction base paint survives the revision',()=
   assert.doesNotMatch(paint,/brushHash|vBrushPos|candidatePaint/);
   const renderer=fs.readFileSync(new URL('./renderer.js',import.meta.url),'utf8');
   assert.doesNotMatch(renderer,/baseColour|setColorAt|labelTexture|krelath_frigate/);
-  assert.match(renderer,/painted black flight posts/);assert.match(renderer,/painted black hex bases/);
+  assert.match(renderer,/approved clear moulded flight posts/);assert.match(renderer,/painted black hex bases/);
 });
 
 check('fixture packets are frozen, classified projections; shield is explicitly authored',()=>{
@@ -223,9 +223,10 @@ check('every camera interpolation, including bad/out-of-range input, respects bo
     assert.ok(Math.atan2(c.y-c.targetY,Math.hypot(c.x,c.z))*180/Math.PI>=BUDGETS.pitchFloor-1e-10);
     assert.ok(c.blur<=BUDGETS.focusBlurPixels);
   }
-  assert.equal(cameraPose(0).blur,0);assert.equal(cameraPose(1).blur,3);
+  assert.equal(cameraPose(0).blur,0);assert.equal(cameraPose(1).blur,4);
 });
-check('the production prototype imports only the existing playback clock as shared runtime',()=>{
+check('the production prototype shares the existing playback clock and read-only hex arc definitions',()=>{
+  assert.match(fs.readFileSync(new URL('stands.js',import.meta.url),'utf8'),/import \{faceFor\} from '\.\.\/\.\.\/src\/tactical\/hex\.js'/);
   const files=['app.js','renderer.js','materials.js','table.js','fixture.js','contract.js','scale.js','hull-paint.js','hull-art.js'];
   for(const file of files){const source=fs.readFileSync(new URL(file,import.meta.url),'utf8');
     assert.doesNotMatch(source,/from\s+['"][^'"]*src\//);assert.doesNotMatch(source,/new\s+THREE\.Clock|performance\.now|Date\.now|setInterval|setTimeout|requestAnimationFrame/);

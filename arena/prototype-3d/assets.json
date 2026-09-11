@@ -14,16 +14,16 @@
       "stand": {
         "height": 3,
         "attachment": [
-          0,
+          0.0,
           -0.6440220978424325,
-          0
+          0.0
         ]
       },
       "sockets": {
         "impact": [
           1.4,
           0.4,
-          0
+          0.0
         ],
         "engines": []
       },
@@ -36,22 +36,22 @@
       "className": "frigate",
       "register": "physical",
       "url": "./prepared/sparrowhawk.glb",
-      "length": 6.5,
+      "length": 5.432818057826884,
       "paint": "painted-1987",
       "colour": "#ffffff",
       "stand": {
         "height": 3,
         "attachment": [
-          0,
-          -0.35799855261063573,
-          0
+          0.0,
+          -0.2992216925075307,
+          0.0
         ]
       },
       "sockets": {
         "impact": [
-          1.2,
-          0.3,
-          0
+          1.002981795291117,
+          0.25074544882277927,
+          0.0
         ],
         "engines": []
       },
@@ -64,22 +64,22 @@
       "className": "frigate",
       "register": "physical",
       "url": "./prepared/shard.glb",
-      "length": 4.5,
+      "length": 5.039617828995831,
       "paint": "painted-1987",
       "colour": "#ffffff",
       "stand": {
         "height": 3,
         "attachment": [
-          0,
-          -0.8173753035373021,
-          0
+          0.0,
+          -0.915390922819437,
+          0.0
         ]
       },
       "sockets": {
         "impact": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "engines": []
       },

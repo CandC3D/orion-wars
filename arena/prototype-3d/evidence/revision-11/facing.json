@@ -1,0 +1,2203 @@
+{
+  "orientation": [
+    {
+      "heading": 0,
+      "bow": [
+        1,
+        0,
+        0
+      ],
+      "triangle": [
+        1,
+        0,
+        0
+      ],
+      "faces": [
+        {
+          "face": 2,
+          "normal": [
+            1,
+            0,
+            6.123233995736767e-17
+          ]
+        },
+        {
+          "face": 6,
+          "normal": [
+            -0.4999999999999998,
+            0,
+            -0.8660254037844389
+          ]
+        },
+        {
+          "face": 4,
+          "normal": [
+            -0.5000000000000004,
+            0,
+            0.8660254037844384
+          ]
+        }
+      ]
+    },
+    {
+      "heading": 1,
+      "bow": [
+        0.5000000000000001,
+        0,
+        -0.8660254037844386
+      ],
+      "triangle": [
+        0.5000000000000001,
+        0,
+        -0.8660254037844386
+      ],
+      "faces": [
+        {
+          "face": 2,
+          "normal": [
+            0.5000000000000001,
+            0,
+            -0.8660254037844387
+          ]
+        },
+        {
+          "face": 6,
+          "normal": [
+            -1,
+            0,
+            -4.440892098500627e-16
+          ]
+        },
+        {
+          "face": 4,
+          "normal": [
+            0.4999999999999994,
+            0,
+            0.866025403784439
+          ]
+        }
+      ]
+    },
+    {
+      "heading": 2,
+      "bow": [
+        -0.4999999999999999,
+        0,
+        -0.8660254037844389
+      ],
+      "triangle": [
+        -0.4999999999999999,
+        0,
+        -0.8660254037844389
+      ],
+      "faces": [
+        {
+          "face": 2,
+          "normal": [
+            -0.4999999999999998,
+            0,
+            -0.8660254037844388
+          ]
+        },
+        {
+          "face": 6,
+          "normal": [
+            -0.5000000000000006,
+            0,
+            0.8660254037844385
+          ]
+        },
+        {
+          "face": 4,
+          "normal": [
+            1,
+            0,
+            7.216449660063519e-16
+          ]
+        }
+      ]
+    },
+    {
+      "heading": 3,
+      "bow": [
+        -1,
+        0,
+        -1.2246467991473532e-16
+      ],
+      "triangle": [
+        -1,
+        0,
+        -1.2246467991473532e-16
+      ],
+      "faces": [
+        {
+          "face": 2,
+          "normal": [
+            -1,
+            0,
+            -1.8369701987210302e-16
+          ]
+        },
+        {
+          "face": 6,
+          "normal": [
+            0.49999999999999967,
+            0,
+            0.866025403784439
+          ]
+        },
+        {
+          "face": 4,
+          "normal": [
+            0.5000000000000007,
+            0,
+            -0.8660254037844385
+          ]
+        }
+      ]
+    },
+    {
+      "heading": 4,
+      "bow": [
+        -0.5000000000000004,
+        0,
+        0.8660254037844384
+      ],
+      "triangle": [
+        -0.5000000000000004,
+        0,
+        0.8660254037844384
+      ],
+      "faces": [
+        {
+          "face": 2,
+          "normal": [
+            -0.5000000000000004,
+            0,
+            0.8660254037844385
+          ]
+        },
+        {
+          "face": 6,
+          "normal": [
+            1,
+            0,
+            8.326672684688676e-16
+          ]
+        },
+        {
+          "face": 4,
+          "normal": [
+            -0.4999999999999991,
+            0,
+            -0.8660254037844392
+          ]
+        }
+      ]
+    },
+    {
+      "heading": 5,
+      "bow": [
+        0.5000000000000001,
+        0,
+        0.8660254037844386
+      ],
+      "triangle": [
+        0.5000000000000001,
+        0,
+        0.8660254037844386
+      ],
+      "faces": [
+        {
+          "face": 2,
+          "normal": [
+            0.5,
+            0,
+            0.8660254037844387
+          ]
+        },
+        {
+          "face": 6,
+          "normal": [
+            0.5000000000000002,
+            0,
+            -0.8660254037844387
+          ]
+        },
+        {
+          "face": 4,
+          "normal": [
+            -1,
+            0,
+            -3.885780586188048e-16
+          ]
+        }
+      ]
+    }
+  ],
+  "headings": [
+    {
+      "heading": 0,
+      "triangles": [
+        {
+          "id": "EAR-FF-1",
+          "heading": 0,
+          "trianglePixels": [
+            {
+              "x": 641.0340206451559,
+              "y": 377.8724094476445
+            },
+            {
+              "x": 629.3618453545458,
+              "y": 372.5258980198409
+            },
+            {
+              "x": 629.2470225770695,
+              "y": 381.9336693540218
+            }
+          ],
+          "bounds": {
+            "x": 629.2470225770695,
+            "y": 372.5258980198409,
+            "width": 11.786998068086405,
+            "height": 9.407771334180893
+          },
+          "unoccludedFraction": 1,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.01900196075439453,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "KRE-FF-1",
+          "heading": 0,
+          "trianglePixels": [
+            {
+              "x": 915.8417021982631,
+              "y": 377.8724094476445
+            },
+            {
+              "x": 904.2096052568608,
+              "y": 372.5258980198409
+            },
+            {
+              "x": 904.3420344336514,
+              "y": 381.9336693540218
+            }
+          ],
+          "bounds": {
+            "x": 904.2096052568608,
+            "y": 372.5258980198409,
+            "width": 11.632096941402324,
+            "height": 9.407771334180893
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "VRA-FF-1",
+          "heading": 0,
+          "trianglePixels": [
+            {
+              "x": 710.2422320497392,
+              "y": 265.7918209243245
+            },
+            {
+              "x": 698.7050920387854,
+              "y": 260.4864185390169
+            },
+            {
+              "x": 698.653212507474,
+              "y": 269.6936004113172
+            }
+          ],
+          "bounds": {
+            "x": 698.653212507474,
+            "y": 260.4864185390169,
+            "width": 11.589019542265191,
+            "height": 9.207181872300339
+          },
+          "unoccludedFraction": 1,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.01878070831298828,
+          "bufferPixelsPerCssPixel": 1
+        }
+      ],
+      "rim": {
+        "capHeightMm": 2.6,
+        "limits": {
+          "skirtHeightMm": 3,
+          "slantHeightMm": 3.0375771595138117,
+          "maximumCapHeightMm": 2.637577159513812,
+          "edgeMarginMm": 0.2,
+          "minimumFaceWidthMm": 13.883756729740647
+        },
+        "font": "bold 192px Arial",
+        "method": "Off-white waterslide decal, skirt faces 2, 4, 6 only",
+        "units": [
+          {
+            "id": "EAR-FF-1",
+            "code": "EFG-03",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.854545454545454,
+            "sourceInkPixels": [
+              652,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.18172588291173555,
+                "capPixels": 1.9807438360569154,
+                "entireSkirtPixels": 2.314101370330117,
+                "widthPixels": 24.204879499734258,
+                "bounds": {
+                  "x": 645.4173126119863,
+                  "y": 366.2862793213787,
+                  "width": 1.3186598622463634,
+                  "height": 25.9828632399948
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": false,
+                "viewCosine": -0.13930697204312958,
+                "capPixels": 1.0123856455827132,
+                "entireSkirtPixels": 1.182769327148265,
+                "widthPixels": 25.20788553801539,
+                "bounds": {
+                  "x": 595.7337272124656,
+                  "y": 351.0764691163677,
+                  "width": 22.40387877389969,
+                  "height": 13.096422982353431
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.383127864134446,
+                "capPixels": 2.3846882015754343,
+                "entireSkirtPixels": 2.7860291844713916,
+                "widthPixels": 25.03140975524821,
+                "bounds": {
+                  "x": 595.2406024161143,
+                  "y": 393.70931976118953,
+                  "width": 22.167452942316572,
+                  "height": 14.597671012710578
+                }
+              }
+            ],
+            "best": {
+              "face": 4,
+              "frontFacing": true,
+              "viewCosine": 0.383127864134446,
+              "capPixels": 2.3846882015754343,
+              "entireSkirtPixels": 2.7860291844713916,
+              "widthPixels": 25.03140975524821,
+              "bounds": {
+                "x": 595.2406024161143,
+                "y": 393.70931976118953,
+                "width": 22.167452942316572,
+                "height": 14.597671012710578
+              }
+            }
+          },
+          {
+            "id": "KRE-FF-1",
+            "code": "KFG-01",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.600000000000001,
+            "sourceInkPixels": [
+              638,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.10126673958613926,
+                "capPixels": 1.7922126111263899,
+                "entireSkirtPixels": 2.093840497611492,
+                "widthPixels": 23.686702694761998,
+                "bounds": {
+                  "x": 920.0304186358338,
+                  "y": 366.5457202860124,
+                  "width": 0.9997869104653319,
+                  "height": 25.463155928180697
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": false,
+                "viewCosine": -0.09924256998624201,
+                "capPixels": 1.1803707843485711,
+                "entireSkirtPixels": 1.3790262282766828,
+                "widthPixels": 24.39540503357336,
+                "bounds": {
+                  "x": 869.7860940950718,
+                  "y": 351.20581070891086,
+                  "width": 22.06831173181922,
+                  "height": 12.837643592326685
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.4235241356429901,
+                "capPixels": 2.4554992854460767,
+                "entireSkirtPixels": 2.8687577131390904,
+                "widthPixels": 24.76703909879413,
+                "bounds": {
+                  "x": 870.1337818413039,
+                  "y": 393.83972025113997,
+                  "width": 22.42574866346331,
+                  "height": 14.33673703793761
+                }
+              }
+            ],
+            "best": {
+              "face": 4,
+              "frontFacing": true,
+              "viewCosine": 0.4235241356429901,
+              "capPixels": 2.4554992854460767,
+              "entireSkirtPixels": 2.8687577131390904,
+              "widthPixels": 24.76703909879413,
+              "bounds": {
+                "x": 870.1337818413039,
+                "y": 393.83972025113997,
+                "width": 22.42574866346331,
+                "height": 14.33673703793761
+              }
+            }
+          },
+          {
+            "id": "VRA-FF-1",
+            "code": "VFG-04",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 12.163636363636364,
+            "sourceInkPixels": [
+              669,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.15989083351477082,
+                "capPixels": 2.057631371944847,
+                "entireSkirtPixels": 2.4039290030406177,
+                "widthPixels": 24.306261436257532,
+                "bounds": {
+                  "x": 714.6222031710819,
+                  "y": 254.2058356376727,
+                  "width": 1.0407822732386194,
+                  "height": 26.24023791296048
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": false,
+                "viewCosine": -0.15765143657355596,
+                "capPixels": 1.200610284116104,
+                "entireSkirtPixels": 1.4026720122708654,
+                "widthPixels": 25.45531860917572,
+                "bounds": {
+                  "x": 664.8942499138759,
+                  "y": 239.47397112570343,
+                  "width": 22.76706323483404,
+                  "height": 13.317742710952643
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.4190225238554455,
+                "capPixels": 2.5347883482661984,
+                "entireSkirtPixels": 2.961391044575062,
+                "widthPixels": 25.41661934982239,
+                "bounds": {
+                  "x": 664.6183751973813,
+                  "y": 281.19807193093874,
+                  "width": 22.6804782856334,
+                  "height": 14.789952698086836
+                }
+              }
+            ],
+            "best": {
+              "face": 4,
+              "frontFacing": true,
+              "viewCosine": 0.4190225238554455,
+              "capPixels": 2.5347883482661984,
+              "entireSkirtPixels": 2.961391044575062,
+              "widthPixels": 25.41661934982239,
+              "bounds": {
+                "x": 664.6183751973813,
+                "y": 281.19807193093874,
+                "width": 22.6804782856334,
+                "height": 14.789952698086836
+              }
+            }
+          }
+        ]
+      },
+      "camera": {
+        "position": [
+          0,
+          150,
+          48
+        ],
+        "fov": 12.7,
+        "pitch": 72.14377674268574
+      },
+      "cssPixels": {
+        "width": 1514,
+        "height": 750
+      },
+      "bufferPixels": {
+        "width": 1514,
+        "height": 750
+      }
+    },
+    {
+      "heading": 1,
+      "triangles": [
+        {
+          "id": "EAR-FF-1",
+          "heading": 1,
+          "trianglePixels": [
+            {
+              "x": 630.5287487704729,
+              "y": 360.2259668457459
+            },
+            {
+              "x": 620.2666873367026,
+              "y": 366.8143039002984
+            },
+            {
+              "x": 628.7584442790941,
+              "y": 371.5109391520983
+            }
+          ],
+          "bounds": {
+            "x": 620.2666873367026,
+            "y": 360.2259668457459,
+            "width": 10.262061433770327,
+            "height": 11.284972306352358
+          },
+          "unoccludedFraction": 1,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.0008602142333984375,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "KRE-FF-1",
+          "heading": 1,
+          "trianglePixels": [
+            {
+              "x": 904.8729568966247,
+              "y": 360.2259668457459
+            },
+            {
+              "x": 894.9643369995279,
+              "y": 366.8143039002984
+            },
+            {
+              "x": 903.5795293660211,
+              "y": 371.5109391520983
+            }
+          ],
+          "bounds": {
+            "x": 894.9643369995279,
+            "y": 360.2259668457459,
+            "width": 9.908619897096855,
+            "height": 11.284972306352358
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "VRA-FF-1",
+          "heading": 1,
+          "trianglePixels": [
+            {
+              "x": 699.7338305384974,
+              "y": 248.52109764855828
+            },
+            {
+              "x": 689.6698556309971,
+              "y": 254.89651860288114
+            },
+            {
+              "x": 698.101497007963,
+              "y": 259.4930896901647
+            }
+          ],
+          "bounds": {
+            "x": 689.6698556309971,
+            "y": 248.52109764855828,
+            "width": 10.063974907500324,
+            "height": 10.971992041606427
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.0006990432739257812,
+          "bufferPixelsPerCssPixel": 1
+        }
+      ],
+      "rim": {
+        "capHeightMm": 2.6,
+        "limits": {
+          "skirtHeightMm": 3,
+          "slantHeightMm": 3.0375771595138117,
+          "maximumCapHeightMm": 2.637577159513812,
+          "edgeMarginMm": 0.2,
+          "minimumFaceWidthMm": 13.883756729740647
+        },
+        "font": "bold 192px Arial",
+        "method": "Off-white waterslide decal, skirt faces 2, 4, 6 only",
+        "units": [
+          {
+            "id": "EAR-FF-1",
+            "code": "EFG-03",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.854545454545454,
+            "sourceInkPixels": [
+              652,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": false,
+                "viewCosine": -0.09924256641034243,
+                "capPixels": 1.18037079463364,
+                "entireSkirtPixels": 1.3790262402926818,
+                "widthPixels": 24.930727409735784,
+                "bounds": {
+                  "x": 621.9113651066283,
+                  "y": 351.07646949740337,
+                  "width": 22.536929461785803,
+                  "height": 13.09642299571658
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.10126673932094012,
+                "capPixels": 1.7922126013943058,
+                "entireSkirtPixels": 2.093840486241592,
+                "widthPixels": 24.206474651960413,
+                "bounds": {
+                  "x": 592.9657200331883,
+                  "y": 366.28627929344515,
+                  "width": 1.007908621763704,
+                  "height": 25.98286290599998
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.42352413851277826,
+                "capPixels": 2.455499276558561,
+                "entireSkirtPixels": 2.8687577027557825,
+                "widthPixels": 25.310516472454346,
+                "bounds": {
+                  "x": 621.2016404897242,
+                  "y": 393.7093197331093,
+                  "width": 22.902489876028426,
+                  "height": 14.59767067775357
+                }
+              }
+            ],
+            "best": {
+              "face": 4,
+              "frontFacing": true,
+              "viewCosine": 0.42352413851277826,
+              "capPixels": 2.455499276558561,
+              "entireSkirtPixels": 2.8687577027557825,
+              "widthPixels": 25.310516472454346,
+              "bounds": {
+                "x": 621.2016404897242,
+                "y": 393.7093197331093,
+                "width": 22.902489876028426,
+                "height": 14.59767067775357
+              }
+            }
+          },
+          {
+            "id": "KRE-FF-1",
+            "code": "KFG-01",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.600000000000001,
+            "sourceInkPixels": [
+              638,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": false,
+                "viewCosine": -0.13930696899633171,
+                "capPixels": 1.0123856576858643,
+                "entireSkirtPixels": 1.1827693412882985,
+                "widthPixels": 24.66661123551915,
+                "bounds": {
+                  "x": 896.1000186577795,
+                  "y": 351.2058110899559,
+                  "width": 21.9284732719384,
+                  "height": 12.837643605670621
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.18172588261712433,
+                "capPixels": 1.9807438248921847,
+                "entireSkirtPixels": 2.3141013572863143,
+                "widthPixels": 23.685141155882196,
+                "bounds": {
+                  "x": 867.2667607842972,
+                  "y": 366.545720254585,
+                  "width": 1.3131507067816983,
+                  "height": 25.46315560120115
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.38312786756278955,
+                "capPixels": 2.3846881943342293,
+                "entireSkirtPixels": 2.7860291760114193,
+                "widthPixels": 24.493924826381743,
+                "bounds": {
+                  "x": 896.82734227542,
+                  "y": 393.8397202195482,
+                  "width": 21.69755484890743,
+                  "height": 14.336736710015373
+                }
+              }
+            ],
+            "best": {
+              "face": 4,
+              "frontFacing": true,
+              "viewCosine": 0.38312786756278955,
+              "capPixels": 2.3846881943342293,
+              "entireSkirtPixels": 2.7860291760114193,
+              "widthPixels": 24.493924826381743,
+              "bounds": {
+                "x": 896.82734227542,
+                "y": 393.8397202195482,
+                "width": 21.69755484890743,
+                "height": 14.336736710015373
+              }
+            }
+          },
+          {
+            "id": "VRA-FF-1",
+            "code": "VFG-04",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 12.163636363636364,
+            "sourceInkPixels": [
+              669,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": false,
+                "viewCosine": -0.13783916584009795,
+                "capPixels": 1.2727536009220435,
+                "entireSkirtPixels": 1.4869569902482316,
+                "widthPixels": 25.31580301754351,
+                "bounds": {
+                  "x": 690.8279420707455,
+                  "y": 239.4739714986332,
+                  "width": 22.828142301253138,
+                  "height": 13.317742724058576
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.12008793029680093,
+                "capPixels": 1.9721305893602106,
+                "entireSkirtPixels": 2.3040385105840295,
+                "widthPixels": 24.307062279351626,
+                "bounds": {
+                  "x": 662.622401028343,
+                  "y": 254.2058356144852,
+                  "width": 0.9515437875165844,
+                  "height": 26.240237577739748
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.43901406941961485,
+                "capPixels": 2.5673239656652043,
+                "entireSkirtPixels": 2.999402378365944,
+                "widthPixels": 25.557107877933486,
+                "bounds": {
+                  "x": 690.4820351359833,
+                  "y": 281.1980719076301,
+                  "width": 23.04422548640423,
+                  "height": 14.789952361911787
+                }
+              }
+            ],
+            "best": {
+              "face": 4,
+              "frontFacing": true,
+              "viewCosine": 0.43901406941961485,
+              "capPixels": 2.5673239656652043,
+              "entireSkirtPixels": 2.999402378365944,
+              "widthPixels": 25.557107877933486,
+              "bounds": {
+                "x": 690.4820351359833,
+                "y": 281.1980719076301,
+                "width": 23.04422548640423,
+                "height": 14.789952361911787
+              }
+            }
+          }
+        ]
+      },
+      "camera": {
+        "position": [
+          0,
+          150,
+          48
+        ],
+        "fov": 12.7,
+        "pitch": 72.14377674268574
+      },
+      "cssPixels": {
+        "width": 1514,
+        "height": 750
+      },
+      "bufferPixels": {
+        "width": 1514,
+        "height": 750
+      }
+    },
+    {
+      "heading": 2,
+      "triangles": [
+        {
+          "id": "EAR-FF-1",
+          "heading": 2,
+          "trianglePixels": [
+            {
+              "x": 609.1270431033753,
+              "y": 360.2259668457459
+            },
+            {
+              "x": 610.4204706339789,
+              "y": 371.5109391520983
+            },
+            {
+              "x": 619.035663000472,
+              "y": 366.8143039002984
+            }
+          ],
+          "bounds": {
+            "x": 609.1270431033753,
+            "y": 360.2259668457459,
+            "width": 9.908619897096742,
+            "height": 11.284972306352358
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.00742340087890625,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "KRE-FF-1",
+          "heading": 2,
+          "trianglePixels": [
+            {
+              "x": 883.4712512295271,
+              "y": 360.2259668457459
+            },
+            {
+              "x": 885.2415557209058,
+              "y": 371.5109391520983
+            },
+            {
+              "x": 893.7333126632973,
+              "y": 366.8143039002984
+            }
+          ],
+          "bounds": {
+            "x": 883.4712512295271,
+            "y": 360.2259668457459,
+            "width": 10.262061433770214,
+            "height": 11.284972306352358
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.00719451904296875,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "VRA-FF-1",
+          "heading": 2,
+          "trianglePixels": [
+            {
+              "x": 678.5609967143412,
+              "y": 248.52109764855828
+            },
+            {
+              "x": 679.9599686005802,
+              "y": 259.4930896901647
+            },
+            {
+              "x": 688.4520127628545,
+              "y": 254.89651860288114
+            }
+          ],
+          "bounds": {
+            "x": 678.5609967143412,
+            "y": 248.52109764855828,
+            "width": 9.89101604851328,
+            "height": 10.971992041606427
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        }
+      ],
+      "rim": {
+        "capHeightMm": 2.6,
+        "limits": {
+          "skirtHeightMm": 3,
+          "slantHeightMm": 3.0375771595138117,
+          "maximumCapHeightMm": 2.637577159513812,
+          "edgeMarginMm": 0.2,
+          "minimumFaceWidthMm": 13.883756729740647
+        },
+        "font": "bold 192px Arial",
+        "method": "Off-white waterslide decal, skirt faces 2, 4, 6 only",
+        "units": [
+          {
+            "id": "EAR-FF-1",
+            "code": "EFG-03",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.854545454545454,
+            "sourceInkPixels": [
+              652,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": false,
+                "viewCosine": -0.13930696899633171,
+                "capPixels": 1.0123856576858858,
+                "entireSkirtPixels": 1.1827693412882985,
+                "widthPixels": 25.207885192879328,
+                "bounds": {
+                  "x": 595.7337274040709,
+                  "y": 351.07646949740337,
+                  "width": 22.403878379436264,
+                  "height": 13.09642299571658
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.3831278675627894,
+                "capPixels": 2.3846881943342293,
+                "entireSkirtPixels": 2.7860291760114193,
+                "widthPixels": 25.031409427253212,
+                "bounds": {
+                  "x": 595.2406028761125,
+                  "y": 393.7093197331093,
+                  "width": 22.167452736960627,
+                  "height": 14.59767067775357
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.18172588261712455,
+                "capPixels": 1.9807438248921732,
+                "entireSkirtPixels": 2.3141013572862175,
+                "widthPixels": 24.204879170921625,
+                "bounds": {
+                  "x": 645.4173123662483,
+                  "y": 366.2862792934452,
+                  "width": 1.318659650116274,
+                  "height": 25.982862905999923
+                }
+              }
+            ],
+            "best": {
+              "face": 6,
+              "frontFacing": true,
+              "viewCosine": 0.3831278675627894,
+              "capPixels": 2.3846881943342293,
+              "entireSkirtPixels": 2.7860291760114193,
+              "widthPixels": 25.031409427253212,
+              "bounds": {
+                "x": 595.2406028761125,
+                "y": 393.7093197331093,
+                "width": 22.167452736960627,
+                "height": 14.59767067775357
+              }
+            }
+          },
+          {
+            "id": "KRE-FF-1",
+            "code": "KFG-01",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.600000000000001,
+            "sourceInkPixels": [
+              638,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": false,
+                "viewCosine": -0.09924256641034243,
+                "capPixels": 1.18037079463364,
+                "entireSkirtPixels": 1.3790262402926818,
+                "widthPixels": 24.395404696954447,
+                "bounds": {
+                  "x": 869.7860942927866,
+                  "y": 351.20581108995583,
+                  "width": 22.06831134547167,
+                  "height": 12.837643605670678
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.4235241385127781,
+                "capPixels": 2.455499276558561,
+                "entireSkirtPixels": 2.8687577027557536,
+                "widthPixels": 24.767038771624758,
+                "bounds": {
+                  "x": 870.1337822982393,
+                  "y": 393.8397202195482,
+                  "width": 22.425748453980077,
+                  "height": 14.336736710015373
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.10126673932094034,
+                "capPixels": 1.7922126013943984,
+                "entireSkirtPixels": 2.0938404862414854,
+                "widthPixels": 23.686702378036966,
+                "bounds": {
+                  "x": 920.0304181904265,
+                  "y": 366.54572025458504,
+                  "width": 0.9997870870752195,
+                  "height": 25.46315560120121
+                }
+              }
+            ],
+            "best": {
+              "face": 6,
+              "frontFacing": true,
+              "viewCosine": 0.4235241385127781,
+              "capPixels": 2.455499276558561,
+              "entireSkirtPixels": 2.8687577027557536,
+              "widthPixels": 24.767038771624758,
+              "bounds": {
+                "x": 870.1337822982393,
+                "y": 393.8397202195482,
+                "width": 22.425748453980077,
+                "height": 14.336736710015373
+              }
+            }
+          },
+          {
+            "id": "VRA-FF-1",
+            "code": "VFG-04",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 12.163636363636364,
+            "sourceInkPixels": [
+              669,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": false,
+                "viewCosine": -0.15765143328705533,
+                "capPixels": 1.2006102958005513,
+                "entireSkirtPixels": 1.402672025921818,
+                "widthPixels": 25.455318258229106,
+                "bounds": {
+                  "x": 664.8942501111055,
+                  "y": 239.4739714986332,
+                  "width": 22.767062834340436,
+                  "height": 13.317742724058576
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.4190225272330611,
+                "capPixels": 2.534788340804159,
+                "entireSkirtPixels": 2.961391035857182,
+                "widthPixels": 25.41661901786127,
+                "bounds": {
+                  "x": 664.6183756547337,
+                  "y": 281.1980719076301,
+                  "width": 22.680478075312976,
+                  "height": 14.789952361911787
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.15989083296277182,
+                "capPixels": 2.057631361516481,
+                "entireSkirtPixels": 2.4039289908572457,
+                "widthPixels": 24.306261107363735,
+                "bounds": {
+                  "x": 714.6222029282148,
+                  "y": 254.2058356144852,
+                  "width": 1.0407820603560367,
+                  "height": 26.240237577739805
+                }
+              }
+            ],
+            "best": {
+              "face": 6,
+              "frontFacing": true,
+              "viewCosine": 0.4190225272330611,
+              "capPixels": 2.534788340804159,
+              "entireSkirtPixels": 2.961391035857182,
+              "widthPixels": 25.41661901786127,
+              "bounds": {
+                "x": 664.6183756547337,
+                "y": 281.1980719076301,
+                "width": 22.680478075312976,
+                "height": 14.789952361911787
+              }
+            }
+          }
+        ]
+      },
+      "camera": {
+        "position": [
+          0,
+          150,
+          48
+        ],
+        "fov": 12.7,
+        "pitch": 72.14377674268574
+      },
+      "cssPixels": {
+        "width": 1514,
+        "height": 750
+      },
+      "bufferPixels": {
+        "width": 1514,
+        "height": 750
+      }
+    },
+    {
+      "heading": 3,
+      "triangles": [
+        {
+          "id": "EAR-FF-1",
+          "heading": 3,
+          "trianglePixels": [
+            {
+              "x": 598.1582978017369,
+              "y": 377.8724094476445
+            },
+            {
+              "x": 609.6579655663485,
+              "y": 381.9336693540218
+            },
+            {
+              "x": 609.7903947431392,
+              "y": 372.5258980198409
+            }
+          ],
+          "bounds": {
+            "x": 598.1582978017369,
+            "y": 372.5258980198409,
+            "width": 11.632096941402324,
+            "height": 9.407771334180893
+          },
+          "unoccludedFraction": 1,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.0055999755859375,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "KRE-FF-1",
+          "heading": 3,
+          "trianglePixels": [
+            {
+              "x": 872.965979354844,
+              "y": 377.8724094476445
+            },
+            {
+              "x": 884.7529774229305,
+              "y": 381.9336693540218
+            },
+            {
+              "x": 884.6381546454542,
+              "y": 372.5258980198409
+            }
+          ],
+          "bounds": {
+            "x": 872.965979354844,
+            "y": 372.5258980198409,
+            "width": 11.786998068086518,
+            "height": 9.407771334180893
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "VRA-FF-1",
+          "heading": 3,
+          "trianglePixels": [
+            {
+              "x": 667.8257925130844,
+              "y": 265.7918209243245
+            },
+            {
+              "x": 679.2742098659213,
+              "y": 269.6936004113172
+            },
+            {
+              "x": 679.3433203985876,
+              "y": 260.4864185390169
+            }
+          ],
+          "bounds": {
+            "x": 667.8257925130844,
+            "y": 260.4864185390169,
+            "width": 11.517527885503227,
+            "height": 9.207181872300339
+          },
+          "unoccludedFraction": 1,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.019977569580078125,
+          "bufferPixelsPerCssPixel": 1
+        }
+      ],
+      "rim": {
+        "capHeightMm": 2.6,
+        "limits": {
+          "skirtHeightMm": 3,
+          "slantHeightMm": 3.0375771595138117,
+          "maximumCapHeightMm": 2.637577159513812,
+          "edgeMarginMm": 0.2,
+          "minimumFaceWidthMm": 13.883756729740647
+        },
+        "font": "bold 192px Arial",
+        "method": "Off-white waterslide decal, skirt faces 2, 4, 6 only",
+        "units": [
+          {
+            "id": "EAR-FF-1",
+            "code": "EFG-03",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.854545454545454,
+            "sourceInkPixels": [
+              652,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.10126673958613919,
+                "capPixels": 1.7922126111263506,
+                "entireSkirtPixels": 2.093840497611492,
+                "widthPixels": 24.20647497563557,
+                "bounds": {
+                  "x": 592.965719766451,
+                  "y": 366.2862793213787,
+                  "width": 1.007908441039035,
+                  "height": 25.9828632399948
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.4235241356429902,
+                "capPixels": 2.455499285446019,
+                "entireSkirtPixels": 2.8687577131390904,
+                "widthPixels": 25.310516806803072,
+                "bounds": {
+                  "x": 621.2016407349979,
+                  "y": 393.70931976118953,
+                  "width": 22.90249008984574,
+                  "height": 14.597671012710578
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": false,
+                "viewCosine": -0.09924256998624181,
+                "capPixels": 1.1803707843485711,
+                "entireSkirtPixels": 1.379026228276635,
+                "widthPixels": 24.930727753741298,
+                "bounds": {
+                  "x": 621.9113649137723,
+                  "y": 351.0764691163678,
+                  "width": 22.53692985658199,
+                  "height": 13.096422982353431
+                }
+              }
+            ],
+            "best": {
+              "face": 6,
+              "frontFacing": true,
+              "viewCosine": 0.4235241356429902,
+              "capPixels": 2.455499285446019,
+              "entireSkirtPixels": 2.8687577131390904,
+              "widthPixels": 25.310516806803072,
+              "bounds": {
+                "x": 621.2016407349979,
+                "y": 393.70931976118953,
+                "width": 22.90249008984574,
+                "height": 14.597671012710578
+              }
+            }
+          },
+          {
+            "id": "KRE-FF-1",
+            "code": "KFG-01",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.600000000000001,
+            "sourceInkPixels": [
+              638,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.18172588291173547,
+                "capPixels": 1.9807438360569154,
+                "entireSkirtPixels": 2.314101370330177,
+                "widthPixels": 23.68514147763438,
+                "bounds": {
+                  "x": 867.2667603285713,
+                  "y": 366.5457202860124,
+                  "width": 1.3131509146131748,
+                  "height": 25.463155928180697
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.3831278641344462,
+                "capPixels": 2.3846882015754143,
+                "entireSkirtPixels": 2.7860291844714014,
+                "widthPixels": 24.49392514733401,
+                "bounds": {
+                  "x": 896.8273425321482,
+                  "y": 393.83972025113997,
+                  "width": 21.69755505011392,
+                  "height": 14.33673703793761
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": false,
+                "viewCosine": -0.13930697204312945,
+                "capPixels": 1.012385645582735,
+                "entireSkirtPixels": 1.1827693271481876,
+                "widthPixels": 24.666611573244438,
+                "bounds": {
+                  "x": 896.1000184591443,
+                  "y": 351.20581070891086,
+                  "width": 21.928473657953646,
+                  "height": 12.837643592326685
+                }
+              }
+            ],
+            "best": {
+              "face": 6,
+              "frontFacing": true,
+              "viewCosine": 0.3831278641344462,
+              "capPixels": 2.3846882015754143,
+              "entireSkirtPixels": 2.7860291844714014,
+              "widthPixels": 24.49392514733401,
+              "bounds": {
+                "x": 896.8273425321482,
+                "y": 393.83972025113997,
+                "width": 21.69755505011392,
+                "height": 14.33673703793761
+              }
+            }
+          },
+          {
+            "id": "VRA-FF-1",
+            "code": "VFG-04",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 12.163636363636364,
+            "sourceInkPixels": [
+              669,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.12008793083411257,
+                "capPixels": 1.9721305990931153,
+                "entireSkirtPixels": 2.3040385219549626,
+                "widthPixels": 24.307062605637448,
+                "bounds": {
+                  "x": 662.6224007693438,
+                  "y": 254.20583563767266,
+                  "width": 0.9515436015271916,
+                  "height": 26.240237912960453
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.43901406631849016,
+                "capPixels": 2.567323973892006,
+                "entireSkirtPixels": 2.9994023879773914,
+                "widthPixels": 25.557108213102325,
+                "bounds": {
+                  "x": 690.482035378376,
+                  "y": 281.1980719309388,
+                  "width": 23.044225700974494,
+                  "height": 14.789952698086779
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": false,
+                "viewCosine": -0.1378391693883771,
+                "capPixels": 1.2727535899430131,
+                "entireSkirtPixels": 1.486956977421321,
+                "widthPixels": 25.315803367930513,
+                "bounds": {
+                  "x": 690.8279418723763,
+                  "y": 239.47397112570343,
+                  "width": 22.828142701909655,
+                  "height": 13.317742710952729
+                }
+              }
+            ],
+            "best": {
+              "face": 6,
+              "frontFacing": true,
+              "viewCosine": 0.43901406631849016,
+              "capPixels": 2.567323973892006,
+              "entireSkirtPixels": 2.9994023879773914,
+              "widthPixels": 25.557108213102325,
+              "bounds": {
+                "x": 690.482035378376,
+                "y": 281.1980719309388,
+                "width": 23.044225700974494,
+                "height": 14.789952698086779
+              }
+            }
+          }
+        ]
+      },
+      "camera": {
+        "position": [
+          0,
+          150,
+          48
+        ],
+        "fov": 12.7,
+        "pitch": 72.14377674268574
+      },
+      "cssPixels": {
+        "width": 1514,
+        "height": 750
+      },
+      "bufferPixels": {
+        "width": 1514,
+        "height": 750
+      }
+    },
+    {
+      "heading": 4,
+      "triangles": [
+        {
+          "id": "EAR-FF-1",
+          "heading": 4,
+          "trianglePixels": [
+            {
+              "x": 608.6265684265992,
+              "y": 395.5785762739231
+            },
+            {
+              "x": 618.7604817364014,
+              "y": 387.66180409556046
+            },
+            {
+              "x": 610.2601123498677,
+              "y": 382.9506526405495
+            }
+          ],
+          "bounds": {
+            "x": 608.6265684265992,
+            "y": 382.9506526405495,
+            "width": 10.13391330980221,
+            "height": 12.627923633373598
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "KRE-FF-1",
+          "heading": 4,
+          "trianglePixels": [
+            {
+              "x": 883.8992920282569,
+              "y": 395.5785762739231
+            },
+            {
+              "x": 894.006038547664,
+              "y": 387.66180409556046
+            },
+            {
+              "x": 885.3818522269466,
+              "y": 382.9506526405495
+            }
+          ],
+          "bounds": {
+            "x": 883.8992920282569,
+            "y": 382.9506526405495,
+            "width": 10.106746519407125,
+            "height": 12.627923633373598
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "VRA-FF-1",
+          "heading": 4,
+          "trianglePixels": [
+            {
+              "x": 678.2983691533543,
+              "y": 283.12036961525916
+            },
+            {
+              "x": 688.3167550393935,
+              "y": 275.29951478839524
+            },
+            {
+              "x": 679.876590505638,
+              "y": 270.68888927930067
+            }
+          ],
+          "bounds": {
+            "x": 678.2983691533543,
+            "y": 270.68888927930067,
+            "width": 10.018385886039141,
+            "height": 12.431480335958497
+          },
+          "unoccludedFraction": 0.5833333333333334,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0.01418304443359375,
+          "bufferPixelsPerCssPixel": 1
+        }
+      ],
+      "rim": {
+        "capHeightMm": 2.6,
+        "limits": {
+          "skirtHeightMm": 3,
+          "slantHeightMm": 3.0375771595138117,
+          "maximumCapHeightMm": 2.637577159513812,
+          "edgeMarginMm": 0.2,
+          "minimumFaceWidthMm": 13.883756729740647
+        },
+        "font": "bold 192px Arial",
+        "method": "Off-white waterslide decal, skirt faces 2, 4, 6 only",
+        "units": [
+          {
+            "id": "EAR-FF-1",
+            "code": "EFG-03",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.854545454545454,
+            "sourceInkPixels": [
+              652,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.38312786466529125,
+                "capPixels": 2.3846881891102925,
+                "entireSkirtPixels": 2.786029169908467,
+                "widthPixels": 25.03140940797669,
+                "bounds": {
+                  "x": 595.240602620535,
+                  "y": 393.7093193770345,
+                  "width": 22.16745254419186,
+                  "height": 14.59767099912824
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.18172588730995426,
+                "capPixels": 1.9807438353673257,
+                "entireSkirtPixels": 2.3141013695243857,
+                "widthPixels": 24.204879176910218,
+                "bounds": {
+                  "x": 645.4173121636221,
+                  "y": 366.28627967559225,
+                  "width": 1.3186600463438936,
+                  "height": 25.982862920375396
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": false,
+                "viewCosine": -0.13930697079174825,
+                "capPixels": 1.0123856495052004,
+                "entireSkirtPixels": 1.1827693317308745,
+                "widthPixels": 25.2078852058707,
+                "bounds": {
+                  "x": 595.7337276699977,
+                  "y": 351.07646946955106,
+                  "width": 22.403878560255635,
+                  "height": 13.096422663578949
+                }
+              }
+            ],
+            "best": {
+              "face": 2,
+              "frontFacing": true,
+              "viewCosine": 0.38312786466529125,
+              "capPixels": 2.3846881891102925,
+              "entireSkirtPixels": 2.786029169908467,
+              "widthPixels": 25.03140940797669,
+              "bounds": {
+                "x": 595.240602620535,
+                "y": 393.7093193770345,
+                "width": 22.16745254419186,
+                "height": 14.59767099912824
+              }
+            }
+          },
+          {
+            "id": "KRE-FF-1",
+            "code": "KFG-01",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.600000000000001,
+            "sourceInkPixels": [
+              638,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.4235241367013396,
+                "capPixels": 2.455499273387998,
+                "entireSkirtPixels": 2.86875769905181,
+                "widthPixels": 24.76703875781802,
+                "bounds": {
+                  "x": 870.1337820310748,
+                  "y": 393.8397198669753,
+                  "width": 22.425748274148418,
+                  "height": 14.336737024374827
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.1012667440078137,
+                "capPixels": 1.7922126130996234,
+                "entireSkirtPixels": 2.093840499916903,
+                "widthPixels": 23.68670237375877,
+                "bounds": {
+                  "x": 920.0304183902288,
+                  "y": 366.54572063675107,
+                  "width": 0.9997866995050799,
+                  "height": 25.463155615537914
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": false,
+                "viewCosine": -0.0992425692858622,
+                "capPixels": 1.180370783464326,
+                "entireSkirtPixels": 1.3790262272436407,
+                "widthPixels": 24.395404714730102,
+                "bounds": {
+                  "x": 869.7860945514224,
+                  "y": 351.20581105862067,
+                  "width": 22.068311530695155,
+                  "height": 12.837643280509553
+                }
+              }
+            ],
+            "best": {
+              "face": 2,
+              "frontFacing": true,
+              "viewCosine": 0.4235241367013396,
+              "capPixels": 2.455499273387998,
+              "entireSkirtPixels": 2.86875769905181,
+              "widthPixels": 24.76703875781802,
+              "bounds": {
+                "x": 870.1337820310748,
+                "y": 393.8397198669753,
+                "width": 22.425748274148418,
+                "height": 14.336737024374827
+              }
+            }
+          },
+          {
+            "id": "VRA-FF-1",
+            "code": "VFG-04",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 12.163636363636364,
+            "sourceInkPixels": [
+              669,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.41902252436473253,
+                "capPixels": 2.5347883361029373,
+                "entireSkirtPixels": 2.9613910303648043,
+                "widthPixels": 25.416618996144418,
+                "bounds": {
+                  "x": 664.6183754021112,
+                  "y": 281.19807155498876,
+                  "width": 22.680477881625393,
+                  "height": 14.789952684768366
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": true,
+                "viewCosine": 0.159890838140285,
+                "capPixels": 2.0576313723453903,
+                "entireSkirtPixels": 2.4039290035087073,
+                "widthPixels": 24.306261110774493,
+                "bounds": {
+                  "x": 714.6222027251581,
+                  "y": 254.20583598848003,
+                  "width": 1.0407824626015554,
+                  "height": 26.240237591848768
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": false,
+                "viewCosine": -0.15765143559635683,
+                "capPixels": 1.200610287176163,
+                "entireSkirtPixels": 1.4026720158459691,
+                "widthPixels": 25.455318276168768,
+                "bounds": {
+                  "x": 664.8942503693354,
+                  "y": 239.47397147551183,
+                  "width": 22.76706302041123,
+                  "height": 13.317742390681616
+                }
+              }
+            ],
+            "best": {
+              "face": 2,
+              "frontFacing": true,
+              "viewCosine": 0.41902252436473253,
+              "capPixels": 2.5347883361029373,
+              "entireSkirtPixels": 2.9613910303648043,
+              "widthPixels": 25.416618996144418,
+              "bounds": {
+                "x": 664.6183754021112,
+                "y": 281.19807155498876,
+                "width": 22.680477881625393,
+                "height": 14.789952684768366
+              }
+            }
+          }
+        ]
+      },
+      "camera": {
+        "position": [
+          0,
+          150,
+          48
+        ],
+        "fov": 12.7,
+        "pitch": 72.14377674268574
+      },
+      "cssPixels": {
+        "width": 1514,
+        "height": 750
+      },
+      "bufferPixels": {
+        "width": 1514,
+        "height": 750
+      }
+    },
+    {
+      "heading": 5,
+      "triangles": [
+        {
+          "id": "EAR-FF-1",
+          "heading": 5,
+          "trianglePixels": [
+            {
+              "x": 630.100707971743,
+              "y": 395.5785762739231
+            },
+            {
+              "x": 628.6181477730534,
+              "y": 382.9506526405495
+            },
+            {
+              "x": 619.993961452336,
+              "y": 387.66180409556046
+            }
+          ],
+          "bounds": {
+            "x": 619.993961452336,
+            "y": 382.9506526405495,
+            "width": 10.106746519407011,
+            "height": 12.627923633373598
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "KRE-FF-1",
+          "heading": 5,
+          "trianglePixels": [
+            {
+              "x": 905.3734315734009,
+              "y": 395.5785762739231
+            },
+            {
+              "x": 903.7398876501323,
+              "y": 382.9506526405495
+            },
+            {
+              "x": 895.2395182635986,
+              "y": 387.66180409556046
+            }
+          ],
+          "bounds": {
+            "x": 895.2395182635986,
+            "y": 382.9506526405495,
+            "width": 10.133913309802324,
+            "height": 12.627923633373598
+          },
+          "unoccludedFraction": 0,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 0,
+          "maxLinearDelta": 0,
+          "bufferPixelsPerCssPixel": 1
+        },
+        {
+          "id": "VRA-FF-1",
+          "heading": 5,
+          "trianglePixels": [
+            {
+              "x": 699.5420933442095,
+              "y": 283.12036961525916
+            },
+            {
+              "x": 698.0377529402981,
+              "y": 270.68888927930067
+            },
+            {
+              "x": 689.5370009343867,
+              "y": 275.29951478839524
+            }
+          ],
+          "bounds": {
+            "x": 689.5370009343867,
+            "y": 270.68888927930067,
+            "width": 10.00509240982285,
+            "height": 12.431480335958497
+          },
+          "unoccludedFraction": 0.25,
+          "castReliefMm": 0.35,
+          "changedBufferPixelsAbove002": 2,
+          "maxLinearDelta": 0.02175617218017578,
+          "bufferPixelsPerCssPixel": 1
+        }
+      ],
+      "rim": {
+        "capHeightMm": 2.6,
+        "limits": {
+          "skirtHeightMm": 3,
+          "slantHeightMm": 3.0375771595138117,
+          "maximumCapHeightMm": 2.637577159513812,
+          "edgeMarginMm": 0.2,
+          "minimumFaceWidthMm": 13.883756729740647
+        },
+        "font": "bold 192px Arial",
+        "method": "Off-white waterslide decal, skirt faces 2, 4, 6 only",
+        "units": [
+          {
+            "id": "EAR-FF-1",
+            "code": "EFG-03",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.854545454545454,
+            "sourceInkPixels": [
+              652,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.4235241367013396,
+                "capPixels": 2.455499273387998,
+                "entireSkirtPixels": 2.86875769905181,
+                "widthPixels": 25.310516458344676,
+                "bounds": {
+                  "x": 621.2016409388093,
+                  "y": 393.7093193770345,
+                  "width": 22.90248969201184,
+                  "height": 14.59767099912824
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": false,
+                "viewCosine": -0.099242569285862,
+                "capPixels": 1.1803707834642645,
+                "entireSkirtPixels": 1.379026227243518,
+                "widthPixels": 24.93072742790156,
+                "bounds": {
+                  "x": 621.9113646606132,
+                  "y": 351.07646946955106,
+                  "width": 22.536929651307332,
+                  "height": 13.096422663578949
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.10126674400781342,
+                "capPixels": 1.7922126130996767,
+                "entireSkirtPixels": 2.093840499916903,
+                "widthPixels": 24.20647464758821,
+                "bounds": {
+                  "x": 592.9657202252041,
+                  "y": 366.2862796755922,
+                  "width": 1.00790822571048,
+                  "height": 25.982862920375453
+                }
+              }
+            ],
+            "best": {
+              "face": 2,
+              "frontFacing": true,
+              "viewCosine": 0.4235241367013396,
+              "capPixels": 2.455499273387998,
+              "entireSkirtPixels": 2.86875769905181,
+              "widthPixels": 25.310516458344676,
+              "bounds": {
+                "x": 621.2016409388093,
+                "y": 393.7093193770345,
+                "width": 22.90248969201184,
+                "height": 14.59767099912824
+              }
+            }
+          },
+          {
+            "id": "KRE-FF-1",
+            "code": "KFG-01",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 11.600000000000001,
+            "sourceInkPixels": [
+              638,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.3831278646652913,
+                "capPixels": 2.3846881891102925,
+                "entireSkirtPixels": 2.786029169908467,
+                "widthPixels": 24.49392480751924,
+                "bounds": {
+                  "x": 896.827342721585,
+                  "y": 393.8397198669753,
+                  "width": 21.697554660507876,
+                  "height": 14.336737024374827
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": false,
+                "viewCosine": -0.1393069707917481,
+                "capPixels": 1.0123856495051786,
+                "entireSkirtPixels": 1.1827693317308745,
+                "widthPixels": 24.66661124823175,
+                "bounds": {
+                  "x": 896.1000182130979,
+                  "y": 351.20581105862067,
+                  "width": 21.928473448642535,
+                  "height": 12.83764328050961
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.18172588730995398,
+                "capPixels": 1.9807438353673739,
+                "entireSkirtPixels": 2.3141013695243857,
+                "widthPixels": 23.68514116174227,
+                "bounds": {
+                  "x": 867.2667605949246,
+                  "y": 366.545720636751,
+                  "width": 1.3131510945254377,
+                  "height": 25.46315561553797
+                }
+              }
+            ],
+            "best": {
+              "face": 2,
+              "frontFacing": true,
+              "viewCosine": 0.3831278646652913,
+              "capPixels": 2.3846881891102925,
+              "entireSkirtPixels": 2.786029169908467,
+              "widthPixels": 24.49392480751924,
+              "bounds": {
+                "x": 896.827342721585,
+                "y": 393.8397198669753,
+                "width": 21.697554660507876,
+                "height": 14.336737024374827
+              }
+            }
+          },
+          {
+            "id": "VRA-FF-1",
+            "code": "VFG-04",
+            "capHeightMm": 2.6,
+            "inkWidthMm": 12.163636363636364,
+            "sourceInkPixels": [
+              669,
+              143
+            ],
+            "faces": [
+              {
+                "face": 2,
+                "frontFacing": true,
+                "viewCosine": 0.4390140670886927,
+                "capPixels": 2.5673239619050228,
+                "entireSkirtPixels": 2.999402373972963,
+                "widthPixels": 25.5571078588367,
+                "bounds": {
+                  "x": 690.4820355826,
+                  "y": 281.19807155498876,
+                  "width": 23.044225297108824,
+                  "height": 14.789952684768366
+                }
+              },
+              {
+                "face": 6,
+                "frontFacing": false,
+                "viewCosine": -0.13783916868358825,
+                "capPixels": 1.2727535909208383,
+                "entireSkirtPixels": 1.486956978563825,
+                "widthPixels": 25.31580303810689,
+                "bounds": {
+                  "x": 690.8279416267484,
+                  "y": 239.47397147551183,
+                  "width": 22.82814249169121,
+                  "height": 13.317742390681673
+                }
+              },
+              {
+                "face": 4,
+                "frontFacing": true,
+                "viewCosine": 0.12008793547109647,
+                "capPixels": 1.9721306007152295,
+                "entireSkirtPixels": 2.304038523850172,
+                "widthPixels": 24.307062277503412,
+                "bounds": {
+                  "x": 662.6224012260151,
+                  "y": 254.20583598848003,
+                  "width": 0.9515433854191997,
+                  "height": 26.240237591848768
+                }
+              }
+            ],
+            "best": {
+              "face": 2,
+              "frontFacing": true,
+              "viewCosine": 0.4390140670886927,
+              "capPixels": 2.5673239619050228,
+              "entireSkirtPixels": 2.999402373972963,
+              "widthPixels": 25.5571078588367,
+              "bounds": {
+                "x": 690.4820355826,
+                "y": 281.19807155498876,
+                "width": 23.044225297108824,
+                "height": 14.789952684768366
+              }
+            }
+          }
+        ]
+      },
+      "camera": {
+        "position": [
+          0,
+          150,
+          48
+        ],
+        "fov": 12.7,
+        "pitch": 72.14377674268574
+      },
+      "cssPixels": {
+        "width": 1514,
+        "height": 750
+      },
+      "bufferPixels": {
+        "width": 1514,
+        "height": 750
+      }
+    }
+  ],
+  "errors": []
+}

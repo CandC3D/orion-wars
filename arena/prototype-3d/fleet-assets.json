@@ -2,14 +2,14 @@
   "format": "tabletop-complete-library/1",
   "authority": "Fable's complete-set assignment; codes explicitly supplied by Chris. Never infer a code from a filename.",
   "scale": {
-    "status": "provisional",
+    "status": "approved",
     "metresPerSourceUnit": 2.194250025468472,
-    "calibration": "205 m / 93.42599868774414 source units; Monoceros provenance; provisionally shared by Krelath and now Vraygon",
+    "calibration": "205 m / 93.42599868774414 source units; Monoceros provenance; shared factor used by the approved ladder, without an independent Vraygon fictional-length claim",
     "referenceSourceLength": 93.42599868774414,
     "referenceMiniatureMm": 55,
     "exponent": 0.5,
     "formula": "55 * sqrt(source longitudinal length / 93.42599868774414) mm",
-    "reason": "Preserve source ordering while giving fighters inspectable cast-piece size; compress large hulls. Not a rules scale or a validated class ladder."
+    "reason": "Chris approved the compressed ladder on 10 September 2026. Presentation size, not rules scale."
   },
   "excluded": [
     "edf/Earth Defense Force Fleet.glb",
@@ -24,7 +24,8 @@
       "type": "Frigate",
       "code": "EFG-03",
       "nativeBow": "+X",
-      "source": "edf/Earth Monoceros Class Frigate v3 Series.glb"
+      "source": "edf/Earth Monoceros Class Frigate v3 Series.glb",
+      "pointDefence": null
     },
     {
       "id": "ear-victory",
@@ -33,7 +34,8 @@
       "type": "Destroyer",
       "code": "EDD-02",
       "nativeBow": "+X",
-      "source": "edf/Earth Victory Class Destroyer v3 Series.glb"
+      "source": "edf/Earth Victory Class Destroyer v3 Series.glb",
+      "pointDefence": null
     },
     {
       "id": "ear-saturn",
@@ -42,7 +44,8 @@
       "type": "Missile destroyer",
       "code": "EDM-01",
       "nativeBow": "-Y",
-      "source": "edf/Earth Saturn Class Missile Destroyer v3 Series [NEW].glb"
+      "source": "edf/Earth Saturn Class Missile Destroyer v3 Series [NEW].glb",
+      "pointDefence": null
     },
     {
       "id": "ear-acamar",
@@ -51,7 +54,8 @@
       "type": "Light cruiser",
       "code": "ELC-01",
       "nativeBow": "+X",
-      "source": "edf/Earth Acamar Class Light Cruiser v3.glb"
+      "source": "edf/Earth Acamar Class Light Cruiser v3.glb",
+      "pointDefence": null
     },
     {
       "id": "ear-yi-sun-sin",
@@ -60,7 +64,8 @@
       "type": "Heavy cruiser",
       "code": "ECA-03",
       "nativeBow": "+X",
-      "source": "edf/Earth Yi Sun-sin Class Heavy Cruiser v3 series.glb"
+      "source": "edf/Earth Yi Sun-sin Class Heavy Cruiser v3 series.glb",
+      "pointDefence": null
     },
     {
       "id": "ear-federation",
@@ -69,7 +74,8 @@
       "type": "Battleship",
       "code": "EBB-01",
       "nativeBow": "+X",
-      "source": "edf/Earth Federation Class Battleship v3 series.glb"
+      "source": "edf/Earth Federation Class Battleship v3 series.glb",
+      "pointDefence": null
     },
     {
       "id": "ear-yamato",
@@ -78,7 +84,8 @@
       "type": "Gunstar battlecruiser",
       "code": "EBY-00",
       "nativeBow": "+X",
-      "source": "edf/Earth Yamato Class Gunstar Battlecruiser v3 Series.glb"
+      "source": "edf/Earth Yamato Class Gunstar Battlecruiser v3 Series.glb",
+      "pointDefence": null
     },
     {
       "id": "kre-sparrowhawk",
@@ -87,7 +94,8 @@
       "type": "Frigate",
       "code": "KFG-01",
       "nativeBow": "-Y",
-      "source": "ksn/Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb"
+      "source": "ksn/Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb",
+      "pointDefence": "small-dorsal-dome"
     },
     {
       "id": "kre-swift",
@@ -96,7 +104,8 @@
       "type": "Destroyer",
       "code": "KDD-02",
       "nativeBow": "-Y",
-      "source": "ksn/Krelath KDD-02 _Swift_ Class _Destroyer.glb"
+      "source": "ksn/Krelath KDD-02 _Swift_ Class _Destroyer.glb",
+      "pointDefence": "small-dorsal-dome"
     },
     {
       "id": "kre-ballista",
@@ -105,7 +114,8 @@
       "type": "Missile destroyer",
       "code": "KDG-01",
       "nativeBow": "-Y",
-      "source": "ksn/Krelath KDG-01 _Ballista_ Class Missile Destroyer.glb"
+      "source": "ksn/Krelath KDG-01 _Ballista_ Class Missile Destroyer.glb",
+      "pointDefence": "small-dorsal-dome"
     },
     {
       "id": "kre-raptor",
@@ -114,7 +124,8 @@
       "type": "Light cruiser",
       "code": "KCL-02",
       "nativeBow": "-Y",
-      "source": "ksn/Krelath KCL-02 _Raptor_ Class Light Cruiser.glb"
+      "source": "ksn/Krelath KCL-02 _Raptor_ Class Light Cruiser.glb",
+      "pointDefence": "small-dorsal-dome"
     },
     {
       "id": "kre-lightning",
@@ -123,7 +134,8 @@
       "type": "Strike cruiser",
       "code": "KCS-02",
       "nativeBow": "-Y",
-      "source": "ksn/Krelath KCS-02 _Lightning_ Class Strike Cruiser.glb"
+      "source": "ksn/Krelath KCS-02 _Lightning_ Class Strike Cruiser.glb",
+      "pointDefence": null
     },
     {
       "id": "kre-star-knight",
@@ -132,7 +144,8 @@
       "type": "Heavy cruiser",
       "code": "KCA-03",
       "nativeBow": "+X",
-      "source": "ksn/Krelath KCA-03 _Star Knight_ Class Heavy Cruiser.glb"
+      "source": "ksn/Krelath KCA-03 _Star Knight_ Class Heavy Cruiser.glb",
+      "pointDefence": null
     },
     {
       "id": "kre-bladestar",
@@ -141,7 +154,8 @@
       "type": "Carrier",
       "code": "KCV-01",
       "nativeBow": "+X",
-      "source": "ksn/Krelath KCV-01 _Bladestar_ Class Carrier.glb"
+      "source": "ksn/Krelath KCV-01 _Bladestar_ Class Carrier.glb",
+      "pointDefence": null
     },
     {
       "id": "kre-star-lord",
@@ -150,49 +164,48 @@
       "type": "Battleship",
       "code": "KBB-02",
       "nativeBow": "+X",
-      "source": "ksn/Krelath KBB-02 _Star Lord_ Class Battleship.glb"
+      "source": "ksn/Krelath KBB-02 _Star Lord_ Class Battleship.glb",
+      "pointDefence": null
     },
     {
       "id": "kre-bomber",
       "faction": "KRE",
-      "name": "Fighter — Bomber",
+      "name": "Fighter \u2014 Bomber",
       "type": "Fighter / bomber",
-      "code": null,
-      "codeStatus": "pending Chris",
+      "code": "KFB-03",
       "nativeBow": "-X",
       "source": "ksn/Krelath Fighter - Bomber.glb",
-      "orientationEvidence": "Source orange outlet is on +X; the forward red-warning / yellow fixture is at -X. Source Y is wing span, not longitudinal length. Visually checked against both rendered faces."
+      "orientationEvidence": "Source orange outlet is on +X; the forward red-warning / yellow fixture is at -X. Source Y is wing span, not longitudinal length. Visually checked against both rendered faces.",
+      "flight": {
+        "count": 6,
+        "stand": "single clear post with moulded formation frame"
+      },
+      "pointDefence": null
     },
     {
       "id": "kre-interceptor",
       "faction": "KRE",
-      "name": "Fighter — Interceptor",
+      "name": "Fighter \u2014 Interceptor",
       "type": "Fighter / interceptor",
-      "code": null,
-      "codeStatus": "pending Chris",
+      "code": "KFY-02",
       "nativeBow": "-X",
       "source": "ksn/Krelath Fighter - Interceptor.glb",
-      "orientationEvidence": "Source orange outlet is on +X; the forward red-warning / yellow fixture is at -X. Source Y is wing span, not longitudinal length. Visually checked against both rendered faces."
+      "orientationEvidence": "Source orange outlet is on +X; the forward red-warning / yellow fixture is at -X. Source Y is wing span, not longitudinal length. Visually checked against both rendered faces.",
+      "flight": {
+        "count": 6,
+        "stand": "single clear post with moulded formation frame"
+      },
+      "pointDefence": null
     },
     {
       "id": "kre-intrallus",
       "faction": "KRE",
       "name": "Intrallus",
       "type": "Supreme Leader's flagship",
-      "code": null,
-      "codeStatus": "pending Chris",
+      "code": "KDN-0000",
       "nativeBow": "-Y",
-      "source": "ksn/Supreme Leader's Flagship Intrallus.glb"
-    },
-    {
-      "id": "kre-boss",
-      "faction": "KRE",
-      "name": "Boss / Game Secret",
-      "type": "Supreme Leader's flagship",
-      "code": null,
-      "codeStatus": "pending Chris",
-      "nativeBow": "+X",
-      "source": "ksn/Krelath Star Navy - Supreme Leader's Flagship (Boss. Game Secret).glb"
+      "source": "ksn/Supreme Leader's Flagship Intrallus.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-shard",
@@ -201,7 +214,8 @@
       "type": "Frigate",
       "code": "VFG-04",
       "nativeBow": "+X",
-      "source": "vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb"
+      "source": "vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-point",
@@ -210,7 +224,8 @@
       "type": "Destroyer",
       "code": "VDD-03",
       "nativeBow": "+X",
-      "source": "vtw/Vraygon DD-03 _Point_ Class Destroyer.glb"
+      "source": "vtw/Vraygon DD-03 _Point_ Class Destroyer.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-avalanche",
@@ -219,7 +234,8 @@
       "type": "Missile destroyer",
       "code": "VDD-05",
       "nativeBow": "+X",
-      "source": "vtw/Vraygon VDD-05 _Avalanche_ Class.glb"
+      "source": "vtw/Vraygon VDD-05 _Avalanche_ Class.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-feldspar",
@@ -228,7 +244,8 @@
       "type": "Light cruiser",
       "code": "VLC-01",
       "nativeBow": "-Y",
-      "source": "vtw/Vraygon VLC-01 _Feldspar_ Class Light Cruiser.glb"
+      "source": "vtw/Vraygon VLC-01 _Feldspar_ Class Light Cruiser.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-crystal",
@@ -237,7 +254,8 @@
       "type": "Heavy cruiser",
       "code": "VCA-02",
       "nativeBow": "+X",
-      "source": "vtw/Vraygon VCA-02 _Crystal_ Heavy Cruiser.glb"
+      "source": "vtw/Vraygon VCA-02 _Crystal_ Heavy Cruiser.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-cluster",
@@ -246,7 +264,8 @@
       "type": "Battleship",
       "code": "VBB-01",
       "nativeBow": "-Y",
-      "source": "vtw/Vraygon BB-01 _Cluster_ Class Battlship.glb"
+      "source": "vtw/Vraygon BB-01 _Cluster_ Class Battlship.glb",
+      "pointDefence": null
     },
     {
       "id": "vra-bastion",
@@ -255,7 +274,14 @@
       "type": "Monitor",
       "code": "VMN-01",
       "nativeBow": "-Y",
-      "source": "vtw/Vraygon VMN-01 _Bastion_ Class Monitor.glb"
+      "source": "vtw/Vraygon VMN-01 _Bastion_ Class Monitor.glb",
+      "pointDefence": null
+    }
+  ],
+  "retired": [
+    {
+      "source": "ksn/Krelath Star Navy - Supreme Leader's Flagship (Boss. Game Secret).glb",
+      "reason": "Chris, 10 September 2026: Intrallus retained, Boss retired."
     }
   ]
 }

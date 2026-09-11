@@ -4,8 +4,8 @@
   "sourceSha256": "b787e9ec793962e606c3bdc7967b8d33cddd0c3f149bff22742d939e6cfcf2a4",
   "sourceBytes": 1965392,
   "output": "vra-bastion.glb",
-  "outputBytes": 438384,
-  "outputSha256": "f6de14d35e8c0fcaf03d0255c64884d7017c54dfe5bc3635e04287d6105622d6",
+  "outputBytes": 1323052,
+  "outputSha256": "8006f3751066fff4b6dc964274fd29c89f9bcf9ac605b278b14e4c91d9cee840",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [

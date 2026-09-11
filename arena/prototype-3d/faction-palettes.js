@@ -4,7 +4,7 @@ export const FACTION_PALETTES=freeze(contract);
 export function factionRegion(faction,key){
  const r=contract.factions[faction]?.regions[key];
  if(!r)throw Error(`Faction palette export fault: ${faction}/#${key} is not allowed`);
- if(!['metal','paint','emissive-designated'].includes(r.classification))throw Error('Missing faction material classification: '+faction+'/'+key);
+ if(!['metal','paint','emissive-designated','moulded transparent'].includes(r.classification))throw Error('Missing faction material classification: '+faction+'/'+key);
  if(r.classification==='metal'&&!r.metal)throw Error('Missing metal substance: '+faction+'/'+key);
  return Object.freeze({key,...r,metallicPaint:r.classification==='metal',rgb:[0,2,4].map(i=>parseInt(key.slice(i,i+2),16)/255)});
 }

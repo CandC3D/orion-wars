@@ -41,11 +41,11 @@ try{
   const {createTabletop}=await import('./renderer.js');
   const fleet=validateFleetManifest(await (await fetch('./fleet-assets.json')).json());
   view=await createTabletop($('#tabletop'),await response.json(),planning,{createRimStudy:(scene,units)=>createRimLabels(scene,units,boardCodeTable(fleet))});
-  $('#fallback').hidden=true;view.setClearVariant(new URLSearchParams(location.search).get('insert')==='clear');planningState();buttons(false);status('Planning holds still.');
+  $('#fallback').hidden=true;view.setClearVariant(new URLSearchParams(location.search).get('insert')!=='paint');planningState();buttons(false);status('Planning holds still.');
   new ResizeObserver(()=>{view.resize();draw();}).observe($('#tabletop'));
   // Deterministic review hooks for this isolated fixture. Nothing here reads or accepts battle state.
   window.tabletopPrototype=Object.freeze({
-    ready:true,rimEvidence:()=>view.measureRimStudy(),setClearVariant(enabled){const result=view.setClearVariant(enabled);stats();return result;},regionEvidence:()=>view.regionEvidence(),brushEvidence:()=>view.brushEvidence(),captureDetail:(angle,faction)=>view.captureDetail(angle,faction),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
+    ready:true,reviewHeading:h=>view.reviewHeading(h),rimEvidence:()=>view.measureRimStudy(),setClearVariant(enabled){const result=view.setClearVariant(enabled);stats();return result;},regionEvidence:()=>view.regionEvidence(),brushEvidence:()=>view.brushEvidence(),captureDetail:(angle,faction)=>view.captureDetail(angle,faction),lightsOffEvidence:()=>view.lightsOffEvidence(),inspect:()=>view.inspect(),play,
     pause:()=>playback.pause(),resume:()=>playback.resume(),skip:()=>playback.skip(),
     cancel:()=>{playback.cancel();planningState();},
     get paused(){return playback.paused;},get running(){return playback.running;},

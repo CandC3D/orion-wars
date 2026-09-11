@@ -1,6 +1,6 @@
 {
   "format": "complete-library-inventory/1",
-  "count": 26,
+  "count": 25,
   "excluded": [
     "edf/Earth Defense Force Fleet.glb",
     "ksn/Krelath Star Navy.glb",
@@ -166,6 +166,7 @@
         "code": "EFG-03",
         "nativeBow": "+X",
         "source": "edf/Earth Monoceros Class Frigate v3 Series.glb",
+        "pointDefence": null,
         "output": "ear-monoceros",
         "lengthMm": 55,
         "ratio": 0.21553153392134758,
@@ -371,6 +372,7 @@
         "code": "EDD-02",
         "nativeBow": "+X",
         "source": "edf/Earth Victory Class Destroyer v3 Series.glb",
+        "pointDefence": null,
         "output": "ear-victory",
         "lengthMm": 56.60550357298885,
         "ratio": 0.13491355154735465,
@@ -577,6 +579,7 @@
         "code": "EDM-01",
         "nativeBow": "-Y",
         "source": "edf/Earth Saturn Class Missile Destroyer v3 Series [NEW].glb",
+        "pointDefence": null,
         "output": "ear-saturn",
         "lengthMm": 60.24271002442572,
         "ratio": 0.13487715803452854,
@@ -783,6 +786,7 @@
         "code": "ELC-01",
         "nativeBow": "+X",
         "source": "edf/Earth Acamar Class Light Cruiser v3.glb",
+        "pointDefence": null,
         "output": "ear-acamar",
         "lengthMm": 63.18447092806881,
         "ratio": 0.08608872436377121,
@@ -989,6 +993,7 @@
         "code": "ECA-03",
         "nativeBow": "+X",
         "source": "edf/Earth Yi Sun-sin Class Heavy Cruiser v3 series.glb",
+        "pointDefence": null,
         "output": "ear-yi-sun-sin",
         "lengthMm": 77.34823721576585,
         "ratio": 0.1151043465172081,
@@ -1195,6 +1200,7 @@
         "code": "EBB-01",
         "nativeBow": "+X",
         "source": "edf/Earth Federation Class Battleship v3 series.glb",
+        "pointDefence": null,
         "output": "ear-federation",
         "lengthMm": 81.61187397816913,
         "ratio": 0.07760035815549918,
@@ -1401,6 +1407,7 @@
         "code": "EBY-00",
         "nativeBow": "+X",
         "source": "edf/Earth Yamato Class Gunstar Battlecruiser v3 Series.glb",
+        "pointDefence": null,
         "output": "ear-yamato",
         "lengthMm": 81.79021142491715,
         "ratio": 0.0915241588577785,
@@ -1562,6 +1569,7 @@
         "code": "KFG-01",
         "nativeBow": "-Y",
         "source": "ksn/Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb",
+        "pointDefence": "small-dorsal-dome",
         "output": "kre-sparrowhawk",
         "lengthMm": 54.32818057826884,
         "ratio": 0.3113474158164487,
@@ -1705,6 +1713,7 @@
         "code": "KDD-02",
         "nativeBow": "-Y",
         "source": "ksn/Krelath KDD-02 _Swift_ Class _Destroyer.glb",
+        "pointDefence": "small-dorsal-dome",
         "output": "kre-swift",
         "lengthMm": 54.32817163855198,
         "ratio": 0.23083615959656942,
@@ -1848,6 +1857,7 @@
         "code": "KDG-01",
         "nativeBow": "-Y",
         "source": "ksn/Krelath KDG-01 _Ballista_ Class Missile Destroyer.glb",
+        "pointDefence": "small-dorsal-dome",
         "output": "kre-ballista",
         "lengthMm": 54.32840705060519,
         "ratio": 0.23675535886648819,
@@ -1991,6 +2001,7 @@
         "code": "KCL-02",
         "nativeBow": "-Y",
         "source": "ksn/Krelath KCL-02 _Raptor_ Class Light Cruiser.glb",
+        "pointDefence": "small-dorsal-dome",
         "output": "kre-raptor",
         "lengthMm": 55.51768160839683,
         "ratio": 0.17603011469039012,
@@ -2134,6 +2145,7 @@
         "code": "KCS-02",
         "nativeBow": "-Y",
         "source": "ksn/Krelath KCS-02 _Lightning_ Class Strike Cruiser.glb",
+        "pointDefence": null,
         "output": "kre-lightning",
         "lengthMm": 55.51768160839683,
         "ratio": 0.14794246176256373,
@@ -2277,6 +2289,7 @@
         "code": "KCA-03",
         "nativeBow": "+X",
         "source": "ksn/Krelath KCA-03 _Star Knight_ Class Heavy Cruiser.glb",
+        "pointDefence": null,
         "output": "kre-star-knight",
         "lengthMm": 77.43714025938847,
         "ratio": 0.16421605780405235,
@@ -2435,6 +2448,7 @@
         "code": "KCV-01",
         "nativeBow": "+X",
         "source": "ksn/Krelath KCV-01 _Bladestar_ Class Carrier.glb",
+        "pointDefence": null,
         "output": "kre-bladestar",
         "lengthMm": 77.43714025938847,
         "ratio": 0.13242334725476215,
@@ -2579,6 +2593,7 @@
         "code": "KBB-02",
         "nativeBow": "+X",
         "source": "ksn/Krelath KBB-02 _Star Lord_ Class Battleship.glb",
+        "pointDefence": null,
         "output": "kre-star-lord",
         "lengthMm": 81.28231240188816,
         "ratio": 0.10547838504478775,
@@ -2704,11 +2719,15 @@
         "faction": "KRE",
         "name": "Fighter — Bomber",
         "type": "Fighter / bomber",
-        "code": null,
-        "codeStatus": "pending Chris",
+        "code": "KFB-03",
         "nativeBow": "-X",
         "source": "ksn/Krelath Fighter - Bomber.glb",
         "orientationEvidence": "Source orange outlet is on +X; the forward red-warning / yellow fixture is at -X. Source Y is wing span, not longitudinal length. Visually checked against both rendered faces.",
+        "flight": {
+          "count": 6,
+          "stand": "single clear post with moulded formation frame"
+        },
+        "pointDefence": null,
         "output": "kre-bomber",
         "lengthMm": 9.446942451077259,
         "ratio": 0.6,
@@ -2833,11 +2852,15 @@
         "faction": "KRE",
         "name": "Fighter — Interceptor",
         "type": "Fighter / interceptor",
-        "code": null,
-        "codeStatus": "pending Chris",
+        "code": "KFY-02",
         "nativeBow": "-X",
         "source": "ksn/Krelath Fighter - Interceptor.glb",
         "orientationEvidence": "Source orange outlet is on +X; the forward red-warning / yellow fixture is at -X. Source Y is wing span, not longitudinal length. Visually checked against both rendered faces.",
+        "flight": {
+          "count": 6,
+          "stand": "single clear post with moulded formation frame"
+        },
+        "pointDefence": null,
         "output": "kre-interceptor",
         "lengthMm": 10.700588515103766,
         "ratio": 0.6,
@@ -2992,10 +3015,10 @@
         "faction": "KRE",
         "name": "Intrallus",
         "type": "Supreme Leader's flagship",
-        "code": null,
-        "codeStatus": "pending Chris",
+        "code": "KDN-0000",
         "nativeBow": "-Y",
         "source": "ksn/Supreme Leader's Flagship Intrallus.glb",
+        "pointDefence": null,
         "output": "kre-intrallus",
         "lengthMm": 96.89889752304833,
         "ratio": 0.05384405106072781,
@@ -3010,166 +3033,6 @@
           "c8e4bd": 8550
         },
         "orientationNote": "Source longitudinal -Y normalized to +X; source Z up. No rules facing or new system anatomy inferred."
-      }
-    },
-    {
-      "id": "kre-boss",
-      "source": "ksn/Krelath Star Navy - Supreme Leader's Flagship (Boss. Game Secret).glb",
-      "sha256": "8942097cd111c64f5d5710e6803cb9e2cc20b8e9edbe349a5b12b01509196732",
-      "sourceTriangles": 483242,
-      "sourceExtent": [
-        289.98801000000003,
-        98.63999999999999,
-        63.48090000000001
-      ],
-      "sourceLongitudinalLength": 289.98801000000003,
-      "calibratedLengthM": 636.3061983280516,
-      "miniatureLengthMm": 96.89889752304835,
-      "regions": {
-        "126936": {
-          "vertices": 384648,
-          "area": 36701.06264692341,
-          "min": [
-            -151.98800659179688,
-            178.976806640625,
-            0.00007086431287461892
-          ],
-          "max": [
-            125.16800689697266,
-            268.0615539550781,
-            63.48097229003906
-          ],
-          "areaShare": 0.5249155446263818
-        },
-        "f5831f": {
-          "vertices": 80607,
-          "area": 2517.7964366795773,
-          "min": [
-            -145.79400634765625,
-            183.78411865234375,
-            3.754600763320923
-          ],
-          "max": [
-            116.53453063964844,
-            263.2555847167969,
-            56.497379302978516
-          ],
-          "areaShare": 0.036010687225396014
-        },
-        "ffdd1a": {
-          "vertices": 298059,
-          "area": 628.8678456144297,
-          "min": [
-            -130.2503204345703,
-            188.56959533691406,
-            18.654970169067383
-          ],
-          "max": [
-            131.16799926757812,
-            258.4696044921875,
-            52.96596908569336
-          ],
-          "areaShare": 0.008994358306581341
-        },
-        "a97b50": {
-          "vertices": 431088,
-          "area": 14797.548288639402,
-          "min": [
-            -146.9320068359375,
-            174.19960021972656,
-            6.461670875549316
-          ],
-          "max": [
-            138,
-            272.839599609375,
-            63.35997009277344
-          ],
-          "areaShare": 0.21164136836559605
-        },
-        "46b749": {
-          "vertices": 215802,
-          "area": 12158.675106228799,
-          "min": [
-            -126.71578979492188,
-            181.4355926513672,
-            8.26697063446045
-          ],
-          "max": [
-            96.92547607421875,
-            265.60260009765625,
-            62.53388214111328
-          ],
-          "areaShare": 0.17389898561578396
-        },
-        "e91d2d": {
-          "vertices": 27576,
-          "area": 712.8300834324857,
-          "min": [
-            -130.3920135498047,
-            191.735595703125,
-            12.11997127532959
-          ],
-          "max": [
-            121.33404541015625,
-            255.30360412597656,
-            53.1839714050293
-          ],
-          "areaShare": 0.010195225001268429
-        },
-        "c8e4bd": {
-          "vertices": 8460,
-          "area": 2277.5659417943193,
-          "min": [
-            -3.1315367221832275,
-            210.41659545898438,
-            37.349971771240234
-          ],
-          "max": [
-            92.5679931640625,
-            236.62159729003906,
-            38.451969146728516
-          ],
-          "areaShare": 0.03257479976154539
-        },
-        "fafafa": {
-          "vertices": 3486,
-          "area": 123.68717557786314,
-          "min": [
-            -122.40300750732422,
-            179.57659912109375,
-            22.784971237182617
-          ],
-          "max": [
-            100.41398620605469,
-            267.464599609375,
-            58.237972259521484
-          ],
-          "areaShare": 0.0017690310974468615
-        }
-      },
-      "config": {
-        "id": "kre-boss",
-        "faction": "KRE",
-        "name": "Boss / Game Secret",
-        "type": "Supreme Leader's flagship",
-        "code": null,
-        "codeStatus": "pending Chris",
-        "nativeBow": "+X",
-        "source": "ksn/Krelath Star Navy - Supreme Leader's Flagship (Boss. Game Secret).glb",
-        "output": "kre-boss",
-        "lengthMm": 96.89889752304835,
-        "ratio": 0.05380327041109837,
-        "colours": {
-          "126936": 384648,
-          "f5831f": 80607,
-          "ffdd1a": 298059,
-          "a97b50": 431088,
-          "46b749": 215802,
-          "e91d2d": 27576,
-          "c8e4bd": 8460,
-          "fafafa": 3486
-        },
-        "orientationNote": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred."
       }
     },
     {
@@ -3300,6 +3163,7 @@
         "code": "VFG-04",
         "nativeBow": "+X",
         "source": "vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb",
+        "pointDefence": null,
         "output": "vra-shard",
         "lengthMm": 50.39617828995831,
         "ratio": 0.6,
@@ -3443,6 +3307,7 @@
         "code": "VDD-03",
         "nativeBow": "+X",
         "source": "vtw/Vraygon DD-03 _Point_ Class Destroyer.glb",
+        "pointDefence": null,
         "output": "vra-point",
         "lengthMm": 52.96176488180787,
         "ratio": 0.6,
@@ -3586,6 +3451,7 @@
         "code": "VDD-05",
         "nativeBow": "+X",
         "source": "vtw/Vraygon VDD-05 _Avalanche_ Class.glb",
+        "pointDefence": null,
         "output": "vra-avalanche",
         "lengthMm": 49.25039424416418,
         "ratio": 0.6,
@@ -3744,6 +3610,7 @@
         "code": "VLC-01",
         "nativeBow": "-Y",
         "source": "vtw/Vraygon VLC-01 _Feldspar_ Class Light Cruiser.glb",
+        "pointDefence": null,
         "output": "vra-feldspar",
         "lengthMm": 70.75230405536755,
         "ratio": 0.6,
@@ -3903,6 +3770,7 @@
         "code": "VCA-02",
         "nativeBow": "+X",
         "source": "vtw/Vraygon VCA-02 _Crystal_ Heavy Cruiser.glb",
+        "pointDefence": null,
         "output": "vra-crystal",
         "lengthMm": 71.94311045835283,
         "ratio": 0.6,
@@ -4062,6 +3930,7 @@
         "code": "VBB-01",
         "nativeBow": "-Y",
         "source": "vtw/Vraygon BB-01 _Cluster_ Class Battlship.glb",
+        "pointDefence": null,
         "output": "vra-cluster",
         "lengthMm": 80.73391637854814,
         "ratio": 0.6,
@@ -4221,6 +4090,7 @@
         "code": "VMN-01",
         "nativeBow": "-Y",
         "source": "vtw/Vraygon VMN-01 _Bastion_ Class Monitor.glb",
+        "pointDefence": null,
         "output": "vra-bastion",
         "lengthMm": 80.2177011839942,
         "ratio": 0.6,

@@ -10,11 +10,12 @@ try{
  for(const [f,slug]of Object.entries({EAR:'earth',KRE:'krelath',VRA:'vraygon'})){
   await page.setViewportSize({width:3200,height:1000});
   const hulls=manifest.hulls.filter(h=>h.faction===f);
-  if(final){for(const [label,s,w]of [[f,scores.sheets[f],scores.sheetWeights],...hulls.map(h=>[h.id,scores.hulls[h.id],scores.hullWeights])]){assert.ok(s.total>=90&&s.criteria.length===w.length&&s.criteria.every(v=>v>=90&&v<=100),label+' below gate');assert.equal(s.total,Math.round(s.criteria.reduce((sum,v,i)=>sum+v*w[i],0)*10)/10,label+' score arithmetic');}}
+  if(final){for(const [label,s,w]of [[f,scores.sheets[f],scores.sheetWeights],...hulls.map(h=>[h.id,scores.hulls[h.id],scores.hullWeights])]){assert.ok(s.total>=90&&s.criteria.length===w.length&&s.criteria.every(v=>v>=90&&v<=100),label+' below gate');assert.equal(s.total,Math.round(s.criteria.reduce((sum,v,i)=>sum+v*Math.round(w[i]*100),0)/10)/10,label+' score arithmetic');}}
   await page.goto('http://127.0.0.1:'+server.address().port+'/arena/prototype-3d/fleet-sheets/'+slug+'.html');await page.evaluate(()=>Promise.all([...document.images].map(i=>i.decode())));
   const report=await page.evaluate(()=>({width:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight,cells:[...document.querySelectorAll('[data-hull]')].map(x=>x.dataset.hull),strip:[...document.querySelectorAll('[data-strip]')].map(x=>x.dataset.strip),stripWidth:document.querySelector('.strip-row').scrollWidth,stripAvailable:document.querySelector('.strip-row').clientWidth,broken:[...document.images].filter(x=>!x.naturalWidth).length,overflows:[...document.querySelectorAll('.cell,.strip-caption,.filename')].filter(x=>x.scrollWidth>x.clientWidth+1).map(x=>x.textContent)}));
   assert.equal(report.width,3200);assert.deepEqual(report.cells,hulls.map(h=>h.id));assert.deepEqual(report.strip,report.cells);assert.equal(report.broken,0);assert.deepEqual(report.overflows,[]);assert.ok(report.stripWidth<=report.stripAvailable+1);
   await page.screenshot({path:path.join(out,slug+'.png'),fullPage:true});
+  {await page.setViewportSize({width:3200,height:Math.max(1000,report.height)});const cells=path.join(here,'evidence/revision-11/cells');await fs.mkdir(cells,{recursive:true});for(const h of hulls)await page.locator(`[data-hull="${h.id}"]`).screenshot({path:path.join(cells,h.id+'.png')});await page.setViewportSize({width:3200,height:1000});}
   // Native-size crops permit direct inspection without the full-sheet downscale.
   await page.locator('.strip').screenshot({path:path.join(out,slug+'-strip.png')});
   await page.setViewportSize({width:1600,height:1000});

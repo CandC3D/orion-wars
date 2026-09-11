@@ -4,8 +4,8 @@
   "sourceSha256": "89daa406de61fb037fbf4639c3716032792763b8490189e24c6cfafd87e3b282",
   "sourceBytes": 1987232,
   "output": "vra-crystal.glb",
-  "outputBytes": 436336,
-  "outputSha256": "705f5f3be7277cc325fefe2d53f3abd5dc1529112ca5e06db2f7d9bf1840a5e6",
+  "outputBytes": 1258832,
+  "outputSha256": "0d2e011a3f7a36b905448a4d38f1235522c09542acab0acc87e2c9d8c4fd7f8d",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [

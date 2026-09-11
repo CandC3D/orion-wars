@@ -54,6 +54,7 @@ export function boardTexture() {
     c.fillStyle='#3c5962';c.beginPath();c.ellipse(w*.70,h*.45,250,280,.4,0,Math.PI*2);c.fill();
     c.fillStyle='#223640';
     for(let y=90;y<h-40;y+=8)for(let x=30;x<w-25;x+=8){c.beginPath();c.arc(x,y,1.15,0,Math.PI*2);c.fill();}
+    c.save();c.beginPath();c.rect(28,96,w-56,h-136);c.clip(); // Clean margin below the unchanged header.
     const sx=w/BOARD.width,sy=h/BOARD.depth,hex=BUDGETS.hexRadius;
     for(let r=-8;r<=8;r++)for(let q=-12;q<=12;q++){
       const x=w/2+Math.sqrt(3)*hex*(q+r/2)*sx,y=h/2+1.5*hex*r*sy;
@@ -63,6 +64,7 @@ export function boardTexture() {
       outline(1.5,.7,'#8d754a');outline(0,0,'#718586');
       c.fillStyle='#8c9d98';c.font='12px monospace';c.fillText(`${q+8}${String(r+6).padStart(2,'0')}`,x-10,y+hex*sy*.70);
     }
+    c.restore();
     printBoardBrand(c);
     c.fillStyle='#b49b68';c.font='15px monospace';c.fillText('ACHERNAR APPROACH     •     TACTICAL HEXES',56,122);
     c.fillStyle='#293b41';c.font='12px monospace';c.fillText('PRINTED SECTOR BOARD  •  1987     /     FOLD FLAT BEFORE PLAY',45,h-16);

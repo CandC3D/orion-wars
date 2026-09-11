@@ -122,7 +122,8 @@ assert len(source_parts)==len(output_parts), 'A connected feature disappeared du
 for v in mesh.vertices:
     p=(v.co-centre)*scale
     v.co={'-Y':(-p.y,p.x,p.z),'+Y':(p.y,-p.x,p.z),'-X':(-p.x,-p.y,p.z),'+X':p}[config['nativeBow']] # Blender Z up; exporter turns into X, Z, -Y (runtime Y up)
-for p in mesh.polygons: p.use_smooth=True
+# Preserve Vraygon facets; averaging inset normals pinches flat panels.
+for p in mesh.polygons: p.use_smooth=(faction != 'VRA')
 mesh.update()
 obj.name=config['name']+' current hull - authored COLOR_0 regions'
 # Keep COLOR_0 and the source material. Runtime paint uses those region colours;

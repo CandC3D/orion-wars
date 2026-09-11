@@ -7,7 +7,7 @@ const configs=JSON.parse(fs.readFileSync(new URL('./hull-sources.json',here)));
 const comparison=process.argv.includes('--comparison');
 const fleet=process.argv.includes('--fleet');
 const faction=process.argv[2]??'KRE',config=fleet?JSON.parse(fs.readFileSync(new URL('./prepared/fleet/inventory.json',here))).hulls.find(h=>h.id===process.argv[process.argv.indexOf('--fleet')+1]).config:comparison?JSON.parse(fs.readFileSync(new URL('./comparison-source.json',here))):configs[faction];
-const profile=comparison||fleet?{palette:Object.keys(config.colours).map(k=>factionRegion(faction,k)),confirmedEffects:[]}:artProfile(faction);
+const profile=comparison||fleet?{palette:Object.keys(config.colours).map(k=>factionRegion(faction,k)),confirmedEffects:config.pointDefence?['pointDefenceEmitter']:[]}:artProfile(faction);
 const source=readGLB(new URL('./source/'+config.source,here));
 const sp=source.json.meshes[0].primitives[0],sc=source.attribute(sp.attributes.COLOR_0);
 const palette=[];
@@ -36,12 +36,23 @@ for(const [key,b] of Object.entries(config.materialBounds??{}))if(b.preparedMin&
 // dorsal dome. Each selector must match one actual connected source-colour patch.
 const select=(label,predicate)=>{const found=patches.filter(predicate);if(found.length!==1)throw Error('Re-author semantic region: '+label);return {...found[0],register:'energetic',anatomy:label};};
 const features=!fleet&&faction==='KRE'?{
-  exhaust:select('vertical stern exhaust',p=>p.region==='f5831f'&&p.max[0]<-2.9&&p.min[1]>.1),
-  beamEmitter:select('larger dorsal emitter',p=>p.region==='ffdd1a'&&p.min[0]>.2&&p.min[1]>.6)
+  exhaust:select('vertical stern exhaust',p=>p.region==='f5831f'&&p.max[0]<-config.lengthMm/10*.44&&p.min[1]>.02),
+  beamEmitter:select('larger dorsal emitter',p=>p.region==='ffdd1a'&&p.min[0]>0&&p.min[1]>0&&p.max[0]-p.min[0]>.03*config.lengthMm/10)
 }:!fleet&&faction==='EAR'?{
   exhaust:select('red insert in the aft nacelle outlet',p=>p.region==='e91d2d'&&p.max[0]<-2.7&&p.min[1]>1),
   beamEmitter:select('forward laser muzzle inside the orange warning housing',p=>p.region==='e91d2d'&&p.min[0]>1.89&&p.max[0]<1.90&&p.min[1]>.85&&p.max[1]<1.01)
 }:{};
+// Only four positively matched smaller dorsal domes: same source diameter
+// (2.20 units) and hemisphere profile, unlike 3.46-unit primary beam domes.
+if(faction==='KRE'&&(config.pointDefence||!fleet&&!comparison)){
+ const bounds=source.json.accessors[sp.attributes.POSITION],axis=config.nativeBow.endsWith('Y')?1:0;
+ const sourceScale=(bounds.max[axis]-bounds.min[axis])/(config.lengthMm/10);
+ features.pointDefenceEmitter=select('point-defence emitter / smaller dorsal dome',p=>{
+  const d=p.min.map((n,k)=>p.max[k]-n),diameter=Math.max(d[0],d[2])*sourceScale;
+  return p.region==='ffdd1a'&&p.min[1]>0&&diameter>2.15&&diameter<2.25&&d[1]/d[0]>.45&&d[1]/d[0]<.56&&Math.abs(d[0]/d[2]-1)<.03;
+ });
+ const e=features.pointDefenceEmitter;e.socket=[(e.min[0]+e.max[0])/2,e.max[1]+.018,(e.min[2]+e.max[2])/2];e.role='point-defence';e.enabledByDefault=false;e.evidence='Chris smaller-dome ruling; 2.20 source-unit hemisphere, verified on Sparrowhawk, Swift, Ballista and Raptor';
+}
 if(features.beamEmitter){const e=features.beamEmitter;e.socket=e.min.map((n,k)=>(n+e.max[k])/2);e.socket[faction==='KRE'?1:0]=e.max[faction==='KRE'?1:0]+.018;}
 for(const f of Object.values(features))f.colour='#'+f.region;
 function coverage(glb){
@@ -58,7 +69,7 @@ for(const p of palette){
  const meaning=profile.palette.find(r=>r.key===p.key);
  if(!meaning)throw Error('Unclassified source region '+faction+'/'+p.key);
  Object.assign(p,{register:'physical',classification:meaning.classification,role:meaning.role,physicalEmission:0,
-   ...(meaning.metal?{metal:meaning.metal}:{}),...(meaning.uncertainty?{uncertainty:meaning.uncertainty}:{}),...(meaning.variant?{variant:meaning.variant}:{})});
+   ...(meaning.metal?{metal:meaning.metal}:{}),...(meaning.uncertainty?{uncertainty:meaning.uncertainty}:{}),...(meaning.variant?{variant:meaning.variant}:{}),...(meaning.optics?{optics:meaning.optics}:{})});
  const designated=meaning.classification==='emissive-designated';
  energyAttachments[p.key]={designated,enabledByDefault:false,register:'energetic',
    faces:designated?faces.flatMap((f,i)=>palette[f.region].key===p.key?[i]:[]):[],

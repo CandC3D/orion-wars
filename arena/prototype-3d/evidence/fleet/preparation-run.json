@@ -126,58 +126,51 @@
     "ratio": 0.8
   },
   {
-    "id": "kre-boss",
-    "triangles": 385898,
-    "bytes": 12621648,
-    "errorMm": 0.008022863866430288,
-    "ratio": 0.8
-  },
-  {
     "id": "vra-shard",
     "triangles": 8408,
-    "bytes": 262876,
+    "bytes": 805400,
     "errorMm": 0.08298701900041303,
     "ratio": 0.6
   },
   {
     "id": "vra-point",
     "triangles": 9182,
-    "bytes": 284220,
+    "bytes": 837440,
     "errorMm": 0.07896694180471975,
     "ratio": 0.6
   },
   {
     "id": "vra-avalanche",
     "triangles": 9316,
-    "bytes": 291076,
+    "bytes": 863088,
     "errorMm": 0.08491828472870483,
     "ratio": 0.6
   },
   {
     "id": "vra-feldspar",
     "triangles": 11268,
-    "bytes": 350380,
+    "bytes": 1035072,
     "errorMm": 0.11617220635185672,
     "ratio": 0.6
   },
   {
     "id": "vra-crystal",
     "triangles": 14103,
-    "bytes": 436336,
+    "bytes": 1258832,
     "errorMm": 0.11411286616505842,
     "ratio": 0.6
   },
   {
     "id": "vra-cluster",
     "triangles": 22190,
-    "bytes": 678360,
+    "bytes": 1900632,
     "errorMm": 0.1018370237490658,
     "ratio": 0.6
   },
   {
     "id": "vra-bastion",
     "triangles": 13989,
-    "bytes": 438384,
+    "bytes": 1323052,
     "errorMm": 0.13315425263701725,
     "ratio": 0.6
   }

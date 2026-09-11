@@ -4,7 +4,7 @@ import {readGLB,colourKey} from './glb-data.mjs';
 import {validateFactionPalette} from './faction-palettes.js';
 const root=new URL('./',import.meta.url),manifest=JSON.parse(fs.readFileSync(new URL('fleet-assets.json',root)));
 const actual=['edf','ksn','vtw'].flatMap(d=>fs.readdirSync(new URL('source/'+d+'/',root)).filter(f=>f.endsWith('.glb')).map(f=>d+'/'+f));
-const listed=[...manifest.hulls.map(h=>h.source),...manifest.excluded];
+const listed=[...manifest.hulls.map(h=>h.source),...manifest.excluded,...manifest.retired.map(h=>h.source)];
 if(JSON.stringify(actual.sort())!==JSON.stringify(listed.sort()))throw Error('Incomplete or duplicate library manifest');
 const report=[];
 for(const hull of manifest.hulls){

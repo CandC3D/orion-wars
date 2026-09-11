@@ -21,6 +21,6 @@ try{
  }
  assert.deepEqual(errors,[]);
  let prior=[];try{prior=JSON.parse(await fs.readFile(path.join(here,'evidence/fleet/captures.json'))).hulls;}catch{}
- const combined=[...prior.filter(h=>!results.some(r=>r.id===h.id)),...results].sort((a,b)=>a.id.localeCompare(b.id));
+ const combined=[...prior.filter(h=>manifest.hulls.some(r=>r.id===h.id)&&!results.some(r=>r.id===h.id)),...results].sort((a,b)=>a.id.localeCompare(b.id));
  await fs.writeFile(path.join(here,'evidence/fleet/captures.json'),JSON.stringify({browser:browser.version(),errors,hulls:combined},null,2)+'\n');
 }finally{await browser?.close();await new Promise(r=>server.close(r));}

@@ -4,8 +4,8 @@
   "sourceSha256": "67c16fe6ff4a68cb37c4ffb874960859b6da234e2cd6ba07df7a30f2bbd09f6a",
   "sourceBytes": 1579664,
   "output": "vra-feldspar.glb",
-  "outputBytes": 350380,
-  "outputSha256": "f968f622d7f91b8951f3171ec3d00e2344631bd427780f4acbdfa5af0394c6af",
+  "outputBytes": 1035072,
+  "outputSha256": "4df28b017bc1321090ff1ebb9588b638f3836b9e9d8ecf2f70336c81d2adc0fa",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [

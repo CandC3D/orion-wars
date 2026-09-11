@@ -34,8 +34,8 @@ try{
       assert.deepEqual(rim.units.map(u=>u.code).sort(),['EFG-03','KFG-01','VFG-04']);
       result.checks.explicitBoardCodes=rim.units.map(u=>({id:u.id,code:u.code}));
       assert.equal(result.captures.planning.visibleEnergyObjects,0,'static pieces came to life without playback');
-      assert.equal(result.captures.planning.clearVariant,false,'clear experiment replaced the painted default');
-      for(const m of result.captures.planning.mounting){assert.ok(Math.abs(m.exposedMm-30)<.001);assert.ok(Math.abs(m.baseGapMm)<.001&&m.hullGapMm<.001,'Unseated post: '+m.id);assert.equal(m.opaque,true);}
+      assert.equal(result.captures.planning.clearVariant,true,'approved clear crystal default missing');
+      for(const m of result.captures.planning.mounting){assert.ok(Math.abs(m.exposedMm-30)<.001);assert.ok(Math.abs(m.baseGapMm)<.001&&m.hullGapMm<.001,'Unseated post: '+m.id);assert.equal(m.clear,true);}
       const stage=await page.locator('.stage').boundingBox();
       for(const [faction,name] of [['EAR','monoceros'],['KRE','sparrowhawk'],['VRA','shard']]){
         const b=result.captures.planning.hullScreenBounds[faction+'-FF-1'];
@@ -99,9 +99,9 @@ try{
       const g=new T.PlaneGeometry(),rgb=Array.from({length:g.attributes.position.count},()=>p.rgb).flat();g.setAttribute('color',new T.Float32BufferAttribute(rgb,3));
       const prepared=preparePaintGeometry(g,faction),m=candidatePaint(faction,prepared);
       if([...prepared.attributes.paintMetallic.array].some(v=>v!==(p.classification==='metal'?1:0)))throw Error('Wrong runtime metal region '+faction+'/'+p.key);
-      if([...prepared.attributes.paintClear.array].some(v=>v!==(p.variant?1:0)))throw Error('Wrong clear region');
+      if([...prepared.attributes.paintClear.array].some(v=>v!==(p.classification==='moulded transparent'?1:0)))throw Error('Wrong clear region');
       if(m.emissive.getHex()||m.emissiveIntensity||m.transparent)throw Error('Source region emits or alpha blends');
-      regions++;if(p.classification==='metal')metal++;if(p.classification==='emissive-designated')energyPaint++;if(p.variant)clearEligible++;
+      regions++;if(p.classification==='metal')metal++;if(p.classification==='emissive-designated')energyPaint++;if(p.classification==='moulded transparent')clearEligible++;
       prepared.userData.paintEdges.dispose();prepared.dispose();g.dispose();m.dispose();
     }
     return {regions,metal,energyPaint,clearEligible};
@@ -135,7 +135,7 @@ try{
   }
   result.checks.clearLightsOff=await page.evaluate(()=>window.tabletopPrototype.lightsOffEvidence());
   assert.equal(result.checks.clearLightsOff.physicalNonzeroPixels,0);
-  await page.evaluate(()=>window.tabletopPrototype.setClearVariant(false));
+  await page.evaluate(()=>window.tabletopPrototype.setClearVariant(true));
   for(const angle of ['plan','side']){
     const a=result.clearVariant['shard-'+angle+'-paint'],b=result.clearVariant['shard-'+angle+'-clear'];
     assert.deepEqual(a.actualCamera,b.actualCamera);assert.equal(b.triangles,24);
@@ -144,7 +144,7 @@ try{
     result.clearVariant['planning-'+(enabled?'clear':'paint')]=await page.evaluate(e=>{window.tabletopPrototype.capturePose('planning');return window.tabletopPrototype.setClearVariant(e);},enabled);
     await page.locator('.frame').screenshot({path:path.join(out,'planning-'+(enabled?'clear':'paint')+'.png')});
   }
-  await page.evaluate(()=>window.tabletopPrototype.setClearVariant(false));
+  await page.evaluate(()=>window.tabletopPrototype.setClearVariant(true));
 
   await page.evaluate(()=>window.tabletopPrototype.capturePose('planning'));
   await page.click('#exchange');
@@ -165,17 +165,17 @@ try{
   result.comparisonMeasurement={object:'Crystal material study only',basis:'length; provisional comparison size',sceneUnits:[studyLength],actualMm:[studyLength*10],referenceMm:[90]};
   const dimensions=[...result.captures.planning.scaleMeasurements,result.comparisonMeasurement];
   const f=n=>Number(n.toFixed(3));
-  const scaleText=['# Measured scale - revision 07 (skirt, pyramid and post measured separately)','',
+  const scaleText=['# Measured scale - revision 11 (skirt, pyramid and post measured separately)','',
     '**1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.',
     '', 'The browser measures the built geometry before its tabletop rotation. The printed hex uses the same 32 mm across-flats geometry as the presentation coordinates. Rows fail at a 0.06 mm discrepancy. The D20 uses opposite vertices (20 mm), not opposite faces.',
     '', '| Object | Measurement | Scene units | Implied actual mm | Reference / chosen mm |',
     '|---|---|---:|---:|---:|',
     ...dimensions.map(r=>'| '+[r.object,r.basis,r.sceneUnits.map(f).join(' x '),r.actualMm.map(f).join(' x '),r.referenceMm.map(f).join(' x ')].join(' | ')+' |'),
-    '', 'Current source geometry changes hull height/width; these are measured bounds at the unchanged lengths:',
+    '', 'Current hull bounds at the approved compressed lengths:',
     '', '| Current hull | Length mm | Height mm | Width mm |', '|---|---:|---:|---:|',
     ...result.captures.planning.assets.map(a=>'| '+a.key+' | '+a.sizeMm.map(f).join(' | ')+' |'),
     '', 'References: mug, dice, rulebook, notebook, pencil, hex and frigate range are the sizes supplied by Fable and Chris. Table (1000 x 700 mm), 480 x 320 mm study board, box lid, 25 mm base and 30 mm post are prototype choices. Book thickness is 28 mm within the supplied 25-30 mm range.',
-    '', 'All three samples remain frigates: Vraygon 45 mm, Earth 55 mm, Sparrowhawk 65 mm. This demonstrates size variation within the requested 40-75 mm range, not a validated destroyer/battleship scale ladder. Swift is not loaded.',
+    '', 'The board now uses the approved ladder: Earth 55.00 mm, Sparrowhawk 54.33 mm and Shard 50.40 mm. The full approved ladder and six-craft fighter formations are documented in FLEET-SCALE.md.',
     '', 'The notebook row measures its 216 x 279 mm body; the wire loop adds 1.95 mm beyond its left edge and reaches 7.45 mm above the table. The pencil has a 7 mm hexagonal section across corners (6.062 mm across flats), including a real sharpened tip within the 190 mm total. The mug-body reference excludes its handle; the full width is reported separately.',
     '', 'The card is 2 mm thick. Printed faces are 0.05 mm above their substrate to prevent depth interference; this is a render separation, not extra card thickness. Posts meet the actual ray-intersected underside of each hull; their exposed length is uniformly 30 mm. Their contact coordinates and measured end gaps are included in evidence/review.json. The 3 mm bevelled skirt is retained; a new 2 mm pyramid rise puts the apex 5 mm above the card. The post adds 30 mm above that apex, with 3.0 mm bottom / 2.4 mm top diameter. These are chosen prototype dimensions, not verified measurements of an original FASA part. The previous post was buried 0.5 mm in the base, leaving 29.5 mm exposed, and its top was 0.5 mm short of the hull; the new endpoints are seated explicitly.',
     '', 'Before correction, using the old 1.65-unit hex radius as 32 mm across flats implied 11.197 mm/unit: the mug was only 17.58 mm high x 18.81 mm wide, the D6 8.73 mm, D20 15.67 mm, rulebook about 48.15 x 69.42 mm, notebook 48.15 x 44.79 mm, and pencil 39.19 mm long. Equal 3.8-unit hulls all implied 42.55 mm. Those relative scales were wrong.',

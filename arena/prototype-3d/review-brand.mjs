@@ -44,9 +44,12 @@ try{
    results[key]={paths:mark.paths.length,groups:mark.groups,alphaDifferenceFraction:difference/sourceArea,solidMismatchPixels:solidMismatch,maxAlphaDifference:maxDifference};
    r.drawImage(img,key==='wordmark'?24:96,key==='wordmark'?12:268,w,h);
   }
-  const texture=boardTexture(),header=canvas(texture.image.width,Math.ceil(86*texture.image.width/1152));
+  const texture=boardTexture(),header=canvas(texture.image.width,Math.ceil(112*texture.image.width/1152));
   header.getContext('2d').drawImage(texture.image,0,0);
-  const dimensions={width:texture.image.width,height:texture.image.height,boardMipMiB:texture.image.width*texture.image.height*4*4/3/1048576};
+  const dimensions={width:texture.image.width,height:texture.image.height,boardMipMiB:texture.image.width*texture.image.height*4*4/3/1048576,gridInsetBelowPlayingFieldMm:10*320/768};
+  const pixels=texture.image.getContext('2d').getImageData(0,0,texture.image.width,128).data;
+  let gridInkInMargin=0;for(let y=104;y<128;y++)for(let x=40;x<1496;x++){const i=(y*1536+x)*4;if(pixels[i]===113&&pixels[i+1]===133&&pixels[i+2]===134)gridInkInMargin++;}
+  if(gridInkInMargin)throw Error('Hex grid intrudes into header margin');dimensions.gridInkPixelsInMargin=gridInkInMargin;
   const assets={header:header.toDataURL(),source:reference.toDataURL()};texture.dispose();
   return {results,dimensions,layout:BOARD_BRAND,assets};
  });

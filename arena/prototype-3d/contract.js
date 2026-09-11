@@ -5,13 +5,13 @@ import { SIZES, mm } from './scale.js';
 export const FORMAT = 'tabletop-projection/1';
 export const BUDGETS = Object.freeze({
   pixelRatio: 1.5, maxPixels: 2073600, shadowSize: 2048, shadowLights: 1,
-  maxTriangles: 70000, maxDrawCalls: 90, materialTextureMiB: 24, renderTargetMiB: 64,
+  maxTriangles: 110000, maxDrawCalls: 128, materialTextureMiB: 24, renderTargetMiB: 96,
   activeEffects: 1, beamLayers: 2, bloomScale: 0.5, bloomGain: 0.18,
-  // Three authorised rim transfers add nine submissions across the optional
-  // clear variant's passes; the painted board remains inside its original cap.
-  clearVariantTriangles: 110000, clearVariantDrawCalls: 119, clearVariantTargetMiB: 96,
+  // Approved clear supports allocate transmission on every board. The historical
+  // painted-crystal comparison uses the same reviewed clear-support budget.
+  clearVariantTriangles: 110000, clearVariantDrawCalls: 128, clearVariantTargetMiB: 96,
   cameraFloor: 24, pitchFloor: 32, postHeight: mm(SIZES.postHeight), hexRadius: mm(SIZES.hexAcrossFlats) / Math.sqrt(3),
-  cameraMoveMs: 900, beamMs: 850, shieldMs: 650, focusBlurPixels: 3,
+  cameraMoveMs: 1200, beamMs: 850, shieldMs: 650, focusBlurPixels: 4,
   nebulaPeak: 0.06, nebulaBoardCoverage: 0.15, nebulaMean: 0.012
 });
 const fail = message => { throw new Error(`Tabletop contract: ${message}`); };
@@ -72,7 +72,7 @@ export function validateRegionMap(map, faction=map?.faction, profile=artProfile(
   if(Object.keys(map.energyAttachments??{}).sort().join(',')!==profile.palette.map(p=>p.key).sort().join(','))fail('every region requires an energy attachment entry');
   for(const p of map.palette){
     const expected=profile.palette.find(r=>r.key===p.key),e=map.energyAttachments[p.key];
-    if(!['metal','paint','emissive-designated'].includes(p.classification)||p.classification!==expected.classification)fail('missing or wrong per-hull material classification');
+    if(!['metal','paint','emissive-designated','moulded transparent'].includes(p.classification)||p.classification!==expected.classification)fail('missing or wrong per-hull material classification');
     if(p.metal!==expected.metal||p.physicalEmission!==0)fail('physical substance or emission disagrees with hull contract');
     if(JSON.stringify(p.variant)!==JSON.stringify(expected.variant))fail('unapproved physical material variant');
     if(e.register!=='energetic'||e.enabledByDefault!==false||e.designated!==(p.classification==='emissive-designated'))fail('energy designation must not activate a region');
@@ -163,8 +163,8 @@ export function displayLayout(units) {
 
 export function cameraPose(progress) {
   const p = Math.min(1, Math.max(0, Number(progress) || 0)), s = p * p * (3 - 2 * p);
-  const pose = { x: 8 - s * 3, y: Math.max(BUDGETS.cameraFloor, 63 - s * 35), z: 54 - s * 24,
-    targetY: 1.0 + s * 1.2, fov: 32 + s * 8, blur: s * BUDGETS.focusBlurPixels };
+  const pose = { x: s * 5, y: Math.max(BUDGETS.cameraFloor, 150 - s * 124), z: 48 - s * 18,
+    targetY: 1.0 + s * 1.2, fov: 12.7 + s * 27.3, blur: s * BUDGETS.focusBlurPixels };
   const minimum = pose.targetY + Math.hypot(pose.x, pose.z) * Math.tan(BUDGETS.pitchFloor * Math.PI / 180);
   pose.y = Math.max(pose.y, minimum);
   return pose;

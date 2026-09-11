@@ -4,8 +4,8 @@
   "sourceSha256": "4c7c3ceb7d8830f5532bb6565fa2d3d81441925801169fa32550d73365f666fd",
   "sourceBytes": 1312020,
   "output": "vra-avalanche.glb",
-  "outputBytes": 291076,
-  "outputSha256": "0c2950447e078f93725db970829f7fd2a2cc4b5bfbdee8f86bbc3708f258d4b8",
+  "outputBytes": 863088,
+  "outputSha256": "ddeae146c264e683c2628f53b1f5b6d709360aeeb65bc2a781592c1677db0b5a",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [

@@ -16,7 +16,7 @@ export function convexPlanes(points){
     const plane=[...n.toArray(),d],key=plane.map(v=>Math.round(v*1e4)).join(',');planes.set(key,plane);
   }
   const result=[...planes.values()];
-  if(result.length<4||result.length>48)throw Error('Unresolved crystal optical volume: '+result.length+' planes');
+  if(result.length<4||result.length>128)throw Error('Unresolved crystal optical volume: '+result.length+' planes');
   return result;
 }
 
@@ -47,7 +47,7 @@ return clamp(exit,.002,${(height*1.1).toPrecision(9)});}
     }else{
       s.uniforms.opticalPlanes={value:planes};s.uniforms.opticalPlaneWidth={value:planes.image.width};
       s.fragmentShader=`uniform sampler2D opticalPlanes; uniform float opticalPlaneWidth;
-float crystalExit(vec3 p,vec3 ray){float exit=100.;for(int i=0;i<48;i++){if(float(i)>=vOpticalVolume.y)break;
+float crystalExit(vec3 p,vec3 ray){float exit=100.;for(int i=0;i<128;i++){if(float(i)>=vOpticalVolume.y)break;
 vec4 plane=texture2D(opticalPlanes,vec2((vOpticalVolume.x+float(i)+.5)/opticalPlaneWidth,.5));
 float slope=dot(plane.xyz,ray);if(slope>.000001)exit=min(exit,max(0.,-(dot(plane.xyz,p)+plane.w)/slope));}
 return clamp(exit,.002,10.);}

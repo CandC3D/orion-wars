@@ -33,7 +33,7 @@
     {
       "faction": "KRE",
       "width": 3200,
-      "height": 5819,
+      "height": 5776,
       "cells": [
         "kre-sparrowhawk",
         "kre-swift",
@@ -45,8 +45,7 @@
         "kre-star-lord",
         "kre-bomber",
         "kre-interceptor",
-        "kre-intrallus",
-        "kre-boss"
+        "kre-intrallus"
       ],
       "strip": [
         "kre-sparrowhawk",
@@ -59,8 +58,7 @@
         "kre-star-lord",
         "kre-bomber",
         "kre-interceptor",
-        "kre-intrallus",
-        "kre-boss"
+        "kre-intrallus"
       ],
       "stripWidth": 3046,
       "stripAvailable": 3046,

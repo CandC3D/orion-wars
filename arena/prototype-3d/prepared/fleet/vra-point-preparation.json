@@ -4,8 +4,8 @@
   "sourceSha256": "83a85fb08bc6b2d933818c4778be61707dd9c2d0cbf905e55b003c1bb9a0d168",
   "sourceBytes": 1292672,
   "output": "vra-point.glb",
-  "outputBytes": 284220,
-  "outputSha256": "8775d318853f26a4f51a66b12cfd0e7f0b0891b37e05b93910161af731c3dd7a",
+  "outputBytes": 837440,
+  "outputSha256": "cfd92ead3cabcc30e73df96c22e989c30ae2f38514f821eb53734b2fabe24d5f",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [

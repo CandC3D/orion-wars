@@ -1,25 +1,25 @@
 Extensions: writing cache failed ([Errno 13] Permission denied: 'C:\\Users\\chorr\\AppData\\Roaming\\Blender Foundation\\Blender\\5.2\\extensions\\.cache\\compat.dat').
-18:22:36 | INFO: Data are loaded, start creating Blender stuff
-18:22:36 | INFO: Blender create Mesh node 0
-18:22:36 | INFO: glTF import finished in 0.01s
-00:02.140  geom.mesh        | ERROR Face 4798 is a duplicate of 2557
-00:02.140  geom.mesh        | ERROR Face 4823 is a duplicate of 2605
-00:02.140  geom.mesh        | ERROR Face 4829 is a duplicate of 2635
-00:02.140  geom.mesh        | ERROR Face 4837 is a duplicate of 2671
-00:02.140  geom.mesh        | ERROR Face 4852 is a duplicate of 2706
-00:02.140  geom.mesh        | ERROR Face 7281 is a duplicate of 1076
-00:02.140  geom.mesh        | ERROR Face 7345 is a duplicate of 947
-00:02.140  geom.mesh        | ERROR Face 7471 is a duplicate of 7312
-00:02.140  geom.mesh        | ERROR Face 7966 is a duplicate of 7589
-00:02.140  geom.mesh        | ERROR Face 8110 is a duplicate of 7257
+19:50:04 | INFO: Data are loaded, start creating Blender stuff
+19:50:04 | INFO: Blender create Mesh node 0
+19:50:04 | INFO: glTF import finished in 0.01s
+00:02.625  geom.mesh        | ERROR Face 4798 is a duplicate of 2557
+00:02.625  geom.mesh        | ERROR Face 4823 is a duplicate of 2605
+00:02.625  geom.mesh        | ERROR Face 4829 is a duplicate of 2635
+00:02.625  geom.mesh        | ERROR Face 4837 is a duplicate of 2671
+00:02.625  geom.mesh        | ERROR Face 4852 is a duplicate of 2706
+00:02.625  geom.mesh        | ERROR Face 7281 is a duplicate of 1076
+00:02.625  geom.mesh        | ERROR Face 7345 is a duplicate of 947
+00:02.625  geom.mesh        | ERROR Face 7471 is a duplicate of 7312
+00:02.625  geom.mesh        | ERROR Face 7966 is a duplicate of 7589
+00:02.625  geom.mesh        | ERROR Face 8110 is a duplicate of 7257
 INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
 INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
-18:22:36 | INFO: Starting glTF 2.0 export
-18:22:36 | INFO: Extracting primitive: Mesh_0
-18:22:36 | INFO: Primitives created: 1
-18:22:36 | INFO: Finished glTF 2.0 export in 0.05443978309631348 s
+19:50:05 | INFO: Starting glTF 2.0 export
+19:50:05 | INFO: Extracting primitive: Mesh_0
+19:50:05 | INFO: Primitives created: 1
+19:50:05 | INFO: Finished glTF 2.0 export in 0.07552003860473633 s
 
-PROTOTYPE_PREPARATION {"source": "vtw/Vraygon DD-03 _Point_ Class Destroyer.glb", "faction": "VRA", "sourceSha256": "83a85fb08bc6b2d933818c4778be61707dd9c2d0cbf905e55b003c1bb9a0d168", "sourceBytes": 1292672, "output": "vra-point.glb", "outputBytes": 284220, "outputSha256": "8775d318853f26a4f51a66b12cfd0e7f0b0891b37e05b93910161af731c3dd7a", "validation": {"corrected": true, "beforeVerticesEdgesFaces": [4647, 13789, 9192], "afterVerticesEdgesFaces": [4647, 13789, 9182]}, "sourceTriangles": 15374, "outputTriangles": 9182, "ratio": 0.6, "miniatureLengthMm": 52.96176488180787, "mmPerUnit": 10, "maximumVertexToSurfaceErrorMm": 0.07896694180471975, "errorMethod": "Both directions, all vertices to closest triangle; not a certified surface Hausdorff bound", "sourceComponentCount": 37, "outputComponentCount": 37, "sourceMaterials": ["lambert2SG.001"], "authoredColourRegions": true, "sourceColourAttribute": "COLOR_0", "sourcePalette": {"7e3f98": {"linearRGB": [0.4941176474094391, 0.24705882370471954, 0.5960784554481506], "sourceVertices": 8931}, "f5831f": {"linearRGB": [0.9607843160629272, 0.5137255191802979, 0.12156862765550613], "sourceVertices": 1890}, "e1ad34": {"linearRGB": [0.8823529481887817, 0.6784313917160034, 0.20392157137393951], "sourceVertices": 15234}, "d3bfe5": {"linearRGB": [0.8274509906768799, 0.7490196228027344, 0.8980392217636108], "sourceVertices": 16749}, "ffdd1a": {"linearRGB": [1.0, 0.8666666746139526, 0.10196078568696976], "sourceVertices": 2835}, "e91d2d": {"linearRGB": [0.9137254953384399, 0.11372549086809158, 0.1764705926179886], "sourceVertices": 84}, "46b749": {"linearRGB": [0.27450981736183167, 0.7176470756530762, 0.2862745225429535], "sourceVertices": 399}}, "physicalEmission": false, "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred."}
+PROTOTYPE_PREPARATION {"source": "vtw/Vraygon DD-03 _Point_ Class Destroyer.glb", "faction": "VRA", "sourceSha256": "83a85fb08bc6b2d933818c4778be61707dd9c2d0cbf905e55b003c1bb9a0d168", "sourceBytes": 1292672, "output": "vra-point.glb", "outputBytes": 837440, "outputSha256": "cfd92ead3cabcc30e73df96c22e989c30ae2f38514f821eb53734b2fabe24d5f", "validation": {"corrected": true, "beforeVerticesEdgesFaces": [4647, 13789, 9192], "afterVerticesEdgesFaces": [4647, 13789, 9182]}, "sourceTriangles": 15374, "outputTriangles": 9182, "ratio": 0.6, "miniatureLengthMm": 52.96176488180787, "mmPerUnit": 10, "maximumVertexToSurfaceErrorMm": 0.07896694180471975, "errorMethod": "Both directions, all vertices to closest triangle; not a certified surface Hausdorff bound", "sourceComponentCount": 37, "outputComponentCount": 37, "sourceMaterials": ["lambert2SG.001"], "authoredColourRegions": true, "sourceColourAttribute": "COLOR_0", "sourcePalette": {"7e3f98": {"linearRGB": [0.4941176474094391, 0.24705882370471954, 0.5960784554481506], "sourceVertices": 8931}, "f5831f": {"linearRGB": [0.9607843160629272, 0.5137255191802979, 0.12156862765550613], "sourceVertices": 1890}, "e1ad34": {"linearRGB": [0.8823529481887817, 0.6784313917160034, 0.20392157137393951], "sourceVertices": 15234}, "d3bfe5": {"linearRGB": [0.8274509906768799, 0.7490196228027344, 0.8980392217636108], "sourceVertices": 16749}, "ffdd1a": {"linearRGB": [1.0, 0.8666666746139526, 0.10196078568696976], "sourceVertices": 2835}, "e91d2d": {"linearRGB": [0.9137254953384399, 0.11372549086809158, 0.1764705926179886], "sourceVertices": 84}, "46b749": {"linearRGB": [0.27450981736183167, 0.7176470756530762, 0.2862745225429535], "sourceVertices": 399}}, "physicalEmission": false, "orientation": "Source longitudinal +X normalized to +X; source Z up. No rules facing or new system anatomy inferred."}
 Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:35:40)
 
 Blender quit

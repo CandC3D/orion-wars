@@ -1,4 +1,4 @@
-# Measured scale - revision 07 (skirt, pyramid and post measured separately)
+# Measured scale - revision 11 (skirt, pyramid and post measured separately)
 
 **1 scene unit = 10 mm.** These are physical tabletop dimensions, unrelated to fictional ship metres. X / Y / Z means width / height / depth unless the row says otherwise.
 
@@ -19,23 +19,24 @@ The browser measures the built geometry before its tabletop rotation. The printe
 | Pencil | local X / Y / Z extents | 0.606 x 19 x 0.7 | 6.062 x 190 x 7 | 6.062 x 190 x 7 |
 | Black base skirt | across flats / bevelled skirt height | 2.5 x 0.3 | 25 x 3 | 25 x 3 |
 | Black base pyramid | rise above skirt / total apex height | 0.2 x 0.5 | 2 x 5 | 2 x 5 |
-| Black tapered post | bottom diameter / top diameter / exposed length | 0.3 x 0.24 x 3 | 3 x 2.4 x 30 | 3 x 2.4 x 30 |
+| Clear tapered post | bottom diameter / top diameter / exposed length | 0.3 x 0.24 x 3 | 3 x 2.4 x 30 | 3 x 2.4 x 30 |
+| Cast arc-2 triangle | length / width / relief | 0.59 x 0.5 x 0.035 | 5.9 x 5 x 0.35 | 5.9 x 5 x 0.35 |
 | EAR frigate | length; width/height in asset metrics | 5.5 | 55 | 55 |
-| KRE frigate | length; width/height in asset metrics | 6.5 | 65 | 65 |
-| VRA frigate | length; width/height in asset metrics | 4.5 | 45 | 45 |
+| KRE frigate | length; width/height in asset metrics | 5.433 | 54.328 | 54.328 |
+| VRA frigate | length; width/height in asset metrics | 5.04 | 50.396 | 50.396 |
 | Crystal material study only | length; provisional comparison size | 9 | 90 | 90 |
 
-Current source geometry changes hull height/width; these are measured bounds at the unchanged lengths:
+Current hull bounds at the approved compressed lengths:
 
 | Current hull | Length mm | Height mm | Width mm |
 |---|---:|---:|---:|
 | EAR/frigate | 55 | 33.481 | 20.124 |
-| KRE/frigate | 65 | 17.827 | 39.583 |
-| VRA/frigate | 45 | 21.622 | 16.341 |
+| KRE/frigate | 54.328 | 14.9 | 33.084 |
+| VRA/frigate | 50.396 | 24.214 | 18.3 |
 
 References: mug, dice, rulebook, notebook, pencil, hex and frigate range are the sizes supplied by Fable and Chris. Table (1000 x 700 mm), 480 x 320 mm study board, box lid, 25 mm base and 30 mm post are prototype choices. Book thickness is 28 mm within the supplied 25-30 mm range.
 
-All three samples remain frigates: Vraygon 45 mm, Earth 55 mm, Sparrowhawk 65 mm. This demonstrates size variation within the requested 40-75 mm range, not a validated destroyer/battleship scale ladder. Swift is not loaded.
+The board now uses the approved ladder: Earth 55.00 mm, Sparrowhawk 54.33 mm and Shard 50.40 mm. The full approved ladder and six-craft fighter formations are documented in FLEET-SCALE.md.
 
 The notebook row measures its 216 x 279 mm body; the wire loop adds 1.95 mm beyond its left edge and reaches 7.45 mm above the table. The pencil has a 7 mm hexagonal section across corners (6.062 mm across flats), including a real sharpened tip within the 190 mm total. The mug-body reference excludes its handle; the full width is reported separately.
 

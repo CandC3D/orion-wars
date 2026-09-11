@@ -4,8 +4,8 @@
   "sourceSha256": "e03dd65ed06a80f4db0900dda89e8a304bf6ce165d3f1f00874afb8acfd5a33f",
   "sourceBytes": 1182644,
   "output": "vra-shard.glb",
-  "outputBytes": 262876,
-  "outputSha256": "88e9ecde9b5f49900cd8c0ab9f74737a443e9715fa4acd7dbcf1fe426c98fa5d",
+  "outputBytes": 805400,
+  "outputSha256": "d073a9c0846bc1e167bcf4e4da94d9fdcb2b39773878aaaaa652699317c69503",
   "validation": {
     "corrected": true,
     "beforeVerticesEdgesFaces": [

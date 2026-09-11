@@ -8,30 +8,30 @@
     "planning": {
       "camera": {
         "position": [
-          8,
-          63,
-          54
+          0,
+          150,
+          48
         ],
-        "fov": 32,
-        "pitch": 48.636926923625396
+        "fov": 12.7,
+        "pitch": 72.14377674268574
       },
-      "drawCalls": 79,
-      "triangles": 69904,
-      "materialTextureMiB": 23.76219177246094
+      "drawCalls": 114,
+      "triangles": 109281,
+      "materialTextureMiB": 19.57463073730469
     },
     "beam": {
       "camera": {
         "position": [
           5,
-          28,
+          26,
           30
         ],
         "fov": 40,
-        "pitch": 40.30790092307506
+        "pitch": 38.0445723484645
       },
-      "drawCalls": 74,
-      "triangles": 69278,
-      "materialTextureMiB": 23.76219177246094
+      "drawCalls": 101,
+      "triangles": 107631,
+      "materialTextureMiB": 19.57463073730469
     }
   },
   "sourceHashes": {
@@ -66,7 +66,9 @@
     "dimensions": {
       "width": 1536,
       "height": 1024,
-      "boardMipMiB": 8
+      "boardMipMiB": 8,
+      "gridInsetBelowPlayingFieldMm": 4.166666666666667,
+      "gridInkPixelsInMargin": 0
     },
     "layout": {
       "ink": "#293b41",
@@ -93,9 +95,9 @@
   },
   "errors": [],
   "implementationHashes": {
-    "materials.js": "4fdef67b09d8932504dc25d72d85b3b60cddf38f65a272bafce6f60ba9836eb8",
-    "renderer.js": "ae3ab66825e7fa1dacd5fee55f1cf1573a207871d50d6228d31817fdee8b25b3",
-    "contract.js": "9dac011dc9f09858dcaf91011628d4a3f52c5f9e721d5edc4795a4869eeebbd6",
+    "materials.js": "9f5d9e649aced5de9e3dc3b509782c0083c2ec008bb1282c4234ae2d3034d067",
+    "renderer.js": "6fa0631b694f0391c61835caddb578d512c2958facfa3f13307e7df95ece0712",
+    "contract.js": "ac06244e0f627affebe33e1fc467e715abbeb3c77dd8ee69a374633134548ec4",
     "brand/board-print.js": "368f5247b9e4d6eda6af95794b6aa83d618309e7b1b1a677a6036de556ce2d44",
     "brand/board-marks.js": "764a0f9bde42919067fa997e7f9b96d98c63a9074e1549451a74c766d541b64b",
     "brand/build-board-marks.mjs": "07757826994c7b442b8d370292f7708c601d2731ae93a8ca9e5327891ae71190"

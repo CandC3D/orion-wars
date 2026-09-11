@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import {SIZES,mm} from './scale.js';
 import {physicalMaterial,physicalMesh} from './materials.js';
+import {CODE_FACES,skirtFace} from './stands.js';
 
 // Hull-specific supplied designations. Absence is intentional, not a fallback.
-export const RIM_CODES=Object.freeze({'EAR/frigate':null,'KRE/frigate':'KFG-01','VRA/frigate':'VFG-04'});
+export const RIM_CODES=Object.freeze({'EAR/frigate':'EFG-03','KRE/frigate':'KFG-01','VRA/frigate':'VFG-04'});
 const font='bold 192px Arial';
 const radius=mm(SIZES.baseAcrossFlats)/Math.sqrt(3),height=mm(SIZES.baseHeight);
 const inset=.055*Math.cos(Math.PI/6),slant=Math.hypot(height,inset);
@@ -30,6 +31,7 @@ function geometry(inkHeightMm,print){
   if(w>mm(RIM_LIMITS.minimumFaceWidthMm-.8))throw Error('Text exceeds one rim face');
   const positions=[],uv=[],faces=[];
   for(let i=0;i<6;i++){
+    const face=skirtFace(i);if(!CODE_FACES.includes(face))continue;
     const a=(i+.5)*Math.PI/3,n=new THREE.Vector3(Math.sin(a),0,Math.cos(a)),right=new THREE.Vector3(Math.cos(a),0,-Math.sin(a));
     const up=n.clone().multiplyScalar(-inset).add(new THREE.Vector3(0,height,0)).normalize();
     const normal=new THREE.Vector3().crossVectors(right,up).normalize();
@@ -37,7 +39,7 @@ function geometry(inkHeightMm,print){
     const point=(x,y)=>centre.clone().addScaledVector(right,x).addScaledVector(up,y);
     const corners=[point(-w/2,-h/2),point(w/2,-h/2),point(w/2,h/2),point(-w/2,h/2)];
     for(const k of [0,1,2,0,2,3])positions.push(...corners[k]);uv.push(0,0,1,0,1,1,0,0,1,1,0,1);
-    faces.push({centre,normal,right,up,corners,inkHeight:mm(inkHeightMm),inkWidth:mm(inkHeightMm)*print.inkAspect});
+    faces.push({face,centre,normal,right,up,corners,inkHeight:mm(inkHeightMm),inkWidth:mm(inkHeightMm)*print.inkAspect});
   }
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.computeVertexNormals();g.userData.rim={faces,inkHeightMm,inkWidthMm:inkHeightMm*print.inkAspect};return g;
 }
@@ -45,14 +47,14 @@ function geometry(inkHeightMm,print){
 export function classRim(code,capHeightMm=2.6){
  if(code===null)return null;
  if(typeof code!=='string'||!code)throw Error('Missing explicit code');
- const print=decal(code);return physicalMesh(code+' / six skirt transfers',geometry(capHeightMm,print),print.material);
+ const print=decal(code),fit=Math.min(capHeightMm,(RIM_LIMITS.minimumFaceWidthMm-.8)/print.inkAspect/print.paddingFactor);return physicalMesh(code+' / skirt faces 2, 4, 6',geometry(fit,print),print.material);
 }
 export function createRimLabels(scene,units,codes=RIM_CODES){
   const records=new Map();let capHeight=2.6,paper=false;
   for(const u of units){
     const key=u.faction+'/'+u.className;if(!(key in codes))throw Error('No rim designation decision for '+key);
     const code=codes[key];if(code===null){records.set(u.id,{code:null});continue;}
-    const print=decal(code),mesh=physicalMesh(u.id+' / six repeated rim codes',geometry(capHeight,print),print.material);
+    const print=decal(code),mesh=physicalMesh(u.id+' / rim codes on faces 2, 4, 6',geometry(capHeight,print),print.material);
     mesh.matrixAutoUpdate=false;scene.add(mesh);records.set(u.id,{code,print,mesh});
   }
   function update(units,bases){
@@ -61,7 +63,7 @@ export function createRimLabels(scene,units,codes=RIM_CODES){
   }
   function measure(camera,canvas){
     const screen=p=>{const q=p.clone().project(camera);return new THREE.Vector2((q.x+1)*canvas.width/2,(1-q.y)*canvas.height/2);};
-    return {capHeightMm:capHeight,limits:RIM_LIMITS,font,method:(paper?'Black print on off-white paper':'Off-white waterslide decal')+', six identical repetitions, one per bevelled skirt face',units:[...records].map(([id,r])=>{
+    return {capHeightMm:capHeight,limits:RIM_LIMITS,font,method:(paper?'Black print on off-white paper':'Off-white waterslide decal')+', skirt faces 2, 4, 6 only',units:[...records].map(([id,r])=>{
       if(!r.mesh)return {id,code:null,status:'requested blank Earth rim; unscored in this test',faces:[]};
       r.mesh.updateMatrixWorld(true);const m=r.mesh.matrixWorld;
       const faces=r.mesh.geometry.userData.rim.faces.map((f,i)=>{
@@ -69,7 +71,7 @@ export function createRimLabels(scene,units,codes=RIM_CODES){
         const project=(x,y)=>screen(f.centre.clone().addScaledVector(f.right,x).addScaledVector(f.up,y).applyMatrix4(m));
         const bottom=project(0,-f.inkHeight/2),top=project(0,f.inkHeight/2),left=project(-f.inkWidth/2,0),right=project(f.inkWidth/2,0),corners=f.corners.map(v=>screen(v.clone().applyMatrix4(m)));
         const xs=corners.map(p=>p.x),ys=corners.map(p=>p.y),capPixels=top.distanceTo(bottom);
-        return {face:i,frontFacing:n.dot(toward)>0,viewCosine:n.dot(toward),capPixels,
+        return {face:f.face,frontFacing:n.dot(toward)>0,viewCosine:n.dot(toward),capPixels,
           entireSkirtPixels:project(0,slant/2).distanceTo(project(0,-slant/2)),
           widthPixels:left.distanceTo(right),bounds:{x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)}};
       });

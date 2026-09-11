@@ -9,7 +9,7 @@ import { artProfile } from './hull-art.js';
 import { clearInsert } from './clear-insert.js';
 import {BASE_APEX,baseGeometry,postGeometry,standScaleRows} from './stands.js';
 import {tabletopReflections} from './room-reflections.js';
-import {maskInsertShadow} from './moulded-plastic.js';
+import {maskInsertShadow,plasticMaterial,transmittingShadow} from './moulded-plastic.js';
 
 const vertex = 'varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
 function normalizeHull(gltf, asset, regions) {
@@ -51,9 +51,9 @@ export async function createTabletop(canvas, manifest, initial, {createRimStudy=
   const context=canvas.getContext('webgl2',{antialias:true,alpha:false,preserveDrawingBuffer:true});
   if(!context)throw new Error('WebGL2 is unavailable. Open the SVG Fleet Command fallback.');
   const renderer=new THREE.WebGLRenderer({canvas,context,antialias:true});
-  let transmissionAllocated=false;
+  let transmissionAllocated=true;
   renderer.outputColorSpace=THREE.SRGBColorSpace;
-  renderer.transmissionResolutionScale=.5; // Optional insert only; no transmission pass in the painted default.
+  renderer.transmissionResolutionScale=.5; // Approved clear posts and crystals share the bounded transmission pass.
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.info.autoReset=false;
   const scene=new THREE.Scene();scene.background=new THREE.Color('#6f5a42');
@@ -81,7 +81,7 @@ c+=texture2D(image,vUv+stepSize*2.)*.06;c+=texture2D(image,vUv-stepSize*2.)*.06;
     pixels:{value:new THREE.Vector2()},blur:{value:0},focus:{value:40},gain:{value:BUDGETS.bloomGain}},vertexShader:vertex,
     fragmentShader:`uniform sampler2D base,energy,bloom,depth;uniform vec2 pixels;uniform float blur,focus,gain;varying vec2 vUv;
 float metres(float d){return 250.0/(250.0-d*249.0);}
-void main(){float z=metres(texture2D(depth,vUv).r);float coc=clamp(abs(z-focus)/8.,0.,1.)*blur;
+void main(){float z=metres(texture2D(depth,vUv).r);float coc=clamp(abs(z-focus)/5.,0.,1.)*blur;
 vec2 s=coc*pixels*.70710678;vec3 c=texture2D(base,vUv).rgb*.25;
 c+=(texture2D(base,vUv+vec2(s.x,0)).rgb+texture2D(base,vUv-vec2(s.x,0)).rgb+texture2D(base,vUv+vec2(0,s.y)).rgb+texture2D(base,vUv-vec2(0,s.y)).rgb)*.125;
 c+=(texture2D(base,vUv+s).rgb+texture2D(base,vUv-s).rgb+texture2D(base,vUv+vec2(s.x,-s.y)).rgb+texture2D(base,vUv+vec2(-s.x,s.y)).rgb)*.0625;
@@ -124,12 +124,13 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   const catalogue=new Map(loaded.map(a=>[a.asset.key,a]));
   for(const a of loaded)for(const o of a.group.children){o.material.envMap=reflection.texture;o.material.envMapIntensity=.6;maskInsertShadow(o);}
   const shard=loaded.find(a=>a.asset.faction==='VRA'),insert=clearInsert(shard.group.children[0].geometry,shard.regions);
-  shard.group.add(insert);
+  shard.group.add(insert);shard.group.children[0].material.userData.clearVariant.value=1;
   insert.material.envMap=reflection.texture;insert.material.envMapIntensity=.6;
   const baseMaterial=physicalMaterial('painted black hex bases',{color:'#151513',roughness:.86});
   const bases=new THREE.InstancedMesh(baseGeometry(),baseMaterial,initial.units.length);
   bases.name='bases / instanced';bases.userData.register='physical';bases.castShadow=bases.receiveShadow=true;scene.add(bases);
-  const posts=new THREE.InstancedMesh(postGeometry(),physicalMaterial('painted black flight posts',{color:'#151513',roughness:.86,metalness:0}),initial.units.length);
+  const postMaterial=plasticMaterial({name:'approved clear moulded flight posts',post:true});postMaterial.envMap=reflection.texture;postMaterial.envMapIntensity=.6;
+  const posts=new THREE.InstancedMesh(postGeometry(),postMaterial,initial.units.length);transmittingShadow(posts,.10);
   posts.name='posts / instanced and uniform';posts.userData.register='physical';posts.castShadow=posts.receiveShadow=true;scene.add(posts);
   scene.userData.scaleRows.push(...standScaleRows(bases.geometry,posts.geometry));
   // Opt-in measurement study only; the accepted board has no candidate markings.
@@ -236,6 +237,28 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
   const textureMiB=[...textureSet].reduce((n,t)=>n+(t.userData.byteLength??t.image.width*t.image.height*4*(t.generateMipmaps?4/3:1)),0)/1048576;
   if(textureMiB>BUDGETS.materialTextureMiB)throw new Error('Material texture budget exceeded: '+textureMiB+' MiB');
   const api={ applyProjection,setCamera,setEffect,clearEffect,resize,render,
+    reviewHeading(heading){
+      if(!Number.isInteger(heading)||heading<0||heading>5)throw Error('Six discrete review headings only');
+      const next=Object.freeze({...initial,units:Object.freeze(initial.units.map(u=>Object.freeze({...u,facing:heading}))),events:Object.freeze([])});
+      applyProjection(next);setCamera(0);clearEffect();render();
+      const capture=api.physicalPixels(),metrics=[],rect=canvas.getBoundingClientRect(),g=bases.geometry,tri=g.userData.facingTriangle;
+      const screen=p=>{const v=p.clone().project(camera);return {x:(v.x+1)*rect.width/2,y:(1-v.y)*rect.height/2};};
+      const opaque=[];scene.traverse(o=>{if(o.isMesh&&o.visible&&!o.material.transmission)opaque.push(o);});
+      initial.units.forEach((u,i)=>{
+        const m=new THREE.Matrix4();bases.getMatrixAt(i,m);const corners=tri.corners.map(p=>new THREE.Vector3(...p).applyMatrix4(m)),pixels=corners.map(screen),samples=[];
+        for(let a=1;a<10;a++)for(let b=1;b<10-a;b++){const p=corners[0].clone().multiplyScalar(a/10).addScaledVector(corners[1],b/10).addScaledVector(corners[2],1-(a+b)/10),direction=p.clone().sub(camera.position),distance=direction.length();
+          const hit=new THREE.Raycaster(camera.position,direction.normalize()).intersectObjects(opaque,false).find(h=>h.object.visible);samples.push(!hit||hit.distance>=distance-.005);}
+        const xs=pixels.map(p=>p.x),ys=pixels.map(p=>p.y),bounds={x:Math.min(...xs),y:Math.min(...ys),width:Math.max(...xs)-Math.min(...xs),height:Math.max(...ys)-Math.min(...ys)};
+        metrics.push({id:u.id,heading,trianglePixels:pixels,bounds,unoccludedFraction:samples.filter(Boolean).length/samples.length,castReliefMm:tri.reliefMm});
+      });
+      g.setDrawRange(0,tri.castingStart);renderer.shadowMap.needsUpdate=true;render();const without=api.physicalPixels();g.setDrawRange(0,Infinity);renderer.shadowMap.needsUpdate=true;render();
+      for(const r of metrics){let changed=0,maxDelta=0;const b=r.bounds,sx=physical.width/rect.width,sy=physical.height/rect.height;
+        for(let y=Math.max(0,Math.floor((b.y-2)*sy));y<Math.min(physical.height,Math.ceil((b.y+b.height+2)*sy));y++)for(let x=Math.max(0,Math.floor((b.x-2)*sx));x<Math.min(physical.width,Math.ceil((b.x+b.width+2)*sx));x++){
+          const index=((physical.height-1-y)*physical.width+x)*4;let delta=0;for(let k=0;k<3;k++)delta=Math.max(delta,Math.abs(THREE.DataUtils.fromHalfFloat(capture[index+k])-THREE.DataUtils.fromHalfFloat(without[index+k])));if(delta>.02)changed++;maxDelta=Math.max(maxDelta,delta);}
+        r.changedBufferPixelsAbove002=changed;r.maxLinearDelta=maxDelta;r.bufferPixelsPerCssPixel=sx;
+      }
+      return {heading,triangles:metrics,rim:rimStudy?.measure(camera,canvas),camera:api.inspect().actualCamera,cssPixels:{width:rect.width,height:rect.height},bufferPixels:{width:physical.width,height:physical.height}};
+    },
     measureRimStudy:()=>rimStudy?.measure(camera,canvas),
     measureRimTransit:()=>rimStudy?.transitSweep(camera,canvas),
     captureDetail(angle='plan',faction='KRE'){
@@ -256,7 +279,7 @@ gl_FragColor=vec4(colour,min(strength,1.)*a);}`});
     })),assets:loaded.map(a=>({key:a.asset.key,paint:a.asset.paint,triangles:a.triangles,paintEvidence:a.group.children[0].geometry.userData.paint??null,
       sizeMm:a.size.toArray().map(n=>n*10),standAttachment:a.attachment.toArray(),sockets:Object.fromEntries(Object.entries(a.sockets).map(([k,v])=>[k,Array.isArray(v)?v.map(p=>p.toArray()):v?.toArray()??null]))})),
       energyRegionGeometry:regionGlows.map(p=>({id:p.id,kind:p.kind,triangles:p.mesh.geometry.attributes.position.count/3})),materialTextureMiB:textureMiB,scaleMeasurements:scene.userData.scaleRows, postHeights:manifest.assets.map(a=>a.stand.height),
-      mounting:[...units].map(([id,u],i)=>{const m=new THREE.Matrix4();posts.getMatrixAt(i,m);const bottom=new THREE.Vector3(0,-BUDGETS.postHeight/2,0).applyMatrix4(m),top=new THREE.Vector3(0,BUDGETS.postHeight/2,0).applyMatrix4(m),attachment=u.model.localToWorld(u.asset.attachment.clone());return {id,exposedMm:top.distanceTo(bottom)*10,baseGapMm:(bottom.y-BOARD.top-BASE_APEX)*10,hullGapMm:attachment.distanceTo(top)*10,opaque:posts.material.transmission===undefined&&posts.material.transparent===false};}),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
+      mounting:[...units].map(([id,u],i)=>{const m=new THREE.Matrix4();posts.getMatrixAt(i,m);const bottom=new THREE.Vector3(0,-BUDGETS.postHeight/2,0).applyMatrix4(m),top=new THREE.Vector3(0,BUDGETS.postHeight/2,0).applyMatrix4(m),attachment=u.model.localToWorld(u.asset.attachment.clone());return {id,exposedMm:top.distanceTo(bottom)*10,baseGapMm:(bottom.y-BOARD.top-BASE_APEX)*10,hullGapMm:attachment.distanceTo(top)*10,opaque:posts.material.transmission===undefined&&posts.material.transparent===false,clear:posts.material.transmission===1};}),shadowLights:1,energyLights:energyScene.children.filter(o=>o.isLight).length}),
     brushEvidence(){
       // Each ablation changes one hull's albedo brush marks at the planning camera.
       // Count visible native-resolution pixels; this supports, not replaces, review.

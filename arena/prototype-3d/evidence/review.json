@@ -6,53 +6,53 @@
   },
   "captures": {
     "planning": {
-      "drawCalls": 79,
-      "triangles": 69904,
-      "textures": 24,
-      "geometries": 34,
+      "drawCalls": 114,
+      "triangles": 109281,
+      "textures": 26,
+      "geometries": 35,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
-          8,
-          63,
-          54
+          0,
+          150,
+          48
         ],
-        "fov": 32,
-        "pitch": 48.636926923625396
+        "fov": 12.7,
+        "pitch": 72.14377674268574
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null,
       "threeRevision": "180",
-      "clearVariant": false,
+      "clearVariant": true,
       "visibleEnergyObjects": 0,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 604.8576224432867,
-          "y": 292.5240503023865,
-          "width": 97.15543654477904,
-          "height": 70.24543388656468
+          "x": 553.4214771217331,
+          "y": 319.6823486435165,
+          "width": 124.35923118827668,
+          "height": 65.02912987522518
         },
         "KRE-FF-1": {
-          "x": 803.5558751271225,
-          "y": 314.458071976596,
-          "width": 114.22814567456624,
-          "height": 78.79206519036006
+          "x": 837.1328094998876,
+          "y": 315.2252422147429,
+          "width": 121.34970801369639,
+          "height": 79.11679494075497
         },
         "VRA-FF-1": {
-          "x": 684.8081330240019,
-          "y": 229.1632786467177,
-          "width": 69.22955708583765,
-          "height": 80.83056797014669
+          "x": 641.197240657225,
+          "y": 172.8063497711147,
+          "width": 91.13255067323814,
+          "height": 126.16855242611416
         }
       },
       "assets": [
@@ -77,9 +77,13 @@
             "unmatchedEdges": 178,
             "creaseThresholdDegrees": 24,
             "faction": "EAR",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 3777,
+            "maxReferences": 15,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
             55,
@@ -124,29 +128,33 @@
             "unmatchedEdges": 33,
             "creaseThresholdDegrees": 24,
             "faction": "KRE",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 2428,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            65,
-            17.827179431915283,
-            39.582622051239014
+            54.32818057826884,
+            14.900280571480204,
+            33.08387592151539
           ],
           "standAttachment": [
             0,
-            -0.35799855261063573,
+            -0.29922171117198104,
             0
           ],
           "sockets": {
             "weapon": [
-              0.3819553107023239,
-              0.7450703911781311,
-              -0.00016960501670837402
+              0.31924518942832947,
+              0.6256986193656922,
+              -0.00014175847172737122
             ],
             "impact": [
-              1.2,
-              0.4635994528838545,
+              1.002981795291117,
+              0.3904401039773664,
               0
             ],
             "engines": []
@@ -155,41 +163,45 @@
         {
           "key": "VRA/frigate",
           "paint": "painted-1987",
-          "triangles": 4188,
+          "triangles": 5597,
           "paintEvidence": {
             "paletteTriangles": {
-              "d3bfe5": 1766,
-              "e1ad34": 1334,
-              "7e3f98": 446,
-              "ffdd1a": 387,
-              "f5831f": 223,
+              "d3bfe5": 2220,
+              "e1ad34": 1873,
+              "7e3f98": 761,
+              "ffdd1a": 435,
+              "f5831f": 270,
               "46b749": 24,
-              "e91d2d": 8
+              "e91d2d": 14
             },
-            "concaveEdges": 1362,
-            "raisedEdges": 2459,
-            "unmatchedEdges": 72,
+            "concaveEdges": 2028,
+            "raisedEdges": 2834,
+            "unmatchedEdges": 57,
             "creaseThresholdDegrees": 24,
             "faction": "VRA",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 4862,
+            "maxReferences": 14,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            45,
-            21.621512267694236,
-            16.340897139878045
+            50.39617828995831,
+            24.214258490963324,
+            18.300417581223847
           ],
           "standAttachment": [
             0,
-            -0.8173753035288018,
+            -0.9148604219496823,
             0
           ],
           "sockets": {
             "weapon": null,
             "impact": [
               0,
-              0.42527761098997563,
+              0.4659373678035188,
               0
             ],
             "engines": []
@@ -216,9 +228,14 @@
           "id": "KRE-FF-1",
           "kind": "beamEmitter",
           "triangles": 312
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "pointDefenceEmitter",
+          "triangles": 216
         }
       ],
-      "materialTextureMiB": 20.26219177246094,
+      "materialTextureMiB": 19.57463073730469,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -450,22 +467,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         },
         {
@@ -485,26 +521,26 @@
           "object": "KRE frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            6.5
+            5.432818057826884
           ],
           "actualMm": [
-            65
+            54.32818057826884
           ],
           "referenceMm": [
-            65
+            54.32818057826884
           ]
         },
         {
           "object": "VRA frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            4.5
+            5.039617828995831
           ],
           "actualMm": [
-            45
+            50.39617828995831
           ],
           "referenceMm": [
-            45
+            50.39617828995831
           ]
         }
       ],
@@ -519,74 +555,77 @@
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "KRE-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "VRA-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
-          "hullGapMm": 0.0000012018146296694265,
-          "opaque": true
+          "hullGapMm": 0.0000012018146279074392,
+          "opaque": false,
+          "clear": true
         }
       ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "beam": {
-      "drawCalls": 74,
-      "triangles": 69278,
-      "textures": 24,
-      "geometries": 39,
+      "drawCalls": 101,
+      "triangles": 107631,
+      "textures": 26,
+      "geometries": 40,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           5,
-          28,
+          26,
           30
         ],
         "fov": 40,
-        "pitch": 40.30790092307506
+        "pitch": 38.0445723484645
       },
       "camera": {
         "x": 5,
-        "y": 28,
+        "y": 26,
         "z": 30,
         "targetY": 2.2,
         "fov": 40,
-        "blur": 3
+        "blur": 4
       },
       "activeEffect": "beam",
       "threeRevision": "180",
-      "clearVariant": false,
+      "clearVariant": true,
       "visibleEnergyObjects": 5,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 506.5065977428056,
-          "y": 256.3766430982675,
-          "width": 163.73864280300057,
-          "height": 115.8820104285166
+          "x": 498.7601806771766,
+          "y": 252.50483273404657,
+          "width": 168.83415506343653,
+          "height": 119.01959763669313
         },
         "KRE-FF-1": {
-          "x": 833.6864794369723,
-          "y": 295.5030645254375,
-          "width": 190.83846550277792,
-          "height": 123.23524719186355
+          "x": 852.653808121335,
+          "y": 303.2630295673532,
+          "width": 164.12494046831546,
+          "height": 103.62830554129687
         },
         "VRA-FF-1": {
-          "x": 644.6242063955292,
-          "y": 184.86219482775337,
-          "width": 111.23325711545215,
-          "height": 112.93828621138059
+          "x": 633.749415620297,
+          "y": 176.60044163992555,
+          "width": 128.37000549681238,
+          "height": 126.03435541708043
         }
       },
       "assets": [
@@ -611,9 +650,13 @@
             "unmatchedEdges": 178,
             "creaseThresholdDegrees": 24,
             "faction": "EAR",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 3777,
+            "maxReferences": 15,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
             55,
@@ -658,29 +701,33 @@
             "unmatchedEdges": 33,
             "creaseThresholdDegrees": 24,
             "faction": "KRE",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 2428,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            65,
-            17.827179431915283,
-            39.582622051239014
+            54.32818057826884,
+            14.900280571480204,
+            33.08387592151539
           ],
           "standAttachment": [
             0,
-            -0.35799855261063573,
+            -0.29922171117198104,
             0
           ],
           "sockets": {
             "weapon": [
-              0.3819553107023239,
-              0.7450703911781311,
-              -0.00016960501670837402
+              0.31924518942832947,
+              0.6256986193656922,
+              -0.00014175847172737122
             ],
             "impact": [
-              1.2,
-              0.4635994528838545,
+              1.002981795291117,
+              0.3904401039773664,
               0
             ],
             "engines": []
@@ -689,41 +736,45 @@
         {
           "key": "VRA/frigate",
           "paint": "painted-1987",
-          "triangles": 4188,
+          "triangles": 5597,
           "paintEvidence": {
             "paletteTriangles": {
-              "d3bfe5": 1766,
-              "e1ad34": 1334,
-              "7e3f98": 446,
-              "ffdd1a": 387,
-              "f5831f": 223,
+              "d3bfe5": 2220,
+              "e1ad34": 1873,
+              "7e3f98": 761,
+              "ffdd1a": 435,
+              "f5831f": 270,
               "46b749": 24,
-              "e91d2d": 8
+              "e91d2d": 14
             },
-            "concaveEdges": 1362,
-            "raisedEdges": 2459,
-            "unmatchedEdges": 72,
+            "concaveEdges": 2028,
+            "raisedEdges": 2834,
+            "unmatchedEdges": 57,
             "creaseThresholdDegrees": 24,
             "faction": "VRA",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 4862,
+            "maxReferences": 14,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            45,
-            21.621512267694236,
-            16.340897139878045
+            50.39617828995831,
+            24.214258490963324,
+            18.300417581223847
           ],
           "standAttachment": [
             0,
-            -0.8173753035288018,
+            -0.9148604219496823,
             0
           ],
           "sockets": {
             "weapon": null,
             "impact": [
               0,
-              0.42527761098997563,
+              0.4659373678035188,
               0
             ],
             "engines": []
@@ -750,9 +801,14 @@
           "id": "KRE-FF-1",
           "kind": "beamEmitter",
           "triangles": 312
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "pointDefenceEmitter",
+          "triangles": 216
         }
       ],
-      "materialTextureMiB": 20.26219177246094,
+      "materialTextureMiB": 19.57463073730469,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -984,22 +1040,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         },
         {
@@ -1019,26 +1094,26 @@
           "object": "KRE frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            6.5
+            5.432818057826884
           ],
           "actualMm": [
-            65
+            54.32818057826884
           ],
           "referenceMm": [
-            65
+            54.32818057826884
           ]
         },
         {
           "object": "VRA frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            4.5
+            5.039617828995831
           ],
           "actualMm": [
-            45
+            50.39617828995831
           ],
           "referenceMm": [
-            45
+            50.39617828995831
           ]
         }
       ],
@@ -1053,74 +1128,77 @@
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "KRE-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "VRA-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
-          "hullGapMm": 0.0000012018146296694265,
-          "opaque": true
+          "hullGapMm": 0.0000012018146279074392,
+          "opaque": false,
+          "clear": true
         }
       ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "shield": {
-      "drawCalls": 72,
-      "triangles": 69430,
-      "textures": 24,
-      "geometries": 40,
+      "drawCalls": 99,
+      "triangles": 107783,
+      "textures": 26,
+      "geometries": 41,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           5,
-          28,
+          26,
           30
         ],
         "fov": 40,
-        "pitch": 40.30790092307506
+        "pitch": 38.0445723484645
       },
       "camera": {
         "x": 5,
-        "y": 28,
+        "y": 26,
         "z": 30,
         "targetY": 2.2,
         "fov": 40,
-        "blur": 3
+        "blur": 4
       },
       "activeEffect": "shield-flare",
       "threeRevision": "180",
-      "clearVariant": false,
+      "clearVariant": true,
       "visibleEnergyObjects": 3,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 506.5065977428056,
-          "y": 256.3766430982675,
-          "width": 163.73864280300057,
-          "height": 115.8820104285166
+          "x": 498.7601806771766,
+          "y": 252.50483273404657,
+          "width": 168.83415506343653,
+          "height": 119.01959763669313
         },
         "KRE-FF-1": {
-          "x": 833.6864794369723,
-          "y": 295.5030645254375,
-          "width": 190.83846550277792,
-          "height": 123.23524719186355
+          "x": 852.653808121335,
+          "y": 303.2630295673532,
+          "width": 164.12494046831546,
+          "height": 103.62830554129687
         },
         "VRA-FF-1": {
-          "x": 644.6242063955292,
-          "y": 184.86219482775337,
-          "width": 111.23325711545215,
-          "height": 112.93828621138059
+          "x": 633.749415620297,
+          "y": 176.60044163992555,
+          "width": 128.37000549681238,
+          "height": 126.03435541708043
         }
       },
       "assets": [
@@ -1145,9 +1223,13 @@
             "unmatchedEdges": 178,
             "creaseThresholdDegrees": 24,
             "faction": "EAR",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 3777,
+            "maxReferences": 15,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
             55,
@@ -1192,29 +1274,33 @@
             "unmatchedEdges": 33,
             "creaseThresholdDegrees": 24,
             "faction": "KRE",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 2428,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            65,
-            17.827179431915283,
-            39.582622051239014
+            54.32818057826884,
+            14.900280571480204,
+            33.08387592151539
           ],
           "standAttachment": [
             0,
-            -0.35799855261063573,
+            -0.29922171117198104,
             0
           ],
           "sockets": {
             "weapon": [
-              0.3819553107023239,
-              0.7450703911781311,
-              -0.00016960501670837402
+              0.31924518942832947,
+              0.6256986193656922,
+              -0.00014175847172737122
             ],
             "impact": [
-              1.2,
-              0.4635994528838545,
+              1.002981795291117,
+              0.3904401039773664,
               0
             ],
             "engines": []
@@ -1223,41 +1309,45 @@
         {
           "key": "VRA/frigate",
           "paint": "painted-1987",
-          "triangles": 4188,
+          "triangles": 5597,
           "paintEvidence": {
             "paletteTriangles": {
-              "d3bfe5": 1766,
-              "e1ad34": 1334,
-              "7e3f98": 446,
-              "ffdd1a": 387,
-              "f5831f": 223,
+              "d3bfe5": 2220,
+              "e1ad34": 1873,
+              "7e3f98": 761,
+              "ffdd1a": 435,
+              "f5831f": 270,
               "46b749": 24,
-              "e91d2d": 8
+              "e91d2d": 14
             },
-            "concaveEdges": 1362,
-            "raisedEdges": 2459,
-            "unmatchedEdges": 72,
+            "concaveEdges": 2028,
+            "raisedEdges": 2834,
+            "unmatchedEdges": 57,
             "creaseThresholdDegrees": 24,
             "faction": "VRA",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 4862,
+            "maxReferences": 14,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            45,
-            21.621512267694236,
-            16.340897139878045
+            50.39617828995831,
+            24.214258490963324,
+            18.300417581223847
           ],
           "standAttachment": [
             0,
-            -0.8173753035288018,
+            -0.9148604219496823,
             0
           ],
           "sockets": {
             "weapon": null,
             "impact": [
               0,
-              0.42527761098997563,
+              0.4659373678035188,
               0
             ],
             "engines": []
@@ -1284,9 +1374,14 @@
           "id": "KRE-FF-1",
           "kind": "beamEmitter",
           "triangles": 312
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "pointDefenceEmitter",
+          "triangles": 216
         }
       ],
-      "materialTextureMiB": 20.26219177246094,
+      "materialTextureMiB": 19.57463073730469,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -1518,22 +1613,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         },
         {
@@ -1553,26 +1667,26 @@
           "object": "KRE frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            6.5
+            5.432818057826884
           ],
           "actualMm": [
-            65
+            54.32818057826884
           ],
           "referenceMm": [
-            65
+            54.32818057826884
           ]
         },
         {
           "object": "VRA frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            4.5
+            5.039617828995831
           ],
           "actualMm": [
-            45
+            50.39617828995831
           ],
           "referenceMm": [
-            45
+            50.39617828995831
           ]
         }
       ],
@@ -1587,74 +1701,77 @@
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "KRE-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "VRA-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
-          "hullGapMm": 0.0000012018146296694265,
-          "opaque": true
+          "hullGapMm": 0.0000012018146279074392,
+          "opaque": false,
+          "clear": true
         }
       ],
       "shadowLights": 1,
       "energyLights": 0
     },
     "anonymous": {
-      "drawCalls": 72,
-      "triangles": 68904,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 99,
+      "triangles": 107257,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           5,
-          28,
+          26,
           30
         ],
         "fov": 40,
-        "pitch": 40.30790092307506
+        "pitch": 38.0445723484645
       },
       "camera": {
         "x": 5,
-        "y": 28,
+        "y": 26,
         "z": 30,
         "targetY": 2.2,
         "fov": 40,
-        "blur": 3
+        "blur": 4
       },
       "activeEffect": "anonymous",
       "threeRevision": "180",
-      "clearVariant": false,
+      "clearVariant": true,
       "visibleEnergyObjects": 3,
       "hullScreenBounds": {
         "EAR-FF-1": {
-          "x": 506.5065977428056,
-          "y": 256.3766430982675,
-          "width": 163.73864280300057,
-          "height": 115.8820104285166
+          "x": 498.7601806771766,
+          "y": 252.50483273404657,
+          "width": 168.83415506343653,
+          "height": 119.01959763669313
         },
         "KRE-FF-1": {
-          "x": 833.6864794369723,
-          "y": 295.5030645254375,
-          "width": 190.83846550277792,
-          "height": 123.23524719186355
+          "x": 852.653808121335,
+          "y": 303.2630295673532,
+          "width": 164.12494046831546,
+          "height": 103.62830554129687
         },
         "VRA-FF-1": {
-          "x": 644.6242063955292,
-          "y": 184.86219482775337,
-          "width": 111.23325711545215,
-          "height": 112.93828621138059
+          "x": 633.749415620297,
+          "y": 176.60044163992555,
+          "width": 128.37000549681238,
+          "height": 126.03435541708043
         }
       },
       "assets": [
@@ -1679,9 +1796,13 @@
             "unmatchedEdges": 178,
             "creaseThresholdDegrees": 24,
             "faction": "EAR",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 3777,
+            "maxReferences": 15,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
             55,
@@ -1726,29 +1847,33 @@
             "unmatchedEdges": 33,
             "creaseThresholdDegrees": 24,
             "faction": "KRE",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 2428,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            65,
-            17.827179431915283,
-            39.582622051239014
+            54.32818057826884,
+            14.900280571480204,
+            33.08387592151539
           ],
           "standAttachment": [
             0,
-            -0.35799855261063573,
+            -0.29922171117198104,
             0
           ],
           "sockets": {
             "weapon": [
-              0.3819553107023239,
-              0.7450703911781311,
-              -0.00016960501670837402
+              0.31924518942832947,
+              0.6256986193656922,
+              -0.00014175847172737122
             ],
             "impact": [
-              1.2,
-              0.4635994528838545,
+              1.002981795291117,
+              0.3904401039773664,
               0
             ],
             "engines": []
@@ -1757,41 +1882,45 @@
         {
           "key": "VRA/frigate",
           "paint": "painted-1987",
-          "triangles": 4188,
+          "triangles": 5597,
           "paintEvidence": {
             "paletteTriangles": {
-              "d3bfe5": 1766,
-              "e1ad34": 1334,
-              "7e3f98": 446,
-              "ffdd1a": 387,
-              "f5831f": 223,
+              "d3bfe5": 2220,
+              "e1ad34": 1873,
+              "7e3f98": 761,
+              "ffdd1a": 435,
+              "f5831f": 270,
               "46b749": 24,
-              "e91d2d": 8
+              "e91d2d": 14
             },
-            "concaveEdges": 1362,
-            "raisedEdges": 2459,
-            "unmatchedEdges": 72,
+            "concaveEdges": 2028,
+            "raisedEdges": 2834,
+            "unmatchedEdges": 57,
             "creaseThresholdDegrees": 24,
             "faction": "VRA",
-            "inkWidthMm": 0.25,
-            "edgeWidthMm": 0.38,
-            "pickedWidthMm": 0.12
+            "segments": 4862,
+            "maxReferences": 14,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
           },
           "sizeMm": [
-            45,
-            21.621512267694236,
-            16.340897139878045
+            50.39617828995831,
+            24.214258490963324,
+            18.300417581223847
           ],
           "standAttachment": [
             0,
-            -0.8173753035288018,
+            -0.9148604219496823,
             0
           ],
           "sockets": {
             "weapon": null,
             "impact": [
               0,
-              0.42527761098997563,
+              0.4659373678035188,
               0
             ],
             "engines": []
@@ -1818,9 +1947,14 @@
           "id": "KRE-FF-1",
           "kind": "beamEmitter",
           "triangles": 312
+        },
+        {
+          "id": "KRE-FF-1",
+          "kind": "pointDefenceEmitter",
+          "triangles": 216
         }
       ],
-      "materialTextureMiB": 20.26219177246094,
+      "materialTextureMiB": 19.57463073730469,
       "scaleMeasurements": [
         {
           "object": "Tabletop",
@@ -2052,22 +2186,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         },
         {
@@ -2087,26 +2240,26 @@
           "object": "KRE frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            6.5
+            5.432818057826884
           ],
           "actualMm": [
-            65
+            54.32818057826884
           ],
           "referenceMm": [
-            65
+            54.32818057826884
           ]
         },
         {
           "object": "VRA frigate",
           "basis": "length; width/height in asset metrics",
           "sceneUnits": [
-            4.5
+            5.039617828995831
           ],
           "actualMm": [
-            45
+            50.39617828995831
           ],
           "referenceMm": [
-            45
+            50.39617828995831
           ]
         }
       ],
@@ -2121,21 +2274,24 @@
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "KRE-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
           "hullGapMm": 0.0000010662402959679543,
-          "opaque": true
+          "opaque": false,
+          "clear": true
         },
         {
           "id": "VRA-FF-1",
           "exposedMm": 30,
           "baseGapMm": 4.768371586472142e-7,
-          "hullGapMm": 0.0000012018146296694265,
-          "opaque": true
+          "hullGapMm": 0.0000012018146279074392,
+          "opaque": false,
+          "clear": true
         }
       ],
       "shadowLights": 1,
@@ -2159,60 +2315,60 @@
     ],
     "planningBrush": {
       "EAR": {
-        "pixelsChangedAbove025": 1114,
-        "maxLinearChannelDifference": 0.5467529296875
+        "pixelsChangedAbove025": 1596,
+        "maxLinearChannelDifference": 0.43603515625
       },
       "KRE": {
-        "pixelsChangedAbove025": 636,
-        "maxLinearChannelDifference": 0.467529296875
+        "pixelsChangedAbove025": 363,
+        "maxLinearChannelDifference": 0.547607421875
       },
       "VRA": {
-        "pixelsChangedAbove025": 498,
-        "maxLinearChannelDifference": 0.579833984375
+        "pixelsChangedAbove025": 975,
+        "maxLinearChannelDifference": 0.60906982421875
       }
     },
     "visibleRegions": {
       "EAR": {
-        "totalPixels": 2100,
+        "totalPixels": 3466,
         "regions": {
           "bfc7cc": {
-            "pixels": 829,
-            "visibleFraction": 0.39476190476190476,
+            "pixels": 1308,
+            "visibleFraction": 0.3773802654356607,
             "classification": "metal"
           },
           "009fd7": {
-            "pixels": 605,
-            "visibleFraction": 0.28809523809523807,
+            "pixels": 1035,
+            "visibleFraction": 0.29861511829197923,
             "classification": "paint"
           },
           "e91d2d": {
-            "pixels": 58,
-            "visibleFraction": 0.02761904761904762,
+            "pixels": 110,
+            "visibleFraction": 0.031736872475476054,
             "classification": "emissive-designated"
           },
           "0076a9": {
-            "pixels": 519,
-            "visibleFraction": 0.24714285714285714,
+            "pixels": 876,
+            "visibleFraction": 0.2527409117137911,
             "classification": "paint"
           },
           "f5831f": {
-            "pixels": 36,
-            "visibleFraction": 0.017142857142857144,
+            "pixels": 65,
+            "visibleFraction": 0.018753606462781305,
             "classification": "paint"
           },
           "e1ad34": {
-            "pixels": 15,
-            "visibleFraction": 0.007142857142857143,
+            "pixels": 0,
+            "visibleFraction": 0,
             "classification": "metal"
           },
           "fafafa": {
-            "pixels": 3,
-            "visibleFraction": 0.0014285714285714286,
+            "pixels": 0,
+            "visibleFraction": 0,
             "classification": "emissive-designated"
           },
           "61676a": {
-            "pixels": 35,
-            "visibleFraction": 0.016666666666666666,
+            "pixels": 72,
+            "visibleFraction": 0.0207732256203116,
             "classification": "paint"
           },
           "46b749": {
@@ -2223,77 +2379,77 @@
         }
       },
       "KRE": {
-        "totalPixels": 3230,
+        "totalPixels": 4974,
         "regions": {
           "126936": {
-            "pixels": 1881,
-            "visibleFraction": 0.5823529411764706,
+            "pixels": 2862,
+            "visibleFraction": 0.5753920386007237,
             "classification": "paint"
           },
           "46b749": {
-            "pixels": 677,
-            "visibleFraction": 0.20959752321981423,
+            "pixels": 1104,
+            "visibleFraction": 0.22195416164053075,
             "classification": "paint"
           },
           "a97b50": {
-            "pixels": 603,
-            "visibleFraction": 0.186687306501548,
+            "pixels": 899,
+            "visibleFraction": 0.18073984720546843,
             "classification": "metal"
           },
           "f5831f": {
-            "pixels": 46,
-            "visibleFraction": 0.014241486068111455,
+            "pixels": 80,
+            "visibleFraction": 0.016083634901487735,
             "classification": "emissive-designated"
           },
           "fafafa": {
-            "pixels": 4,
-            "visibleFraction": 0.001238390092879257,
+            "pixels": 0,
+            "visibleFraction": 0,
             "classification": "emissive-designated"
           },
           "ffdd1a": {
-            "pixels": 12,
-            "visibleFraction": 0.0037151702786377707,
+            "pixels": 20,
+            "visibleFraction": 0.004020908725371934,
             "classification": "emissive-designated"
           },
           "e91d2d": {
-            "pixels": 7,
-            "visibleFraction": 0.0021671826625387,
+            "pixels": 9,
+            "visibleFraction": 0.0018094089264173703,
             "classification": "paint"
           }
         }
       },
       "VRA": {
-        "totalPixels": 1132,
+        "totalPixels": 3228,
         "regions": {
           "d3bfe5": {
-            "pixels": 56,
-            "visibleFraction": 0.04946996466431095,
+            "pixels": 153,
+            "visibleFraction": 0.047397769516728624,
             "classification": "emissive-designated"
           },
           "e1ad34": {
-            "pixels": 622,
-            "visibleFraction": 0.549469964664311,
+            "pixels": 1944,
+            "visibleFraction": 0.6022304832713755,
             "classification": "metal"
           },
           "7e3f98": {
-            "pixels": 24,
-            "visibleFraction": 0.02120141342756184,
+            "pixels": 101,
+            "visibleFraction": 0.031288723667905825,
             "classification": "emissive-designated"
           },
           "ffdd1a": {
-            "pixels": 400,
-            "visibleFraction": 0.35335689045936397,
+            "pixels": 1021,
+            "visibleFraction": 0.31629491945477073,
             "classification": "paint"
           },
           "f5831f": {
-            "pixels": 8,
-            "visibleFraction": 0.007067137809187279,
+            "pixels": 9,
+            "visibleFraction": 0.0027881040892193307,
             "classification": "paint"
           },
           "46b749": {
-            "pixels": 22,
-            "visibleFraction": 0.019434628975265017,
-            "classification": "paint"
+            "pixels": 0,
+            "visibleFraction": 0,
+            "classification": "moulded transparent"
           },
           "e91d2d": {
             "pixels": 0,
@@ -2305,18 +2461,18 @@
     },
     "lightsOff": {
       "physicalNonzeroPixels": 0,
-      "energeticNonzeroPixels": 1318
+      "energeticNonzeroPixels": 1389
     },
     "physicalIsolation": {
-      "physicalBefore": "e5df21a8",
-      "physicalAfter": "e5df21a8",
-      "shadowBefore": "7c5232e0",
-      "shadowAfter": "7c5232e0",
+      "physicalBefore": "f01b9b9e",
+      "physicalAfter": "f01b9b9e",
+      "shadowBefore": "f8f13897",
+      "shadowAfter": "f8f13897",
       "identical": true
     },
     "occlusion": {
       "behindSamples": 0,
-      "frontSamples": 424
+      "frontSamples": 448
     },
     "classification": {
       "missingObject": true,
@@ -2369,22 +2525,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ]
@@ -2445,14 +2620,14 @@
   },
   "detailCameras": {
     "EAR-plan": {
-      "drawCalls": 13,
-      "triangles": 15962,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 21,
+      "triangles": 34742,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -6.4,
@@ -2463,24 +2638,24 @@
         "pitch": 63.10262459133324
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "EAR-side": {
-      "drawCalls": 17,
-      "triangles": 16000,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 30,
+      "triangles": 34842,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -2.4000000000000004,
@@ -2491,24 +2666,24 @@
         "pitch": 35.58499527428525
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "EAR-stern": {
-      "drawCalls": 22,
-      "triangles": 33121,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 40,
+      "triangles": 69072,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -37.4,
@@ -2519,24 +2694,24 @@
         "pitch": 34.93737697842133
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "EAR-bow": {
-      "drawCalls": 21,
-      "triangles": 16038,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 38,
+      "triangles": 34918,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           24.6,
@@ -2547,24 +2722,24 @@
         "pitch": 34.93737697842133
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "KRE-plan": {
-      "drawCalls": 12,
-      "triangles": 17421,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 19,
+      "triangles": 34848,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           6.400000000000002,
@@ -2572,27 +2747,27 @@
           -12
         ],
         "fov": 14,
-        "pitch": 63.379457020724715
+        "pitch": 63.435692014726214
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "KRE-side": {
-      "drawCalls": 16,
-      "triangles": 21635,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 28,
+      "triangles": 46118,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           2.400000000000004,
@@ -2600,27 +2775,27 @@
           -30
         ],
         "fov": 14,
-        "pitch": 35.94151602392092
+        "pitch": 36.01438439147091
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "KRE-stern": {
-      "drawCalls": 23,
-      "triangles": 33139,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 41,
+      "triangles": 69078,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           37.4,
@@ -2628,27 +2803,27 @@
           3.796405077356795e-15
         ],
         "fov": 14,
-        "pitch": 35.29110809283415
+        "pitch": 35.363418534984305
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "KRE-bow": {
-      "drawCalls": 17,
-      "triangles": 21659,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 29,
+      "triangles": 46142,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -24.6,
@@ -2656,27 +2831,27 @@
           -3.796405077356795e-15
         ],
         "fov": 14,
-        "pitch": 35.29110809283414
+        "pitch": 35.36341853498429
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "VRA-plan": {
-      "drawCalls": 12,
-      "triangles": 29289,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 21,
+      "triangles": 61444,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -13.592304845413263,
@@ -2684,27 +2859,27 @@
           0.4574374157795944
         ],
         "fov": 14,
-        "pitch": 62.932234750914276
+        "pitch": 62.835536629801545
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "VRA-side": {
-      "drawCalls": 14,
-      "triangles": 29313,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 23,
+      "triangles": 61456,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -27.180762113533156,
@@ -2712,27 +2887,27 @@
           12.921539030917353
         ],
         "fov": 14,
-        "pitch": 35.367357275804544
+        "pitch": 35.24445039764702
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "VRA-stern": {
-      "drawCalls": 19,
-      "triangles": 33095,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 35,
+      "triangles": 69038,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           -18.700000000000003,
@@ -2740,27 +2915,27 @@
           -32.38935010153801
         ],
         "fov": 14,
-        "pitch": 34.72149065933324
+        "pitch": 34.599589285195826
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
     },
     "VRA-bow": {
-      "drawCalls": 19,
-      "triangles": 29363,
-      "textures": 24,
-      "geometries": 41,
+      "drawCalls": 34,
+      "triangles": 61568,
+      "textures": 26,
+      "geometries": 42,
       "width": 1514,
       "height": 750,
-      "estimatedTargetMiB": 41.989532470703125,
-      "drawables": 48,
+      "estimatedTargetMiB": 58.23299026489258,
+      "drawables": 49,
       "actualCamera": {
         "position": [
           12.300000000000004,
@@ -2768,14 +2943,14 @@
           21.30422493309719
         ],
         "fov": 14,
-        "pitch": 34.72149065933326
+        "pitch": 34.599589285195826
       },
       "camera": {
-        "x": 8,
-        "y": 63,
-        "z": 54,
+        "x": 0,
+        "y": 150,
+        "z": 48,
         "targetY": 1,
-        "fov": 32,
+        "fov": 12.7,
         "blur": 0
       },
       "activeEffect": null
@@ -2786,31 +2961,32 @@
       "sourceRegion": "46b749",
       "triangles": 24,
       "sizeMm": [
-        4.831111431121826,
-        1.7513450980186462,
-        4.260232150554657
+        5.311154127120972,
+        1.9089996814727783,
+        4.624083787202835
       ],
       "patches": [
         {
           "triangles": 24,
           "min": [
-            1.150097370147705,
-            0.40975314378738403,
-            -0.21296362578868866
+            1.2979393005371094,
+            0.458175390958786,
+            -0.22840212285518646
           ],
           "max": [
-            1.6332085132598877,
-            0.584887683391571,
-            0.21305964887142181
+            1.829054832458496,
+            0.6490753293037415,
+            0.23400628566741943
           ],
-          "opticalPlanes": 32
+          "opticalPlanes": 28,
+          "groupedAuthoredCaps": 0
         }
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
-      "drawCalls": 50,
-      "submittedTriangles": 64238,
-      "estimatedTargetMiB": 41.989532470703125,
+      "drawCalls": 58,
+      "submittedTriangles": 97973,
+      "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
           -13.592304845413263,
@@ -2818,37 +2994,38 @@
           0.4574374157795944
         ],
         "fov": 14,
-        "pitch": 62.932234750914276
+        "pitch": 62.835536629801545
       }
     },
     "shard-plan-clear": {
       "sourceRegion": "46b749",
       "triangles": 24,
       "sizeMm": [
-        4.831111431121826,
-        1.7513450980186462,
-        4.260232150554657
+        5.311154127120972,
+        1.9089996814727783,
+        4.624083787202835
       ],
       "patches": [
         {
           "triangles": 24,
           "min": [
-            1.150097370147705,
-            0.40975314378738403,
-            -0.21296362578868866
+            1.2979393005371094,
+            0.458175390958786,
+            -0.22840212285518646
           ],
           "max": [
-            1.6332085132598877,
-            0.584887683391571,
-            0.21305964887142181
+            1.829054832458496,
+            0.6490753293037415,
+            0.23400628566741943
           ],
-          "opticalPlanes": 32
+          "opticalPlanes": 28,
+          "groupedAuthoredCaps": 0
         }
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
-      "drawCalls": 61,
-      "submittedTriangles": 93569,
+      "drawCalls": 60,
+      "submittedTriangles": 98021,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2857,37 +3034,38 @@
           0.4574374157795944
         ],
         "fov": 14,
-        "pitch": 62.932234750914276
+        "pitch": 62.835536629801545
       }
     },
     "shard-side-paint": {
       "sourceRegion": "46b749",
       "triangles": 24,
       "sizeMm": [
-        4.831111431121826,
-        1.7513450980186462,
-        4.260232150554657
+        5.311154127120972,
+        1.9089996814727783,
+        4.624083787202835
       ],
       "patches": [
         {
           "triangles": 24,
           "min": [
-            1.150097370147705,
-            0.40975314378738403,
-            -0.21296362578868866
+            1.2979393005371094,
+            0.458175390958786,
+            -0.22840212285518646
           ],
           "max": [
-            1.6332085132598877,
-            0.584887683391571,
-            0.21305964887142181
+            1.829054832458496,
+            0.6490753293037415,
+            0.23400628566741943
           ],
-          "opticalPlanes": 32
+          "opticalPlanes": 28,
+          "groupedAuthoredCaps": 0
         }
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
-      "drawCalls": 51,
-      "submittedTriangles": 64250,
+      "drawCalls": 60,
+      "submittedTriangles": 97985,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2896,37 +3074,38 @@
           12.921539030917353
         ],
         "fov": 14,
-        "pitch": 35.367357275804544
+        "pitch": 35.24445039764702
       }
     },
     "shard-side-clear": {
       "sourceRegion": "46b749",
       "triangles": 24,
       "sizeMm": [
-        4.831111431121826,
-        1.7513450980186462,
-        4.260232150554657
+        5.311154127120972,
+        1.9089996814727783,
+        4.624083787202835
       ],
       "patches": [
         {
           "triangles": 24,
           "min": [
-            1.150097370147705,
-            0.40975314378738403,
-            -0.21296362578868866
+            1.2979393005371094,
+            0.458175390958786,
+            -0.22840212285518646
           ],
           "max": [
-            1.6332085132598877,
-            0.584887683391571,
-            0.21305964887142181
+            1.829054832458496,
+            0.6490753293037415,
+            0.23400628566741943
           ],
-          "opticalPlanes": 32
+          "opticalPlanes": 28,
+          "groupedAuthoredCaps": 0
         }
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
-      "drawCalls": 63,
-      "submittedTriangles": 93593,
+      "drawCalls": 62,
+      "submittedTriangles": 98033,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
@@ -2935,85 +3114,87 @@
           12.921539030917353
         ],
         "fov": 14,
-        "pitch": 35.367357275804544
+        "pitch": 35.24445039764702
       }
     },
     "planning-paint": {
       "sourceRegion": "46b749",
       "triangles": 24,
       "sizeMm": [
-        4.831111431121826,
-        1.7513450980186462,
-        4.260232150554657
+        5.311154127120972,
+        1.9089996814727783,
+        4.624083787202835
       ],
       "patches": [
         {
           "triangles": 24,
           "min": [
-            1.150097370147705,
-            0.40975314378738403,
-            -0.21296362578868866
+            1.2979393005371094,
+            0.458175390958786,
+            -0.22840212285518646
           ],
           "max": [
-            1.6332085132598877,
-            0.584887683391571,
-            0.21305964887142181
+            1.829054832458496,
+            0.6490753293037415,
+            0.23400628566741943
           ],
-          "opticalPlanes": 32
+          "opticalPlanes": 28,
+          "groupedAuthoredCaps": 0
         }
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": false,
-      "drawCalls": 79,
-      "submittedTriangles": 69904,
+      "drawCalls": 112,
+      "submittedTriangles": 109233,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
-          8,
-          63,
-          54
+          0,
+          150,
+          48
         ],
-        "fov": 32,
-        "pitch": 48.636926923625396
+        "fov": 12.7,
+        "pitch": 72.14377674268574
       }
     },
     "planning-clear": {
       "sourceRegion": "46b749",
       "triangles": 24,
       "sizeMm": [
-        4.831111431121826,
-        1.7513450980186462,
-        4.260232150554657
+        5.311154127120972,
+        1.9089996814727783,
+        4.624083787202835
       ],
       "patches": [
         {
           "triangles": 24,
           "min": [
-            1.150097370147705,
-            0.40975314378738403,
-            -0.21296362578868866
+            1.2979393005371094,
+            0.458175390958786,
+            -0.22840212285518646
           ],
           "max": [
-            1.6332085132598877,
-            0.584887683391571,
-            0.21305964887142181
+            1.829054832458496,
+            0.6490753293037415,
+            0.23400628566741943
           ],
-          "opticalPlanes": 32
+          "opticalPlanes": 28,
+          "groupedAuthoredCaps": 0
         }
       ],
       "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections",
       "enabled": true,
-      "drawCalls": 119,
-      "submittedTriangles": 104901,
+      "drawCalls": 114,
+      "submittedTriangles": 109281,
       "estimatedTargetMiB": 58.23299026489258,
       "actualCamera": {
         "position": [
-          8,
-          63,
-          54
+          0,
+          150,
+          48
         ],
-        "fov": 32,
-        "pitch": 48.636926923625396
+        "fov": 12.7,
+        "pitch": 72.14377674268574
       }
     }
   },
@@ -3039,9 +3220,9 @@
     "samples": 60,
     "width": 1920,
     "height": 1080,
-    "meanMs": 0.5899999991059304,
-    "p95Ms": 0.7000000029802322,
-    "maxMs": 0.7999999970197678,
+    "meanMs": 1.3933333337306977,
+    "p95Ms": 2,
+    "maxMs": 2.1000000089406967,
     "method": "JS submission plus gl.finish; 10 warmup, 60 samples; no full-board claim"
   }
 }

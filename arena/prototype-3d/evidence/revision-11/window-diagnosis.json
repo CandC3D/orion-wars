@@ -1,0 +1,129 @@
+{
+  "results": [
+    {
+      "id": "vra-shard",
+      "sourceTriangles": 14064,
+      "preparedTriangles": 8408,
+      "normalCornersChangedOver1Degree": 25186,
+      "totalCorners": 25224,
+      "maximumNormalDeviationDegrees": 134.41047975355175,
+      "camera": {
+        "position": [
+          0,
+          24,
+          32
+        ],
+        "fov": 7.218720799008594
+      },
+      "views": {
+        "painted": {
+          "mode": "painted",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 7.218720799008594
+          }
+        },
+        "prepared-smooth": {
+          "mode": "prepared-smooth",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 7.218720799008594
+          }
+        },
+        "prepared-flat": {
+          "mode": "prepared-flat",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 7.218720799008594
+          }
+        },
+        "source-flat": {
+          "mode": "source-flat",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 7.218720799008594
+          }
+        }
+      }
+    },
+    {
+      "id": "vra-crystal",
+      "sourceTriangles": 23642,
+      "preparedTriangles": 14103,
+      "normalCornersChangedOver1Degree": 42204,
+      "totalCorners": 42309,
+      "maximumNormalDeviationDegrees": 153.34505346487313,
+      "camera": {
+        "position": [
+          0,
+          24,
+          32
+        ],
+        "fov": 10.305091485767779
+      },
+      "views": {
+        "painted": {
+          "mode": "painted",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 10.305091485767779
+          }
+        },
+        "prepared-smooth": {
+          "mode": "prepared-smooth",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 10.305091485767779
+          }
+        },
+        "prepared-flat": {
+          "mode": "prepared-flat",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 10.305091485767779
+          }
+        },
+        "source-flat": {
+          "mode": "source-flat",
+          "camera": {
+            "position": [
+              0,
+              24,
+              32
+            ],
+            "fov": 10.305091485767779
+          }
+        }
+      }
+    }
+  ],
+  "errors": []
+}

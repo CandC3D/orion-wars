@@ -8,7 +8,7 @@ export const SIZES = Object.freeze({
   notebook: [216, 6, 279], pencilLength: 190, pencilDiameter: 7,
   baseAcrossFlats: 25, baseHeight: 3, basePyramidRise: 2,
   postHeight: 30, postBottomDiameter: 3, postTopDiameter: 2.4,
-  miniatures: { EAR: 55, KRE: 65, VRA: 45 }
+  miniatures: { EAR: 55, KRE: 54.32818057826884, VRA: 50.39617828995831 }
 });
 export const BOARD = Object.freeze({width:mm(SIZES.board[0]),depth:mm(SIZES.board[2]),top:mm(SIZES.board[1])});
 

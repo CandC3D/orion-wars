@@ -31,18 +31,19 @@ try{
  const hit=new THREE.Raycaster(new THREE.Vector3(0,-10,0),new THREE.Vector3(0,1,0)).intersectObject(hull,false)[0];if(!hit)throw Error('Crystal post misses underside');
  const attachment=hit.point.clone();hull.position.y=BOARD.top+BASE_APEX+mm(SIZES.postHeight)-attachment.y;
  const black=physicalMaterial('black cast stand paint',{color:'#151513',roughness:.86});
- const base=physicalMesh('Crystal / pyramid base',baseGeometry(),black),post=physicalMesh('Crystal / black tapered post',postGeometry(),black);scene.add(base,post);base.position.y=BOARD.top;post.position.y=BOARD.top+BASE_APEX+mm(SIZES.postHeight/2);
+ const postMaterial=plasticMaterial({name:'Crystal / approved clear tapered post',post:true});postMaterial.envMap=reflection.texture;postMaterial.envMapIntensity=.6;
+ const base=physicalMesh('Crystal / pyramid base',baseGeometry(),black),post=physicalMesh('Crystal / clear tapered post',postGeometry(),postMaterial);transmittingShadow(post,.10);scene.add(base,post);base.position.y=BOARD.top;post.position.y=BOARD.top+BASE_APEX+mm(SIZES.postHeight/2);
  const studyPosts=[];
  for(const [x,clear] of [[-2.2,false],[2.2,true]]){
   const b=physicalMesh('Comparison / black pyramid',baseGeometry(),black),g=postGeometry(64);
   g.setAttribute('opticalVolume',new THREE.Float32BufferAttribute(new Float32Array(g.attributes.position.count*2),2));
   const material=clear?plasticMaterial({name:'Comparison / clear moulded styrene post',post:true}):black;
   if(clear){material.envMap=reflection.texture;material.envMapIntensity=.6;}
-  const p=physicalMesh(clear?'Clear post / experiment':'Black post / default',g,material);if(clear)transmittingShadow(p,.10);
+  const p=physicalMesh(clear?'Clear post / approved':'Black post / retired comparison',g,material);if(clear)transmittingShadow(p,.10);
   b.position.set(x,BOARD.top,0);p.position.set(x,BOARD.top+BASE_APEX+mm(SIZES.postHeight/2),0);scene.add(b,p);studyPosts.push(b,p);
  }
  const scaleRows=standScaleRows(base.geometry,post.geometry);
- let mode='paint',angle='side',transmissionAllocated=false;
+ let mode='clear',angle='side',transmissionAllocated=true;
  function size(){const r=canvas.getBoundingClientRect(),scale=Math.min(1,Math.sqrt(BUDGETS.maxPixels/(r.width*r.height)));renderer.setSize(Math.round(r.width*scale),Math.round(r.height*scale),false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
  function pose(){
   const posts=mode==='posts';hull.visible=base.visible=post.visible=!posts;for(const p of studyPosts)p.visible=posts;
@@ -54,11 +55,11 @@ try{
   camera.position.set(...pos);camera.fov=posts?11:angle==='detail'?6.5:15;camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
   const pitch=Math.asin(-camera.getWorldDirection(new THREE.Vector3()).y)*180/Math.PI;if(camera.position.y<BUDGETS.cameraFloor||pitch<BUDGETS.pitchFloor)throw Error('Study camera crossed a floor');
   $('#study-title').textContent=posts?'Cast stand / black and clear':'Crystal heavy cruiser / '+(insert.visible?'moulded clear green':'painted green');
-  $('#study-caption').textContent=posts?'Identical geometry and height. Left: black. Right: clear experiment.':'Eight actual green patches. The geometry and camera stay fixed between variants.';
+  $('#study-caption').textContent=posts?'Identical geometry and height. Left: retired black. Right: approved clear.':'Eight actual green patches. The geometry and camera stay fixed between variants.';
  }
  function render(){renderer.info.reset();renderer.render(scene,camera);validateScene(scene);const r=inspect();if(r.triangles>90000||r.drawCalls>110||r.estimatedTargetMiB>160)throw Error('Material study exceeds its separate budget');$('#study-stats').textContent=r.triangles.toLocaleString()+' triangles / '+r.drawCalls+' draws';return r;}
- function inspect(){return {mode,angle,camera:{position:camera.position.toArray(),fov:camera.fov,pitch:Math.asin(-camera.getWorldDirection(new THREE.Vector3()).y)*180/Math.PI},drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,width:canvas.width,height:canvas.height,estimatedTargetMiB:(canvas.width*canvas.height*(transmissionAllocated?60:0)+2048**2*4)/1048576,attachment:attachment.toArray(),stand:scaleRows,insert:insert.userData.evidence,energyObjects:0,blackPostsDefault:mode!=='posts',sourceRegionAreas:map.sourceCoverage};}
- function capture(m='paint',a='side'){if(!['paint','clear','posts'].includes(m)||!['side','plan','detail'].includes(a))throw Error('Unknown comparison');mode=m;angle=a;pose();return render();}
+ function inspect(){return {mode,angle,camera:{position:camera.position.toArray(),fov:camera.fov,pitch:Math.asin(-camera.getWorldDirection(new THREE.Vector3()).y)*180/Math.PI},drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,width:canvas.width,height:canvas.height,estimatedTargetMiB:(canvas.width*canvas.height*(transmissionAllocated?60:0)+2048**2*4)/1048576,attachment:attachment.toArray(),stand:scaleRows,insert:insert.userData.evidence,energyObjects:0,blackPostsDefault:false,clearPostsDefault:true,sourceRegionAreas:map.sourceCoverage};}
+ function capture(m='clear',a='side'){if(!['paint','clear','posts'].includes(m)||!['side','plan','detail'].includes(a))throw Error('Unknown comparison');mode=m;angle=a;pose();return render();}
  function lightsOff(){const lights=scene.children.filter(o=>o.isLight).map(o=>[o,o.intensity]),materials=new Set();scene.traverse(o=>{if(o.isMesh&&o.material.envMap)materials.add(o.material);});
   const bg=scene.background;scene.background=new THREE.Color(0);for(const [l] of lights)l.intensity=0;for(const m of materials)m.envMapIntensity=0;render();
   const gl=renderer.getContext(),pixels=new Uint8Array(canvas.width*canvas.height*4);gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,pixels);let nonzero=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i]||pixels[i+1]||pixels[i+2])nonzero++;

@@ -48,7 +48,7 @@
     "name": "Sparrowhawk",
     "source": "Krelath KFG-01 _Sparrowhawk_ Class Frigate.glb",
     "output": "sparrowhawk",
-    "lengthMm": 65,
+    "lengthMm": 54.32818057826884,
     "ratio": 0.16,
     "nativeBow": "-Y",
     "colours": {
@@ -65,8 +65,8 @@
     "name": "Shard",
     "source": "vtw/Vraygon VFG-04 _Shard_ Class Frigate.glb",
     "output": "shard",
-    "lengthMm": 45,
-    "ratio": 0.3,
+    "lengthMm": 50.39617828995831,
+    "ratio": 0.4,
     "nativeBow": "+X",
     "colours": {
       "d3bfe5": 15750,

@@ -13,220 +13,8 @@
         "fov": 15,
         "pitch": 35.29114173577814
       },
-      "drawCalls": 43,
-      "triangles": 29392,
-      "width": 1514,
-      "height": 750,
-      "estimatedTargetMiB": 16,
-      "attachment": [
-        0,
-        -0.9417030442645586,
-        0
-      ],
-      "stand": [
-        {
-          "object": "Black base skirt",
-          "basis": "across flats / bevelled skirt height",
-          "sceneUnits": [
-            2.5,
-            0.30000001192092896
-          ],
-          "actualMm": [
-            25,
-            3.0000001192092896
-          ],
-          "referenceMm": [
-            25,
-            3
-          ]
-        },
-        {
-          "object": "Black base pyramid",
-          "basis": "rise above skirt / total apex height",
-          "sceneUnits": [
-            0.19999998807907104,
-            0.5
-          ],
-          "actualMm": [
-            1.9999998807907104,
-            5
-          ],
-          "referenceMm": [
-            2,
-            5
-          ]
-        },
-        {
-          "object": "Black tapered post",
-          "basis": "bottom diameter / top diameter / exposed length",
-          "sceneUnits": [
-            0.30000001192092896,
-            0.24000000263607074,
-            3
-          ],
-          "actualMm": [
-            3.0000001192092896,
-            2.4000000263607073,
-            30
-          ],
-          "referenceMm": [
-            3,
-            2.4,
-            30
-          ]
-        }
-      ],
-      "insert": {
-        "sourceRegion": "46b749",
-        "triangles": 178,
-        "sizeMm": [
-          51.37908458709717,
-          12.372986674308777,
-          29.881577491760254
-        ],
-        "patches": [
-          {
-            "triangles": 30,
-            "min": [
-              2.6818480491638184,
-              0.4035712480545044,
-              1.1252743005752563
-            ],
-            "max": [
-              3.0012478828430176,
-              0.5366965532302856,
-              1.4941068887710571
-            ],
-            "opticalPlanes": 23
-          },
-          {
-            "triangles": 28,
-            "min": [
-              2.6818480491638184,
-              0.40357038378715515,
-              -1.4940508604049683
-            ],
-            "max": [
-              3.0012478828430176,
-              0.5366990566253662,
-              -1.1252745389938354
-            ],
-            "opticalPlanes": 23
-          },
-          {
-            "triangles": 28,
-            "min": [
-              1.4695031642913818,
-              0.4035712480545044,
-              1.1252743005752563
-            ],
-            "max": [
-              1.788902997970581,
-              0.5366998910903931,
-              1.4941068887710571
-            ],
-            "opticalPlanes": 23
-          },
-          {
-            "triangles": 28,
-            "min": [
-              1.4695031642913818,
-              0.40357038378715515,
-              -1.4940508604049683
-            ],
-            "max": [
-              1.788902997970581,
-              0.5366990566253662,
-              -1.1252745389938354
-            ],
-            "opticalPlanes": 23
-          },
-          {
-            "triangles": 18,
-            "min": [
-              0.028384562581777573,
-              -0.15449319779872894,
-              1.0920058488845825
-            ],
-            "max": [
-              0.2911953032016754,
-              0.07308395206928253,
-              1.2329906225204468
-            ],
-            "opticalPlanes": 23
-          },
-          {
-            "triangles": 18,
-            "min": [
-              3.007131814956665,
-              0.7453678250312805,
-              -0.13137109577655792
-            ],
-            "max": [
-              3.1480085849761963,
-              0.9730160236358643,
-              0.13139882683753967
-            ],
-            "opticalPlanes": 23
-          },
-          {
-            "triangles": 18,
-            "min": [
-              0.02838459052145481,
-              -0.15450221300125122,
-              -1.2329902648925781
-            ],
-            "max": [
-              0.2911704480648041,
-              0.07309071719646454,
-              -1.0920056104660034
-            ],
-            "opticalPlanes": 20
-          },
-          {
-            "triangles": 10,
-            "min": [
-              -1.9898998737335205,
-              0.9496976137161255,
-              -0.1182091012597084
-            ],
-            "max": [
-              -1.9448587894439697,
-              1.0827964544296265,
-              0.12423292547464371
-            ],
-            "opticalPlanes": 13
-          }
-        ],
-        "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
-      },
-      "energyObjects": 0,
-      "blackPostsDefault": true,
-      "sourceRegionAreas": {
-        "75cedb": 0.012030113899715441,
-        "7e3f98": 0.0748431175882531,
-        "ffdd1a": 0.3284263864396785,
-        "f5831f": 0.003056671287986379,
-        "e1ad34": 0.5225747906544774,
-        "46b749": 0.010906055827283948,
-        "d3bfe5": 0.048094151494452286,
-        "e91d2d": 0.00006871280815297335
-      }
-    },
-    "crystal-clear-side": {
-      "mode": "clear",
-      "angle": "side",
-      "camera": {
-        "position": [
-          7,
-          24,
-          26
-        ],
-        "fov": 15,
-        "pitch": 35.29114173577814
-      },
-      "drawCalls": 55,
-      "triangles": 41642,
+      "drawCalls": 52,
+      "triangles": 41371,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -269,22 +57,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -309,7 +116,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -323,7 +131,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -337,7 +146,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -351,7 +161,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -365,7 +176,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -379,7 +191,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -393,7 +206,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -407,13 +221,255 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
-      "blackPostsDefault": true,
+      "blackPostsDefault": false,
+      "clearPostsDefault": true,
+      "sourceRegionAreas": {
+        "75cedb": 0.012030113899715441,
+        "7e3f98": 0.0748431175882531,
+        "ffdd1a": 0.3284263864396785,
+        "f5831f": 0.003056671287986379,
+        "e1ad34": 0.5225747906544774,
+        "46b749": 0.010906055827283948,
+        "d3bfe5": 0.048094151494452286,
+        "e91d2d": 0.00006871280815297335
+      }
+    },
+    "crystal-clear-side": {
+      "mode": "clear",
+      "angle": "side",
+      "camera": {
+        "position": [
+          7,
+          24,
+          26
+        ],
+        "fov": 15,
+        "pitch": 35.29114173577814
+      },
+      "drawCalls": 54,
+      "triangles": 41727,
+      "width": 1514,
+      "height": 750,
+      "estimatedTargetMiB": 80.97383117675781,
+      "attachment": [
+        0,
+        -0.9417030442645586,
+        0
+      ],
+      "stand": [
+        {
+          "object": "Black base skirt",
+          "basis": "across flats / bevelled skirt height",
+          "sceneUnits": [
+            2.5,
+            0.30000001192092896
+          ],
+          "actualMm": [
+            25,
+            3.0000001192092896
+          ],
+          "referenceMm": [
+            25,
+            3
+          ]
+        },
+        {
+          "object": "Black base pyramid",
+          "basis": "rise above skirt / total apex height",
+          "sceneUnits": [
+            0.19999998807907104,
+            0.5
+          ],
+          "actualMm": [
+            1.9999998807907104,
+            5
+          ],
+          "referenceMm": [
+            2,
+            5
+          ]
+        },
+        {
+          "object": "Clear tapered post",
+          "basis": "bottom diameter / top diameter / exposed length",
+          "sceneUnits": [
+            0.30000001192092896,
+            0.2400000050636433,
+            3
+          ],
+          "actualMm": [
+            3.0000001192092896,
+            2.400000050636433,
+            30
+          ],
+          "referenceMm": [
+            3,
+            2.4,
+            30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
+          ]
+        }
+      ],
+      "insert": {
+        "sourceRegion": "46b749",
+        "triangles": 178,
+        "sizeMm": [
+          51.37908458709717,
+          12.372986674308777,
+          29.881577491760254
+        ],
+        "patches": [
+          {
+            "triangles": 30,
+            "min": [
+              2.6818480491638184,
+              0.4035712480545044,
+              1.1252743005752563
+            ],
+            "max": [
+              3.0012478828430176,
+              0.5366965532302856,
+              1.4941068887710571
+            ],
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 28,
+            "min": [
+              2.6818480491638184,
+              0.40357038378715515,
+              -1.4940508604049683
+            ],
+            "max": [
+              3.0012478828430176,
+              0.5366990566253662,
+              -1.1252745389938354
+            ],
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 28,
+            "min": [
+              1.4695031642913818,
+              0.4035712480545044,
+              1.1252743005752563
+            ],
+            "max": [
+              1.788902997970581,
+              0.5366998910903931,
+              1.4941068887710571
+            ],
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 28,
+            "min": [
+              1.4695031642913818,
+              0.40357038378715515,
+              -1.4940508604049683
+            ],
+            "max": [
+              1.788902997970581,
+              0.5366990566253662,
+              -1.1252745389938354
+            ],
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 18,
+            "min": [
+              0.028384562581777573,
+              -0.15449319779872894,
+              1.0920058488845825
+            ],
+            "max": [
+              0.2911953032016754,
+              0.07308395206928253,
+              1.2329906225204468
+            ],
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 18,
+            "min": [
+              3.007131814956665,
+              0.7453678250312805,
+              -0.13137109577655792
+            ],
+            "max": [
+              3.1480085849761963,
+              0.9730160236358643,
+              0.13139882683753967
+            ],
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 18,
+            "min": [
+              0.02838459052145481,
+              -0.15450221300125122,
+              -1.2329902648925781
+            ],
+            "max": [
+              0.2911704480648041,
+              0.07309071719646454,
+              -1.0920056104660034
+            ],
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
+          },
+          {
+            "triangles": 10,
+            "min": [
+              -1.9898998737335205,
+              0.9496976137161255,
+              -0.1182091012597084
+            ],
+            "max": [
+              -1.9448587894439697,
+              1.0827964544296265,
+              0.12423292547464371
+            ],
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
+          }
+        ],
+        "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
+      },
+      "energyObjects": 0,
+      "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -438,7 +494,7 @@
         "pitch": 39.84889492484999
       },
       "drawCalls": 47,
-      "triangles": 7144,
+      "triangles": 7186,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -481,22 +537,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -521,7 +596,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -535,7 +611,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -549,7 +626,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -563,7 +641,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -577,7 +656,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -591,7 +671,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -605,7 +686,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -619,13 +701,15 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
       "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -649,8 +733,8 @@
         "fov": 15,
         "pitch": 62.506627238350646
       },
-      "drawCalls": 39,
-      "triangles": 29354,
+      "drawCalls": 44,
+      "triangles": 41295,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -693,22 +777,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -733,7 +836,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -747,7 +851,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -761,7 +866,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -775,7 +881,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -789,7 +896,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -803,7 +911,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -817,7 +926,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -831,13 +941,15 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
-      "blackPostsDefault": true,
+      "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -861,8 +973,8 @@
         "fov": 15,
         "pitch": 62.506627238350646
       },
-      "drawCalls": 47,
-      "triangles": 41566,
+      "drawCalls": 46,
+      "triangles": 41651,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -905,22 +1017,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -945,7 +1076,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -959,7 +1091,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -973,7 +1106,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -987,7 +1121,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1001,7 +1136,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1015,7 +1151,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1029,7 +1166,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -1043,13 +1181,15 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
-      "blackPostsDefault": true,
+      "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -1074,7 +1214,7 @@
         "pitch": 64.97090294817332
       },
       "drawCalls": 47,
-      "triangles": 7144,
+      "triangles": 7186,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -1117,22 +1257,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -1157,7 +1316,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1171,7 +1331,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1185,7 +1346,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1199,7 +1361,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1213,7 +1376,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1227,7 +1391,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1241,7 +1406,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -1255,13 +1421,15 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
       "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -1285,8 +1453,8 @@
         "fov": 6.5,
         "pitch": 36.87972017343719
       },
-      "drawCalls": 39,
-      "triangles": 29354,
+      "drawCalls": 44,
+      "triangles": 41295,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -1329,22 +1497,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -1369,7 +1556,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1383,7 +1571,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1397,7 +1586,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1411,7 +1601,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1425,7 +1616,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1439,7 +1631,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1453,7 +1646,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -1467,13 +1661,15 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
-      "blackPostsDefault": true,
+      "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -1497,8 +1693,8 @@
         "fov": 6.5,
         "pitch": 36.87972017343719
       },
-      "drawCalls": 47,
-      "triangles": 41566,
+      "drawCalls": 46,
+      "triangles": 41651,
       "width": 1514,
       "height": 750,
       "estimatedTargetMiB": 80.97383117675781,
@@ -1541,22 +1737,41 @@
           ]
         },
         {
-          "object": "Black tapered post",
+          "object": "Clear tapered post",
           "basis": "bottom diameter / top diameter / exposed length",
           "sceneUnits": [
             0.30000001192092896,
-            0.24000000263607074,
+            0.2400000050636433,
             3
           ],
           "actualMm": [
             3.0000001192092896,
-            2.4000000263607073,
+            2.400000050636433,
             30
           ],
           "referenceMm": [
             3,
             2.4,
             30
+          ]
+        },
+        {
+          "object": "Cast arc-2 triangle",
+          "basis": "length / width / relief",
+          "sceneUnits": [
+            0.59,
+            0.5,
+            0.035
+          ],
+          "actualMm": [
+            5.8999999999999995,
+            5,
+            0.35000000000000003
+          ],
+          "referenceMm": [
+            5.9,
+            5,
+            0.35
           ]
         }
       ],
@@ -1581,7 +1796,8 @@
               0.5366965532302856,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1595,7 +1811,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1609,7 +1826,8 @@
               0.5366998910903931,
               1.4941068887710571
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 28,
@@ -1623,7 +1841,8 @@
               0.5366990566253662,
               -1.1252745389938354
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1637,7 +1856,8 @@
               0.07308395206928253,
               1.2329906225204468
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1651,7 +1871,8 @@
               0.9730160236358643,
               0.13139882683753967
             ],
-            "opticalPlanes": 23
+            "opticalPlanes": 23,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 18,
@@ -1665,7 +1886,8 @@
               0.07309071719646454,
               -1.0920056104660034
             ],
-            "opticalPlanes": 20
+            "opticalPlanes": 20,
+            "groupedAuthoredCaps": 0
           },
           {
             "triangles": 10,
@@ -1679,13 +1901,15 @@
               1.0827964544296265,
               0.12423292547464371
             ],
-            "opticalPlanes": 13
+            "opticalPlanes": 13,
+            "groupedAuthoredCaps": 0
           }
         ],
         "approximation": "convex optical cap per connected authored patch; stochastic transmitting shadow; no caustics or multiple internal reflections"
       },
       "energyObjects": 0,
-      "blackPostsDefault": true,
+      "blackPostsDefault": false,
+      "clearPostsDefault": true,
       "sourceRegionAreas": {
         "75cedb": 0.012030113899715441,
         "7e3f98": 0.0748431175882531,
@@ -1707,10 +1931,10 @@
     },
     "clearOptics": {
       "pixels": 10610,
-      "floorPixels": 67,
+      "floorPixels": 35,
       "minimumMm": 0,
-      "medianMm": 1.3333333333333333,
-      "maximumMm": 2.2745098039215685,
+      "medianMm": 1.4901960784313726,
+      "maximumMm": 2.3529411764705883,
       "quantizationMm": 0.0784313725490196
     },
     "postsOptics": {

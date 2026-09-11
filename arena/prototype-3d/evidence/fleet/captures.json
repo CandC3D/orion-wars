@@ -36,9 +36,43 @@
               0
             ]
           },
-          "triangles": 57792,
-          "draws": 41,
+          "triangles": 83934,
+          "draws": 47,
           "miniatureLengthMm": 63.184471130371094,
+          "flightCount": 1,
+          "formationMm": [
+            63.184471130371094,
+            29.433895349502563,
+            31.399166584014893
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 3805,
+              "bfc7cc": 12118,
+              "e91d2d": 3270,
+              "46b749": 48,
+              "0076a9": 1765,
+              "f5831f": 2093,
+              "fafafa": 709,
+              "a7adb1": 1249,
+              "61676a": 469,
+              "e1ad34": 423
+            },
+            "concaveEdges": 5000,
+            "raisedEdges": 4184,
+            "unmatchedEdges": 420,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 9184,
+            "maxReferences": 32,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 256.8850226752654,
             "y": 68.79900429211582,
@@ -111,9 +145,8 @@
           "code": "ELC-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            12.847066839059126,
             12.073345318325199,
             11.941244277156187
           ],
@@ -150,9 +183,43 @@
               0
             ]
           },
-          "triangles": 57792,
-          "draws": 41,
+          "triangles": 83934,
+          "draws": 47,
           "miniatureLengthMm": 63.184471130371094,
+          "flightCount": 1,
+          "formationMm": [
+            63.184471130371094,
+            29.433895349502563,
+            31.399166584014893
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 3805,
+              "bfc7cc": 12118,
+              "e91d2d": 3270,
+              "46b749": 48,
+              "0076a9": 1765,
+              "f5831f": 2093,
+              "fafafa": 709,
+              "a7adb1": 1249,
+              "61676a": 469,
+              "e1ad34": 423
+            },
+            "concaveEdges": 5000,
+            "raisedEdges": 4184,
+            "unmatchedEdges": 420,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 9184,
+            "maxReferences": 32,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 210.37284817319403,
             "y": 67.27707617983123,
@@ -225,11 +292,9 @@
           "code": "ELC-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            18.80620437553897,
             17.01834092041672,
-            17.018340920416676,
             18.80620437553897
           ],
           "sourceLengthM": 270.5510281402626
@@ -265,9 +330,43 @@
               1
             ]
           },
-          "triangles": 61548,
-          "draws": 43,
+          "triangles": 91446,
+          "draws": 51,
           "miniatureLengthMm": 63.184471130371094,
+          "flightCount": 1,
+          "formationMm": [
+            63.184471130371094,
+            29.433895349502563,
+            31.399166584014893
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 3805,
+              "bfc7cc": 12118,
+              "e91d2d": 3270,
+              "46b749": 48,
+              "0076a9": 1765,
+              "f5831f": 2093,
+              "fafafa": 709,
+              "a7adb1": 1249,
+              "61676a": 469,
+              "e1ad34": 423
+            },
+            "concaveEdges": 5000,
+            "raisedEdges": 4184,
+            "unmatchedEdges": 420,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 9184,
+            "maxReferences": 32,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 394.69254811604816,
             "y": 293.8369343802336,
@@ -340,10 +439,8 @@
           "code": "ELC-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -386,9 +483,43 @@
               0
             ]
           },
-          "triangles": 172948,
-          "draws": 41,
+          "triangles": 256668,
+          "draws": 47,
           "miniatureLengthMm": 81.61188125610352,
+          "flightCount": 1,
+          "formationMm": [
+            81.61188125610352,
+            27.73200750350952,
+            39.47553873062134
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 36050,
+              "0076a9": 5491,
+              "e91d2d": 12967,
+              "f5831f": 13809,
+              "009fd7": 11175,
+              "e1ad34": 1222,
+              "fafafa": 1251,
+              "a7adb1": 310,
+              "61676a": 1104,
+              "46b749": 148
+            },
+            "concaveEdges": 11802,
+            "raisedEdges": 10309,
+            "unmatchedEdges": 687,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 22111,
+            "maxReferences": 60,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 219.18807304374855,
             "y": 71.48399645004648,
@@ -461,9 +592,8 @@
           "code": "EBB-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 7.993605777301127e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            11.634016269933378,
             10.933575982639086,
             10.813982535517503
           ],
@@ -500,9 +630,43 @@
               0
             ]
           },
-          "triangles": 172948,
-          "draws": 41,
+          "triangles": 256668,
+          "draws": 47,
           "miniatureLengthMm": 81.61188125610352,
+          "flightCount": 1,
+          "formationMm": [
+            81.61188125610352,
+            27.73200750350952,
+            39.47553873062134
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 36050,
+              "0076a9": 5491,
+              "e91d2d": 12967,
+              "f5831f": 13809,
+              "009fd7": 11175,
+              "e1ad34": 1222,
+              "fafafa": 1251,
+              "a7adb1": 310,
+              "61676a": 1104,
+              "46b749": 148
+            },
+            "concaveEdges": 11802,
+            "raisedEdges": 10309,
+            "unmatchedEdges": 687,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 22111,
+            "maxReferences": 60,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 124.38266334931348,
             "y": 70.92588271834327,
@@ -575,10 +739,8 @@
           "code": "EBB-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 7.993605777301127e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            18.92753385387041,
-            17.14709123483911,
             17.14709123483911,
             18.927533853870415
           ],
@@ -615,9 +777,43 @@
               1
             ]
           },
-          "triangles": 176704,
-          "draws": 43,
+          "triangles": 264180,
+          "draws": 51,
           "miniatureLengthMm": 81.61188125610352,
+          "flightCount": 1,
+          "formationMm": [
+            81.61188125610352,
+            27.73200750350952,
+            39.47553873062134
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 36050,
+              "0076a9": 5491,
+              "e91d2d": 12967,
+              "f5831f": 13809,
+              "009fd7": 11175,
+              "e1ad34": 1222,
+              "fafafa": 1251,
+              "a7adb1": 310,
+              "61676a": 1104,
+              "46b749": 148
+            },
+            "concaveEdges": 11802,
+            "raisedEdges": 10309,
+            "unmatchedEdges": 687,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 22111,
+            "maxReferences": 60,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 363.98019790649414,
             "y": 301.04922650956746,
@@ -690,10 +886,8 @@
           "code": "EBB-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 7.993605777301127e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -736,9 +930,42 @@
               0
             ]
           },
-          "triangles": 57814,
-          "draws": 41,
+          "triangles": 83967,
+          "draws": 47,
           "miniatureLengthMm": 54.99999523162842,
+          "flightCount": 1,
+          "formationMm": [
+            54.99999523162842,
+            33.469979763031006,
+            20.12486219406128
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 12350,
+              "0076a9": 4027,
+              "e91d2d": 2238,
+              "009fd7": 3981,
+              "f5831f": 1499,
+              "e1ad34": 1171,
+              "fafafa": 324,
+              "46b749": 141,
+              "61676a": 229
+            },
+            "concaveEdges": 3463,
+            "raisedEdges": 2343,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 5806,
+            "maxReferences": 23,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 266.38571612196307,
             "y": 68.4488113163452,
@@ -805,9 +1032,8 @@
           "code": "EFG-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            14.022724644869939,
             13.178369797457973,
             13.034206106523342
           ],
@@ -844,9 +1070,42 @@
               0
             ]
           },
-          "triangles": 57814,
-          "draws": 41,
+          "triangles": 83967,
+          "draws": 47,
           "miniatureLengthMm": 54.99999523162842,
+          "flightCount": 1,
+          "formationMm": [
+            54.99999523162842,
+            33.469979763031006,
+            20.12486219406128
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 12350,
+              "0076a9": 4027,
+              "e91d2d": 2238,
+              "009fd7": 3981,
+              "f5831f": 1499,
+              "e1ad34": 1171,
+              "fafafa": 324,
+              "46b749": 141,
+              "61676a": 229
+            },
+            "concaveEdges": 3463,
+            "raisedEdges": 2343,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 5806,
+            "maxReferences": 23,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 233.39467271399883,
             "y": 67.1720713596707,
@@ -913,11 +1172,9 @@
           "code": "EFG-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            20.09816129507978,
             18.20022926453692,
-            18.20022926453688,
             20.09816129507978
           ],
           "sourceLengthM": 205
@@ -953,9 +1210,42 @@
               1
             ]
           },
-          "triangles": 61570,
-          "draws": 43,
+          "triangles": 91479,
+          "draws": 51,
           "miniatureLengthMm": 54.99999523162842,
+          "flightCount": 1,
+          "formationMm": [
+            54.99999523162842,
+            33.469979763031006,
+            20.12486219406128
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 12350,
+              "0076a9": 4027,
+              "e91d2d": 2238,
+              "009fd7": 3981,
+              "f5831f": 1499,
+              "e1ad34": 1171,
+              "fafafa": 324,
+              "46b749": 141,
+              "61676a": 229
+            },
+            "concaveEdges": 3463,
+            "raisedEdges": 2343,
+            "unmatchedEdges": 178,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 5806,
+            "maxReferences": 23,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 408.3333412806193,
             "y": 305.316854386071,
@@ -1022,10 +1312,8 @@
           "code": "EFG-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -1068,9 +1356,43 @@
               0
             ]
           },
-          "triangles": 57820,
-          "draws": 41,
+          "triangles": 83976,
+          "draws": 47,
           "miniatureLengthMm": 60.24271011352539,
+          "flightCount": 1,
+          "formationMm": [
+            60.24271011352539,
+            25.663986206054688,
+            31.615750789642334
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "f5831f": 1392,
+              "bfc7cc": 14044,
+              "009fd7": 3450,
+              "e91d2d": 2986,
+              "a7adb1": 86,
+              "fafafa": 449,
+              "0076a9": 2266,
+              "61676a": 363,
+              "46b749": 84,
+              "e1ad34": 843
+            },
+            "concaveEdges": 4126,
+            "raisedEdges": 2753,
+            "unmatchedEdges": 273,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 6879,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 242.83890923597363,
             "y": 69.97628320200232,
@@ -1143,9 +1465,8 @@
           "code": "EDM-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            14.187580429602143,
             13.33365985686188,
             13.187856504930886
           ],
@@ -1182,9 +1503,43 @@
               0
             ]
           },
-          "triangles": 57820,
-          "draws": 41,
+          "triangles": 83976,
+          "draws": 47,
           "miniatureLengthMm": 60.24271011352539,
+          "flightCount": 1,
+          "formationMm": [
+            60.24271011352539,
+            25.663986206054688,
+            31.615750789642334
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "f5831f": 1392,
+              "bfc7cc": 14044,
+              "009fd7": 3450,
+              "e91d2d": 2986,
+              "a7adb1": 86,
+              "fafafa": 449,
+              "0076a9": 2266,
+              "61676a": 363,
+              "46b749": 84,
+              "e1ad34": 843
+            },
+            "concaveEdges": 4126,
+            "raisedEdges": 2753,
+            "unmatchedEdges": 273,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 6879,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 188.10484324545078,
             "y": 69.47642489751046,
@@ -1257,10 +1612,8 @@
           "code": "EDM-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            21.731566050665144,
-            19.707866891370603,
             19.707866891370603,
             21.731566050665222
           ],
@@ -1297,9 +1650,43 @@
               1
             ]
           },
-          "triangles": 61576,
-          "draws": 43,
+          "triangles": 91488,
+          "draws": 51,
           "miniatureLengthMm": 60.24271011352539,
+          "flightCount": 1,
+          "formationMm": [
+            60.24271011352539,
+            25.663986206054688,
+            31.615750789642334
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "f5831f": 1392,
+              "bfc7cc": 14044,
+              "009fd7": 3450,
+              "e91d2d": 2986,
+              "a7adb1": 86,
+              "fafafa": 449,
+              "0076a9": 2266,
+              "61676a": 363,
+              "46b749": 84,
+              "e1ad34": 843
+            },
+            "concaveEdges": 4126,
+            "raisedEdges": 2753,
+            "unmatchedEdges": 273,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 6879,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 399.59548314412433,
             "y": 322.1624235956211,
@@ -1372,10 +1759,8 @@
           "code": "EDM-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -1418,9 +1803,43 @@
               0
             ]
           },
-          "triangles": 57826,
-          "draws": 41,
+          "triangles": 83985,
+          "draws": 47,
           "miniatureLengthMm": 56.60550594329834,
+          "flightCount": 1,
+          "formationMm": [
+            56.60550594329834,
+            27.313029766082764,
+            34.4923734664917
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 3225,
+              "bfc7cc": 13817,
+              "fafafa": 432,
+              "0076a9": 2091,
+              "e91d2d": 2907,
+              "f5831f": 2176,
+              "46b749": 77,
+              "61676a": 406,
+              "e1ad34": 789,
+              "a7adb1": 46
+            },
+            "concaveEdges": 4231,
+            "raisedEdges": 2728,
+            "unmatchedEdges": 296,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 6959,
+            "maxReferences": 19,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 251.3372854811311,
             "y": 69.89566176452531,
@@ -1493,9 +1912,8 @@
           "code": "EDD-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            13.994753324994711,
             13.152385421195282,
             13.00855557829182
           ],
@@ -1532,9 +1950,43 @@
               0
             ]
           },
-          "triangles": 57826,
-          "draws": 41,
+          "triangles": 83985,
+          "draws": 47,
           "miniatureLengthMm": 56.60550594329834,
+          "flightCount": 1,
+          "formationMm": [
+            56.60550594329834,
+            27.313029766082764,
+            34.4923734664917
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 3225,
+              "bfc7cc": 13817,
+              "fafafa": 432,
+              "0076a9": 2091,
+              "e91d2d": 2907,
+              "f5831f": 2176,
+              "46b749": 77,
+              "61676a": 406,
+              "e1ad34": 789,
+              "a7adb1": 46
+            },
+            "concaveEdges": 4231,
+            "raisedEdges": 2728,
+            "unmatchedEdges": 296,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 6959,
+            "maxReferences": 19,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 217.12956329335054,
             "y": 70.16314283428106,
@@ -1607,10 +2059,8 @@
           "code": "EDD-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            20.857525561917036,
-            18.91115269805935,
             18.91115269805935,
             20.857525561917036
           ],
@@ -1647,9 +2097,43 @@
               1
             ]
           },
-          "triangles": 61582,
-          "draws": 43,
+          "triangles": 91497,
+          "draws": 51,
           "miniatureLengthMm": 56.60550594329834,
+          "flightCount": 1,
+          "formationMm": [
+            56.60550594329834,
+            27.313029766082764,
+            34.4923734664917
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 3225,
+              "bfc7cc": 13817,
+              "fafafa": 432,
+              "0076a9": 2091,
+              "e91d2d": 2907,
+              "f5831f": 2176,
+              "46b749": 77,
+              "61676a": 406,
+              "e1ad34": 789,
+              "a7adb1": 46
+            },
+            "concaveEdges": 4231,
+            "raisedEdges": 2728,
+            "unmatchedEdges": 296,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 6959,
+            "maxReferences": 19,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 405.65749009450275,
             "y": 316.6410817185666,
@@ -1722,10 +2206,8 @@
           "code": "EDD-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -1768,9 +2250,43 @@
               0
             ]
           },
-          "triangles": 57736,
-          "draws": 41,
+          "triangles": 83850,
+          "draws": 47,
           "miniatureLengthMm": 81.79020881652832,
+          "flightCount": 1,
+          "formationMm": [
+            81.79020881652832,
+            31.684571504592896,
+            32.07968711853027
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 4476,
+              "a7adb1": 1806,
+              "0076a9": 871,
+              "fafafa": 451,
+              "f5831f": 3013,
+              "bfc7cc": 9960,
+              "e91d2d": 3831,
+              "61676a": 1059,
+              "e1ad34": 418,
+              "46b749": 36
+            },
+            "concaveEdges": 5987,
+            "raisedEdges": 5230,
+            "unmatchedEdges": 419,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 11217,
+            "maxReferences": 28,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 236.11738383265575,
             "y": 69.42558038062275,
@@ -1843,9 +2359,8 @@
           "code": "EBY-00",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 3.552713678800501e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            11.34039997880586,
             10.65720838538868,
             10.540567775334921
           ],
@@ -1882,9 +2397,43 @@
               0
             ]
           },
-          "triangles": 57736,
-          "draws": 41,
+          "triangles": 83850,
+          "draws": 47,
           "miniatureLengthMm": 81.79020881652832,
+          "flightCount": 1,
+          "formationMm": [
+            81.79020881652832,
+            31.684571504592896,
+            32.07968711853027
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 4476,
+              "a7adb1": 1806,
+              "0076a9": 871,
+              "fafafa": 451,
+              "f5831f": 3013,
+              "bfc7cc": 9960,
+              "e91d2d": 3831,
+              "61676a": 1059,
+              "e1ad34": 418,
+              "46b749": 36
+            },
+            "concaveEdges": 5987,
+            "raisedEdges": 5230,
+            "unmatchedEdges": 419,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 11217,
+            "maxReferences": 28,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 146.16925709693678,
             "y": 66.42910475914526,
@@ -1957,10 +2506,8 @@
           "code": "EBY-00",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 3.552713678800501e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            17.530212663998125,
-            15.846686001016314,
             15.846686001016314,
             17.530212663998125
           ],
@@ -1997,9 +2544,43 @@
               1
             ]
           },
-          "triangles": 61492,
-          "draws": 43,
+          "triangles": 91362,
+          "draws": 51,
           "miniatureLengthMm": 81.79020881652832,
+          "flightCount": 1,
+          "formationMm": [
+            81.79020881652832,
+            31.684571504592896,
+            32.07968711853027
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "009fd7": 4476,
+              "a7adb1": 1806,
+              "0076a9": 871,
+              "fafafa": 451,
+              "f5831f": 3013,
+              "bfc7cc": 9960,
+              "e91d2d": 3831,
+              "61676a": 1059,
+              "e1ad34": 418,
+              "46b749": 36
+            },
+            "concaveEdges": 5987,
+            "raisedEdges": 5230,
+            "unmatchedEdges": 419,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 11217,
+            "maxReferences": 28,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 363.68298530578613,
             "y": 279.4384908014306,
@@ -2072,10 +2653,8 @@
           "code": "EBY-00",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 3.552713678800501e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -2118,9 +2697,43 @@
               0
             ]
           },
-          "triangles": 57786,
-          "draws": 41,
+          "triangles": 83925,
+          "draws": 47,
           "miniatureLengthMm": 77.34824180603027,
+          "flightCount": 1,
+          "formationMm": [
+            77.34824180603027,
+            29.27403688430786,
+            45.001797676086426
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 12253,
+              "fafafa": 571,
+              "0076a9": 2356,
+              "e91d2d": 2982,
+              "f5831f": 3708,
+              "009fd7": 3101,
+              "e1ad34": 484,
+              "a7adb1": 151,
+              "61676a": 290,
+              "46b749": 50
+            },
+            "concaveEdges": 5391,
+            "raisedEdges": 4494,
+            "unmatchedEdges": 593,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 9885,
+            "maxReferences": 34,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 227.60148738595714,
             "y": 71.60807336096867,
@@ -2193,9 +2806,8 @@
           "code": "ECA-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.6645352591003757e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            11.318539488550764,
             10.637041235034513,
             10.520682883734903
           ],
@@ -2232,9 +2844,43 @@
               0
             ]
           },
-          "triangles": 57786,
-          "draws": 41,
+          "triangles": 83925,
+          "draws": 47,
           "miniatureLengthMm": 77.34824180603027,
+          "flightCount": 1,
+          "formationMm": [
+            77.34824180603027,
+            29.27403688430786,
+            45.001797676086426
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 12253,
+              "fafafa": 571,
+              "0076a9": 2356,
+              "e91d2d": 2982,
+              "f5831f": 3708,
+              "009fd7": 3101,
+              "e1ad34": 484,
+              "a7adb1": 151,
+              "61676a": 290,
+              "46b749": 50
+            },
+            "concaveEdges": 5391,
+            "raisedEdges": 4494,
+            "unmatchedEdges": 593,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 9885,
+            "maxReferences": 34,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 161.18443790144948,
             "y": 72.4239681707704,
@@ -2307,10 +2953,8 @@
           "code": "ECA-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.6645352591003757e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            17.844843691272004,
-            16.16203621965758,
             16.16203621965758,
             17.844843691272004
           ],
@@ -2347,9 +2991,43 @@
               1
             ]
           },
-          "triangles": 61542,
-          "draws": 43,
+          "triangles": 91437,
+          "draws": 51,
           "miniatureLengthMm": 77.34824180603027,
+          "flightCount": 1,
+          "formationMm": [
+            77.34824180603027,
+            29.27403688430786,
+            45.001797676086426
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "bfc7cc": 12253,
+              "fafafa": 571,
+              "0076a9": 2356,
+              "e91d2d": 2982,
+              "f5831f": 3708,
+              "009fd7": 3101,
+              "e1ad34": 484,
+              "a7adb1": 151,
+              "61676a": 290,
+              "46b749": 50
+            },
+            "concaveEdges": 5391,
+            "raisedEdges": 4494,
+            "unmatchedEdges": 593,
+            "creaseThresholdDegrees": 24,
+            "faction": "EAR",
+            "segments": 9885,
+            "maxReferences": 34,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 371.0862636566162,
             "y": 292.5805569537896,
@@ -2422,10 +3100,8 @@
           "code": "ECA-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.6645352591003757e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -2468,9 +3144,40 @@
               0
             ]
           },
-          "triangles": 57848,
-          "draws": 41,
+          "triangles": 84018,
+          "draws": 47,
           "miniatureLengthMm": 54.32840824127197,
+          "flightCount": 1,
+          "formationMm": [
+            54.32840824127197,
+            14.897012114524841,
+            33.08372974395752
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 11746,
+              "a97b50": 7265,
+              "46b749": 3565,
+              "f5831f": 1806,
+              "ffdd1a": 1052,
+              "e91d2d": 488,
+              "fafafa": 55
+            },
+            "concaveEdges": 2655,
+            "raisedEdges": 1444,
+            "unmatchedEdges": 80,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 4099,
+            "maxReferences": 41,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 238.76433597486334,
             "y": 70.68286386890523,
@@ -2526,9 +3233,8 @@
           "code": "KDG-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            15.438541083429014,
             14.509724654099648,
             14.351126227556039
           ],
@@ -2565,9 +3271,40 @@
               0
             ]
           },
-          "triangles": 57848,
-          "draws": 41,
+          "triangles": 84018,
+          "draws": 47,
           "miniatureLengthMm": 54.32840824127197,
+          "flightCount": 1,
+          "formationMm": [
+            54.32840824127197,
+            14.897012114524841,
+            33.08372974395752
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 11746,
+              "a97b50": 7265,
+              "46b749": 3565,
+              "f5831f": 1806,
+              "ffdd1a": 1052,
+              "e91d2d": 488,
+              "fafafa": 55
+            },
+            "concaveEdges": 2655,
+            "raisedEdges": 1444,
+            "unmatchedEdges": 80,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 4099,
+            "maxReferences": 41,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 193.83952366598928,
             "y": 71.3510045601374,
@@ -2623,11 +3360,9 @@
           "code": "KDG-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            23.982606661723608,
             21.78071423483459,
-            21.78071423483455,
             23.982606661723608
           ],
           "sourceLengthM": 200.0241459816631
@@ -2663,9 +3398,40 @@
               1
             ]
           },
-          "triangles": 61604,
-          "draws": 43,
+          "triangles": 91530,
+          "draws": 51,
           "miniatureLengthMm": 54.32840824127197,
+          "flightCount": 1,
+          "formationMm": [
+            54.32840824127197,
+            14.897012114524841,
+            33.08372974395752
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 11746,
+              "a97b50": 7265,
+              "46b749": 3565,
+              "f5831f": 1806,
+              "ffdd1a": 1052,
+              "e91d2d": 488,
+              "fafafa": 55
+            },
+            "concaveEdges": 2655,
+            "raisedEdges": 1444,
+            "unmatchedEdges": 80,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 4099,
+            "maxReferences": 41,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 409.4526529312134,
             "y": 340.69708157288323,
@@ -2721,10 +3487,8 @@
           "code": "KDG-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -2767,9 +3531,41 @@
               0
             ]
           },
-          "triangles": 319678,
-          "draws": 41,
+          "triangles": 476763,
+          "draws": 47,
           "miniatureLengthMm": 77.43713855743408,
+          "flightCount": 1,
+          "formationMm": [
+            77.43713855743408,
+            17.40634322166443,
+            32.94841766357422
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 42999,
+              "a97b50": 41867,
+              "ffdd1a": 46698,
+              "46b749": 11916,
+              "c8e4bd": 1073,
+              "fafafa": 114,
+              "f5831f": 10958,
+              "e91d2d": 1267
+            },
+            "concaveEdges": 14532,
+            "raisedEdges": 4688,
+            "unmatchedEdges": 109,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 19220,
+            "maxReferences": 600,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 212.55208872482507,
             "y": 71.35014652603402,
@@ -2830,9 +3626,8 @@
           "code": "KCV-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 3.108624468950438e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            13.007924929385881,
             12.225056243958589,
             12.09138380724238
           ],
@@ -2869,9 +3664,41 @@
               0
             ]
           },
-          "triangles": 319678,
-          "draws": 41,
+          "triangles": 476763,
+          "draws": 47,
           "miniatureLengthMm": 77.43713855743408,
+          "flightCount": 1,
+          "formationMm": [
+            77.43713855743408,
+            17.40634322166443,
+            32.94841766357422
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 42999,
+              "a97b50": 41867,
+              "ffdd1a": 46698,
+              "46b749": 11916,
+              "c8e4bd": 1073,
+              "fafafa": 114,
+              "f5831f": 10958,
+              "e91d2d": 1267
+            },
+            "concaveEdges": 14532,
+            "raisedEdges": 4688,
+            "unmatchedEdges": 109,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 19220,
+            "maxReferences": 600,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 97.69326879187673,
             "y": 70.10941539828156,
@@ -2932,11 +3759,9 @@
           "code": "KCV-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 3.108624468950438e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            21.82509146851347,
             19.797057707192252,
-            19.797057707192213,
             21.82509146851347
           ],
           "sourceLengthM": 406.375104716761
@@ -2972,9 +3797,41 @@
               1
             ]
           },
-          "triangles": 323434,
-          "draws": 43,
+          "triangles": 484275,
+          "draws": 51,
           "miniatureLengthMm": 77.43713855743408,
+          "flightCount": 1,
+          "formationMm": [
+            77.43713855743408,
+            17.40634322166443,
+            32.94841766357422
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 42999,
+              "a97b50": 41867,
+              "ffdd1a": 46698,
+              "46b749": 11916,
+              "c8e4bd": 1073,
+              "fafafa": 114,
+              "f5831f": 10958,
+              "e91d2d": 1267
+            },
+            "concaveEdges": 14532,
+            "raisedEdges": 4688,
+            "unmatchedEdges": 109,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 19220,
+            "maxReferences": 600,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 370.9381024042765,
             "y": 323.9567460749526,
@@ -3035,10 +3892,8 @@
           "code": "KCV-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 3.108624468950438e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -3060,15 +3915,15 @@
               44
             ],
             "pitch": 49.42886398346838,
-            "fov": 4.722334652137636,
+            "fov": 5.577005513708763,
             "orthographic": false,
             "projection": [
-              17.461534885250657,
+              14.782264434996057,
               0,
               0,
               0,
               0,
-              24.252131785070354,
+              20.530922826383414,
               0,
               0,
               0,
@@ -3081,20 +3936,50 @@
               0
             ]
           },
-          "triangles": 36326,
-          "draws": 39,
+          "triangles": 280575,
+          "draws": 70,
           "miniatureLengthMm": 9.446942806243896,
+          "flightCount": 6,
+          "formationMm": [
+            32.34082841873169,
+            2.9108771681785583,
+            39.26232647895813
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 3376,
+              "46b749": 8938,
+              "ffdd1a": 2037,
+              "a97b50": 697,
+              "f5831f": 84,
+              "e91d2d": 96
+            },
+            "concaveEdges": 561,
+            "raisedEdges": 406,
+            "unmatchedEdges": 18,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 967,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
-            "x": 296.2579684443216,
-            "y": 69.25280900818649,
-            "width": 405.6527905503889,
-            "height": 580.0000000000002
+            "x": 271.5614652263509,
+            "y": 70.7476589269393,
+            "width": 453.92280192195716,
+            "height": 580.0000000000001
           },
           "hullBounds": {
-            "x": 399.935287512573,
-            "y": 138.14292325783947,
-            "width": 199.2534243721745,
-            "height": 194.00013936999966
+            "x": 271.5614652263509,
+            "y": 70.7476589269393,
+            "width": 453.92280192195716,
+            "height": 373.17446602020345
           },
           "regions": [
             {
@@ -3131,11 +4016,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KFB-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.7763568394002505e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 8.940692630687863e-09,
+          "rimCapPixels": [
+            16.66691260226038,
+            16.484801338696702
+          ],
           "sourceLengthM": 6.047989402698494
         },
         "side": {
@@ -3148,15 +4036,15 @@
               33.73959022689859
             ],
             "pitch": 33,
-            "fov": 8.367571100013961,
+            "fov": 9.364543687026487,
             "orthographic": false,
             "projection": [
-              9.842668520931518,
+              8.790836598158092,
               0,
               0,
               0,
               0,
-              13.67037294573822,
+              12.209495275219574,
               0,
               0,
               0,
@@ -3169,20 +4057,50 @@
               0
             ]
           },
-          "triangles": 36326,
-          "draws": 39,
+          "triangles": 280575,
+          "draws": 70,
           "miniatureLengthMm": 9.446942806243896,
+          "flightCount": 6,
+          "formationMm": [
+            32.34082841873169,
+            2.9108771681785583,
+            39.26232647895813
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 3376,
+              "46b749": 8938,
+              "ffdd1a": 2037,
+              "a97b50": 697,
+              "f5831f": 84,
+              "e91d2d": 96
+            },
+            "concaveEdges": 561,
+            "raisedEdges": 406,
+            "unmatchedEdges": 18,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 967,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
-            "x": 338.07297206327263,
-            "y": 71.30875548382383,
-            "width": 323.8540558734547,
-            "height": 580
+            "x": 310.73962631342636,
+            "y": 74.45089132214746,
+            "width": 378.52067063501056,
+            "height": 580.0000000000002
           },
           "hullBounds": {
-            "x": 439.49497837164836,
-            "y": 102.52092967405662,
-            "width": 121.00995927153099,
-            "height": 151.21855614142686
+            "x": 310.73962631342636,
+            "y": 74.45089132214746,
+            "width": 378.52067063501056,
+            "height": 253.9473616960227
           },
           "regions": [
             {
@@ -3219,11 +4137,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KFB-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.7763568394002505e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 8.940692630687863e-09,
+          "rimCapPixels": [
+            22.796711799195865,
+            25.069670678468903
+          ],
           "sourceLengthM": 6.047989402698494
         },
         "strip": {
@@ -3257,20 +4178,50 @@
               1
             ]
           },
-          "triangles": 40082,
-          "draws": 41,
+          "triangles": 288087,
+          "draws": 74,
           "miniatureLengthMm": 9.446942806243896,
+          "flightCount": 6,
+          "formationMm": [
+            32.34082841873169,
+            2.9108771681785583,
+            39.26232647895813
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 3376,
+              "46b749": 8938,
+              "ffdd1a": 2037,
+              "a97b50": 697,
+              "f5831f": 84,
+              "e91d2d": 96
+            },
+            "concaveEdges": 561,
+            "raisedEdges": 406,
+            "unmatchedEdges": 18,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 967,
+            "maxReferences": 36,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
-            "x": 458.3333333333333,
-            "y": 362.3525555283497,
-            "width": 83.33333333333331,
-            "height": 158.0386937444627
+            "x": 446.09860837459564,
+            "y": 352.9168486351001,
+            "width": 107.80276139577234,
+            "height": 176.91009562785598
           },
           "hullBounds": {
-            "x": 484.25508439540863,
-            "y": 371.6444100317457,
-            "width": 31.489809354146246,
-            "height": 41.96175258604342
+            "x": 446.09860837459564,
+            "y": 352.9168486351001,
+            "width": 107.80276139577234,
+            "height": 79.41687537933461
           },
           "regions": [
             {
@@ -3307,312 +4258,15 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KFB-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.7763568394002505e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 8.940692630687863e-09,
+          "rimCapPixels": [
+            7.306067076666432,
+            7.849028515207546
+          ],
           "sourceLengthM": 6.047989402698494
-        }
-      },
-      "blackout": 0
-    },
-    {
-      "id": "kre-boss",
-      "views": {
-        "quarter": {
-          "id": "kre-boss",
-          "view": "quarter",
-          "camera": {
-            "position": [
-              28,
-              63,
-              44
-            ],
-            "pitch": 49.0621692139233,
-            "fov": 8.503306769183274,
-            "orthographic": false,
-            "projection": [
-              9.684988594125121,
-              0,
-              0,
-              0,
-              0,
-              13.451373047396004,
-              0,
-              0,
-              0,
-              0,
-              -1.0080321285140563,
-              -1,
-              0,
-              0,
-              -2.0080321285140563,
-              0
-            ]
-          },
-          "triangles": 777666,
-          "draws": 39,
-          "miniatureLengthMm": 96.89889907836914,
-          "bounds": {
-            "x": 192.7593283563291,
-            "y": 72.17346315076941,
-            "width": 620.8303651464657,
-            "height": 580.0000000000001
-          },
-          "hullBounds": {
-            "x": 192.7593283563291,
-            "y": 72.17346315076941,
-            "width": 620.8303651464657,
-            "height": 455.69099323803334
-          },
-          "regions": [
-            {
-              "key": "f5831f",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            },
-            {
-              "key": "126936",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "ffdd1a",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            },
-            {
-              "key": "a97b50",
-              "classification": "metal",
-              "metal": "bronze",
-              "physicalEmission": 0
-            },
-            {
-              "key": "46b749",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "e91d2d",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "c8e4bd",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "fafafa",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            }
-          ],
-          "energyObjects": 0,
-          "clearVariant": false,
-          "code": null,
-          "postExposedMm": 30,
-          "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.7763568394002505e-14,
-          "rimCapPixels": [],
-          "sourceLengthM": 636.3061983280516
-        },
-        "side": {
-          "id": "kre-boss",
-          "view": "side",
-          "camera": {
-            "position": [
-              0,
-              24,
-              32.533524346433225
-            ],
-            "pitch": 33,
-            "fov": 13.023600980384114,
-            "orthographic": false,
-            "projection": [
-              6.307808203564979,
-              0,
-              0,
-              0,
-              0,
-              8.76084472717358,
-              0,
-              0,
-              0,
-              0,
-              -1.0080321285140563,
-              -1,
-              0,
-              0,
-              -2.0080321285140563,
-              0
-            ]
-          },
-          "triangles": 777666,
-          "draws": 39,
-          "miniatureLengthMm": 96.89889907836914,
-          "bounds": {
-            "x": 74.99999999999996,
-            "y": 104.31237764369939,
-            "width": 850,
-            "height": 510.40952726915816
-          },
-          "hullBounds": {
-            "x": 74.99999999999996,
-            "y": 104.31237764369939,
-            "width": 850,
-            "height": 292.67766782156724
-          },
-          "regions": [
-            {
-              "key": "f5831f",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            },
-            {
-              "key": "126936",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "ffdd1a",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            },
-            {
-              "key": "a97b50",
-              "classification": "metal",
-              "metal": "bronze",
-              "physicalEmission": 0
-            },
-            {
-              "key": "46b749",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "e91d2d",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "c8e4bd",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "fafafa",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            }
-          ],
-          "energyObjects": 0,
-          "clearVariant": false,
-          "code": null,
-          "postExposedMm": 30,
-          "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.7763568394002505e-14,
-          "rimCapPixels": [],
-          "sourceLengthM": 636.3061983280516
-        },
-        "strip": {
-          "id": "kre-boss",
-          "view": "strip",
-          "camera": {
-            "position": [
-              0,
-              24,
-              29.257434312477073
-            ],
-            "pitch": 33,
-            "fov": null,
-            "orthographic": true,
-            "projection": [
-              0.06666666666666667,
-              0,
-              0,
-              0,
-              0,
-              0.09259259259259259,
-              0,
-              0,
-              0,
-              0,
-              -0.008032128514056224,
-              0,
-              0,
-              0,
-              -1.0080321285140563,
-              1
-            ]
-          },
-          "triangles": 781422,
-          "draws": 41,
-          "miniatureLengthMm": 96.89889907836914,
-          "bounds": {
-            "x": 338.50183486938477,
-            "y": 314.84597895733134,
-            "width": 322.99633026123047,
-            "height": 209.2604677429481
-          },
-          "hullBounds": {
-            "x": 338.50183486938477,
-            "y": 314.84597895733134,
-            "width": 322.99633026123047,
-            "height": 119.13794963377092
-          },
-          "regions": [
-            {
-              "key": "f5831f",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            },
-            {
-              "key": "126936",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "ffdd1a",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            },
-            {
-              "key": "a97b50",
-              "classification": "metal",
-              "metal": "bronze",
-              "physicalEmission": 0
-            },
-            {
-              "key": "46b749",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "e91d2d",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "c8e4bd",
-              "classification": "paint",
-              "physicalEmission": 0
-            },
-            {
-              "key": "fafafa",
-              "classification": "emissive-designated",
-              "physicalEmission": 0
-            }
-          ],
-          "energyObjects": 0,
-          "clearVariant": false,
-          "code": null,
-          "postExposedMm": 30,
-          "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.7763568394002505e-14,
-          "rimCapPixels": [],
-          "sourceLengthM": 636.3061983280516
         }
       },
       "blackout": 0
@@ -3630,15 +4284,15 @@
               44
             ],
             "pitch": 49.44022223580732,
-            "fov": 4.6930187245187325,
+            "fov": 5.093811681057743,
             "orthographic": false,
             "projection": [
-              17.570735241689004,
+              16.186615722092334,
               0,
               0,
               0,
               0,
-              24.403798946790282,
+              22.481410725128242,
               0,
               0,
               0,
@@ -3651,20 +4305,50 @@
               0
             ]
           },
-          "triangles": 34532,
-          "draws": 39,
+          "triangles": 264429,
+          "draws": 70,
           "miniatureLengthMm": 10.70058822631836,
+          "flightCount": 6,
+          "formationMm": [
+            36.10176467895508,
+            2.421615943312645,
+            20.35492432117462
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 1297,
+              "46b749": 8355,
+              "ffdd1a": 3488,
+              "a97b50": 819,
+              "f5831f": 84,
+              "e91d2d": 288
+            },
+            "concaveEdges": 524,
+            "raisedEdges": 479,
+            "unmatchedEdges": 3,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 1003,
+            "maxReferences": 73,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
-            "x": 295.0804821188986,
-            "y": 69.31822664485776,
-            "width": 407.99846283690937,
-            "height": 579.9999999999999
+            "x": 263.4846451673977,
+            "y": 70.01887144118348,
+            "width": 472.0621488703983,
+            "height": 580.0000000000001
           },
           "hullBounds": {
-            "x": 422.1349523182347,
-            "y": 168.72968361419063,
-            "width": 155.60175198441823,
-            "height": 130.5536277041467
+            "x": 287.63609858741955,
+            "y": 96.77885152828341,
+            "width": 425.1153285138328,
+            "height": 297.91818174768457
           },
           "regions": [
             {
@@ -3701,11 +4385,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KFY-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 8.940692630687863e-09,
+          "rimCapPixels": [
+            18.25015946259602,
+            18.05075435630872
+          ],
           "sourceLengthM": 7.759679962565943
         },
         "side": {
@@ -3739,20 +4426,50 @@
               0
             ]
           },
-          "triangles": 34532,
-          "draws": 39,
+          "triangles": 264429,
+          "draws": 70,
           "miniatureLengthMm": 10.70058822631836,
+          "flightCount": 6,
+          "formationMm": [
+            36.10176467895508,
+            2.421615943312645,
+            20.35492432117462
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 1297,
+              "46b749": 8355,
+              "ffdd1a": 3488,
+              "a97b50": 819,
+              "f5831f": 84,
+              "e91d2d": 288
+            },
+            "concaveEdges": 524,
+            "raisedEdges": 479,
+            "unmatchedEdges": 3,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 1003,
+            "maxReferences": 73,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
-            "x": 336.7286465705161,
+            "x": 264.22464078697067,
             "y": 71.40317025505269,
-            "width": 326.54270685896773,
+            "width": 471.55071842605867,
             "height": 580
           },
           "hullBounds": {
-            "x": 431.6003259347544,
-            "y": 132.61079155154255,
-            "width": 136.79934813049118,
-            "height": 85.84315996925531
+            "x": 266.4160683689183,
+            "y": 97.55584624835832,
+            "width": 467.1678632621634,
+            "height": 158.42998637601414
           },
           "regions": [
             {
@@ -3789,11 +4506,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KFY-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 8.940692630687863e-09,
+          "rimCapPixels": [
+            25.76472886255147,
+            28.330912364960433
+          ],
           "sourceLengthM": 7.759679962565943
         },
         "strip": {
@@ -3827,20 +4547,50 @@
               1
             ]
           },
-          "triangles": 38288,
-          "draws": 41,
+          "triangles": 271941,
+          "draws": 74,
           "miniatureLengthMm": 10.70058822631836,
+          "flightCount": 6,
+          "formationMm": [
+            36.10176467895508,
+            2.421615943312645,
+            20.35492432117462
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 1297,
+              "46b749": 8355,
+              "ffdd1a": 3488,
+              "a97b50": 819,
+              "f5831f": 84,
+              "e91d2d": 288
+            },
+            "concaveEdges": 524,
+            "raisedEdges": 479,
+            "unmatchedEdges": 3,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 1003,
+            "maxReferences": 73,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
-            "x": 458.3333333333333,
+            "x": 439.8303922017415,
             "y": 363.71941588807255,
-            "width": 83.33333333333331,
+            "width": 120.33921559651691,
             "height": 156.67183338473984
           },
           "hullBounds": {
-            "x": 482.1656862894694,
-            "y": 381.59271128171525,
-            "width": 35.6686274210611,
-            "height": 23.43114051184307
+            "x": 439.8303922017415,
+            "y": 371.44657427328315,
+            "width": 120.33921559651691,
+            "height": 43.723414528707224
           },
           "regions": [
             {
@@ -3877,11 +4627,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KFY-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 8.940692630687863e-09,
+          "rimCapPixels": [
+            7.306067076666432,
+            7.849028515207546
+          ],
           "sourceLengthM": 7.759679962565943
         }
       },
@@ -3921,9 +4674,41 @@
               0
             ]
           },
-          "triangles": 776996,
-          "draws": 39,
+          "triangles": 1162776,
+          "draws": 47,
           "miniatureLengthMm": 96.89888954162598,
+          "flightCount": 1,
+          "formationMm": [
+            96.89888954162598,
+            21.212012767791748,
+            32.96035051345825
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 91053,
+              "a97b50": 118866,
+              "46b749": 57643,
+              "e91d2d": 6768,
+              "fafafa": 678,
+              "ffdd1a": 88121,
+              "f5831f": 20408,
+              "c8e4bd": 2026
+            },
+            "concaveEdges": 31619,
+            "raisedEdges": 10183,
+            "unmatchedEdges": 299,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 41802,
+            "maxReferences": 613,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 192.7593149457405,
             "y": 72.17347236504123,
@@ -3981,11 +4766,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KDN-0000",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 0,
+          "rimCapPixels": [
+            8.644820401484912,
+            8.55027732562217
+          ],
           "sourceLengthM": 636.3061983280514
         },
         "side": {
@@ -4019,9 +4807,41 @@
               0
             ]
           },
-          "triangles": 776996,
-          "draws": 39,
+          "triangles": 1162776,
+          "draws": 47,
           "miniatureLengthMm": 96.89888954162598,
+          "flightCount": 1,
+          "formationMm": [
+            96.89888954162598,
+            21.212012767791748,
+            32.96035051345825
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 91053,
+              "a97b50": 118866,
+              "46b749": 57643,
+              "e91d2d": 6768,
+              "fafafa": 678,
+              "ffdd1a": 88121,
+              "f5831f": 20408,
+              "c8e4bd": 2026
+            },
+            "concaveEdges": 31619,
+            "raisedEdges": 10183,
+            "unmatchedEdges": 299,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 41802,
+            "maxReferences": 613,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 75.00000000000001,
             "y": 104.31239840770718,
@@ -4079,11 +4899,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KDN-0000",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 0,
+          "rimCapPixels": [
+            13.123047218426244,
+            14.477124933538633
+          ],
           "sourceLengthM": 636.3061983280514
         },
         "strip": {
@@ -4117,9 +4940,41 @@
               1
             ]
           },
-          "triangles": 780752,
-          "draws": 41,
+          "triangles": 1170288,
+          "draws": 51,
           "miniatureLengthMm": 96.89888954162598,
+          "flightCount": 1,
+          "formationMm": [
+            96.89888954162598,
+            21.212012767791748,
+            32.96035051345825
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 91053,
+              "a97b50": 118866,
+              "46b749": 57643,
+              "e91d2d": 6768,
+              "fafafa": 678,
+              "ffdd1a": 88121,
+              "f5831f": 20408,
+              "c8e4bd": 2026
+            },
+            "concaveEdges": 31619,
+            "raisedEdges": 10183,
+            "unmatchedEdges": 299,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 41802,
+            "maxReferences": 613,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 338.50185076395667,
             "y": 314.8460104550864,
@@ -4177,11 +5032,14 @@
           ],
           "energyObjects": 0,
           "clearVariant": false,
-          "code": null,
+          "code": "KDN-0000",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
-          "rimCapPixels": [],
+          "postHullGapMm": 0,
+          "rimCapPixels": [
+            5.782194423897885,
+            6.211906958614508
+          ],
           "sourceLengthM": 636.3061983280514
         }
       },
@@ -4221,9 +5079,40 @@
               0
             ]
           },
-          "triangles": 286838,
-          "draws": 41,
+          "triangles": 427503,
+          "draws": 47,
           "miniatureLengthMm": 55.51767826080322,
+          "flightCount": 1,
+          "formationMm": [
+            55.51767826080322,
+            21.23822808265686,
+            31.026875972747803
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 59614,
+              "46b749": 29050,
+              "a97b50": 32516,
+              "fafafa": 133,
+              "f5831f": 13068,
+              "e91d2d": 926,
+              "ffdd1a": 5165
+            },
+            "concaveEdges": 14173,
+            "raisedEdges": 5064,
+            "unmatchedEdges": 173,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 19237,
+            "maxReferences": 68,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 248.75714926288362,
             "y": 69.80257715937087,
@@ -4279,9 +5168,8 @@
           "code": "KCS-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            14.807295635865241,
             13.916152301793947,
             13.763991972093148
           ],
@@ -4318,9 +5206,40 @@
               0
             ]
           },
-          "triangles": 286838,
-          "draws": 41,
+          "triangles": 427503,
+          "draws": 47,
           "miniatureLengthMm": 55.51767826080322,
+          "flightCount": 1,
+          "formationMm": [
+            55.51767826080322,
+            21.23822808265686,
+            31.026875972747803
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 59614,
+              "46b749": 29050,
+              "a97b50": 32516,
+              "fafafa": 133,
+              "f5831f": 13068,
+              "e91d2d": 926,
+              "ffdd1a": 5165
+            },
+            "concaveEdges": 14173,
+            "raisedEdges": 5064,
+            "unmatchedEdges": 173,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 19237,
+            "maxReferences": 68,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 205.74901572183722,
             "y": 69.58192693483377,
@@ -4376,11 +5295,9 @@
           "code": "KCS-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            22.33194207657192,
             20.258249012440768,
-            20.258249012440682,
             22.33194207657192
           ],
           "sourceLengthM": 208.87724267442027
@@ -4416,9 +5333,40 @@
               1
             ]
           },
-          "triangles": 290594,
-          "draws": 43,
+          "triangles": 435015,
+          "draws": 51,
           "miniatureLengthMm": 55.51767826080322,
+          "flightCount": 1,
+          "formationMm": [
+            55.51767826080322,
+            21.23822808265686,
+            31.026875972747803
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 59614,
+              "46b749": 29050,
+              "a97b50": 32516,
+              "fafafa": 133,
+              "f5831f": 13068,
+              "e91d2d": 926,
+              "ffdd1a": 5165
+            },
+            "concaveEdges": 14173,
+            "raisedEdges": 5064,
+            "unmatchedEdges": 173,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 19237,
+            "maxReferences": 68,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 407.47053623199463,
             "y": 326.6688754906887,
@@ -4474,10 +5422,8 @@
           "code": "KCS-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -4520,9 +5466,40 @@
               0
             ]
           },
-          "triangles": 242010,
-          "draws": 41,
+          "triangles": 360261,
+          "draws": 47,
           "miniatureLengthMm": 55.51767826080322,
+          "flightCount": 1,
+          "formationMm": [
+            55.51767826080322,
+            18.779411911964417,
+            31.02686643600464
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 53108,
+              "a97b50": 31137,
+              "46b749": 11505,
+              "fafafa": 136,
+              "f5831f": 13170,
+              "e91d2d": 1266,
+              "ffdd1a": 7736
+            },
+            "concaveEdges": 13044,
+            "raisedEdges": 4907,
+            "unmatchedEdges": 133,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 17951,
+            "maxReferences": 80,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 243.55678742305227,
             "y": 70.12722097586271,
@@ -4578,9 +5555,8 @@
           "code": "KCL-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            15.148603756031875,
             14.237054569558596,
             14.081407633991143
           ],
@@ -4617,9 +5593,40 @@
               0
             ]
           },
-          "triangles": 242010,
-          "draws": 41,
+          "triangles": 360261,
+          "draws": 47,
           "miniatureLengthMm": 55.51767826080322,
+          "flightCount": 1,
+          "formationMm": [
+            55.51767826080322,
+            18.779411911964417,
+            31.02686643600464
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 53108,
+              "a97b50": 31137,
+              "46b749": 11505,
+              "fafafa": 136,
+              "f5831f": 13170,
+              "e91d2d": 1266,
+              "ffdd1a": 7736
+            },
+            "concaveEdges": 13044,
+            "raisedEdges": 4907,
+            "unmatchedEdges": 133,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 17951,
+            "maxReferences": 80,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 195.71866507627834,
             "y": 70.07781256123607,
@@ -4675,11 +5682,9 @@
           "code": "KCL-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            23.217317174049597,
             21.071973262370054,
-            21.071973262370037,
             23.217317174049597
           ],
           "sourceLengthM": 208.87724267442027
@@ -4715,9 +5720,40 @@
               1
             ]
           },
-          "triangles": 245766,
-          "draws": 43,
+          "triangles": 367773,
+          "draws": 51,
           "miniatureLengthMm": 55.51767826080322,
+          "flightCount": 1,
+          "formationMm": [
+            55.51767826080322,
+            18.779411911964417,
+            31.02686643600464
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 53108,
+              "a97b50": 31137,
+              "46b749": 11505,
+              "fafafa": 136,
+              "f5831f": 13170,
+              "e91d2d": 1266,
+              "ffdd1a": 7736
+            },
+            "concaveEdges": 13044,
+            "raisedEdges": 4907,
+            "unmatchedEdges": 133,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 17951,
+            "maxReferences": 80,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 407.47053623199463,
             "y": 333.54266978029625,
@@ -4773,10 +5809,8 @@
           "code": "KCL-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -4819,9 +5853,40 @@
               0
             ]
           },
-          "triangles": 57856,
-          "draws": 41,
+          "triangles": 84030,
+          "draws": 47,
           "miniatureLengthMm": 54.328179359436035,
+          "flightCount": 1,
+          "formationMm": [
+            54.328179359436035,
+            14.89925742149353,
+            33.08387517929077
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 10463,
+              "46b749": 5834,
+              "a97b50": 6168,
+              "f5831f": 1729,
+              "fafafa": 56,
+              "ffdd1a": 1363,
+              "e91d2d": 368
+            },
+            "concaveEdges": 2208,
+            "raisedEdges": 1419,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 3627,
+            "maxReferences": 48,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 241.58177635129908,
             "y": 70.51464150986966,
@@ -4877,9 +5942,8 @@
           "code": "KFG-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            15.253809278266733,
             14.336036785782971,
             14.179325356679678
           ],
@@ -4916,9 +5980,40 @@
               0
             ]
           },
-          "triangles": 57856,
-          "draws": 41,
+          "triangles": 84030,
+          "draws": 47,
           "miniatureLengthMm": 54.328179359436035,
+          "flightCount": 1,
+          "formationMm": [
+            54.328179359436035,
+            14.89925742149353,
+            33.08387517929077
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 10463,
+              "46b749": 5834,
+              "a97b50": 6168,
+              "f5831f": 1729,
+              "fafafa": 56,
+              "ffdd1a": 1363,
+              "e91d2d": 368
+            },
+            "concaveEdges": 2208,
+            "raisedEdges": 1419,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 3627,
+            "maxReferences": 48,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 199.33191022808944,
             "y": 71.10009072203701,
@@ -4974,11 +6069,9 @@
           "code": "KFG-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            23.487937013945206,
             21.325995042074165,
-            21.325995042074183,
             23.487937013945245
           ],
           "sourceLengthM": 200.0224783516438
@@ -5014,9 +6107,40 @@
               1
             ]
           },
-          "triangles": 61612,
-          "draws": 43,
+          "triangles": 91542,
+          "draws": 51,
           "miniatureLengthMm": 54.328179359436035,
+          "flightCount": 1,
+          "formationMm": [
+            54.328179359436035,
+            14.89925742149353,
+            33.08387517929077
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 10463,
+              "46b749": 5834,
+              "a97b50": 6168,
+              "f5831f": 1729,
+              "fafafa": 56,
+              "ffdd1a": 1363,
+              "e91d2d": 368
+            },
+            "concaveEdges": 2208,
+            "raisedEdges": 1419,
+            "unmatchedEdges": 33,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 3627,
+            "maxReferences": 48,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 409.45303440093994,
             "y": 337.1294281291046,
@@ -5072,10 +6196,8 @@
           "code": "KFG-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -5118,9 +6240,40 @@
               0
             ]
           },
-          "triangles": 57786,
-          "draws": 41,
+          "triangles": 83925,
+          "draws": 47,
           "miniatureLengthMm": 77.43713855743408,
+          "flightCount": 1,
+          "formationMm": [
+            77.43713855743408,
+            17.404685020446777,
+            32.948033809661865
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 8229,
+              "ffdd1a": 1337,
+              "a97b50": 10205,
+              "46b749": 3439,
+              "fafafa": 94,
+              "f5831f": 1904,
+              "e91d2d": 738
+            },
+            "concaveEdges": 3269,
+            "raisedEdges": 2103,
+            "unmatchedEdges": 120,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 5372,
+            "maxReferences": 33,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 212.54469922208997,
             "y": 71.3505728023543,
@@ -5176,9 +6329,8 @@
           "code": "KCA-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            13.008336440400988,
             12.225443157067453,
             12.091766517372923
           ],
@@ -5215,9 +6367,40 @@
               0
             ]
           },
-          "triangles": 57786,
-          "draws": 41,
+          "triangles": 83925,
+          "draws": 47,
           "miniatureLengthMm": 77.43713855743408,
+          "flightCount": 1,
+          "formationMm": [
+            77.43713855743408,
+            17.404685020446777,
+            32.948033809661865
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 8229,
+              "ffdd1a": 1337,
+              "a97b50": 10205,
+              "46b749": 3439,
+              "fafafa": 94,
+              "f5831f": 1904,
+              "e91d2d": 738
+            },
+            "concaveEdges": 3269,
+            "raisedEdges": 2103,
+            "unmatchedEdges": 120,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 5372,
+            "maxReferences": 33,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 97.67336670769461,
             "y": 70.11001432048455,
@@ -5273,11 +6456,9 @@
           "code": "KCA-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            21.826352036621365,
             19.79821560580295,
-            19.79821560580293,
             21.82635203662137
           ],
           "sourceLengthM": 406.375104716761
@@ -5313,9 +6494,40 @@
               1
             ]
           },
-          "triangles": 61542,
-          "draws": 43,
+          "triangles": 91437,
+          "draws": 51,
           "miniatureLengthMm": 77.43713855743408,
+          "flightCount": 1,
+          "formationMm": [
+            77.43713855743408,
+            17.404685020446777,
+            32.948033809661865
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 8229,
+              "ffdd1a": 1337,
+              "a97b50": 10205,
+              "46b749": 3439,
+              "fafafa": 94,
+              "f5831f": 1904,
+              "e91d2d": 738
+            },
+            "concaveEdges": 3269,
+            "raisedEdges": 2103,
+            "unmatchedEdges": 120,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 5372,
+            "maxReferences": 33,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 370.9381024042765,
             "y": 323.96704739668434,
@@ -5371,10 +6583,8 @@
           "code": "KCA-03",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -5417,9 +6627,40 @@
               0
             ]
           },
-          "triangles": 57808,
-          "draws": 41,
+          "triangles": 83958,
+          "draws": 47,
           "miniatureLengthMm": 81.28231048583984,
+          "flightCount": 1,
+          "formationMm": [
+            81.28231048583984,
+            19.013473391532898,
+            31.389427185058594
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 9329,
+              "a97b50": 9199,
+              "f5831f": 1710,
+              "46b749": 3467,
+              "e91d2d": 832,
+              "ffdd1a": 1326,
+              "fafafa": 94
+            },
+            "concaveEdges": 3804,
+            "raisedEdges": 2464,
+            "unmatchedEdges": 170,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 6268,
+            "maxReferences": 30,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 209.53229958739934,
             "y": 71.25274142614256,
@@ -5475,9 +6716,8 @@
           "code": "KBB-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            12.775296987407591,
             12.006362231131996,
             11.875070142425043
           ],
@@ -5514,9 +6754,40 @@
               0
             ]
           },
-          "triangles": 57808,
-          "draws": 41,
+          "triangles": 83958,
+          "draws": 47,
           "miniatureLengthMm": 81.28231048583984,
+          "flightCount": 1,
+          "formationMm": [
+            81.28231048583984,
+            19.013473391532898,
+            31.389427185058594
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 9329,
+              "a97b50": 9199,
+              "f5831f": 1710,
+              "46b749": 3467,
+              "e91d2d": 832,
+              "ffdd1a": 1326,
+              "fafafa": 94
+            },
+            "concaveEdges": 3804,
+            "raisedEdges": 2464,
+            "unmatchedEdges": 170,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 6268,
+            "maxReferences": 30,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 80.36488252026952,
             "y": 69.33336730800923,
@@ -5572,11 +6843,9 @@
           "code": "KBB-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            21.658853457744527,
             19.64048699679661,
-            19.640486996796632,
             21.658853457744527
           ],
           "sourceLengthM": 447.7345234468162
@@ -5612,9 +6881,40 @@
               1
             ]
           },
-          "triangles": 61564,
-          "draws": 43,
+          "triangles": 91470,
+          "draws": 51,
           "miniatureLengthMm": 81.28231048583984,
+          "flightCount": 1,
+          "formationMm": [
+            81.28231048583984,
+            19.013473391532898,
+            31.389427185058594
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 9329,
+              "a97b50": 9199,
+              "f5831f": 1710,
+              "46b749": 3467,
+              "e91d2d": 832,
+              "ffdd1a": 1326,
+              "fafafa": 94
+            },
+            "concaveEdges": 3804,
+            "raisedEdges": 2464,
+            "unmatchedEdges": 170,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 6268,
+            "maxReferences": 30,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 364.5294825236003,
             "y": 321.37523328917376,
@@ -5670,10 +6970,8 @@
           "code": "KBB-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -5716,9 +7014,40 @@
               0
             ]
           },
-          "triangles": 57830,
-          "draws": 41,
+          "triangles": 83991,
+          "draws": 47,
           "miniatureLengthMm": 54.32816982269287,
+          "flightCount": 1,
+          "formationMm": [
+            54.32816982269287,
+            15.14317512512207,
+            33.083906173706055
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 11911,
+              "a97b50": 6777,
+              "46b749": 3363,
+              "f5831f": 1837,
+              "e91d2d": 549,
+              "ffdd1a": 1476,
+              "fafafa": 55
+            },
+            "concaveEdges": 2851,
+            "raisedEdges": 1651,
+            "unmatchedEdges": 91,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 4502,
+            "maxReferences": 42,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 241.5817844542626,
             "y": 70.51464460967296,
@@ -5774,9 +7103,8 @@
           "code": "KDD-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            15.253806605558994,
             14.33603427413675,
             14.179322872530642
           ],
@@ -5813,9 +7141,40 @@
               0
             ]
           },
-          "triangles": 57830,
-          "draws": 41,
+          "triangles": 83991,
+          "draws": 47,
           "miniatureLengthMm": 54.32816982269287,
+          "flightCount": 1,
+          "formationMm": [
+            54.32816982269287,
+            15.14317512512207,
+            33.083906173706055
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 11911,
+              "a97b50": 6777,
+              "46b749": 3363,
+              "f5831f": 1837,
+              "e91d2d": 549,
+              "ffdd1a": 1476,
+              "fafafa": 55
+            },
+            "concaveEdges": 2851,
+            "raisedEdges": 1651,
+            "unmatchedEdges": 91,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 4502,
+            "maxReferences": 42,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 199.33202344080968,
             "y": 71.1001011682186,
@@ -5871,11 +7230,9 @@
           "code": "KDD-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            23.487931699489987,
             21.32599023661035,
-            21.325990236610327,
             23.487931699489987
           ],
           "sourceLengthM": 200.022412524143
@@ -5911,9 +7268,40 @@
               1
             ]
           },
-          "triangles": 61586,
-          "draws": 43,
+          "triangles": 91503,
+          "draws": 51,
           "miniatureLengthMm": 54.32816982269287,
+          "flightCount": 1,
+          "formationMm": [
+            54.32816982269287,
+            15.14317512512207,
+            33.083906173706055
+          ],
+          "clearPosts": true,
+          "clearCrystals": 0,
+          "brush": {
+            "paletteTriangles": {
+              "126936": 11911,
+              "a97b50": 6777,
+              "46b749": 3363,
+              "f5831f": 1837,
+              "e91d2d": 549,
+              "ffdd1a": 1476,
+              "fafafa": 55
+            },
+            "concaveEdges": 2851,
+            "raisedEdges": 1651,
+            "unmatchedEdges": 91,
+            "creaseThresholdDegrees": 24,
+            "faction": "KRE",
+            "segments": 4502,
+            "maxReferences": 42,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 409.4530502955119,
             "y": 337.12941290117243,
@@ -5969,10 +7357,8 @@
           "code": "KDD-02",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -6015,9 +7401,40 @@
               0
             ]
           },
-          "triangles": 24526,
-          "draws": 41,
+          "triangles": 34211,
+          "draws": 49,
           "miniatureLengthMm": 49.25039768218994,
+          "flightCount": 1,
+          "formationMm": [
+            49.25039768218994,
+            19.266573190689087,
+            28.762457370758057
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e91d2d": 28,
+              "7e3f98": 1271,
+              "d3bfe5": 3560,
+              "ffdd1a": 773,
+              "e1ad34": 3300,
+              "f5831f": 296,
+              "46b749": 88
+            },
+            "concaveEdges": 2687,
+            "raisedEdges": 4925,
+            "unmatchedEdges": 54,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 7612,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 264.4299463753431,
             "y": 69.00640712732684,
@@ -6064,7 +7481,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -6073,9 +7490,8 @@
           "code": "VDD-05",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            15.422976859443178,
             14.49470432125089,
             14.336205613933155
           ],
@@ -6112,9 +7528,40 @@
               0
             ]
           },
-          "triangles": 24526,
-          "draws": 41,
+          "triangles": 34211,
+          "draws": 49,
           "miniatureLengthMm": 49.25039768218994,
+          "flightCount": 1,
+          "formationMm": [
+            49.25039768218994,
+            19.266573190689087,
+            28.762457370758057
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e91d2d": 28,
+              "7e3f98": 1271,
+              "d3bfe5": 3560,
+              "ffdd1a": 773,
+              "e1ad34": 3300,
+              "f5831f": 296,
+              "46b749": 88
+            },
+            "concaveEdges": 2687,
+            "raisedEdges": 4925,
+            "unmatchedEdges": 54,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 7612,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 239.10446257062114,
             "y": 68.63373629503393,
@@ -6161,7 +7608,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -6170,11 +7617,9 @@
           "code": "VDD-05",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            22.309429816561156,
             20.23221082153626,
-            20.232210821536302,
             22.309429816561238
           ],
           "sourceLengthM": 164.3795944817018
@@ -6210,9 +7655,40 @@
               1
             ]
           },
-          "triangles": 28282,
-          "draws": 43,
+          "triangles": 41723,
+          "draws": 53,
           "miniatureLengthMm": 49.25039768218994,
+          "flightCount": 1,
+          "formationMm": [
+            49.25039768218994,
+            19.266573190689087,
+            28.762457370758057
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e91d2d": 28,
+              "7e3f98": 1271,
+              "d3bfe5": 3560,
+              "ffdd1a": 773,
+              "e1ad34": 3300,
+              "f5831f": 296,
+              "46b749": 88
+            },
+            "concaveEdges": 2687,
+            "raisedEdges": 4925,
+            "unmatchedEdges": 54,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 7612,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 417.9160038630167,
             "y": 324.8530792288434,
@@ -6259,7 +7735,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -6268,10 +7744,8 @@
           "code": "VDD-05",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 1.3322676295501878e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -6314,9 +7788,41 @@
               0
             ]
           },
-          "triangles": 33884,
-          "draws": 42,
+          "triangles": 48778,
+          "draws": 51,
           "miniatureLengthMm": 80.21770477294922,
+          "flightCount": 1,
+          "formationMm": [
+            80.21770477294922,
+            37.03253626823425,
+            47.85958766937256
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e1ad34": 2515,
+              "f5831f": 160,
+              "ffdd1a": 1570,
+              "7e3f98": 2450,
+              "d3bfe5": 6800,
+              "46b749": 350,
+              "75cedb": 96,
+              "e91d2d": 48
+            },
+            "concaveEdges": 3464,
+            "raisedEdges": 8110,
+            "unmatchedEdges": 5,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 11574,
+            "maxReferences": 20,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 245.93380099086386,
             "y": 70.20434955567585,
@@ -6358,7 +7864,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -6377,9 +7883,8 @@
           "code": "VMN-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            9.969295547453923,
             9.368491469350673,
             9.265920756924265
           ],
@@ -6416,9 +7921,41 @@
               0
             ]
           },
-          "triangles": 33872,
-          "draws": 41,
+          "triangles": 48754,
+          "draws": 49,
           "miniatureLengthMm": 80.21770477294922,
+          "flightCount": 1,
+          "formationMm": [
+            80.21770477294922,
+            37.03253626823425,
+            47.85958766937256
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e1ad34": 2515,
+              "f5831f": 160,
+              "ffdd1a": 1570,
+              "7e3f98": 2450,
+              "d3bfe5": 6800,
+              "46b749": 350,
+              "75cedb": 96,
+              "e91d2d": 48
+            },
+            "concaveEdges": 3464,
+            "raisedEdges": 8110,
+            "unmatchedEdges": 5,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 11574,
+            "maxReferences": 20,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 198.75710244405488,
             "y": 70.35455448925183,
@@ -6460,7 +7997,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -6479,10 +8016,8 @@
           "code": "VMN-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            14.718306155456526,
-            13.288203817034637,
             13.288203817034637,
             14.718306155456528
           ],
@@ -6519,9 +8054,41 @@
               1
             ]
           },
-          "triangles": 37628,
-          "draws": 43,
+          "triangles": 56266,
+          "draws": 53,
           "miniatureLengthMm": 80.21770477294922,
+          "flightCount": 1,
+          "formationMm": [
+            80.21770477294922,
+            37.03253626823425,
+            47.85958766937256
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e1ad34": 2515,
+              "f5831f": 160,
+              "ffdd1a": 1570,
+              "7e3f98": 2450,
+              "d3bfe5": 6800,
+              "46b749": 350,
+              "75cedb": 96,
+              "e91d2d": 48
+            },
+            "concaveEdges": 3464,
+            "raisedEdges": 8110,
+            "unmatchedEdges": 5,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 11574,
+            "maxReferences": 20,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 366.30382537841797,
             "y": 249.37238390392164,
@@ -6563,7 +8130,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -6582,10 +8149,8 @@
           "code": "VMN-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 8.881784197001252e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -6628,9 +8193,41 @@
               0
             ]
           },
-          "triangles": 50274,
-          "draws": 41,
+          "triangles": 73377,
+          "draws": 49,
           "miniatureLengthMm": 80.73391914367676,
+          "flightCount": 1,
+          "formationMm": [
+            80.73391914367676,
+            17.21525490283966,
+            38.139729499816895
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e1ad34": 8587,
+              "46b749": 360,
+              "ffdd1a": 1828,
+              "d3bfe5": 7731,
+              "75cedb": 540,
+              "7e3f98": 2500,
+              "f5831f": 588,
+              "e91d2d": 56
+            },
+            "concaveEdges": 5922,
+            "raisedEdges": 11570,
+            "unmatchedEdges": 6,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 17492,
+            "maxReferences": 33,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 210.14331777665424,
             "y": 71.9940013052983,
@@ -6652,7 +8249,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -6691,9 +8288,8 @@
           "code": "VBB-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            12.271280929477303,
             11.532716158898472,
             11.40660901258223
           ],
@@ -6730,9 +8326,41 @@
               0
             ]
           },
-          "triangles": 50274,
-          "draws": 41,
+          "triangles": 73377,
+          "draws": 49,
           "miniatureLengthMm": 80.73391914367676,
+          "flightCount": 1,
+          "formationMm": [
+            80.73391914367676,
+            17.21525490283966,
+            38.139729499816895
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e1ad34": 8587,
+              "46b749": 360,
+              "ffdd1a": 1828,
+              "d3bfe5": 7731,
+              "75cedb": 540,
+              "7e3f98": 2500,
+              "f5831f": 588,
+              "e91d2d": 56
+            },
+            "concaveEdges": 5922,
+            "raisedEdges": 11570,
+            "unmatchedEdges": 6,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 17492,
+            "maxReferences": 33,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 100.37810764980365,
             "y": 71.59009991373497,
@@ -6754,7 +8382,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -6793,11 +8421,9 @@
           "code": "VBB-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            20.638454937444536,
             18.718080826125302,
-            18.71808082612532,
             20.638454937444575
           ],
           "sourceLengthM": 441.713347779429
@@ -6833,9 +8459,41 @@
               1
             ]
           },
-          "triangles": 54030,
-          "draws": 43,
+          "triangles": 80889,
+          "draws": 53,
           "miniatureLengthMm": 80.73391914367676,
+          "flightCount": 1,
+          "formationMm": [
+            80.73391914367676,
+            17.21525490283966,
+            38.139729499816895
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e1ad34": 8587,
+              "46b749": 360,
+              "ffdd1a": 1828,
+              "d3bfe5": 7731,
+              "75cedb": 540,
+              "7e3f98": 2500,
+              "f5831f": 588,
+              "e91d2d": 56
+            },
+            "concaveEdges": 5922,
+            "raisedEdges": 11570,
+            "unmatchedEdges": 6,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 17492,
+            "maxReferences": 33,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 365.44346809387207,
             "y": 317.351244180352,
@@ -6857,7 +8515,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -6896,10 +8554,8 @@
           "code": "VBB-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 2.220446049250313e-14,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -6942,9 +8598,41 @@
               0
             ]
           },
-          "triangles": 34100,
-          "draws": 41,
+          "triangles": 48820,
+          "draws": 49,
           "miniatureLengthMm": 71.94310665130615,
+          "flightCount": 1,
+          "formationMm": [
+            71.94310665130615,
+            18.0680251121521,
+            38.57131481170654
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "75cedb": 359,
+              "7e3f98": 1278,
+              "ffdd1a": 1400,
+              "f5831f": 557,
+              "e1ad34": 6385,
+              "46b749": 212,
+              "d3bfe5": 3856,
+              "e91d2d": 56
+            },
+            "concaveEdges": 4165,
+            "raisedEdges": 7117,
+            "unmatchedEdges": 105,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 11282,
+            "maxReferences": 22,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 224.31153670475402,
             "y": 71.38559731124242,
@@ -6986,7 +8674,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -7007,7 +8695,6 @@
           "postBaseGapMm": 2.220446049250313e-15,
           "postHullGapMm": 0,
           "rimCapPixels": [
-            12.666399405847457,
             11.904022057065578,
             11.773849563588485
           ],
@@ -7044,9 +8731,41 @@
               0
             ]
           },
-          "triangles": 34100,
-          "draws": 41,
+          "triangles": 48820,
+          "draws": 49,
           "miniatureLengthMm": 71.94310665130615,
+          "flightCount": 1,
+          "formationMm": [
+            71.94310665130615,
+            18.0680251121521,
+            38.57131481170654
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "75cedb": 359,
+              "7e3f98": 1278,
+              "ffdd1a": 1400,
+              "f5831f": 557,
+              "e1ad34": 6385,
+              "46b749": 212,
+              "d3bfe5": 3856,
+              "e91d2d": 56
+            },
+            "concaveEdges": 4165,
+            "raisedEdges": 7117,
+            "unmatchedEdges": 105,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 11282,
+            "maxReferences": 22,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 147.98736607141032,
             "y": 71.5878117369515,
@@ -7088,7 +8807,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -7109,9 +8828,7 @@
           "postBaseGapMm": 2.220446049250313e-15,
           "postHullGapMm": 0,
           "rimCapPixels": [
-            20.359466166013327,
             18.462431494813647,
-            18.462431494813682,
             20.359466166013327
           ],
           "sourceLengthM": 350.7574493212116
@@ -7147,9 +8864,41 @@
               1
             ]
           },
-          "triangles": 37856,
-          "draws": 43,
+          "triangles": 56332,
+          "draws": 53,
           "miniatureLengthMm": 71.94310665130615,
+          "flightCount": 1,
+          "formationMm": [
+            71.94310665130615,
+            18.0680251121521,
+            38.57131481170654
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "75cedb": 359,
+              "7e3f98": 1278,
+              "ffdd1a": 1400,
+              "f5831f": 557,
+              "e1ad34": 6385,
+              "46b749": 212,
+              "d3bfe5": 3856,
+              "e91d2d": 56
+            },
+            "concaveEdges": 4165,
+            "raisedEdges": 7117,
+            "unmatchedEdges": 105,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 11282,
+            "maxReferences": 22,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 380.0948222478231,
             "y": 315.03444783232504,
@@ -7191,7 +8940,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -7212,8 +8961,6 @@
           "postBaseGapMm": 2.220446049250313e-15,
           "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -7256,9 +9003,41 @@
               0
             ]
           },
-          "triangles": 28430,
-          "draws": 41,
+          "triangles": 40171,
+          "draws": 49,
           "miniatureLengthMm": 70.75230598449707,
+          "flightCount": 1,
+          "formationMm": [
+            70.75230598449707,
+            18.372129797935486,
+            23.821154832839966
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "ffdd1a": 960,
+              "f5831f": 373,
+              "e1ad34": 4552,
+              "d3bfe5": 3646,
+              "46b749": 140,
+              "75cedb": 269,
+              "7e3f98": 1272,
+              "e91d2d": 56
+            },
+            "concaveEdges": 3323,
+            "raisedEdges": 5878,
+            "unmatchedEdges": 0,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 9201,
+            "maxReferences": 21,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 225.7979482436379,
             "y": 70.297327767539,
@@ -7295,7 +9074,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -7319,9 +9098,8 @@
           "code": "VLC-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            13.679035597770664,
             12.855694817159339,
             12.715113338394264
           ],
@@ -7358,9 +9136,41 @@
               0
             ]
           },
-          "triangles": 28430,
-          "draws": 41,
+          "triangles": 40171,
+          "draws": 49,
           "miniatureLengthMm": 70.75230598449707,
+          "flightCount": 1,
+          "formationMm": [
+            70.75230598449707,
+            18.372129797935486,
+            23.821154832839966
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "ffdd1a": 960,
+              "f5831f": 373,
+              "e1ad34": 4552,
+              "d3bfe5": 3646,
+              "46b749": 140,
+              "75cedb": 269,
+              "7e3f98": 1272,
+              "e91d2d": 56
+            },
+            "concaveEdges": 3323,
+            "raisedEdges": 5878,
+            "unmatchedEdges": 0,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 9201,
+            "maxReferences": 21,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 128.38378143132135,
             "y": 68.50186115322342,
@@ -7397,7 +9207,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -7421,11 +9231,9 @@
           "code": "VLC-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            22.088877498552105,
             20.029548673799276,
-            20.029548673799233,
             22.088877498552105
           ],
           "sourceLengthM": 339.2420325535047
@@ -7461,9 +9269,41 @@
               1
             ]
           },
-          "triangles": 32186,
-          "draws": 43,
+          "triangles": 47683,
+          "draws": 53,
           "miniatureLengthMm": 70.75230598449707,
+          "flightCount": 1,
+          "formationMm": [
+            70.75230598449707,
+            18.372129797935486,
+            23.821154832839966
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "ffdd1a": 960,
+              "f5831f": 373,
+              "e1ad34": 4552,
+              "d3bfe5": 3646,
+              "46b749": 140,
+              "75cedb": 269,
+              "7e3f98": 1272,
+              "e91d2d": 56
+            },
+            "concaveEdges": 3323,
+            "raisedEdges": 5878,
+            "unmatchedEdges": 0,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 9201,
+            "maxReferences": 21,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 382.0794900258382,
             "y": 323.0636902701098,
@@ -7500,7 +9340,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             },
             {
@@ -7524,10 +9364,8 @@
           "code": "VLC-01",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -7570,9 +9408,40 @@
               0
             ]
           },
-          "triangles": 24258,
-          "draws": 41,
+          "triangles": 33821,
+          "draws": 49,
           "miniatureLengthMm": 52.961764335632324,
+          "flightCount": 1,
+          "formationMm": [
+            52.961764335632324,
+            17.916441559791565,
+            26.746888160705566
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "7e3f98": 1258,
+              "f5831f": 299,
+              "e1ad34": 3305,
+              "d3bfe5": 3611,
+              "ffdd1a": 587,
+              "e91d2d": 28,
+              "46b749": 94
+            },
+            "concaveEdges": 2613,
+            "raisedEdges": 4890,
+            "unmatchedEdges": 36,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 7503,
+            "maxReferences": 31,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 255.6835965245472,
             "y": 69.31545137882154,
@@ -7619,7 +9488,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -7630,7 +9499,6 @@
           "postBaseGapMm": 2.220446049250313e-15,
           "postHullGapMm": 0,
           "rimCapPixels": [
-            15.183762047130614,
             14.269917237249507,
             14.113881477416912
           ],
@@ -7667,9 +9535,40 @@
               0
             ]
           },
-          "triangles": 24258,
-          "draws": 41,
+          "triangles": 33821,
+          "draws": 49,
           "miniatureLengthMm": 52.961764335632324,
+          "flightCount": 1,
+          "formationMm": [
+            52.961764335632324,
+            17.916441559791565,
+            26.746888160705566
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "7e3f98": 1258,
+              "f5831f": 299,
+              "e1ad34": 3305,
+              "d3bfe5": 3611,
+              "ffdd1a": 587,
+              "e91d2d": 28,
+              "46b749": 94
+            },
+            "concaveEdges": 2613,
+            "raisedEdges": 4890,
+            "unmatchedEdges": 36,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 7503,
+            "maxReferences": 31,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 217.39465758857995,
             "y": 68.74497379315127,
@@ -7716,7 +9615,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -7727,8 +9626,6 @@
           "postBaseGapMm": 2.220446049250313e-15,
           "postHullGapMm": 0,
           "rimCapPixels": [
-            22.49912936547414,
-            20.406521516849626,
             20.406521516849626,
             22.49912936547414
           ],
@@ -7765,9 +9662,40 @@
               1
             ]
           },
-          "triangles": 28014,
-          "draws": 43,
+          "triangles": 41333,
+          "draws": 53,
           "miniatureLengthMm": 52.961764335632324,
+          "flightCount": 1,
+          "formationMm": [
+            52.961764335632324,
+            17.916441559791565,
+            26.746888160705566
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "7e3f98": 1258,
+              "f5831f": 299,
+              "e1ad34": 3305,
+              "d3bfe5": 3611,
+              "ffdd1a": 587,
+              "e91d2d": 28,
+              "46b749": 94
+            },
+            "concaveEdges": 2613,
+            "raisedEdges": 4890,
+            "unmatchedEdges": 36,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 7503,
+            "maxReferences": 31,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 411.7303927739461,
             "y": 326.36664419758324,
@@ -7814,7 +9742,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -7825,8 +9753,6 @@
           "postBaseGapMm": 2.220446049250313e-15,
           "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],
@@ -7869,9 +9795,40 @@
               0
             ]
           },
-          "triangles": 22710,
-          "draws": 41,
+          "triangles": 31383,
+          "draws": 49,
           "miniatureLengthMm": 50.396180152893066,
+          "flightCount": 1,
+          "formationMm": [
+            50.396180152893066,
+            24.25364375114441,
+            18.300418257713318
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e91d2d": 28,
+              "7e3f98": 1241,
+              "e1ad34": 2987,
+              "ffdd1a": 507,
+              "d3bfe5": 3312,
+              "f5831f": 297,
+              "46b749": 36
+            },
+            "concaveEdges": 2455,
+            "raisedEdges": 4451,
+            "unmatchedEdges": 42,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 6906,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 271.94176180718443,
             "y": 68.40883285360731,
@@ -7918,7 +9875,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -7927,9 +9884,8 @@
           "code": "VFG-04",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            14.616799886116192,
             13.73677817015297,
             13.58652290689396
           ],
@@ -7966,9 +9922,40 @@
               0
             ]
           },
-          "triangles": 22710,
-          "draws": 41,
+          "triangles": 31383,
+          "draws": 49,
           "miniatureLengthMm": 50.396180152893066,
+          "flightCount": 1,
+          "formationMm": [
+            50.396180152893066,
+            24.25364375114441,
+            18.300418257713318
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e91d2d": 28,
+              "7e3f98": 1241,
+              "e1ad34": 2987,
+              "ffdd1a": 507,
+              "d3bfe5": 3312,
+              "f5831f": 297,
+              "46b749": 36
+            },
+            "concaveEdges": 2455,
+            "raisedEdges": 4451,
+            "unmatchedEdges": 42,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 6906,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 249.87226965316023,
             "y": 67.58093544826922,
@@ -8015,7 +10002,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -8024,11 +10011,9 @@
           "code": "VFG-04",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            20.668595832197145,
             18.724431680433057,
-            18.724431680433018,
             20.668595832197145
           ],
           "sourceLengthM": 172.1169689844031
@@ -8064,9 +10049,40 @@
               1
             ]
           },
-          "triangles": 26466,
-          "draws": 43,
+          "triangles": 38895,
+          "draws": 53,
           "miniatureLengthMm": 50.396180152893066,
+          "flightCount": 1,
+          "formationMm": [
+            50.396180152893066,
+            24.25364375114441,
+            18.300418257713318
+          ],
+          "clearPosts": true,
+          "clearCrystals": 1,
+          "brush": {
+            "paletteTriangles": {
+              "e91d2d": 28,
+              "7e3f98": 1241,
+              "e1ad34": 2987,
+              "ffdd1a": 507,
+              "d3bfe5": 3312,
+              "f5831f": 297,
+              "46b749": 36
+            },
+            "concaveEdges": 2455,
+            "raisedEdges": 4451,
+            "unmatchedEdges": 42,
+            "creaseThresholdDegrees": 24,
+            "faction": "VRA",
+            "segments": 6906,
+            "maxReferences": 29,
+            "omittedReferences": 0,
+            "surfacePlaneToleranceMm": 0.001,
+            "inkWidthMm": 0.24,
+            "edgeWidthMm": 0.44,
+            "pickedWidthMm": 0.14
+          },
           "bounds": {
             "x": 416.0063664118449,
             "y": 310.71657143434186,
@@ -8113,7 +10129,7 @@
             },
             {
               "key": "46b749",
-              "classification": "paint",
+              "classification": "moulded transparent",
               "physicalEmission": 0
             }
           ],
@@ -8122,10 +10138,8 @@
           "code": "VFG-04",
           "postExposedMm": 30,
           "postBaseGapMm": 2.220446049250313e-15,
-          "postHullGapMm": 4.440892098500626e-15,
+          "postHullGapMm": 0,
           "rimCapPixels": [
-            7.849028515207546,
-            7.306067076666432,
             7.306067076666432,
             7.849028515207546
           ],

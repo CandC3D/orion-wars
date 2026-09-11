@@ -4,8 +4,8 @@
   "sourceSha256": "8cf11f930ff0d8a096e8d1d1b70ae31b50018fdda47024a11520e48d757ea964",
   "sourceBytes": 7015984,
   "output": "sparrowhawk.glb",
-  "outputBytes": 371208,
-  "outputSha256": "e26475b926cd666e3269edf7e7217d48a37297a679faf8a05d723541e80ac04a",
+  "outputBytes": 371236,
+  "outputSha256": "2660ca5b85b8b4672b16625a72f1e533a27aa146867d0ae5fa82e42c0d75b34b",
   "validation": {
     "corrected": false,
     "beforeVerticesEdgesFaces": [
@@ -22,9 +22,9 @@
   "sourceTriangles": 83508,
   "outputTriangles": 13351,
   "ratio": 0.16,
-  "miniatureLengthMm": 65,
+  "miniatureLengthMm": 54.32818057826884,
   "mmPerUnit": 10,
-  "maximumVertexToSurfaceErrorMm": 0.037092975519715146,
+  "maximumVertexToSurfaceErrorMm": 0.03100298264954445,
   "errorMethod": "Both directions, all vertices to closest triangle; not a certified surface Hausdorff bound",
   "sourceComponentCount": 3,
   "outputComponentCount": 3,
