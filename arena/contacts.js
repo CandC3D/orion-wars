@@ -53,6 +53,17 @@ function measureText(map,font){return text=>{const key=font+'|'+text;if(textExte
 const currentShip = () => state.current?.observation.own.find(s=>s.id===state.selected);
 // Enemy wrecks stay in the report list as observed debris (destroyed: true). Nothing that targets,
 // appraises or reads a live sensor track may see them.
+// The size of a ship symbol, in map units: the one figure the hull art, its shield and condition
+// rings and the layout footprint all scale from (Chris, 10 September: "ship icons still teeny at
+// max zoom ... scale the icons up and down with zoom"). The old rule grew at 1.5 hexes a symbol and
+// then stopped dead at a ceiling: rings sprawled over neighbouring hexes at middle zoom, and hulls
+// froze small at the top. This grows at every zoom: the legible floor dominates zoomed out, and it
+// converges on 0.35 of the hex pitch zoomed in - the most that keeps the outermost ring (a
+// contact's scanned-shield ring, at 1.3 symbols) inside its own hex.
+const symbolSize=(scale,font)=>Math.hypot(font*1.7,scale*0.35);
+// The hull fills its ring: a class of size 1 spans most of the inner ring's diameter (1.9 symbols
+// less the ring's width). At 1.0 a hull sat at half the ring's width and read as a dot inside a halo.
+const HULL_FILL=1.6;
 const liveContacts = view => (view?.contacts??[]).filter(c=>!c.destroyed);
 const editable = () => sessionReady && !state.busy && state.index===state.tape.length-1 && !state.latest?.result;
 const editableOrder = (ship=currentShip()) => editable() && ship && !ship.destroyed ? state.orders[ship.id] : null;
@@ -451,11 +462,9 @@ function drawMap() {
   // Screen-scale typography: about 12 px on screen whatever the rendered width,
   // expressed in viewBox units. Icons follow the type size, never the board.
   const clientWidth=Math.max(240,map.clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));
-  // Type stays screen-scaled. Symbols do NOT: a hull that keeps one size
-  // while the board grows reads as a dot on a zoomed map. The floor is the
-  // old screen-scaled size so a zoomed-out board stays legible, the ceiling
-  // keeps a symbol from swallowing its neighbours' hexes.
-  const baseIcon=font*1.7,icon=Math.max(baseIcon,Math.min(scale*1.5,baseIcon*3));
+  // Type stays screen-scaled. Symbols do NOT: see symbolSize - a legible floor zoomed out, the hex
+  // itself zoomed in.
+  const icon=symbolSize(scale,font);
   let svg=terrainArtDefs(scale);
   const mapCells=hexGridCells(view.map,{center:state.center,scale,width:w,height:h});
   if(state.grid){
@@ -565,7 +574,7 @@ function drawMap() {
     // A framed glyph is traced to fill its viewBox, so class scale is not in the
     // artwork and must be applied here. A placeholder already carries its own
     // scale - the ladder is the manifest's own size values - so it is drawn as-is.
-    const artIcon=icon*(entry?.framed?(entry.size??1):1);
+    const artIcon=icon*HULL_FILL*(entry?.framed?(entry.size??1):1);
     // A destroyed hull leaves debris where it died, standing in for its living icon (Chris, 10 Sept).
     const symbol=s.destroyed?debrisMarkup(s,p,icon):art?`<image href="../assets/icons/${esc(art)}" x="${-artIcon/2}" y="${-artIcon/2}" width="${artIcon}" height="${artIcon}" transform="translate(${p.x} ${p.y}) rotate(${90-s.facing*60})" opacity="${s.destroyed?.4:1}"/>`:
       `<path d="M${-icon*.5},${-icon*.35}L${icon*.65},0L${-icon*.5},${icon*.35}L${-icon*.25},0Z" transform="translate(${p.x} ${p.y}) rotate(${-s.facing*60})" fill="${s.destroyed?'#63727a':isOwn?'#83c9e7':'#df9e66'}"/>`;
@@ -620,7 +629,7 @@ async function execute() {
     const ready=readinessChanges(before,state.tape[state.tape.length-1]?.frame?.observation);
     if(ready.length)state.tape[state.tape.length-1].events.push(...ready);
     $('#playback-pause').disabled=false;$('#playback-skip').disabled=false;$('#playback-pause').setAttribute('aria-pressed','false');$('#playback-pause').textContent='Pause';
-    const geometry=()=>{const v=state.current.observation,w=900,h=520,scale=Math.min(w/(v.map.widthHexes+8),h/(v.map.heightHexes+6))*state.zoom,clientWidth=Math.max(240,$('#contact-map').clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));const baseIcon=font*1.7;return {project:p=>({x:w/2+((p.q-state.center.q)+(p.r-state.center.r)/2)*scale,y:h/2+(p.r-state.center.r)*scale*.866}),scale,icon:Math.max(baseIcon,Math.min(scale*1.5,baseIcon*3)),font};};
+    const geometry=()=>{const v=state.current.observation,w=900,h=520,scale=Math.min(w/(v.map.widthHexes+8),h/(v.map.heightHexes+6))*state.zoom,clientWidth=Math.max(240,$('#contact-map').clientWidth||900),font=Math.max(9,Math.min(30,12.5*w/clientWidth));return {project:p=>({x:w/2+((p.q-state.center.q)+(p.r-state.center.r)/2)*scale,y:h/2+(p.r-state.center.r)*scale*.866}),scale,icon:symbolSize(scale,font),font};};
     const slideTo=async (index,clock)=>{
       if(index<=0||reducedMotion()||playback.skipping)return;
       const prev=state.tape[index-1]?.frame?.observation,next=state.tape[index]?.frame?.observation;if(!prev||!next)return;
