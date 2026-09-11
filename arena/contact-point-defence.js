@@ -56,15 +56,16 @@ export function pointDefenceMarkup(ships, { project, scale, rangeHexes, selected
 
 // One line for the weapon key, so point defence reads as part of the battery rather than a special
 // case. A hull with none is told what is covering it, which is the question it actually has.
-export function pointDefenceKey(ship, umbrellas) {
+// perPoint: the saturation rule - each point of point defence stops at most this many torpedoes a turn.
+export function pointDefenceKey(ship, umbrellas, perPoint = null) {
   const cover = coverFor(ship, umbrellas);
   if (!cover) return '';
   const range = umbrellas?.[0]?.hexes ?? 0;
   const label = cover.own > 0
-    ? `POINT DEFENCE ${cover.own} · ${range} HEX UMBRELLA`
+    ? `POINT DEFENCE ${cover.own} · ${range} HEX UMBRELLA${Number.isFinite(perPoint) ? ` · STOPS ≤${cover.own * perPoint}/TURN` : ''}`
     : cover.from.length ? `NO POINT DEFENCE · COVERED BY ${cover.from.length}` : 'NO POINT DEFENCE · UNCOVERED';
   const detail = cover.own > 0
-    ? `Covers this hull and every friendly within ${range} hexes. Pooled against an incoming round: ${cover.pooled} point(s).`
+    ? `Covers this hull and every friendly within ${range} hexes. Pooled against an incoming round: ${cover.pooled} point(s).${Number.isFinite(perPoint) ? ` Saturates: this hull can stop at most ${cover.own * perPoint} torpedo(es) a turn, and the pool around it ${cover.pooled * perPoint}.` : ''}`
     : cover.from.length
       ? `This hull carries none. Inside the umbrella of ${cover.from.join(', ')}; pooled ${cover.pooled} point(s).`
       : `This hull carries none and no friendly point defence is within ${range} hexes of it.`;

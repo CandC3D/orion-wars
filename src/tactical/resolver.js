@@ -711,10 +711,19 @@ function screenFor(target, friends, tuning, rng) {
   return rng.next() < chance ? screens[rng.int(screens.length)] : null;
 }
 
-function intercepted(target, friends, tuning, rng) {
+// Saturation (Chris, 2026-09-11: "another level to enact is how many missiles PD may shoot down in a
+// turn"). With pointDefence.interceptsPerPoint set, each battery can stop at most pointDefence x that
+// many torpedoes a turn; a battery that has spent them drops out of the pool, so a salvo big enough
+// overwhelms the screen. `pdLeft` is the turn's ledger, kept outside the ship records. Unset, the
+// screen is unlimited and every draw is exactly as before.
+function intercepted(target, friends, tuning, rng, pdLeft = null) {
+  const perPoint = tuning.pointDefence.interceptsPerPoint;
+  const limited = Number.isFinite(perPoint) && pdLeft !== null;
+  const left = f => pdLeft.has(f.id) ? pdLeft.get(f.id) : f.hull.pointDefence * perPoint;
   const pd = living(friends).filter(
     (f) => !f.cloaked && f.hull.pointDefence > 0 &&
-      distance(f.pos, target.pos) <= tuning.pointDefence.rangeHexes
+      distance(f.pos, target.pos) <= tuning.pointDefence.rangeHexes &&
+      (!limited || left(f) > 0)
   );
   // Interceptors flying combat air patrol over a friendly ship eat missiles as
   // well as bombers. Zero for any fleet without a carrier in it, so the whole
@@ -733,6 +742,12 @@ function intercepted(target, friends, tuning, rng) {
     total * tuning.pointDefence.chancePerPoint + capBonus);
   // One pooled roll: report its contributing batteries, without inventing a
   // winning barrel or drawing again. A CAP-only interception has no PD hulls.
+  // The kill is charged to the battery nearest the torpedo's target, ties by id - a CAP-only kill
+  // (no hull in the pool) spends nothing.
+  if (stopped && limited && pd.length) {
+    const spender = [...pd].sort((a, b) => (distance(a.pos, target.pos) - distance(b.pos, target.pos)) || (a.id < b.id ? -1 : 1))[0];
+    pdLeft.set(spender.id, left(spender) - 1);
+  }
   return stopped ? { defenderIds: pd.map(s => s.id).sort() } : null;
 }
 
@@ -2360,6 +2375,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
   // Missiles launched last turn arrive, subject to interception.
   const arriving = battle.inFlight;
   battle.inFlight = [];
+  const pdLeft = new Map(); // this turn's point-defence ledger (saturation)
   const inFlight = battle.inFlight;
   for (const m of arriving) {
     onShot?.before?.();
@@ -2381,7 +2397,7 @@ export function stepTurn(battle, orders = {}, opts = {}) {
       if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "evaded", damage: 0, ...geometry });
       continue;
     }
-    const interception = intercepted(target, foeSide, tuning, rng);
+    const interception = intercepted(target, foeSide, tuning, rng, pdLeft);
     if (interception) {
       if (onShot) onShot({ kind: "missile", weapon: m.weapon, shooterId: m.shooterId, targetId: m.targetId, outcome: "intercepted", damage: 0, ...geometry, ...interception });
       continue;

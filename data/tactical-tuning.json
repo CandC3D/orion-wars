@@ -793,12 +793,14 @@
   "pointDefence": {
     "chancePerPoint": 0.18,
     "maxChance": 0.7,
+    "interceptsPerPoint": 1,
+    "_saturationNote": "RULING 2026-09-11 (Chris: \"another level to enact is how many missiles PD may shoot down in a turn\"). Each point of point defence stops at most one torpedo a turn; a battery that has spent its kills drops out of the pool, so a big enough salvo overwhelms a screen. Charged to the battery nearest the target. Measured: at 2 or 3 per point the screen never ran out; at 1, interception 39% -> 35%, Earth 46 -> 55, Krelath 38.5 -> 37. docs/balance-2026-09-11-pd-saturation.md.",
     "rangeHexes": 3
   },
   "missileRetarget": {
-    "enabled": false,
-    "radiusHexes": 3,
-    "_note": "EXPERIMENT 2026-09-11 (Chris): a torpedo whose target dies before it lands takes the nearest living, uncloaked enemy within radiusHexes of the torpedo's current position; otherwise it is lost as before. No fuel limit - a flight here lasts one turn - so the radius is the only restraint. Motive: 21% of all torpedoes at 52 points arrived on a dead target (Zandrax 30%). Off by default; measurements in docs/balance-2026-09-11-missile-retarget.md."
+    "enabled": true,
+    "radiusHexes": 4,
+    "_note": "ENACTED 2026-09-11 at radius 4 (Chris: \"it does make sense - even our speculative missile diagram / schematic includes a time to retargeting. enact\"): a torpedo whose target dies before it lands takes the nearest living, uncloaked enemy within radiusHexes of the torpedo's current position; otherwise it is lost as before. No fuel limit - a flight here lasts one turn - so the radius is the only restraint. Motive: 21% of all torpedoes at 52 points arrived on a dead target (Zandrax 30%). Measurements in docs/balance-2026-09-11-missile-retarget.md."
   },
   "damage": {
     "shieldCapacitor": {

@@ -514,7 +514,7 @@ function drawMap() {
     // Each mount against the contact IT will engage: its own assignment, else the ship's priority.
     solutions=mountSolutions(own,order,view,budget);
   }
-  $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own,solutions))+pointDefenceKey(own,umbrellas)+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
+  $('#weapon-range-key').innerHTML=own?.destroyed?'':(shownMount?weaponRangeKey(shownMount):batteryRangeKey(own,solutions))+pointDefenceKey(own,umbrellas,view.rules.pointDefence?.interceptsPerPoint)+(view.rules.movement.sameHexNoFire?'<span class="range-limit">Same hex: no fire.</span>':'');
   if(mapCells.length<=6000)svg+=shownMount?weaponArcMarkup(own,shownMount,{project:xy,scale,cells:mapCells}):batteryArcMarkup(own,{project:xy,scale,cells:mapCells});
   if(own&&!own.destroyed){
     const a=xy(own.pos),d=DIRS[own.facing],b=xy({q:own.pos.q+d.q*.85,r:own.pos.r+d.r*.85});

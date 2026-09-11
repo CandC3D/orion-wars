@@ -85,8 +85,11 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   assert.equal(restored.warpJump.rangeHexes,8);assert.equal(restored.warpJump.powerCostFraction,0.45); // 0.35 until the September 11 rebalance
   for(const gone of ['preferRearArc','requireRearArc','minGain','fleetFraction'])assert.ok(!(gone in restored.warpJump),gone);
   restored.warpJump=beforeT.warpJump;
-  // Torpedo retargeting experiment added 2026-09-11 (Chris), disabled by default.
-  assert.equal(restored.missileRetarget.enabled,false,'retargeting must ship disabled');
+  // Torpedo retargeting, added 2026-09-11 as an experiment and enacted the same day at radius 4 (Chris).
+  assert.equal(restored.missileRetarget.enabled,true);assert.equal(restored.missileRetarget.radiusHexes,4);
+  // Point-defence saturation, ruled 2026-09-11: one torpedo stopped per point a turn.
+  assert.equal(restored.pointDefence.interceptsPerPoint,1);assert.equal(Object.hasOwn(beforeT.pointDefence,'interceptsPerPoint'),false);
+  delete restored.pointDefence.interceptsPerPoint;delete restored.pointDefence._saturationNote;
   assert.equal(Object.hasOwn(beforeT,'missileRetarget'),false,'retargeting must be new, not a rewrite');
   delete restored.missileRetarget;
   assert.deepEqual(restored,beforeT);
@@ -127,9 +130,10 @@ check('Old pinned stock packs remain exact under new defaults, including the ori
     const [f,c]=key.split('/'),old=stockPack(f,c,beforeT,beforeL),saved=JSON.stringify(old);
     const scenario=trialScenario(old,beforeT);scenario.maxTurns=2;
     for(const side of scenario.sides)for(const entry of side.ships)entry.designPack=stockPack(side.faction,entry.className,beforeT,beforeL);
-    // A pinned pack fixes the ships, not the rules of play: the September 10 warp ruling changes how
-    // every Krelath hull moves, so both runs play under the current warp.
-    const a=recordScenario(scenario,{...beforeT,warpJump:t.warpJump},beforeL),b=recordScenario(scenario,t,l);
+    // A pinned pack fixes the ships, not the rules of play: the September 10 warp ruling and the
+    // September 11 torpedo rules (retargeting, point-defence saturation) change how every battle plays,
+    // so both runs play under the current rules.
+    const a=recordScenario(scenario,{...beforeT,warpJump:t.warpJump,missileRetarget:t.missileRetarget,pointDefence:t.pointDefence},beforeL),b=recordScenario(scenario,t,l);
     assert.deepEqual(b,a,'fully pinned historical replay '+key);
     assert.equal(JSON.stringify(old),saved);
     for(const s of b.rounds[0].ships)assert.deepEqual(s.design,stockPack(s.faction,s.className,beforeT,beforeL));
