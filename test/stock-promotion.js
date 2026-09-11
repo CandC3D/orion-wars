@@ -43,6 +43,9 @@ check('Non-layout changes are limited to the monitor, September 6 legacy tables,
   // September 11 warp rebalance (Chris): Vraygon armour x1.80 -> x2.10; the monitor is now 256.
   assert.equal(restored.factionModifiers.VRA.superstructure,2.1);assert.equal(Math.round(m.superstructure*2.1),256);
   restored.factionModifiers.VRA.superstructure=beforeT.factionModifiers.VRA.superstructure;restored.factionModifiers.VRA._doctrine=beforeT.factionModifiers.VRA._doctrine;
+  // September 11 Krelath rebalance (Chris): Zandrax hull x1.20 -> x1.10, Krelath x0.95 -> x1.05.
+  assert.equal(restored.factionModifiers.ZAN.superstructure,1.1);assert.equal(restored.factionModifiers.KRE.superstructure,1.05);
+  for(const f of ['ZAN','KRE'])for(const k of ['superstructure','_doctrine'])restored.factionModifiers[f][k]=beforeT.factionModifiers[f][k];
   assert.deepEqual(m.missileArcs,old.missileArcs.slice(0,5));m.missileArcs=old.missileArcs;
   delete m._publication;for(const k of ['points','magazine','superstructure'])m[k]=old[k];
   const laser=restored.weapons['laser-cannon'];

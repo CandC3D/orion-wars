@@ -72,8 +72,8 @@ check('Frigate structure 8 -> 9.2 at the class envelope, rounded per power after
   assert.equal(tuning.hullClasses.frigate.superstructure, 9.2);
   assert.deepEqual(
     Object.fromEntries(['EAR', 'VRA', 'ZAN', 'KRE'].map(f => [f, stockPack(f, 'frigate', tuning, loadouts).design.hull.superstructure])),
-    // VRA 17 until the September 11 armour rebalance (x1.80 -> x2.10) made it 19.
-    { EAR: 9, VRA: 19, ZAN: 11, KRE: 9 });
+    // September 11: VRA 17 -> 19 (armour x2.10); ZAN 11 -> 10 (hull x1.10); KRE 9 -> 10 (hull x1.05).
+    { EAR: 9, VRA: 19, ZAN: 10, KRE: 10 });
 });
 
 check('The structure change moves the four frigate packs and nothing else in any roster', () => {
@@ -89,9 +89,9 @@ check('The structure change moves the four frigate packs and nothing else in any
 
 check('Each amended frigate pack advances exactly one revision from the published stock', () => {
   for (const faction of ['EAR', 'VRA', 'ZAN', 'KRE'])
-    // The Vraygon frigate advanced once more on September 11, with every Vraygon hull's armour.
+    // The Vraygon, Zandrax and Krelath frigates advanced once more on September 11, with their powers' hulls.
     assert.equal(stockPack(faction, 'frigate', tuning, loadouts).design.revision,
-      loadouts._publishedStock.revision + (faction === 'VRA' ? 2 : 1), `${faction}/frigate revision`);
+      loadouts._publishedStock.revision + (faction === 'EAR' ? 1 : 2), `${faction}/frigate revision`);
 });
 
 check('Verification does not mutate the supplied tables',

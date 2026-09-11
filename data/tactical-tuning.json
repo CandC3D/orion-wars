@@ -696,16 +696,16 @@
     "ZAN": {
       "shieldPointRatio": 1.35,
       "movementPointRatio": 0.8,
-      "superstructure": 1.2,
+      "superstructure": 1.1,
       "detectionRangeAgainst": 0,
-      "_doctrine": "Klingon pattern: numerous and less sophisticated. Poor shields, tough hulls, cheap and quick - second only to Vraygon's 1.4 for the worst absorption in the game, and still strictly behind them, which is the point: with a reserveFraction of zero Zandrax convert almost none of the pool into absorption anyway, so this dial does less work for them than for anyone else. Raised from 1.25 to 1.35 as the last correction of the merge, and it was chosen because it is the only lever measured that separates the two cells where the swarm sits near the ceiling - 24 and 64 points - from the two where it sits nearest the floor - 8 and 32. It costs Zandrax 4-5pp at 24 and 64 and under 1pp at 8 and 32. Do not take it to 1.40: it works there too, but it would tie Vraygon and cost them the one thing that is theirs."
+      "_doctrine": "Klingon pattern: numerous and less sophisticated. Poor shields, tough hulls, cheap and quick - second only to Vraygon's 1.4 for the worst absorption in the game, and still strictly behind them, which is the point: with a reserveFraction of zero Zandrax convert almost none of the pool into absorption anyway, so this dial does less work for them than for anyone else. Raised from 1.25 to 1.35 as the last correction of the merge, and it was chosen because it is the only lever measured that separates the two cells where the swarm sits near the ceiling - 24 and 64 points - from the two where it sits nearest the floor - 8 and 32. It costs Zandrax 4-5pp at 24 and 64 and under 1pp at 8 and 32. Do not take it to 1.40: it works there too, but it would tie Vraygon and cost them the one thing that is theirs. TRIMMED 1.20 -> 1.10 on 2026-09-11 (Chris: rebalance after torpedo retargeting and point-defence saturation). Zandrax led at every fleet size above 4 points (64% at 52) and beat Krelath 89/11. docs/balance-2026-09-11-krelath-zandrax.md."
     },
     "KRE": {
       "shieldPointRatio": 0.95,
       "movementPointRatio": 0.78,
-      "superstructure": 0.95,
+      "superstructure": 1.05,
       "detectionRangeAgainst": 0,
-      "_doctrine": "Romulan pattern: does much with little. Efficient shields and engines, short brutal guns, and the short-range warp - they do not hide from an engagement, they jump into the back of it."
+      "_doctrine": "Romulan pattern: does much with little. Efficient shields and engines, short brutal guns, and the short-range warp - they do not hide from an engagement, they jump into the back of it. RAISED 0.95 -> 1.05 on 2026-09-11 with the Zandrax trim: Krelath had fallen to 37% at 52 points after the torpedo rules. Together the 52-point spread went 30 -> 11 points. docs/balance-2026-09-11-krelath-zandrax.md."
     }
   },
   "doctrine": {
